@@ -1,0 +1,294 @@
+# FASE 1 — saídas literais dos comandos de verificação (prompt mestre §7, passos 3–4)
+# gerado em 2026-09-23 12:17 -0300
+
+$ dart format --set-exit-if-changed lib test
+Formatted 44 files (0 changed) in 0.24 seconds.
+exit=0
+
+$ flutter analyze
+Try `flutter pub outdated` for more information.
+Analyzing app_livros...                                         
+No issues found! (ran in 4.9s)
+exit=0
+
+$ flutter test --reporter expanded
+Resolving dependencies...
+Downloading packages...
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  test_api 0.7.12 (0.7.14 available)
+  vector_math 2.4.0 (2.4.3 available)
+Got dependencies!
+4 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_colors_test.dart
+00:00 +0: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_colors_test.dart: AppColors: as 32 constantes têm os hex exatos do arquivo
+00:00 +1: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_colors_test.dart: AppColors: alphas das translúcidas = round(a × 255) do CSS
+00:00 +2: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_colors_test.dart: AppColors: as 2 listas de opções de tema (props do componente)
+00:00 +3: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppIcons 18 caminhos únicos = todos os SVGs de assets/icons
+00:00 +4: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppIcons cada ícone está declarado no pubspec e é byte a byte igual ao do pacote de handoff
+00:00 +5: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +6: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +7: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +8: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +9: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +10: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +11: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +12: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +12: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) displayXL: "Continue" → largura 170.69 (±0.1), altura 41.16 (±0.01)
+[prova] displayXL          "Continue": largura 170.715 (esperado 170.69, Δ 0.025) | altura 41.160 (esperado 41.16, Δ 0.000) | paragraph.height 41 (round(esperado) = 41)
+00:00 +13: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +13: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) stubDay: "24" → largura 48.24 (±0.1), altura 39.9 (±0.01)
+[prova] stubDay            "24": largura 48.227 (esperado 48.24, Δ -0.013) | altura 39.900 (esperado 39.90, Δ -0.000) | paragraph.height 40 (round(esperado) = 40)
+00:00 +14: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +14: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) dialValue: "18" → largura 31.86 (±0.1), altura 34.0 (±0.01)
+[prova] dialValue          "18": largura 31.847 (esperado 31.86, Δ -0.013) | altura 34.000 (esperado 34.00, Δ -0.000) | paragraph.height 34 (round(esperado) = 34)
+00:00 +15: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +16: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +16: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) heroPercent: "62%" → largura 56.46 (±0.1), altura 31.2 (±0.01)
+[prova] heroPercent        "62%": largura 56.479 (esperado 56.46, Δ 0.019) | altura 31.200 (esperado 31.20, Δ 0.000) | paragraph.height 31 (round(esperado) = 31)
+00:00 +17: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +17: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) heroTitle: "Dom Casmurro" → largura 169.03 (±0.1), altura 25.2 (±0.01)
+[prova] heroTitle          "Dom Casmurro": largura 169.073 (esperado 169.03, Δ 0.043) | altura 25.200 (esperado 25.20, Δ 0.000) | paragraph.height 25 (round(esperado) = 25)
+00:00 +18: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +18: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) sectionTitleL: "Para você" → largura 109.35 (±0.1), altura 28.8 (±0.01)
+[prova] sectionTitleL      "Para você": largura 109.392 (esperado 109.35, Δ 0.042) | altura 28.800 (esperado 28.80, Δ 0.000) | paragraph.height 29 (round(esperado) = 29)
+00:00 +19: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +19: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) clubTitle: "Leitoras de" → largura 112.98 (±0.1), altura 22.0 (±0.01)
+[prova] clubTitle          "Leitoras de": largura 112.963 (esperado 112.98, Δ -0.017) | altura 22.000 (esperado 22.00, Δ -0.000) | paragraph.height 22 (round(esperado) = 22)
+00:00 +20: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +20: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) sectionTitleS: "Também lendo" → largura 126.54 (±0.1), altura 21.6 (±0.01)
+[prova] sectionTitleS      "Também lendo": largura 126.535 (esperado 126.54, Δ -0.005) | altura 21.600 (esperado 21.60, Δ -0.000) | paragraph.height 22 (round(esperado) = 22)
+00:00 +21: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +22: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +22: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) avatarInitial: "M" → largura 17.06 (±0.1), altura 21.6 (±0.01)
+[prova] avatarInitial      "M": largura 17.069 (esperado 17.06, Δ 0.009) | altura 21.600 (esperado 21.60, Δ -0.000) | paragraph.height 22 (round(esperado) = 22)
+00:00 +23: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:00 +23: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) markerInitial: "M" → largura 10.54 (±0.1), altura 13.2 (±0.01)
+[prova] markerInitial      "M": largura 10.538 (esperado 10.54, Δ -0.002) | altura 13.200 (esperado 13.20, Δ 0.000) | paragraph.height 13 (round(esperado) = 13)
+00:00 +24: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +24: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) displaySerifXL: "sua história." → largura 219.65 (±0.1), altura 49.0 (±0.01)
+[prova] displaySerifXL     "sua história.": largura 219.650 (esperado 219.65, Δ -0.000) | altura 49.000 (esperado 49.00, Δ 0.000) | paragraph.height 49 (round(esperado) = 49)
+00:01 +25: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +26: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +26: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) clubSerif: "Capitu" → largura 86.41 (±0.1), altura 34.2 (±0.01)
+[prova] clubSerif          "Capitu": largura 86.412 (esperado 86.41, Δ 0.002) | altura 34.200 (esperado 34.20, Δ 0.000) | paragraph.height 34 (round(esperado) = 34)
+00:01 +27: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +27: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverTitle26: "O Cortiço" → largura 81.77 (±0.1), altura 23.4 (±0.01)
+[prova] coverTitle26       "O Cortiço": largura 81.770 (esperado 81.77, Δ -0.000) | altura 23.400 (esperado 23.40, Δ 0.000) | paragraph.height 23 (round(esperado) = 23)
+00:01 +28: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +29: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +29: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (a) Text vs AppText (prova do arredondamento)
+Text=Size(58.4, 16.0) | AppText=Size(58.4, 15.6)
+00:01 +29: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverTitle22: "Casmurro" → largura 74.56 (±0.1), altura 20.24 (±0.01)
+[prova] coverTitle22       "Casmurro": largura 74.558 (esperado 74.56, Δ -0.002) | altura 20.240 (esperado 20.24, Δ 0.000) | paragraph.height 20 (round(esperado) = 20)
+00:01 +30: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +30: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (a) Text vs AppText (prova do arredondamento)
+Text=58.445 × 16.000 | AppText=58.445 × 15.600
+00:01 +31: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +31: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverTitle19: "Póstumas de" → largura 80.98 (±0.1), altura 18.05 (±0.01)
+[prova] coverTitle19       "Póstumas de": largura 80.978 (esperado 80.98, Δ -0.002) | altura 18.050 (esperado 18.05, Δ -0.000) | paragraph.height 18 (round(esperado) = 18)
+00:01 +32: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +33: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +33: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverTitle11: "Dalloway" → largura 34.52 (±0.1), altura 10.45 (±0.01)
+[prova] coverTitle11       "Dalloway": largura 34.518 (esperado 34.52, Δ -0.002) | altura 10.450 (esperado 10.45, Δ 0.000) | paragraph.height 10 (round(esperado) = 10)
+00:01 +34: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +34: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverTitle9: "Preconceito" → largura 35.46 (±0.1), altura 8.55 (±0.01)
+[prova] coverTitle9        "Preconceito": largura 35.460 (esperado 35.46, Δ -0.000) | altura 8.550 (esperado 8.55, Δ 0.000) | paragraph.height 9 (round(esperado) = 9)
+00:01 +35: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg tamanho de uso, sem colorFilter, fora da árvore semântica
+00:01 +36: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (b) shrink-wrap: dentro de Row mede a largura intrínseca exata
+00:01 +37: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (b) shrink-wrap: dentro de Row mede a largura intrínseca exata
+00:01 +37: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverAuthorPaper: "MACHADO DE" → largura 52.96 (±0.1), altura 7.8 (±0.01)
+[prova] coverAuthorPaper   "MACHADO DE": largura 52.959 (esperado 52.96, Δ -0.001) | altura 7.800 (esperado 7.80, Δ 0.000) | paragraph.height 8 (round(esperado) = 8)
+00:01 +38: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (b) shrink-wrap: dentro de Row mede a largura intrínseca exata
+00:01 +38: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverAuthorFlame: "MACHADO DE ASSIS" → largura 78.33 (±0.1), altura 7.8 (±0.01)
+[prova] coverAuthorFlame   "MACHADO DE ASSIS": largura 78.317 (esperado 78.33, Δ -0.013) | altura 7.800 (esperado 7.80, Δ 0.000) | paragraph.height 8 (round(esperado) = 8)
+00:01 +39: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (b) shrink-wrap: dentro de Row mede a largura intrínseca exata
+00:01 +40: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (b) shrink-wrap: dentro de Row mede a largura intrínseca exata
+00:01 +40: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) coverAuthorSurface: "MACHADO DE ASSIS" → largura 78.33 (±0.1), altura 7.8 (±0.01)
+[prova] coverAuthorSurface "MACHADO DE ASSIS": largura 78.317 (esperado 78.33, Δ -0.013) | altura 7.800 (esperado 7.80, Δ 0.000) | paragraph.height 8 (round(esperado) = 8)
+00:01 +41: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (b) shrink-wrap: dentro de Row mede a largura intrínseca exata
+shrink: Boa noite, = 58.4454345703125 (intrínseca 58.4454345703125) | Marina = 49.52159881591797 (intrínseca 49.52159881591797)
+00:01 +42: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +42: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) stubLabel: "ENCONTRO" → largura 64.63 (±0.1), altura 12.0 (±0.01)
+[prova] stubLabel          "ENCONTRO": largura 64.640 (esperado 64.63, Δ 0.010) | altura 12.000 (esperado 12.00, Δ 0.000) | paragraph.height 12 (round(esperado) = 12)
+00:01 +43: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +43: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) avatarCount: "+8" → largura 12.44 (±0.1), altura 12.0 (±0.01)
+[prova] avatarCount        "+8": largura 12.440 (esperado 12.44, Δ 0.000) | altura 12.000 (esperado 12.00, Δ 0.000) | paragraph.height 12 (round(esperado) = 12)
+00:01 +44: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +45: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +45: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) navLabel: "Biblioteca" → largura 49.8 (±0.1), altura 13.2 (±0.01)
+[prova] navLabel           "Biblioteca": largura 49.774 (esperado 49.80, Δ -0.026) | altura 13.200 (esperado 13.20, Δ 0.000) | paragraph.height 13 (round(esperado) = 13)
+00:01 +46: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +46: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) dialCaption: "de 30 min" → largura 49.84 (±0.1), altura 13.2 (±0.01)
+[prova] dialCaption        "de 30 min": largura 49.845 (esperado 49.84, Δ 0.005) | altura 13.200 (esperado 13.20, Δ 0.000) | paragraph.height 13 (round(esperado) = 13)
+00:01 +47: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +47: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) weekDay: "S" → largura 6.68 (±0.1), altura 13.2 (±0.01)
+[prova] weekDay            "S": largura 6.675 (esperado 6.68, Δ -0.005) | altura 13.200 (esperado 13.20, Δ 0.000) | paragraph.height 13 (round(esperado) = 13)
+00:01 +48: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +48: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) micro11Bold: "Scanner" → largura 41.3 (±0.1), altura 13.2 (±0.01)
+[prova] micro11Bold        "Scanner": largura 41.307 (esperado 41.30, Δ 0.007) | altura 13.200 (esperado 13.20, Δ 0.000) | paragraph.height 13 (round(esperado) = 13)
+00:01 +49: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+00:01 +49: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) caption12Plum: "~2h 10min" → largura 56.96 (±0.1), altura 14.4 (±0.01)
+[prova] caption12Plum      "~2h 10min": largura 56.966 (esperado 56.96, Δ 0.006) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +50: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg com precacheAppIcons o ícone já sai pintado no 1º quadro
+[ícone] sino 22 @3x: 795 pixels de tinta (66×66)
+00:01 +51: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +51: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) caption12Muted: "4h 00min no total" → largura 97.72 (±0.1), altura 14.4 (±0.01)
+[prova] caption12Muted     "4h 00min no total": largura 97.729 (esperado 97.72, Δ 0.009) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +52: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +52: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) label12Bold: "Cap. 92 de 148" → largura 81.55 (±0.1), altura 14.4 (±0.01)
+[prova] label12Bold        "Cap. 92 de 148": largura 81.554 (esperado 81.55, Δ 0.004) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +53: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +53: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) tagLavender: "Quero ler" → largura 51.46 (±0.1), altura 14.4 (±0.01)
+[prova] tagLavender        "Quero ler": largura 51.461 (esperado 51.46, Δ 0.001) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +54: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+reticências: "Orgulho e Precon" 0.00–130.52
+00:01 +54: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) tagSand: "Novo" → largura 29.44 (±0.1), altura 14.4 (±0.01)
+[prova] tagSand            "Novo": largura 29.455 (esperado 29.44, Δ 0.015) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +55: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +55: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) count12OnInk: "2" → largura 6.95 (±0.1), altura 14.4 (±0.01)
+[prova] count12OnInk       "2": largura 6.943 (esperado 6.95, Δ -0.007) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +56: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +56: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_icons_test.dart: 1.5 AppSvg traço escala como no navegador: seta 18 px (traço 2 no viewBox 24) → 1,5 px
+[ícone] seta 18: espessura da haste 1.500 px (esperado 2 × 18/24 = 1,5)
+00:01 +57: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +57: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) stubMeta: "QUI" → largura 24.26 (±0.1), altura 14.4 (±0.01)
+[prova] stubMeta           "QUI": largura 24.250 (esperado 24.26, Δ -0.010) | altura 14.400 (esperado 14.40, Δ 0.000) | paragraph.height 14 (round(esperado) = 14)
+00:01 +58: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (c) tight: "Orgulho e Preconceito" em 138 px → "Orgulho e Precon…"
+00:01 +59: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) body13Muted: "Boa noite," → largura 58.43 (±0.1), altura 15.6 (±0.01)
+[prova] body13Muted        "Boa noite,": largura 58.445 (esperado 58.43, Δ 0.015) | altura 15.600 (esperado 15.60, Δ 0.000) | paragraph.height 16 (round(esperado) = 16)
+00:01 +60: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) body13Semi: "Porque você lê Machado de Assis" → largura 196.28 (±0.1), altura 15.6 (±0.01)
+[prova] body13Semi         "Porque você lê Machado de Assis": largura 196.297 (esperado 196.28, Δ 0.017) | altura 15.600 (esperado 15.60, Δ 0.000) | paragraph.height 16 (round(esperado) = 16)
+00:01 +61: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (d) baseline: Row baseline "62%" + "~2h 10min" → 12,78 px
+00:01 +61: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) body13Bold: "12 dias" → largura 40.24 (±0.1), altura 15.6 (±0.01)
+[prova] body13Bold         "12 dias": largura 40.232 (esperado 40.24, Δ -0.008) | altura 15.600 (esperado 15.60, Δ 0.000) | paragraph.height 16 (round(esperado) = 16)
+00:01 +62: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (d) baseline: Row baseline "62%" + "~2h 10min" → 12,78 px
+00:01 +62: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) body14Plum: "Machado de Assis" → largura 113.41 (±0.1), altura 16.8 (±0.01)
+[prova] body14Plum         "Machado de Assis": largura 113.442 (esperado 113.41, Δ 0.032) | altura 16.800 (esperado 16.80, Δ 0.000) | paragraph.height 17 (round(esperado) = 17)
+00:01 +63: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (d) baseline: Row baseline "62%" + "~2h 10min" → 12,78 px
+baseline: topo "~2h 10min" − topo "62%" = 12.780000686645508
+00:01 +64: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) label14Bold: "Ver tudo" → largura 55.99 (±0.1), altura 16.8 (±0.01)
+[prova] label14Bold        "Ver tudo": largura 56.008 (esperado 55.99, Δ 0.018) | altura 16.800 (esperado 16.80, Δ 0.000) | paragraph.height 17 (round(esperado) = 17)
+00:01 +65: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +65: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) cta14OnInk: "Abrir discussão" → largura 98.63 (±0.1), altura 16.8 (±0.01)
+[prova] cta14OnInk         "Abrir discussão": largura 98.636 (esperado 98.63, Δ 0.006) | altura 16.800 (esperado 16.80, Δ 0.000) | paragraph.height 17 (round(esperado) = 17)
+00:01 +66: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +66: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) title15: "Mrs. Dalloway" → largura 95.79 (±0.1), altura 18.0 (±0.01)
+[prova] title15            "Mrs. Dalloway": largura 95.808 (esperado 95.79, Δ 0.018) | altura 18.000 (esperado 18.00, Δ 0.000) | paragraph.height 18 (round(esperado) = 18)
+00:01 +67: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +67: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) name16: "Marina" → largura 49.51 (±0.1), altura 19.2 (±0.01)
+[prova] name16             "Marina": largura 49.522 (esperado 49.51, Δ 0.012) | altura 19.200 (esperado 19.20, Δ -0.000) | paragraph.height 19 (round(esperado) = 19)
+00:01 +68: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +68: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_typography_test.dart: 1.3.3 prova tipográfica (42 amostras) cta16OnInk: "Continuar lendo" → largura 117.89 (±0.1), altura 19.2 (±0.01)
+[prova] cta16OnInk         "Continuar lendo": largura 117.933 (esperado 117.89, Δ 0.043) | altura 19.200 (esperado 19.20, Δ -0.000) | paragraph.height 19 (round(esperado) = 19)
+00:01 +69: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +69: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (e) coluna "Continue" + "sua história." → 90,16 / 34,44 / 82,66
+coluna: altura 90.16000175476074 | baselines 34.44000244140625 e 82.66000175476074
+00:01 +70: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +70: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (f) correção de meio letter-spacing debugLines começa em 0,00 (sem a correção: −0,70 e +0,50)
+meio letter-spacing: Continue 0.0 (cru -0.699999988079071) | ENCONTRO 0.0 (cru 0.5)
+00:01 +71: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: (setUpAll)
+00:01 +71: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (f) correção de meio letter-spacing pixels (10×): a tinta do AppText começa 0,50 px à esquerda do parágrafo cru
+pixels ENCONTRO: borda esquerda AppText 3.7613259668508285 | cru 4.261325966850828 | Δ -0.49999999999999956
+00:01 +72: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "Continuar lendo" — Figtree 16 w700 ls 0.0 h 1.2
+[fonts_smoke] "Continuar lendo" (Figtree 16 w700 ls 0.0 h 1.2): largura 117.933 (esperado 117.89 ±0.1, Δ 0.043) | altura ascent+descent 19.200 (esperado 19.20 ±0.01, Δ -0.000) | paragraph.height 19.000 (round(esperado) = 19)
+00:01 +73: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) linha única: "H" de Figtree 13 pousa em 12,35 (cru: 12,00)
+00:01 +73: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "Boa noite," — Figtree 13 w500 ls 0.0 h 1.2
+[fonts_smoke] "Boa noite," (Figtree 13 w500 ls 0.0 h 1.2): largura 58.445 (esperado 58.43 ±0.1, Δ 0.015) | altura ascent+descent 15.600 (esperado 15.60 ±0.01, Δ 0.000) | paragraph.height 16.000 (round(esperado) = 16)
+00:01 +74: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) linha única: "H" de Figtree 13 pousa em 12,35 (cru: 12,00)
+00:01 +74: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "ENCONTRO" — Figtree 10 w700 ls 1.0 h 1.2
+[fonts_smoke] "ENCONTRO" (Figtree 10 w700 ls 1.0 h 1.2): largura 64.640 (esperado 64.63 ±0.1, Δ 0.010) | altura ascent+descent 12.000 (esperado 12.00 ±0.01, Δ 0.000) | paragraph.height 12.000 (round(esperado) = 12)
+00:01 +75: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) linha única: "H" de Figtree 13 pousa em 12,35 (cru: 12,00)
+pixels HHH (Figtree 13): baseline esperada 12.350000381469727 | tinta AppText 12.4 | tinta crua 12.0
+00:01 +75: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "Continue" — Bricolage42 42 w800 ls -1.4 h 0.98
+[fonts_smoke] "Continue" (Bricolage42 42 w800 ls -1.4 h 0.98): largura 170.715 (esperado 170.69 ±0.1, Δ 0.025) | altura ascent+descent 41.160 (esperado 41.16 ±0.01, Δ 0.000) | paragraph.height 41.000 (round(esperado) = 41)
+00:01 +76: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) linha única: "H" de Figtree 13 pousa em 12,35 (cru: 12,00)
+00:01 +77: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "18" — Bricolage34 34 w800 ls -1.0 h 1.0
+[fonts_smoke] "18" (Bricolage34 34 w800 ls -1.0 h 1.0): largura 31.847 (esperado 31.86 ±0.1, Δ -0.013) | altura ascent+descent 34.000 (esperado 34.00 ±0.01, Δ -0.000) | paragraph.height 34.000 (round(esperado) = 34)
+00:01 +78: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) várias linhas: "HH HH HH" em Instrument Serif 11 (0,95) → baselines i × 10,45 + ascent
+00:01 +78: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "Também lendo" — Bricolage18 18 w800 ls -0.3 h 1.2
+[fonts_smoke] "Também lendo" (Bricolage18 18 w800 ls -0.3 h 1.2): largura 126.535 (esperado 126.54 ±0.1, Δ -0.005) | altura ascent+descent 21.600 (esperado 21.60 ±0.01, Δ -0.000) | paragraph.height 22.000 (round(esperado) = 22)
+00:01 +79: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) várias linhas: "HH HH HH" em Instrument Serif 11 (0,95) → baselines i × 10,45 + ascent
+00:01 +79: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "sua história." — InstrumentSerif 50 w400 itálico ls -0.6 h 0.98
+[fonts_smoke] "sua história." (InstrumentSerif 50 w400 itálico ls -0.6 h 0.98): largura 219.650 (esperado 219.65 ±0.1, Δ -0.000) | altura ascent+descent 49.000 (esperado 49.00 ±0.01, Δ 0.000) | paragraph.height 49.000 (round(esperado) = 49)
+00:01 +80: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) várias linhas: "HH HH HH" em Instrument Serif 11 (0,95) → baselines i × 10,45 + ascent
+00:01 +80: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/fonts_smoke_test.dart: fonte: "Capitu" — InstrumentSerif 36 w400 itálico ls -0.4 h 0.95
+[fonts_smoke] "Capitu" (InstrumentSerif 36 w400 itálico ls -0.4 h 0.95): largura 86.412 (esperado 86.41 ±0.1, Δ 0.002) | altura ascent+descent 34.200 (esperado 34.20 ±0.01, Δ 0.000) | paragraph.height 34.000 (round(esperado) = 34)
+00:01 +81: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: baseline de pintura exata (pixels 10×; o SkParagraph pinta em floor(baseline + 0,5)) várias linhas: "HH HH HH" em Instrument Serif 11 (0,95) → baselines i × 10,45 + ascent
+pixels 3 linhas: esperado [8.965, 19.415, 29.865] | tinta AppText [9.000, 19.400, 29.900] | SkParagraph sem correção [9.000, 19.000, 29.000]
+00:01 +82: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: várias linhas: "MACHADO DE ASSIS" em 78 px → 2 linhas, baselines 6,18 / 13,99 (hero.cover.author)
+00:01 +83: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/font_license_test.dart: licença OFL das fontes registrada no LicenseRegistry
+00:01 +84: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (g) medição intrínseca após o layout não altera a pintura consultas intrínsecas/secas depois do layout → mesmo golden
+00:01 +85: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (g) medição intrínseca após o layout não altera a pintura dentro de IntrinsicWidth → mesmo golden
+00:01 +86: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: semântica: rótulo = texto (ou semanticsLabel) e sem fronteira própria
+00:01 +87: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/app_text_test.dart: (tearDownAll)
+00:01 +87: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: (setUpAll)
+00:01 +87: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+[galeria] tamanho lógico Size(390.0, 4161.4) → PNG @3x 1170×12485
+00:03 +88: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +89: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +89: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.2 chromiumDashStarts / ChromiumDashPainter perfuração do ticket: 263,6 → 59 traços, vão 1,4931
+[dash] 263.6 → 59 traços, vão 1.4931, último termina em 263.6
+00:03 +90: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +90: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.2 chromiumDashStarts / ChromiumDashPainter linha da meta: 288 → 64 traços, vão 1,5238
+[dash] 288.0 → 64 traços, vão 1.5238, último termina em 288.0
+00:03 +91: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +92: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +93: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +93: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.3 RingProgressPainter equivalência com o SVG do arquivo (stroke-dasharray 38.5 / 91.6 de 113.1): Δ arco ≤ 0,05 px
+[anel] 34%: arco 38.453 × SVG 38.5 (Δ 0.047)
+[anel] 81%: arco 91.609 × SVG 91.6 (Δ 0.009)
+00:03 +94: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +94: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.3 RingProgressPainter golden isolado 34% (cena alinhada a alsoReading.card1.ring, com o rótulo)
+[cena] ds_anel_34: caixa @3x = (382, 1864, 521, 2003)
+00:03 +94: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +95: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +95: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.3 RingProgressPainter golden isolado 81% (cena alinhada a alsoReading.card2.ring, com o rótulo)
+[cena] ds_anel_81: caixa @3x = (925, 1864, 1064, 2003)
+00:03 +96: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +97: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +98: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +99: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +99: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.4 GoalDialPainter 31 marcações: r 44, traço 2, dash 1,5 a cada 9,21, início às 3 h; a última com 0,16
+[dial] última marcação: 0.160 px (circunferência 276.460)
+00:03 +100: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +101: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +101: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.4 GoalDialPainter arco de progresso 0,6 e pino em (30,137; 91,597) — SVG do arquivo: 165.9 de 276.5 e (30.1; 91.6)
+[dial] pino em (30.137; 91.597)
+00:03 +102: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +103: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: 1.8 DesignSystemGallery: golden de revisão @3x (paleta, 46 estilos, ícones, pintores, primitivos)
+00:03 +104: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 NeoBox decoração = cor, borda uniforme, raio e sombra dura (blur 0, spread 0) na mesma caixa
+00:03 +104: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: 1.6.4 GoalDialPainter golden isolado (cena alinhada a today.dial, com "18" e "de 30 min")
+[cena] ds_dial: caixa @3x = (118, 2502, 455, 2839)
+00:03 +105: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 NeoBox decoração = cor, borda uniforme, raio e sombra dura (blur 0, spread 0) na mesma caixa
+00:03 +106: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 NeoBox decoração = cor, borda uniforme, raio e sombra dura (blur 0, spread 0) na mesma caixa
+00:03 +107: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 NeoBox decoração = cor, borda uniforme, raio e sombra dura (blur 0, spread 0) na mesma caixa
+00:03 +108: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/text_lines_test.dart: linha única, várias linhas (3) e reticências conferem com o arquivo
+00:03 +109: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/text_lines_test.dart: linha única, várias linhas (3) e reticências conferem com o arquivo
+00:03 +109: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/painters_test.dart: cena de verificação: gráfico da semana (hachuras + meias-luas + linha da meta, alinhada a today.week.goalLine/chart)
+[cena] ds_semana: caixa @3x = (153, 3004, 1017, 3245)
+00:03 +110: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/text_lines_test.dart: linha única, várias linhas (3) e reticências conferem com o arquivo
+[linhas] L1 "Memórias": baseline 1349.145 (arquivo 1349.14) | fim 101.530 (arquivo 101.53)
+[linhas] L2 "Póstumas de": baseline 1367.195 (arquivo 1367.19) | fim 118.478 (arquivo 118.48)
+[linhas] L3 "Brás Cubas": baseline 1385.245 (arquivo 1385.24) | fim 108.313 (arquivo 108.31)
+00:03 +111: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: DesignSystemGallery rola num aparelho 390 × 844 sem erros de layout
+00:03 +112: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/gallery_test.dart: DesignSystemGallery rola num aparelho 390 × 844 sem erros de layout
+00:03 +113: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 variantes do arquivo (tamanho e texto medidos no HTML) Pill: capítulo, chips do dia, clube, hora do canhoto, selos da lista
+[geometria] Pill: 9 ids; maior desvio club.pill.w = 0.019
+00:04 +114: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 variantes do arquivo (tamanho e texto medidos no HTML) CountBadge: "14" (borda, sun), "2" (tinta) e "3" (flame)
+[geometria] CountBadge: 3 ids; maior desvio hero.notesButton.badge.w = -0.001
+00:04 +115: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 variantes do arquivo (tamanho e texto medidos no HTML) CircleIconButton: sino 48 (com ponto), destaques 54 (com badge), mais-opções 44
+[geometria] CircleIconButton: 8 ids; maior desvio hero.notesButton.badge.x = 0.001
+00:04 +116: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 variantes do arquivo (tamanho e texto medidos no HTML) StadiumProgressBar: hero (181 × 10, 62 %) e clube (221 × 12)
+[geometria] StadiumProgressBar: 4 ids; maior desvio club.progressFill.w = 0.000
+00:04 +117: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 Pressable (D-04) sem ripple: escala 0,97 em 90 ms ao pressionar, volta em 120 ms; flag desliga
+00:04 +118: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 Pressable (D-04) semântica: nó próprio (container) de botão/link; aria-label exclui os filhos
+00:04 +119: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: 1.7 Pressable (D-04) CircleIconButton expõe o rótulo (aria-label) e não o ícone
+00:04 +120: C:/Users/T-Gamer/Desktop/app_livros/test/design_system/primitives_test.dart: (tearDownAll)
+00:04 +120: All tests passed!
+exit=0
+
+$ sha256sum -c --quiet docs/handoff_checksums.txt   (design_handoff/ intacto)
+OK: 131 arquivos conferidos
+exit=0
