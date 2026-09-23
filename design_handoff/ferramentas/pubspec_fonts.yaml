@@ -1,0 +1,134 @@
+# Bloco de fontes para colar em pubspec.yaml -> flutter: fonts:
+# GERADO a partir de assets/fonts (fontes estáticas geradas por ferramentas/build_fonts.py).
+# NÃO use google_fonts. NÃO declare pesos que não existem. Bricolage = 1 família por tamanho (opsz).
+  fonts:
+    - family: Bricolage12
+      fonts:
+        - asset: assets/fonts/Bricolage12-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage12Ext
+      fonts:
+        - asset: assets/fonts/Bricolage12Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage12Vi
+      fonts:
+        - asset: assets/fonts/Bricolage12Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage18
+      fonts:
+        - asset: assets/fonts/Bricolage18-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage18Ext
+      fonts:
+        - asset: assets/fonts/Bricolage18Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage18Vi
+      fonts:
+        - asset: assets/fonts/Bricolage18Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage20
+      fonts:
+        - asset: assets/fonts/Bricolage20-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage20Ext
+      fonts:
+        - asset: assets/fonts/Bricolage20Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage20Vi
+      fonts:
+        - asset: assets/fonts/Bricolage20Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage22
+      fonts:
+        - asset: assets/fonts/Bricolage22-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage22Ext
+      fonts:
+        - asset: assets/fonts/Bricolage22Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage22Vi
+      fonts:
+        - asset: assets/fonts/Bricolage22Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage24
+      fonts:
+        - asset: assets/fonts/Bricolage24-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage24Ext
+      fonts:
+        - asset: assets/fonts/Bricolage24Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage24Vi
+      fonts:
+        - asset: assets/fonts/Bricolage24Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage26
+      fonts:
+        - asset: assets/fonts/Bricolage26-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage26Ext
+      fonts:
+        - asset: assets/fonts/Bricolage26Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage26Vi
+      fonts:
+        - asset: assets/fonts/Bricolage26Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage34
+      fonts:
+        - asset: assets/fonts/Bricolage34-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage34Ext
+      fonts:
+        - asset: assets/fonts/Bricolage34Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage34Vi
+      fonts:
+        - asset: assets/fonts/Bricolage34Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage42
+      fonts:
+        - asset: assets/fonts/Bricolage42-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage42Ext
+      fonts:
+        - asset: assets/fonts/Bricolage42Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage42Vi
+      fonts:
+        - asset: assets/fonts/Bricolage42Vi-ExtraBold.ttf
+          weight: 800
+    - family: Figtree
+      fonts:
+        - asset: assets/fonts/Figtree-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Figtree-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Figtree-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Figtree-Bold.ttf
+          weight: 700
+    - family: FigtreeExt
+      fonts:
+        - asset: assets/fonts/FigtreeExt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/FigtreeExt-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/FigtreeExt-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/FigtreeExt-Bold.ttf
+          weight: 700
+    - family: InstrumentSerif
+      fonts:
+        - asset: assets/fonts/InstrumentSerif-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/InstrumentSerif-Italic.ttf
+          weight: 400
+          style: italic
+    - family: InstrumentSerifExt
+      fonts:
+        - asset: assets/fonts/InstrumentSerifExt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/InstrumentSerifExt-Italic.ttf
+          weight: 400
+          style: italic

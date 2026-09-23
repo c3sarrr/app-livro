@@ -1,0 +1,1564 @@
+{
+ "meta": {
+  "source": "Redesign mobile — App de leitura.html",
+  "canvas": [
+   430,
+   2390
+  ],
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium (Playwright 1.56) zoom 100, --font-render-hinting=none; mesma marcação com a largura do canvas alterada",
+  "note": "Validação SECUNDÁRIA (FASE 13, tolerância ±1,0). elements = id → [x, y, w, h] absolutos (retângulo de layout, sem rotação)."
+ },
+ "sections": {
+  "header": [
+   20,
+   62,
+   390,
+   48
+  ],
+  "headline": [
+   20,
+   134,
+   390,
+   90.16
+  ],
+  "hero": [
+   20,
+   248.16,
+   390,
+   275
+  ],
+  "alsoReading": [
+   20,
+   555.16,
+   390,
+   175.6
+  ],
+  "today": [
+   20,
+   766.76,
+   390,
+   400.8
+  ],
+  "forYou": [
+   20,
+   1207.56,
+   390,
+   327
+  ],
+  "club": [
+   20,
+   1574.56,
+   390,
+   266.6
+  ],
+  "recent": [
+   20,
+   1881.16,
+   390,
+   334
+  ],
+  "bottomFade": [
+   0,
+   2240,
+   430,
+   150
+  ],
+  "nav": [
+   16,
+   2290,
+   398,
+   70
+  ]
+ },
+ "elements": {
+  "header": [
+   20,
+   62,
+   390,
+   48
+  ],
+  "header.identity": [
+   20,
+   64,
+   114.43,
+   44
+  ],
+  "header.avatar": [
+   20,
+   64,
+   44,
+   44
+  ],
+  "header.greetingColumn": [
+   76,
+   68.1,
+   58.43,
+   35.8
+  ],
+  "header.greeting": [
+   76,
+   68.1,
+   58.43,
+   15.6
+  ],
+  "header.name": [
+   76,
+   84.7,
+   58.43,
+   19.2
+  ],
+  "header.bell": [
+   362,
+   62,
+   48,
+   48
+  ],
+  "header.bell.icon": [
+   375,
+   75,
+   22,
+   22
+  ],
+  "header.bell.dot": [
+   385.5,
+   72.5,
+   12,
+   12
+  ],
+  "headline": [
+   20,
+   134,
+   390,
+   90.16
+  ],
+  "hero": [
+   20,
+   248.16,
+   390,
+   275
+  ],
+  "hero.sparkleLarge": [
+   360.5,
+   267.66,
+   30,
+   30
+  ],
+  "hero.sparkleSmall": [
+   344.5,
+   303.66,
+   14,
+   14
+  ],
+  "hero.topRow": [
+   41.5,
+   269.66,
+   347,
+   158
+  ],
+  "hero.cover": [
+   43.5,
+   271.66,
+   104,
+   156
+  ],
+  "hero.cover.spine": [
+   45,
+   273.16,
+   7,
+   153
+  ],
+  "hero.cover.sun": [
+   96,
+   253.16,
+   70,
+   70
+  ],
+  "hero.cover.ring": [
+   107,
+   311.16,
+   21,
+   21
+  ],
+  "hero.cover.textBlock": [
+   60,
+   352.06,
+   78,
+   62.1
+  ],
+  "hero.cover.title": [
+   60,
+   352.06,
+   78,
+   40.48
+  ],
+  "hero.cover.author": [
+   60,
+   398.54,
+   78,
+   15.62
+  ],
+  "hero.meta": [
+   167.5,
+   269.66,
+   221,
+   158
+  ],
+  "hero.meta.top": [
+   167.5,
+   271.66,
+   221,
+   82.4
+  ],
+  "hero.chapterPill": [
+   167.5,
+   271.66,
+   104.55,
+   27.4
+  ],
+  "hero.titleBlock": [
+   167.5,
+   309.06,
+   221,
+   45
+  ],
+  "hero.title": [
+   167.5,
+   309.06,
+   221,
+   25.2
+  ],
+  "hero.author": [
+   167.5,
+   337.26,
+   221,
+   16.8
+  ],
+  "hero.meta.bottom": [
+   167.5,
+   378.46,
+   221,
+   49.2
+  ],
+  "hero.progressRow": [
+   167.5,
+   378.46,
+   221,
+   31.2
+  ],
+  "hero.percent": [
+   167.5,
+   378.46,
+   56.46,
+   31.2
+  ],
+  "hero.timeLeft": [
+   331.54,
+   391.24,
+   56.96,
+   14.4
+  ],
+  "hero.progressBar": [
+   167.5,
+   417.66,
+   221,
+   10
+  ],
+  "hero.progressFill": [
+   169,
+   419.16,
+   135.16,
+   7
+  ],
+  "hero.actions": [
+   41.5,
+   447.66,
+   347,
+   54
+  ],
+  "hero.cta": [
+   41.5,
+   447.66,
+   283,
+   54
+  ],
+  "hero.cta.icon": [
+   109.06,
+   464.66,
+   20,
+   20
+  ],
+  "hero.cta.label": [
+   139.06,
+   465.06,
+   117.89,
+   19.2
+  ],
+  "hero.notesButton": [
+   334.5,
+   447.66,
+   54,
+   54
+  ],
+  "hero.notesButton.icon": [
+   350.5,
+   463.66,
+   22,
+   22
+  ],
+  "hero.notesButton.badge": [
+   366.39,
+   445.16,
+   24.61,
+   22
+  ],
+  "alsoReading": [
+   20,
+   555.16,
+   390,
+   175.6
+  ],
+  "alsoReading.header": [
+   20,
+   555.16,
+   390,
+   22
+  ],
+  "alsoReading.title": [
+   20,
+   555.36,
+   126.54,
+   21.6
+  ],
+  "alsoReading.count": [
+   154.54,
+   555.16,
+   22,
+   22
+  ],
+  "alsoReading.grid": [
+   20,
+   607.16,
+   390,
+   123.6
+  ],
+  "alsoReading.card1": [
+   20,
+   607.16,
+   189,
+   123.6
+  ],
+  "alsoReading.card1.top": [
+   35.5,
+   608.66,
+   158,
+   59
+  ],
+  "alsoReading.card1.cover": [
+   35.5,
+   586.66,
+   54,
+   81
+  ],
+  "alsoReading.card1.cover.spine": [
+   37,
+   588.16,
+   5,
+   78
+  ],
+  "alsoReading.card1.cover.arch": [
+   49,
+   600.16,
+   32,
+   20
+  ],
+  "alsoReading.card1.cover.title": [
+   47,
+   637.26,
+   36,
+   20.9
+  ],
+  "alsoReading.card1.ring": [
+   147.5,
+   621.66,
+   46,
+   46
+  ],
+  "alsoReading.card1.ring.svg": [
+   147.5,
+   621.66,
+   46,
+   46
+  ],
+  "alsoReading.card1.ring.label": [
+   147.5,
+   621.66,
+   46,
+   46
+  ],
+  "alsoReading.card1.textBlock": [
+   35.5,
+   679.66,
+   158,
+   35.6
+  ],
+  "alsoReading.card1.title": [
+   35.5,
+   679.66,
+   158,
+   18
+  ],
+  "alsoReading.card1.author": [
+   35.5,
+   699.66,
+   158,
+   15.6
+  ],
+  "alsoReading.card2": [
+   221,
+   607.16,
+   189,
+   123.6
+  ],
+  "alsoReading.card2.top": [
+   236.5,
+   608.66,
+   158,
+   59
+  ],
+  "alsoReading.card2.cover": [
+   236.5,
+   586.66,
+   54,
+   81
+  ],
+  "alsoReading.card2.cover.spine": [
+   238,
+   588.16,
+   5,
+   78
+  ],
+  "alsoReading.card2.cover.circle": [
+   255,
+   601.16,
+   20,
+   20
+  ],
+  "alsoReading.card2.cover.title": [
+   247,
+   641.06,
+   40,
+   17.1
+  ],
+  "alsoReading.card2.ring": [
+   348.5,
+   621.66,
+   46,
+   46
+  ],
+  "alsoReading.card2.ring.svg": [
+   348.5,
+   621.66,
+   46,
+   46
+  ],
+  "alsoReading.card2.ring.label": [
+   348.5,
+   621.66,
+   46,
+   46
+  ],
+  "alsoReading.card2.textBlock": [
+   236.5,
+   679.66,
+   158,
+   35.6
+  ],
+  "alsoReading.card2.title": [
+   236.5,
+   679.66,
+   158,
+   18
+  ],
+  "alsoReading.card2.author": [
+   236.5,
+   699.66,
+   158,
+   15.6
+  ],
+  "today": [
+   20,
+   766.76,
+   390,
+   400.8
+  ],
+  "today.decoCircleLarge": [
+   301.5,
+   722.26,
+   153,
+   153
+  ],
+  "today.decoCircleSmall": [
+   327.5,
+   748.26,
+   101,
+   101
+  ],
+  "today.header": [
+   39.5,
+   786.26,
+   351,
+   32
+  ],
+  "today.title": [
+   39.5,
+   787.31,
+   156.76,
+   29.9
+  ],
+  "today.streakPill": [
+   306.26,
+   786.26,
+   84.23,
+   32
+  ],
+  "today.streakPill.icon": [
+   315.76,
+   793.76,
+   17,
+   17
+  ],
+  "today.goalRow": [
+   39.5,
+   834.26,
+   351,
+   112
+  ],
+  "today.dial": [
+   39.5,
+   834.26,
+   112,
+   112
+  ],
+  "today.dial.svg": [
+   39.5,
+   834.26,
+   112,
+   112
+  ],
+  "today.dial.center": [
+   39.5,
+   834.26,
+   112,
+   112
+  ],
+  "today.dial.value": [
+   79.57,
+   866.66,
+   31.86,
+   34
+  ],
+  "today.dial.caption": [
+   70.58,
+   900.66,
+   49.84,
+   13.2
+  ],
+  "today.goalText": [
+   169.5,
+   852.36,
+   221,
+   75.8
+  ],
+  "today.goalText.sentence": [
+   169.5,
+   852.36,
+   221,
+   39
+  ],
+  "today.chips": [
+   169.5,
+   901.36,
+   221,
+   26.8
+  ],
+  "today.chip.pages": [
+   169.5,
+   901.36,
+   80.51,
+   26.8
+  ],
+  "today.chip.highlights": [
+   256.01,
+   901.36,
+   86.86,
+   26.8
+  ],
+  "today.week": [
+   39.5,
+   962.26,
+   351,
+   153.8
+  ],
+  "today.week.header": [
+   55,
+   977.76,
+   320,
+   15.6
+  ],
+  "today.week.title": [
+   55,
+   977.76,
+   74.69,
+   15.6
+  ],
+  "today.week.total": [
+   277.28,
+   978.71,
+   97.72,
+   14.4
+  ],
+  "today.week.chart": [
+   55,
+   1001.36,
+   320,
+   80
+  ],
+  "today.week.goalLine": [
+   51,
+   1041.86,
+   328,
+   1.5
+  ],
+  "today.week.bar0": [
+   55,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar0.fill": [
+   56.2,
+   1037.16,
+   36.46,
+   43
+  ],
+  "today.week.bar1": [
+   101.86,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar1.fill": [
+   103.06,
+   1020.16,
+   36.46,
+   60
+  ],
+  "today.week.bar2": [
+   148.71,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar2.fill": [
+   149.91,
+   1040.16,
+   36.46,
+   40
+  ],
+  "today.week.bar3": [
+   195.57,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar3.fill": [
+   196.77,
+   1050.16,
+   36.46,
+   30
+  ],
+  "today.week.bar4": [
+   242.43,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar4.fill": [
+   243.63,
+   1029.16,
+   36.46,
+   51
+  ],
+  "today.week.bar5": [
+   289.29,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar5.fill": [
+   290.49,
+   1007.16,
+   36.46,
+   73
+  ],
+  "today.week.bar6": [
+   336.14,
+   1001.36,
+   38.86,
+   80
+  ],
+  "today.week.bar6.fill": [
+   337.64,
+   1055.86,
+   35.86,
+   24
+  ],
+  "today.week.labels": [
+   55,
+   1089.36,
+   320,
+   13.2
+  ],
+  "today.week.label0": [
+   55,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.week.label1": [
+   101.86,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.week.label2": [
+   148.71,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.week.label3": [
+   195.57,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.week.label4": [
+   242.43,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.week.label5": [
+   289.29,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.week.label6": [
+   336.14,
+   1089.36,
+   38.86,
+   13.2
+  ],
+  "today.footer": [
+   39.5,
+   1132.06,
+   351,
+   16
+  ],
+  "today.footer.icon": [
+   39.5,
+   1132.06,
+   16,
+   16
+  ],
+  "today.footer.text": [
+   63.5,
+   1132.26,
+   193.65,
+   15.6
+  ],
+  "forYou": [
+   20,
+   1207.56,
+   390,
+   327
+  ],
+  "forYou.header": [
+   20,
+   1207.56,
+   390,
+   44
+  ],
+  "forYou.title": [
+   20,
+   1215.16,
+   109.35,
+   28.8
+  ],
+  "forYou.seeAll": [
+   332.01,
+   1207.56,
+   77.99,
+   44
+  ],
+  "forYou.seeAll.icon": [
+   392,
+   1220.56,
+   18,
+   18
+  ],
+  "forYou.reasonChip": [
+   20,
+   1265.56,
+   241.28,
+   32.6
+  ],
+  "forYou.reasonChip.icon": [
+   31.5,
+   1274.86,
+   14,
+   14
+  ],
+  "forYou.carousel": [
+   0,
+   1316.16,
+   430,
+   218.4
+  ],
+  "forYou.item1": [
+   20,
+   1316.16,
+   116,
+   218.4
+  ],
+  "forYou.item1.cover": [
+   20,
+   1316.16,
+   116,
+   174
+  ],
+  "forYou.item1.cover.spine": [
+   21.5,
+   1317.66,
+   7,
+   171
+  ],
+  "forYou.item1.cover.blob": [
+   41.5,
+   1430.66,
+   123,
+   116
+  ],
+  "forYou.item1.cover.title": [
+   37.5,
+   1333.66,
+   87,
+   54.15
+  ],
+  "forYou.item1.cover.author": [
+   37.5,
+   1468.85,
+   78.33,
+   7.81
+  ],
+  "forYou.item1.textBlock": [
+   20,
+   1500.16,
+   116,
+   34.4
+  ],
+  "forYou.item1.title": [
+   20,
+   1500.16,
+   116,
+   16.8
+  ],
+  "forYou.item1.author": [
+   20,
+   1518.96,
+   116,
+   15.6
+  ],
+  "forYou.item2": [
+   150,
+   1316.16,
+   116,
+   218.4
+  ],
+  "forYou.item2.cover": [
+   150,
+   1316.16,
+   116,
+   174
+  ],
+  "forYou.item2.cover.spine": [
+   151.5,
+   1317.66,
+   7,
+   171
+  ],
+  "forYou.item2.cover.lines": [
+   167.5,
+   1335.66,
+   81,
+   30
+  ],
+  "forYou.item2.cover.line1": [
+   167.5,
+   1335.66,
+   81,
+   6
+  ],
+  "forYou.item2.cover.line2": [
+   167.5,
+   1347.66,
+   56.7,
+   6
+  ],
+  "forYou.item2.cover.line3": [
+   167.5,
+   1359.66,
+   32.4,
+   6
+  ],
+  "forYou.item2.cover.textBlock": [
+   167.5,
+   1416.05,
+   87,
+   60.61
+  ],
+  "forYou.item2.cover.title": [
+   167.5,
+   1416.05,
+   87,
+   46.8
+  ],
+  "forYou.item2.cover.author": [
+   167.5,
+   1468.85,
+   87,
+   7.81
+  ],
+  "forYou.item2.textBlock": [
+   150,
+   1500.16,
+   116,
+   34.4
+  ],
+  "forYou.item2.title": [
+   150,
+   1500.16,
+   116,
+   16.8
+  ],
+  "forYou.item2.author": [
+   150,
+   1518.96,
+   116,
+   15.6
+  ],
+  "forYou.item3": [
+   280,
+   1316.16,
+   116,
+   218.4
+  ],
+  "forYou.item3.cover": [
+   280,
+   1316.16,
+   116,
+   174
+  ],
+  "forYou.item3.cover.spine": [
+   281.5,
+   1317.66,
+   7,
+   171
+  ],
+  "forYou.item3.cover.archOuter": [
+   305.5,
+   1339.66,
+   68,
+   80
+  ],
+  "forYou.item3.cover.archInner": [
+   325.5,
+   1373.66,
+   28,
+   46
+  ],
+  "forYou.item3.cover.textBlock": [
+   297.5,
+   1439.45,
+   87,
+   37.21
+  ],
+  "forYou.item3.cover.title": [
+   297.5,
+   1439.45,
+   87,
+   23.4
+  ],
+  "forYou.item3.cover.author": [
+   297.5,
+   1468.85,
+   87,
+   7.81
+  ],
+  "forYou.item3.textBlock": [
+   280,
+   1500.16,
+   116,
+   34.4
+  ],
+  "forYou.item3.title": [
+   280,
+   1500.16,
+   116,
+   16.8
+  ],
+  "forYou.item3.author": [
+   280,
+   1518.96,
+   116,
+   15.6
+  ],
+  "club": [
+   20,
+   1574.56,
+   390,
+   266.6
+  ],
+  "club.ticket": [
+   20,
+   1574.56,
+   390,
+   266.6
+  ],
+  "club.body": [
+   21.5,
+   1576.06,
+   295,
+   263.6
+  ],
+  "club.topRow": [
+   39.5,
+   1594.06,
+   261,
+   27.4
+  ],
+  "club.pill": [
+   39.5,
+   1594.06,
+   99.38,
+   27.4
+  ],
+  "club.avatars": [
+   220.5,
+   1594.76,
+   80,
+   26
+  ],
+  "club.avatar0": [
+   220.5,
+   1594.76,
+   26,
+   26
+  ],
+  "club.avatar1": [
+   238.5,
+   1594.76,
+   26,
+   26
+  ],
+  "club.avatar2": [
+   256.5,
+   1594.76,
+   26,
+   26
+  ],
+  "club.avatar3": [
+   274.5,
+   1594.76,
+   26,
+   26
+  ],
+  "club.titleBlock": [
+   39.5,
+   1635.46,
+   261,
+   77.8
+  ],
+  "club.title": [
+   39.5,
+   1635.46,
+   261,
+   56.2
+  ],
+  "club.subtitle": [
+   39.5,
+   1697.66,
+   261,
+   15.6
+  ],
+  "club.progressBlock": [
+   39.5,
+   1727.26,
+   261,
+   34.4
+  ],
+  "club.progressTrack": [
+   39.5,
+   1727.26,
+   261,
+   12
+  ],
+  "club.progressBar": [
+   39.5,
+   1727.26,
+   261,
+   12
+  ],
+  "club.progressFill": [
+   41,
+   1728.76,
+   139.32,
+   9
+  ],
+  "club.youMarker": [
+   189.32,
+   1721.26,
+   24,
+   24
+  ],
+  "club.progressLabels": [
+   39.5,
+   1747.26,
+   261,
+   14.4
+  ],
+  "club.groupLabel": [
+   39.5,
+   1747.26,
+   81.12,
+   14.4
+  ],
+  "club.youLabel": [
+   225.62,
+   1747.26,
+   74.88,
+   14.4
+  ],
+  "club.cta": [
+   39.5,
+   1775.66,
+   261,
+   46
+  ],
+  "club.cta.icon": [
+   93.69,
+   1789.66,
+   18,
+   18
+  ],
+  "club.cta.label": [
+   119.69,
+   1790.26,
+   98.63,
+   16.8
+  ],
+  "club.cta.badge": [
+   226.31,
+   1788.66,
+   20,
+   20
+  ],
+  "club.stub": [
+   316.5,
+   1576.06,
+   92,
+   263.6
+  ],
+  "club.stub.label": [
+   330.94,
+   1642.21,
+   64.63,
+   12
+  ],
+  "club.stub.date": [
+   339.13,
+   1666.21,
+   48.24,
+   68.7
+  ],
+  "club.stub.weekday": [
+   351.12,
+   1666.21,
+   24.26,
+   14.4
+  ],
+  "club.stub.day": [
+   339.13,
+   1680.61,
+   48.24,
+   39.9
+  ],
+  "club.stub.month": [
+   351.13,
+   1720.51,
+   24.24,
+   14.4
+  ],
+  "club.stub.time": [
+   340.07,
+   1746.91,
+   46.36,
+   26.6
+  ],
+  "club.notchTop": [
+   304.25,
+   1561.56,
+   26,
+   26
+  ],
+  "club.notchBottom": [
+   304.25,
+   1828.16,
+   26,
+   26
+  ],
+  "recent": [
+   20,
+   1881.16,
+   390,
+   334
+  ],
+  "recent.header": [
+   20,
+   1881.16,
+   390,
+   44
+  ],
+  "recent.title": [
+   20,
+   1888.76,
+   195.47,
+   28.8
+  ],
+  "recent.libraryLink": [
+   323.81,
+   1881.16,
+   86.19,
+   44
+  ],
+  "recent.libraryLink.icon": [
+   392,
+   1894.16,
+   18,
+   18
+  ],
+  "recent.list": [
+   20,
+   1935.16,
+   390,
+   280
+  ],
+  "recent.row0": [
+   34,
+   1939.16,
+   368,
+   91
+  ],
+  "recent.row0.cover": [
+   34,
+   1951.16,
+   44,
+   66
+  ],
+  "recent.row0.cover.moon": [
+   45.2,
+   1962.36,
+   22,
+   22
+  ],
+  "recent.row0.cover.bar": [
+   43.2,
+   2005.96,
+   27.6,
+   3
+  ],
+  "recent.row0.textBlock": [
+   92,
+   1965.86,
+   166.54,
+   36.6
+  ],
+  "recent.row0.title": [
+   92,
+   1965.86,
+   166.54,
+   18
+  ],
+  "recent.row0.subtitle": [
+   92,
+   1986.86,
+   166.54,
+   15.6
+  ],
+  "recent.row0.tag": [
+   272.54,
+   1971.96,
+   71.46,
+   24.4
+  ],
+  "recent.row0.more": [
+   358,
+   1962.16,
+   44,
+   44
+  ],
+  "recent.row0.more.icon": [
+   370,
+   1974.16,
+   20,
+   20
+  ],
+  "recent.row1": [
+   34,
+   2030.16,
+   368,
+   91
+  ],
+  "recent.row1.cover": [
+   34,
+   2042.16,
+   44,
+   66
+  ],
+  "recent.row1.cover.spine": [
+   35.2,
+   2043.36,
+   4,
+   63.6
+  ],
+  "recent.row1.cover.ring": [
+   47.2,
+   2055.36,
+   20,
+   20
+  ],
+  "recent.row1.cover.dot": [
+   53.2,
+   2061.36,
+   8,
+   8
+  ],
+  "recent.row1.textBlock": [
+   92,
+   2056.86,
+   166.54,
+   36.6
+  ],
+  "recent.row1.title": [
+   92,
+   2056.86,
+   166.54,
+   18
+  ],
+  "recent.row1.subtitle": [
+   92,
+   2077.86,
+   166.54,
+   15.6
+  ],
+  "recent.row1.tag": [
+   272.54,
+   2062.96,
+   71.46,
+   24.4
+  ],
+  "recent.row1.more": [
+   358,
+   2053.16,
+   44,
+   44
+  ],
+  "recent.row1.more.icon": [
+   370,
+   2065.16,
+   20,
+   20
+  ],
+  "recent.row2": [
+   34,
+   2121.16,
+   368,
+   90
+  ],
+  "recent.row2.cover": [
+   34,
+   2133.16,
+   44,
+   66
+  ],
+  "recent.row2.cover.spine": [
+   35.2,
+   2134.36,
+   4,
+   63.6
+  ],
+  "recent.row2.cover.arch": [
+   45.2,
+   2146.36,
+   23.6,
+   26
+  ],
+  "recent.row2.textBlock": [
+   92,
+   2147.86,
+   188.56,
+   36.6
+  ],
+  "recent.row2.title": [
+   92,
+   2147.86,
+   188.56,
+   18
+  ],
+  "recent.row2.subtitle": [
+   92,
+   2168.86,
+   188.56,
+   15.6
+  ],
+  "recent.row2.tag": [
+   294.56,
+   2153.96,
+   49.44,
+   24.4
+  ],
+  "recent.row2.more": [
+   358,
+   2144.16,
+   44,
+   44
+  ],
+  "recent.row2.more.icon": [
+   370,
+   2156.16,
+   20,
+   20
+  ],
+  "bottomFade": [
+   0,
+   2240,
+   430,
+   150
+  ],
+  "nav": [
+   16,
+   2290,
+   398,
+   70
+  ],
+  "nav.home": [
+   25.5,
+   2299.5,
+   72.6,
+   51
+  ],
+  "nav.home.icon": [
+   50.8,
+   2305.9,
+   22,
+   22
+  ],
+  "nav.home.label": [
+   48.01,
+   2330.9,
+   27.59,
+   13.2
+  ],
+  "nav.library": [
+   102.1,
+   2299.5,
+   72.6,
+   51
+  ],
+  "nav.library.icon": [
+   127.4,
+   2305.9,
+   22,
+   22
+  ],
+  "nav.library.label": [
+   113.5,
+   2330.9,
+   49.79,
+   13.2
+  ],
+  "nav.scanner": [
+   178.7,
+   2299.5,
+   72.6,
+   51
+  ],
+  "nav.scanner.fab": [
+   185,
+   2269.5,
+   60,
+   60
+  ],
+  "nav.scanner.icon": [
+   201,
+   2285.5,
+   28,
+   28
+  ],
+  "nav.scanner.label": [
+   194.35,
+   2335.3,
+   41.3,
+   15.2
+  ],
+  "nav.clubs": [
+   255.3,
+   2299.5,
+   72.6,
+   51
+  ],
+  "nav.clubs.icon": [
+   280.6,
+   2305.9,
+   22,
+   22
+  ],
+  "nav.clubs.label": [
+   274.37,
+   2330.9,
+   34.45,
+   13.2
+  ],
+  "nav.profile": [
+   331.9,
+   2299.5,
+   72.6,
+   51
+  ],
+  "nav.profile.icon": [
+   357.2,
+   2305.9,
+   22,
+   22
+  ],
+  "nav.profile.label": [
+   355.18,
+   2330.9,
+   26.05,
+   13.2
+  ]
+ }
+}

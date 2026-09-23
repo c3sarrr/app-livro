@@ -1,0 +1,33 @@
+# FASE 0 — saídas literais dos comandos de verificação (prompt mestre §7, passos 3–4)
+# gerado em 2026-09-23 11:24 -0300, após a decisão A do item 0.6
+
+$ dart format --output=none --set-exit-if-changed lib test
+Formatted 11 files (0 changed) in 0.10 seconds.
+exit=0
+
+$ flutter analyze
+Try `flutter pub outdated` for more information.
+Analyzing app_livros...                                         
+No issues found! (ran in 6.4s)
+exit=0
+
+$ flutter test --reporter expanded
+00:00 +0: test/design_system/fonts_smoke_test.dart: fonte: "Continuar lendo" — Figtree 16 w700 ls 0.0 h 1.2
+[fonts_smoke] "Continuar lendo" (Figtree 16 w700 ls 0.0 h 1.2): largura 117.933 (esperado 117.89 ±0.1, Δ 0.043) | altura ascent+descent 19.200 (esperado 19.20 ±0.01, Δ -0.000) | paragraph.height 19.000 (round(esperado) = 19)
+00:00 +1: test/design_system/fonts_smoke_test.dart: fonte: "Boa noite," — Figtree 13 w500 ls 0.0 h 1.2
+[fonts_smoke] "Boa noite," (Figtree 13 w500 ls 0.0 h 1.2): largura 58.445 (esperado 58.43 ±0.1, Δ 0.015) | altura ascent+descent 15.600 (esperado 15.60 ±0.01, Δ 0.000) | paragraph.height 16.000 (round(esperado) = 16)
+00:00 +2: test/design_system/fonts_smoke_test.dart: fonte: "ENCONTRO" — Figtree 10 w700 ls 1.0 h 1.2
+[fonts_smoke] "ENCONTRO" (Figtree 10 w700 ls 1.0 h 1.2): largura 64.640 (esperado 64.63 ±0.1, Δ 0.010) | altura ascent+descent 12.000 (esperado 12.00 ±0.01, Δ 0.000) | paragraph.height 12.000 (round(esperado) = 12)
+00:00 +3: test/design_system/fonts_smoke_test.dart: fonte: "Continue" — Bricolage42 42 w800 ls -1.4 h 0.98
+[fonts_smoke] "Continue" (Bricolage42 42 w800 ls -1.4 h 0.98): largura 170.715 (esperado 170.69 ±0.1, Δ 0.025) | altura ascent+descent 41.160 (esperado 41.16 ±0.01, Δ 0.000) | paragraph.height 41.000 (round(esperado) = 41)
+00:00 +4: test/design_system/fonts_smoke_test.dart: fonte: "18" — Bricolage34 34 w800 ls -1.0 h 1.0
+[fonts_smoke] "18" (Bricolage34 34 w800 ls -1.0 h 1.0): largura 31.847 (esperado 31.86 ±0.1, Δ -0.013) | altura ascent+descent 34.000 (esperado 34.00 ±0.01, Δ -0.000) | paragraph.height 34.000 (round(esperado) = 34)
+00:00 +5: test/design_system/fonts_smoke_test.dart: fonte: "Também lendo" — Bricolage18 18 w800 ls -0.3 h 1.2
+[fonts_smoke] "Também lendo" (Bricolage18 18 w800 ls -0.3 h 1.2): largura 126.535 (esperado 126.54 ±0.1, Δ -0.005) | altura ascent+descent 21.600 (esperado 21.60 ±0.01, Δ -0.000) | paragraph.height 22.000 (round(esperado) = 22)
+00:00 +6: test/design_system/fonts_smoke_test.dart: fonte: "sua história." — InstrumentSerif 50 w400 itálico ls -0.6 h 0.98
+[fonts_smoke] "sua história." (InstrumentSerif 50 w400 itálico ls -0.6 h 0.98): largura 219.650 (esperado 219.65 ±0.1, Δ -0.000) | altura ascent+descent 49.000 (esperado 49.00 ±0.01, Δ 0.000) | paragraph.height 49.000 (round(esperado) = 49)
+00:00 +7: test/design_system/fonts_smoke_test.dart: fonte: "Capitu" — InstrumentSerif 36 w400 itálico ls -0.4 h 0.95
+[fonts_smoke] "Capitu" (InstrumentSerif 36 w400 itálico ls -0.4 h 0.95): largura 86.412 (esperado 86.41 ±0.1, Δ 0.002) | altura ascent+descent 34.200 (esperado 34.20 ±0.01, Δ 0.000) | paragraph.height 34.000 (round(esperado) = 34)
+00:00 +8: test/design_system/font_license_test.dart: licença OFL das fontes registrada no LicenseRegistry
+00:00 +9: All tests passed!
+exit=0

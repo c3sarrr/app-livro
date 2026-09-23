@@ -1,0 +1,8 @@
+# Arquivos que precisam ficar byte a byte iguais ao pacote de handoff.
+# Sem isto, o core.autocrlf=true do Git for Windows troca LF por CRLF no checkout
+# e quebra `sha256sum -c docs/handoff_checksums.txt` e as cópias "sem alteração" da FASE 0.
+design_handoff/** -text
+assets/** -text
+test/reference/*.dart -text
+tools/compare_images.py -text
+docs/handoff_checksums.txt -text

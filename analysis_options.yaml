@@ -1,0 +1,19 @@
+# Regras de análise do app de leitura.
+# Base: flutter_lints + as regras mínimas exigidas pela FASE 0 (design_handoff/fases/F00_preparacao.md).
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - design_handoff/** # pacote de handoff somente leitura
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_final_locals: true
+    avoid_print: true
+    always_declare_return_types: true
+    require_trailing_commas: true
