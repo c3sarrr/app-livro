@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_spacing.dart';
+import 'sections/also_reading_section.dart';
+import 'sections/continue_reading_hero.dart';
 import 'sections/header_section.dart';
 import 'sections/headline_section.dart';
 
@@ -39,9 +41,9 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: gaps[0]),
             _gutter(const HeadlineSection()),
             SizedBox(height: gaps[1]),
-            _gutter(const _Placeholder('hero', 275)),
+            _gutter(const ContinueReadingHero()),
             SizedBox(height: gaps[2]),
-            _gutter(const _Placeholder('alsoReading', 175.6)),
+            _gutter(const AlsoReadingSection()),
             SizedBox(height: gaps[3]),
             _gutter(const _Placeholder('today', 400.8)),
             SizedBox(height: gaps[4]),
