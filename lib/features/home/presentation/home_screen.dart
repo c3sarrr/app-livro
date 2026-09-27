@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_spacing.dart';
 import 'sections/also_reading_section.dart';
+import 'sections/book_club_ticket.dart';
 import 'sections/continue_reading_hero.dart';
+import 'sections/for_you_section.dart';
 import 'sections/header_section.dart';
 import 'sections/headline_section.dart';
+import 'sections/reading_day_card.dart';
 
 /// Tela Início (esqueleto da F02): ritmo vertical exato do arquivo — inset superior, as 8 seções como
 /// blocos vazios na altura de referência, gaps entre seções e padding inferior (total 2355,16 no canvas).
@@ -45,12 +48,12 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: gaps[2]),
             _gutter(const AlsoReadingSection()),
             SizedBox(height: gaps[3]),
-            _gutter(const _Placeholder('today', 400.8)),
+            _gutter(const ReadingDayCard()),
             SizedBox(height: gaps[4]),
             // O carrossel vai até as bordas (F08).
-            _fullBleed('forYou', const _Placeholder(null, 327)),
+            _fullBleed('forYou', const ForYouSection()),
             SizedBox(height: gaps[5]),
-            _gutter(const _Placeholder('club', 266.6)),
+            _gutter(const BookClubTicket()),
             SizedBox(height: gaps[6]),
             _gutter(const _Placeholder('recent', 334)),
           ],
@@ -85,17 +88,10 @@ Widget _fullBleed(String id, Widget child) => Stack(
 class _Placeholder extends StatelessWidget {
   const _Placeholder(this.id, this.height);
 
-  final String? id;
+  final String id;
   final double height;
 
-  // Variável local: um campo anulável não é promovido, e `ValueKey(id)` viraria `ValueKey<String?>`
-  // (diferente de `ValueKey<String>` na igualdade de Keys).
   @override
-  Widget build(BuildContext context) {
-    final id = this.id;
-    return SizedBox(
-      key: id == null ? null : ValueKey<String>(id),
-      height: height,
-    );
-  }
+  Widget build(BuildContext context) =>
+      SizedBox(key: ValueKey<String>(id), height: height);
 }

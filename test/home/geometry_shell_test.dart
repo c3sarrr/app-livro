@@ -102,10 +102,7 @@ void main() {
         // Altura total do conteúdo = padding do SingleChildScrollView + coluna.
         final content = tester.getSize(
           find
-              .descendant(
-                of: find.byType(SingleChildScrollView),
-                matching: find.byType(Padding),
-              )
+              .descendant(of: homeScrollView(), matching: find.byType(Padding))
               .first,
         );
         expect(
@@ -269,18 +266,13 @@ void main() {
         expect(scaffold.floatingActionButton, isNull);
         expect(scaffold.bottomNavigationBar, isNull);
         expect(scaffold.bottomSheet, isNull);
-        final scroll = tester.widget<SingleChildScrollView>(
-          find.byType(SingleChildScrollView),
-        );
+        final scroll = tester.widget<SingleChildScrollView>(homeScrollView());
         expect(scroll.primary, isTrue);
         expect(scroll.scrollDirection, Axis.vertical);
         expect(scroll.padding, const EdgeInsets.only(top: 62, bottom: 140));
         final column = tester.widget<Column>(
           find
-              .descendant(
-                of: find.byType(SingleChildScrollView),
-                matching: find.byType(Column),
-              )
+              .descendant(of: homeScrollView(), matching: find.byType(Column))
               .first,
         );
         expect(column.crossAxisAlignment, CrossAxisAlignment.stretch);
@@ -299,9 +291,7 @@ void main() {
           setCanvasView(tester, logical: const Size(390, 844), safeTop: top);
           await pumpApp(tester);
           expect(_rect(tester, 'header').top, expected);
-          final scroll = tester.widget<SingleChildScrollView>(
-            find.byType(SingleChildScrollView),
-          );
+          final scroll = tester.widget<SingleChildScrollView>(homeScrollView());
           expect(scroll.padding, EdgeInsets.only(top: expected, bottom: 140));
         },
       );
@@ -320,10 +310,7 @@ void main() {
           safeBottom: 34,
         );
         await pumpApp(tester);
-        await tester.drag(
-          find.byType(SingleChildScrollView),
-          const Offset(0, -800),
-        );
+        await tester.drag(homeScrollView(), const Offset(0, -800));
         await tester.pumpAndSettle();
         expect(homeScrollPosition(tester).pixels, greaterThan(700));
         await tester.binding.defaultBinaryMessenger.handlePlatformMessage(
@@ -380,20 +367,14 @@ void main() {
         );
 
         // No meio da rolagem a nav não se move.
-        await tester.drag(
-          find.byType(SingleChildScrollView),
-          const Offset(0, -700),
-        );
+        await tester.drag(homeScrollView(), const Offset(0, -700));
         await tester.pumpAndSettle();
         expect(position.pixels, greaterThan(600));
         expect(_rect(tester, 'nav').top, 744);
 
         // Até o fim.
         for (var i = 0; i < 3; i++) {
-          await tester.drag(
-            find.byType(SingleChildScrollView),
-            const Offset(0, -700),
-          );
+          await tester.drag(homeScrollView(), const Offset(0, -700));
           await tester.pumpAndSettle();
         }
         expect(position.pixels, position.maxScrollExtent);

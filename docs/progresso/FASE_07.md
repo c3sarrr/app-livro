@@ -1,0 +1,175 @@
+# FASE 7 — Seção 5: "Seu dia de leitura" (dial da meta, chips, gráfico semanal, selo)
+
+Checklist da fase (`design_handoff/fases/F07_seu_dia_de_leitura.md`), item por item. Um item só é marcado com evidência.
+Saídas literais dos comandos: `F07_verificacao.txt` · autorrevisão visual: `F07_comparacao.md`.
+
+- [x] 7.1 Cartão 350×400,8 `#FED170`, borda 1,5, raio 28, sombra 4/4, padding 18, gap 16, recorte
+  - **Construção** (`reading_day_card.dart`): `Semantics(seção "Seu dia de leitura")` > `NeoBox(today, #FED170, borda 1,5 tinta, raio 28, sombra 4/4, clip)` > `Stack(Clip.none)` com:
+    - os 2 círculos (`Positioned`, primeiros filhos);
+    - `Padding(18)` > `Column(stretch, min, gap 16)` com cabeçalho, linha da meta, cartão da semana e rodapé.
+  - **Tela:** em `home_screen.dart` o placeholder `today` virou `ReadingDayCard()`.
+  - **Geometria** (`geometry_today_test.dart`, "7.1"):
+    - 350 × 400,8 = 1,5 + 18 + 32 + 16 + 112 + 16 + 153,8 + 16 + 16 + 18 + 1,5;
+    - os 4 blocos a 19,5 das bordas, com 311 de largura e gap 16.
+  - **Estilo** (`style_today_test.dart`, "7.1"):
+    - `0xFFFED170`, `Border.all(1,5, tinta)`, raio 28;
+    - uma `BoxShadow` (4, 4), blur 0, spread 0, tinta;
+    - `ClipRRect` com raio 28 − 1,5 = 26,5, `antiAlias`, exatamente 1,5 dentro da borda;
+    - a `Stack` não recorta de novo: a seção tem 8 recortes, o do cartão e os dos 7 trilhos;
+    - `Padding(18)`, `Column(gap 16)`.
+  - **Pixel:** fundo `0xFFFED170` exato.
+- [x] 7.1 Círculos 153 e 101 (content-box), borda 1,5 `rgba(26,23,20,.14)`, em −46/−46 e −20/−20, atrás do conteúdo
+  - **Construção:** `NeoBox` 153 e 101 (150 + 3 e 98 + 3):
+    - só a borda 1,5 em `0x241A1714` (round(0,14 × 255) = 36), sem preenchimento;
+    - raio 76,5 / 50,5 (50 %), `ExcludeSemantics` (`aria-hidden`);
+    - `Positioned(right −46, top −46)` e `(right −20, top −20)`, os dois primeiros filhos da `Stack`.
+  - **Geometria:** (241,5; −44,5) e (267,5; −18,5) da seção, medidos a partir da padding box. Concêntricos em (318; 32).
+  - **Pixels:**
+    - no amarelo, em 3 pontos do traço: anel `0xFFDEB763` = src-over exato de `0x241A1714` sobre `#FED170`;
+    - onde o pequeno passa sob a pílula: `#FFFAF1`, porque o círculo pinta atrás do conteúdo;
+    - no trecho acima do cartão: papel `#F7F0E3`, porque o cartão o recorta.
+- [x] 7.2 Título misto numa linha (29,9) centrado em 32; pílula 84,23×32 (padding 0/11/0/8, gap 5, chama 17)
+  - **Construção:** `Row(today.header, spaceBetween, centro)` com:
+    - `Semantics(h3, headingLevel 3)` > `AppText.rich(TextSpan('Seu dia de ', cardTitleM, [TextSpan('leitura', cardSerifM)]))`;
+    - `NeoBox(today.streakPill, altura 32, #FFFAF1, borda 1,5, raio 999, padding 8/0/11/0)` > `Row(min, gap 5)` com a chama 17 e "12 dias".
+  - **Geometria** ("7.2"):
+    - título 156,77 × 29,900 a y + 1,05;
+    - pílula 84,232 × 32 encostada à direita;
+    - chama a 9,5/7,5 da borda externa;
+    - texto 5 depois da chama e 12,5 antes da borda direita (11 + 1,5).
+  - **Estilo:**
+    - `cardTitleM` = Bricolage20 20/800, height 1,2, ls −0,4;
+    - `cardSerifM` = InstrumentSerif itálico 23/400, height 1,3, ls −0,2;
+    - pílula `#FFFAF1`, borda 1,5, raio normalizado 16;
+    - "12 dias" `body13Bold` (Figtree 13, 800 → 700).
+  - **Texto:** uma linha "Seu dia de leitura" com baseline 810,080 (arquivo 810,08), de 39,500 a 196,270 (arquivo 196,26). "leitura" vai de 120,630 a 176,270 relativos (arquivo 120,62–176,26), na mesma baseline 43,32.
+- [x] 7.3 Dial: face r54 + traço 1,5; 31 marcações; arco 60% traço 10; pino (30,1; 91,6); "18" 34/1 ls −1 + "de 30 min" `#4A4238`
+  - **Construção:** `SizedBox(today.dial, 112)` > `Stack` com:
+    - `Positioned.fill` > `ExcludeSemantics` > `CustomPaint(today.dial.svg, GoalDialPainter(18/30))`;
+    - `Positioned.fill` > `Column(today.dial.center, centro)` com "18" e "de 30 min".
+  - **Geometria:**
+    - svg e centro medem 112 × 112, como o dial;
+    - "18" com 31,847 × 34 a y + 32,4;
+    - legenda logo abaixo; os dois centralizados (Δ < 10⁻⁹).
+  - **Estilo:**
+    - pintor com `progress` 0,6 = 18/30;
+    - o teste da F01 cobre o resto: face r 54 `#FFFAF1` + traço 1,5; 31 marcações (r 44, traço 2, 1,5 a cada 9,21, `0x591A1714`); arco r 44, traço 10, ponta redonda, do topo (165,88 de arco; arquivo 165,9); pino r 6 `#FF552E` + traço 1,5 em (30,137; 91,597) (arquivo 30,1; 91,6);
+    - `dialValue` = Bricolage34 34/800, height 1, ls −1;
+    - `dialCaption` = Figtree 11/700 `#4A4238`.
+  - **Pixels (11):**
+    - face `#FFFAF1`, traço da face em tinta, fora da face o amarelo do cartão;
+    - marcação às 9 h `0xFFAFABA4` (src-over .35 exato) e o vão entre marcações;
+    - arco às 3 h e às 6 h, e a ponta redonda a −93°;
+    - depois do pino, sem arco;
+    - pino `#FF552E` no centro, por cima do arco, e o traço dele.
+- [x] 7.4 Frase 15/600/1,3 com "12 min" 700, 2 linhas exatas; chips 5/9, borda 1,2, fundo .7, gap 6 (com quebra de linha)
+  - **Construção:** `Row(today.goalRow, gap 18, centro)` com o dial e `Expanded` > `Column(today.goalText, stretch, min, gap 10)`, que contém:
+    - `AppText.rich` com "Faltam " + **"12 min"** + o resto;
+    - `Wrap(today.chips, spacing 6, runSpacing 6)` com 2 `Pill`.
+  - **Geometria:**
+    - coluna 181 × 75,8 a y + 18,1;
+    - frase 181 × 39 (2 × 19,5);
+    - chips 10 abaixo, com 80,513 e 86,858 × 26,8 e gap 6.
+  - **Texto** (`text_today_test.dart`):
+    - "Faltam 12 min para fechar" / "a meta de hoje.", baselines 867,360 / 886,860 (arquivo idem);
+    - com o "a", a 1ª linha mediria 186,528 e estouraria 181 por 5,528 (arquivo: 5,55);
+    - "12 min" de 199,260 a 243,372 relativos (arquivo 199,28–243,39).
+  - **Estilo:**
+    - `goalSentence` = Figtree 15/600/1,3 e `goalSentenceStrong` = 15/700/1,3 (800 → 700);
+    - chips `0xB3FFFAF1` (round(0,7 × 255) = 179), borda 1,2 tinta, raio normalizado 13,4, padding 5/9;
+    - texto dos chips `label12Bold`.
+  - **Quebra de linha dos chips (flex-wrap):** num canvas de 360 a coluna tem 151. Os dois chips pedem 173,37, então o segundo desce 6 abaixo do primeiro e volta à esquerda: (169,50; 936,36), o mesmo da medição de 360 do arquivo. Os chips ocupam 151 × 59,6.
+  - **Pixels:** fundo `0xFFFFEECB` (src-over .7 exato), borda de 1,2 em tinta e o amarelo logo fora.
+- [x] 7.5 Cartão semana 311×153,8, padding 14/14/12, gap 8, cabeçalho por baseline
+  - **Construção:** `NeoBox(today.week, #FFFAF1, borda 1,5, raio 22, padding 14/14/12, sem clip)` > `Column(stretch, min, gap 8)` com:
+    - `Row(header, spaceBetween, baseline alfabética)`;
+    - `Semantics(gráfico)`;
+    - `Row(rótulos)`.
+  - **Geometria:**
+    - 311 × 153,8 = 1,5 + 14 + 15,6 + 8 + 80 + 8 + 13,2 + 12 + 1,5;
+    - cabeçalho 280 × 15,6 a 15,5 da borda;
+    - "4h 00min no total" encostado à direita e 0,95 mais abaixo, com a mesma baseline (Δ < 10⁻⁹).
+  - **Estilo:** decoração exata, sem sombra. "Esta semana" em `body13Bold`; o total em `caption12Muted` (Figtree 12/600 `#5B544B`).
+- [x] 7.6 7 colunas de 33,143 (gap 8); trilhos 80 com borda 1,2 / 1,5; hachuras corretas (listra 3/período 7, "/", origem interna)
+  - **Construção:** `SizedBox(today.week.chart, 80)` > `Stack(Clip.none)` com:
+    - `Row(end, gap 8)` de 7 `Expanded` > `_Bar`;
+    - a linha da meta (`Positioned`).
+  - **`_Bar`:** `NeoBox(barN, 80, borda 1,2/1,5, raio 999, clip)` > `Stack` com:
+    - `Positioned.fill` > `HatchPainter`;
+    - `Align(bottomCenter)` > `SizedBox(barN.fill)` > `TopBorderCrescentPainter`.
+  - **Geometria:** colunas de 33,142857 com gap 8, alinhadas embaixo; trilhos de 80.
+  - **Estilo:**
+    - bordas 1,2 nos trilhos 0–5 e 1,5 no 6; raio 999 → 16,571;
+    - recorte interno 15,371 / 15,071, `antiAlias`;
+    - listras `#EFE6D4` (0–5) e `#FDE2B2` (6) sobre `#FFFAF1`, cobrindo exatamente a padding box.
+  - **Pixels:**
+    - listra em t = 22,5 e base em t = 26 (t = (u + v)/√2 a partir do canto interno);
+    - a mesma cor seguindo a direção "/" com t constante;
+    - listra seguinte em t = 29,5;
+    - trilho de hoje `#FDE2B2`.
+- [x] 7.6 Preenchimentos com meia-lua 1,5 e alturas do arquivo; recorte pela curva do trilho
+  - **Geometria:**
+    - alturas 43, 60, 40, 30, 51, 73 e 24, vindas dos dados (D-10);
+    - largura 30,743 (30,143 no de hoje), igual à área interna;
+    - base encostada na borda de baixo.
+  - **Estilo:** `TopBorderCrescentPainter` com borda 1,5 tinta; preenchimento `#B6ACE4` (`weekColor`) nas barras 0–5 e `#FF552E` na 6.
+  - **Pixels:**
+    - meia-lua em tinta no topo das barras 0 e 6;
+    - preenchimentos `#B6ACE4` e `#FF552E`.
+  - **Recorte pela curva:** no canto inferior esquerdo da barra de hoje, a 15,82 do centro do raio, a borda do trilho continua em tinta. O mesmo ponto está dentro do preenchimento (raio 12; fica a 11,48 do centro do raio dele), então sem o recorte seria laranja.
+- [x] 7.7 Linha tracejada 288×1,5 em bottom 38, 64 traços, alpha .45, por cima das barras
+  - **Geometria:** 288 × 1,5, com left/right a −4 do gráfico e bottom 38.
+  - **Estilo:**
+    - `ChromiumDashPainter` horizontal, espessura 1,5, cor `0x731A1714` (round(0,45 × 255) = 115);
+    - 64 traços de 3 com vão de 1,5238 (ideal 1,5), o último terminando em 288;
+    - último filho da `Stack` do gráfico.
+  - **Pixels:** o traço sobre o preenchimento da barra 1 vale `0xFF706986` (src-over .45 exato sobre `#B6ACE4`), e o vão vale `#B6ACE4`. É pintado por cima.
+- [x] 7.7 Rótulos 11 px centralizados; "Hoje" 700 tinta
+  - **Construção:** `Row(today.week.labels, gap 8)` de 7 `Expanded` > `AppText(textAlign center)`, com as strings de `HomeFormatters.weekInitials`.
+  - **Geometria:** mesmas colunas das barras, 13,2 de altura, e o texto centrado na coluna (±10⁻³).
+  - **Estilo:** `weekDay` (Figtree 11/700 `#5B544B`) nas 6 primeiras e `micro11Bold` (11/700 tinta, 800 → 700) em "Hoje".
+  - **Texto:** 7/7 linhas com baseline 1099,810 (arquivo 1099,81). "Hoje" vai de 306,463 a 330,394 (arquivo 306,46–330,4).
+- [x] 7.8 Rodapé: brilho 16 + frase com "2 dias" 700, gap 8
+  - **Construção:** `Row(today.footer, gap 8, centro)` com:
+    - `AppSvg(sparkleSolid, 16)`;
+    - `AppText.rich` com "Mais " + **"2 dias"** + " para o selo de 14 dias" (`HomeFormatters.badgeHint`).
+  - **Geometria:**
+    - 311 × 16, com o brilho 16 × 16 à esquerda;
+    - frase a 8 dele, 193,671 × 15,6 a y + 0,2;
+    - 19,5 acima da base do cartão.
+  - **Estilo:** `body13Semi` (13/600) com "2 dias" em `body13Bold` (13/700).
+  - **Texto:** baseline 1144,610 (arquivo 1144,61), de 63,500 a 257,171 (arquivo 257,15). "2 dias" vai de 73,842 a 108,588 (arquivo 73,84–108,59).
+- [x] Geometria 49/49 · Texto OK · Estilo OK · Tema OK · Visual ≤ 0,5% · Não-regressão OK
+  - **Geometria:** 49/49 ids. O maior desvio é `today.footer.text.w` = 0,021 px.
+  - **Texto:**
+    - 17 textos e 18 linhas, com strings e quebras exatas;
+    - mais os 3 trechos inline ("leitura", "12 min", "2 dias");
+    - baselines com Δ 0,000; inícios e fins com Δ ≤ 0,031.
+  - **Estilo:** 16 testes, com 37 pontos de pixel @3x, todos no valor exato.
+  - **Tema:** para as 4 opções de `weekColorOptions`, só os preenchimentos 0–5 mudam (≈ 71 mil pixels, 0 fora deles); a barra de hoje continua `#FF552E`.
+  - **Semântica:**
+    - seção "Seu dia de leitura" com 18 filhos na ordem do documento;
+    - h3 de nível 3;
+    - gráfico com o `aria-label` literal e nada dentro;
+    - círculos, chama, desenho do dial e brilho fora da árvore;
+    - nenhuma ação na seção.
+  - **Visual:** `--rect 16,758,358,418` → `blur_mismatch_%` **0,0** (raw 1,2989, max 228) → PASSOU. No modo `--layout`, header, headline, hero e alsoReading repetem os números da F06 e today dá 0,0.
+  - **Resíduo:** só rasterização (`F07_comparacao.md`):
+    - bordas de glifo e o hinting da Instrument Serif, que somem a 10× → 3×;
+    - uma deriva de +0,02…+0,19 px da própria referência, do screenshot com `zoom: 10`.
+  - **Não-regressão:**
+    - acima (0, 0, 390, 766) e abaixo (0, 1172, 390, 1218) contra o golden APROVADO da F06: 0,0 / 0,0 / max 0;
+    - dos pixels alterados, 1.283.108 estão dentro do cartão com a sombra, e 1 encosta na aresta da sombra;
+    - testes F00–F06 verdes.
+- [x] `dart format` / `flutter analyze` (0) / `flutter test` verdes
+  - `Formatted 90 files (0 changed)`, exit 0.
+  - `No issues found!`, exit 0.
+  - `+305: All tests passed!`, exit 0: os 273 anteriores + 32 da F07 (geometria 10, texto 5, estilo 16, semântica 1).
+  - `design_handoff/` 131/131 OK.
+  - Suíte completa repetida mais 2 vezes: 3/3 execuções `+305`, nenhuma "did not complete".
+- [x] Relatório com lado-a-lado, heatmap e recorte ampliado das barras inspecionados
+  - Inspecionados:
+    - `F07_seu_dia_lado_a_lado.png` e `F07_seu_dia_heatmap.png`;
+    - recortes ampliados (referência | Flutter 3× | Flutter 10× → 3×) das barras (`F07_seu_dia_barras_zoom_4x.png`, `…_barra0_detalhe.png`, `…_barras_hoje_zoom_4x.png`, `…_barra_hoje_detalhe.png`), do dial, do cabeçalho, da frase com os chips e do rodapé;
+    - a sonda de escala.
+  - Análise em `F07_comparacao.md`; relatório em `RELATORIO_FASE_07.md`.

@@ -20,12 +20,25 @@ Future<void> pumpApp(
   await tester.pumpAndSettle();
 }
 
-/// Posição de rolagem da Início (o `SingleChildScrollView` primário da aba), mesmo com a aba fora da tela.
+/// A rolagem da Início: o `SingleChildScrollView` mais externo da HomeScreen (o primeiro na ordem da árvore).
+/// Desde a F08 a tela tem uma segunda rolagem, DENTRO dela: o carrossel horizontal de "Para você"
+/// (`forYou.carousel`, D-03). Sem filtrar por direção/`primary`, os asserts sobre eles continuam valendo.
+Finder homeScrollView({bool skipOffstage = true}) => find
+    .descendant(
+      of: find.byType(HomeScreen, skipOffstage: skipOffstage),
+      matching: find.byType(SingleChildScrollView, skipOffstage: skipOffstage),
+    )
+    .first;
+
+/// Posição de rolagem da Início (o `SingleChildScrollView` primário da aba), mesmo com a aba fora da tela: o
+/// `Scrollable` mais externo da HomeScreen (o do carrossel, desde a F08, fica dentro dele).
 ScrollPosition homeScrollPosition(WidgetTester tester) => tester
     .state<ScrollableState>(
-      find.descendant(
-        of: find.byType(HomeScreen, skipOffstage: false),
-        matching: find.byType(Scrollable, skipOffstage: false),
-      ),
+      find
+          .descendant(
+            of: find.byType(HomeScreen, skipOffstage: false),
+            matching: find.byType(Scrollable, skipOffstage: false),
+          )
+          .first,
     )
     .position;

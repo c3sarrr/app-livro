@@ -133,6 +133,9 @@ abstract final class HomeFormatters {
     return 'Minutos lidos por dia: ${days.join(', ')}';
   }
 
+  /// Motivo da recomendação: "Porque você lê Machado de Assis".
+  static String forYouReason(String author) => 'Porque você lê $author';
+
   /// Participantes além dos avatares exibidos: 11 − 3 → "+8".
   static String participantsExtra(int participantsCount, int shown) =>
       '+${participantsCount - shown}';
@@ -144,6 +147,18 @@ abstract final class HomeFormatters {
   /// "Dom Casmurro · até o cap. 100" (ponto médio U+00B7 com espaços).
   static String clubSubtitle(Book book, int untilChapter) =>
       '${book.title} · até o cap. $untilChapter';
+
+  /// Nome acessível do `<h3>` do clube: as duas partes com um espaço no lugar do `<br>` → "Leitoras de Capitu".
+  static String clubName(BookClub club) =>
+      '${club.namePrefix} ${club.nameHighlight}';
+
+  /// Legenda do progresso do grupo: 0,54 → "Grupo em 54%".
+  static String groupProgressLabel(double progress) =>
+      'Grupo em ${percent(progress)}';
+
+  /// Legenda do progresso da pessoa: 0,62 → "Você em 62%".
+  static String userProgressLabel(double progress) =>
+      'Você em ${percent(progress)}';
 
   /// "EPUB" · "PDF".
   static String formatLabel(BookFormat format) => switch (format) {

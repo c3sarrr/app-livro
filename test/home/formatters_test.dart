@@ -131,6 +131,20 @@ void main() {
       );
     });
 
+    test(
+      'forYouReason("Machado de Assis") → "Porque você lê Machado de Assis"',
+      () {
+        expect(
+          HomeFormatters.forYouReason(snap.forYou.reasonAuthor),
+          'Porque você lê Machado de Assis',
+        );
+        expect(
+          HomeFormatters.forYouReason('Aluísio Azevedo'),
+          'Porque você lê Aluísio Azevedo',
+        );
+      },
+    );
+
     test('participantsExtra(11, 3) → "+8" · aria "11 participantes"', () {
       final c = snap.club;
       expect(
@@ -154,6 +168,24 @@ void main() {
       expect(s, 'Dom Casmurro · até o cap. 100');
       final dot = String.fromCharCode(0x00B7);
       expect(s.indexOf(' $dot '), 'Dom Casmurro'.length);
+    });
+
+    test('clubName(club) → "Leitoras de Capitu" (espaço no lugar do <br>)', () {
+      expect(HomeFormatters.clubName(snap.club), 'Leitoras de Capitu');
+    });
+
+    test('groupProgressLabel(0,54) → "Grupo em 54%" · userProgressLabel(0,62) → "Você em 62%"', () {
+      expect(
+        HomeFormatters.groupProgressLabel(snap.club.groupProgress),
+        'Grupo em 54%',
+      );
+      expect(
+        HomeFormatters.userProgressLabel(snap.club.userProgress),
+        'Você em 62%',
+      );
+      // Derivados dos dados (o percentual sai de `percent`).
+      expect(HomeFormatters.groupProgressLabel(0.07), 'Grupo em 7%');
+      expect(HomeFormatters.userProgressLabel(1), 'Você em 100%');
     });
 
     test('recentSubtitle(...) → "Mary Shelley · EPUB" · "Machado de Assis · PDF" · "José de Alencar · EPUB"', () {
@@ -317,6 +349,8 @@ void main() {
           c.shownParticipants.length,
         ),
         HomeFormatters.clubSubtitle(c.book, c.untilChapter),
+        HomeFormatters.groupProgressLabel(c.groupProgress),
+        HomeFormatters.userProgressLabel(c.userProgress),
         for (final r in snap.recent) HomeFormatters.recentSubtitle(r),
         for (final r in snap.recent) HomeFormatters.recentStatusLabel(r.status),
         HomeFormatters.weekdayShort(c.nextMeeting),
@@ -334,6 +368,31 @@ void main() {
         isTrue,
         reason: streak,
       );
+      // Motivo de "Para você": texto solto depois do brilho do chip (espaços e \n do bundle em volta).
+      final reason = HomeFormatters.forYouReason(snap.forYou.reasonAuthor);
+      expect(
+        RegExp(r'>(?:\\n| )*' + RegExp.escape(reason) + r'(?:\\n| )*<')
+            .hasMatch(html),
+        isTrue,
+        reason: reason,
+      );
+      // Nome do clube: um único <h3> com as duas partes separadas por <br> (o nome acessível do
+      // `clubName` troca o <br> por um espaço).
+      // As duas partes são capturadas do HTML (texto do <h3> até o <br> e o texto do <span> itálico) e
+      // comparadas com os dados e com o nome acessível.
+      final h3 = RegExp(
+        r'>([^<>]+)<br><span style=' +
+            RegExp.escape(q) +
+            r'[^"\\]*' + // estilo do itálico (sem aspas nem barras)
+            RegExp.escape(q) +
+            r'>([^<>]+)' +
+            RegExp.escape('${close}span>${close}h3>'),
+      );
+      final match = h3.allMatches(html).toList();
+      expect(match, hasLength(1), reason: h3.pattern);
+      final (prefix, highlight) = (match.single[1]!, match.single[2]!);
+      expect((prefix, highlight), (c.namePrefix, c.nameHighlight));
+      expect(HomeFormatters.clubName(c), '$prefix $highlight');
     });
 
     test('frases com trecho em negrito (<strong>)', () {

@@ -45,10 +45,7 @@ void main() {
       expect(_router(tester).state.uri.path, AppRoutes.inicio);
       expect(_shell(tester).currentIndex, 0);
 
-      await tester.drag(
-        find.byType(SingleChildScrollView),
-        const Offset(0, -600),
-      );
+      await tester.drag(homeScrollView(), const Offset(0, -600));
       await tester.pumpAndSettle();
       final scrolled = homeScrollPosition(tester).pixels;
       expect(scrolled, greaterThan(500));
