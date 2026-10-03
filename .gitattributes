@@ -6,3 +6,4 @@ assets/** -text
 test/reference/*.dart -text
 tools/compare_images.py -text
 docs/handoff_checksums.txt -text
+handoff_v2/** -text
