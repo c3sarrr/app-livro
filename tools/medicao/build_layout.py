@@ -224,6 +224,10 @@ def build(p):
         if k in NAT:
             rec['naturalWidth'] = NAT[k]['maxContent']
             rec['minContentWidth'] = NAT[k]['minContent']
+            # reticências efetivas: text-overflow ellipsis E o texto não cabe na caixa de conteúdo
+            pad = sum(float(cs[f'padding{s_}'][:-2]) + float(cs[f'border{s_}Width'][:-2]) for s_ in ('Left', 'Right'))
+            if cs['textOverflow'] == 'ellipsis' and NAT[k]['maxContent'] - pad > e['w'] - pad + 0.01:
+                rec['ellipsis'] = True
         for a in ('aria', 'role', 'text'):
             if e.get(a):
                 rec[a] = e[a]

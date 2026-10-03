@@ -1,0 +1,78 @@
+// dart format off
+// GERADO AUTOMATICAMENTE por tools/medicao/gen_reference_dart.py — NÃO EDITE À MÃO.
+// Prancha 20 · Leitor — com controles — canvas 390×844, dp lógico = px CSS.
+// Medido no Chromium 141 com zoom 100 (bordas exatas de 1,5/1,3/1,2 px, métricas sem arredondamento).
+// ignore_for_file: lines_longer_than_80_chars
+import 'dart:ui';
+
+import 'ref_tipos.dart';
+
+const LeitorRefPrancha kRef20 = LeitorRefPrancha(
+  tela: '20',
+  slug: '20_leitor_controles',
+  prefix: 'r20',
+  canvas: Size(390.0, 844.0),
+  sections: <String, Rect>{
+    'r20.page': Rect.fromLTWH(28.0, 92.0, 334.0, 670.0),
+    'r20.footer': Rect.fromLTWH(28.0, 790.19, 334.0, 13.81),
+    'r20.fade': Rect.fromLTWH(0.0, 0.0, 390.0, 844.0),
+    'r20.topIsland': Rect.fromLTWH(14.0, 54.0, 362.0, 62.0),
+    'r20.bottomIsland': Rect.fromLTWH(14.0, 626.86, 362.0, 187.14),
+    'r20.timeChip': Rect.fromLTWH(195.0, 130.0, 221.95, 30.0),
+  },
+  elements: <String, LeitorRefElement>{
+    'r20.page': LeitorRefElement('r20.page', Rect.fromLTWH(28.0, 92.0, 334.0, 670.0), LeitorRefKind.box),
+    'r20.page.text': LeitorRefElement('r20.page', Rect.fromLTWH(28.0, 92.0, 334.0, 775.72), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Retórica dos namorados, dá-me', 54.65, 360.0, 118.54), LeitorRefLine('uma comparação exata e poética', 28.0, 340.39, 153.8), LeitorRefLine('para dizer o que foram aqueles', 28.0, 322.1, 189.06), LeitorRefLine('olhos de Capitu. Não me acode', 28.0, 321.2, 224.32), LeitorRefLine('imagem capaz de dizer, sem', 28.0, 295.46, 259.58), LeitorRefLine('quebra da dignidade do estilo, o', 28.0, 333.61, 294.84), LeitorRefLine('que eles foram e me fizeram.', 28.0, 302.05, 330.1), LeitorRefLine('Olhos de ressaca? Vá, de ressaca. É', 28.0, 357.5, 365.36), LeitorRefLine('o que me dá ideia daquela feição', 28.0, 336.62, 400.62), LeitorRefLine('nova. Traziam não sei que fluido', 28.0, 341.75, 435.88), LeitorRefLine('misterioso e enérgico, uma força', 28.0, 343.35, 471.14), LeitorRefLine('que arrastava para dentro, como a', 28.0, 355.57, 506.4), LeitorRefLine('vaga que se retira da praia, nos', 28.0, 324.32, 541.66), LeitorRefLine('dias de ressaca. Para não ser', 28.0, 297.89, 576.92), LeitorRefLine('arrastado, agarrei-me às outras', 28.0, 329.46, 612.18), LeitorRefLine('partes vizinhas, às orelhas, aos', 28.0, 325.41, 647.44), LeitorRefLine('braços, aos cabelos espalhados', 28.0, 321.73, 682.7), LeitorRefLine('pelos ombros; mas tão depressa', 28.0, 330.87, 717.96), LeitorRefLine('buscava as pupilas, a onda que', 28.0, 320.33, 753.22), LeitorRefLine('saía delas vinha crescendo, cava e', 28.0, 350.79, 788.48, hidden: true), LeitorRefLine('escura, ameaçando envolver-me,', 28.0, 345.21, 823.74, hidden: true), LeitorRefLine('puxar-me e tragar-me.', 28.0, 246.3, 859.0, hidden: true)]),
+    'r20.footer': LeitorRefElement('r20.footer', Rect.fromLTWH(28.0, 790.19, 334.0, 13.81), LeitorRefKind.box),
+    'r20.footer.pageLabel': LeitorRefElement('r20.footer', Rect.fromLTWH(28.0, 790.19, 87.22, 13.81), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('pág. 159 de 256', 28.0, 115.22, 801.12)]),
+    'r20.footer.percent': LeitorRefElement('r20.footer', Rect.fromLTWH(338.31, 790.19, 23.69, 13.81), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('62%', 338.31, 362.0, 801.12)]),
+    'r20.fade': LeitorRefElement('r20.fade', Rect.fromLTWH(0.0, 0.0, 390.0, 844.0), LeitorRefKind.box),
+    'r20.topIsland': LeitorRefElement('r20.topIsland', Rect.fromLTWH(14.0, 54.0, 362.0, 62.0), LeitorRefKind.box),
+    'r20.topIsland.close': LeitorRefElement('r20.topIsland', Rect.fromLTWH(23.5, 63.0, 44.0, 44.0), LeitorRefKind.box),
+    'r20.topIsland.close.icon': LeitorRefElement('r20.topIsland', Rect.fromLTWH(35.5, 75.0, 20.0, 20.0), LeitorRefKind.icon),
+    'r20.topIsland.titleBlock': LeitorRefElement('r20.topIsland', Rect.fromLTWH(77.5, 67.64, 181.0, 34.71), LeitorRefKind.box),
+    'r20.topIsland.title': LeitorRefElement('r20.topIsland', Rect.fromLTWH(77.5, 67.64, 181.0, 18.7), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Dom Casmurro', 77.5, 199.81, 82.61)]),
+    'r20.topIsland.author': LeitorRefElement('r20.topIsland', Rect.fromLTWH(77.5, 87.34, 181.0, 15.01), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Machado de Assis', 77.5, 179.4, 99.22)]),
+    'r20.topIsland.search': LeitorRefElement('r20.topIsland', Rect.fromLTWH(268.5, 63.0, 44.0, 44.0), LeitorRefKind.box),
+    'r20.topIsland.search.icon': LeitorRefElement('r20.topIsland', Rect.fromLTWH(280.0, 74.5, 21.0, 21.0), LeitorRefKind.icon),
+    'r20.topIsland.bookmark': LeitorRefElement('r20.topIsland', Rect.fromLTWH(322.5, 63.0, 44.0, 44.0), LeitorRefKind.box),
+    'r20.topIsland.bookmark.icon': LeitorRefElement('r20.topIsland', Rect.fromLTWH(333.5, 73.0, 22.0, 24.0), LeitorRefKind.icon),
+    'r20.bottomIsland': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(14.0, 626.86, 362.0, 187.14), LeitorRefKind.box),
+    'r20.bottomIsland.scrubber': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 658.36, 327.0, 26.0), LeitorRefKind.box),
+    'r20.bottomIsland.scrubber.track': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 663.36, 327.0, 16.0), LeitorRefKind.box),
+    'r20.bottomIsland.scrubber.fill': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(33.0, 664.86, 200.88, 13.0), LeitorRefKind.box),
+    'r20.bottomIsland.scrubber.fill.wave': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(228.88, 664.86, 10.0, 13.0), LeitorRefKind.icon),
+    'r20.bottomIsland.scrubber.knob': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(220.24, 657.36, 28.0, 28.0), LeitorRefKind.box),
+    'r20.bottomIsland.scrubber.bubble': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(234.24, 626.36, 68.09, 28.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(200.2, 626.36, 68.09, 28.0), lines: <LeitorRefLine>[LeitorRefLine('pág. 159', 244.24, 292.33, 644.74)]),
+    'r20.bottomIsland.scrubber.bubble.tail': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(263.28, 649.36, 10.0, 10.0), LeitorRefKind.box, visual: Rect.fromLTWH(227.17, 647.29, 14.14, 14.14)),
+    'r20.bottomIsland.progressRow': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 692.36, 327.0, 15.24), LeitorRefKind.box),
+    'r20.bottomIsland.progressRow.position': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 692.36, 132.76, 15.24), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('do livro · 256 pág.', 60.69, 164.26, 704.24)], linesAll: <LeitorRefLine>[LeitorRefLine('62% do livro · 256 pág.', 31.5, 164.26, 704.24)]),
+    'r20.bottomIsland.progressRow.position.percent': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 692.36, 26.21, 15.01), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('62%', 31.5, 57.71, 704.24)]),
+    'r20.bottomIsland.progressRow.timeLeft': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(286.42, 692.36, 72.08, 15.24), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('≈ 2 h 10 min', 286.42, 358.5, 704.47)]),
+    'r20.bottomIsland.tools': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 721.6, 327.0, 76.9), LeitorRefKind.box),
+    'r20.bottomIsland.tools.font': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(31.5, 735.1, 65.4, 63.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Fonte', 48.35, 80.05, 795.5)]),
+    'r20.bottomIsland.tools.font.circle': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(38.2, 735.1, 52.0, 44.0), LeitorRefKind.boxText, lines: <LeitorRefLine>[LeitorRefLine('Aa', 51.97, 76.43, 765.36)]),
+    'r20.bottomIsland.tools.theme': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(96.9, 735.1, 65.4, 63.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Tema', 114.74, 144.46, 795.5)]),
+    'r20.bottomIsland.tools.theme.circle': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(103.6, 735.1, 52.0, 44.0), LeitorRefKind.box),
+    'r20.bottomIsland.tools.theme.icon': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(119.1, 746.6, 21.0, 21.0), LeitorRefKind.icon),
+    'r20.bottomIsland.tools.notes': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(162.3, 735.1, 65.4, 63.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Grifos', 178.13, 211.87, 795.5)]),
+    'r20.bottomIsland.tools.notes.circle': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(169.0, 735.1, 52.0, 44.0), LeitorRefKind.box),
+    'r20.bottomIsland.tools.notes.icon': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(184.5, 746.6, 21.0, 21.0), LeitorRefKind.icon),
+    'r20.bottomIsland.tools.notes.badge': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(203.35, 728.6, 24.15, 22.0), LeitorRefKind.boxText, lines: <LeitorRefLine>[LeitorRefLine('12', 209.85, 221.0, 743.45)]),
+    'r20.bottomIsland.tools.annotate': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(227.7, 735.1, 65.4, 63.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Anotar', 241.39, 279.41, 795.5)]),
+    'r20.bottomIsland.tools.annotate.circle': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(234.4, 735.1, 52.0, 44.0), LeitorRefKind.box),
+    'r20.bottomIsland.tools.annotate.icon': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(249.9, 746.6, 21.0, 21.0), LeitorRefKind.icon),
+    'r20.bottomIsland.tools.toc': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(293.1, 735.1, 65.4, 63.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Sumário', 303.02, 348.58, 795.5)]),
+    'r20.bottomIsland.tools.toc.circle': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(299.8, 735.1, 52.0, 44.0), LeitorRefKind.box),
+    'r20.bottomIsland.tools.toc.icon': LeitorRefElement('r20.bottomIsland', Rect.fromLTWH(315.3, 746.6, 21.0, 21.0), LeitorRefKind.icon),
+    'r20.timeChip': LeitorRefElement('r20.timeChip', Rect.fromLTWH(195.0, 130.0, 221.95, 30.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(84.03, 130.0, 221.95, 30.0), lines: <LeitorRefLine>[LeitorRefLine('18 min hoje · contando sozinho', 226.5, 403.45, 149.38)]),
+    'r20.timeChip.icon': LeitorRefElement('r20.timeChip', Rect.fromLTWH(205.5, 137.5, 15.0, 15.0), LeitorRefKind.icon, visual: Rect.fromLTWH(94.53, 137.5, 15.0, 15.0)),
+  },
+  textDependentX: <String>{'r20.bottomIsland.progressRow.position', 'r20.bottomIsland.progressRow.position.percent', 'r20.bottomIsland.progressRow.timeLeft', 'r20.bottomIsland.scrubber.bubble', 'r20.bottomIsland.scrubber.bubble.tail', 'r20.bottomIsland.tools.notes.badge', 'r20.footer.pageLabel', 'r20.footer.percent', 'r20.timeChip'},
+  textDependentY: <String>{'r20.page.text'},
+  ellipsized: <String>{},
+  knifeEdges: <LeitorKnifeEdge>[
+    LeitorKnifeEdge('r20.page.text', 7, 'que eles foram e me fizeram.', 59.95, 0.711),
+    LeitorKnifeEdge('r20.page.text', 19, 'buscava as pupilas, a onda que', 41.672, 0.538),
+  ],
+);
