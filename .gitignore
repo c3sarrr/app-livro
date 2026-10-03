@@ -46,3 +46,8 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# G01: saída derivada da extração das pranchas (regenerável; só o relatório de hashes é versionado)
+tools/medicao/pranchas/*
+!tools/medicao/pranchas/extracao.json
+tools/medicao/tmp/

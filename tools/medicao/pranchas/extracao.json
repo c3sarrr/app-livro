@@ -1,0 +1,315 @@
+{
+ "fonte": "Redesign mobile — App de leitura (1).html",
+ "fonte_sha256": "1ff5ec4fc5413b5752ec35db1901a51562742621d4ff7edbfddf1b252720d740",
+ "pranchas": {
+  "19_leitor_limpo": {
+   "uuid": "91a97e1c-dead-4c20-b29c-ef926bb6717c",
+   "titulo": "19 · Leitor — modo limpo (e-book)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "paper"
+   ],
+   "arquivos": {
+    "assets/08cb5026-81ab-48c0-a347-ce542bb9e94a.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/28dc8134-f871-4680-93bd-44ff96fd9179.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/476408c9-8d74-4763-be6a-d742cea19780.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/4d9823d4-3d2c-42d5-9b43-352af04691d1.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/634e447d-ada6-4e1d-9b70-f4812869b7aa.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/78d4eadb-fbd2-4d55-8470-d273137cb403.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/838f573c-8b5a-4557-bf45-67efcb069f8f.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "original.html": "fa5d46127ed37bdfe54845ad7f144e624b237c6d4af95a6e47ad928482996eee",
+    "props.json": "b49c3e18830a84d5f3416e022f31ffd6a28ddb98c5d817eeb9681b39509f8e3d",
+    "template.html": "625d7f30357b14635e45f5a37ea7d2fcd5bc6d5ec72cc561fdb05df6afaa2516"
+   }
+  },
+  "20_leitor_controles": {
+   "uuid": "cc3d0f9b-9d1d-4535-8004-e25500451fad",
+   "titulo": "20 · Leitor — com controles",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/06d0329c-d8b5-4701-bb36-7ddfbd25b131.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/429c5279-06b6-41e1-a7be-d9d742c0dad1.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/7982df94-b687-4126-a6db-914e64cbec32.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/87c0291b-157e-44b5-bcf4-a70d48489717.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/8d4265f2-fab2-47d3-b612-7d9ecfd68f9b.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/c7b36c4e-dcf9-4bd7-a533-e280f894f8e4.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/fafdcbf5-9a12-4b33-8844-3f3c6168046c.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "original.html": "0c4df3f4a6e0882efff945a018cd0123fed2f5bc39141ed87e0ff56cfa98334b",
+    "props.json": "200642dcb842cc1ecc1c01387e1a75fc200e24a11754394634c7a1a66da7490b",
+    "template.html": "ab7751e73beb1bc445ec686f64730cceb67c948edf0e90b8c4cb79218d762a2b"
+   }
+  },
+  "21_selecao_texto": {
+   "uuid": "c43c6633-429a-4eaa-9c53-029271de779a",
+   "titulo": "21 · Leitor — seleção de texto",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "paper"
+   ],
+   "arquivos": {
+    "assets/4027d396-17fd-4a67-a471-bf203810ec9d.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/41983375-4fed-416d-9aa7-42abc337d300.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/6b46a25b-7206-40f0-bf60-f35aa3aae2e9.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/78d9b07d-8982-4614-8304-3aae19c31d4e.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/88fcb8ac-ae5a-462d-9bef-e0e49f029b9a.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/b4b35b1c-15e9-40c1-b8cb-94e023633f1b.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/fb56c7e1-4f94-4ed3-a9e1-a4e1059fbe30.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "original.html": "0884ac9a7dcc569543b3be41af7751908019d1d90293595f372865b7ece08bdf",
+    "props.json": "b49c3e18830a84d5f3416e022f31ffd6a28ddb98c5d817eeb9681b39509f8e3d",
+    "template.html": "7da6c8e903c259142b9104b9dee150ad270bcaf9dd8bba2d38e52ebf33b71518"
+   }
+  },
+  "22_modo_anotacao": {
+   "uuid": "936fe9dc-23a6-44cf-b6fd-ef154a373ce4",
+   "titulo": "22 · Leitor — modo anotação",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "ink",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/5a2b5088-abe7-4617-b551-1277192497c2.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/5b52d10f-1733-4c4b-b8ed-fdad08ff54ad.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/5ed3d859-9ccf-4225-a418-b7423154811d.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/7367843c-93e8-40f5-ab7f-cced02e54b42.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/79581b0e-e9e8-4686-af11-d7b0d9acd367.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/b5f46e90-01cc-454d-b781-1f725f9fe033.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/f391ead5-09ca-4750-b0ca-972946abbf94.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "original.html": "9268909eaf8c9c7cf8eb9f06e3835d71e50f3c4f66c3d9202c9dd82a09aa1d88",
+    "props.json": "c95069dafb664929c076b0325f23c72c16fbe5324d3b154ff3bdfb52e5a6c0ee",
+    "template.html": "71728e63a8aa4a727c5085cc79daf7a2b6bcf9daee4ebafec13a778ef6ef7317"
+   }
+  },
+  "23_ajustes_caneta": {
+   "uuid": "0feb996a-6c82-4598-a573-7535ea3aede4",
+   "titulo": "23 · Leitor — ajustes da caneta",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/19ac43bc-121c-4319-b56e-89c769e801a2.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/29f57701-c1e0-4b31-a451-d1b48c1abe74.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/609c44c0-bf97-4336-a950-c74271ae2dd4.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/92f7711d-ccc6-4536-89b9-0ef476676e82.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/cbc60886-6d98-48e9-beab-ea30f5d89552.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/cc5c0fbe-0189-445d-b56c-3cc3bbcd110b.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/eafff1cf-992d-4dc1-a08a-1b1bb72b9531.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "77f0b5f53451226bd95d07536390443710646d2e7285590c747828b37718ab6e",
+    "props.json": "200642dcb842cc1ecc1c01387e1a75fc200e24a11754394634c7a1a66da7490b",
+    "template.html": "0a99a1ab165721981cf7c6842fd614c612d2bbf103d7064a8d81027d6bba235f"
+   }
+  },
+  "23b_ajustes_marcatexto": {
+   "uuid": "d1cd8441-18fb-4140-9b29-82f48c6975e8",
+   "titulo": "23b · Leitor — ajustes do marca-texto",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/15d83275-0154-4f85-b138-032b5ee4dc3b.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/2fa5f783-34fe-471b-bdb8-5de17c689585.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/330ce068-dff6-4e5a-a5de-b18d5a170332.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/4e2bf63b-43a2-42e4-9629-cd6755089c94.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/8fa79fd2-27ed-4933-a719-4919753ca844.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/ba4b6a6a-f873-486d-b064-67f431ebafcd.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/bd170c01-84f0-4719-83d3-10b3abf494be.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "original.html": "e55e28efa1b098aac46c4d494cf9015056012a0dc189b074ec4e973a253a649e",
+    "props.json": "200642dcb842cc1ecc1c01387e1a75fc200e24a11754394634c7a1a66da7490b",
+    "template.html": "ace34a6f3604f29d813a1322b869e874ebfa87bf72c919e0bfd64c0a0d480031"
+   }
+  },
+  "24_abrindo_espaco": {
+   "uuid": "c7149b95-eeb7-4596-9cb1-dfc6a4cdcbf7",
+   "titulo": "24 · Leitor — abrindo espaço (arrastar)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/14b98546-d69c-41b8-a315-35a6c4e74b7a.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/688141fe-b2f1-4b12-a130-751189a997b9.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/69d8099f-cc86-4a2b-9500-908e4606ee7b.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/87e600f0-34ad-4bdd-8a9b-b786f3c18130.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/a6213d8e-bc55-47a0-b2c3-150ca3685bdd.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/c403e973-f9f8-4e8b-8202-f283a16c599e.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/f7c62585-f2f6-4732-bda5-84487d5ce1d3.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "original.html": "c69074da44680769991e70f941f549410b2f1c94304b4d05d469269c8733bf73",
+    "props.json": "200642dcb842cc1ecc1c01387e1a75fc200e24a11754394634c7a1a66da7490b",
+    "template.html": "84abfac551d50c7f0fb8fe01b83178df49e7190324d01fd27c88e1547ef1c4ea"
+   }
+  },
+  "24b_nota_mao": {
+   "uuid": "c432f17a-e26a-4527-902b-de71b6af0b4b",
+   "titulo": "24b · Leitor — nota à mão escrita",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/08d22de9-78e5-4a29-a4cb-8e9dd8c518a7.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/86d685fd-ca34-4e40-a8a4-5f38ccdb393a.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/8b0a752e-d4b1-4272-8b9c-cf2dbdc3bc1e.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/b1b8ea58-6677-442d-8e0c-7ef7bfbb3bea.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/b9099d19-b2c1-4ef7-b439-8ca8c8013f2c.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/ba9471f4-4da9-4c9b-a46c-bda7a1bb6a92.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/d2c4e2bf-8c03-4b28-8b5c-368dab229fd3.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "e441bb1c9d57b0d9acd96b54a1a44306943c67b210b118c7b57ca8f4c94f987e",
+    "props.json": "200642dcb842cc1ecc1c01387e1a75fc200e24a11754394634c7a1a66da7490b",
+    "template.html": "0571fcd62b71c0cf9a765c67d73c44a0f2189c7187c93f285c4ca2d4cbf76fd8"
+   }
+  },
+  "25_grifos_notas": {
+   "uuid": "34300c95-2aec-4ff2-9958-6ade53b122a5",
+   "titulo": "25 · Grifos e notas (Dom Casmurro)",
+   "canvas": [
+    390,
+    2170
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/006ab710-59a1-4dde-b4f5-b7ca38841a17.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/9768a2e9-a348-41fc-9938-970bd047d8d9.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/a7d33f96-9938-40f1-9052-ccbf7fa59308.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/cd2be5f5-77df-4a34-b5df-a31fd955a890.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/cfa90dc9-5aa4-4f03-9ff7-0f916ae0cb38.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/d64c66d9-22ca-426f-8118-5ce225d65d32.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/f8c1ef50-68c9-4d2b-816c-4c8ffcc48a2c.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "825ba6b98c23826777907b21c56144b47621f09a115c4bcb4e426889995d53b3",
+    "props.json": "dc8d71a06d88d0cf126023d62616294e15e1c6d1b13f9514dc0c60b01d906732",
+    "template.html": "9cc51fb49fff4c9e43c8801be6546947649e92c6a8c4ef4f564670515579742d"
+   }
+  },
+  "26_ajustes_leitura": {
+   "uuid": "62640628-f1ab-4357-8025-88ece7ac307f",
+   "titulo": "26 · Leitor — ajustes de leitura (Aa)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/1eb9a51a-2469-4e1a-91e6-3411884e53fd.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/22866ae7-aeb9-4532-a289-15564fbc0730.woff2": "ddb8c66035104e233fc024669183aad3738b6daa16deee2ebb1241bd0f98ace1",
+    "assets/438f9e56-f59e-459d-91b9-b9e74c7b01af.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/5315533e-744e-4cdb-b1c6-db6b60579c53.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/96e012f9-ee8f-4461-ba10-7e0a8c73296b.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/b47414ce-6971-4a3c-82c0-d43bacfe519b.woff2": "d64ba838ef5472bba248620ec4fd8b5aa7cf0db2908e0bb230600caf279ba7bc",
+    "assets/cf9074e1-9031-48f4-8c89-f0d7082a496b.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/dddcfd13-1be9-4b30-b20f-90c159f45547.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/e32bc26a-a37e-40fc-9e6a-2814db5d98ee.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "original.html": "298a7ea61ad6ffa8d7f51a0fb94a7cc9da24cb00a37974de297b4236a4d8cf12",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "template.html": "d74c8b40f51b1a2de3239b7ea6efe1018208652ac698c46903c6411fba941d22"
+   }
+  },
+  "26b_tema_noite": {
+   "uuid": "2a20b8b9-cd9b-42f9-8a72-ad2264b76722",
+   "titulo": "26b · Leitor — tema Noite (com controles)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "paper"
+   ],
+   "arquivos": {
+    "assets/363dc87c-c478-49d1-a807-8442806c6c22.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/620d4b43-0657-4fc7-980d-c1c1eeca0acf.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/81daac4f-2c56-477d-a4d2-4813f66a3362.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/8b67289f-8d05-4969-aefe-0d5f74fecf1d.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/93313983-9c65-46c1-9e04-8f6921955124.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/9a479a00-8cdb-443d-adf9-b7e378ff0b5d.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/9f4c83c2-f62b-459d-9f1b-df1c41f7a23e.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "original.html": "31b06cbe6610c014ba5adf86ddb3d9a5e2dc3fec62e1d01d2499aacde38ae5b0",
+    "props.json": "90813236382635881f07640ec9dbac7e384005054421db58055809d0d9a0ffb9",
+    "template.html": "10ad7ef0a758463d1e4f716596a335b03a5fc4cae2009f2fac91fa45b65609b9"
+   }
+  },
+  "27_sumario": {
+   "uuid": "f8ca91d9-9880-4373-85f3-c5428a75e416",
+   "titulo": "27 · Leitor — sumário",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/026ece85-d581-4bfa-9b4a-07939ffee5c4.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/695571f4-72f1-43c2-8c08-840f01c1d25d.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/83c62fb9-9e0d-410d-b97d-7471e662ef1f.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/894ac73f-5975-4448-bf69-116c8836ef47.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/8e1cd9af-7f3d-46c8-99ed-ed63ef63fbc0.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/d8fce103-261e-433f-a97c-ae5d59dada03.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/e43221c1-adef-4437-9695-a79b3163c602.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "original.html": "fc700e7a1c3bf17cfd72cafada54b34890c2154c00200dd9e4b7e43517bd2646",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "template.html": "fa89a0238ef6689c2075f5f3e0e7b4d06acf2f44d2e8bc55dc0a0329c8a7d7d7"
+   }
+  },
+  "27b_sumario_marcadas": {
+   "uuid": "9d9f0a48-10d1-4e8f-a54c-22eabbe2516d",
+   "titulo": "27b · Leitor — sumário, aba Marcadas",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/0a04b9a2-d5d5-4e48-9d5e-674c6243c26d.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/1ce815cb-d92d-4cef-a1db-4cd90f423a0a.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/542940f2-cce7-4756-b198-bb4eb4e5a6be.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/677b53ac-412b-4fb2-a4f4-3a5e2ceff337.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/df4b6f28-8045-41fb-a858-c246b5f0283d.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/ef160041-3ed6-467f-b1a1-5bb92e2f6ec6.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/f36aeeda-8528-495c-b898-52cae38eed1d.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "bd1f0227de1fc0f9787c6a948ad2253e87d74f2373ec3a47fe1646b9028ca498",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "template.html": "26a17afd9cc2db012890ea1c9b435972ca47b433e8539a64971e26364f7cec42"
+   }
+  }
+ }
+}
