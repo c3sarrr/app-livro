@@ -17,7 +17,7 @@
 | D-23 | Não desenhados → versão mínima provisória: editor de nota (folha com campo de texto), busca no livro, menu "Mais opções" (folha com Editar cor · Compartilhar no clube · Apagar) | Botões existem no arquivo; as telas não | PROPOSTA |
 | D-24 | Exportar: **Grátis** exporta os próprios grifos e notas de texto (Markdown e CSV) — portabilidade; **Pro** exporta tudo (inclui desenhos/notas à mão em PDF, histórico, todos os livros) | O doc v3 diz "Grátis: lista CSV". A LGPD prevê portabilidade dos dados do titular — restringir isso ao pago pode ser problemático (confirmar com advogado) | PROPOSTA — **pergunta Q4** |
 | D-25 | Modo convidado: dá para usar o app sem conta (tudo local); conta é exigida para social e para assinar | Alinha com "Grátis = só no celular"; reduz atrito | PROPOSTA — **pergunta Q3** |
-| D-26 | Preço: R$ 9,99/mês e R$ 79,99/ano, teste grátis 7 dias | Pedido do Cesar (memória do projeto); o doc v3 diz R$ 9,90/R$ 79,90 | PROPOSTA — **pergunta Q2** |
+| D-26 | Preço: R$ 9,99/mês e R$ 79,99/ano, teste grátis 7 dias | Pedido do Cesar (memória do projeto); o doc v3 diz R$ 9,90/R$ 79,90 | **APROVADA 03/10/2026** (preço; o teste grátis segue proposto) |
 | D-27 | Tempo automático: conta com leitor visível + app em primeiro plano; pausa após 120 s sem interação; descarta sessões < 10 s; página lida = ≥ 3 s na tela | "contando sozinho" sem inflar números | PROPOSTA |
 | D-28 | 1 mm de traço = 160/25,4 ≈ 6,299 dp lógicos; Fina/Média/Grossa = 0,6×/1×/1,8× | O Flutter não expõe o DPI físico de forma confiável | PROPOSTA |
 | D-29 | Tinta sobre o texto ancorada na palavra mais próxima, em unidades de em; tinta em espaço aberto em coordenadas normalizadas da caixa | "acompanha se a fonte mudar" (tela 23b) | PROPOSTA |
@@ -26,7 +26,7 @@
 | D-32 | Grifos sobrepostos: mesma cor → une; cor diferente → o novo substitui o trecho sobreposto (divide o antigo) | Evita pilhas ilegíveis | PROPOSTA |
 | D-33 | A cor `brand` é uma preferência global do app (Início + Leitor + tela 25), mesma lista de 4 opções | É a mesma prop nos dois arquivos | PROPOSTA |
 | D-34 | O mock da Início vira **fixture de teste**: um "mundo de referência" base (20/09/2026 20:00) + **um instantâneo por prancha** (as pranchas não saem todas de um único estado — Anexo 01 §14); produção usa só dados reais | Mantém os testes de fidelidade e ganha dados reais | PROPOSTA |
-| D-35 | Trocar `com.example.app_leitura` pelo identificador definitivo **antes** do 1º envio às lojas (não muda depois) | O Google Play recusa `com.example`; o id é permanente | PROPOSTA — **pergunta Q5** |
+| D-35 | Trocar `com.example.app_leitura` pelo identificador definitivo **antes** do 1º envio às lojas (não muda depois) | O Google Play recusa `com.example`; o id é permanente | PROPOSTA — Q5 adiada pelo Cesar ("decidir depois"); obrigatória até a G27 |
 | D-36 | Clubes com **proteção de spoiler**: post marcado com capítulo; membro só vê posts até o próprio capítulo (com opção "mostrar mesmo assim") | Meta "Até o cap. L" sugere leitura em ritmos diferentes | PROPOSTA (fora do arquivo — só com design) |
 | D-37 | Botão "Tema" alterna entre o último papel claro e Noite; ícone sol/lua como no arquivo | Atalho do tema na tela 20/26b | PROPOSTA |
 | D-38 | "Escolher outra cor" (tela 21) abre o mesmo seletor da tela 23 (roda + brilho + hex) | Reuso; sem tela nova | PROPOSTA |
@@ -68,6 +68,9 @@ Continuam **proibidos**: `google_fonts`, `flutter_screenutil`, kits de UI pronto
 Versões: sempre a estável mais recente compatível com Flutter 3.47.2 / Dart 3.13.2 (as do `F00_versoes.txt`), conferidas no pub.dev no dia da fase.
 
 ## 4. Perguntas para o Cesar (responder antes da fase indicada)
+
+Respostas em 03/10/2026: **Q2** = R$ 9,99/mês e R$ 79,99/ano · **Q5** = decidir depois (manter `com.example` até a G27) · **Q12** = sim, commitar e limpar (feito na G00) · **Q13** = **13 anos ou mais** (exige cuidados com adolescentes: verificação etária, padrões protetivos e textos legais — G05/G25).
+
 
 | # | Pergunta | Bloqueia |
 |---|---|---|
