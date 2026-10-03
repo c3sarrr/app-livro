@@ -1,16 +1,28 @@
 Fontes incluídas neste pacote (instâncias estáticas e subsets gerados a partir dos binários
-servidos pelo Google Fonts e embutidos no arquivo "Redesign mobile — App de leitura.html"):
+servidos pelo Google Fonts e embutidos/referenciados nos arquivos "Redesign mobile — App de leitura.html"
+e "Redesign mobile — App de leitura (1).html"):
 
 - Bricolage Grotesque — Copyright 2022 The Bricolage Grotesque Project Authors (https://github.com/ateliertriay/bricolage)
-  Arquivos: Bricolage{12,18,20,22,24,26,34,42}{,Ext,Vi}-ExtraBold.ttf
+  Arquivos: Bricolage{12,15_5,17,18,20,22,23,24,26,34,42}{,Ext,Vi}-ExtraBold.ttf
 - Figtree — Copyright 2022 The Figtree Project Authors (https://github.com/erikdkennedy/figtree)
-  Arquivos: Figtree{,Ext}-{Regular,Medium,SemiBold,Bold}.ttf
+  Arquivos: Figtree{,Ext}-{Regular,Medium,SemiBold,Bold,ExtraBold}.ttf
 - Instrument Serif — Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)
   Arquivos: InstrumentSerif{,Ext}-{Regular,Italic}.ttf
+- Literata — Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)
+  Arquivos: Literata{15_5,16,16_5,17,18,20_5,26}{,Ext,Vi}-Regular.ttf e Literata{15,17,19,25}{,Ext,Vi}-Medium.ttf
+            (instâncias estáticas)
+            Literata{,Italic}-VF{,Ext,Vi,Cyr,CyrExt,Gr,GrExt}.ttf (fonte variável, só convertida de WOFF2)
+- Lora — Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/Lora-Cyrillic),
+  with Reserved Font Name "Lora".
+  Arquivos: Lora-VF{,Ext,Vi,Cyr,CyrExt,Math,Sym}.ttf — SEM modificação: só a conversão de WOFF2 para TTF
+  (descompactação, mesmos dados e nomes internos). Por causa do Reserved Font Name, a Lora não é instanciada
+  nem renomeada aqui.
+- Atkinson Hyperlegible — Copyright 2020 Braille Institute of America, Inc.
+  Arquivos: AtkinsonHyperlegible{,Ext}-{Regular,Bold}.ttf (só convertidas de WOFF2)
 
-Modificações (versões modificadas conforme a licença): conversão WOFF2 -> TTF, instanciação de eixos
-variáveis (opsz/wght) com UPM 10000 e renomeação interna das famílias. Nenhum Reserved Font Name é declarado
-por estes projetos. As fontes continuam sob a SIL Open Font License 1.1, reproduzida abaixo, e não podem ser
+Modificações (versões modificadas conforme a licença) — só em Bricolage Grotesque, Figtree, Instrument Serif e
+Literata: conversão WOFF2 -> TTF, instanciação de eixos variáveis (opsz/wght) com UPM 10000 (nas instâncias geradas na G01, avanços
+recalculados pelo HVAR) e renomeação interna das famílias. Esses projetos não declaram Reserved Font Name. As fontes continuam sob a SIL Open Font License 1.1, reproduzida abaixo, e não podem ser
 vendidas separadamente.
 
 SIL OPEN FONT LICENSE

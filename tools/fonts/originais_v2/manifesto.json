@@ -1,0 +1,329 @@
+{
+ "_doc": "Subconjuntos de fonte que o arquivo \"Redesign mobile — App de leitura (1).html\" referencia pela internet (fonts.gstatic.com) — baixados exatamente dessas URLs em 03/10/2026 (no Windows; o contêiner de medição não acessa o gstatic). O subconjunto latin de cada família vem embutido no arquivo: handoff_v2/referencia/fontes_do_arquivo/. Licença: SIL OFL 1.1 (ver assets/fonts/LICENCAS_FONTES_OFL.txt).",
+ "arquivos": {
+  "AtkinsonHyperlegible-normal-400-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/atkinsonhyperlegible/v12/9Bt23C1KxNDXMspQ1lPyU89-1h6ONRlW45G07JIoSwQ.woff2",
+   "familia": "Atkinson Hyperlegible",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "61eeb0eb8b881a84d069e67be1723f5b353b0b9b866ad8e7ad9dba66cdc4dabd",
+   "bytes": 9384
+  },
+  "AtkinsonHyperlegible-normal-700-latin": {
+   "url": "https://fonts.gstatic.com/s/atkinsonhyperlegible/v12/9Bt73C1KxNDXMspQ1lPyU89-1h6ONRlW45G8Wbc9dCWP.woff2",
+   "familia": "Atkinson Hyperlegible",
+   "estilo": "normal",
+   "subset": "latin",
+   "pesosCss": [
+    "700"
+   ],
+   "sha256": "140e2bd25a7315c8a062508391426b0d8c3297400c947b8d847be28f73a199f0",
+   "bytes": 17524
+  },
+  "AtkinsonHyperlegible-normal-700-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/atkinsonhyperlegible/v12/9Bt73C1KxNDXMspQ1lPyU89-1h6ONRlW45G8Wbc9eiWPVFw.woff2",
+   "familia": "Atkinson Hyperlegible",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "700"
+   ],
+   "sha256": "840ced16f975d8abc2594b436d0206649e0c2a7327e36750ff849d3d37c3c02e",
+   "bytes": 9372
+  },
+  "BricolageGrotesque-normal-500-800-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y9K6as8bTXq_nANBjzKo3IeZx8z6up5BeSl9D4dj_x9PpZBMlGGInHEVA.woff2",
+   "familia": "Bricolage Grotesque",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "500-800"
+   ],
+   "sha256": "776f6dcaf03636cd69a5802c94808cc8896c0a66c8e9ce0fe147231b6ee01957",
+   "bytes": 30736
+  },
+  "BricolageGrotesque-normal-500-800-vietnamese": {
+   "url": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y9K6as8bTXq_nANBjzKo3IeZx8z6up5BeSl9D4dj_x9PpZBMlGHInHEVA.woff2",
+   "familia": "Bricolage Grotesque",
+   "estilo": "normal",
+   "subset": "vietnamese",
+   "pesosCss": [
+    "500-800"
+   ],
+   "sha256": "b50a9d90a5264f20d1e45be0b948fe947ddb3644557f1e85ef5d3bd06427c944",
+   "bytes": 12984
+  },
+  "Figtree-normal-400_800-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4q9DbZs.woff2",
+   "familia": "Figtree",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400",
+    "500",
+    "600",
+    "700",
+    "800"
+   ],
+   "sha256": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+   "bytes": 10280
+  },
+  "InstrumentSerif-italic-400-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/instrumentserif/v5/jizHRFtNs2ka5fXjeivQ4LroWlx-6zAjgn7MsNo.woff2",
+   "familia": "Instrument Serif",
+   "estilo": "italic",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "d0014821252a8a770bf7551641572f239a8ede83d75652d84fef0c3627751baf",
+   "bytes": 12384
+  },
+  "InstrumentSerif-normal-400-latin": {
+   "url": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zUTjg.woff2",
+   "familia": "Instrument Serif",
+   "estilo": "normal",
+   "subset": "latin",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+   "bytes": 21032
+  },
+  "InstrumentSerif-normal-400-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/instrumentserif/v5/jizBRFtNs2ka5fXjeivQ4LroWlx-6zsTjmbI.woff2",
+   "familia": "Instrument Serif",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "290e6267dd833bf5f899eba4c29ad0a9b09dbe53f6075b18af38057159e1ff20",
+   "bytes": 11604
+  },
+  "Literata-italic-400-cyrillic": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5Q5ClqOw.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "cyrillic",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "10c3a1aa210d990f0e9e2318fe8878626d8b91db240bfe6364accefaf440323e",
+   "bytes": 25892
+  },
+  "Literata-italic-400-cyrillic-ext": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5Z5ClqOw.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "cyrillic-ext",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "e26640e0c2cb813eca8e52c69bd8ea62f2d820964ae4905e6281bf2186745533",
+   "bytes": 8448
+  },
+  "Literata-italic-400-greek": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5X5ClqOw.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "greek",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "ef20b4fc54aaf82ff55353207aec9756de41516761dfd08c05fa08487294f5d2",
+   "bytes": 17488
+  },
+  "Literata-italic-400-greek-ext": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5Y5ClqOw.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "greek-ext",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "70687dd5780c23537aca61edad408a9a183086abdc0e09ce8b3acf53917b5a9b",
+   "bytes": 12312
+  },
+  "Literata-italic-400-latin": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5U5Ck.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "latin",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+   "bytes": 47856
+  },
+  "Literata-italic-400-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5a5ClqOw.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "7c31ade805969f9c83c70560b30f3a328ae41441a8d38c464ac5d8c45b606776",
+   "bytes": 37388
+  },
+  "Literata-italic-400-vietnamese": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3yQ6P12-iJxAIgLYT1PLs1a-t7PU0AbeE9KK5b5ClqOw.woff2",
+   "familia": "Literata",
+   "estilo": "italic",
+   "subset": "vietnamese",
+   "pesosCss": [
+    "400"
+   ],
+   "sha256": "74c7060615e91f87b5fb08af8c510b9371f6b70243c0ff8d2389f0f5bb313a2e",
+   "bytes": 10000
+  },
+  "Literata-normal-400_500-cyrillic": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3PQ6P12-iJxAIgLa78DkTtAoDhk0oVpaK3YLanFLHpPf2TbLi4J_XWTFCW.woff2",
+   "familia": "Literata",
+   "estilo": "normal",
+   "subset": "cyrillic",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "9e1faecc45e112755363617c4963371d53b66b409f2ca626e57e7d9cd4b9bd06",
+   "bytes": 48068
+  },
+  "Literata-normal-400_500-cyrillic-ext": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3PQ6P12-iJxAIgLa78DkTtAoDhk0oVpaK3YLanFLHpPf2TbLi4J_zWTFCW.woff2",
+   "familia": "Literata",
+   "estilo": "normal",
+   "subset": "cyrillic-ext",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "e7dd3038c6f29995387cc89858e3b073eb55fd060c05c277f390334d0bdbe8ac",
+   "bytes": 16548
+  },
+  "Literata-normal-400_500-greek": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3PQ6P12-iJxAIgLa78DkTtAoDhk0oVpaK3YLanFLHpPf2TbLi4J_LWTFCW.woff2",
+   "familia": "Literata",
+   "estilo": "normal",
+   "subset": "greek",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "440c36e0fc081d064a111fac7eefbc5b8e0f9bc5ee1e108609b327b6936482d5",
+   "bytes": 32004
+  },
+  "Literata-normal-400_500-greek-ext": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3PQ6P12-iJxAIgLa78DkTtAoDhk0oVpaK3YLanFLHpPf2TbLi4J_3WTFCW.woff2",
+   "familia": "Literata",
+   "estilo": "normal",
+   "subset": "greek-ext",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "1e19fc86642ab4a19277961e9bc47a844e802613ca47190f36ed856bdcbd48f6",
+   "bytes": 18512
+  },
+  "Literata-normal-400_500-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3PQ6P12-iJxAIgLa78DkTtAoDhk0oVpaK3YLanFLHpPf2TbLi4J__WTFCW.woff2",
+   "familia": "Literata",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "334990a82ce173e5169f5f0946c679f7d8c1ee8608eb29b56f85284802c712c9",
+   "bytes": 70804
+  },
+  "Literata-normal-400_500-vietnamese": {
+   "url": "https://fonts.gstatic.com/s/literata/v40/or3PQ6P12-iJxAIgLa78DkTtAoDhk0oVpaK3YLanFLHpPf2TbLi4J_7WTFCW.woff2",
+   "familia": "Literata",
+   "estilo": "normal",
+   "subset": "vietnamese",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "401a15e7e8161680a42a07e93b8a8169cd7a312b1511af89352ef135ef5eb30f",
+   "bytes": 17792
+  },
+  "Lora-normal-400_500-cyrillic": {
+   "url": "https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuMw77I-NP.woff2",
+   "familia": "Lora",
+   "estilo": "normal",
+   "subset": "cyrillic",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "c57d9ca3bd42e6bc093badc7744dd2059a78f66a3a4dc6ca40574480c870f553",
+   "bytes": 21232
+  },
+  "Lora-normal-400_500-cyrillic-ext": {
+   "url": "https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuMwf7I-NP.woff2",
+   "familia": "Lora",
+   "estilo": "normal",
+   "subset": "cyrillic-ext",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "0e523e4bc3c6308f002a3208ea2990cb4f64282d4fbb67c12f5726d13b66eef6",
+   "bytes": 23636
+  },
+  "Lora-normal-400_500-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuMwT7I-NP.woff2",
+   "familia": "Lora",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "2a2d9c22c9863086a23f5013fede1428585321812b25f2662542c39d02967c5e",
+   "bytes": 20088
+  },
+  "Lora-normal-400_500-math": {
+   "url": "https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuM3b7I-NP.woff2",
+   "familia": "Lora",
+   "estilo": "normal",
+   "subset": "math",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "a8c4cb778ab6202d22bdea2ccc8d7e7caf802cfe0a7ce37df7b212f82341468f",
+   "bytes": 29240
+  },
+  "Lora-normal-400_500-symbols": {
+   "url": "https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuM2T7I-NP.woff2",
+   "familia": "Lora",
+   "estilo": "normal",
+   "subset": "symbols",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "2df52199eac56e2ec7a735e609bb151bdab79422c3e73948f4b6580c66bb5a50",
+   "bytes": 17248
+  },
+  "Lora-normal-400_500-vietnamese": {
+   "url": "https://fonts.gstatic.com/s/lora/v37/0QIvMX1D_JOuMwX7I-NP.woff2",
+   "familia": "Lora",
+   "estilo": "normal",
+   "subset": "vietnamese",
+   "pesosCss": [
+    "400",
+    "500"
+   ],
+   "sha256": "98c22de85f6e83bcd6ae1a443e12e256fbc8de7142bec4f76b059f8ff9c2797e",
+   "bytes": 8992
+  }
+ }
+}

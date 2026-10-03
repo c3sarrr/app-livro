@@ -1,0 +1,281 @@
+{
+ "gerado_por": "tools/fonts/build_fonts.py",
+ "arquivos": [
+  {
+   "arquivo": "Figtree-ExtraBold.ttf",
+   "bytes": 29068
+  },
+  {
+   "arquivo": "FigtreeExt-ExtraBold.ttf",
+   "bytes": 15588
+  },
+  {
+   "arquivo": "Bricolage15_5-ExtraBold.ttf",
+   "bytes": 54312
+  },
+  {
+   "arquivo": "Bricolage15_5Ext-ExtraBold.ttf",
+   "bytes": 27860
+  },
+  {
+   "arquivo": "Bricolage15_5Vi-ExtraBold.ttf",
+   "bytes": 14760
+  },
+  {
+   "arquivo": "Bricolage17-ExtraBold.ttf",
+   "bytes": 54288
+  },
+  {
+   "arquivo": "Bricolage17Ext-ExtraBold.ttf",
+   "bytes": 27832
+  },
+  {
+   "arquivo": "Bricolage17Vi-ExtraBold.ttf",
+   "bytes": 14744
+  },
+  {
+   "arquivo": "Bricolage23-ExtraBold.ttf",
+   "bytes": 54288
+  },
+  {
+   "arquivo": "Bricolage23Ext-ExtraBold.ttf",
+   "bytes": 27840
+  },
+  {
+   "arquivo": "Bricolage23Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Literata15_5-Regular.ttf",
+   "bytes": 57132
+  },
+  {
+   "arquivo": "Literata15_5Ext-Regular.ttf",
+   "bytes": 54520
+  },
+  {
+   "arquivo": "Literata15_5Vi-Regular.ttf",
+   "bytes": 14804
+  },
+  {
+   "arquivo": "Literata16-Regular.ttf",
+   "bytes": 57120
+  },
+  {
+   "arquivo": "Literata16Ext-Regular.ttf",
+   "bytes": 54508
+  },
+  {
+   "arquivo": "Literata16Vi-Regular.ttf",
+   "bytes": 14788
+  },
+  {
+   "arquivo": "Literata16_5-Regular.ttf",
+   "bytes": 57136
+  },
+  {
+   "arquivo": "Literata16_5Ext-Regular.ttf",
+   "bytes": 54520
+  },
+  {
+   "arquivo": "Literata16_5Vi-Regular.ttf",
+   "bytes": 14804
+  },
+  {
+   "arquivo": "Literata17-Regular.ttf",
+   "bytes": 57124
+  },
+  {
+   "arquivo": "Literata17Ext-Regular.ttf",
+   "bytes": 54504
+  },
+  {
+   "arquivo": "Literata17Vi-Regular.ttf",
+   "bytes": 14788
+  },
+  {
+   "arquivo": "Literata18-Regular.ttf",
+   "bytes": 57140
+  },
+  {
+   "arquivo": "Literata18Ext-Regular.ttf",
+   "bytes": 54508
+  },
+  {
+   "arquivo": "Literata18Vi-Regular.ttf",
+   "bytes": 14788
+  },
+  {
+   "arquivo": "Literata20_5-Regular.ttf",
+   "bytes": 57148
+  },
+  {
+   "arquivo": "Literata20_5Ext-Regular.ttf",
+   "bytes": 54528
+  },
+  {
+   "arquivo": "Literata20_5Vi-Regular.ttf",
+   "bytes": 14808
+  },
+  {
+   "arquivo": "Literata26-Regular.ttf",
+   "bytes": 57140
+  },
+  {
+   "arquivo": "Literata26Ext-Regular.ttf",
+   "bytes": 54488
+  },
+  {
+   "arquivo": "Literata26Vi-Regular.ttf",
+   "bytes": 14784
+  },
+  {
+   "arquivo": "Literata15-Medium.ttf",
+   "bytes": 57200
+  },
+  {
+   "arquivo": "Literata15Ext-Medium.ttf",
+   "bytes": 54784
+  },
+  {
+   "arquivo": "Literata15Vi-Medium.ttf",
+   "bytes": 14828
+  },
+  {
+   "arquivo": "Literata17-Medium.ttf",
+   "bytes": 57276
+  },
+  {
+   "arquivo": "Literata17Ext-Medium.ttf",
+   "bytes": 54804
+  },
+  {
+   "arquivo": "Literata17Vi-Medium.ttf",
+   "bytes": 14832
+  },
+  {
+   "arquivo": "Literata19-Medium.ttf",
+   "bytes": 57280
+  },
+  {
+   "arquivo": "Literata19Ext-Medium.ttf",
+   "bytes": 54816
+  },
+  {
+   "arquivo": "Literata19Vi-Medium.ttf",
+   "bytes": 14828
+  },
+  {
+   "arquivo": "Literata25-Medium.ttf",
+   "bytes": 57292
+  },
+  {
+   "arquivo": "Literata25Ext-Medium.ttf",
+   "bytes": 54820
+  },
+  {
+   "arquivo": "Literata25Vi-Medium.ttf",
+   "bytes": 14820
+  },
+  {
+   "arquivo": "Literata-VF.ttf",
+   "bytes": 164368
+  },
+  {
+   "arquivo": "Literata-VFExt.ttf",
+   "bytes": 155800
+  },
+  {
+   "arquivo": "Literata-VFVi.ttf",
+   "bytes": 39628
+  },
+  {
+   "arquivo": "Literata-VFCyr.ttf",
+   "bytes": 87452
+  },
+  {
+   "arquivo": "Literata-VFCyrExt.ttf",
+   "bytes": 25940
+  },
+  {
+   "arquivo": "Literata-VFGr.ttf",
+   "bytes": 54840
+  },
+  {
+   "arquivo": "Literata-VFGrExt.ttf",
+   "bytes": 48548
+  },
+  {
+   "arquivo": "LiterataItalic-VF.ttf",
+   "bytes": 97840
+  },
+  {
+   "arquivo": "LiterataItalic-VFExt.ttf",
+   "bytes": 87728
+  },
+  {
+   "arquivo": "LiterataItalic-VFVi.ttf",
+   "bytes": 23052
+  },
+  {
+   "arquivo": "LiterataItalic-VFCyr.ttf",
+   "bytes": 48924
+  },
+  {
+   "arquivo": "LiterataItalic-VFCyrExt.ttf",
+   "bytes": 13636
+  },
+  {
+   "arquivo": "LiterataItalic-VFGr.ttf",
+   "bytes": 32820
+  },
+  {
+   "arquivo": "LiterataItalic-VFGrExt.ttf",
+   "bytes": 31636
+  },
+  {
+   "arquivo": "Lora-VF.ttf",
+   "bytes": 76152
+  },
+  {
+   "arquivo": "Lora-VFExt.ttf",
+   "bytes": 45476
+  },
+  {
+   "arquivo": "Lora-VFVi.ttf",
+   "bytes": 20612
+  },
+  {
+   "arquivo": "Lora-VFCyr.ttf",
+   "bytes": 44200
+  },
+  {
+   "arquivo": "Lora-VFCyrExt.ttf",
+   "bytes": 53656
+  },
+  {
+   "arquivo": "Lora-VFMath.ttf",
+   "bytes": 54744
+  },
+  {
+   "arquivo": "Lora-VFSym.ttf",
+   "bytes": 32044
+  },
+  {
+   "arquivo": "AtkinsonHyperlegible-Regular.ttf",
+   "bytes": 37880
+  },
+  {
+   "arquivo": "AtkinsonHyperlegibleExt-Regular.ttf",
+   "bytes": 21340
+  },
+  {
+   "arquivo": "AtkinsonHyperlegible-Bold.ttf",
+   "bytes": 38704
+  },
+  {
+   "arquivo": "AtkinsonHyperlegibleExt-Bold.ttf",
+   "bytes": 21352
+  }
+ ]
+}
