@@ -1,0 +1,16 @@
+{
+ "prancha": "19_leitor_limpo",
+ "prefixo": "r19",
+ "secoes": [
+  "r19.page",
+  "r19.footer"
+ ],
+ "ids": {
+  "4": "r19.frame",
+  "5": "r19.page",
+  "6": "r19.page.text",
+  "7": "r19.footer",
+  "8": "r19.footer.pageLabel",
+  "9": "r19.footer.percent"
+ }
+}
