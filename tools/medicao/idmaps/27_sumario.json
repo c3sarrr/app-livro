@@ -6,6 +6,9 @@
   "toc.fade",
   "toc.sheet"
  ],
+ "especiais": [
+  "toc.frame"
+ ],
  "ids": {
   "4": "toc.frame",
   "5": "toc.page",

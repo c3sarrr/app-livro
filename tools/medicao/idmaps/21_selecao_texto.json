@@ -6,6 +6,9 @@
   "r21.toolbar",
   "r21.footer"
  ],
+ "especiais": [
+  "r21.frame"
+ ],
  "ids": {
   "4": "r21.frame",
   "5": "r21.page",

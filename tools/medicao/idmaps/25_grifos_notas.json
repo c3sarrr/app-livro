@@ -4,7 +4,6 @@
  "secoes": [
   "hl.topBar",
   "hl.sparkle",
-  "hl.main",
   "hl.title",
   "hl.subtitle",
   "hl.search",
@@ -12,6 +11,10 @@
   "hl.filters",
   "hl.list",
   "hl.end"
+ ],
+ "especiais": [
+  "hl.frame",
+  "hl.main"
  ],
  "ids": {
   "4": "hl.frame",

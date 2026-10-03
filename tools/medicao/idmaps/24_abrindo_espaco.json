@@ -9,6 +9,9 @@
   "sp.toolShelf",
   "sp.island"
  ],
+ "especiais": [
+  "sp.frame"
+ ],
  "ids": {
   "4": "sp.frame",
   "5": "sp.page",

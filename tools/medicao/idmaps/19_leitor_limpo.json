@@ -5,6 +5,9 @@
   "r19.page",
   "r19.footer"
  ],
+ "especiais": [
+  "r19.frame"
+ ],
  "ids": {
   "4": "r19.frame",
   "5": "r19.page",

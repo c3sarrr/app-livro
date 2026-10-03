@@ -9,6 +9,9 @@
   "ann.toolShelf",
   "ann.island"
  ],
+ "especiais": [
+  "ann.frame"
+ ],
  "ids": {
   "4": "ann.frame",
   "5": "ann.page",

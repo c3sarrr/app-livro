@@ -171,7 +171,7 @@ def build(p):
         cs = ST[k]
         rec = {'tpl': int(tpl)}
         abs_ = [r2(e['x']), r2(e['y']), r2(e['w']), r2(e['h'])]
-        if k == f'{pre}.frame':
+        if k in im.get('especiais', [f'{pre}.frame']):
             rec.update({'type': 'box', 'tag': e['tag'], 'abs': abs_, 'style': style_summary(cs)})
             out['elements'][k] = rec
             continue

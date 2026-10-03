@@ -9,6 +9,9 @@
   "r20.bottomIsland",
   "r20.timeChip"
  ],
+ "especiais": [
+  "r20.frame"
+ ],
  "ids": {
   "4": "r20.frame",
   "5": "r20.page",

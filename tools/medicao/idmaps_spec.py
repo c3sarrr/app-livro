@@ -9,7 +9,8 @@ O prefixo da prancha (pranchas.json) é acrescentado na frente: 'page.text' → 
 Convenções (iguais às da v1): camelCase em inglês; o caminho segue a hierarquia visual
 (seção.grupo.item.parte); `.icon` = SVG de ícone, `.art` = ilustração, `.circle` = círculo do botão,
 `.label` = texto separado do botão, `.badge` = contador, `.pill` = pílula de destaque.
-Seções (recortes, tabelas e fases) = SECOES[slug]; todo id começa com o nome de uma seção (ou é 'frame').
+Seções (recortes, tabelas e fases) = SECOES[slug]; todo id começa com o nome de uma seção, ou é um
+contêiner especial sem seção (ESPECIAIS: 'frame' e o <main> da 25).
 
 Uso: python3 tools/medicao/idmaps_spec.py            → gera tools/medicao/idmaps/<slug>.json e confere
      python3 tools/medicao/idmaps_spec.py --mostrar 22 → lista tpl, tag, id e texto para revisão
@@ -292,8 +293,7 @@ SPEC['25_grifos_notas'] = [
         ('span', 'body.quote.ink2.line1'), ('span', 'body.quote.ink2.line2'), ('span', 'body.quote.after')]),
     ('div', 'end'), ('p', 'end.text'), ('br', None), ('a', 'end.cta'), ('span', 'end.cta.label'),
 ]
-SECOES['25_grifos_notas'] = ['topBar', 'sparkle', 'main', 'title', 'subtitle', 'search', 'types', 'filters',
-                             'list', 'end']
+SECOES['25_grifos_notas'] = ['topBar', 'sparkle', 'title', 'subtitle', 'search', 'types', 'filters', 'list', 'end']
 
 SPEC['26_ajustes_leitura'] = [
     ('div', 'frame'), ('article', 'page'), ('p', 'page.text'),
@@ -385,6 +385,8 @@ SPEC['27b_sumario_marcadas'] = [
 SECOES['27b_sumario_marcadas'] = ['page', 'fade', 'sheet']
 
 
+ESPECIAIS = {'frame', 'main'}
+
 # ───────────────────────── gerador ─────────────────────────
 def nos_medidos(slug):
     """Pré-ordem do template a partir do frame (tpl 4), sem o interior dos <svg>."""
@@ -418,7 +420,7 @@ def gerar(slug, prefixo):
         if full in ids:
             erros.append(f'{slug}: id repetido {full}')
         ids.add(full)
-        if nome != 'frame' and not any(nome == s or nome.startswith(s + '.') for s in SECOES[slug]):
+        if nome not in ESPECIAIS and not any(nome == s or nome.startswith(s + '.') for s in SECOES[slug]):
             erros.append(f'{slug}: {full} fora de qualquer seção')
         idmap[str(n['tpl'])] = full
     return idmap, erros
@@ -444,7 +446,9 @@ def main():
         total += len(idmap)
         with open(os.path.join(AQUI, 'idmaps', f"{p['slug']}.json"), 'w', encoding='utf-8', newline='\n') as f:
             json.dump({'prancha': p['slug'], 'prefixo': p['prefixo'],
-                       'secoes': [f"{p['prefixo']}.{s}" for s in SECOES[p['slug']]], 'ids': idmap},
+                       'secoes': [f"{p['prefixo']}.{s}" for s in SECOES[p['slug']]],
+                       'especiais': sorted(f"{p['prefixo']}.{e}" for e in ESPECIAIS if f"{p['prefixo']}.{e}" in idmap.values()),
+                       'ids': idmap},
                       f, ensure_ascii=False, indent=1)
             f.write('\n')
         print(f"{p['slug']:24s} {len(idmap):>4d} ids  {len(erros)} erro(s)")

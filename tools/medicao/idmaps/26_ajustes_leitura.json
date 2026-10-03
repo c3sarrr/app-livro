@@ -6,6 +6,9 @@
   "rs.livePill",
   "rs.sheet"
  ],
+ "especiais": [
+  "rs.frame"
+ ],
  "ids": {
   "4": "rs.frame",
   "5": "rs.page",

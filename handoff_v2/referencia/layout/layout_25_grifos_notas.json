@@ -28,12 +28,6 @@
    22,
    22
   ],
-  "hl.main": [
-   0,
-   122,
-   390,
-   2149.58
-  ],
   "hl.title": [
    16,
    122,
@@ -287,18 +281,11 @@
   },
   "hl.main": {
    "tpl": 16,
-   "section": "hl.main",
    "type": "box",
    "tag": "main",
    "abs": [
     0,
     122,
-    390,
-    2149.58
-   ],
-   "rel": [
-    0,
-    0,
     390,
     2149.58
    ],
@@ -310,22 +297,7 @@
      "bottom": "-101.58px",
      "left": "0px"
     }
-   },
-   "css": "position: absolute; left: 0; right: 0; top: 122px; padding: 0 16px",
-   "platformFonts": [
-    {
-     "family": "Figtree Light",
-     "postScript": "Figtree-Light",
-     "custom": true,
-     "glyphs": 20
-    },
-    {
-     "family": "Bricolage Grotesque 96pt ExtraBold",
-     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
-     "custom": true,
-     "glyphs": 7
-    }
-   ]
+   }
   },
   "hl.title": {
    "tpl": 17,

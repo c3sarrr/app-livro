@@ -11,6 +11,9 @@
   "mk.island",
   "mk.markerPanel"
  ],
+ "especiais": [
+  "mk.frame"
+ ],
  "ids": {
   "4": "mk.frame",
   "5": "mk.page",

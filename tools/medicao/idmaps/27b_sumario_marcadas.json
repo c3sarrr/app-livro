@@ -6,6 +6,9 @@
   "bm.fade",
   "bm.sheet"
  ],
+ "especiais": [
+  "bm.frame"
+ ],
  "ids": {
   "4": "bm.frame",
   "5": "bm.page",

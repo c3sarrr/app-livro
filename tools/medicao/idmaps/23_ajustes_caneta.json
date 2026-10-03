@@ -11,6 +11,9 @@
   "pen.island",
   "pen.penPanel"
  ],
+ "especiais": [
+  "pen.frame"
+ ],
  "ids": {
   "4": "pen.frame",
   "5": "pen.page",

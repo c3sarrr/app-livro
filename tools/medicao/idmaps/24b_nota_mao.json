@@ -9,6 +9,9 @@
   "hn.toolShelf",
   "hn.island"
  ],
+ "especiais": [
+  "hn.frame"
+ ],
  "ids": {
   "4": "hn.frame",
   "5": "hn.page",
