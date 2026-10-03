@@ -4,6 +4,14 @@ import 'dart:ui' as ui;
 import 'package:flutter/semantics.dart';
 import 'package:flutter/widgets.dart';
 
+/// Quebra de linha do parágrafo (CSS `text-wrap`).
+/// - [wrap]: quebrador guloso (padrão do CSS e do SkParagraph).
+/// - [pretty]: `text-wrap: pretty` do Chromium — evita a "viúva" (última linha com UMA palavra só)
+///   reequilibrando as últimas 4 linhas pelo critério de mínimos quadrados da folga (Knuth-Plass),
+///   mantendo o número de linhas. Só age quando o guloso deixa a viúva; caso contrário é igual a [wrap].
+///   Reproduz o arquivo em 360 px ("Faltam 12 min / para fechar a meta / de hoje.").
+enum AppTextWrap { wrap, pretty }
+
 typedef AppTextLine = ({
   String text,
   double left,
@@ -39,6 +47,7 @@ class AppText extends LeafRenderObjectWidget {
     this.ellipsis = false,
     this.textAlign = TextAlign.start,
     this.semanticsLabel,
+    this.textWrap = AppTextWrap.wrap,
   }) : span = TextSpan(text: text, style: style);
 
   const AppText.rich(
@@ -48,6 +57,7 @@ class AppText extends LeafRenderObjectWidget {
     this.ellipsis = false,
     this.textAlign = TextAlign.start,
     this.semanticsLabel,
+    this.textWrap = AppTextWrap.wrap,
   });
 
   final InlineSpan span;
@@ -55,6 +65,7 @@ class AppText extends LeafRenderObjectWidget {
   final bool ellipsis;
   final TextAlign textAlign;
   final String? semanticsLabel;
+  final AppTextWrap textWrap;
 
   @override
   RenderAppText createRenderObject(BuildContext context) => RenderAppText(
@@ -64,6 +75,7 @@ class AppText extends LeafRenderObjectWidget {
     textAlign: textAlign,
     textDirection: Directionality.of(context),
     semanticsLabel: semanticsLabel,
+    textWrap: textWrap,
   );
 
   @override
@@ -74,7 +86,8 @@ class AppText extends LeafRenderObjectWidget {
       ..ellipsis = ellipsis
       ..textAlign = textAlign
       ..textDirection = Directionality.of(context)
-      ..semanticsLabel = semanticsLabel;
+      ..semanticsLabel = semanticsLabel
+      ..textWrap = textWrap;
   }
 }
 
@@ -94,6 +107,7 @@ class RenderAppText extends RenderBox {
     this._textAlign = TextAlign.start,
     required this._textDirection,
     this._semanticsLabel,
+    this._textWrap = AppTextWrap.wrap,
   });
 
   static const TextHeightBehavior _heightBehavior = TextHeightBehavior(
@@ -143,6 +157,19 @@ class RenderAppText extends RenderBox {
     markNeedsSemanticsUpdate();
   }
 
+  AppTextWrap _textWrap;
+  set textWrap(AppTextWrap v) {
+    if (v == _textWrap) return;
+    _textWrap = v;
+    _invalidate();
+  }
+
+  // Cache do `text-wrap: pretty` para UMA largura: o span com as quebras forçadas ("\n" depois do
+  // espaço da quebra) e o parágrafo correspondente. Null = o guloso já serve nessa largura.
+  double _prettyWidth = double.nan;
+  InlineSpan? _prettySpan;
+  ui.Paragraph? _prettyParagraph;
+
   ui.Paragraph? _paragraph;
   double _laidOutWidth = double.nan;
   double _paintWidth = double.nan; // largura de layout escolhida em performLayout (paint/baseline sempre usam esta)
@@ -154,8 +181,16 @@ class RenderAppText extends RenderBox {
     _paragraph?.dispose();
     _paragraph = null;
     _laidOutWidth = double.nan;
+    _clearPretty();
     _disposePainted();
     markNeedsLayout();
+  }
+
+  void _clearPretty() {
+    _prettyParagraph?.dispose();
+    _prettyParagraph = null;
+    _prettySpan = null;
+    _prettyWidth = double.nan;
   }
 
   void _disposePainted() {
@@ -195,6 +230,157 @@ class RenderAppText extends RenderBox {
     return _paragraph!;
   }
 
+  /// Parágrafo FINAL na largura dada: o guloso ([_layoutAt]) ou, com [AppTextWrap.pretty], o
+  /// reequilibrado (quando o guloso deixa uma viúva).
+  ui.Paragraph _finalAt(double width) {
+    if (_textWrap == AppTextWrap.wrap || !width.isFinite) {
+      return _layoutAt(width);
+    }
+    if (_prettyWidth != width) {
+      _clearPretty();
+      _prettyWidth = width;
+      final breaks = _prettyBreaks(width);
+      if (breaks != null) {
+        _prettySpan = _withBreaks(_span, breaks, 0).$1;
+        final builder = _newBuilder(maxLines: _maxLines, ellipsis: _ellipsis);
+        _prettySpan!.build(builder);
+        _prettyParagraph = builder.build()
+          ..layout(ui.ParagraphConstraints(width: width));
+      }
+    }
+    return _prettyParagraph ?? _layoutAt(width);
+  }
+
+  /// Span efetivamente diagramado na largura dada (com as quebras do `pretty`, se houver).
+  InlineSpan _spanAt(double width) {
+    _finalAt(width);
+    return _prettySpan ?? _span;
+  }
+
+  /// Quebras do `text-wrap: pretty` (offsets onde cada linha nova começa, no texto puro), ou null se o
+  /// guloso não deixa viúva / não há alternativa melhor.
+  Set<int>? _prettyBreaks(double width) {
+    final text = _span.toPlainText(includeSemanticsLabels: false);
+    if (text.contains('\n')) return null;
+    final greedy = _layoutAt(width);
+    final n = greedy.computeLineMetrics().length;
+    if (n < 2) return null;
+    final ranges = _lineRanges(greedy, text, n);
+    final lastLine = text
+        .substring(ranges[n - 1].start, ranges[n - 1].end)
+        .trim();
+    // sem viúva: o pretty do Chromium mantém o guloso
+    if (lastLine.contains(' ')) return null;
+    final first = math.max(0, n - 4); // janela: as últimas 4 linhas
+    final start = ranges[first].start;
+    final end = text.length;
+    final linesInWindow = n - first;
+
+    // Larguras medidas numa linha única infinita (mesma modelagem de glifos do parágrafo).
+    final builder = _newBuilder(maxLines: null, ellipsis: false);
+    _span.build(builder);
+    final measure = builder.build()
+      ..layout(const ui.ParagraphConstraints(width: double.infinity));
+    double widthOf(int a, int b) {
+      var e = b;
+      while (e > a && text[e - 1] == ' ') {
+        e--;
+      }
+      if (e <= a) return 0;
+      final boxes = measure.getBoxesForRange(a, e);
+      if (boxes.isEmpty) return 0;
+      return boxes.map((x) => x.right).reduce(math.max) -
+          boxes.map((x) => x.left).reduce(math.min);
+    }
+
+    final points = <int>[
+      start,
+      for (var i = start + 1; i < end; i++)
+        if (text[i - 1] == ' ' && text[i] != ' ') i,
+    ];
+    final memo = <(int, int), (double, List<int>)?>{};
+    // Melhor divisão de text[points[i]..end) em `left` linhas: (pontuação, inícios das linhas seguintes).
+    (double, List<int>)? best(int i, int left) {
+      final key = (i, left);
+      if (memo.containsKey(key)) return memo[key];
+      (double, List<int>)? result;
+      final a = points[i];
+      if (left == 1) {
+        final w = widthOf(a, end);
+        final words = text.substring(a, end).trim();
+        if (w <= width + 1e-6 && words.contains(' ')) result = (0.0, <int>[]);
+      } else {
+        for (var j = i + 1; j < points.length; j++) {
+          final w = widthOf(a, points[j]);
+          if (w > width + 1e-6) break;
+          final rest = best(j, left - 1);
+          if (rest == null) continue;
+          final score = (width - w) * (width - w) + rest.$1;
+          if (result == null || score < result.$1) {
+            result = (score, <int>[points[j], ...rest.$2]);
+          }
+        }
+      }
+      memo[key] = result;
+      return result;
+    }
+
+    final solution = best(0, linesInWindow);
+    measure.dispose();
+    if (solution == null) return null;
+    final greedyBreaks = {for (var l = first + 1; l < n; l++) ranges[l].start};
+    final chosen = solution.$2.toSet();
+    if (chosen.length == greedyBreaks.length &&
+        chosen.containsAll(greedyBreaks)) {
+      return null;
+    }
+    return {
+      for (var l = 1; l <= first; l++)
+        ranges[l].start, // linhas antes da janela: iguais ao guloso
+      ...chosen,
+    };
+  }
+
+  /// Copia [span] inserindo "\n" antes dos offsets [breaks] (texto puro). Devolve (span, offset final).
+  static (InlineSpan, int) _withBreaks(
+    InlineSpan span,
+    Set<int> breaks,
+    int offset,
+  ) {
+    if (span is! TextSpan) {
+      throw FlutterError(
+        'AppText só aceita TextSpan (recebeu ${span.runtimeType}).',
+      );
+    }
+    String? text = span.text;
+    if (text != null) {
+      final out = StringBuffer();
+      for (var i = 0; i < text.length; i++) {
+        if (breaks.contains(offset + i) && i + offset > 0) out.write('\n');
+        out.write(text[i]);
+      }
+      offset += text.length;
+      text = out.toString();
+    }
+    final children = <InlineSpan>[];
+    for (final child in span.children ?? const <InlineSpan>[]) {
+      final (copy, next) = _withBreaks(child, breaks, offset);
+      children.add(copy);
+      offset = next;
+    }
+    return (
+      TextSpan(
+        text: text,
+        style: span.style,
+        children: span.children == null ? null : children,
+        semanticsLabel: span.semanticsLabel,
+        locale: span.locale,
+        spellOut: span.spellOut,
+      ),
+      offset,
+    );
+  }
+
   /// Altura exata (CSS) do parágrafo diagramado: soma de `ascent + descent` de cada linha
   /// (`ui.Paragraph.height` soma as alturas arredondadas pelo SkParagraph).
   static double _exactHeight(ui.Paragraph p) {
@@ -221,13 +407,13 @@ class RenderAppText extends RenderBox {
   Size _sizeFor(BoxConstraints c) {
     final natural = _layoutAt(double.infinity).maxIntrinsicWidth;
     final width = c.hasTightWidth ? c.maxWidth : math.min(c.maxWidth, natural);
-    final p = _layoutAt(_layoutWidthFor(c));
+    final p = _finalAt(_layoutWidthFor(c));
     return c.constrain(Size(width, _exactHeight(p)));
   }
 
   /// Parágrafo diagramado na largura final (reexecuta o layout do ui.Paragraph se uma medição intrínseca/seca
   /// posterior o tiver diagramado em outra largura).
-  ui.Paragraph get _final => _layoutAt(_paintWidth);
+  ui.Paragraph get _final => _finalAt(_paintWidth);
 
   bool get _isStartAligned =>
       _textAlign == TextAlign.left ||
@@ -301,7 +487,8 @@ class RenderAppText extends RenderBox {
   /// várias linhas → um parágrafo de linha única por linha, cada um na posição exata do CSS.
   void _buildPaintPlan() {
     _disposePainted();
-    final p = _layoutAt(_paintWidth);
+    final p = _finalAt(_paintWidth);
+    final span = _spanAt(_paintWidth);
     final lines = p.computeLineMetrics();
     if (lines.isEmpty) return;
     final start = _isStartAligned;
@@ -323,7 +510,7 @@ class RenderAppText extends RenderBox {
       _textAlign != TextAlign.justify,
       'AppText: justify com várias linhas não é suportado.',
     );
-    final text = _span.toPlainText(includeSemanticsLabels: false);
+    final text = span.toPlainText(includeSemanticsLabels: false);
     final ranges = _lineRanges(p, text, lines.length);
     final ellipsizeLast = _ellipsis && p.didExceedMaxLines;
     final painted = <_PaintedLine>[];
@@ -334,7 +521,7 @@ class RenderAppText extends RenderBox {
       final end = last ? text.length : range.end;
       if (range.start < end) {
         final builder = _newBuilder(maxLines: last ? 1 : null, ellipsis: last);
-        _addRange(builder, _span, range.start, end, 0);
+        _addRange(builder, span, range.start, end, 0);
         final lineParagraph = builder.build()
           ..layout(ui.ParagraphConstraints(width: _paintWidth));
         final metrics = lineParagraph.computeLineMetrics();
@@ -368,10 +555,10 @@ class RenderAppText extends RenderBox {
       _layoutAt(double.infinity).maxIntrinsicWidth;
   @override
   double computeMinIntrinsicHeight(double width) =>
-      _exactHeight(_layoutAt(width));
+      _exactHeight(_finalAt(width));
   @override
   double computeMaxIntrinsicHeight(double width) =>
-      _exactHeight(_layoutAt(width));
+      _exactHeight(_finalAt(width));
   @override
   Size computeDryLayout(BoxConstraints constraints) => _sizeFor(constraints);
 
@@ -389,7 +576,7 @@ class RenderAppText extends RenderBox {
     BoxConstraints constraints,
     TextBaseline baseline,
   ) {
-    final p = _layoutAt(_layoutWidthFor(constraints));
+    final p = _finalAt(_layoutWidthFor(constraints));
     return baseline == TextBaseline.alphabetic
         ? p.alphabeticBaseline
         : p.ideographicBaseline;
@@ -437,7 +624,8 @@ class RenderAppText extends RenderBox {
   List<AppTextLine> debugLines() {
     final p = _final;
     final dx = _dx;
-    final text = _span.toPlainText(includeSemanticsLabels: false);
+    final text = _spanAt(_paintWidth)
+        .toPlainText(includeSemanticsLabels: false);
     final metrics = p.computeLineMetrics();
     final buffers = List.generate(metrics.length, (_) => StringBuffer());
     final starts = List<int?>.filled(metrics.length, null);
@@ -474,6 +662,7 @@ class RenderAppText extends RenderBox {
   @override
   void dispose() {
     _paragraph?.dispose();
+    _clearPretty();
     _disposePainted();
     super.dispose();
   }

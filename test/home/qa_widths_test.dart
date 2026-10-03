@@ -98,10 +98,12 @@ void main() {
       );
       expect(rectOf(tester, 'hero.title').width, 151);
 
-      // 2) Frase da meta em 3 linhas (em 390 são 2): "Faltam 12 min para fechar / a meta / de hoje."
+      // 2) Frase da meta em 3 linhas (em 390 são 2). `text-wrap: pretty`: o guloso daria
+      //    "Faltam 12 min para / fechar a meta de / hoje." (viúva); a referência medida w360 tem
+      //    "Faltam 12 min / para fechar a meta / de hoje." (corrigido na G00 — antes só a contagem era conferida).
       final sentence = linesOf(tester, 'today.goalText.sentence');
       debugPrint('[F13 360] frase da meta: $sentence');
-      expect(sentence.length, 3);
+      expect(sentence, ['Faltam 12 min', 'para fechar a meta', 'de hoje.']);
       expect(
         rectOf(tester, 'today.goalText.sentence').height,
         moreOrLessEquals(3 * 19.5, epsilon: 1e-3),

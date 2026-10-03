@@ -188,8 +188,10 @@ class _GoalRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 10,
             children: [
-              // line-height 1,3; quebra em "Faltam 12 min para fechar" / "a meta de hoje." (o "a" estouraria
-              // os 181 por 5,55 — o `text-wrap: pretty` do arquivo dá o mesmo resultado do quebrador guloso).
+              // line-height 1,3; `text-wrap: pretty` do arquivo. Em 390: "Faltam 12 min para fechar" /
+              // "a meta de hoje." (igual ao guloso — o "a" estouraria os 181 por 5,55). Em 360 o guloso deixaria
+              // a viúva "hoje." e o pretty reequilibra: "Faltam 12 min" / "para fechar a meta" / "de hoje."
+              // (referência medida w360; corrigido na G00).
               AppText.rich(
                 TextSpan(
                   text: remaining.before,
@@ -203,6 +205,7 @@ class _GoalRow extends StatelessWidget {
                   ],
                 ),
                 key: const ValueKey('today.goalText.sentence'),
+                textWrap: AppTextWrap.pretty,
               ),
               // flex-wrap: wrap com gap 6 nos dois sentidos (em 360 o segundo chip desce).
               Wrap(
