@@ -1,0 +1,571 @@
+{
+ "meta": {
+  "source": "Redesign mobile — App de leitura (1).html",
+  "prancha": "19_leitor_limpo",
+  "titulo": "19 · Leitor — modo limpo (e-book)",
+  "canvas": [
+   390,
+   844
+  ],
+  "prefixo": "r19",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), prancha isolada do bundle aninhado, rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "paper": "#F8F1E4"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "r19.page": [
+   28,
+   92,
+   334,
+   670
+  ],
+  "r19.footer": [
+   28,
+   790.19,
+   334,
+   13.81
+  ]
+ },
+ "elements": {
+  "r19.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "style": {
+    "bg": "#F8F1E4",
+    "overflow": "hidden"
+   }
+  },
+  "r19.page": {
+   "tpl": 5,
+   "section": "r19.page",
+   "type": "box",
+   "tag": "article",
+   "abs": [
+    28,
+    92,
+    334,
+    670
+   ],
+   "rel": [
+    0,
+    0,
+    334,
+    670
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "92px",
+     "right": "28px",
+     "bottom": "82px",
+     "left": "28px"
+    }
+   },
+   "css": "position: absolute; left: 28px; right: 28px; top: 92px; bottom: 82px; overflow: hidden",
+   "aria": "Dom Casmurro, página 159 de 256",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 665
+    }
+   ]
+  },
+  "r19.page.text": {
+   "tpl": 6,
+   "section": "r19.page",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    28,
+    92,
+    334,
+    775.72
+   ],
+   "rel": [
+    0,
+    0,
+    334,
+    775.72
+   ],
+   "style": {
+    "font": {
+     "family": "Literata",
+     "size": 20.5,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "35.26px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 20.5,
+     "textIndent": "26.65px"
+    }
+   },
+   "css": "margin: 0; font-family: 'Literata', Georgia, serif; font-size: 20.5px; font-weight: 400; line-height: 1.72; color: #2A2520; text-align: left; text-indent: 1.3em",
+   "lines": [
+    {
+     "text": "Retórica dos namorados, dá-me",
+     "left": 54.65,
+     "right": 360.0,
+     "top": 94.41,
+     "bottom": 124.85,
+     "baseline": 118.54,
+     "baselineRel": 26.54
+    },
+    {
+     "text": "uma comparação exata e poética",
+     "left": 28,
+     "right": 340.39,
+     "top": 129.67,
+     "bottom": 160.11,
+     "baseline": 153.8,
+     "baselineRel": 61.8
+    },
+    {
+     "text": "para dizer o que foram aqueles",
+     "left": 28,
+     "right": 322.1,
+     "top": 164.93,
+     "bottom": 195.37,
+     "baseline": 189.06,
+     "baselineRel": 97.06
+    },
+    {
+     "text": "olhos de Capitu. Não me acode",
+     "left": 28,
+     "right": 321.2,
+     "top": 200.19,
+     "bottom": 230.63,
+     "baseline": 224.32,
+     "baselineRel": 132.32
+    },
+    {
+     "text": "imagem capaz de dizer, sem",
+     "left": 28,
+     "right": 295.46,
+     "top": 235.45,
+     "bottom": 265.89,
+     "baseline": 259.58,
+     "baselineRel": 167.58
+    },
+    {
+     "text": "quebra da dignidade do estilo, o",
+     "left": 28,
+     "right": 333.61,
+     "top": 270.71,
+     "bottom": 301.15,
+     "baseline": 294.84,
+     "baselineRel": 202.84
+    },
+    {
+     "text": "que eles foram e me fizeram.",
+     "left": 28,
+     "right": 302.05,
+     "top": 305.97,
+     "bottom": 336.41,
+     "baseline": 330.1,
+     "baselineRel": 238.1
+    },
+    {
+     "text": "Olhos de ressaca? Vá, de ressaca. É",
+     "left": 28,
+     "right": 357.5,
+     "top": 341.23,
+     "bottom": 371.67,
+     "baseline": 365.36,
+     "baselineRel": 273.36
+    },
+    {
+     "text": "o que me dá ideia daquela feição",
+     "left": 28,
+     "right": 336.62,
+     "top": 376.49,
+     "bottom": 406.93,
+     "baseline": 400.62,
+     "baselineRel": 308.62
+    },
+    {
+     "text": "nova. Traziam não sei que fluido",
+     "left": 28,
+     "right": 341.75,
+     "top": 411.75,
+     "bottom": 442.19,
+     "baseline": 435.88,
+     "baselineRel": 343.88
+    },
+    {
+     "text": "misterioso e enérgico, uma força",
+     "left": 28,
+     "right": 343.35,
+     "top": 447.01,
+     "bottom": 477.45,
+     "baseline": 471.14,
+     "baselineRel": 379.14
+    },
+    {
+     "text": "que arrastava para dentro, como a",
+     "left": 28,
+     "right": 355.57,
+     "top": 482.27,
+     "bottom": 512.71,
+     "baseline": 506.4,
+     "baselineRel": 414.4
+    },
+    {
+     "text": "vaga que se retira da praia, nos",
+     "left": 28,
+     "right": 324.32,
+     "top": 517.53,
+     "bottom": 547.97,
+     "baseline": 541.66,
+     "baselineRel": 449.66
+    },
+    {
+     "text": "dias de ressaca. Para não ser",
+     "left": 28,
+     "right": 297.89,
+     "top": 552.79,
+     "bottom": 583.23,
+     "baseline": 576.92,
+     "baselineRel": 484.92
+    },
+    {
+     "text": "arrastado, agarrei-me às outras",
+     "left": 28,
+     "right": 329.46,
+     "top": 588.05,
+     "bottom": 618.49,
+     "baseline": 612.18,
+     "baselineRel": 520.18
+    },
+    {
+     "text": "partes vizinhas, às orelhas, aos",
+     "left": 28,
+     "right": 325.41,
+     "top": 623.31,
+     "bottom": 653.75,
+     "baseline": 647.44,
+     "baselineRel": 555.44
+    },
+    {
+     "text": "braços, aos cabelos espalhados",
+     "left": 28,
+     "right": 321.73,
+     "top": 658.57,
+     "bottom": 689.01,
+     "baseline": 682.7,
+     "baselineRel": 590.7
+    },
+    {
+     "text": "pelos ombros; mas tão depressa",
+     "left": 28,
+     "right": 330.87,
+     "top": 693.83,
+     "bottom": 724.27,
+     "baseline": 717.96,
+     "baselineRel": 625.96
+    },
+    {
+     "text": "buscava as pupilas, a onda que",
+     "left": 28,
+     "right": 320.33,
+     "top": 729.09,
+     "bottom": 759.53,
+     "baseline": 753.22,
+     "baselineRel": 661.22
+    },
+    {
+     "text": "saía delas vinha crescendo, cava e",
+     "left": 28,
+     "right": 350.79,
+     "top": 764.35,
+     "bottom": 794.79,
+     "baseline": 788.48,
+     "baselineRel": 696.48,
+     "oculta": true
+    },
+    {
+     "text": "escura, ameaçando envolver-me,",
+     "left": 28,
+     "right": 345.21,
+     "top": 799.61,
+     "bottom": 830.05,
+     "baseline": 823.74,
+     "baselineRel": 731.74,
+     "oculta": true
+    },
+    {
+     "text": "puxar-me e tragar-me.",
+     "left": 28,
+     "right": 246.3,
+     "top": 834.87,
+     "bottom": 865.31,
+     "baseline": 859,
+     "baselineRel": 767,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 6672.012,
+   "minContentWidth": 118.712,
+   "text": "Retórica dos namorados, dá-me uma comparação exata e poética para dizer o que foram aqueles olhos de Capitu. Não me acode imagem capaz de dizer, sem quebra da dignidade do estilo, o que eles foram e me fizeram. Olhos de ressaca? Vá, de ressaca. É o que me dá ideia daquela feição nova. Traziam não sei que fluido misterioso e enérgico, uma força que arrastava para dentro, como a vaga que se retira da praia, nos dias de ressaca. Para não ser arrastado, agarrei-me às outras partes vizinhas, às orelhas, aos braços, aos cabelos espalhados pelos ombros; mas tão depressa buscava as pupilas, a onda que saía delas vinha crescendo, cava e escura, ameaçando envolver-me, puxar-me e tragar-me.",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 665
+    }
+   ]
+  },
+  "r19.footer": {
+   "tpl": 7,
+   "section": "r19.footer",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    28,
+    790.19,
+    334,
+    13.81
+   ],
+   "rel": [
+    0,
+    0.0,
+    334,
+    13.81
+   ],
+   "style": {
+    "position": {
+     "top": "790.19px",
+     "right": "28px",
+     "bottom": "40px",
+     "left": "28px"
+    }
+   },
+   "css": "position: absolute; left: 28px; right: 28px; bottom: 40px; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: 600; color: #A89D8B; font-variant-numeric: tabular-nums",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "r19.footer.pageLabel": {
+   "tpl": 8,
+   "section": "r19.footer",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    28,
+    790.19,
+    87.22,
+    13.81
+   ],
+   "rel": [
+    0,
+    0.0,
+    87.22,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#A89D8B",
+     "features": [
+      "tnum"
+     ]
+    }
+   },
+   "lines": [
+    {
+     "text": "pág. 159 de 256",
+     "left": 28,
+     "right": 115.22,
+     "top": 790.19,
+     "bottom": 804,
+     "baseline": 801.12,
+     "baselineRel": 10.93
+    }
+   ],
+   "naturalWidth": 87.216,
+   "minContentWidth": 22.367,
+   "text": "pág. 159 de 256",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "r19.footer.percent": {
+   "tpl": 9,
+   "section": "r19.footer",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    338.31,
+    790.19,
+    23.69,
+    13.81
+   ],
+   "rel": [
+    310.31,
+    0.0,
+    23.69,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#A89D8B",
+     "features": [
+      "tnum"
+     ]
+    }
+   },
+   "lines": [
+    {
+     "text": "62%",
+     "left": 338.31,
+     "right": 362,
+     "top": 790.19,
+     "bottom": 804,
+     "baseline": 801.12,
+     "baselineRel": 10.93
+    }
+   ],
+   "naturalWidth": 23.69,
+   "minContentWidth": 23.69,
+   "text": "62%",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  }
+ },
+ "fontMetrics": {
+  "Literata|400|normal|20.5px": {
+   "ascent": 24.13,
+   "descent": 6.31
+  },
+  "Figtree|600|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "838f573c-8b5a-4557-bf45-67efcb069f8f"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "634e447d-ada6-4e1d-9b70-f4812869b7aa"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "634e447d-ada6-4e1d-9b70-f4812869b7aa"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "634e447d-ada6-4e1d-9b70-f4812869b7aa"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "634e447d-ada6-4e1d-9b70-f4812869b7aa"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "634e447d-ada6-4e1d-9b70-f4812869b7aa"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "476408c9-8d74-4763-be6a-d742cea19780"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "28dc8134-f871-4680-93bd-44ff96fd9179"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "28dc8134-f871-4680-93bd-44ff96fd9179"
+  }
+ ]
+}
