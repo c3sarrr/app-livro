@@ -17,9 +17,10 @@ function pranchas(arg) {
   return sel;
 }
 
-async function lancar() {
-  // --font-render-hinting=none: mesmas métricas da v1 (sem hinting, posições fracionárias).
-  return chromium.launch({ args: ['--font-render-hinting=none'] });
+// hinting 'nenhum' (padrão das medições): --font-render-hinting=none, mesmas métricas da v1.
+// hinting 'padrao': como as prévias de handoff_v2/referencia/previa (só para a conferência G01.2).
+async function lancar({ hinting = 'nenhum' } = {}) {
+  return chromium.launch({ args: hinting === 'nenhum' ? ['--font-render-hinting=none'] : [] });
 }
 
 // Abre a prancha isolada (bundle aninhado extraído) com a rede bloqueada; espera as fontes;
