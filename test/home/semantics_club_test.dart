@@ -259,9 +259,9 @@ void main() {
       final link = nodes[8];
       expect(link.flagsCollection.isLink, isTrue);
       expect(link.flagsCollection.isButton, isFalse);
-      // Na tela a rota do CTA só é ligada na F12 (sem callback, sem ação); com o callback, ver o teste de
-      // toques abaixo.
-      expect(_actionsOf(link), isEmpty);
+      // Desde a F12 a tela liga o CTA a `/clube/:clubId/discussao`: o link tem a ação de toque (o teste de toques
+      // abaixo prova o callback da seção isolada).
+      expect(_actionsOf(link), {SemanticsAction.tap});
       expect(_childLabels(link), ['3 mensagens novas']);
       final badge = _children(link).single;
       expect(badge, same(_node(tester, 'club.cta.badge')));

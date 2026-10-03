@@ -1,6 +1,9 @@
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
+import 'package:app_leitura/features/shell/presentation/bottom_fade.dart';
+import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
+import 'package:app_leitura/features/shell/presentation/scanner_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -144,7 +147,7 @@ void main() {
 
   group('2.7 MainShell', () {
     testWidgets(
-      'camadas na ordem do HTML: conteúdo da aba → fade inferior → navegação',
+      'camadas na ordem do HTML: conteúdo da aba → fade inferior → navegação → FAB do Scanner',
       (tester) async {
         setCanvasView(tester);
         await pumpApp(tester);
@@ -156,8 +159,8 @@ void main() {
               )
               .first,
         );
-        expect(stack.children, hasLength(3));
-        final [content, fade, nav] = stack.children.cast<Positioned>();
+        expect(stack.children, hasLength(4));
+        final [content, fade, nav, fab] = stack.children.cast<Positioned>();
         expect(content.child, isA<StatefulNavigationShell>());
         expect(
           (content.left, content.top, content.right, content.bottom),
@@ -169,12 +172,21 @@ void main() {
         );
         final ignore = fade.child as IgnorePointer;
         expect(ignore.ignoring, isTrue);
-        expect((ignore.child! as SizedBox).key, const ValueKey('bottomFade'));
+        expect(ignore.child, isA<BottomFade>());
+        expect(ignore.child!.key, const ValueKey('bottomFade'));
         expect(
           (nav.left, nav.right, nav.bottom, nav.height),
           (16.0, 16.0, 30.0, 70.0),
         );
-        expect((nav.child as SizedBox).key, const ValueKey('nav'));
+        expect(nav.child, isA<FloatingNavBar>());
+        expect(nav.child.key, const ValueKey('nav'));
+        // F11: o FAB é irmão da barra, DEPOIS dela (pinta por cima e o toque vale no círculo inteiro).
+        expect(
+          (fab.left, fab.bottom, fab.width, fab.height),
+          (165.0, 60.5, 60.0, 60.0),
+        );
+        expect(fab.child, isA<ScannerFab>());
+        expect(fab.child.key, const ValueKey('nav.scanner.fab'));
         // O fade não intercepta toques (pointer-events: none).
         expect(
           tester

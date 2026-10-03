@@ -627,6 +627,9 @@ void main() {
         expect(tester.widget<AnimatedScale>(scale).scale, 0.97, reason: id);
         await gesture.up();
         await tester.pumpAndSettle();
+        // F12: soltar dentro do alvo agora navega (o callback está ligado): voltar devolve a Início.
+        await tester.binding.handlePopRoute();
+        await tester.pumpAndSettle();
         expect(tester.widget<AnimatedScale>(scale).scale, 1.0, reason: id);
       }
     },

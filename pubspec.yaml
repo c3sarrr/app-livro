@@ -58,7 +58,7 @@ flutter:
     - assets/fonts/LICENCAS_FONTES_OFL.txt
 
   # Bloco copiado literalmente de design_handoff/ferramentas/pubspec_fonts.yaml.
-  # NÃO use google_fonts. NÃO declare pesos que não existem. Bricolage = 1 família por tamanho (opsz).
+  # NÃO use pacote de fontes remotas nem fontes do sistema. NÃO declare pesos que não existem. Bricolage = 1 família por tamanho (opsz).
   fonts:
     - family: Bricolage12
       fonts:

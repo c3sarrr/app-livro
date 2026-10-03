@@ -68,24 +68,30 @@ class ForYouSection extends ConsumerWidget {
           const SizedBox(height: 14 + 4),
           // D-03: rola na horizontal com a física da plataforma; em repouso (offset 0) é o arquivo:
           // padding 20 dos dois lados e o 3º item cortado em 390 (`overflow: hidden`).
-          SingleChildScrollView(
-            key: const ValueKey('forYou.carousel'),
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
-            clipBehavior: Clip.hardEdge,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 14,
-              children: [
-                for (final (i, book) in forYou.items.indexed)
-                  _Item(
-                    id: 'forYou.item${i + 1}',
-                    book: book,
-                    // Só o 1º título tem `nowrap` + `ellipsis` no arquivo ("Memórias Póstu…").
-                    ellipsis: i == 0,
-                    onTap: onBookTap == null ? null : () => onBookTap(book),
-                  ),
-              ],
+          // RepaintBoundary (F12 12.4): rolar a Início não repinta o carrossel e vice-versa. Medido: 0 pixels de
+          // diferença no golden (as boundaries nas capas e no gráfico mudam o anti-aliasing de curvas).
+          RepaintBoundary(
+            child: SingleChildScrollView(
+              key: const ValueKey('forYou.carousel'),
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.gutter,
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 14,
+                children: [
+                  for (final (i, book) in forYou.items.indexed)
+                    _Item(
+                      id: 'forYou.item${i + 1}',
+                      book: book,
+                      // Só o 1º título tem `nowrap` + `ellipsis` no arquivo ("Memórias Póstu…").
+                      ellipsis: i == 0,
+                      onTap: onBookTap == null ? null : () => onBookTap(book),
+                    ),
+                ],
+              ),
             ),
           ),
         ],

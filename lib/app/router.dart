@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/design_system/gallery/design_system_gallery.dart';
+import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
 import '../features/shell/presentation/main_shell.dart';
@@ -84,7 +84,7 @@ GoRouter createRouter({
           path: AppRoutes.designSystem,
           parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (context, state) =>
-              _page(state, const DesignSystemGallery()),
+              _page(state, const DesignSystemScreen()),
         ),
     ],
   );

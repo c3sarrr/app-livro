@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:go_router/go_router.dart';
 
 import '../core/design_system/tokens/app_colors.dart';
 import '../core/design_system/tokens/app_typography.dart';
+import '../features/shell/presentation/main_shell.dart' show MainShell;
 import 'router.dart';
 
 /// Raiz do app (F02 2.5): `MaterialApp.router` com tema mínimo (sem splash/realce do Material),
@@ -54,7 +56,12 @@ class _AppState extends State<App> {
         // Corpo do arquivo: Figtree 16/400, cor tinta.
         child: DefaultTextStyle(
           style: AppFonts.figtree(16, FontWeight.w400),
-          child: child!,
+          // D-13 (F12 12.5): status bar transparente com ícones escuros e barra de navegação do Android
+          // transparente, sem scrim — em TODAS as rotas (as telas cheias fora do shell também), não só nas abas.
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: MainShell.overlayStyle,
+            child: child!,
+          ),
         ),
       ),
     ),

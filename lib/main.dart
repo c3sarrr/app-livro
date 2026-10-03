@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/app.dart';
+import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
 
 /// Licença SIL OFL 1.1 das fontes do arquivo (Bricolage Grotesque, Figtree,
 /// Instrument Serif), distribuída junto das fontes em `assets/fonts/`.
@@ -20,6 +21,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();
   await configureSystemUi();
+  // F12 12.4: os 18 SVGs já estão prontos no primeiro quadro (sem "piscar" na primeira abertura).
+  await preloadAppIcons();
   runApp(const ProviderScope(child: App()));
 }
 

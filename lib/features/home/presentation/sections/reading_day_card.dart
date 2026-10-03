@@ -246,40 +246,44 @@ class _GoalDial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      key: const ValueKey('today.dial'),
-      width: 112,
-      height: 112,
-      child: Stack(
-        children: [
-          // Positioned.fill: sem filho e com restrição frouxa, o CustomPaint mediria 0×0.
-          Positioned.fill(
-            child: ExcludeSemantics(
-              child: CustomPaint(
-                key: const ValueKey('today.dial.svg'),
-                painter: GoalDialPainter(progress: readMinutes / goalMinutes),
+    // RepaintBoundary (F12 12.4): o desenho do dial (31 marcações + arco) é pintado uma vez e não repinta ao
+    // rolar. Medido: 0 pixels de diferença no golden.
+    return RepaintBoundary(
+      child: SizedBox(
+        key: const ValueKey('today.dial'),
+        width: 112,
+        height: 112,
+        child: Stack(
+          children: [
+            // Positioned.fill: sem filho e com restrição frouxa, o CustomPaint mediria 0×0.
+            Positioned.fill(
+              child: ExcludeSemantics(
+                child: CustomPaint(
+                  key: const ValueKey('today.dial.svg'),
+                  painter: GoalDialPainter(progress: readMinutes / goalMinutes),
+                ),
               ),
             ),
-          ),
-          Positioned.fill(
-            child: Column(
-              key: const ValueKey('today.dial.center'),
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AppText(
-                  '$readMinutes',
-                  key: const ValueKey('today.dial.value'),
-                  style: AppTextStyles.dialValue,
-                ),
-                AppText(
-                  'de $goalMinutes min',
-                  key: const ValueKey('today.dial.caption'),
-                  style: AppTextStyles.dialCaption,
-                ),
-              ],
+            Positioned.fill(
+              child: Column(
+                key: const ValueKey('today.dial.center'),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppText(
+                    '$readMinutes',
+                    key: const ValueKey('today.dial.value'),
+                    style: AppTextStyles.dialValue,
+                  ),
+                  AppText(
+                    'de $goalMinutes min',
+                    key: const ValueKey('today.dial.caption'),
+                    style: AppTextStyles.dialCaption,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -504,7 +504,7 @@ void main() {
   );
 
   testWidgets(
-    'Tema: cada opção de brand (AppColors.brandOptions) muda só o fundo do cartão',
+    'Tema: cada opção de brand (AppColors.brandOptions) muda só o fundo do cartão e, desde a F11, o item ativo da navegação',
     (tester) async {
       setCanvasView(tester);
       await _pumpCanvas(tester);
@@ -513,13 +513,15 @@ void main() {
         tester.element(find.byType(HomeScreen)),
       );
       final hero = tester.getRect(find.byKey(const ValueKey('hero')));
+      // F11: o item ativo da barra (Início) usa o mesmo `brand` do hero — única região fora do cartão que muda.
+      final navItem = tester.getRect(find.byKey(const ValueKey('nav.home')));
       expect(AppColors.brandOptions, hasLength(4));
       for (final brand in AppColors.brandOptions) {
         container.read(homeThemeProvider.notifier).setBrand(brand);
         await tester.pumpAndSettle();
         expect(_decorationOf(tester, 'hero').color, brand);
         final (rgba, _) = await _capture(tester);
-        var changed = 0, outside = 0;
+        var changed = 0, outside = 0, inNavItem = 0;
         for (var i = 0; i < rgba.length; i += 4) {
           if (rgba[i] == base[i] &&
               rgba[i + 1] == base[i + 1] &&
@@ -535,19 +537,31 @@ void main() {
               px / 3 < hero.right &&
               (py + 1) / 3 > hero.top &&
               py / 3 < hero.bottom;
-          if (!touches) outside++;
+          // O pixel @3x cobre [px/3, (px+1)/3) × [py/3, (py+1)/3): precisa tocar o item ativo da navegação.
+          final touchesNav =
+              (px + 1) / 3 > navItem.left &&
+              px / 3 < navItem.right &&
+              (py + 1) / 3 > navItem.top &&
+              py / 3 < navItem.bottom;
+          if (touchesNav) inNavItem++;
+          if (!touches && !touchesNav) outside++;
         }
         final bg = _argbAt(rgba, width, const Offset(30, 440));
         debugPrint(
           '[tema] brand 0x${brand.toARGB32().toRadixString(16).toUpperCase()}: '
-          '$changed pixels mudaram, $outside fora do cartão; fundo 0x${bg.toRadixString(16).toUpperCase()}',
+          '$changed pixels mudaram, $inNavItem no item ativo da navegação, $outside fora do cartão e do item; '
+          'fundo 0x${bg.toRadixString(16).toUpperCase()}',
         );
         expect(outside, 0);
         expect(bg, brand.toARGB32());
+        // O fundo da pílula ativa (pixel dentro dela, longe do ícone e do rótulo) acompanha o hero.
+        expect(_argbAt(rgba, width, const Offset(30, 2320)), brand.toARGB32());
         if (brand == AppColors.lavender) {
           expect(changed, 0); // é o padrão
+          expect(inNavItem, 0);
         } else {
           expect(changed, greaterThan(300000));
+          expect(inNavItem, greaterThan(5000)); // o preenchimento da pílula (≈ 21.500 px @3x, sem borda, ícone e rótulo) muda de cor
         }
       }
     },
@@ -597,6 +611,9 @@ void main() {
           reason: id,
         );
         await gesture.up();
+        await tester.pumpAndSettle();
+        // F12: soltar dentro do alvo agora navega (o callback está ligado): voltar devolve a Início.
+        await tester.binding.handlePopRoute();
         await tester.pumpAndSettle();
         expect(
           tester.widget<AnimatedScale>(scale.first).scale,

@@ -262,7 +262,7 @@ void main() {
         SizedBox,
         Padding,
         SizedBox,
-        SingleChildScrollView,
+        RepaintBoundary, // F12 12.4: camada própria do carrossel
       ]);
       final headerPad = column.children[0] as Padding;
       expect(headerPad.padding, const EdgeInsets.symmetric(horizontal: 20));
@@ -278,7 +278,9 @@ void main() {
       expect(_parentOf<Align>(tester, 'forYou.reasonChip'), same(align));
       final gap2 = column.children[3] as SizedBox;
       expect((gap2.width, gap2.height), (null, 14.0 + 4));
-      final carousel = column.children[4] as SingleChildScrollView;
+      final carousel =
+          (column.children[4] as RepaintBoundary).child!
+              as SingleChildScrollView;
       expect(carousel.key, const ValueKey('forYou.carousel'));
       expect(carousel.scrollDirection, Axis.horizontal);
       expect(carousel.padding, const EdgeInsets.symmetric(horizontal: 20));

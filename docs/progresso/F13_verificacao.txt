@@ -1,0 +1,196 @@
+# F13 — saídas literais dos comandos (prompt mestre §7 + F13_qa_final.md)
+
+# Passo 0 — golden aprovado intocado (SEM --update-goldens)
+$ sha256sum test/golden/goldens/inicio_canvas@3x.png test/golden/goldens/inicio_viewport@3x.png   (antes)
+fdf4a823933bc095f05c61decbc11f789bd03474b241a7b1f593aef125c31743 *test/golden/goldens/inicio_canvas@3x.png
+35ba1eb8c93e56837796f9f2511d183ebe7d072669fbeac70f894a87775948a3 *test/golden/goldens/inicio_viewport@3x.png
+$ flutter test test/home/golden_canvas_test.dart test/home/golden_viewport_test.dart
+00:02 +2: All tests passed!   (rodado antes de qualquer alteração; exit 0)
+$ sha256sum ...   (depois de toda a F13)
+fdf4a823933bc095f05c61decbc11f789bd03474b241a7b1f593aef125c31743 *test/golden/goldens/inicio_canvas@3x.png
+35ba1eb8c93e56837796f9f2511d183ebe7d072669fbeac70f894a87775948a3 *test/golden/goldens/inicio_viewport@3x.png
+
+# 13.1 — geometria 248/248, texto 88 ids (test/home/qa_canvas_test.dart)
+$ flutter test test/home/qa_canvas_test.dart
+[F13 geometria 390] 248/248 ids; 10 maiores desvios:
+[F13 geometria 390]  1. hero.cta.label  Δw = 0.043  obtido (119.034, 465.060, 117.933, 19.200)  referência (119.060, 465.060, 117.890, 19.200)  tol ±1.0
+[F13 geometria 390]  2. forYou.title  Δw = 0.042  obtido (20.000, 1215.160, 109.392, 28.800)  referência (20.000, 1215.160, 109.350, 28.800)  tol ±1.0
+[F13 geometria 390]  3. recent.title  Δw = 0.036  obtido (20.000, 1888.760, 195.506, 28.800)  referência (20.000, 1888.760, 195.470, 28.800)  tol ±1.0
+[F13 geometria 390]  4. hero.cta.icon  Δx = -0.026  obtido (89.034, 464.660, 20.000, 20.000)  referência (89.060, 464.660, 20.000, 20.000)  tol ±1.0
+[F13 geometria 390]  5. today.footer.text  Δw = 0.021  obtido (63.500, 1132.260, 193.671, 15.600)  referência (63.500, 1132.260, 193.650, 15.600)  tol ±1.0
+[F13 geometria 390]  6. hero.cover.author  Δy = 0.020  obtido (60.000, 398.560, 78.000, 15.600)  referência (60.000, 398.540, 78.000, 15.620)  tol ±0.5
+[F13 geometria 390]  7. hero.cover.title  Δy = 0.020  obtido (60.000, 352.080, 78.000, 40.480)  referência (60.000, 352.060, 78.000, 40.480)  tol ±0.5
+[F13 geometria 390]  8. hero.cover.textBlock  Δy = 0.020  obtido (60.000, 352.080, 78.000, 62.080)  referência (60.000, 352.060, 78.000, 62.100)  tol ±0.5
+[F13 geometria 390]  9. club.pill  Δw = 0.019  obtido (39.500, 1594.060, 99.399, 27.400)  referência (39.500, 1594.060, 99.380, 27.400)  tol ±1.0
+[F13 geometria 390] 10. hero.percent  Δw = 0.019  obtido (167.500, 378.460, 56.479, 31.200)  referência (167.500, 378.460, 56.460, 31.200)  tol ±1.0
+[F13 seção] header: 9/9 ids OK · maior desvio header.name.Δw = 0.015 px · 3 ids com linhas de texto
+[F13 seção] headline: 1/1 ids OK · maior desvio headline.Δh = 0.000 px · 1 ids com linhas de texto
+[F13 seção] hero: 30/30 ids OK · maior desvio hero.cta.label.Δw = 0.043 px · 9 ids com linhas de texto
+[F13 seção] alsoReading: 29/29 ids OK · maior desvio alsoReading.title.Δw = -0.005 px · 10 ids com linhas de texto
+[F13 seção] today: 49/49 ids OK · maior desvio today.footer.text.Δw = 0.021 px · 17 ids com linhas de texto
+[F13 seção] forYou: 41/41 ids OK · maior desvio forYou.title.Δw = 0.042 px · 15 ids com linhas de texto
+[F13 seção] club: 34/34 ids OK · maior desvio club.pill.Δw = 0.019 px · 17 ids com linhas de texto
+[F13 seção] recent: 37/37 ids OK · maior desvio recent.title.Δw = 0.036 px · 11 ids com linhas de texto
+[F13 seção] bottomFade: 1/1 ids OK · maior desvio bottomFade.Δx = 0.000 px · 0 ids com linhas de texto
+[F13 seção] nav: 17/17 ids OK · maior desvio nav.library.label.Δw = -0.016 px · 5 ids com linhas de texto
+[F13 texto 390] 88 ids com linhas conferidos (100 linhas); 4 dentro de capa rotacionada (só quebras); 2 com reticências: alsoReading.card2.title, forYou.item1.title
+00:02 +2: All tests passed!
+
+# 13.1 — visual: todas as seções (--layout) e canvas inteiro (sem --rect)
+$ python3 tools/compare_images.py --flutter test/golden/goldens/inicio_canvas@3x.png --ref design_handoff/referencia/png/inicio_canvas_390x2390@3x.png --scale 3 --layout design_handoff/referencia/layout/layout_inicio.json --out build/visual_diff/F13/canvas
+região          blur_mismatch_%  raw_mismatch_%  mean_abs   max  resultado
+header                      0.0          0.4113      0.53   142  PASSOU
+headline                    0.0          1.3126     1.306   221  PASSOU
+hero                        0.0          0.6195     0.687   128  PASSOU
+alsoReading                 0.0          0.8922     0.982   189  PASSOU
+today                       0.0          1.3001     1.139   228  PASSOU
+forYou                      0.0          2.1986      1.77   229  PASSOU
+club                        0.0          2.2549      2.02   229  PASSOU
+recent                      0.0          0.8938     0.976   189  PASSOU
+bottomFade                  0.0          0.1288     0.264    99  PASSOU
+nav                         0.0          0.2545     0.512    99  PASSOU
+Evidências em: build/visual_diff/F13/canvas  (heatmap, lado_a_lado, onion, relatorio.json)
+$ python3 tools/compare_images.py ... --scale 3 --out build/visual_diff/F13/canvas_inteiro --name canvas_inteiro
+região          blur_mismatch_%  raw_mismatch_%  mean_abs   max  resultado
+canvas_inteiro              0.0          1.0683     0.996   229  PASSOU
+Evidências em: build/visual_diff/F13/canvas_inteiro  (heatmap, lado_a_lado, onion, relatorio.json)
+
+# 13.2 — viewport 390×844
+$ python3 tools/compare_images.py --flutter test/golden/goldens/inicio_viewport@3x.png --ref design_handoff/referencia/png/inicio_viewport_390x844_DERIVADA@3x.png --scale 3 --rect 0,0,390,844 --out build/visual_diff/F13/viewport --name viewport
+região          blur_mismatch_%  raw_mismatch_%  mean_abs   max  resultado
+viewport                    0.0          0.5499     0.648   221  PASSOU
+$ flutter test test/home/qa_viewport_test.dart
+[F13 rolagem] maxScrollExtent 1511.160 (esperado 1511,16) | recent.list.bottom 704.000 (esperado 704) | fab.top 723.5 | nav.top 744.0 | folga lista→FAB 19.500 (esperado 19,5) | folga lista→barra 40.000 (esperado 40)
+00:01 +1: All tests passed!
+print: build/visual_diff/F13/viewport_fim_da_rolagem@3x.png
+
+# 13.3 — larguras 360 e 430 (geometria; test/home/qa_widths_test.dart)
+$ flutter test test/home/qa_widths_test.dart
+[F13 geometria 360] 248/248 ids; 10 maiores desvios (tol ±1,0):
+[F13 geometria 360]  1. hero.cta.label  Δw = 0.043  obtido (104.034, 465.860, 117.933, 19.200)  referência (104.060, 465.860, 117.890, 19.200)
+[F13 geometria 360]  2. forYou.title  Δw = 0.042  obtido (20.000, 1232.060, 109.392, 28.800)  referência (20.000, 1232.060, 109.350, 28.800)
+[F13 geometria 360]  3. recent.title  Δw = 0.036  obtido (20.000, 1905.660, 195.506, 28.800)  referência (20.000, 1905.660, 195.470, 28.800)
+[F13 geometria 360]  4. hero.cta.icon  Δx = -0.026  obtido (74.034, 465.460, 20.000, 20.000)  referência (74.060, 465.460, 20.000, 20.000)
+[F13 geometria 360]  5. today.footer.text  Δw = 0.021  obtido (63.500, 1149.160, 193.671, 15.600)  referência (63.500, 1149.160, 193.650, 15.600)
+[F13 geometria 360]  6. hero.cover.author  Δy = 0.020  obtido (60.000, 398.560, 78.000, 15.600)  referência (60.000, 398.540, 78.000, 15.620)
+[F13 geometria 360]  7. hero.cover.textBlock  Δy = 0.020  obtido (60.000, 352.080, 78.000, 62.080)  referência (60.000, 352.060, 78.000, 62.100)
+[F13 geometria 360]  8. hero.cover.title  Δy = 0.020  obtido (60.000, 352.080, 78.000, 40.480)  referência (60.000, 352.060, 78.000, 40.480)
+[F13 geometria 360]  9. club.pill  Δw = 0.019  obtido (39.500, 1610.960, 99.399, 27.400)  referência (39.500, 1610.960, 99.380, 27.400)
+[F13 geometria 360] 10. hero.percent  Δw = 0.019  obtido (167.500, 379.260, 56.479, 31.200)  referência (167.500, 379.260, 56.460, 31.200)
+[F13 geometria 430] 248/248 ids; 10 maiores desvios (tol ±1,0):
+[F13 geometria 430]  1. hero.cta.label  Δw = 0.043  obtido (139.034, 465.060, 117.933, 19.200)  referência (139.060, 465.060, 117.890, 19.200)
+[F13 geometria 430]  2. forYou.title  Δw = 0.042  obtido (20.000, 1215.160, 109.392, 28.800)  referência (20.000, 1215.160, 109.350, 28.800)
+[F13 geometria 430]  3. recent.title  Δw = 0.036  obtido (20.000, 1888.760, 195.506, 28.800)  referência (20.000, 1888.760, 195.470, 28.800)
+[F13 geometria 430]  4. hero.cta.icon  Δx = -0.026  obtido (109.034, 464.660, 20.000, 20.000)  referência (109.060, 464.660, 20.000, 20.000)
+[F13 geometria 430]  5. today.footer.text  Δw = 0.021  obtido (63.500, 1132.260, 193.671, 15.600)  referência (63.500, 1132.260, 193.650, 15.600)
+[F13 geometria 430]  6. hero.cover.author  Δy = 0.020  obtido (60.000, 398.560, 78.000, 15.600)  referência (60.000, 398.540, 78.000, 15.620)
+[F13 geometria 430]  7. hero.cover.textBlock  Δy = 0.020  obtido (60.000, 352.080, 78.000, 62.080)  referência (60.000, 352.060, 78.000, 62.100)
+[F13 geometria 430]  8. hero.cover.title  Δy = 0.020  obtido (60.000, 352.080, 78.000, 40.480)  referência (60.000, 352.060, 78.000, 40.480)
+[F13 geometria 430]  9. club.pill  Δw = 0.019  obtido (39.500, 1594.060, 99.399, 27.400)  referência (39.500, 1594.060, 99.380, 27.400)
+[F13 geometria 430] 10. hero.percent  Δw = 0.019  obtido (167.500, 378.460, 56.479, 31.200)  referência (167.500, 378.460, 56.460, 31.200)
+[F13 360] frase da meta: [Faltam 12 min para, fechar a meta de, hoje.]
+[F13 360] recent.row0: textBlock 102.74 + tag 65.26 (182.00 px do início do texto ao fim da tag) · more.left 288.0
+[F13 360] recent.row1: textBlock 107.95 + tag 60.05 (182.00 px do início do texto ao fim da tag) · more.left 288.0
+[F13 360] recent.row2: textBlock 118.54 + tag 49.46 (182.00 px do início do texto ao fim da tag) · more.left 288.0
+[F13 360] O Alienista: tag [Quero, ler] · subtítulo [Machado de Assis, · PDF]
+00:02 +3: All tests passed!
+
+# 13.3 — visual 360/430: PENDENTE (goldens inicio_w360@2x.png / inicio_w430@2x.png não existem: o --update-goldens foi negado pelo ambiente)
+
+# 13.4 — auditoria automática (saídas literais; esperado 0 em todas)
+$ grep -rnE "(^|[^A-Za-z_])(Icons|CupertinoIcons)\." lib/
+→ 0 ocorrência(s)
+
+$ grep -rnE "\b(Card|Chip|ElevatedButton|FilledButton|TextButton|OutlinedButton|ListTile|BottomNavigationBar|NavigationBar|AppBar|FloatingActionButton|Badge|LinearProgressIndicator|CircularProgressIndicator|InkWell|InkResponse|Divider)\(" lib/
+→ 0 ocorrência(s)
+
+$ grep -rnE "google_fonts|screenutil" pubspec.yaml lib/
+→ 0 ocorrência(s)
+
+$ grep -rnE "(^|[^A-Za-z])(Text|RichText)(\(|\.rich\()" lib/features lib/core/design_system/widgets
+→ 0 ocorrência(s)
+
+$ grep -rnE "elevation:|blurRadius: *[1-9]|Opacity\(" lib/
+→ 0 ocorrência(s)
+
+$ grep -rn "BoxShape.circle" lib/features/home/presentation/covers/memorias_postumas_cover.dart
+→ 0 ocorrência(s)
+
+$ grep -rn "FontWeight.w800" lib/ | grep -v app_typography
+→ 0 ocorrência(s)
+
+(nota: a busca de google_fonts|screenutil achava 1 linha em pubspec.yaml — um COMENTÁRIO copiado do bloco do handoff ("NÃO use google_fonts"), não uma dependência; o comentário foi reescrito sem o nome do pacote)
+
+$ sha256sum -c docs/handoff_checksums.txt
+exit: 0  · linhas: 131 · OK: 131 · não-OK: 0
+$ git status --short design_handoff | wc -l
+0
+
+# 13.4 — checklist manual medido na árvore real (test/home/qa_antisimplificacao_test.dart)
+$ flutter test test/home/qa_antisimplificacao_test.dart
+[F13 sombras] 7 sombras duras: [0.00/4.00, 0.00/4.00, 2.00/2.00, 2.00/2.00, 3.00/3.00, 4.00/4.00, 4.00/4.00]
+[F13 rotações]   -3.000° → filho KeyedSubtree; ancestrais: SizedBox[hero.cover] < Padding < Align < _CoverSlot < Row[hero.topRow] < IntrinsicHeight < Column < Padding < Stack < Padding < ClipRRect < Padding < DecoratedBox < Container
+[F13 rotações]   -4.000° → filho KeyedSubtree; ancestrais: SizedBox[alsoReading.card1.cover] < OverflowBox < SizedBox < _CoverSlot < Row < SizedBox[alsoReading.card1.top] < Column < Padding < Padding < DecoratedBox < Container < NeoBox[alsoReading.card1] < Transform < ScaleTransition
+[F13 rotações]   3.000° → filho KeyedSubtree; ancestrais: SizedBox[alsoReading.card2.cover] < OverflowBox < SizedBox < _CoverSlot < Row < SizedBox[alsoReading.card2.top] < Column < Padding < Padding < DecoratedBox < Container < NeoBox[alsoReading.card2] < Transform < ScaleTransition
+[F13 rotações] [-4.0, -3.0, 3.0]
+[F13 bordas] lados por espessura: {1.5: 161, 1.2: 44, 1.0: 2}
+[F13 ícones] Início: 14 · união das 4 abas: 18 de 18
+[F13 fontes] 30 combinações família/peso/tamanho em uso:
+[F13 fontes]   Bricolage12 w800 11.0px × 1
+[F13 fontes]   Bricolage18 w800 18.0px × 2
+[F13 fontes]   Bricolage20 w800 20.0px × 1
+[F13 fontes]   Bricolage22 w800 22.0px × 1
+[F13 fontes]   Bricolage24 w800 24.0px × 3
+[F13 fontes]   Bricolage26 w800 26.0px × 1
+[F13 fontes]   Bricolage34 w800 34.0px × 1
+[F13 fontes]   Bricolage42 w800 42.0px × 2
+[F13 fontes]   Figtree w500 13.0px × 10
+[F13 fontes]   Figtree w500 14.0px × 1
+[F13 fontes]   Figtree w600 11.0px × 3
+[F13 fontes]   Figtree w600 12.0px × 3
+[F13 fontes]   Figtree w600 13.0px × 3
+[F13 fontes]   Figtree w600 15.0px × 2
+[F13 fontes]   Figtree w700 10.0px × 2
+[F13 fontes]   Figtree w700 11.0px × 17
+[F13 fontes]   Figtree w700 12.0px × 11
+[F13 fontes]   Figtree w700 13.0px × 4
+[F13 fontes]   Figtree w700 14.0px × 6
+[F13 fontes]   Figtree w700 15.0px × 6
+[F13 fontes]   Figtree w700 16.0px × 2
+[F13 fontes]   Figtree w700 6.5px × 4
+[F13 fontes]   InstrumentSerif w400 11.0px × 1
+[F13 fontes]   InstrumentSerif w400 19.0px × 1
+[F13 fontes]   InstrumentSerif w400 22.0px × 1
+[F13 fontes]   InstrumentSerif w400 23.0px × 1
+[F13 fontes]   InstrumentSerif w400 26.0px × 2
+[F13 fontes]   InstrumentSerif w400 36.0px × 1
+[F13 fontes]   InstrumentSerif w400 50.0px × 1
+[F13 fontes]   InstrumentSerif w400 9.0px × 1
+[F13 pintores] {RingProgressPainter: 2, GoalDialPainter: 1, HatchPainter: 8, TopBorderCrescentPainter: 7, ChromiumDashPainter: 2, ArchBorderPainter: 1}
+[F13 quebras] capa Dom Casmurro (autor) → [MACHADO DE, ASSIS]  ids: hero.cover.author
+[F13 quebras] capa Memórias Póstumas → [Memórias, Póstumas de, Brás Cubas]  ids: forYou.item1.cover.title
+[F13 quebras] meta do dia → [Faltam 12 min para fechar, a meta de hoje.]  ids: today.goalText.sentence
+[F13 quebras] O Alienista (autor · formato) → [Machado de Assis ·, PDF]  ids: recent.row1.subtitle
+[F13 quebras] O Alienista (selo) → [Quero, ler]  ids: recent.row1.tag
+[F13 reticências] alsoReading.card2.title: texto "Orgulho e Precon…" truncado em 1 linha → [Orgulho e Precon]
+[F13 reticências] forYou.item1.title: texto "Memórias Póstu…" truncado em 1 linha → [Memórias Póstu]
+00:02 +7: All tests passed!
+
+# Qualidade
+$ dart format --set-exit-if-changed lib test
+Formatted 137 files (0 changed) in 0.99 seconds.
+exit: 0
+$ flutter analyze
+Analyzing app_livros...                                         
+No issues found! (ran in 7.0s)
+exit: 0
+$ flutter test   (suíte completa; saída integral em build/visual_diff/F13/flutter_test_completo.txt)
+01:30 +541 -2: Some tests failed.
+  test/home/golden_widths_test.dart: golden largura 360 @2x
+  test/home/golden_widths_test.dart: golden largura 430 @2x
+01:30 +541 -2: Some tests failed.
+
+# 13.4 — assets do app = cópias exatas do pacote
+$ diff -rq assets/icons design_handoff/assets/icons   → exit 0 (idênticos)
+$ diff -rq assets/fonts design_handoff/assets/fonts   → exit 0 (idênticos)
+svgs: 18 · ttfs: 36

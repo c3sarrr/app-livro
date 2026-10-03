@@ -1,5 +1,6 @@
 import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:app_leitura/main.dart' as app;
@@ -7,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
@@ -140,9 +142,21 @@ void main() {
         final calls = _mockPlatformChannel();
         LicenseRegistry.reset();
         addTearDown(LicenseRegistry.reset);
-        await app.main();
+        // F12 12.4: o main() pré-carrega os SVGs (E/S real) antes do runApp → precisa rodar fora do FakeAsync.
+        svg.cache.clear();
+        await tester.runAsync(app.main);
         await tester.pumpAndSettle();
         _expectSystemUiCalls(calls);
+        // Os 18 SVGs do arquivo já estão no cache do flutter_svg quando a primeira tela aparece.
+        for (final asset in AppIcons.all) {
+          final loader = SvgAssetLoader(asset);
+          var loadedAgain = false;
+          await svg.cache.putIfAbsent(loader.cacheKey(null), () {
+            loadedAgain = true;
+            return loader.loadBytes(null);
+          });
+          expect(loadedAgain, isFalse, reason: '$asset deveria estar em cache');
+        }
         final licenses = await tester.runAsync(
           () => LicenseRegistry.licenses.toList(),
         );

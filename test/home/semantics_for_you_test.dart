@@ -392,14 +392,17 @@ void main() {
       // A física da plataforma permite rolagem implícita (é isso que expõe o scrollToOffset).
       expect(scroll.flagsCollection.hasImplicitScrolling, isTrue);
 
-      // Na tela desta fase os callbacks ainda não estão ligados (F12): a única ação da seção é a
-      // rolagem horizontal do carrossel (avançar = scrollLeft; scrollToOffset do iOS).
+      // Desde a F12 a tela liga os destinos: os 4 links ("Ver tudo" e os 3 itens) têm a ação de toque e a
+      // única outra ação da seção é a rolagem horizontal do carrossel (avançar = scrollLeft; scrollToOffset do iOS).
       final withActions = {
         for (final n in [section, ...all])
           if (_actionsOf(n).isNotEmpty) n.label: _actionsOf(n),
       };
+      final links = all.where((n) => n.flagsCollection.isLink).toList();
+      expect(links, hasLength(4));
       expect(withActions, {
         '': {SemanticsAction.scrollLeft, SemanticsAction.scrollToOffset},
+        for (final n in links) n.label: {SemanticsAction.tap},
       });
       semantics.dispose();
     },
