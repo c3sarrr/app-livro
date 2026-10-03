@@ -27,7 +27,7 @@ TIPOS = CAB + ['''// Tipos das referências medidas das telas do leitor (19–27
 // ignore_for_file: lines_longer_than_80_chars
 import 'dart:ui';
 
-/// box = caixa sem texto próprio · boxText = caixa com fundo/borda e texto · text = texto · icon = <svg>
+/// box = caixa sem texto próprio · boxText = caixa com fundo/borda e texto · text = texto · icon = `<svg>`
 /// inline = trecho dentro do texto do pai (sem widget próprio: conferido pelas linhas do pai).
 enum LeitorRefKind { box, boxText, text, icon, inline }
 

@@ -43,16 +43,17 @@ void main() {
     '27b',
   ];
 
-  test('há uma referência para cada uma das 13 pranchas, na ordem do arquivo', () {
-    expect(kRefLeitor.keys.toList(), telas);
-  });
+  test(
+    'há uma referência para cada uma das 13 pranchas, na ordem do arquivo',
+    () {
+      expect(kRefLeitor.keys.toList(), telas);
+    },
+  );
 
   for (final tela in telas) {
     final ref = kRefLeitor[tela]!;
     test('prancha $tela (${ref.slug}) = layout_${ref.slug}.json', () {
-      final lay = _json(
-        'handoff_v2/referencia/layout/layout_${ref.slug}.json',
-      );
+      final lay = _json('handoff_v2/referencia/layout/layout_${ref.slug}.json');
       final meta = lay['meta'] as Map<String, dynamic>;
       final canvas = meta['canvas'] as List<dynamic>;
       expect(
@@ -66,7 +67,9 @@ void main() {
       secoes.forEach((k, v) => expect(ref.sections[k], _rect(v as List)));
 
       final elems = (lay['elements'] as Map<String, dynamic>).entries
-          .where((e) => (e.value as Map<String, dynamic>).containsKey('section'))
+          .where(
+            (e) => (e.value as Map<String, dynamic>).containsKey('section'),
+          )
           .toList();
       expect(ref.elements.keys.toList(), elems.map((e) => e.key).toList());
       for (final e in elems) {
