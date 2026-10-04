@@ -12,6 +12,8 @@ insert into auth.users (id, email) values
 insert into billing.entitlements (user_id, entitlement, active_until) values
   ('00000000-0000-7000-8000-00000000000a', 'pro', now() + interval '30 days'),
   ('00000000-0000-7000-8000-00000000000d', 'pro', now() + interval '30 days');
+-- G05: conta nova nasce com o perfil fechado até registrar a faixa etária (D-66); aqui são adultos de perfil aberto
+update public.profiles set visibility = 'public';
 update public.profiles set handle = 'caio', visibility = 'private' where id = '00000000-0000-7000-8000-00000000000c';
 create function pg_temp.como(p uuid) returns void language sql as $$
   select set_config('request.jwt.claims', json_build_object('sub', p, 'role', 'authenticated')::text, true)

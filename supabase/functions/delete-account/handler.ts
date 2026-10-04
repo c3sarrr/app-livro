@@ -3,16 +3,34 @@
 // usuário no Auth (o DELETE em cascata apaga perfil, social, assinatura e dados pessoais; a fila de
 // limpeza do Storage cobre o que sobrar). Se o RevenueCat falhar, nada é apagado (o app tenta de novo).
 import { usuarioDoPedido } from '../_shared/auth.ts';
-import { erro, exigeMetodo, json, lerJson } from '../_shared/http.ts';
+import { corsPara, erro, exigeMetodo, json, lerJson } from '../_shared/http.ts';
 
 export type Dependencias = {
   verificarJwt(jwt: string): Promise<string | null>;
   apagarAssinante(userId: string): Promise<void>;
   apagarEbooks(userId: string): Promise<number>;
   apagarUsuario(userId: string): Promise<void>;
+  /** Origem da página web de pedido de exclusão (CORS); sem ela, só o app chama a função. */
+  origemWeb?: string | null;
 };
 
 export function criarHandler(d: Dependencias) {
+  const excluir = criarExclusao(d);
+  return async (req: Request): Promise<Response> => {
+    const cors = corsPara(req, d.origemWeb);
+    if (req.method === 'OPTIONS' && cors) return new Response(null, { status: 204, headers: cors });
+    let r: Response;
+    try {
+      r = await excluir(req);
+    } catch {
+      r = erro(500, 'falha_na_exclusao'); // nunca estoura sem resposta (e sem CORS, para a página web)
+    }
+    if (cors) { for (const [k, v] of Object.entries(cors)) r.headers.set(k, v); }
+    return r;
+  };
+}
+
+function criarExclusao(d: Dependencias) {
   return async (req: Request): Promise<Response> => {
     const metodo = exigeMetodo(req, 'POST');
     if (metodo) return metodo;
@@ -31,6 +49,8 @@ export function criarHandler(d: Dependencias) {
     } catch {
       // segue: a fila private.storage_purge_queue (gatilho na exclusão do usuário) apaga depois
     }
+    // se falhar aqui, o RevenueCat e os e-books já saíram, a conta continua e o pedido pode ser
+    // repetido (os passos anteriores são idempotentes): o handler de fora responde 500
     await d.apagarUsuario(usuario);
     return json(200, { excluida: true, ebooks_apagados: ebooks });
   };

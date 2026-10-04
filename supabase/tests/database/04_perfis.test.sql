@@ -8,6 +8,8 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000b', 'bia@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000c', 'caio@exemplo.com');
+-- G05: conta nova nasce com o perfil fechado até registrar a faixa etária (D-66); aqui são adultos de perfil aberto
+update public.profiles set visibility = 'public';
 insert into billing.entitlements (user_id, entitlement, active_until)
 values ('00000000-0000-7000-8000-00000000000a', 'pro', now() + interval '27 days');
 

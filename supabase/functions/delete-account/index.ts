@@ -1,9 +1,12 @@
 import { exigir } from '../_shared/env.ts';
-import { apagarPasta, clienteAdmin, verificarJwt } from '../_shared/supabase.ts';
+import { apagarPasta, clienteAdmin, verificarSessao } from '../_shared/supabase.ts';
 import { criarHandler } from './handler.ts';
 
 Deno.serve(criarHandler({
-  verificarJwt,
+  // sessão conferida no Auth (um token de sessão já encerrada não exclui a conta)
+  verificarJwt: verificarSessao,
+  // página web de pedido de exclusão (G05; hospedagem na Q9) — ex.: https://booknest.app.br
+  origemWeb: Deno.env.get('EXCLUSAO_WEB_ORIGEM') ?? null,
   async apagarAssinante(userId) {
     const chave = Deno.env.get('REVENUECAT_API_KEY');
     if (!chave) return; // ambiente sem RevenueCat (local)

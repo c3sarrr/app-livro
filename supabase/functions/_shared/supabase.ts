@@ -22,6 +22,16 @@ export async function verificarJwt(jwt: string): Promise<string | null> {
   return String(data.claims.sub);
 }
 
+/**
+ * Como [verificarJwt], mas pergunta ao Auth (`/user`): recusa também a sessão já encerrada (logout,
+ * "sair de todos") e o usuário que não existe mais. Para ações destrutivas (excluir a conta).
+ */
+export async function verificarSessao(jwt: string): Promise<string | null> {
+  const { data, error } = await clienteAdmin().auth.getUser(jwt);
+  if (error || !data?.user?.id) return null;
+  return data.user.id;
+}
+
 /** Cliente com o JWT do próprio usuário (a RLS e auth.uid() valem como no app). */
 export function clienteDoUsuario(jwt: string): SupabaseClient {
   const publicas = Deno.env.get('SUPABASE_PUBLISHABLE_KEYS');

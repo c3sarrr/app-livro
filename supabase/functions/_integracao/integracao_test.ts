@@ -87,7 +87,7 @@ Deno.test({
     assertEquals([j.account.email, j.profile.id, j.format_version], [
       `export-${sufixo}@exemplo.com`,
       u.id,
-      1,
+      2,
     ]);
   },
 });

@@ -39,3 +39,22 @@ export function codigoDoBanco(e: unknown): string | null {
 }
 
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * CORS só para UMA origem liberada (a página web de exclusão — G05). Sem origem configurada, ou com
+ * outra origem no pedido, devolve null: o navegador bloqueia e o app nativo (que não usa CORS) segue igual.
+ */
+export function corsPara(
+  req: Request,
+  origemLiberada: string | null | undefined,
+): Record<string, string> | null {
+  const origem = req.headers.get('Origin');
+  if (!origemLiberada || origem !== origemLiberada) return null;
+  return {
+    'Access-Control-Allow-Origin': origemLiberada,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'authorization, apikey, content-type, x-client-info',
+    'Access-Control-Max-Age': '600',
+    Vary: 'Origin',
+  };
+}
