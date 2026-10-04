@@ -1,0 +1,104 @@
+/* D-21: sem design ainda — papel, tinta e pílulas com borda, como no app. */
+:root {
+  --papel: #f7f0e3;
+  --tinta: #1a1714;
+  --tinta-suave: #5b544b;
+  --superficie: #fffaf1;
+  --sol: #fed170;
+  --rubor: #ffc1c6;
+  --chama: #ff552e;
+  --esmeralda: #00995e;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+main {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+h1 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0 0 16px;
+}
+h2 {
+  font-size: 18px;
+  margin: 24px 0 8px;
+}
+p,
+li {
+  margin: 0 0 12px;
+}
+.suave {
+  color: var(--tinta-suave);
+}
+label {
+  display: block;
+  font-weight: 600;
+  margin: 16px 0 6px;
+}
+input[type='email'],
+input[type='text'] {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 2px solid var(--tinta);
+  border-radius: 16px;
+}
+.ciente {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-weight: 400;
+}
+.ciente input {
+  margin-top: 5px;
+}
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 12px 18px;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  cursor: pointer;
+}
+button.principal {
+  background: var(--sol);
+}
+button.perigo {
+  background: var(--rubor);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--tinta);
+  outline-offset: 2px;
+}
+.aviso {
+  font-weight: 600;
+  color: var(--esmeralda);
+  margin-top: 16px;
+}
+.aviso.erro {
+  color: var(--chama);
+}
