@@ -161,6 +161,10 @@ Ver `sql/01_schema_booknest.sql`. Resumo:
 
 Pendências do SQL (fazer na G04, com teste): `public.publish_my_stats` (já existe) ligado à tela de perfil; RPC `delete_my_account` (Edge Function com service role: RevenueCat + Storage + `auth.admin.deleteUser`); `club_meetings` com fuso; moderação (`content_reports` → painel interno); notificações por trigger + `pg_net` → Edge Function de push.
 
+**Feito na G04** (migrations em `supabase/migrations`, testes em `supabase/tests/database`): exclusão de conta pela Edge Function `delete-account` (RevenueCat → Storage → Auth; fila `private.storage_purge_queue` como rede); `club_meetings.timezone` (IANA validado) com remarcar/desmarcar; moderação (denúncia única aberta, `private.moderation_queue` com prazo de 24 h, `private.moderate_report`, termos proibidos em `private.blocked_terms`); notificações criadas por gatilho e enviadas pela `push-sender` (pg_cron a cada minuto via `pg_net`; agrupamento por clube em 10 min); exportação `public.export_my_data`. Correções achadas nos testes da G04: apagar (deleted_at) o próprio conteúdo, contadores que descontam o apagado, índices das chaves estrangeiras, nome provisório do cadastro e RPC de sync em lote (p95 de 500 operações: 459 → ~63 ms). Ver `docs/progresso/RELATORIO_G04.md`.
+
+**Revisão independente da G04** (migration `revisao_g04`, testes em `13_revisao_g04.test.sql`): conteúdo ocultado pela moderação ganha `moderated_at` (só servidor) e o autor não edita nem restaura; ocultar perfil zera nome ("Leitor"), @, bio e foto; o filtro de termos olha também o @; nome provisório com termo proibido vira "Leitor" (o cadastro não falha); seguir: o dono do perfil só aceita (pendente → aceito) e terceiros não veem pedidos pendentes; curtida/seguir/pedido repetidos geram no máximo 1 notificação por dia; token de push só pela RPC `public.register_device_token` (o token passa para a conta que entrou no aparelho); código de convite gerado pelo servidor (12 caracteres) e bloqueado pelo dono não entra no clube; RevenueCat: `TRANSFER` aplica as contas de origem e destino, assinatura que sumiu do estado sai do banco, o dono anterior é recalculado na hora, a chave "produto@data" é por usuário e um estado buscado antes do último aplicado é ignorado (`billing.rc_fetch_state`); cota de e-books com reservas (`private.ebook_upload_reservations`: cada URL ativa conta 200 MiB; perto do limite, um último upload pelo tamanho informado); retenção: o prazo de 30 dias conta do aviso **entregue** (e-mail enviado ou, sem e-mail, a notificação no app); a limpeza do Storage pula quem voltou a ser Pro; partições das sessões com RLS e privilégios explícitos; push agrupa só respostas do clube; o webhook não guarda atributos do assinante e os eventos somem com a conta.
+
 ### 5.4 RLS — padrões obrigatórios
 
 - RLS **ligada em todas** as tabelas; tabela sem política = só `service_role`.
@@ -246,6 +250,11 @@ Pipeline de dados (`tools/catalog/`, Python): baixar dumps → filtrar/normaliza
 | `purge-storage` (Edge Function) | diário | apaga `ebooks/<user_id>/` de quem foi purgado/excluído |
 | `quota-cleanup` | diário | apaga `quota_usage` com mais de 30 dias |
 | `cold-backup` (Edge Function/Action) | semanal | exporta dump lógico criptografado para armazenamento frio (R2) |
+| `push-sender` (Edge Function) | a cada minuto | envia o push das notificações novas (G04) |
+| `private.queue_meeting_reminders()` | de hora em hora (:05) | lembrete "encontro do clube amanhã" (G04) |
+| `private.prune_notifications()` | diário | apaga notificações lidas com mais de 90 dias (G04) |
+
+Na G04 os nomes e horários (UTC) ficaram na migration `agendamentos`; o `cold-backup` roda no GitHub Actions (`.github/workflows/cold-backup.yml`), porque o `pg_dump` não roda dentro do banco nem numa Edge Function.
 
 ## 9. Volumes estimados (para dimensionar — revisar com dados do beta)
 

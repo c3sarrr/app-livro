@@ -108,7 +108,20 @@ resolução de lacunas de HLC entre aparelhos; estimativa +1 fase (M) na trilha 
 
 ## Pendências
 
-- G04: `supabase start` (Docker) com Postgres 17 e as migrations; repetir os 8 cenários contra ele.
+- G04 (feito): `supabase start` (Docker no WSL) com Postgres 17.11 e as 15 migrations; a publicação
+  `powersync` (10 tabelas pessoais + `billing.sync_access`, sem `publish_via_partition_root`, toda partição
+  das sessões replicada pelo próprio nome) é conferida por teste pgTAP. **Os 8 cenários com o serviço
+  PowerSync passam para a G06**, junto com o conector Dart real (o mesmo roteiro, contra o Supabase local).
+- G04 (feito — item 7 das mudanças): a RPC grava os PUTs em lote por tabela (migration
+  `sincronizacao_em_lote`): lotes de 500 operações com 100 mil usuários no Postgres 17 local —
+  p50 47–48 ms, p95 63–154 ms em 3 rodadas (antes: p50 238 ms / p95 459 ms); ver
+  `docs/progresso/RELATORIO_G04.md`.
+- G06: as partições de `reading_sessions` agora nascem com RLS e privilégios explícitos
+  (`private.secure_session_partition`, revisão da G04) — partição não herda GRANT. Se o PowerSync
+  usar um papel próprio, ele entra nessa função com SELECT (senão o snapshot das partições novas falha).
+- G06 (e-books na nuvem): download por URL curta emitida por Edge Function e exclusão pelo
+  servidor; depois disso, tirar a política SELECT do bucket `ebooks` (hoje o dono pode gerar link
+  assinado de validade longa — achado #5 da revisão da G04, a parte da cota já foi corrigida).
 - G06: o conector Dart real (com `fetchCredentials` = sessão do Supabase), teste de integração Dart ↔ serviço
   e os mesmos 4 critérios no aparelho; checagem periódica do Pro com o RevenueCat.
 - G03 (feito): a regra receive-antes-de-send virou a porta única `LocalVersioning.write` (ler, versionar e

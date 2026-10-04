@@ -58,6 +58,8 @@ Gerenciar ─▶ link para a gestão de assinaturas da loja (URL de gerenciament
 
 Eventos tratados (todos reconciliados pelo estado atual): compra inicial, renovação, cancelamento (desligou a renovação), reativação, problema de cobrança, troca de produto, expiração, pausa (Android), transferência, extensão, reembolso/revogação, eventos de teste do painel.
 
+(G04, revisão) A **transferência** (`TRANSFER`) não traz `app_user_id`: a Edge Function busca e aplica o estado de cada conta de `transferred_from` e `transferred_to`. No banco, uma compra com id da loja (Play) pertence a uma conta só — restaurada em outra, o dono anterior perde o Pro na hora; sem id da loja (App Store na API v1: "produto@data da compra"), a chave é por usuário e a assinatura que sumiu do estado do RevenueCat sai do banco. Estado buscado antes do último aplicado (webhooks do mesmo usuário em paralelo) é ignorado.
+
 **Sandbox (D-48):** a revisão da Apple e o TestFlight compram em **sandbox** — se o backend de produção recusasse sandbox, o revisor não conseguiria testar o Pro e o app seria rejeitado. Por isso o sandbox **libera** o Pro também em produção, mas fica marcado (`billing.entitlements.environment = 'sandbox'`) e fora dos relatórios de receita; um alerta avisa se aparecer sandbox em conta que não é de teste.
 
 ## 6. O que o Pro libera (e onde é verificado)
