@@ -52,7 +52,7 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
      union all
      select 'authenticated DELETE ' || t from unnest(array[
        'public.follows', 'public.user_blocks', 'public.post_likes', 'public.club_members', 'public.club_invites',
-       'public.device_tokens']) t $$,
+       'public.club_meetings', 'public.device_tokens']) t $$,
   'tabelas: só SELECT/DELETE previstos para authenticated; nada para anon nem PUBLIC');
 
 -- ---------------------------------------------------------------- colunas (INSERT/UPDATE por coluna)
@@ -73,7 +73,8 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
          ('UPDATE', 'public.club_members', array['progress_chapter', 'progress_ratio', 'progress_updated_at', 'last_read_post_at']),
          ('INSERT', 'public.club_invites', array['code', 'club_id', 'created_by', 'expires_at', 'max_uses']),
          ('UPDATE', 'public.club_invites', array['expires_at', 'max_uses']),
-         ('INSERT', 'public.club_meetings', array['club_id', 'starts_at', 'location', 'until_chapter', 'created_by']),
+         ('INSERT', 'public.club_meetings', array['club_id', 'starts_at', 'location', 'until_chapter', 'created_by', 'timezone']),
+         ('UPDATE', 'public.club_meetings', array['starts_at', 'location', 'until_chapter', 'timezone']),
          ('INSERT', 'public.club_posts', array['club_id', 'author_id', 'kind', 'chapter_index', 'ref_page', 'quote_text', 'quote_color', 'body']),
          ('UPDATE', 'public.club_posts', array['body', 'edited_at', 'deleted_at']),
          ('INSERT', 'public.club_post_replies', array['post_id', 'author_id', 'body']),

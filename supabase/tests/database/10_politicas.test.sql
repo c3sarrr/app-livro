@@ -3,7 +3,7 @@
 -- Usuários: A = Pro · B = Grátis · C = Grátis · D = Pro (bloqueado por A).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(119);
+select plan(124);
 
 insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
@@ -242,6 +242,15 @@ select throws_like($$ insert into public.club_meetings (club_id, starts_at, crea
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
 select lives_ok($$ insert into public.club_meetings (club_id, starts_at, created_by) values (pg_temp.id('clube_x'), now() + interval '9 days', '00000000-0000-7000-8000-00000000000b') $$,
   'club_meetings_admin: o dono marca encontro');
+select is(pg_temp.linhas($$ update public.club_meetings set location = 'Biblioteca' where club_id = pg_temp.id('clube_x') $$), 2,
+  'club_meetings_admin_update: o dono remarca/edita');
+select is(pg_temp.linhas($$ delete from public.club_meetings where club_id = pg_temp.id('clube_x') and starts_at > now() + interval '8 days' $$), 1,
+  'club_meetings_admin_delete: o dono desmarca');
+select pg_temp.como('00000000-0000-7000-8000-00000000000a');
+select is(pg_temp.linhas($$ update public.club_meetings set location = 'Bar' where club_id = pg_temp.id('clube_x') $$), 0,
+  'club_meetings_admin_update: membro comum não edita');
+select is(pg_temp.linhas($$ delete from public.club_meetings where club_id = pg_temp.id('clube_x') $$), 0,
+  'club_meetings_admin_delete: membro comum não desmarca');
 select pg_temp.como('00000000-0000-7000-8000-00000000000c');
 select is((select count(*)::int from public.club_meetings), 0, 'club_meetings_read: não membro não vê');
 select is((select count(*)::int from public.club_posts), 0, 'club_posts_read: não membro não vê os posts');
@@ -275,8 +284,9 @@ select throws_like($$ insert into public.club_post_replies (post_id, author_id, 
 -- notificações, aparelhos, denúncias
 -- =====================================================================================
 select pg_temp.como('00000000-0000-7000-8000-00000000000a');
-select is((select count(*)::int from public.notifications), 1, 'notifications_own: vê só as próprias');
-select is(pg_temp.linhas($$ update public.notifications set read_at = now() where user_id = '00000000-0000-7000-8000-00000000000a' $$), 1, 'notifications_mark_read: marca as próprias');
+select is((select count(*)::int from public.notifications where type = 'system'), 1, 'notifications_own: vê só as próprias');
+select ok((select bool_and(user_id = '00000000-0000-7000-8000-00000000000a') from public.notifications), 'notifications_own: nenhuma de outra pessoa');
+select is(pg_temp.linhas($$ update public.notifications set read_at = now() where user_id = '00000000-0000-7000-8000-00000000000a' and type = 'system' $$), 1, 'notifications_mark_read: marca as próprias');
 select is(pg_temp.linhas($$ update public.notifications set read_at = now() where user_id = '00000000-0000-7000-8000-00000000000b' $$), 0, 'notifications_mark_read: não marca as alheias');
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
 select is((select count(*)::int from public.notifications where user_id = '00000000-0000-7000-8000-00000000000a'), 0, 'notifications_own: não vê as de outra pessoa');
@@ -350,6 +360,7 @@ select set_eq(
     ('public.club_members.club_members_read'), ('public.club_members.club_members_update_self'), ('public.club_members.club_members_leave'),
     ('public.club_invites.club_invites_admin'),
     ('public.club_meetings.club_meetings_read'), ('public.club_meetings.club_meetings_admin'),
+    ('public.club_meetings.club_meetings_admin_update'), ('public.club_meetings.club_meetings_admin_delete'),
     ('public.club_posts.club_posts_read'), ('public.club_posts.club_posts_insert'), ('public.club_posts.club_posts_update_own'),
     ('public.club_post_replies.club_replies_read'), ('public.club_post_replies.club_replies_insert'), ('public.club_post_replies.club_replies_insert_member'), ('public.club_post_replies.club_replies_update_own'),
     ('public.notifications.notifications_own'), ('public.notifications.notifications_mark_read'),
