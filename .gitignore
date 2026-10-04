@@ -55,3 +55,4 @@ tools/medicao/tmp/
 # G02: dados baixados pelos spikes (EPUB de domínio público etc.) e dependências Node
 spikes/_dados/
 node_modules/
+spikes/**/build/
