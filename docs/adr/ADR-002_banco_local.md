@@ -1,6 +1,6 @@
 # ADR-002 — Banco local: SQLite do SDK PowerSync + drift como dono do esquema (tabelas próprias)
 
-- **Status:** aceita pelo spike S2 (G02) · aguarda a aprovação da G02 · ajusta o Anexo 02 §3.1–3.3
+- **Status:** **aceita** (spike S2 na G02; implementada na G03; confirmada pelo Cesar em 04/10/2026 — Q20) · ajusta o Anexo 02 §3.1–3.3
 - **Data:** 03/10/2026
 - **Prova:** `spikes/S2_banco_sync/` (`dados/resultado_s2_dart.json`, `dados/resultado_s2.json`)
 

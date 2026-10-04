@@ -1,6 +1,7 @@
 // Tabelas pessoais do aparelho = espelho de `personal.*` (Anexo 02 §3.2; ADR-002): mesmas colunas
-// e os mesmos CHECKs do SQL (handoff_v2/sql/01_schema_booknest.sql §4), escritos
-// em SQLite. Tabelas STRICT, uma por entidade ("raw tables" do PowerSync — ADR-003), com a coluna
+// e os mesmos CHECKs do SQL (handoff_v2/sql/01_schema_booknest.sql §4), escritos em SQLite e sempre
+// como texto literal (o drift_dev só confere CHECKs literais). Tabelas STRICT, uma por entidade
+// ("raw tables" do PowerSync — ADR-003), com a coluna
 // local `_extras` (colunas que o servidor mandou e esta versão do app ainda não conhece).
 // Sem chaves estrangeiras: o PowerSync aplica as linhas de um checkpoint em qualquer ordem; a
 // integridade entre linhas é garantida pelo servidor (FKs compostas) e pelos DAOs.
@@ -13,9 +14,6 @@ import '../../../../features/reader/annotations/domain/pen_presets.dart';
 import '../../../../features/reader/domain/reader_settings.dart';
 import '../../../../features/reader/domain/reading_session.dart';
 import '../codecs.dart';
-
-const String _hexColor =
-    "GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'";
 
 /// Colunas comuns (no fim de toda tabela pessoal, como no SQL) + `_extras`.
 mixin _Versioned on Table {
@@ -258,7 +256,7 @@ class Annotations extends Table with _Versioned {
     "CHECK (json_valid(anchor) AND json_type(anchor) = 'object')",
     'CHECK (ref_page > 0)',
     'CHECK (chapter_index >= 0)',
-    'CHECK (color $_hexColor)',
+    "CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
     "CHECK (style IN ('fill','underline','wavy'))",
     "CHECK (fill_height IN ('low','medium','high'))",
     'CHECK (length(note_text) <= 10000)',
@@ -286,7 +284,7 @@ class HighlightLabels extends Table with _Versioned {
 
   @override
   List<String> get customConstraints => [
-    'CHECK (color $_hexColor)',
+    "CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
     'CHECK (length(label) BETWEEN 1 AND 24)',
   ];
 }
@@ -381,12 +379,12 @@ class PenPresetsRows extends Table with _Versioned {
   List<String> get customConstraints => [
     "CHECK (pen_tip IN ('ballpoint','fountain','brush'))",
     'CHECK (CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0)',
-    'CHECK (pen_color $_hexColor)',
+    "CHECK (pen_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
     "CHECK (json_valid(favorite_colors) AND json_type(favorite_colors) = 'array' AND json_array_length(favorite_colors) <= 12)",
     "CHECK (stroke_size IN ('thin','medium','thick'))",
     "CHECK (highlighter_style IN ('fill','underline','wavy'))",
     "CHECK (highlighter_height IN ('low','medium','high'))",
-    'CHECK (highlighter_color $_hexColor)',
+    "CHECK (highlighter_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
     'CHECK (id = user_id)',
   ];
 }

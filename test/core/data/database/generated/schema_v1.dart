@@ -1147,6 +1147,7 @@ class Annotations extends Table with TableInfo {
     'CHECK(json_valid(anchor) AND json_type(anchor) = \'object\')',
     'CHECK(ref_page > 0)',
     'CHECK(chapter_index >= 0)',
+    'CHECK(color GLOB \'#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]\')',
     'CHECK(style IN (\'fill\', \'underline\', \'wavy\'))',
     'CHECK(fill_height IN (\'low\', \'medium\', \'high\'))',
     'CHECK(length(note_text) <= 10000)',
@@ -1279,6 +1280,7 @@ class HighlightLabels extends Table with TableInfo {
   @override
   List<String> get customConstraints => const [
     'PRIMARY KEY(id)',
+    'CHECK(color GLOB \'#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]\')',
     'CHECK(length(label) BETWEEN 1 AND 24)',
   ];
   @override
@@ -1617,10 +1619,12 @@ class PenPresets extends Table with TableInfo {
     'PRIMARY KEY(id)',
     'CHECK(pen_tip IN (\'ballpoint\', \'fountain\', \'brush\'))',
     'CHECK(CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0)',
+    'CHECK(pen_color GLOB \'#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]\')',
     'CHECK(json_valid(favorite_colors) AND json_type(favorite_colors) = \'array\' AND json_array_length(favorite_colors) <= 12)',
     'CHECK(stroke_size IN (\'thin\', \'medium\', \'thick\'))',
     'CHECK(highlighter_style IN (\'fill\', \'underline\', \'wavy\'))',
     'CHECK(highlighter_height IN (\'low\', \'medium\', \'high\'))',
+    'CHECK(highlighter_color GLOB \'#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]\')',
     'CHECK(id = user_id)',
   ];
   @override

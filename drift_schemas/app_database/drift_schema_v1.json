@@ -1322,6 +1322,7 @@
           "CHECK (json_valid(anchor) AND json_type(anchor) = 'object')",
           "CHECK (ref_page > 0)",
           "CHECK (chapter_index >= 0)",
+          "CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
           "CHECK (style IN ('fill','underline','wavy'))",
           "CHECK (fill_height IN ('low','medium','high'))",
           "CHECK (length(note_text) <= 10000)",
@@ -1463,6 +1464,7 @@
         "is_virtual": false,
         "without_rowid": false,
         "constraints": [
+          "CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
           "CHECK (length(label) BETWEEN 1 AND 24)"
         ],
         "strict": true,
@@ -1852,10 +1854,12 @@
         "constraints": [
           "CHECK (pen_tip IN ('ballpoint','fountain','brush'))",
           "CHECK (CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0)",
+          "CHECK (pen_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
           "CHECK (json_valid(favorite_colors) AND json_type(favorite_colors) = 'array' AND json_array_length(favorite_colors) <= 12)",
           "CHECK (stroke_size IN ('thin','medium','thick'))",
           "CHECK (highlighter_style IN ('fill','underline','wavy'))",
           "CHECK (highlighter_height IN ('low','medium','high'))",
+          "CHECK (highlighter_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
           "CHECK (id = user_id)"
         ],
         "strict": true,
@@ -2895,7 +2899,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"annotations\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"user_book_id\" TEXT NOT NULL, \"kind\" TEXT NOT NULL, \"parent_id\" TEXT NULL, \"group_id\" TEXT NOT NULL, \"source\" TEXT NOT NULL DEFAULT 'selection', \"anchor\" TEXT NOT NULL, \"ref_page\" INTEGER NOT NULL, \"chapter_index\" INTEGER NOT NULL, \"color\" TEXT NULL, \"style\" TEXT NULL, \"fill_height\" TEXT NULL, \"note_text\" TEXT NULL, \"ink_layer_id\" TEXT NULL, \"shared_club_post_id\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (kind IN ('highlight','note','handwriting','drawing')), CHECK (source IN ('selection','ink')), CHECK (json_valid(anchor) AND json_type(anchor) = 'object'), CHECK (ref_page > 0), CHECK (chapter_index >= 0), CHECK (style IN ('fill','underline','wavy')), CHECK (fill_height IN ('low','medium','high')), CHECK (length(note_text) <= 10000), CHECK ((kind = 'note') = (note_text IS NOT NULL)), CHECK (kind NOT IN ('handwriting','drawing') OR ink_layer_id IS NOT NULL), CHECK (kind <> 'highlight' OR (color IS NOT NULL AND style IS NOT NULL))) STRICT;"
+          "sql": "CREATE TABLE IF NOT EXISTS \"annotations\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"user_book_id\" TEXT NOT NULL, \"kind\" TEXT NOT NULL, \"parent_id\" TEXT NULL, \"group_id\" TEXT NOT NULL, \"source\" TEXT NOT NULL DEFAULT 'selection', \"anchor\" TEXT NOT NULL, \"ref_page\" INTEGER NOT NULL, \"chapter_index\" INTEGER NOT NULL, \"color\" TEXT NULL, \"style\" TEXT NULL, \"fill_height\" TEXT NULL, \"note_text\" TEXT NULL, \"ink_layer_id\" TEXT NULL, \"shared_club_post_id\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (kind IN ('highlight','note','handwriting','drawing')), CHECK (source IN ('selection','ink')), CHECK (json_valid(anchor) AND json_type(anchor) = 'object'), CHECK (ref_page > 0), CHECK (chapter_index >= 0), CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (style IN ('fill','underline','wavy')), CHECK (fill_height IN ('low','medium','high')), CHECK (length(note_text) <= 10000), CHECK ((kind = 'note') = (note_text IS NOT NULL)), CHECK (kind NOT IN ('handwriting','drawing') OR ink_layer_id IS NOT NULL), CHECK (kind <> 'highlight' OR (color IS NOT NULL AND style IS NOT NULL))) STRICT;"
         }
       ]
     },
@@ -2904,7 +2908,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"highlight_labels\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"color\" TEXT NOT NULL, \"label\" TEXT NOT NULL, \"sort\" INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (\"id\"), CHECK (length(label) BETWEEN 1 AND 24)) STRICT;"
+          "sql": "CREATE TABLE IF NOT EXISTS \"highlight_labels\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"color\" TEXT NOT NULL, \"label\" TEXT NOT NULL, \"sort\" INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (\"id\"), CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (length(label) BETWEEN 1 AND 24)) STRICT;"
         }
       ]
     },
@@ -2922,7 +2926,7 @@
       "sql": [
         {
           "dialect": "sqlite",
-          "sql": "CREATE TABLE IF NOT EXISTS \"pen_presets\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"pen_tip\" TEXT NOT NULL DEFAULT 'ballpoint', \"pen_width_mm\" TEXT NOT NULL DEFAULT '1.2', \"pen_color\" TEXT NOT NULL DEFAULT '#FF552E', \"favorite_colors\" TEXT NOT NULL DEFAULT '[\"#FF552E\",\"#552CB7\",\"#058CD7\",\"#00995E\",\"#F2A815\",\"#1A1714\"]', \"stroke_size\" TEXT NOT NULL DEFAULT 'medium', \"highlighter_style\" TEXT NOT NULL DEFAULT 'fill', \"highlighter_height\" TEXT NOT NULL DEFAULT 'medium', \"highlighter_color\" TEXT NOT NULL DEFAULT '#FED170', PRIMARY KEY (\"id\"), CHECK (pen_tip IN ('ballpoint','fountain','brush')), CHECK (CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0), CHECK (json_valid(favorite_colors) AND json_type(favorite_colors) = 'array' AND json_array_length(favorite_colors) <= 12), CHECK (stroke_size IN ('thin','medium','thick')), CHECK (highlighter_style IN ('fill','underline','wavy')), CHECK (highlighter_height IN ('low','medium','high')), CHECK (id = user_id)) STRICT;"
+          "sql": "CREATE TABLE IF NOT EXISTS \"pen_presets\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"pen_tip\" TEXT NOT NULL DEFAULT 'ballpoint', \"pen_width_mm\" TEXT NOT NULL DEFAULT '1.2', \"pen_color\" TEXT NOT NULL DEFAULT '#FF552E', \"favorite_colors\" TEXT NOT NULL DEFAULT '[\"#FF552E\",\"#552CB7\",\"#058CD7\",\"#00995E\",\"#F2A815\",\"#1A1714\"]', \"stroke_size\" TEXT NOT NULL DEFAULT 'medium', \"highlighter_style\" TEXT NOT NULL DEFAULT 'fill', \"highlighter_height\" TEXT NOT NULL DEFAULT 'medium', \"highlighter_color\" TEXT NOT NULL DEFAULT '#FED170', PRIMARY KEY (\"id\"), CHECK (pen_tip IN ('ballpoint','fountain','brush')), CHECK (CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0), CHECK (pen_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (json_valid(favorite_colors) AND json_type(favorite_colors) = 'array' AND json_array_length(favorite_colors) <= 12), CHECK (stroke_size IN ('thin','medium','thick')), CHECK (highlighter_style IN ('fill','underline','wavy')), CHECK (highlighter_height IN ('low','medium','high')), CHECK (highlighter_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (id = user_id)) STRICT;"
         }
       ]
     },

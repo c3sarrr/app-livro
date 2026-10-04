@@ -51,6 +51,10 @@
 | D-57 | Prancha 21: a semântica segue **só a seleção visível** (um único "Trecho selecionado") | Achado 4 da G01: dois `aria-label` iguais, um num span transparente (Q17) | **APROVADA 03/10/2026** |
 | D-58 | Prateleira de ferramentas: a cor `brand` (desenho de ativa) **acompanha a ferramenta ativa**; na 23b a caneta volta ao desenho de inativa e o marca-texto sobe 12 px | Achado 5 da G01 (Q18) | **APROVADA 03/10/2026** |
 | D-59 | Tinta já feita **mantém a cor com que foi feita**; trocar de ferramenta/cor só muda o poço de cor e as espessuras do painel | Achado 6 da G01: na 23b a tinta existente aparece amarela (Q19) | **APROVADA 03/10/2026** |
+| D-60 | Início e Leitor **não precisam** mostrar o mesmo estado de Dom Casmurro: cada prancha mantém os seus valores (Início: cap. 92 de 148, clube até o cap. 100, 14 destaques, 2 grifos hoje; Leitor: cap. XXXII, meta do clube cap. L, 12 anotações, 1 grifo hoje). A fixture registra as 4 divergências (`TelaInicio`) | Achado da G03 (Q25) | **APROVADA 04/10/2026** |
+| D-61 | Até a G08 o `main()` de produção abre a Início sem fonte de dados (tela de erro); o app com os dados do arquivo roda por `flutter run -t test/fixtures/main_mundo_referencia.dart` | Regra §4.3.1 (nenhum dado de usuário em `lib/`) — Q26 | **APROVADA 04/10/2026** |
+| D-62 | Supabase local da G04 em diante: **Docker Engine no Ubuntu do WSL** (sem Docker Desktop), com Supabase CLI e Deno lá dentro; o disco do Ubuntu fica no D: | Docker Desktop desinstalado; C: com pouco espaço | **APROVADA 04/10/2026** |
+| D-63 | Projetos na nuvem (`booknest-dev/stg/prod`, São Paulo): **não** na G04 — tudo roda no Supabase local; os projetos são criados quando a G05/G06 precisarem (o checklist da G04 registra o item como pendente) | Q6; custo (o plano grátis permite 2 projetos ativos e pausa após 1 semana parado) | **APROVADA 04/10/2026** |
 
 ## 2. ADRs técnicos a escrever (com prova) — `docs/adr/`
 
@@ -76,6 +80,8 @@ Versões: sempre a estável mais recente compatível com Flutter 3.47.2 / Dart 3
 ## 4. Perguntas para o Cesar (responder antes da fase indicada)
 
 Respostas em 03/10/2026: **Q2** = R$ 9,99/mês e R$ 79,99/ano · **Q5** = decidir depois (manter `com.example` até a G27) · **Q12** = sim, commitar e limpar (feito na G00) · **Q13** = **13 anos ou mais** (exige cuidados com adolescentes: verificação etária, padrões protetivos e textos legais — G05/G25). **Q14–Q19** = as 6 recomendações aceitas (A · sim · sim · sim · A · A) → D-54…D-59 (início da G02).
+
+Respostas em 04/10/2026 (antes da G04): **Q20** = sim (ADR-002 e ADR-003 aceitas) · **Q25** = A → D-60 · **Q26** = A → D-61 · **Q6** = só local na G04; projetos na nuvem depois → D-63 · ambiente do Supabase local → D-62.
 
 
 | # | Pergunta | Bloqueia |

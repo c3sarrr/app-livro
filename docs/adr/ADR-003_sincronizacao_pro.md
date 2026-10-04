@@ -1,6 +1,6 @@
 # ADR-003 — Sincronização Pro: PowerSync (Sync Streams + tabelas próprias) com upload pela RPC
 
-- **Status:** aceita pelo spike S2 (G02), **com mudanças no desenho do Anexo 02** · aguarda a aprovação da G02
+- **Status:** **aceita** pelo spike S2 (G02), **com mudanças no desenho do Anexo 02** · confirmada pelo Cesar em 04/10/2026 (Q20)
 - **Data:** 03/10/2026
 - **Prova:** `spikes/S2_banco_sync/servidor` — 8 cenários, **8/8 em 2 rodadas completas do zero com o código final** (uma rodada anterior expôs a perda de coluna que o `_extras` corrigiu) (`dados/resultado_s2.json`)
 
