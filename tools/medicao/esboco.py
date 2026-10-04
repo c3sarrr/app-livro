@@ -17,8 +17,12 @@ VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'met
 
 
 class P(HTMLParser):
-    def __init__(self):
+    def __init__(self, texto=''):
         super().__init__(convert_charrefs=True)
+        # deslocamento absoluto do início de cada linha → posição (linha, coluna) do getpos() vira índice no texto
+        self._linhas = [0]
+        for ln in texto.splitlines(keepends=True):
+            self._linhas.append(self._linhas[-1] + len(ln))
         self.on = False
         self.n = 0
         self.stack = []
@@ -33,7 +37,10 @@ class P(HTMLParser):
             return
         self.n += 1
         a = dict(attrs)
+        ln, col = self.getpos()
+        ini = self._linhas[ln - 1] + col
         node = {'tpl': self.n, 'tag': tag, 'depth': len(self.stack), 'parent': self.stack[-1]['tpl'] if self.stack else None,
+                'ini': ini, 'fim': ini + len(self.get_starttag_text() or ''),
                 'attrs': {k: v for k, v in a.items() if k != 'style'}, 'style': a.get('style', ''),
                 'comment': self.last_comment, 'text': ''}
         self.last_comment = None
@@ -52,8 +59,11 @@ class P(HTMLParser):
             return
         if not self.on or tag == 'helmet':
             return
+        ln, col = self.getpos()
+        fim = self._linhas[ln - 1] + col + len(tag) + 3
         while self.stack:
             n = self.stack.pop()
+            n['fim'] = fim
             if n['tag'] == tag:
                 break
 
@@ -66,9 +76,16 @@ class P(HTMLParser):
             self.last_comment = re.sub(r'\s+', ' ', c).strip()
 
 
+def fatia(slug, tpl):
+    """Marcação literal (do template, com {{props}}) do elemento tpl, incluindo o comentário que o precede."""
+    texto = open(os.path.join(AQUI, 'pranchas', slug, 'template.html'), encoding='utf-8').read()
+    n = next(x for x in esboco(slug) if x['tpl'] == tpl)
+    return texto[n['ini']:n['fim']], n.get('comment')
+
+
 def esboco(slug):
     tpl = open(os.path.join(AQUI, 'pranchas', slug, 'template.html'), encoding='utf-8').read()
-    p = P()
+    p = P(tpl)
     p.feed(tpl)
     for n in p.out:
         n['text'] = n['text'].strip()
