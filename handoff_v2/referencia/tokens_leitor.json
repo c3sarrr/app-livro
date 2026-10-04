@@ -1,0 +1,3304 @@
+{
+ "cores": [
+  {
+   "cor": "#1A1714",
+   "existe": "ink",
+   "nomeProposto": null,
+   "usos": 440,
+   "pranchas": [
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "26b",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.topIsland",
+    "r20.topIsland.close",
+    "r20.topIsland.title",
+    "r20.bottomIsland"
+   ]
+  },
+  {
+   "cor": "#2A2520",
+   "existe": null,
+   "nomeProposto": "bookText (Creme) · ilha da Noite",
+   "usos": 74,
+   "pranchas": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "26b",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r19.page.text",
+    "r20.page.text",
+    "r21.page.text",
+    "r21.page.text.highlight"
+   ]
+  },
+  {
+   "cor": "#FFFAF1",
+   "existe": "surface",
+   "nomeProposto": null,
+   "usos": 74,
+   "pranchas": [
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.topIsland",
+    "r20.bottomIsland",
+    "r20.bottomIsland.scrubber.track",
+    "r20.bottomIsland.scrubber.knob"
+   ]
+  },
+  {
+   "cor": "#F7F0E3",
+   "existe": "paper",
+   "nomeProposto": null,
+   "usos": 59,
+   "pranchas": [
+    "20",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.topIsland.close",
+    "r20.bottomIsland.scrubber.bubble",
+    "r20.bottomIsland.tools.font.circle",
+    "r20.bottomIsland.tools.theme.circle"
+   ]
+  },
+  {
+   "cor": "#6F665B",
+   "existe": null,
+   "nomeProposto": "inkLabel",
+   "usos": 57,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.label",
+    "ann.island.labels.marker",
+    "ann.island.labels.eraser",
+    "ann.island.labels.lasso"
+   ]
+  },
+  {
+   "cor": "#FF552E",
+   "existe": "flame",
+   "nomeProposto": null,
+   "usos": 52,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.other",
+    "ann.page.text.wavy.touchDot",
+    "ann.page.text.doubleUnderline.line1",
+    "ann.page.text.doubleUnderline.line2"
+   ]
+  },
+  {
+   "cor": "#8A8073",
+   "existe": null,
+   "nomeProposto": "inkSoft",
+   "usos": 47,
+   "pranchas": [
+    "23b",
+    "25",
+    "26",
+    "26b",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.colors.yellow.count",
+    "mk.markerPanel.colors.pink.count",
+    "mk.markerPanel.colors.green.count",
+    "mk.markerPanel.colors.lavender.count"
+   ]
+  },
+  {
+   "cor": "#FED170",
+   "existe": "sun",
+   "nomeProposto": null,
+   "usos": 40,
+   "pranchas": [
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26b",
+    "27"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools.notes.badge",
+    "r20.timeChip",
+    "r21.toolbar.colors.yellow",
+    "r21.toolbar.colors.other"
+   ]
+  },
+  {
+   "cor": "#B6ACE4",
+   "existe": "lavender",
+   "nomeProposto": null,
+   "usos": 35,
+   "pranchas": [
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "26b",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.scrubber.fill",
+    "r21.toolbar.colors.lavender",
+    "r21.toolbar.colors.other",
+    "ann.island.labels.pen.pill"
+   ]
+  },
+  {
+   "cor": "#000000@0",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 35,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r21.page.text.highlight",
+    "ann.island.width.thin",
+    "ann.island.width.thick",
+    "pen.island.width.thin"
+   ]
+  },
+  {
+   "cor": "#ABCF82",
+   "existe": "leaf",
+   "nomeProposto": null,
+   "usos": 22,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "27"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.green",
+    "r21.toolbar.colors.other",
+    "ann.done",
+    "ann.island.colorWell"
+   ]
+  },
+  {
+   "cor": "#EDE3D1",
+   "existe": null,
+   "nomeProposto": "inkNight",
+   "usos": 21,
+   "pranchas": [
+    "26",
+    "26b"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.night.sample",
+    "r20.topIsland",
+    "r20.topIsland.close",
+    "r20.topIsland.title"
+   ]
+  },
+  {
+   "cor": "#CFC3AE",
+   "existe": null,
+   "nomeProposto": "dashLine",
+   "usos": 20,
+   "pranchas": [
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools",
+    "r21.toolbar.colors",
+    "ann.island.row",
+    "pen.island.row"
+   ]
+  },
+  {
+   "cor": "#F8F1E4",
+   "existe": null,
+   "nomeProposto": "paperCream",
+   "usos": 17,
+   "pranchas": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r19.frame",
+    "r20.frame",
+    "r21.frame",
+    "ann.frame"
+   ]
+  },
+  {
+   "cor": "#5B544B",
+   "existe": "inkMuted",
+   "nomeProposto": null,
+   "usos": 15,
+   "pranchas": [
+    "20",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.topIsland.author",
+    "r20.bottomIsland.progressRow.position",
+    "r20.bottomIsland.progressRow.timeLeft",
+    "ann.modePill.subtitle"
+   ]
+  },
+  {
+   "cor": "#552CB7",
+   "existe": "violet",
+   "nomeProposto": null,
+   "usos": 15,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.other",
+    "r21.page.text.handleStart.stem",
+    "r21.page.text.handleStart.knob",
+    "r21.page.text.handleEnd.stem"
+   ]
+  },
+  {
+   "cor": "#FFC1C6",
+   "existe": "blush",
+   "nomeProposto": null,
+   "usos": 13,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "25",
+    "27"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.pink",
+    "r21.toolbar.colors.other",
+    "ann.island.colorWell",
+    "pen.island.colorWell"
+   ]
+  },
+  {
+   "cor": "#E3D8C4",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 12,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch25.link",
+    "toc.sheet.chapters.ch26.link",
+    "toc.sheet.chapters.ch27.link",
+    "toc.sheet.chapters.ch28.link"
+   ]
+  },
+  {
+   "cor": "#1F1B17",
+   "existe": null,
+   "nomeProposto": "paperNight",
+   "usos": 9,
+   "pranchas": [
+    "26",
+    "26b"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.night.card",
+    "r20.frame",
+    "r20.topIsland.close",
+    "r20.bottomIsland.scrubber.bubble"
+   ]
+  },
+  {
+   "cor": "#A89D8B",
+   "existe": null,
+   "nomeProposto": "readerFooter",
+   "usos": 7,
+   "pranchas": [
+    "19",
+    "20",
+    "21",
+    "24b"
+   ],
+   "exemplos": [
+    "r19.footer.pageLabel",
+    "r19.footer.percent",
+    "r20.footer.pageLabel",
+    "r20.footer.percent"
+   ]
+  },
+  {
+   "cor": "#F2A815",
+   "existe": "amber",
+   "nomeProposto": null,
+   "usos": 7,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.other",
+    "ann.island.colorWell",
+    "pen.island.colorWell",
+    "pen.penPanel.favorites.gold"
+   ]
+  },
+  {
+   "cor": "#00995E",
+   "existe": "emerald",
+   "nomeProposto": null,
+   "usos": 7,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.other",
+    "ann.island.colorWell",
+    "pen.island.colorWell",
+    "pen.penPanel.favorites.green"
+   ]
+  },
+  {
+   "cor": "#058CD7",
+   "existe": "azure",
+   "nomeProposto": null,
+   "usos": 7,
+   "pranchas": [
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.other",
+    "ann.island.colorWell",
+    "pen.island.colorWell",
+    "pen.penPanel.favorites.blue"
+   ]
+  },
+  {
+   "cor": "#F8F1E4@0",
+   "existe": null,
+   "nomeProposto": "paperCream",
+   "usos": 5,
+   "pranchas": [
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "ann.deskEdge",
+    "pen.deskEdge",
+    "mk.deskEdge",
+    "sp.deskEdge"
+   ]
+  },
+  {
+   "cor": "#E9DFCC",
+   "existe": null,
+   "nomeProposto": "hatchReader",
+   "usos": 4,
+   "pranchas": [
+    "20",
+    "23"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.scrubber.track",
+    "pen.penPanel.size.slider"
+   ]
+  },
+  {
+   "cor": "#FED170@0.95",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 4,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.preview.highlight",
+    "mk.markerPanel.styles.fill.sample.word"
+   ]
+  },
+  {
+   "cor": "#EFE5D3",
+   "existe": null,
+   "nomeProposto": "ruleLine",
+   "usos": 4,
+   "pranchas": [
+    "24b",
+    "25"
+   ],
+   "exemplos": [
+    "hn.page.handNote.rule1",
+    "hn.page.handNote.rule2",
+    "hl.list.card7.body.handNote.rule1",
+    "hl.list.card7.body.handNote.rule2"
+   ]
+  },
+  {
+   "cor": "#FED170@0.9",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 4,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card1.body.quote.mark",
+    "hl.list.card4.body.quote.mark"
+   ]
+  },
+  {
+   "cor": "#E2D7C4",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 3,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.colors.pink",
+    "mk.markerPanel.colors.green",
+    "mk.markerPanel.colors.lavender"
+   ]
+  },
+  {
+   "cor": "#FFFDF8",
+   "existe": null,
+   "nomeProposto": "paperWhite",
+   "usos": 3,
+   "pranchas": [
+    "24b",
+    "25",
+    "26"
+   ],
+   "exemplos": [
+    "hn.page.handNote",
+    "hl.list.card7.body.handNote",
+    "rs.sheet.papers.white.card"
+   ]
+  },
+  {
+   "cor": "#000000",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 3,
+   "pranchas": [
+    "25",
+    "27"
+   ],
+   "exemplos": [
+    "hl.types",
+    "toc.sheet.chapters"
+   ]
+  },
+  {
+   "cor": "#3B3466",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 3,
+   "pranchas": [
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.literata.caption",
+    "toc.sheet.tabs.chapters.count",
+    "bm.sheet.tabs.bookmarks.count"
+   ]
+  },
+  {
+   "cor": "#4A433A",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 3,
+   "pranchas": [
+    "26",
+    "26b"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.night.line1",
+    "rs.sheet.papers.night.line2",
+    "r20.bottomIsland.tools"
+   ]
+  },
+  {
+   "cor": "#0B0A08",
+   "existe": null,
+   "nomeProposto": "shadowNight",
+   "usos": 3,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.topIsland",
+    "r20.bottomIsland",
+    "r20.bottomIsland.scrubber.knob"
+   ]
+  },
+  {
+   "cor": "#B5AA98",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 3,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.topIsland.author",
+    "r20.bottomIsland.progressRow.position",
+    "r20.bottomIsland.progressRow.timeLeft"
+   ]
+  },
+  {
+   "cor": "#4A4238",
+   "existe": "inkWarm",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "27b"
+   ],
+   "exemplos": [
+    "bm.sheet.bookmarks.item1.excerpt",
+    "bm.sheet.bookmarks.item2.excerpt",
+    "bm.sheet.bookmarks.item3.excerpt"
+   ]
+  },
+  {
+   "cor": "#FED170@0.85",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "21"
+   ],
+   "exemplos": [
+    "r21.page.text.highlight"
+   ]
+  },
+  {
+   "cor": "#F8F1E4@0.66",
+   "existe": null,
+   "nomeProposto": "paperCream",
+   "usos": 2,
+   "pranchas": [
+    "23",
+    "23b"
+   ],
+   "exemplos": [
+    "pen.fade",
+    "mk.fade"
+   ]
+  },
+  {
+   "cor": "#E6DBC6",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.preview"
+   ]
+  },
+  {
+   "cor": "#FF0000",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#B6ACE4@0.32",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "24"
+   ],
+   "exemplos": [
+    "sp.page.spaceOpener.area"
+   ]
+  },
+  {
+   "cor": "#FFFDF8@0.9",
+   "existe": null,
+   "nomeProposto": "paperWhite",
+   "usos": 2,
+   "pranchas": [
+    "24"
+   ],
+   "exemplos": [
+    "sp.page.spaceOpener.area"
+   ]
+  },
+  {
+   "cor": "#FFC1C6@0.95",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card2.body.quote.mark"
+   ]
+  },
+  {
+   "cor": "#FFFAF1@0.85",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card2.body.note.tape",
+    "hl.list.card5.body.note.tape"
+   ]
+  },
+  {
+   "cor": "#5B4A1C",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card2.body.note.label",
+    "hl.list.card5.body.note.label"
+   ]
+  },
+  {
+   "cor": "#ABCF82@0.85",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card3.body.quote.mark"
+   ]
+  },
+  {
+   "cor": "#B6ACE4@0.75",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card5.body.quote.mark"
+   ]
+  },
+  {
+   "cor": "#5B3A3E",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "25",
+    "27"
+   ],
+   "exemplos": [
+    "hl.list.card5.body.club.chip.replies",
+    "toc.sheet.club.kicker"
+   ]
+  },
+  {
+   "cor": "#D9CCB4",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.cream.line1",
+    "rs.sheet.papers.cream.line2"
+   ]
+  },
+  {
+   "cor": "#E3DCCD",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.white.line1",
+    "rs.sheet.papers.white.line2"
+   ]
+  },
+  {
+   "cor": "#CDB48C",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.sepia.line1",
+    "rs.sheet.papers.sepia.line2"
+   ]
+  },
+  {
+   "cor": "#3A332B",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.scrubber.track"
+   ]
+  },
+  {
+   "cor": "#1A1714@0.28",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 2,
+   "pranchas": [
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "toc.fade",
+    "bm.fade"
+   ]
+  },
+  {
+   "cor": "#F8F1E4@0.62",
+   "existe": null,
+   "nomeProposto": "paperCream",
+   "usos": 1,
+   "pranchas": [
+    "20"
+   ],
+   "exemplos": [
+    "r20.fade"
+   ]
+  },
+  {
+   "cor": "#B6ACE4@0.62",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "21"
+   ],
+   "exemplos": [
+    "r21.page.text.selection"
+   ]
+  },
+  {
+   "cor": "#B6ACE4@0.42",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "22"
+   ],
+   "exemplos": [
+    "ann.page.text.wavy.touchRing"
+   ]
+  },
+  {
+   "cor": "#FFFFFF",
+   "existe": null,
+   "nomeProposto": "white",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#FFFFFF@0",
+   "existe": null,
+   "nomeProposto": "white",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#FFFF00",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#00FF00",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#00FFFF",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#0000FF",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#FF00FF",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.wheel"
+   ]
+  },
+  {
+   "cor": "#8A7F63",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.tip"
+   ]
+  },
+  {
+   "cor": "#3D3830",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.tip.text"
+   ]
+  },
+  {
+   "cor": "#B6ACE4@0.55",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "24"
+   ],
+   "exemplos": [
+    "sp.page.spaceOpener.finger"
+   ]
+  },
+  {
+   "cor": "#EEDDBF",
+   "existe": null,
+   "nomeProposto": "paperSepia",
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.sepia.card"
+   ]
+  },
+  {
+   "cor": "#4A3622",
+   "existe": null,
+   "nomeProposto": "bookTextSepia",
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.sepia.sample"
+   ]
+  },
+  {
+   "cor": "#E3D9C6",
+   "existe": null,
+   "nomeProposto": "bookTextNight",
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.page.text"
+   ]
+  },
+  {
+   "cor": "#14110E@0.55",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.fade"
+   ]
+  }
+ ],
+ "raios": [
+  {
+   "raio": "50%",
+   "existe": null,
+   "usos": 142,
+   "exemplos": [
+    "r20.topIsland.close",
+    "r20.topIsland.search",
+    "r20.topIsland.bookmark"
+   ]
+  },
+  {
+   "raio": "999px",
+   "existe": "pill",
+   "usos": 74,
+   "exemplos": [
+    "r20.bottomIsland.scrubber.track",
+    "r20.bottomIsland.tools.notes.badge",
+    "r20.timeChip"
+   ]
+  },
+  {
+   "raio": "16px",
+   "existe": null,
+   "usos": 28,
+   "exemplos": [
+    "r20.bottomIsland.tools.font.circle",
+    "r20.bottomIsland.tools.theme.circle",
+    "r20.bottomIsland.tools.notes.circle"
+   ]
+  },
+  {
+   "raio": "2px",
+   "existe": null,
+   "usos": 27,
+   "exemplos": [
+    "r21.page.text.selection",
+    "ann.page.text.doubleUnderline.line1",
+    "ann.page.text.doubleUnderline.line2"
+   ]
+  },
+  {
+   "raio": "26px",
+   "existe": null,
+   "usos": 17,
+   "exemplos": [
+    "ann.modePill",
+    "ann.done",
+    "ann.island"
+   ]
+  },
+  {
+   "raio": "3px",
+   "existe": null,
+   "usos": 12,
+   "exemplos": [
+    "r21.page.text.highlight",
+    "mk.markerPanel.preview.highlight",
+    "mk.markerPanel.styles.fill.sample.word"
+   ]
+  },
+  {
+   "raio": "14px",
+   "existe": null,
+   "usos": 11,
+   "exemplos": [
+    "r21.toolbar.actions.note",
+    "r21.toolbar.actions.copy",
+    "r21.toolbar.actions.share"
+   ]
+  },
+  {
+   "raio": "20px",
+   "existe": "navItem",
+   "usos": 8,
+   "exemplos": [
+    "hl.list.card1",
+    "hl.list.card2",
+    "hl.list.card3"
+   ]
+  },
+  {
+   "raio": "18px",
+   "existe": null,
+   "usos": 5,
+   "exemplos": [
+    "hn.page.handNote",
+    "toc.sheet.club",
+    "bm.sheet.bookmarks.item1.row"
+   ]
+  },
+  {
+   "raio": "32px 32px 44px 44px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "rs.sheet",
+    "toc.sheet",
+    "bm.sheet"
+   ]
+  },
+  {
+   "raio": "31px",
+   "existe": null,
+   "usos": 2,
+   "exemplos": [
+    "r20.topIsland",
+    "r20.topIsland"
+   ]
+  },
+  {
+   "raio": "28px",
+   "existe": "card",
+   "usos": 2,
+   "exemplos": [
+    "r20.bottomIsland",
+    "r20.bottomIsland"
+   ]
+  },
+  {
+   "raio": "10px",
+   "existe": null,
+   "usos": 2,
+   "exemplos": [
+    "r20.bottomIsland.scrubber.bubble",
+    "r20.bottomIsland.scrubber.bubble"
+   ]
+  },
+  {
+   "raio": "22px",
+   "existe": "cardM",
+   "usos": 2,
+   "exemplos": [
+    "r21.toolbar",
+    "hl.end"
+   ]
+  },
+  {
+   "raio": "12px",
+   "existe": null,
+   "usos": 2,
+   "exemplos": [
+    "hl.list.card2.body.note",
+    "hl.list.card5.body.note"
+   ]
+  },
+  {
+   "raio": "999px 0px 0px 999px",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "pen.penPanel.size.slider.fill"
+   ]
+  },
+  {
+   "raio": "6px",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "pen.penPanel.picker.hex.swatch"
+   ]
+  },
+  {
+   "raio": "9px",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "sp.page.spaceOpener.sizeChip"
+   ]
+  }
+ ],
+ "bordas": [
+  {
+   "borda": "1.5px solid",
+   "existe": "regular",
+   "usos": 225,
+   "exemplos": [
+    "r20.topIsland",
+    "r20.topIsland.close",
+    "r20.bottomIsland"
+   ]
+  },
+  {
+   "borda": "1.5px dashed",
+   "existe": "regular",
+   "usos": 23,
+   "exemplos": [
+    "r20.bottomIsland.tools",
+    "r21.toolbar.colors",
+    "ann.page.text.wavy.touchRing"
+   ]
+  },
+  {
+   "borda": "1.3px solid",
+   "existe": null,
+   "usos": 15,
+   "exemplos": [
+    "toc.sheet.chapters.ch25.marks.highlight",
+    "toc.sheet.chapters.ch25.read",
+    "toc.sheet.chapters.ch26.read"
+   ]
+  },
+  {
+   "borda": "1.2px solid",
+   "existe": "thin",
+   "usos": 13,
+   "exemplos": [
+    "mk.markerPanel.heights.low.sample",
+    "mk.markerPanel.heights.medium.sample",
+    "mk.markerPanel.heights.high.sample"
+   ]
+  },
+  {
+   "borda": "1.2px dashed",
+   "existe": "thin",
+   "usos": 12,
+   "exemplos": [
+    "toc.sheet.chapters.ch25.link",
+    "toc.sheet.chapters.ch26.link",
+    "toc.sheet.chapters.ch27.link"
+   ]
+  },
+  {
+   "borda": "2px solid",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "r20.bottomIsland.scrubber.knob",
+    "pen.penPanel.size.slider.knob",
+    "r20.bottomIsland.scrubber.knob"
+   ]
+  },
+  {
+   "borda": "3px solid",
+   "existe": null,
+   "usos": 2,
+   "exemplos": [
+    "pen.penPanel.picker.wheel.cursor",
+    "pen.penPanel.picker.brightness.knob"
+   ]
+  },
+  {
+   "borda": "1.3px dashed",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "mk.markerPanel.tip"
+   ]
+  }
+ ],
+ "sombras": [
+  {
+   "sombra": "#1A1714 3px 3px 0px 0px",
+   "usos": 26,
+   "exemplos": [
+    "r20.topIsland",
+    "r20.bottomIsland",
+    "r21.toolbar"
+   ]
+  },
+  {
+   "sombra": "#1A1714 2px 2px 0px 0px",
+   "usos": 16,
+   "exemplos": [
+    "r20.bottomIsland.scrubber.knob",
+    "pen.penPanel.tips.ballpoint",
+    "pen.penPanel.size.slider.knob"
+   ]
+  },
+  {
+   "sombra": "#FFFAF1 0px 0px 0px 2.5px",
+   "usos": 5,
+   "exemplos": [
+    "ann.island.colorWell.ink",
+    "pen.island.colorWell.ink",
+    "mk.island.colorWell.ink"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 0px 0px 1px",
+   "usos": 5,
+   "exemplos": [
+    "ann.island.width.thin.dot",
+    "pen.island.width.thin.dot",
+    "mk.island.width.thin.dot"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 0px 0px 1.2px",
+   "usos": 5,
+   "exemplos": [
+    "ann.island.width.medium.dot",
+    "pen.island.width.medium.dot",
+    "mk.island.width.medium.dot"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 0px 0px 1.4px",
+   "usos": 5,
+   "exemplos": [
+    "ann.island.width.thick.dot",
+    "pen.island.width.thick.dot",
+    "mk.island.width.thick.dot"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 4px 0px 0px",
+   "usos": 3,
+   "exemplos": [
+    "rs.sheet",
+    "toc.sheet",
+    "bm.sheet"
+   ]
+  },
+  {
+   "sombra": "#1A1714 4px 4px 0px 0px",
+   "usos": 2,
+   "exemplos": [
+    "pen.penPanel",
+    "mk.markerPanel"
+   ]
+  },
+  {
+   "sombra": "#FFFAF1 0px 0px 0px 2.5px, #1A1714 0px 0px 0px 4px",
+   "usos": 2,
+   "exemplos": [
+    "pen.penPanel.favorites.coral",
+    "mk.markerPanel.colors.yellow.swatch"
+   ]
+  },
+  {
+   "sombra": "#0B0A08 3px 3px 0px 0px",
+   "usos": 2,
+   "exemplos": [
+    "r20.topIsland",
+    "r20.bottomIsland"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 0px 0px 1.5px, #1A1714 2px 2px 0px 1.5px",
+   "usos": 1,
+   "exemplos": [
+    "pen.penPanel.picker.wheel.cursor"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 0px 0px 1.5px",
+   "usos": 1,
+   "exemplos": [
+    "pen.penPanel.picker.brightness.knob"
+   ]
+  },
+  {
+   "sombra": "#0B0A08 2px 2px 0px 0px",
+   "usos": 1,
+   "exemplos": [
+    "r20.bottomIsland.scrubber.knob"
+   ]
+  }
+ ],
+ "sombrasExistentes": {
+  "hard4": [
+   4.0,
+   4.0
+  ],
+  "hard3": [
+   3.0,
+   3.0
+  ],
+  "hard2": [
+   2.0,
+   2.0
+  ],
+  "drop4": [
+   0.0,
+   4.0
+  ]
+ },
+ "estilosDeTexto": [
+  {
+   "familia": "Atkinson Hyperlegible",
+   "tamanho": 26.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "28.6px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.atkinson.sample"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 15.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "17.05px",
+   "espacamento": "-0.2px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 5,
+   "pranchas": [
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "ann.modePill.title",
+    "pen.modePill.title",
+    "mk.modePill.title",
+    "sp.modePill.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 17.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "18.7px",
+   "espacamento": "-0.3px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "20"
+   ],
+   "exemplos": [
+    "r20.topIsland.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 17.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "18.7px",
+   "espacamento": "-0.3px",
+   "cor": "#EDE3D1",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.topIsland.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 22.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "23.1px",
+   "espacamento": "-0.4px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "23",
+    "23b"
+   ],
+   "exemplos": [
+    "pen.penPanel.title",
+    "mk.markerPanel.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 23.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.5px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 26.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "26px",
+   "espacamento": "-0.6px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "toc.sheet.title",
+    "bm.sheet.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 34.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "33.32px",
+   "espacamento": "-1px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.title"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 25,
+   "pranchas": [
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "ann.island.labels.marker",
+    "ann.island.labels.eraser",
+    "ann.island.labels.lasso",
+    "ann.island.labels.line"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 5,
+   "pranchas": [
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "ann.island.labels.pen.pill",
+    "pen.island.labels.pen.pill",
+    "mk.island.labels.marker.pill",
+    "sp.island.labels.space.pill"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#3B3466",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.literata.caption"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 3,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.lora.caption",
+    "rs.sheet.fonts.figtree.caption",
+    "rs.sheet.fonts.atkinson.caption"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.9px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 11,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card1.head.highlight",
+    "hl.list.card2.head.highlight",
+    "hl.list.card2.head.note",
+    "hl.list.card3.head.highlight"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1px",
+   "cor": "#5B4A1C",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card2.body.note.label",
+    "hl.list.card5.body.note.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card7.body.handNote.tag"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.colors.yellow.count",
+    "mk.markerPanel.colors.pink.count",
+    "mk.markerPanel.colors.green.count",
+    "mk.markerPanel.colors.lavender.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#A89D8B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "24b"
+   ],
+   "exemplos": [
+    "hn.page.handNote.hint"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "20",
+    "26b",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools.notes.badge",
+    "r20.bottomIsland.tools.notes.badge",
+    "bm.sheet.bookmarks.item3.head.here"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "11px",
+   "espacamento": "1.2px",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "21"
+   ],
+   "exemplos": [
+    "r21.toolbar.colors.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1.2px",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 11,
+   "pranchas": [
+    "23",
+    "23b",
+    "26"
+   ],
+   "exemplos": [
+    "pen.penPanel.tipLabel",
+    "pen.penPanel.sizeHeader.label",
+    "pen.penPanel.colorLabel",
+    "pen.penPanel.picker.brightnessLabel"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1px",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.filters.colors.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.8px",
+   "cor": "#5B3A3E",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.club.kicker"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#A89D8B",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": false,
+   "usos": 6,
+   "pranchas": [
+    "19",
+    "20",
+    "21"
+   ],
+   "exemplos": [
+    "r19.footer.pageLabel",
+    "r19.footer.percent",
+    "r20.footer.pageLabel",
+    "r20.footer.percent"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 5,
+   "pranchas": [
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b"
+   ],
+   "exemplos": [
+    "ann.modePill.subtitle",
+    "pen.modePill.subtitle",
+    "mk.modePill.subtitle",
+    "sp.modePill.subtitle"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.footer.pageLabel",
+    "r20.footer.percent"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 3,
+   "pranchas": [
+    "27b"
+   ],
+   "exemplos": [
+    "bm.sheet.bookmarks.item1.date",
+    "bm.sheet.bookmarks.item2.date",
+    "bm.sheet.bookmarks.item3.date"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 7,
+   "pranchas": [
+    "21",
+    "24b",
+    "26",
+    "27"
+   ],
+   "exemplos": [
+    "r21.toolbar.actions.note",
+    "r21.toolbar.actions.copy",
+    "r21.toolbar.actions.share",
+    "r21.toolbar.actions.search"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 3,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch25.marks.count",
+    "toc.sheet.chapters.ch31.marks.count",
+    "toc.sheet.chapters.ch32.marks.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 8,
+   "pranchas": [
+    "20",
+    "26"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools.font",
+    "r20.bottomIsland.tools.theme",
+    "r20.bottomIsland.tools.notes",
+    "r20.bottomIsland.tools.annotate"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 8,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card1.head.date",
+    "hl.list.card2.head.date",
+    "hl.list.card3.head.date",
+    "hl.list.card4.head.date"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#EDE3D1",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 5,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools.font",
+    "r20.bottomIsland.tools.theme",
+    "r20.bottomIsland.tools.notes",
+    "r20.bottomIsland.tools.annotate"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "27b"
+   ],
+   "exemplos": [
+    "bm.sheet.bookmarks.item1.head.chapter",
+    "bm.sheet.bookmarks.item2.head.chapter",
+    "bm.sheet.bookmarks.item3.head.chapter"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 11,
+   "pranchas": [
+    "23",
+    "23b",
+    "26"
+   ],
+   "exemplos": [
+    "pen.penPanel.tips.ballpoint",
+    "pen.penPanel.tips.fountain",
+    "pen.penPanel.tips.brush",
+    "mk.markerPanel.styles.fill"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.5px",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 12,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch25.numeral",
+    "toc.sheet.chapters.ch26.numeral",
+    "toc.sheet.chapters.ch27.numeral",
+    "toc.sheet.chapters.ch28.numeral"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.5px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch32.numeral"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 3,
+   "pranchas": [
+    "20",
+    "23",
+    "23b"
+   ],
+   "exemplos": [
+    "r20.topIsland.author",
+    "pen.penPanel.subtitle",
+    "mk.markerPanel.subtitle"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "16.875px",
+   "espacamento": "normal",
+   "cor": "#3D3830",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.tip.text"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#B5AA98",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.topIsland.author"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "20"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.progressRow.position",
+    "r20.bottomIsland.progressRow.timeLeft"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B3A3E",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card5.body.club.chip.replies"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#B5AA98",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.progressRow.position",
+    "r20.bottomIsland.progressRow.timeLeft"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "20",
+    "24"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.scrubber.bubble",
+    "sp.page.spaceOpener.sizeChip"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": false,
+   "usos": 9,
+   "pranchas": [
+    "20",
+    "25",
+    "27b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.progressRow.position.percent",
+    "hl.list.sep1.label",
+    "hl.list.sep2.label",
+    "hl.list.sep3.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 5,
+   "pranchas": [
+    "20",
+    "23b",
+    "25",
+    "26b"
+   ],
+   "exemplos": [
+    "r20.timeChip",
+    "mk.markerPanel.colorsHeader.editLabels",
+    "hl.list.card5.body.club.chip",
+    "hl.list.sep6.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1F1B17",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.scrubber.bubble"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#EDE3D1",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.progressRow.position.percent"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 900,
+   "estilo": "normal",
+   "alturaLinha": "16.875px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.tip.text.strong"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "23b",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.heights.low",
+    "mk.markerPanel.heights.high",
+    "toc.sheet.subtitle",
+    "bm.sheet.subtitle"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "18.85px",
+   "espacamento": "normal",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "27b"
+   ],
+   "exemplos": [
+    "bm.sheet.hint.text"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.spacing.tight",
+    "rs.sheet.spacing.loose",
+    "rs.sheet.margins.narrow",
+    "rs.sheet.margins.wide"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#6F665B",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": true,
+   "usos": 12,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch25.page",
+    "toc.sheet.chapters.ch26.page",
+    "toc.sheet.chapters.ch27.page",
+    "toc.sheet.chapters.ch28.page"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "23",
+    "27"
+   ],
+   "exemplos": [
+    "pen.penPanel.sizeHeader.value",
+    "toc.sheet.chapters.ch32.page"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "23b",
+    "25",
+    "26"
+   ],
+   "exemplos": [
+    "mk.markerPanel.heights.medium",
+    "hl.filters.clubOnly",
+    "rs.sheet.spacing.medium",
+    "rs.sheet.margins.medium"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.types.all.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 4,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.types.highlights.count",
+    "hl.types.notes.count",
+    "hl.types.handwritten.count",
+    "hl.types.drawings.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "15.525px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 4,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.colors.yellow.label",
+    "mk.markerPanel.colors.pink.label",
+    "mk.markerPanel.colors.green.label",
+    "mk.markerPanel.colors.lavender.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 5,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.types.all",
+    "hl.types.highlights",
+    "hl.types.notes",
+    "hl.types.handwritten"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.subtitle"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#3B3466",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "toc.sheet.tabs.chapters.count",
+    "bm.sheet.tabs.bookmarks.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "toc.sheet.tabs.bookmarks",
+    "bm.sheet.tabs.chapters"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "toc.sheet.tabs.bookmarks.count",
+    "bm.sheet.tabs.chapters.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "25",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "hl.topBar.export",
+    "hl.subtitle.strong",
+    "toc.sheet.tabs.chapters",
+    "bm.sheet.tabs.bookmarks"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "20.3px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card2.body.note.text",
+    "hl.list.card5.body.note.text"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "27"
+   ],
+   "exemplos": [
+    "ann.done",
+    "pen.done",
+    "mk.done",
+    "sp.done"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.6px",
+   "cor": "#1A1714",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "23"
+   ],
+   "exemplos": [
+    "pen.penPanel.picker.hex.value"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.end.cta.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 26.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "28.6px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.figtree.sample"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 22.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "25.3px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.end.text"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 28.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "normal",
+   "espacamento": "-0.2px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 42.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "41.16px",
+   "espacamento": "-0.4px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.title.serif"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 15.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.size.smaller"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 15.5,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "23.25px",
+   "espacamento": "normal",
+   "cor": "#4A4238",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 3,
+   "pranchas": [
+    "27b"
+   ],
+   "exemplos": [
+    "bm.sheet.bookmarks.item1.excerpt",
+    "bm.sheet.bookmarks.item2.excerpt",
+    "bm.sheet.bookmarks.item3.excerpt"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 16.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "19.2px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 6,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.styles.fill.sample",
+    "mk.markerPanel.styles.fill.sample.word",
+    "mk.markerPanel.styles.underline.sample",
+    "mk.markerPanel.styles.underline.sample.word"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 16.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "20px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 7,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch25.title",
+    "toc.sheet.chapters.ch26.title",
+    "toc.sheet.chapters.ch27.title",
+    "toc.sheet.chapters.ch28.title"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 16.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "20px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 5,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch33.title",
+    "toc.sheet.chapters.ch34.title",
+    "toc.sheet.chapters.ch35.title",
+    "toc.sheet.chapters.ch36.title"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 16.5,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "26.4px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 17,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card1.body.quote",
+    "hl.list.card1.body.quote.mark",
+    "hl.list.card2.body.quote",
+    "hl.list.card2.body.quote.mark"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 16.5,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "26.4px",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 9,
+   "pranchas": [
+    "25"
+   ],
+   "exemplos": [
+    "hl.list.card1.body.quote.context",
+    "hl.list.card3.body.quote.context",
+    "hl.list.card4.body.quote.context",
+    "hl.list.card6.body.quote.context"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 17.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "25.5px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "23b"
+   ],
+   "exemplos": [
+    "mk.markerPanel.preview",
+    "mk.markerPanel.preview.highlight"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 17.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "21.25px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "27"
+   ],
+   "exemplos": [
+    "toc.sheet.chapters.ch32.title"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 18.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "18px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.cream.sample"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 18.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "18px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.white.sample"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 18.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "18px",
+   "espacamento": "normal",
+   "cor": "#4A3622",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.sepia.sample"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 18.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "18px",
+   "espacamento": "normal",
+   "cor": "#EDE3D1",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.papers.night.sample"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 19.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "20"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools.font.circle"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 19.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#EDE3D1",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.bottomIsland.tools.font.circle"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 20.5,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "35.26px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 36,
+   "pranchas": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "23b",
+    "24",
+    "24b",
+    "26",
+    "27",
+    "27b"
+   ],
+   "exemplos": [
+    "r19.page.text",
+    "r20.page.text",
+    "r21.page.text",
+    "r21.page.text.highlight"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 20.5,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "35.26px",
+   "espacamento": "normal",
+   "cor": "#E3D9C6",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26b"
+   ],
+   "exemplos": [
+    "r20.page.text"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 25.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.size.larger"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 26.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "28.6px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.literata.sample"
+   ]
+  },
+  {
+   "familia": "Lora",
+   "tamanho": 26.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "28.6px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "26"
+   ],
+   "exemplos": [
+    "rs.sheet.fonts.lora.sample"
+   ]
+  }
+ ]
+}
