@@ -11,7 +11,6 @@
 library;
 
 import 'dart:convert';
-import 'dart:io' show Platform;
 
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
@@ -28,11 +27,10 @@ import 'package:supabase_flutter/supabase_flutter.dart'
 import '../features/account/support/account_fakes.dart';
 import '../features/account/support/fake_backend.dart' as fb;
 import '../support/personal_builders.dart';
+import 'support/local.dart';
 
-final String? _url = Platform.environment['BOOKNEST_SUPABASE_URL'];
-final String? _key = Platform.environment['BOOKNEST_SUPABASE_PUBLISHABLE_KEY'];
-final String _mailpit =
-    Platform.environment['BOOKNEST_MAILPIT_URL'] ?? 'http://127.0.0.1:54324';
+final String? _url = supabaseUrlLocal;
+final String? _key = supabaseChaveLocal;
 
 /// Grava os pedidos que saem do app (para o teste de privacidade) e repassa à rede de verdade.
 final class _Gravador extends http.BaseClient {
@@ -46,36 +44,6 @@ final class _Gravador extends http.BaseClient {
     final body = request is http.Request ? request.body : '<stream>';
     pedidos.add(fb.Pedido(request.method, request.url, body, request.headers));
     return _inner.send(request);
-  }
-}
-
-Future<String> _codigoNoMailpit(
-  String email, {
-  required DateTime depoisDe,
-}) async {
-  final c = http.Client();
-  try {
-    for (var i = 0; i < 40; i++) {
-      final r = await c.get(Uri.parse('$_mailpit/api/v1/messages?limit=50'));
-      final lista =
-          (jsonDecode(r.body) as Map)['messages'] as List? ?? const [];
-      for (final m in lista.cast<Map>()) {
-        final para = (m['To'] as List).cast<Map>().map((t) => t['Address']);
-        final quando = DateTime.parse(m['Created'] as String);
-        if (!para.contains(email) || quando.isBefore(depoisDe)) continue;
-        final msg = await c.get(
-          Uri.parse('$_mailpit/api/v1/message/${m['ID']}'),
-        );
-        final corpo = jsonDecode(msg.body) as Map;
-        final codigo = RegExp(r'\b(\d{6})\b')
-            .firstMatch('${corpo['Text'] ?? ''} ${corpo['HTML'] ?? ''}');
-        if (codigo != null) return codigo[1]!;
-      }
-      await Future<void>.delayed(const Duration(milliseconds: 500));
-    }
-    throw StateError('o e-mail com o código não chegou ao Mailpit');
-  } finally {
-    c.close();
   }
 }
 
@@ -129,7 +97,7 @@ void main() {
       );
       final antes = DateTime.now().toUtc().subtract(const Duration(seconds: 5));
       await ctl.sendEmailCode(email);
-      final codigo = await _codigoNoMailpit(email, depoisDe: antes);
+      final codigo = await codigoNoMailpit(email, depoisDe: antes);
       await ctl.verifyEmailCode(email, codigo);
       await ctl.settled();
 
