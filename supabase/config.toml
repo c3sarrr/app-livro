@@ -390,7 +390,26 @@ deno_version = 2
 # secret_key = "env(SECRET_VALUE)"
 # Segredos das funções: supabase/functions/.env (fora do git; modelo em supabase/functions/.env.example).
 
-# BookNest: as seções [functions.*] entram com as Edge Functions (G04.4).
+# BookNest — autorização das funções (supabase/functions/_shared/auth.ts confere de novo no código):
+# * do usuário (JWT do Supabase Auth): verify_jwt = true (padrão);
+# * webhook do RevenueCat (segredo próprio no cabeçalho Authorization) e chamadas do agendador
+#   (pg_cron + pg_net com a chave secreta no cabeçalho apikey): verify_jwt = false.
+[functions.isbn-lookup]
+verify_jwt = true
+[functions.ebook-upload-url]
+verify_jwt = true
+[functions.export-data]
+verify_jwt = true
+[functions.delete-account]
+verify_jwt = true
+[functions.revenuecat-webhook]
+verify_jwt = false
+[functions.email-sender]
+verify_jwt = false
+[functions.purge-storage]
+verify_jwt = false
+[functions.push-sender]
+verify_jwt = false
 
 [analytics]
 # BookNest: desligado no ambiente local (economiza memória do WSL; não é usado nos testes).

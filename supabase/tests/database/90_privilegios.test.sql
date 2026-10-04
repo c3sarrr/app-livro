@@ -93,7 +93,7 @@ select set_eq($$ select papel || ' ' || objeto from privilegios_de_funcao $$,
   $$ select 'authenticated ' || f from unnest(array[
        'public.sync_apply_changes(jsonb)', 'public.my_entitlement()', 'public.profile_preview(text)',
        'public.publish_my_stats(integer, integer, integer, integer)', 'public.join_club(text)',
-       'public.join_public_club(uuid)', 'public.search_editions(text, integer)',
+       'public.join_public_club(uuid)', 'public.search_editions(text, integer)', 'public.export_my_data()',
        'private.uuid_generate_v7()', 'private.f_unaccent(text)', 'private.is_pro()', 'private.user_is_pro(uuid)',
        'private.can_sync(uuid)', 'private.is_club_member(uuid)', 'private.is_club_admin(uuid)',
        'private.is_blocked_between(uuid, uuid)', 'private.can_view_profile_content(uuid)']) f $$,

@@ -6,3 +6,6 @@
 .env.keys
 .env.local
 .env.*.local
+
+# BookNest: segredos locais das Edge Functions (modelo: functions/.env.example)
+functions/.env
