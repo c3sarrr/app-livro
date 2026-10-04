@@ -8,6 +8,9 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000b', 'bia@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000c', 'caio@exemplo.com');
+-- G06.0: o social exige a faixa etária registrada (migration social_exige_faixa); aqui são adultos
+insert into private.account_age (user_id, band, source)
+select id, '18_plus', 'birthdate' from auth.users on conflict (user_id) do nothing;
 -- G05: conta nova nasce com o perfil fechado até registrar a faixa etária (D-66); aqui são adultos de perfil aberto
 update public.profiles set visibility = 'public';
 insert into billing.entitlements (user_id, entitlement, active_until)

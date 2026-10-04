@@ -60,6 +60,8 @@ final class SupabaseAccountApi implements AccountApi {
     ('23505', _) when handle => const HandleTaken(),
     ('23514', _) || (_, 'handle_reserved') when handle => const HandleInvalid(),
     (_, 'content_blocked') => const ContentBlocked(),
+    (_, 'age_required') =>
+      const AgeCheckRequired(), // social sem faixa registrada
     (_, 'underage') => const Underage(),
     (_, 'quota_exceeded') => const ExportLimitReached(),
     ('28000', _) || ('PGRST301', _) || ('PGRST303', _) => const NotSignedIn(),

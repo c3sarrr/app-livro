@@ -9,6 +9,9 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000b', 'bia@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000c', 'caio@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000d', 'duda@exemplo.com');
+-- G06.0: o social exige a faixa etária registrada (migration social_exige_faixa); aqui são adultos
+insert into private.account_age (user_id, band, source)
+select id, '18_plus', 'birthdate' from auth.users on conflict (user_id) do nothing;
 insert into billing.entitlements (user_id, entitlement, active_until) values
   ('00000000-0000-7000-8000-00000000000a', 'pro', now() + interval '30 days'),
   ('00000000-0000-7000-8000-00000000000d', 'pro', now() + interval '30 days');

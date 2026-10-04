@@ -118,6 +118,10 @@ void main() {
       isA<ContentBlocked>(),
     );
     await espera(
+      erroPostgrest(400, 'P0001', 'age_required'),
+      isA<AgeCheckRequired>(),
+    );
+    await espera(
       erroPostgrest(401, 'PGRST301', 'JWT expired'),
       isA<NotSignedIn>(),
     );
