@@ -61,7 +61,9 @@
 | D-67 | **Login:** e-mail com código (OTP), Google e Apple implementados e testados com dublês na G05; o e-mail com código é testado de ponta a ponta no Supabase local; as credenciais reais (cliente OAuth do Google, conta Apple Developer) entram quando os projetos na nuvem existirem (D-63) | Escolha de 04/10 | **APROVADA 04/10/2026** |
 | D-68 | **Dados do aparelho por conta:** cada conta (e o convidado) tem a sua biblioteca no aparelho. Ao sair, os dados ficam guardados e escondidos (voltam quando a mesma conta entra de novo), com a opção de apagá-los; o que foi feito como convidado passa para a conta que entrar em seguida | Aparelho compartilhado; LGPD (um usuário não vê os dados do outro) | **APROVADA 04/10/2026** |
 | D-69 | **Acesso à conta até o design do Perfil (telas 01–18):** sem tela de boas-vindas (o app abre na Início como convidado); a aba Perfil deixa de ser placeholder puro e ganha, abaixo do título, um bloco mínimo D-21 com Entrar/Sair, Exportar meus dados e Excluir conta | Exigência das lojas (excluir conta dentro do app) + D-64 | **APROVADA 04/10/2026** |
-| D-70 | **Faixa etária só fica mais protegida pelo app (revisão da G05):** a fonte informada pelo app (sinal da loja ou data) não é prova, então pela RPC a faixa só se mantém ou passa a uma mais nova; o adolescente não vira adulto por ela (quem completa 16/18 precisa de uma reverificação que o app não forja — fluxo a definir na G25). Conta nova nasce com o perfil fechado até registrar a faixa; "menor de 13" fica registrado no aparelho (outra data não destrava; só o sinal da loja) | D-66 + ECA Digital (padrão protetivo); achado alto da revisão independente | **APLICADA 04/10/2026 — confirmar na aprovação da G05** |
+| D-70 | **Faixa etária só fica mais protegida pelo app (revisão da G05):** a fonte informada pelo app (sinal da loja ou data) não é prova, então pela RPC a faixa só se mantém ou passa a uma mais nova; o adolescente não vira adulto por ela (quem completa 16/18 precisa de uma reverificação que o app não forja — fluxo a definir na G25). Conta nova nasce com o perfil fechado até registrar a faixa; "menor de 13" fica registrado no aparelho (outra data não destrava; só o sinal da loja) | D-66 + ECA Digital (padrão protetivo); achado alto da revisão independente | **APROVADA 04/10/2026** |
+| D-71 | **PowerSync (Q7):** a G06 roda inteira no aparelho de desenvolvimento — serviço PowerSync (edição Open) no Docker do WSL contra o Supabase local, nada na nuvem (como a D-63); na produção, **PowerSync Cloud região Brasil** (o self-host em São Paulo continua como plano de saída — ADR-003) | Q7 + D-63 | **APROVADA 04/10/2026** |
+| D-72 | **O social exige a faixa etária registrada** (pendência da G16 antecipada antes da G06): conta sem faixa não publica, comenta, curte, segue, cria/entra em clube nem abre o perfil; denunciar, bloquear e registrar o aparelho continuam livres | D-66/D-70 | **APROVADA 04/10/2026** |
 
 ## 2. ADRs técnicos a escrever (com prova) — `docs/adr/`
 
@@ -91,6 +93,8 @@ Respostas em 03/10/2026: **Q2** = R$ 9,99/mês e R$ 79,99/ano · **Q5** = decidi
 Respostas em 04/10/2026 (antes da G04): **Q20** = sim (ADR-002 e ADR-003 aceitas) · **Q25** = A → D-60 · **Q26** = A → D-61 · **Q6** = só local na G04; projetos na nuvem depois → D-63 · ambiente do Supabase local → D-62.
 
 Respostas em 04/10/2026 (antes da G05): **Q3** = sim → D-64 · **Q4** = A (todos exportam tudo em JSON) → D-65 · verificação de idade = sinal da loja + nascimento → D-66 · login = código agora, chaves depois → D-67 · sair da conta = cada conta tem a sua biblioteca no aparelho → D-68 · acesso à conta = bloco mínimo na aba Perfil, sem boas-vindas → D-69.
+
+Respostas em 04/10/2026 (antes da G06): **D-70** confirmada · **Q7** = PowerSync local na G06, Cloud região Brasil na produção → D-71 · escrita social exige faixa, antecipada → D-72 · **Q9** = decidir depois (exigido só para publicar — G25/G27).
 
 
 | # | Pergunta | Bloqueia |

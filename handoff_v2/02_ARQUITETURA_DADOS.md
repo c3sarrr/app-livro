@@ -167,6 +167,8 @@ Pendências do SQL (fazer na G04, com teste): `public.publish_my_stats` (já exi
 
 **Feito na G05** (migration `conta_e_idade`, testes em `14_conta_e_idade.test.sql`): faixa etária da conta em `private.account_age` (só a **faixa** — `13_15`, `16_17`, `18_plus` — e a **fonte** — `play_signal`, `apple_signal`, `birthdate`; nunca a data de nascimento), gravada pela RPC `public.set_my_age_band` (menor de 13 recusado com `underage`; a data de nascimento não sobrescreve faixa já registrada, o sinal da loja sim; menor de 18 tem o perfil fechado por padrão — D-66); `public.my_account()` devolve o resumo da conta para o app (@, nome, visibilidade, se o @ ainda é o provisório "leitor_…", faixa, Pro); o @ no formato do provisório é reservado ao servidor (gatilho `profiles_handle_reserved`); `export_my_data` passa a `format_version` 2, com a faixa etária. A Edge Function `delete-account` aceita CORS **só** da origem da página web de exclusão (`EXCLUSAO_WEB_ORIGEM`). Ver `docs/progresso/RELATORIO_G05.md`.
 
+**Antes da G06** (migration `social_exige_faixa`, testes em `15_social_exige_faixa.test.sql` — D-72): o social exige a faixa etária registrada — gatilho `private.require_age_band` em seguir, posts, comentários, curtidas, clubes, membros (inclusive pelas RPCs de entrar), convites, encontros, posts e respostas de clube; abrir o próprio perfil também (`private.public_profile_requires_age`). Denunciar, bloquear e registrar o aparelho continuam livres; rotinas sem usuário no JWT não são afetadas.
+
 ### 5.4 RLS — padrões obrigatórios
 
 - RLS **ligada em todas** as tabelas; tabela sem política = só `service_role`.
