@@ -71,7 +71,7 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
          ('INSERT', 'public.clubs', array['owner_id', 'name', 'name_highlight', 'work_id', 'edition_id', 'privacy', 'goal_chapter', 'goal_chapter_label']),
          ('UPDATE', 'public.clubs', array['name', 'name_highlight', 'privacy', 'goal_chapter', 'goal_chapter_label']),
          ('UPDATE', 'public.club_members', array['progress_chapter', 'progress_ratio', 'progress_updated_at', 'last_read_post_at']),
-         ('INSERT', 'public.club_invites', array['code', 'club_id', 'created_by', 'expires_at', 'max_uses']),
+         ('INSERT', 'public.club_invites', array['club_id', 'created_by', 'expires_at', 'max_uses']),
          ('UPDATE', 'public.club_invites', array['expires_at', 'max_uses']),
          ('INSERT', 'public.club_meetings', array['club_id', 'starts_at', 'location', 'until_chapter', 'created_by', 'timezone']),
          ('UPDATE', 'public.club_meetings', array['starts_at', 'location', 'until_chapter', 'timezone']),
@@ -80,8 +80,6 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
          ('INSERT', 'public.club_post_replies', array['post_id', 'author_id', 'body']),
          ('UPDATE', 'public.club_post_replies', array['deleted_at']),
          ('UPDATE', 'public.notifications', array['read_at']),
-         ('INSERT', 'public.device_tokens', array['token', 'user_id', 'platform', 'app_version']),
-         ('UPDATE', 'public.device_tokens', array['user_id', 'platform', 'app_version', 'updated_at']),
          ('INSERT', 'public.content_reports', array['reporter_id', 'target_type', 'target_id', 'reason', 'details']),
          ('INSERT', 'catalog.community_submissions', array['isbn13', 'title', 'authors', 'publisher', 'submitted_by']),
          ('INSERT', 'catalog.submission_confirmations', array['submission_id', 'user_id'])
@@ -94,6 +92,7 @@ select set_eq($$ select papel || ' ' || objeto from privilegios_de_funcao $$,
        'public.sync_apply_changes(jsonb)', 'public.my_entitlement()', 'public.profile_preview(text)',
        'public.publish_my_stats(integer, integer, integer, integer)', 'public.join_club(text)',
        'public.join_public_club(uuid)', 'public.search_editions(text, integer)', 'public.export_my_data()',
+       'public.register_device_token(text, text, text)',
        'private.uuid_generate_v7()', 'private.f_unaccent(text)', 'private.is_pro()', 'private.user_is_pro(uuid)',
        'private.can_sync(uuid)', 'private.is_club_member(uuid)', 'private.is_club_admin(uuid)',
        'private.is_blocked_between(uuid, uuid)', 'private.can_view_profile_content(uuid)']) f $$,
@@ -107,11 +106,12 @@ select ok(not has_schema_privilege('authenticated', 'billing', 'usage'), 'authen
 select ok(has_schema_privilege('service_role', 'billing', 'usage') and has_schema_privilege('service_role', 'private', 'usage'),
   'service_role (Edge Functions) enxerga billing e private');
 
--- toda tabela dos nossos esquemas tem RLS ligada (partições herdam a da tabela particionada)
+-- toda tabela dos nossos esquemas tem RLS ligada — inclusive cada partição (partição NÃO herda a
+-- RLS da tabela particionada no acesso direto; revisão da G04)
 select is_empty($$ select n.nspname || '.' || c.relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
                     where n.nspname in ('public', 'personal', 'catalog', 'billing', 'private')
-                      and c.relkind in ('r', 'p') and not c.relispartition and not c.relrowsecurity $$,
-  'RLS ligada em todas as tabelas');
+                      and c.relkind in ('r', 'p') and not c.relrowsecurity $$,
+  'RLS ligada em todas as tabelas e partições');
 
 select * from finish();
 rollback;

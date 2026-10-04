@@ -230,10 +230,10 @@ select is(pg_temp.linhas($$ delete from public.club_members where club_id = pg_t
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
 select is(pg_temp.linhas($$ delete from public.club_members where club_id = pg_temp.id('clube_x') and user_id = '00000000-0000-7000-8000-00000000000b' $$), 0,
   'club_members_leave: o dono não "sai" (transfere)');
-select lives_ok($$ insert into public.club_invites (code, club_id, created_by, expires_at) values ('CONVITEX2', pg_temp.id('clube_x'), '00000000-0000-7000-8000-00000000000b', now() + interval '1 day') $$,
-  'club_invites_admin: o dono cria convite');
+select lives_ok($$ insert into public.club_invites (club_id, created_by, expires_at) values (pg_temp.id('clube_x'), '00000000-0000-7000-8000-00000000000b', now() + interval '1 day') $$,
+  'club_invites_admin: o dono cria convite (o código é gerado pelo servidor)');
 select pg_temp.como('00000000-0000-7000-8000-00000000000a');
-select throws_like($$ insert into public.club_invites (code, club_id, created_by, expires_at) values ('CONVITEX3', pg_temp.id('clube_x'), '00000000-0000-7000-8000-00000000000a', now() + interval '1 day') $$,
+select throws_like($$ insert into public.club_invites (club_id, created_by, expires_at) values (pg_temp.id('clube_x'), '00000000-0000-7000-8000-00000000000a', now() + interval '1 day') $$,
   '%row-level security%', 'club_invites_admin: membro comum não cria convite');
 select is((select count(*)::int from public.club_invites), 0, 'club_invites_admin: membro comum não vê os convites');
 select is((select count(*)::int from public.club_meetings), 1, 'club_meetings_read: membro vê os encontros');
@@ -291,9 +291,10 @@ select is(pg_temp.linhas($$ update public.notifications set read_at = now() wher
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
 select is((select count(*)::int from public.notifications where user_id = '00000000-0000-7000-8000-00000000000a'), 0, 'notifications_own: não vê as de outra pessoa');
 select is((select count(*)::int from public.device_tokens), 0, 'device_tokens_own: não vê o aparelho de outra pessoa');
-select lives_ok($$ insert into public.device_tokens (token, user_id, platform) values ('token-da-bia', '00000000-0000-7000-8000-00000000000b', 'ios') $$, 'device_tokens_own: registra o próprio');
-select throws_like($$ insert into public.device_tokens (token, user_id, platform) values ('token-falso', '00000000-0000-7000-8000-00000000000a', 'ios') $$,
-  '%row-level security%', 'device_tokens_own: não registra aparelho para outra pessoa');
+-- (registro só pela RPC public.register_device_token — 13_revisao_g04; aqui leitura e exclusão)
+select is(pg_temp.linhas($$ delete from public.device_tokens where token = 'token-da-ana' $$), 0, 'device_tokens_own: não apaga o aparelho de outra pessoa');
+select public.register_device_token('token-da-bia', 'ios');
+select is(pg_temp.linhas($$ delete from public.device_tokens where token = 'token-da-bia' $$), 1, 'device_tokens_own: apaga o próprio');
 select lives_ok($$ insert into public.content_reports (reporter_id, target_type, target_id, reason) values ('00000000-0000-7000-8000-00000000000b', 'post', pg_temp.id('post_a'), 'spam') $$,
   'reports_insert: denuncia em nome próprio');
 select throws_like($$ insert into public.content_reports (reporter_id, target_type, target_id, reason) values ('00000000-0000-7000-8000-00000000000c', 'post', pg_temp.id('post_a'), 'spam') $$,

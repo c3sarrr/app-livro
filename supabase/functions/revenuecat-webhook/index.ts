@@ -19,10 +19,10 @@ const handler = criarHandler({
     if (!resp.ok) throw new Error(`RevenueCat respondeu ${resp.status}`);
     return (await resp.json()).subscriber ?? null;
   },
-  async aplicar(userId, assinaturas, quando) {
+  async aplicar(userId, assinaturas, quando, buscadoEm) {
     const [r] = await sql()`select private.rc_apply_subscriber(${userId}, ${
       sql().json(assinaturas as never)
-    }, ${quando}) as estado`;
+    }, ${quando}, ${buscadoEm}) as estado`;
     return r.estado;
   },
 });

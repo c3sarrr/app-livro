@@ -65,10 +65,10 @@ select throws_ok($$ select private.ebook_upload_slot('00000000-0000-7000-8000-00
 
 -- ---------------------------------------------------------------- e-mails
 insert into private.email_outbox (user_id, template) values
-  ('00000000-0000-7000-8000-00000000000a', 'retention_warning'), ('00000000-0000-7000-8000-00000000000b', 'welcome');
+  ('00000000-0000-7000-8000-00000000000a', 'export_ready'), ('00000000-0000-7000-8000-00000000000b', 'welcome');
 select is((select array_agg(email order by email) from private.claim_emails(10)), array['ana@exemplo.com', 'bia@exemplo.com'], 'e-mails pendentes com o endereço do Auth');
 select private.finish_email(id) from private.email_outbox where template = 'welcome';
-update private.email_outbox set attempts = 5 where template = 'retention_warning';
+update private.email_outbox set attempts = 5 where template = 'export_ready';
 select is((select count(*)::int from private.claim_emails(10)), 0, 'enviado sai da fila; 5 tentativas = desiste');
 
 -- ---------------------------------------------------------------- limpeza do Storage

@@ -36,8 +36,8 @@ select is((select count(*)::int from public.clubs where name = 'Leitoras de Capi
 
 -- ---------------------------------------------------------------- OK 09: não membro
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
-insert into public.club_invites (code, club_id, created_by, expires_at)
-select 'CAPITU2026', id, '00000000-0000-7000-8000-00000000000b', now() + interval '7 days'
+insert into public.club_invites (club_id, created_by, expires_at)             -- o código é gerado pelo servidor
+select id, '00000000-0000-7000-8000-00000000000b', now() + interval '7 days'
   from public.clubs where name = 'Leitoras de Capitu';
 insert into public.club_posts (club_id, author_id, kind, chapter_index, ref_page, quote_text, quote_color, body)
 select id, '00000000-0000-7000-8000-00000000000b', 'shared_highlight', 31, 152,
@@ -46,7 +46,8 @@ select id, '00000000-0000-7000-8000-00000000000b', 'shared_highlight', 31, 152,
   from public.clubs where name = 'Leitoras de Capitu';
 reset role;
 create temp table t_post on commit drop as select id from public.club_posts;
-grant select on t_post to authenticated;
+create temp table t_convite on commit drop as select code from public.club_invites;
+grant select on t_post, t_convite to authenticated;
 set local role authenticated;
 select pg_temp.como('00000000-0000-7000-8000-00000000000c');
 select is((select count(*)::int from public.club_posts), 0, 'OK 09 não membro não vê os posts do clube');
@@ -57,7 +58,7 @@ select throws_like($$ insert into public.club_post_replies (post_id, author_id, 
 -- ---------------------------------------------------------------- OK 10: convite e resposta
 select pg_temp.como('00000000-0000-7000-8000-00000000000a');
 select throws_ok($$ select public.join_club('ERRADO123') $$, 'P0001', 'invalid_invite', 'convite inexistente recusado');
-select isnt(public.join_club('CAPITU2026'), null, 'OK 10 entra no clube pelo convite');
+select isnt(public.join_club((select code from t_convite)), null, 'OK 10 entra no clube pelo convite');
 insert into public.club_post_replies (post_id, author_id, body)
 select p.id, '00000000-0000-7000-8000-00000000000a', 'Concordo!' from public.club_posts p;
 select is((select replies_count from public.club_posts), 1, 'OK 10 contador de respostas');

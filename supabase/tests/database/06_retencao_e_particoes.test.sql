@@ -1,7 +1,7 @@
 -- Partições das sessões e retenção de 12 meses após o fim do Pro (fumaça OK 20, 21 e 23).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(16);
+select plan(17);
 
 insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
@@ -59,6 +59,9 @@ select is((select reason from private.storage_purge_queue where user_id = '00000
   'os e-books de quem foi purgado vão para a fila do Storage');
 insert into billing.entitlements (user_id, entitlement, active_until)
 values ('00000000-0000-7000-8000-00000000000c', 'pro', now() - interval '1 day');
+select private.run_retention();
+select is((select count(*)::int from private.account_lifecycle where user_id = '00000000-0000-7000-8000-00000000000c'), 1,
+  'quem perdeu o Pro entra no ciclo de retenção');
 update billing.entitlements set active_until = now() + interval '1 month' where user_id = '00000000-0000-7000-8000-00000000000c';
 select private.run_retention();
 select is((select count(*)::int from private.account_lifecycle where user_id = '00000000-0000-7000-8000-00000000000c'), 0,

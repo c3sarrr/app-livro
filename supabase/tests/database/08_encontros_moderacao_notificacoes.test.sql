@@ -61,6 +61,8 @@ insert into public.club_post_replies (post_id, author_id, body) values ('01927a0
 select is((select club_id from public.notifications where type = 'club_reply'), '01927a00-0000-7000-8000-0000000000f1'::uuid, 'resposta no clube notifica o autor do post (com o clube)');
 insert into public.user_blocks (blocker_id, blocked_id) values ('00000000-0000-7000-8000-00000000000b', '00000000-0000-7000-8000-00000000000a');
 delete from public.post_likes where user_id = '00000000-0000-7000-8000-00000000000a';
+-- (a curtida anterior "envelhece" 2 dias: sem isso a regra de 1 notificação por dia esconderia o bloqueio)
+update public.notifications set created_at = created_at - interval '2 days' where type = 'post_like';
 insert into public.post_likes (post_id, user_id) values ('01927a00-0000-7000-8000-0000000000b1', '00000000-0000-7000-8000-00000000000a');
 select is((select count(*)::int from public.notifications where type = 'post_like'), 1, 'quem bloqueou não recebe notificação do bloqueado');
 select ok((select bool_and(push_sent_at is null) from public.notifications), 'notificação nova aguarda o push (push_sent_at nulo)');

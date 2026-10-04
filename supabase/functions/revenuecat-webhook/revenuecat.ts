@@ -67,7 +67,9 @@ export function normalizarAssinatura(
     ? 'promotional'
     : 'normal';
   // A API v1 não traz o id da transação original. Play: o id da renovação é "<original>..N";
-  // nas outras lojas, a cadeia é identificada por produto + data da compra original.
+  // nas outras lojas, a cadeia é identificada por produto + data da compra original — chave que o
+  // banco torna POR USUÁRIO (private.rc_apply_subscriber), porque duas pessoas podem comprar o mesmo
+  // produto no mesmo segundo.
   const original = store === 'play_store' && s.store_transaction_id
     ? s.store_transaction_id.replace(/\.\.\d+$/, '')
     : `${productId}@${s.original_purchase_date ?? s.purchase_date}`;

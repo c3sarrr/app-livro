@@ -1,11 +1,14 @@
 // Edge Function `revenuecat-webhook` (Anexo 04 §5). Fluxo:
 // 1. Authorization = segredo configurado no RevenueCat (senão 401);
 // 2. idempotência por event.id (billing.webhook_events): 'done' → 200 sem refazer;
-// 3. estado ATUAL do assinante na API do RevenueCat (não confia na ordem dos eventos);
-// 4. grava assinaturas + direito "pro" + acesso ao sync (private.rc_apply_subscriber);
-// 5. marca o evento; em erro grava o erro e responde 500 (o RevenueCat reenvia).
+// 3. estado ATUAL de cada assinante na API do RevenueCat (não confia na ordem dos eventos) — no
+//    TRANSFER (que não traz app_user_id) são as contas de `transferred_from` e `transferred_to`;
+// 4. grava assinaturas + direito "pro" + acesso ao sync (private.rc_apply_subscriber) com a hora da
+//    busca: um estado buscado antes do último aplicado é ignorado pelo banco (webhooks em paralelo);
+// 5. marca o evento; em erro grava o erro e responde 500 (o RevenueCat reenvia). Conta que não
+//    existe mais no app (unknown_user) é pulada.
 import { segredoValido } from '../_shared/auth.ts';
-import { erro, exigeMetodo, json, lerJson, UUID } from '../_shared/http.ts';
+import { codigoDoBanco, erro, exigeMetodo, json, lerJson, UUID } from '../_shared/http.ts';
 import { type Assinatura, type AssinaturaRc, normalizarAssinante } from './revenuecat.ts';
 
 export type Dependencias = {
@@ -13,11 +16,26 @@ export type Dependencias = {
   inicioDoEvento(evento: Record<string, unknown>): Promise<'new' | 'retry' | 'done'>;
   fimDoEvento(id: string, erro?: string): Promise<void>;
   assinante(appUserId: string): Promise<{ subscriptions?: Record<string, AssinaturaRc> } | null>;
-  aplicar(userId: string, assinaturas: Assinatura[], quando: Date): Promise<{ pro: boolean }>;
+  aplicar(
+    userId: string,
+    assinaturas: Assinatura[],
+    quando: Date,
+    buscadoEm: Date,
+  ): Promise<{ pro: boolean }>;
   agora?: () => number;
 };
 
+/** Contas do app (UUID) envolvidas no evento — ids anônimos do RevenueCat ficam de fora. */
+export function contasDoEvento(evento: Record<string, unknown>): string[] {
+  const lista = (v: unknown) => (Array.isArray(v) ? v : []).map(String);
+  const ids = evento.type === 'TRANSFER'
+    ? [...lista(evento.transferred_from), ...lista(evento.transferred_to)]
+    : [String(evento.app_user_id ?? '')];
+  return [...new Set(ids.filter((id) => UUID.test(id)))];
+}
+
 export function criarHandler(d: Dependencias) {
+  const agora = d.agora ?? Date.now;
   return async (req: Request): Promise<Response> => {
     const metodo = exigeMetodo(req, 'POST');
     if (metodo) return metodo;
@@ -29,23 +47,31 @@ export function criarHandler(d: Dependencias) {
 
     if (await d.inicioDoEvento(evento) === 'done') return json(200, { status: 'duplicado' });
     try {
-      const appUserId = String(evento.app_user_id ?? '');
-      if (evento.type === 'TEST' || !UUID.test(appUserId)) {
-        // evento de teste do painel ou usuário anônimo do RevenueCat (sem conta no app)
-        await d.fimDoEvento(id);
-        return json(200, { status: 'ignorado' });
-      }
-      const assinante = await d.assinante(appUserId);
+      const contas = evento.type === 'TEST' ? [] : contasDoEvento(evento);
       const quando = typeof evento.event_timestamp_ms === 'number'
         ? new Date(evento.event_timestamp_ms)
-        : new Date((d.agora ?? Date.now)());
-      const estado = await d.aplicar(
-        appUserId,
-        normalizarAssinante(assinante, (d.agora ?? Date.now)()),
-        quando,
-      );
+        : new Date(agora());
+      let aplicadas = 0;
+      let pro = false;
+      for (const conta of contas) {
+        const buscadoEm = new Date(agora());
+        const assinante = await d.assinante(conta);
+        try {
+          pro = (await d.aplicar(conta, normalizarAssinante(assinante, agora()), quando, buscadoEm)).pro;
+          aplicadas++;
+        } catch (e) {
+          if (codigoDoBanco(e) !== 'unknown_user') throw e; // conta excluída do app: nada a fazer
+        }
+      }
       await d.fimDoEvento(id);
-      return json(200, { status: 'processado', pro: estado.pro });
+      // evento de teste do painel, usuário anônimo do RevenueCat ou conta que não existe mais
+      if (aplicadas === 0) return json(200, { status: 'ignorado' });
+      return json(
+        200,
+        evento.type === 'TRANSFER'
+          ? { status: 'processado', usuarios: aplicadas }
+          : { status: 'processado', pro },
+      );
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       await d.fimDoEvento(id, msg.slice(0, 500));

@@ -99,3 +99,70 @@ Deno.test('corpo sem evento → 400', async () => {
   const { handler } = fakes();
   assertEquals((await handler(pedido({ api_version: '1.0' }))).status, 400);
 });
+
+// ------------------------------------------------------------ revisão da G04 (#2 e #10)
+const U2 = '00000000-0000-7000-8000-00000000000b';
+
+Deno.test('TRANSFER (sem app_user_id): aplica o estado de cada conta de origem e de destino', async () => {
+  const { handler, chamadas } = fakes();
+  const r = await handler(pedido({
+    api_version: '1.0',
+    event: {
+      id: 'evt-1',
+      type: 'TRANSFER',
+      transferred_from: [USUARIO, '$RCAnonymousID:abc'],
+      transferred_to: [U2, USUARIO],
+      event_timestamp_ms: 1790000000000,
+    },
+  }));
+  assertEquals([r.status, await r.json()], [200, { status: 'processado', usuarios: 2 }]);
+  assertEquals(chamadas, [
+    'inicio:evt-1',
+    `assinante:${USUARIO}`,
+    `aplicar:${USUARIO}:1`,
+    `assinante:${U2}`,
+    `aplicar:${U2}:1`,
+    'fim:evt-1:ok',
+  ]);
+});
+
+Deno.test('TRANSFER só entre ids anônimos do RevenueCat: ignorado com 200', async () => {
+  const { handler, chamadas } = fakes();
+  const r = await handler(pedido({
+    event: {
+      id: 'evt-1',
+      type: 'TRANSFER',
+      transferred_from: ['$RCAnonymousID:a'],
+      transferred_to: ['$RCAnonymousID:b'],
+    },
+  }));
+  assertEquals([r.status, (await r.json()).status], [200, 'ignorado']);
+  assertEquals(chamadas, ['inicio:evt-1', 'fim:evt-1:ok']);
+});
+
+Deno.test('a hora da busca no RevenueCat vai para o banco (estado buscado antes não sobrescreve o mais novo)', async () => {
+  const horas: number[] = [];
+  let relogio = 1790000000000;
+  const { handler } = fakes({
+    agora: () => relogio,
+    assinante: () => {
+      relogio += 250; // a resposta chega depois
+      return Promise.resolve({ subscriptions: {} });
+    },
+    aplicar: (_u, _s, _q, buscadoEm) => {
+      horas.push(buscadoEm.getTime());
+      return Promise.resolve({ pro: false });
+    },
+  });
+  assertEquals((await handler(pedido(evento()))).status, 200);
+  assertEquals(horas, [1790000000000]); // a hora de ANTES da busca
+});
+
+Deno.test('conta que não existe mais no app (unknown_user): ignorada com 200, sem reenvio', async () => {
+  const { handler, chamadas } = fakes({
+    aplicar: () => Promise.reject(Object.assign(new Error('unknown_user'), { code: 'P0001' })),
+  });
+  const r = await handler(pedido(evento()));
+  assertEquals([r.status, (await r.json()).status], [200, 'ignorado']);
+  assertEquals(chamadas.at(-1), 'fim:evt-1:ok');
+});
