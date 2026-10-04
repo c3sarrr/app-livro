@@ -1,0 +1,258 @@
+{
+ "livro": {
+  "titulo": "Dom Casmurro",
+  "itens_spine": 5,
+  "blocos": 2087,
+  "caracteres": 394745,
+  "leitura_ms": 311.274
+ },
+ "por_tamanho": {
+  "20.5": {
+   "rodadas": [
+    {
+     "layout": {
+      "n": 2087,
+      "total_ms": 646.255,
+      "p50_ms": 0.172,
+      "p95_ms": 0.904,
+      "p99_ms": 1.532,
+      "max_ms": 19.175
+     },
+     "paginacao_ms": 5.244,
+     "paginas": 728
+    },
+    {
+     "layout": {
+      "n": 2087,
+      "total_ms": 512.325,
+      "p50_ms": 0.13,
+      "p95_ms": 0.765,
+      "p99_ms": 1.204,
+      "max_ms": 4.037
+     },
+     "paginacao_ms": 0.644,
+     "paginas": 728
+    }
+   ],
+   "paginas": 728,
+   "total_ms": 512.969,
+   "ms_por_pagina": 0.7046277472527473,
+   "capitulo_40_paginas_estimado_ms": 28.185109890109892,
+   "maior_capitulo": {
+    "capitulo": "CXLVIII",
+    "paginas": 52,
+    "ms": 46.018
+   },
+   "capitulos": 149,
+   "blocos_mais_caros": [
+    {
+     "caracteres": 1667,
+     "ms": 4.037
+    },
+    {
+     "caracteres": 1271,
+     "ms": 3.324
+    },
+    {
+     "caracteres": 341,
+     "ms": 2.769
+    },
+    {
+     "caracteres": 980,
+     "ms": 2.487
+    },
+    {
+     "caracteres": 1053,
+     "ms": 2.199
+    },
+    {
+     "caracteres": 1045,
+     "ms": 2.153
+    },
+    {
+     "caracteres": 868,
+     "ms": 1.939
+    },
+    {
+     "caracteres": 857,
+     "ms": 1.936
+    }
+   ],
+   "blocos_acima_de_4ms": 1
+  },
+  "pedacos": {
+   "max_chars": 1200,
+   "paragrafos_longos": 19,
+   "pedacos": 38,
+   "linhas_iguais_ao_layout_inteiro": 835,
+   "pedaco_mais_caro_ms": 1.668
+  },
+  "16.0": {
+   "rodadas": [
+    {
+     "layout": {
+      "n": 2087,
+      "total_ms": 449.897,
+      "p50_ms": 0.128,
+      "p95_ms": 0.637,
+      "p99_ms": 0.957,
+      "max_ms": 2.948
+     },
+     "paginacao_ms": 0.673,
+     "paginas": 454
+    },
+    {
+     "layout": {
+      "n": 2087,
+      "total_ms": 442.406,
+      "p50_ms": 0.122,
+      "p95_ms": 0.651,
+      "p99_ms": 0.916,
+      "max_ms": 1.454
+     },
+     "paginacao_ms": 0.724,
+     "paginas": 454
+    }
+   ],
+   "paginas": 454,
+   "total_ms": 443.13,
+   "ms_por_pagina": 0.9760572687224669,
+   "capitulo_40_paginas_estimado_ms": 39.04229074889868,
+   "maior_capitulo": {
+    "capitulo": "CXLVIII",
+    "paginas": 35,
+    "ms": 43.931
+   },
+   "capitulos": 149,
+   "blocos_mais_caros": [
+    {
+     "caracteres": 1610,
+     "ms": 1.454
+    },
+    {
+     "caracteres": 1267,
+     "ms": 1.444
+    },
+    {
+     "caracteres": 744,
+     "ms": 1.235
+    },
+    {
+     "caracteres": 1128,
+     "ms": 1.233
+    },
+    {
+     "caracteres": 1271,
+     "ms": 1.224
+    },
+    {
+     "caracteres": 1699,
+     "ms": 1.138
+    },
+    {
+     "caracteres": 1330,
+     "ms": 1.11
+    },
+    {
+     "caracteres": 1667,
+     "ms": 1.083
+    }
+   ],
+   "blocos_acima_de_4ms": 0
+  },
+  "26.0": {
+   "rodadas": [
+    {
+     "layout": {
+      "n": 2087,
+      "total_ms": 538.017,
+      "p50_ms": 0.138,
+      "p95_ms": 0.844,
+      "p99_ms": 1.282,
+      "max_ms": 4.188
+     },
+     "paginacao_ms": 0.84,
+     "paginas": 1255
+    },
+    {
+     "layout": {
+      "n": 2087,
+      "total_ms": 493.091,
+      "p50_ms": 0.13,
+      "p95_ms": 0.741,
+      "p99_ms": 1.129,
+      "max_ms": 1.856
+     },
+     "paginacao_ms": 0.937,
+     "paginas": 1255
+    }
+   ],
+   "paginas": 1255,
+   "total_ms": 494.028,
+   "ms_por_pagina": 0.39364780876494027,
+   "capitulo_40_paginas_estimado_ms": 15.74591235059761,
+   "maior_capitulo": {
+    "capitulo": "CXLVIII",
+    "paginas": 84,
+    "ms": 50.233
+   },
+   "capitulos": 149,
+   "blocos_mais_caros": [
+    {
+     "caracteres": 1667,
+     "ms": 1.856
+    },
+    {
+     "caracteres": 1610,
+     "ms": 1.613
+    },
+    {
+     "caracteres": 535,
+     "ms": 1.599
+    },
+    {
+     "caracteres": 1268,
+     "ms": 1.504
+    },
+    {
+     "caracteres": 1092,
+     "ms": 1.468
+    },
+    {
+     "caracteres": 1267,
+     "ms": 1.44
+    },
+    {
+     "caracteres": 328,
+     "ms": 1.405
+    },
+    {
+     "caracteres": 1180,
+     "ms": 1.393
+    }
+   ],
+   "blocos_acima_de_4ms": 0
+  }
+ },
+ "paginas_referencia": {
+  "N=1500": {
+   "paginas_epub_inteiro": 264,
+   "paginas_so_o_livro": 251,
+   "pagina_do_cap_XXXII": 61
+  },
+  "N=1467": {
+   "paginas_epub_inteiro": 270,
+   "paginas_so_o_livro": 257,
+   "pagina_do_cap_XXXII": 63
+  },
+  "N=1542": {
+   "paginas_epub_inteiro": 256,
+   "paginas_so_o_livro": 244,
+   "pagina_do_cap_XXXII": 60
+  },
+  "caracteres_epub_inteiro": 394749,
+  "caracteres_so_o_livro": 375569,
+  "N_para_256_so_o_livro": 1467,
+  "N_para_256_epub_inteiro": 1542
+ }
+}
