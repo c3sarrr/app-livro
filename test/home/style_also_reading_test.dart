@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
 import '../support/load_fonts.dart';
@@ -73,8 +74,9 @@ void _expectInkBorder(BoxDecoration d, {double width = 1.5}) {
 Future<void> _pumpCanvas(WidgetTester tester) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
-    const ProviderScope(
-      child: RepaintBoundary(key: goldenRootKey, child: App.forTests()),
+    ProviderScope(
+      overrides: overridesDoMundo,
+      child: const RepaintBoundary(key: goldenRootKey, child: App.forTests()),
     ),
   );
   await tester.pumpAndSettle();

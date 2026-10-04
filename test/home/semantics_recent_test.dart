@@ -1,6 +1,5 @@
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/load_fonts.dart';
 import '../support/precache_svgs.dart';
@@ -26,7 +27,7 @@ Future<void> _pumpSection(
   await precacheAppIcons(tester);
   await tester.pumpWidget(
     ProviderScope(
-      overrides: overrides,
+      overrides: [...overridesDoMundo, ...overrides],
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Align(

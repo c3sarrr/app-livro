@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import 'precache_svgs.dart';
 
 /// Monta o app real (`ProviderScope` + `App.forTests()`, que começa em `/inicio`) e espera assentar.
@@ -15,7 +16,10 @@ Future<void> pumpApp(
 }) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
-    ProviderScope(overrides: overrides, child: const App.forTests()),
+    ProviderScope(
+      overrides: [...overridesDoMundo, ...overrides],
+      child: const App.forTests(),
+    ),
   );
   await tester.pumpAndSettle();
 }

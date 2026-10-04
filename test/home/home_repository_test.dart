@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../fixtures/home_mock_repository.dart';
 
 void main() {
   group('2.1 modelos imutáveis, sem strings formatadas', () {

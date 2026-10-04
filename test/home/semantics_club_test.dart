@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/load_fonts.dart';
 import '../support/precache_svgs.dart';
@@ -19,6 +20,7 @@ Future<void> _pumpSection(
   await precacheAppIcons(tester);
   await tester.pumpWidget(
     ProviderScope(
+      overrides: overridesDoMundo,
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Align(

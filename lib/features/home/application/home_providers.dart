@@ -7,14 +7,16 @@ import '../../../core/design_system/tokens/app_colors.dart';
 import '../data/home_repository.dart';
 import '../domain/models.dart';
 
-/// Relógio da tela (D-09: "agora" de referência fixo no mock; substituível nos testes).
-final clockProvider = Provider<DateTime Function()>(
-  (ref) =>
-      () => HomeMockRepository.referenceNow,
-);
+/// Relógio da tela. Testes e o app de desenvolvimento injetam o "agora" de referência (D-09).
+final clockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
 
+/// Fonte dos dados da Início. Sem padrão em produção até a G08 (repositório real): os testes e o app
+/// de desenvolvimento injetam a fixture do mundo de referência (D-34).
 final homeRepositoryProvider = Provider<HomeRepository>(
-  (ref) => const HomeMockRepository(),
+  (ref) => throw UnimplementedError(
+    'HomeRepository real chega na G08; até lá use a fixture do mundo de referência '
+    '(test/fixtures/overrides_do_mundo.dart — D-34).',
+  ),
 );
 
 /// Dados da tela. Widgets de seção leem só o recorte de que precisam:

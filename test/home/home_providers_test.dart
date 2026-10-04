@@ -8,6 +8,9 @@ import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
+
 /// Repositório falso: prova que o snapshot vem do repositório injetado.
 class _FakeRepository implements HomeRepository {
   const _FakeRepository(this.firstName);
@@ -35,8 +38,18 @@ class _FakeRepository implements HomeRepository {
 
 void main() {
   group('2.4 clock / homeRepository / homeSnapshot', () {
-    test('padrões: relógio = agora de referência; repositório = mock; snapshot = mock nesse agora', () {
+    test('padrões de produção (G03, D-34): relógio do sistema e nenhum dado de usuário no código '
+        '(o repositório real chega na G08)', () {
       final container = ProviderContainer.test();
+      final antes = DateTime.now();
+      final agora = container.read(clockProvider)();
+      expect(agora.isBefore(antes), isFalse);
+      expect(agora.difference(antes).inSeconds, lessThan(5));
+      expect(() => container.read(homeRepositoryProvider), throwsA(anything));
+    });
+
+    test('com a fixture do mundo de referência: relógio = agora de referência; repositório = mock; snapshot = mock nesse agora', () {
+      final container = ProviderContainer.test(overrides: overridesDoMundo);
       expect(container.read(clockProvider)(), HomeMockRepository.referenceNow);
       expect(container.read(homeRepositoryProvider), isA<HomeMockRepository>());
       final snap = container.read(homeSnapshotProvider);
@@ -57,6 +70,7 @@ void main() {
         final container = ProviderContainer.test(
           overrides: [
             clockProvider.overrideWithValue(() => DateTime(2026, 9, 20, 9)),
+            repositorioDoMundo,
           ],
         );
         final snap = container.read(homeSnapshotProvider);
@@ -77,7 +91,7 @@ void main() {
     });
 
     test('seções leem só o recorte com select', () {
-      final container = ProviderContainer.test();
+      final container = ProviderContainer.test(overrides: overridesDoMundo);
       final slice = container.read(
         homeSnapshotProvider.select((s) => s.continueReading),
       );

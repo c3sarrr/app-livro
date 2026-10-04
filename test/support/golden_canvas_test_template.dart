@@ -5,7 +5,7 @@
 // testWidgets('golden canvas', (tester) async {
 //   setCanvasView(tester);
 //   await precacheSvgs(tester, AppIcons.all);
-//   await tester.pumpWidget(const ProviderScope(child: RepaintBoundary(key: goldenRootKey, child: App.forTests())));
+//   await tester.pumpWidget(ProviderScope(overrides: overridesDoMundo, child: const RepaintBoundary(key: goldenRootKey, child: App.forTests())));
 //   await tester.pumpAndSettle();
 //   await expectLater(find.byKey(goldenRootKey), matchesGoldenFile('../golden/goldens/inicio_canvas@3x.png'));
 // });

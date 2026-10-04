@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:app_leitura/features/home/application/formatters.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../fixtures/home_mock_repository.dart';
 
 /// F02 2.3: cada formatador produz a saída IDÊNTICA ao arquivo, a partir dos dados do mock.
 void main() {

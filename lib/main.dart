@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 
 import 'app/app.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
@@ -17,13 +18,17 @@ const kFontLicensePackages = <String>[
   'Instrument Serif',
 ];
 
-Future<void> main() async {
+Future<void> main() => runBookNest();
+
+/// Sobe o app. [overrides]: só para testes e para o app com a fixture do mundo de referência
+/// (`test/fixtures/main_mundo_referencia.dart`, D-34) enquanto a Início não tem dados reais (G08).
+Future<void> runBookNest({List<Override> overrides = const []}) async {
   WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();
   await configureSystemUi();
   // F12 12.4: os 18 SVGs já estão prontos no primeiro quadro (sem "piscar" na primeira abertura).
   await preloadAppIcons();
-  runApp(const ProviderScope(child: App()));
+  runApp(ProviderScope(overrides: overrides, child: const App()));
 }
 
 /// D-13: Android edge-to-edge (o conteúdo passa sob as barras do sistema).

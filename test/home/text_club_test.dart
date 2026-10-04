@@ -3,7 +3,6 @@ import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/home/application/formatters.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/sections/book_club_ticket.dart';
 import 'package:flutter/rendering.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/home_mock_repository.dart';
 import '../reference/reference_layout.dart';
 import '../support/canvas.dart';
 import '../support/geometry.dart';

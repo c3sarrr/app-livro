@@ -12,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/load_fonts.dart';
 import '../support/pump_app.dart';
@@ -136,7 +137,8 @@ void main() {
     );
 
     testWidgets(
-      'main(): licença OFL, edge-to-edge + retrato e ProviderScope(App) abrindo na Início',
+      'main()/runBookNest(): licença OFL, edge-to-edge + retrato e ProviderScope(App) abrindo na Início '
+      '(com a fixture do mundo de referência — a Início real é da G08)',
       (tester) async {
         setCanvasView(tester, logical: const Size(390, 844));
         final calls = _mockPlatformChannel();
@@ -144,7 +146,9 @@ void main() {
         addTearDown(LicenseRegistry.reset);
         // F12 12.4: o main() pré-carrega os SVGs (E/S real) antes do runApp → precisa rodar fora do FakeAsync.
         svg.cache.clear();
-        await tester.runAsync(app.main);
+        await tester.runAsync(
+          () => app.runBookNest(overrides: overridesDoMundo),
+        );
         await tester.pumpAndSettle();
         _expectSystemUiCalls(calls);
         // Os 18 SVGs do arquivo já estão no cache do flutter_svg quando a primeira tela aparece.

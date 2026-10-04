@@ -12,7 +12,6 @@ import 'package:app_leitura/core/design_system/widgets/count_badge.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/core/design_system/widgets/pill.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/sections/book_club_ticket.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
 import '../support/load_fonts.dart';
@@ -128,8 +129,9 @@ void _expectInkBox(
 Future<void> _pumpCanvas(WidgetTester tester) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
-    const ProviderScope(
-      child: RepaintBoundary(key: goldenRootKey, child: App.forTests()),
+    ProviderScope(
+      overrides: overridesDoMundo,
+      child: const RepaintBoundary(key: goldenRootKey, child: App.forTests()),
     ),
   );
   await tester.pumpAndSettle();
@@ -970,6 +972,7 @@ void main() {
           ProviderScope(
             key: UniqueKey(),
             overrides: [
+              ...overridesDoMundo,
               homeSnapshotProvider.overrideWithValue(
                 HomeSnapshot(
                   now: base.now,
