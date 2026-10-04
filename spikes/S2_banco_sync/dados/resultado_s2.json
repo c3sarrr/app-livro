@@ -1,0 +1,156 @@
+{
+ "01_gratis_localonly": {
+  "modo": "bruto",
+  "linhas": 10000,
+  "transacoes": 20,
+  "gravacao_ms": 1830,
+  "fila_ps_crud": 0,
+  "conexoes_de_rede": 0,
+  "linhas_no_servidor": 0,
+  "banco_local_bytes": 4956160
+ },
+ "02_virar_pro": {
+  "modo": "bruto",
+  "rpc_lote_500_ms": {
+   "n": 21,
+   "p50": 290.8,
+   "p95": 424,
+   "max": 453.7
+  },
+  "linhas": 10050,
+  "lotes": 21,
+  "upload_ms_com_corte": 7679,
+  "lotes_antes_do_corte": 3,
+  "erros_de_rede_no_corte": 2,
+  "download_2o_aparelho_ms": 613,
+  "download_2o_aparelho_bytes": 1565326,
+  "upload_bytes_rpc": 6762093,
+  "particoes_de_sessoes": 11,
+  "diferencas_aparelho_servidor": 0
+ },
+ "03_dois_aparelhos": {
+  "modo": "bruto",
+  "regra": "HLC da escrita = send() depois de receive(HLC da versão lida)",
+  "casos": [
+   {
+    "ordem": "A primeiro",
+    "defasagem_b_ms": 299000,
+    "vencedor_x": "B editou X",
+    "ignoradas_pelo_lww": 0
+   },
+   {
+    "ordem": "B primeiro",
+    "defasagem_b_ms": -300000,
+    "vencedor_x": "A editou X",
+    "ignoradas_pelo_lww": 0
+   }
+  ],
+  "controle_negativo_sem_receive": {
+   "ordem": "B primeiro",
+   "defasagem_b_ms": -300000,
+   "sem_receive": true,
+   "edicoes_de_b_ignoradas": 3,
+   "z_perdida": true
+  }
+ },
+ "04_perder_pro": {
+  "expiracao_prevista": {
+   "modo": "bruto",
+   "local_depois": 10020,
+   "escritas_offline_preservadas": 20,
+   "nuvem": 10000
+  },
+  "reembolso_conectado": {
+   "modo": "bruto",
+   "local_depois": 10005,
+   "pro_required": 1,
+   "escritas_nao_enviadas_preservadas": 5
+  },
+  "reembolso_em_modo_aviao": {
+   "modo": "bruto",
+   "local_depois": 10000,
+   "remocoes_do_bucket_neutralizadas": 10000,
+   "reconectou_com_token_em_cache": true
+  },
+  "pior_caso_tabelas_proprias": {
+   "local_antes": 10000,
+   "local_depois": 10000,
+   "remocoes_neutralizadas": 10000
+  },
+  "controle_negativo_views": {
+   "modo": "views",
+   "local_antes": 10000,
+   "local_depois": 0,
+   "porteiro_chamado": false
+  }
+ },
+ "05_voltar_pos_purge": {
+  "depois_do_purge": {
+   "linhas": 10000,
+   "exclusoes_logicas_repovoadas": 79,
+   "upload_ms_com_corte": 8068,
+   "erros_de_rede": 2,
+   "diferencas_novo_aparelho": 0
+  },
+  "antes_do_purge": {
+   "aplicadas_na_volta": 246,
+   "ignoradas_pelo_lww": 9754
+  }
+ },
+ "06_payloads_rpc": {
+  "jsonb_em_texto": {
+   "loc": "object",
+   "cores": "array"
+  },
+  "recusa": {
+   "codigo": "23503",
+   "motivo": "insert or update on table \"annotations\" violates foreign key constraint \"annotat",
+   "validas_no_mesmo_lote": 3,
+   "linha_continua_no_aparelho": true
+  },
+  "erro_transitorio": {
+   "tentativas_falhas": 1,
+   "aplicado_depois": true
+  },
+  "hlc_no_futuro": "invalid_hlc",
+  "particoes": {
+   "fora_do_intervalo": "recusada (started_at_out_of_range)",
+   "de_hoje": "personal.reading_sessions_2026_10"
+  },
+  "formato_na_volta": {
+   "timestamptz_enviado": "2026-10-03T21:56:24.056Z",
+   "timestamptz_recebido": "2026-10-03T21:56:24.056000Z",
+   "numeric_progression_enviado": "0.00000",
+   "numeric_progression_recebido": "0.00000",
+   "numeric_pen_width_mm": "1.2",
+   "jsonb_recebido": "[\"#FF552E\", \"#552CB7\"]",
+   "boolean_recebido": "0 (integer)"
+  }
+ },
+ "07_fts_migracao": {
+  "fts_gratis": {
+   "notas": 1000,
+   "achados_capitu_com_acento": 1000,
+   "busca_ms": 3.13
+  },
+  "fts_pro": {
+   "aparelho_novo_achados": 1000,
+   "edicao_remota_reindexada": true
+  },
+  "migracao_app_antes": {
+   "recusas": 0,
+   "coluna_ignorada_no_servidor": true,
+   "buscas_continuam": 999
+  },
+  "migracao_servidor_depois": {
+   "valor_novo_no_servidor": "pt-BR",
+   "chegou_antes_da_migracao_em_extras": true,
+   "recuperado_na_migracao": true,
+   "linhas_preservadas": 4700
+  }
+ },
+ "08_contrato": {
+  "tabelas": 10,
+  "colunas": 126
+ }
+}

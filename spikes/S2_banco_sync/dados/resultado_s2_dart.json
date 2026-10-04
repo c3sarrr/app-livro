@@ -1,0 +1,53 @@
+{
+ "nucleo": {
+  "powersync_core": "0.5.3/2ba6b280",
+  "sqlite": "3.53.4"
+ },
+ "gratis": {
+  "linhas": 10000,
+  "gravacao_drift_ms": 941,
+  "fila": 0
+ },
+ "pro": {
+  "linhas": 10000,
+  "gravacao_com_gatilhos_ms": 1110,
+  "lotes_de_500": 21,
+  "operacao_para_a_rpc": {
+   "table": "annotations",
+   "op": "PUT",
+   "id": "nota-0",
+   "data": {
+    "user_id": "u1",
+    "user_book_id": "livro-0",
+    "kind": "note",
+    "parent_id": null,
+    "group_id": "g0",
+    "source": "selection",
+    "anchor": "{\"v\":1,\"start\":0}",
+    "ref_page": 1,
+    "chapter_index": 0,
+    "color": null,
+    "style": null,
+    "fill_height": null,
+    "note_text": "nota 0: aqueles olhos de Capitu, olhos de ressaca",
+    "ink_layer_id": null,
+    "shared_club_post_id": null,
+    "created_at": "2026-10-04T02:07:53.298028Z",
+    "updated_at": "2026-10-04T02:07:53.298028Z",
+    "deleted_at": null,
+    "version_hlc": "0001791079673298-0000-win"
+   },
+   "hlc": "0001791079673298-0000-win"
+  }
+ },
+ "fts5": {
+  "achados": 9940,
+  "consulta_ms": 3.336
+ },
+ "migracao": {
+  "linhas_preservadas": 500,
+  "user_version": 2,
+  "coluna_nova_no_payload": true,
+  "recuperado_de_extras": true
+ }
+}
