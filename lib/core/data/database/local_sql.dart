@@ -65,6 +65,9 @@ const String syncModePro = 'pro';
 /// da conta atual.
 const String activeOwnerKey = 'conta.dono_ativo';
 
+/// Id deste aparelho nos HLC (gerado na 1ª vez).
+const String deviceIdKey = 'device_id';
+
 /// Valores iniciais do `kv`.
 const List<String> kvDefaults = [
   "INSERT OR IGNORE INTO kv (key, value) VALUES ('$syncModeKey', '$syncModeFree')",
@@ -127,10 +130,16 @@ List<String> syncQueueTriggerRefresh() => [
 /// Virar Pro (Anexo 02 §3.1 item 2): toda linha do dono — inclusive as apagadas logicamente — entra
 /// na fila como `PUT` com a linha inteira (o servidor aplica por LWW; voltar ao Pro depois do purge
 /// repovoa a nuvem). Um parâmetro: o dono.
-String enqueueAllSql(String table) {
+String enqueueAllSql(String table) => _enqueueSql(table, 'user_id = ?');
+
+/// Uma linha de volta à fila com o estado atual (ex.: recusada antes por `invalid_hlc` ou por
+/// referência a um livro que o servidor ainda não tinha). Um parâmetro: o id.
+String enqueueRowSql(String table) => _enqueueSql(table, 'id = ?');
+
+String _enqueueSql(String table, String where) {
   final cols = personalSyncColumns[table]!;
   return "INSERT INTO powersync_crud (op, id, type, data) SELECT 'PUT', id, '$table', "
-      '${_rowJson(cols, '')} FROM $table WHERE user_id = ?';
+      '${_rowJson(cols, '')} FROM $table WHERE $where';
 }
 
 String _rowJson(List<String> cols, String prefix) =>
