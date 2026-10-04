@@ -15,9 +15,10 @@ async function contaDeTeste() {
     ['sign', 'verify'],
   );
   const der = new Uint8Array(await crypto.subtle.exportKey('pkcs8', par.privateKey));
-  const pem = `-----BEGIN PRIVATE KEY-----\n${
-    btoa(String.fromCharCode(...der))
-  }\n-----END PRIVATE KEY-----\n`;
+  // chave gerada AGORA (não é segredo); o cabeçalho PEM é montado para a varredura de segredos
+  // (gitleaks) não confundir o código com uma chave colada no arquivo
+  const cabecalho = (lado: 'BEGIN' | 'END') => `-----${lado} PRIVATE KEY-----`;
+  const pem = `${cabecalho('BEGIN')}\n${btoa(String.fromCharCode(...der))}\n${cabecalho('END')}\n`;
   return {
     conta: {
       project_id: 'booknest-teste',

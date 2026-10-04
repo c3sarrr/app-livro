@@ -5,11 +5,11 @@
    `-- Permissões` só pode haver comentário, linha vazia, REVOKE, GRANT ou ALTER DEFAULT PRIVILEGES.
 3. Toda função `security definer` declara `set search_path`.
 4. Nenhum `create extension ... version` (o Supabase ignora a versão desde 05/08/2026).
-5. Nenhuma migration já commitada foi alterada depois (compara com `git show HEAD:<arquivo>`
-   quando o arquivo existe no HEAD) — migration aplicada não se edita; cria-se outra.
-   (Use --permitir-editar <arquivo> só antes do 1º push, como na própria G04.)
+5. Nenhuma migration já publicada foi alterada (compara com `git show <base>:<arquivo>` quando o
+   arquivo existe na base; base padrão HEAD; no CI, a branch de destino do PR ou o commit anterior)
+   — migration aplicada não se edita; cria-se outra. (--permitir-editar ARQ só antes do 1º push.)
 
-Uso: python3 tools/supabase/verificar_migrations.py [--permitir-editar ARQ ...]
+Uso: python3 tools/supabase/verificar_migrations.py [--base REF] [--permitir-editar ARQ ...]
 """
 import argparse
 import pathlib
@@ -54,7 +54,7 @@ def comandos(texto):
     return saida
 
 
-def verificar(arq, permitir_editar):
+def verificar(arq, permitir_editar, base='HEAD'):
     erros = []
     texto = arq.read_text(encoding='utf-8')
     if not NOME.match(arq.name):
@@ -75,15 +75,16 @@ def verificar(arq, permitir_editar):
     if re.search(r'create\s+extension[^;]*\bversion\b', texto, re.I):
         erros.append('create extension com versão (ignorada pelo Supabase)')
     rel = arq.relative_to(RAIZ).as_posix()
-    r = subprocess.run(['git', '-C', str(RAIZ), 'show', f'HEAD:{rel}'], capture_output=True)
+    r = subprocess.run(['git', '-C', str(RAIZ), 'show', f'{base}:{rel}'], capture_output=True)
     if r.returncode == 0 and r.stdout.replace(b'\r\n', b'\n') != arq.read_bytes().replace(b'\r\n', b'\n') \
             and arq.name not in permitir_editar:
-        erros.append('migration já commitada foi alterada (crie uma nova)')
+        erros.append(f'migration já publicada em {base} foi alterada (crie uma nova)')
     return erros
 
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument('--base', default='HEAD')
     ap.add_argument('--permitir-editar', nargs='*', default=[])
     a = ap.parse_args()
     arqs = sorted(PASTA.glob('*.sql'))
@@ -91,7 +92,7 @@ def main():
         print('nenhuma migration'); return 1
     falhou = False
     for arq in arqs:
-        erros = verificar(arq, set(a.permitir_editar))
+        erros = verificar(arq, set(a.permitir_editar), a.base)
         print(('OK    ' if not erros else 'ERRO  ') + arq.name)
         for e in erros:
             print('      -', e)

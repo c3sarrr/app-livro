@@ -1,0 +1,43 @@
+# cold-backup (Anexo 02 §8): dump lógico semanal do banco de PRODUÇÃO, cifrado (age) e guardado no
+# armazenamento frio (Cloudflare R2). Fica no GitHub Actions porque o pg_dump não roda dentro do banco
+# nem numa Edge Function. Desligado até existir o projeto de produção (D-63): só roda com a variável
+# de repositório BOOKNEST_COLD_BACKUP = on e os segredos abaixo configurados no GitHub.
+#   segredos: BOOKNEST_PROD_DB_URL (conexão direta, papel com leitura), R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY
+#   variáveis: R2_ENDPOINT, R2_BUCKET, AGE_RECIPIENT (chave PÚBLICA age; a privada fica fora do GitHub)
+# O teste de restauração é trimestral e documentado (Anexo 02 §11).
+name: cold-backup
+
+on:
+  schedule:
+    - cron: '23 5 * * 0'   # domingo 05:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    if: vars.BOOKNEST_COLD_BACKUP == 'on'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: cliente do Postgres 17 e age
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt noble-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client-17 age
+      - name: dump cifrado
+        env:
+          DB_URL: ${{ secrets.BOOKNEST_PROD_DB_URL }}
+          AGE_RECIPIENT: ${{ vars.AGE_RECIPIENT }}
+        run: |
+          set -euo pipefail
+          nome="booknest-$(date -u +%Y-%m-%dT%H%M%SZ).dump.age"
+          /usr/lib/postgresql/17/bin/pg_dump --format=custom --no-owner --no-privileges "$DB_URL" | age -r "$AGE_RECIPIENT" > "$nome"
+          echo "ARQUIVO=$nome" >> "$GITHUB_ENV"
+      - name: envia ao R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: auto
+        run: aws s3 cp "$ARQUIVO" "s3://${{ vars.R2_BUCKET }}/semanal/$ARQUIVO" --endpoint-url "${{ vars.R2_ENDPOINT }}"

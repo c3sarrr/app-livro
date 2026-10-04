@@ -1,0 +1,11 @@
+{
+  "_LEIA": "Modelo do --dart-define-from-file=env/stg.json. Copie para env/stg.json (fora do git) e preencha SÓ chaves PÚBLICAS — nunca a chave secreta/service_role. Projeto booknest-stg (São Paulo) — criado quando a G05/G06 precisar (D-63).",
+  "BOOKNEST_AMBIENTE": "stg",
+  "SUPABASE_URL": "https://<ref-do-projeto-booknest-stg>.supabase.co",
+  "SUPABASE_PUBLISHABLE_KEY": "<chave pública sb_publishable_…>",
+  "POWERSYNC_URL": "<URL da instância PowerSync — G06>",
+  "REVENUECAT_PUBLIC_KEY_ANDROID": "<chave pública goog_… — G07>",
+  "REVENUECAT_PUBLIC_KEY_IOS": "<chave pública appl_… — G07>",
+  "SENTRY_DSN": "<DSN — G24 (Q8)>",
+  "POSTHOG_KEY": "<chave pública — G24 (Q8, opt-in)>"
+}

@@ -56,3 +56,9 @@ tools/medicao/tmp/
 spikes/_dados/
 node_modules/
 spikes/**/build/
+# G04: segredos e configuração por ambiente — só os modelos vão para o git
+.env
+.env.*
+!.env.example
+env/*.json
+!env/*.example.json

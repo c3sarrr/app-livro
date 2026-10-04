@@ -1,0 +1,4 @@
+# Achados do gitleaks conferidos e aceitos (formato: commit:arquivo:regra:linha).
+# Falso positivo: a chave RSA do teste do push-sender é gerada na hora (crypto.subtle.generateKey); o
+# arquivo só tinha o cabeçalho PEM em volta. O código foi trocado na revisão da G04 para não casar mais.
+1f0f556aef120792b6850af2ca0171ecc31a9b05:supabase/functions/push-sender/push_test.ts:private-key:18

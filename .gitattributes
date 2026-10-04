@@ -19,3 +19,6 @@ spikes/** -text
 # o sha256 da migration vai no contrato e o mesmo arquivo roda no Linux (WSL/CI).
 supabase/** text eol=lf
 test/data/contracts/** text eol=lf
+# G04: scripts de shell e workflows do CI rodam no Linux (WSL/GitHub) — sempre LF
+tools/**/*.sh text eol=lf
+.github/** text eol=lf
