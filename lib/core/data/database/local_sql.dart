@@ -85,6 +85,16 @@ const String _ftsBody =
     "trim(coalesce(json_extract(NEW.anchor, '\$.quote.exact'), '') || ' ' || "
     "coalesce(NEW.note_text, ''))";
 
+/// Guarda de versão (ADR-003): nenhuma escrita LOCAL grava um `version_hlc` menor que o da linha —
+/// senão a edição seria descartada pela RPC (LWW) e o aparelho ficaria divergente. Versão igual passa
+/// (o `put` do PowerSync reaplica a mesma versão sem mudar nada).
+List<String> versionGuardTriggers() => [
+  for (final t in personalSyncColumns.keys)
+    'CREATE TRIGGER IF NOT EXISTS ${t}_version_guard BEFORE UPDATE ON $t FOR EACH ROW '
+        'WHEN NEW.version_hlc < OLD.version_hlc '
+        "BEGIN SELECT RAISE(ABORT, 'version_hlc_regressed'); END",
+];
+
 /// Gatilhos da fila de upload: `PUT` com a linha inteira em `powersync_crud`, só no modo Pro e
 /// nunca durante a aplicação da própria sincronização. Exigem a conexão do PowerSync.
 List<String> syncQueueTriggers() => [

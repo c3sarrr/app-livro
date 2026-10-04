@@ -157,6 +157,12 @@ void main() {
         throwsArgumentError,
       );
       expect(() => sessao(t0, 86401), throwsArgumentError);
+      // RPC: started_at_out_of_range (partição histórica começa em 2024)
+      expect(
+        () => sessao(DateTime.utc(2023, 12, 31, 23), 60),
+        throwsArgumentError,
+      );
+      expect(sessao(DateTime.utc(2024), 60).startedAt, DateTime.utc(2024));
       expect(sessao(t0, 60), sessao(t0, 60));
     });
 

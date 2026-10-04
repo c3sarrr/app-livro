@@ -58,6 +58,7 @@ class AppDatabase extends _$AppDatabase {
       for (final s in [
         ...kvDefaults,
         ...annotationsFtsStatements,
+        ...versionGuardTriggers(),
         if (withSyncQueue) ...syncQueueTriggers(),
       ]) {
         await customStatement(s);

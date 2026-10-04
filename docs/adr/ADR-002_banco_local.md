@@ -60,6 +60,10 @@ sincronizadas trocadas por nomes de view.
 
 ## Pendências
 
-- G03: os 10 `Table` completos do drift, `uuid_v7.dart`, `hlc.dart` (com a regra `receive` antes do `send`
-  — ADR-003) e o teste de migração de todas as versões.
+- ~~G03: os 10 `Table` completos do drift, `uuid_v7.dart`, `hlc.dart` (com a regra `receive` antes do `send`
+  — ADR-003) e o teste de migração de todas as versões.~~ **Feito na G03** (`lib/core/data/`): 19 tabelas
+  (10 pessoais + só locais), `LocalVersioning` (porta única das versões), contrato de colunas (126) e
+  instantâneo `drift_schemas/app_database/drift_schema_v1.json` com teste de migração. Sem chaves
+  estrangeiras locais (o PowerSync aplica um checkpoint em qualquer ordem); integridade pelo servidor e
+  pelos DAOs.
 - `android:allowBackup="false"`/`dataExtractionRules` e exclusão do iCloud para o arquivo do banco (Anexo 02 §12).

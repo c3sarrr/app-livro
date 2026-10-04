@@ -111,3 +111,12 @@ resolução de lacunas de HLC entre aparelhos; estimativa +1 fase (M) na trilha 
 - G04: `supabase start` (Docker) com Postgres 17 e as migrations; repetir os 8 cenários contra ele.
 - G06: o conector Dart real (com `fetchCredentials` = sessão do Supabase), teste de integração Dart ↔ serviço
   e os mesmos 4 critérios no aparelho; checagem periódica do Pro com o RevenueCat.
+- G03 (feito): a regra receive-antes-de-send virou a porta única `LocalVersioning.write` (ler, versionar e
+  gravar numa transação) + gatilho `<tabela>_version_guard` que recusa versão local menor que a gravada; um
+  HLC salvo > 5 min à frente do relógio é ignorado na abertura (relógio adiantado e depois acertado).
+- G06: relógio do aparelho > 5 min adiantado → a RPC recusa (`invalid_hlc`, não repetível) toda escrita do
+  período. Falta (a) medir a defasagem pela hora do servidor (resposta da RPC/checkpoint) e avisar/limitar
+  o HLC, e (b) reenfileirar com versão nova as linhas recusadas por `invalid_hlc` depois que o relógio
+  voltar (hoje elas vão para `sync_rejections`).
+- G06: checar no upload os únicos parciais do servidor também para linhas que chegaram de outro aparelho
+  (o DAO já recusa duplicata local de arquivo na estante e de cor nos rótulos — `DuplicateActiveRow`).

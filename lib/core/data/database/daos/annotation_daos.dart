@@ -6,6 +6,7 @@ import '../../../../features/reader/annotations/domain/highlight_label.dart';
 import '../../../../features/reader/annotations/domain/ink_layer.dart';
 import '../../../../features/reader/annotations/domain/pen_presets.dart';
 import '../app_database.dart';
+import '../failures.dart';
 import 'rows.dart';
 
 final class AnnotationsDao {
@@ -192,21 +193,43 @@ final class HighlightLabelsDao {
 
   final AppDatabase _db;
 
-  Future<void> upsert(HighlightLabel l) => _db
-      .into(_db.highlightLabels)
-      .insertOnConflictUpdate(
-        HighlightLabelsCompanion(
-          id: Value(l.id),
-          userId: Value(l.meta.userId),
-          color: Value(l.color),
-          label: Value(l.label),
-          sort: Value(l.sort),
-          createdAt: Value(l.meta.createdAt),
-          updatedAt: Value(l.meta.updatedAt),
-          deletedAt: Value(l.meta.deletedAt),
-          versionHlc: Value(l.meta.version),
-        ),
-      );
+  /// Grava o rótulo. Recusa ([DuplicateActiveRow]) outra cor igual ativa do mesmo usuário — índice
+  /// único parcial do servidor.
+  Future<void> upsert(HighlightLabel l) => _db.transaction(() async {
+    if (!l.meta.isDeleted) {
+      final outros =
+          await (_db.select(_db.highlightLabels)..where(
+                (t) =>
+                    t.userId.equals(l.meta.userId) &
+                    t.color.equals(l.color) &
+                    t.deletedAt.isNull() &
+                    t.id.isNotValue(l.id),
+              ))
+              .get();
+      if (outros.isNotEmpty) {
+        throw DuplicateActiveRow(
+          table: 'highlight_labels',
+          column: 'color',
+          existingId: outros.first.id,
+        );
+      }
+    }
+    await _db
+        .into(_db.highlightLabels)
+        .insertOnConflictUpdate(
+          HighlightLabelsCompanion(
+            id: Value(l.id),
+            userId: Value(l.meta.userId),
+            color: Value(l.color),
+            label: Value(l.label),
+            sort: Value(l.sort),
+            createdAt: Value(l.meta.createdAt),
+            updatedAt: Value(l.meta.updatedAt),
+            deletedAt: Value(l.meta.deletedAt),
+            versionHlc: Value(l.meta.version),
+          ),
+        );
+  });
 
   /// Rótulos do usuário na ordem de exibição (tela 23b).
   Future<List<HighlightLabel>> forUser(String userId) =>

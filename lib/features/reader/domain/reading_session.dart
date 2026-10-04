@@ -35,7 +35,7 @@ final class ReadingSession {
     this.deviceId,
   }) : id = Check.uuid(id, 'id'),
        userBookId = Check.uuid(userBookId, 'userBookId'),
-       startedAt = Check.utc(startedAt, 'startedAt'),
+       startedAt = _startedAt(startedAt),
        endedAt = _endedAt(startedAt, endedAt),
        activeSeconds = Check.range(activeSeconds, 0, 86400, 'activeSeconds'),
        refPageFrom = Check.rangeOrNull(
@@ -57,6 +57,17 @@ final class ReadingSession {
          'pagesViewed',
        );
 
+  /// Menor início aceito pela RPC (partição histórica 2024–2025).
+  static final DateTime earliestStart = DateTime.utc(2024);
+
+  static DateTime _startedAt(DateTime startedAt) {
+    Check.utc(startedAt, 'startedAt');
+    if (startedAt.isBefore(earliestStart)) {
+      throw ArgumentError.value(startedAt, 'startedAt', 'antes de 2024-01-01');
+    }
+    return startedAt;
+  }
+
   static DateTime _endedAt(DateTime startedAt, DateTime endedAt) {
     Check.utc(endedAt, 'endedAt');
     if (endedAt.isBefore(startedAt)) {
@@ -68,6 +79,8 @@ final class ReadingSession {
   final String id;
   final RecordMeta meta;
   final String userBookId;
+
+  /// Imutável: é a chave da partição mensal no servidor.
   final DateTime startedAt;
   final DateTime endedAt;
 
@@ -81,7 +94,6 @@ final class ReadingSession {
 
   ReadingSession copyWith({
     RecordMeta? meta,
-    DateTime? startedAt,
     DateTime? endedAt,
     int? activeSeconds,
     Nullable<int>? refPageFrom,
@@ -93,7 +105,7 @@ final class ReadingSession {
     id: id,
     meta: meta ?? this.meta,
     userBookId: userBookId,
-    startedAt: startedAt ?? this.startedAt,
+    startedAt: startedAt, // imutável (RPC: started_at_immutable — é a chave da partição)
     endedAt: endedAt ?? this.endedAt,
     activeSeconds: activeSeconds ?? this.activeSeconds,
     refPageFrom: refPageFrom == null ? this.refPageFrom : refPageFrom.value,

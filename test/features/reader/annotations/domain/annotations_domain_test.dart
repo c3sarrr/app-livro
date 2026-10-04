@@ -229,41 +229,45 @@ void main() {
       expect(StrokeSize.values.map((t) => t.code), ['thin', 'medium', 'thick']);
     });
 
-    test('CHECKs: espessura 0,3–4,0 com 1 casa, até 12 favoritas em #RRGGBB, id = dono', () {
-      expect(
-        () => PenPresets(id: usuario, meta: meta, penWidthMm: 0.2),
-        throwsArgumentError,
-      );
-      expect(
-        () => PenPresets(id: usuario, meta: meta, penWidthMm: 4.1),
-        throwsArgumentError,
-      );
-      expect(
-        () => PenPresets(id: usuario, meta: meta, penWidthMm: 1.25),
-        throwsArgumentError,
-      );
-      expect(
-        PenPresets(id: usuario, meta: meta, penWidthMm: 0.3).penWidthMm,
-        0.3,
-      );
-      expect(
-        () => PenPresets(
-          id: usuario,
-          meta: meta,
-          favoriteColors: List.filled(13, '#FF552E'),
-        ),
-        throwsArgumentError,
-      );
-      expect(
-        () => PenPresets(
-          id: usuario,
-          meta: meta,
-          favoriteColors: const ['#ff552e'],
-        ),
-        throwsArgumentError,
-      );
-      expect(() => PenPresets(id: livroId, meta: meta), throwsArgumentError);
-    });
+    test(
+      'CHECKs: espessura 0,3–4,0 com 1 casa, até 12 favoritas, id = dono',
+      () {
+        expect(
+          () => PenPresets(id: usuario, meta: meta, penWidthMm: 0.2),
+          throwsArgumentError,
+        );
+        expect(
+          () => PenPresets(id: usuario, meta: meta, penWidthMm: 4.1),
+          throwsArgumentError,
+        );
+        expect(
+          () => PenPresets(id: usuario, meta: meta, penWidthMm: 1.25),
+          throwsArgumentError,
+        );
+        expect(
+          PenPresets(id: usuario, meta: meta, penWidthMm: 0.3).penWidthMm,
+          0.3,
+        );
+        expect(
+          () => PenPresets(
+            id: usuario,
+            meta: meta,
+            favoriteColors: List.filled(13, '#FF552E'),
+          ),
+          throwsArgumentError,
+        );
+        // o SQL só limita o tamanho do array: o formato da cor é regra da interface
+        expect(
+          PenPresets(
+            id: usuario,
+            meta: meta,
+            favoriteColors: const ['#ff552e'],
+          ).favoriteColors,
+          ['#ff552e'],
+        );
+        expect(() => PenPresets(id: livroId, meta: meta), throwsArgumentError);
+      },
+    );
 
     test('igualdade compara a lista de favoritas; a lista é imutável', () {
       final a = PenPresets(

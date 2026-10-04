@@ -6,6 +6,7 @@ import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
+import 'package:app_leitura/core/data/database/failures.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/domain/reading_goals.dart';
@@ -350,14 +351,128 @@ void main() {
       // linha nova: só o relógio
       final n = await versoes.next('user_books', idTeste(2));
       expect(n > v, isTrue);
-      // reabrir retoma do último HLC salvo, mesmo com o relógio 1 h atrasado
+      // reabrir retoma do último HLC salvo, mesmo com o relógio 2 min atrás dele
       final reaberto = await LocalVersioning.open(
         db,
         deviceId: 'aparelhoA',
-        nowMs: () => t0Teste.millisecondsSinceEpoch - 3600000,
+        nowMs: () => n.ms - 120000,
       );
       expect(await reaberto.next('annotations', idTeste(3)) > n, isTrue);
       expect(() => versoes.next('kv', 'sync'), throwsArgumentError);
+    });
+
+    test('HLC salvo > 5 min à frente do relógio (relógio adiantado, depois acertado) é ignorado; '
+        'a ordem por linha continua pelo receive da versão gravada', () async {
+      final agora = t0Teste.millisecondsSinceEpoch;
+      final futuro = Hlc(agora + 86400000, 0, 'aparelhoA'); // 1 dia à frente
+      await KvDao(db).set(LocalVersioning.lastHlcKey, futuro.toString());
+      final versoes = await LocalVersioning.open(
+        db,
+        deviceId: 'aparelhoA',
+        nowMs: () => agora,
+      );
+      final nova = await versoes.next('user_books', idTeste(7)); // linha nova
+      expect(nova.ms, agora); // a RPC aceita (≤ agora + 5 min)
+      // linha gravada no período adiantado: continua monotônica
+      await UserBooksDao(db).upsert(livroTeste(8).copyWith(meta: metaTeste()));
+      await db.customStatement(
+        "UPDATE user_books SET version_hlc = '$futuro' WHERE id = '${idTeste(8)}'",
+      );
+      expect(await versoes.next('user_books', idTeste(8)) > futuro, isTrue);
+      // dentro de 5 min, o salvo é respeitado
+      final perto = Hlc(agora + 240000, 0, 'aparelhoA');
+      await KvDao(db).set(LocalVersioning.lastHlcKey, perto.toString());
+      final reaberto = await LocalVersioning.open(
+        db,
+        deviceId: 'aparelhoA',
+        nowMs: () => agora,
+      );
+      expect(await reaberto.next('user_books', idTeste(9)) > perto, isTrue);
+    });
+
+    test('write: ler, versionar e gravar numa transação; a versão gravada só sobe', () async {
+      final versoes = await LocalVersioning.open(
+        db,
+        deviceId: 'aparelhoA',
+        nowMs: () => t0Teste.millisecondsSinceEpoch,
+      );
+      final livro = livroTeste(1);
+      await versoes.write('user_books', livro.id, (v) async {
+        await UserBooksDao(db)
+            .upsert(livro.copyWith(meta: livro.meta.copyWith(version: v)));
+      });
+      final gravada = (await UserBooksDao(db).byId(livro.id))!.meta.version;
+      final outra = await versoes.write('user_books', livro.id, (v) async {
+        await UserBooksDao(db).upsert(
+          livro.copyWith(
+            title: 'Dom Casmurro (2)',
+            meta: livro.meta.edited(t0Teste, v),
+          ),
+        );
+        return v;
+      });
+      expect(outra > gravada, isTrue);
+      // o gatilho recusa qualquer escrita local com versão menor que a gravada
+      await expectLater(
+        UserBooksDao(db).upsert(livro.copyWith(title: 'velho')),
+        throwsA(
+          isA<SqliteException>().having(
+            (e) => e.message,
+            'mensagem',
+            contains('version_hlc_regressed'),
+          ),
+        ),
+      );
+      expect(
+        (await UserBooksDao(db).byId(livro.id))!.title,
+        'Dom Casmurro (2)',
+      );
+    });
+  });
+
+  group('únicos do servidor (índices parciais) checados no aparelho', () {
+    test('2º livro ativo com o mesmo arquivo é recusado; depois de apagar o 1º, pode', () async {
+      final dao = UserBooksDao(db);
+      final livroComOMesmoArquivo = livroTeste(2)
+          .copyWith(contentSha256: Nullable(livroTeste(1).contentSha256));
+      await dao.upsert(livroTeste(1));
+      await expectLater(
+        dao.upsert(livroComOMesmoArquivo), // mesmo sha256 do livro 1
+        throwsA(
+          isA<DuplicateActiveRow>()
+              .having((e) => e.column, 'coluna', 'content_sha256')
+              .having((e) => e.existingId, 'id', idTeste(1)),
+        ),
+      );
+      await dao.upsert(
+        livroTeste(1).copyWith(meta: metaTeste(apagado: true, contador: 1)),
+      );
+      await dao.upsert(livroComOMesmoArquivo);
+      expect((await dao.shelf(usuarioTeste)).map((b) => b.id), [idTeste(2)]);
+      expect(
+        const DuplicateActiveRow(
+          table: 't',
+          column: 'c',
+          existingId: 'x',
+        ).toString(),
+        contains('t.c'),
+      );
+    });
+
+    test('2º rótulo ativo com a mesma cor é recusado', () async {
+      final dao = HighlightLabelsDao(db);
+      HighlightLabel rotulo(int n, String nome) => HighlightLabel(
+        id: idTeste(n),
+        meta: metaTeste(),
+        color: '#FED170',
+        label: nome,
+      );
+      await dao.upsert(rotulo(1, 'lindo'));
+      await dao.upsert(rotulo(1, 'lindíssimo')); // a mesma linha pode mudar
+      await expectLater(
+        dao.upsert(rotulo(2, 'outro')),
+        throwsA(isA<DuplicateActiveRow>()),
+      );
     });
   });
 }

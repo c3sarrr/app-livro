@@ -6,6 +6,7 @@ import 'package:drift/drift.dart';
 import '../../../../features/library/domain/reading_goals.dart';
 import '../../../../features/library/domain/user_book.dart';
 import '../app_database.dart';
+import '../failures.dart';
 import 'rows.dart';
 
 final class UserBooksDao {
@@ -13,35 +14,58 @@ final class UserBooksDao {
 
   final AppDatabase _db;
 
-  Future<void> upsert(UserBook b) => _db
-      .into(_db.userBooks)
-      .insertOnConflictUpdate(
-        UserBooksCompanion(
-          id: Value(b.id),
-          userId: Value(b.meta.userId),
-          editionId: Value(b.editionId),
-          title: Value(b.title),
-          authorDisplay: Value(b.authorDisplay),
-          format: Value(b.format),
-          status: Value(b.status),
-          contentSha256: Value(b.contentSha256),
-          fileBytes: Value(b.fileBytes),
-          storageObjectPath: Value(b.storageObjectPath),
-          refPagesTotal: Value(b.refPagesTotal),
-          refPageVersion: Value(b.refPageVersion),
-          chaptersTotal: Value(b.chaptersTotal),
-          coverRef: Value(b.coverRef),
-          rating: Value(b.rating),
-          addedAt: Value(b.addedAt),
-          startedAt: Value(b.startedAt),
-          finishedAt: Value(b.finishedAt),
-          lastOpenedAt: Value(b.lastOpenedAt),
-          createdAt: Value(b.meta.createdAt),
-          updatedAt: Value(b.meta.updatedAt),
-          deletedAt: Value(b.meta.deletedAt),
-          versionHlc: Value(b.meta.version),
-        ),
-      );
+  /// Grava o livro. Recusa ([DuplicateActiveRow]) um 2º livro ativo do usuário com o mesmo arquivo
+  /// (`content_sha256`) — índice único parcial do servidor.
+  Future<void> upsert(UserBook b) => _db.transaction(() async {
+    final sha = b.contentSha256;
+    if (sha != null && !b.meta.isDeleted) {
+      final outros =
+          await (_db.select(_db.userBooks)..where(
+                (t) =>
+                    t.userId.equals(b.meta.userId) &
+                    t.contentSha256.equals(sha) &
+                    t.deletedAt.isNull() &
+                    t.id.isNotValue(b.id),
+              ))
+              .get();
+      if (outros.isNotEmpty) {
+        throw DuplicateActiveRow(
+          table: 'user_books',
+          column: 'content_sha256',
+          existingId: outros.first.id,
+        );
+      }
+    }
+    await _db
+        .into(_db.userBooks)
+        .insertOnConflictUpdate(
+          UserBooksCompanion(
+            id: Value(b.id),
+            userId: Value(b.meta.userId),
+            editionId: Value(b.editionId),
+            title: Value(b.title),
+            authorDisplay: Value(b.authorDisplay),
+            format: Value(b.format),
+            status: Value(b.status),
+            contentSha256: Value(b.contentSha256),
+            fileBytes: Value(b.fileBytes),
+            storageObjectPath: Value(b.storageObjectPath),
+            refPagesTotal: Value(b.refPagesTotal),
+            refPageVersion: Value(b.refPageVersion),
+            chaptersTotal: Value(b.chaptersTotal),
+            coverRef: Value(b.coverRef),
+            rating: Value(b.rating),
+            addedAt: Value(b.addedAt),
+            startedAt: Value(b.startedAt),
+            finishedAt: Value(b.finishedAt),
+            lastOpenedAt: Value(b.lastOpenedAt),
+            createdAt: Value(b.meta.createdAt),
+            updatedAt: Value(b.meta.updatedAt),
+            deletedAt: Value(b.meta.deletedAt),
+            versionHlc: Value(b.meta.version),
+          ),
+        );
+  });
 
   Future<UserBook?> byId(String id) async {
     final r = await (_db.select(

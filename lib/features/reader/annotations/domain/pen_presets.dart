@@ -79,6 +79,8 @@ final class PenPresets {
     return mm;
   }
 
+  /// O SQL só limita o tamanho (`jsonb` array com até 12 itens): o formato de cada cor é regra da
+  /// interface (tela 23), não do dado — senão uma linha válida no servidor quebraria a leitura aqui.
   static List<String> _favorites(List<String> colors) {
     if (colors.length > 12) {
       throw ArgumentError.value(
@@ -86,9 +88,6 @@ final class PenPresets {
         'favoriteColors',
         'no máximo 12',
       );
-    }
-    for (final c in colors) {
-      Check.hexColor(c, 'favoriteColors');
     }
     return List.unmodifiable(colors);
   }

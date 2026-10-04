@@ -14,6 +14,10 @@ const String shaTeste =
     'a3f1c2d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90';
 final DateTime t0Teste = DateTime.utc(2026, 9, 20, 23);
 
+/// sha256 de teste diferente por livro (o servidor não aceita dois livros ativos com o mesmo arquivo).
+String shaDoLivroTeste(int n) =>
+    shaTeste.substring(0, 56) + n.toRadixString(16).padLeft(8, '0');
+
 /// UUID de teste: `0199a7c4-2f00-7a10-8b20-<n em 12 dígitos>`.
 String idTeste(int n) =>
     '0199a7c4-2f00-7a10-8b20-${n.toString().padLeft(12, '0')}';
@@ -45,7 +49,7 @@ UserBook livroTeste(
   authorDisplay: 'Machado de Assis',
   format: BookFileFormat.epub,
   status: ShelfStatus.reading,
-  contentSha256: shaTeste,
+  contentSha256: shaDoLivroTeste(n),
   refPagesTotal: 256,
   refPageVersion: 1,
   chaptersTotal: 148,
