@@ -37,6 +37,18 @@ dependencies:
   drift: ^2.35.1
   drift_sqlite_async: ^0.3.1
   powersync: ^2.4.0
+  # G05 (conta e login — D-64…D-69): Supabase Auth com sessão no armazenamento seguro do sistema,
+  # Google/Apple nativos (credenciais reais quando houver projeto na nuvem — D-67), sinal de idade
+  # das lojas (D-66), arquivo de exportação (D-65).
+  supabase_flutter: ^2.18.0
+  flutter_secure_storage: ^11.2.0
+  google_sign_in: ^7.2.0
+  sign_in_with_apple: ^8.2.0
+  age_range_signals: ^0.10.0
+  http: ^1.6.0
+  crypto: ^3.0.7
+  path_provider: ^2.1.6
+  share_plus: ^13.3.1
 
 dev_dependencies:
   flutter_test:
@@ -50,7 +62,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  crypto: ^3.0.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
