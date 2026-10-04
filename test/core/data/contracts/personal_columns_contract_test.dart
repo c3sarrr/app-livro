@@ -1,8 +1,8 @@
-// G03.4 — teste de contrato de colunas (Anexo 02 §3.2; PROMPT MESTRE §4.3.5: "esquema local ≡
-// esquema personal.* do servidor"). Três fontes têm de concordar:
-//   1. o SQL de referência (handoff_v2/sql/01_schema_booknest.sql — a G04 troca por migrations);
-//   2. o information_schema de um Postgres com esse SQL aplicado (instantâneo gerado por
-//      tools/contracts/gerar_contrato_personal.py, com o sha256 do SQL);
+// Teste de contrato de colunas (G03.4; G04: fonte = migration) — Anexo 02 §3.2; PROMPT MESTRE
+// §4.3.5: "esquema local ≡ esquema personal.* do servidor". Três fontes têm de concordar:
+//   1. a migration das tabelas pessoais (supabase/migrations/*_dados_pessoais.sql);
+//   2. o information_schema do Supabase local com as migrations aplicadas (instantâneo gerado por
+//      tools/contracts/gerar_contrato_personal.py, com o caminho e o sha256 da migration);
 //   3. o esquema local (drift) e a lista de colunas sincronizadas (gatilhos e `put` do PowerSync).
 import 'dart:convert';
 import 'dart:io';
@@ -24,7 +24,7 @@ String tipoNoAparelho(String tipoPostgres) => switch (tipoPostgres) {
   _ => throw StateError('tipo sem mapeamento no aparelho: $tipoPostgres'),
 };
 
-/// Colunas de cada `create table personal.X (…)` do SQL, com o tipo no nome do information_schema.
+/// Colunas de cada `create table personal.X (…)` da migration, com o tipo no nome do information_schema.
 Map<String, List<(String, String)>> colunasDoSql(String sql) {
   final tabelas = <String, List<(String, String)>>{};
   final inicio = RegExp(r'^create table personal\.(\w+) \(', multiLine: true);
@@ -59,11 +59,15 @@ Map<String, List<(String, String)>> colunasDoSql(String sql) {
 }
 
 void main() {
-  final sqlBytes = File('handoff_v2/sql/01_schema_booknest.sql')
-      .readAsBytesSync();
   final contrato = jsonDecode(
     File('test/data/contracts/personal_columns.json').readAsStringSync(),
   ) as Map<String, Object?>;
+  final migrations = Directory('supabase/migrations')
+      .listSync()
+      .whereType<File>()
+      .where((f) => f.path.endsWith('_dados_pessoais.sql'))
+      .toList();
+  final sqlBytes = migrations.single.readAsBytesSync();
   final servidor = {
     for (final MapEntry(:key, :value)
         in (contrato['tabelas']! as Map<String, Object?>).entries)
@@ -76,11 +80,15 @@ void main() {
       ],
   };
 
-  test('o instantâneo do information_schema é do SQL atual (sha256)', () {
+  test('o instantâneo do information_schema é da migration atual (caminho e sha256)', () {
+    expect(
+      migrations.single.uri.pathSegments.last,
+      (contrato['fonte']! as String).split('/').last,
+    );
     expect(sha256.convert(sqlBytes).toString(), contrato['sha256_da_fonte']);
   });
 
-  test('SQL de referência = information_schema (nomes, ordem e tipos)', () {
+  test('migration = information_schema (nomes, ordem e tipos)', () {
     final doSql = colunasDoSql(utf8.decode(sqlBytes));
     expect(doSql.keys.toSet(), servidor.keys.toSet());
     expect(doSql.keys.toSet(), personalSyncColumns.keys.toSet());

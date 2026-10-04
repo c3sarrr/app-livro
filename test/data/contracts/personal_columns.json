@@ -1,7 +1,7 @@
 {
- "fonte": "handoff_v2/sql/01_schema_booknest.sql",
- "sha256_da_fonte": "d6dcd9509a9dcaa0bc7a7c9014b2de61b296585f4212be4093f9369166ce35d7",
- "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+ "fonte": "supabase/migrations/20261004172249_dados_pessoais.sql",
+ "sha256_da_fonte": "73a3c7763876efe4b5aaa8f4970ca883f95d9b68116a6a95795599fb539a119f",
+ "postgres": "17.11",
  "tabelas": {
   "annotations": [
    ["id", "uuid"],

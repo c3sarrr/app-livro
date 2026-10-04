@@ -15,3 +15,7 @@ tools/fonts/** -text
 docs/progresso/G01_hashes_saida.txt -text
 # G02: spikes (pacotes fora do app) byte a byte iguais aos do container onde parte deles roda
 spikes/** -text
+# G04: Supabase (migrations, testes pgTAP, Edge Functions) e o contrato de colunas sempre com LF:
+# o sha256 da migration vai no contrato e o mesmo arquivo roda no Linux (WSL/CI).
+supabase/** text eol=lf
+test/data/contracts/** text eol=lf
