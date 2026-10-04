@@ -8,6 +8,7 @@ analyzer:
     - android/**
     - ios/**
     - design_handoff/** # pacote de handoff somente leitura
+    - "**/*.g.dart" # G03: código gerado pelo drift_dev (build_runner)
     - spikes/** # G02: cada spike é um pacote próprio, analisado na própria pasta
 
 linter:
