@@ -1,0 +1,4233 @@
+{
+ "resumo": {
+  "data": "2026-10-03",
+  "fonte_da_amostra": "wikidata",
+  "universo": 3366,
+  "amostra": 300,
+  "openlibrary_acertos": 199,
+  "openlibrary_taxa_falha": 0.337,
+  "brasilapi_acertos": 292,
+  "brasilapi_taxa_falha": 0.027,
+  "uniao_acertos": 293,
+  "uniao_taxa_falha": 0.023,
+  "brasilapi_por_provedor": {
+   "open-library": 5,
+   "cbl": 287
+  },
+  "por_prefixo": {
+   "97865": {
+    "n": 102,
+    "openlibrary": 53,
+    "brasilapi": 100
+   },
+   "97885": {
+    "n": 198,
+    "openlibrary": 146,
+    "brasilapi": 192
+   }
+  },
+  "erros_de_rede": 0
+ },
+ "linhas": [
+  {
+   "isbn": "9788526218888",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Lisbela e o Prisioneiro (livro)",
+   "openlibrary": true,
+   "openlibrary_titulo": "Lisbela e o Prisioneiro",
+   "brasilapi": true,
+   "brasilapi_titulo": "Lisbela e o Prisioneiro",
+   "brasilapi_provedor": "open-library",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586546897",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Semiótica documental",
+   "brasilapi": true,
+   "brasilapi_titulo": "Semiótica documental",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788522105189",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Modelos clássicos de computação",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    400
+   ]
+  },
+  {
+   "isbn": "9788575413722",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Tabu Da Morte",
+   "brasilapi": true,
+   "brasilapi_titulo": "Tabu da morte",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788595462861",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Inside Ticks",
+   "brasilapi": true,
+   "brasilapi_titulo": "Inside Ticks: morphophysiology, toxicology and therapeutic perspectives",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575114872",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Literatura Brasileira Em Foco VIII",
+   "brasilapi": true,
+   "brasilapi_titulo": "Literatura brasileira em foco VIII - outras formas de escrita",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556302973",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "“Fumo de negro”",
+   "brasilapi": true,
+   "brasilapi_titulo": "“Fumo de negro”",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556300849",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Política Cultural",
+   "brasilapi": true,
+   "brasilapi_titulo": "Política Cultural",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586903133",
+   "consulta": "wikidata",
+   "titulo_wikidata": "História pública e história do tempo presente",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "História pública e história do tempo presente",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575114445",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Tereza Cristina de Bourbon: uma imperatriz napolitana nos tópicos: 1843-1889",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786585915335",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Por que estudar fãs na Comunicação?",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Por que estudar fãs na Comunicação?",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556520131",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O fascismo em camisas verdes: do integralismo ao neointegralismo",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O fascismo em camisas verdes",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788568334799",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Diálogos Apócrifos",
+   "brasilapi": true,
+   "brasilapi_titulo": "Diálogos apócrifos: sobre educação, ensino de língua e literatura",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080894",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Representações Midiáticas Da Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Representações midiáticas da saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786550190194",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Políticas públicas de saúde mental como promotoras de cidadania e (re)inserção social",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788526814790",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Escritos de liberdade: literatos negros, racismo e cidadania no Brasil oitocentista",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Escritos da liberdade: literatos negros, racismo e cidadania no Brasil oitocentista",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413784",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Urgências e Emergências Em Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Urgência e emergências em saúde: perspectivas de profissionais e usuários",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788524402562",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Mathematical Aspects of Quantum Field Theory",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788568334614",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Tradução &",
+   "brasilapi": true,
+   "brasilapi_titulo": "Tradução & perspectivas teóricas e práticas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579836992",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Relação Conclusiva Na língua Portuguesa",
+   "brasilapi": true,
+   "brasilapi_titulo": "A relação conclusiva na língua portuguesa: funções resumo, conclusão e consequência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303533",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Saberes Docentes para a Inclusão Do Aluno Com Deficiência Visual Em Aulas de Física",
+   "brasilapi": true,
+   "brasilapi_titulo": "Saberes docentes para a inclusão do aluno com deficiência visual em aulas de física",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578791179",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Colecionismos, Práticas de Campo e Representações",
+   "brasilapi": true,
+   "brasilapi_titulo": "Colecionismos, práticas de campo e representações",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788560281992",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Os espiões",
+   "brasilapi": true,
+   "brasilapi_titulo": "OS ESPIÕES",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586545067",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Extensão Universitária na UFFS: trajetórias, alcances e desafios",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415832",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Políticas de Saúde No Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "Políticas de saúde no Brasil: continuidades e mudanças",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413067",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Biossegurança",
+   "brasilapi": true,
+   "brasilapi_titulo": "Biossegurança: uma abordagem multidisciplinar",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523006150",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "RAZAO HISTORICA: TEORIA DA HISTORIA: OS FUNDAMENTOS DA CIENCIA HISTORICA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586383829",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Educação Física e Ciências Do Esporte No Tempo Presente",
+   "brasilapi": true,
+   "brasilapi_titulo": "Educação física e ciências do esporto no tempo presente",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786555110463",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Tipo uma história de amor",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Tipo uma história de amor",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579837005",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Realismo e Violência Na Literatura Contemporânea",
+   "brasilapi": true,
+   "brasilapi_titulo": "Realismo e violência na literatura contemporânea: os contos de famílias terrivelmente felizes (2003), de Marçal Aquino",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788585676506",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Teoria epidemiologica hoje",
+   "brasilapi": true,
+   "brasilapi_titulo": "TEORIA EPIDEMIOLOGICA HOJE: FUNDAMENTOS, INTERFACES E TENDENCIAS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788522127184",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Lógica para computação",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Lógica para computação",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786555412796",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Que bobagem!: Pseudociências e outros absurdos que não merecem ser levados a sério",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Que bobagem! Pseudociências e outros absurdos que não merecem ser levados a sério",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080184",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Psiquiatria e Política",
+   "brasilapi": true,
+   "brasilapi_titulo": "Psiquiatria e Política",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786588211625",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Missão Sou Eu!",
+   "brasilapi": true,
+   "brasilapi_titulo": "“A missão sou eu!”",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786527227137",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Anais do VIII SIDER - Seminário Internacional de Integração e Desenvolvimento Regional",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Seminário Internacional de Integração e Desenvolvimento Regional",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788599662519",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Conflito No Araguaia",
+   "brasilapi": true,
+   "brasilapi_titulo": "CONFLITO NO ARAGUAIA: PEÕES E POSSEIROS CONTRA A GRANDE EMPRESA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556308890",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Por inflexões decoloniais de corpos e identidades de gênero inconformes",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575412350",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Adolpho Lutz - Sumário - Glossário - Índices - V. 1, Suplemento",
+   "brasilapi": true,
+   "brasilapi_titulo": "Adolpho Lutz: sumário: glossário: índices",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413487",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Plantas Medicinais",
+   "brasilapi": true,
+   "brasilapi_titulo": "Plantas medicinais: memória da ciência no Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786526019276",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Golpes Digitais",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Golpes Digitais",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788532231574",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A CORAGEM DE MUDAR",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578791872",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Apropriação Social Da Ciência e Da Tecnologia",
+   "brasilapi": true,
+   "brasilapi_titulo": "Apropriação social da ciência e da tecnologia: contribuições para uma agenda",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523211752",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "De Anjos a Mulheres",
+   "brasilapi": true,
+   "brasilapi_titulo": "De anjos a mulheres:ideologia na formação das enfermeiras",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557852309",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Noções de Probabilidade e Estatística",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Noções de Probabilidade e Estatística",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415368",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Avessos Do Prazer",
+   "brasilapi": true,
+   "brasilapi_titulo": "Avessos do prazer: drogas, AIDS e direitos humanos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788550901947",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Literaturas e canções Afrodescendentes Africa, Brasil e Caribe",
+   "openlibrary": true,
+   "openlibrary_titulo": "Literaturas e canções Afrodescendentes Africa, Brasil e Caribe",
+   "brasilapi": true,
+   "brasilapi_titulo": "Coleção África Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080856",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Trabalho, Saúde e Adoecimento Mental",
+   "brasilapi": true,
+   "brasilapi_titulo": "Trabalho, saúde e adoecimento mental",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788561673567",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Memórias do cuidar: setenta anos da escola paulista de enfermagem",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303540",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Questões Sociocientíficas Na Prática Docente",
+   "brasilapi": true,
+   "brasilapi_titulo": "Questões  sociocientíficas na prática docente: ideologia, autonomia e formação de professores",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523211530",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Raposa e A águia",
+   "brasilapi": true,
+   "brasilapi_titulo": "A raposa e a águia: J.J. Seabra e Rui Barbosa na política baiana da Primeira República",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788501097095",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O português que nos pariu",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586546910",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Tópicos da bibliometria para bibliotecas universitárias",
+   "brasilapi": true,
+   "brasilapi_titulo": "Tópicos da bibliometria para bibliotecas universitárias",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080542",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Sexualidade Masculina, Gênero e Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Sexualidade masculina, gênero e saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786550190569",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Atenção à Saúde das Famílias Latino-Americanas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786501843087",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Farfalhar das Montanhas",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O Farfalhar da Montanhas  - O Conto do Tengu",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788582930458",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Avaliação de políticas urbanas: contexto e perspectivas",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Avaliação de políticas urbanas: contexto e perspectivas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788568334690",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Em Torno de Hilda Hilst",
+   "brasilapi": true,
+   "brasilapi_titulo": "Em torno de Hilda Hilst",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575034491",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Den afrikanske Farm",
+   "openlibrary": true,
+   "openlibrary_titulo": "Fazenda Africana, A",
+   "brasilapi": true,
+   "brasilapi_titulo": "A FAZENDA AFRICANA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788536303086",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Lingua de sinais brasileira : estudos linguisticos.",
+   "brasilapi": true,
+   "brasilapi_titulo": "LINGUISTICA APLICADA A LINGUA DE SINAIS BRASILEIRA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788536402390",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Dicionário enciclopédico ilustrado - Veja Larousse",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "DICIONÁRIO ENCICLOPÉDIA ILUSTRADO VEJA LAROUSSE",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788571082281",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Poder Das Bibliotecas",
+   "openlibrary": true,
+   "openlibrary_titulo": "Formação de cidades no Brasil colonial",
+   "brasilapi": true,
+   "brasilapi_titulo": "O PODER DAS BIBLIOTECAS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579836671",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Arquitetura Da Informação Pervasiva",
+   "brasilapi": true,
+   "brasilapi_titulo": "Arquitetura da informação pervasiva",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788570090119",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Medo do feitiço",
+   "brasilapi": true,
+   "brasilapi_titulo": "MEDO DO FEITICO: RELACAO ENTRE A MAGIA E PODER NO BRASIL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788535914016",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Jogo Da Dissimulação: Abolição E Cidadania Negra No Brasil",
+   "openlibrary": true,
+   "openlibrary_titulo": "O jogo da dissimulação",
+   "brasilapi": true,
+   "brasilapi_titulo": "O JOGO DA DISSIMULAÇÃO: ABOLIÇÃO E CIDADANIA NEGRA NO BRASIL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788561346256",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Criações da memória",
+   "brasilapi": true,
+   "brasilapi_titulo": "Criações da memória: defensores e críticos da ditadura (1964-1985)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788561499006",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "MADE IN SUÉCIA: O PARAISO POP DO ABBA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523212322",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Segurança Pública No Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "Segurança pública no Brasil: um campo de desafios",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523218591",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Jamais Fomos Zumbis",
+   "brasilapi": true,
+   "brasilapi_titulo": "Jamais fomos zumbis: contexto social e craqueiros na cidade de São Paulo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579820038",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "2000 Anos Depois",
+   "brasilapi": true,
+   "brasilapi_titulo": "2.000 ANOS DEPOIS: O RENASCIMENTO DE ISRAEL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081952",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Antropologia de Um Jovem Disciplinado",
+   "brasilapi": true,
+   "brasilapi_titulo": "Antropologia de Um Jovem Disciplinado",
+   "brasilapi_provedor": "open-library",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788504010831",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Grito da Selva",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O GRITO DA SELVA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786588808061",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Autotradução: breve histórico, razões, consequências, práticas",
+   "openlibrary": true,
+   "openlibrary_titulo": "Autotradução",
+   "brasilapi": true,
+   "brasilapi_titulo": "Autotradução",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788501014641",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Autobiografia de Malcolm X",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    404
+   ]
+  },
+  {
+   "isbn": "9788523208837",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Paisagens Sígnicas",
+   "brasilapi": true,
+   "brasilapi_titulo": "Paisagens sígnicas: uma reflexão sobre as artes visuais contemporâneas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557082287",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Watupari",
+   "brasilapi": true,
+   "brasilapi_titulo": "Watupari",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586603071",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "História geral da África, IV",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786588211595",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Insurgência Do Feminino Na Obra de inês Sabino",
+   "brasilapi": true,
+   "brasilapi_titulo": "Insurgência do feminino na obra de Inês Sabino",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575412619",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Epidemiologia e saúde dos povos indígenas no Brasil",
+   "openlibrary": true,
+   "openlibrary_titulo": "Epidemiologia e Saúde Dos Povos Indígenas No Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "Epidemiologia e saúde dos povos indígenas no Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415283",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Frágeis Deuses",
+   "brasilapi": true,
+   "brasilapi_titulo": "Frágeis deuses: profissionais da emergência entre os danos da violência e a recreação da vida",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579831157",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Criação, Proteção e Uso Legal de Informação Em Ambientes Da World Wide Web",
+   "brasilapi": true,
+   "brasilapi_titulo": "Criação, proteção e uso legal de informação em ambiente da World Wide Web",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559214983",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O espírito da floresta",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O espírito da floresta",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559572588",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Agora esse é o nosso mundo",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Agora esse é o nosso mundo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523211509",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "descobriram o Ceará? Representações Dos Sítios Históricos de Icó e Sobral",
+   "brasilapi": true,
+   "brasilapi_titulo": "(Re)descobriram o Ceará? Representações dos sítios históricos de Icó e Sobral: entre areal e patrimônio nacional",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579820441",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Origens Da Dialética Do Trabalho",
+   "brasilapi": true,
+   "brasilapi_titulo": "Origens da dialética do trabalho: estudo sobre a lógica do jovem Marx",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413913",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Como e Por Que As Desigualdades Sociais Fazem Mal à Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Como e por que as desigualdades sociais fazem mal á saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786502158821",
+   "consulta": "wikidata",
+   "titulo_wikidata": "A Ciência da Prova",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A CIÊNCIA DA PROVA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303182",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Infinitude Subjetiva e Estética",
+   "brasilapi": true,
+   "brasilapi_titulo": "Infinitude subjetiva e estética: natureza e arte em Schelling e Schopenhauer",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788576284444",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "História do paraná: séculos XIX e XX",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415122",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Salud y Equidad",
+   "brasilapi": true,
+   "brasilapi_titulo": "Salud y equidad: una mirada desde las ciencias sociales",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786588211991",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Decadência e Superação Da Metafísica a Partir de Heidegger",
+   "brasilapi": true,
+   "brasilapi_titulo": "Decadência e superação da metafísica a partir de Heidegger",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586039474",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Rap, cultura e política: batalha da Matrix e a estética da superação empreendedora",
+   "openlibrary": true,
+   "openlibrary_titulo": "Rap, cultura e política",
+   "brasilapi": true,
+   "brasilapi_titulo": "RAP, CULTURA E POLÍTICA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586383010",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Hortaliças-Fruto",
+   "brasilapi": true,
+   "brasilapi_titulo": "Hortaliças-fruto",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788527303262",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Marta, a Arvore e o Relógio",
+   "brasilapi": true,
+   "brasilapi_titulo": "MARTA, A ARVORE E O RELOGIO",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523209094",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Como Anda Salvador e Sua Região Metropolitana",
+   "brasilapi": true,
+   "brasilapi_titulo": "Como anda Salvador e sua região metropolitana",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788547000653",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Devassos no Paraíso (4ª edição)",
+   "openlibrary": true,
+   "openlibrary_titulo": "Devassos no paraíso",
+   "brasilapi": true,
+   "brasilapi_titulo": "Devassos no paraíso",
+   "brasilapi_provedor": "open-library",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788573341218",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Convento Franciscano de Cairu: restauração de elementos artísticos",
+   "openlibrary": true,
+   "openlibrary_titulo": "O Convento Franciscano de Cairu",
+   "brasilapi": true,
+   "brasilapi_titulo": "O CONVENTO FRANCISCANO DE CAIRÚ: RESTAURAÇÃO DE ELEMENTOS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586213690",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Violência, Samurais e o Bushido no Cinema de Akira Kurosawa",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575416419",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Segurança Do Paciente",
+   "brasilapi": true,
+   "brasilapi_titulo": "Segurança do paciente: conhecendo os riscos nas organizações de saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788573029765",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Mentes Inquietas: Tdah - Desatenção, Hiperatividade e Impulsividade",
+   "openlibrary": true,
+   "openlibrary_titulo": "Mentes Inquietas - Tdah",
+   "brasilapi": true,
+   "brasilapi_titulo": "MENTES INQUIETAS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523220181",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Publique, Apareça Ou Pereça",
+   "brasilapi": true,
+   "brasilapi_titulo": "Publique, apareça ou pereça: produtivismo acadêmico, \"pesquisa administrada\" e plágio nos tempos da cultura digital",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575323489",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Taikodom. Despertar",
+   "brasilapi": true,
+   "brasilapi_titulo": "TAIKOM: DESPERTAR",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559542475",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Percursos de um arte-educador",
+   "brasilapi": true,
+   "brasilapi_titulo": "Percursos de um arte-educador",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523212193",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Polícia e Sociedade",
+   "brasilapi": true,
+   "brasilapi_titulo": "Polícia e sociedade: gestão de segurança pública, violência e controle social",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788571260580",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A cidade inteligente: tecnologias urbanas e democracia",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523217259",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Barganhas e Querelas Da Escravidão",
+   "brasilapi": true,
+   "brasilapi_titulo": "Barganhas e querelas da escravidão: tráfico, alforria e liberdade (séculos XVIII e XIX)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788525047724",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Mais Você 10 anos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788521101437",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Hidrelétricas na Amazônia- Impactos Ambientais e Sociais na Tomada de Decisões sobre Grandes Obras",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Hidrelétricas na Amazônia: impactos ambientais e sociais na tomada de decisões sobre grandes obras",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788598349749",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Racismo Estrutural",
+   "openlibrary": true,
+   "openlibrary_titulo": "Racismo estrutural",
+   "brasilapi": true,
+   "brasilapi_titulo": "Racismo estrutural",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575412541",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Demografia dos povos indígenas no Brasil",
+   "openlibrary": true,
+   "openlibrary_titulo": "Demografia Dos Povos Indígenas No Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "Demografia dos povos indígenas no Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786502411940",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Bíblia Sagrada Unoteísta",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Bíblia Sagrada Unoteísta",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575116067",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Coletânea Covid-19 e Agendas de Pesquisa Nas Ciências Sociais",
+   "brasilapi": true,
+   "brasilapi_titulo": "Covid-19 e agendas de pesquisa nas ciências sociais",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788573024876",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Dicionário Houaiss de sinônimos e antônimos",
+   "openlibrary": true,
+   "openlibrary_titulo": "Dicionário Houaiss de sinônimos e antônimos",
+   "brasilapi": true,
+   "brasilapi_titulo": "DICIONARIO HONAISS DE SINONIMOS E ANTONIMOS DA LINGUA PORTUGUES",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788526015074",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Dicionário do folclore brasileiro: conforme a última edição revista pelo autor",
+   "openlibrary": true,
+   "openlibrary_titulo": "Dicionário do Folclore Brasileiro",
+   "brasilapi": true,
+   "brasilapi_titulo": "Dicionário do folclore brasileiro",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415481",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Burocracia e Implementação de Políticas de Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Burocracia e implementação de políticas de saúde: os agentes comunitários na estratégia saúde da família",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788574300139",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Dario de Bittencourt, 1901-1974: uma incursão pela cultura política autoritária gaúcha",
+   "openlibrary": true,
+   "openlibrary_titulo": "Dario de Bittencourt, 1901-1974",
+   "brasilapi": true,
+   "brasilapi_titulo": "DARIO DE BITTENCOURT (1901-1974)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786587206912",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Formação política e projeto histórico de classe: a trajetória do 13 de Maio NEP",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Formação política e projeto histórico de classe",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788532624130",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Identidade e diferença: a perspectiva dos estudos culturais",
+   "openlibrary": true,
+   "openlibrary_titulo": "Identidade e Diferença. A Perspectiva dos Estudos Culturais",
+   "brasilapi": true,
+   "brasilapi_titulo": "IDENTIDADE E DIFERENCA : A PERSPECTIVA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575114568",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Estudos Socioculturais Em Alimentação e Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Estudos socioculturais em alimentação e saúde: saberes em rede",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081136",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Um lugar para a ciência",
+   "brasilapi": true,
+   "brasilapi_titulo": "Um lugar para a ciência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523209216",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Petrobrás e a Gestão Do Território No Recôncavo Baiano",
+   "brasilapi": true,
+   "brasilapi_titulo": "A Petrobrás e a gestão do território no recôncavo baiano",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523220150",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Subordinação Racial No Brasil e Na América Latina",
+   "brasilapi": true,
+   "brasilapi_titulo": "Subordinação racial no Brasil e na América Latina: o papel do estado, o direito costumeiro e a nova resposta dos direitos civis",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579820618",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Clio-Psyché Hoje",
+   "brasilapi": true,
+   "brasilapi_titulo": "Clio-psyché hoje: fazeres e dizeres psi na história do Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788572166751",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Tabagismo: abordagem, prevenção e tratamento",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415719",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Toxoplasmose and Toxoplasma Gondii",
+   "brasilapi": true,
+   "brasilapi_titulo": "Toxoplasmose & toxoplasma Gondii",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788595712386",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Segue o Baile",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Segue o baile",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586464238",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Vaza Jato: os bastidores das reportagens que sacudiram o Brasi",
+   "openlibrary": true,
+   "openlibrary_titulo": "Vaza Jato",
+   "brasilapi": true,
+   "brasilapi_titulo": "Vaza Jato",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556304991",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "pensando o Suicídio",
+   "brasilapi": true,
+   "brasilapi_titulo": "(Re)pensando o suicídio",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539304356",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Escrita Do Passado Entre Monges e Leigos",
+   "brasilapi": true,
+   "brasilapi_titulo": "A escrita do passado entre monges e leigos: Portugal: séculos XIV e XV",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788531414343",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Novo Deit-Libras: dicionário enciclopédico ilustrado trilíngue da língua de sinais brasileira baseado em linguística e neurociências cognitivas",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Novo deit-libras: dicionário enciclopédico ilustrado trilíngue da língua de sinais brasileira: libras: baseado em linguística e neurociência cognitiva: vol 2: sinais de I a Z",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523209377",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Ficar Na Escola",
+   "brasilapi": true,
+   "brasilapi_titulo": "Ficar na escola",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788560168446",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Margem Esquerda",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    404
+   ]
+  },
+  {
+   "isbn": "9786558580829",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Uma Educadora Republicana",
+   "brasilapi": true,
+   "brasilapi_titulo": "Uma educadora republicana",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788581100197",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A saúde no Brasil em 2030: prospecção estratégica do sistema de saúde brasileiro: desenvolvimento produtivo e complexo da saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788560160501",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Os malaquias",
+   "brasilapi": true,
+   "brasilapi_titulo": "OS MALAQUIAS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413463",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Participação e Saúde No Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "Participação e saúde no Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415115",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Políticas e Cuidado Em Saúde Mental",
+   "brasilapi": true,
+   "brasilapi_titulo": "Políticas e cuidado em saúde mental: contribuições para a prática profissional",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786555652888",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Uma questão de química",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Uma questão de química",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080948",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Impactos Da Violência Na Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Impactos da Violência na Saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081891",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Epidemiologia Nutricional (2ª edição)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788562477492",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Versão em português da diretriz europeia de fisioterapia para a doença de Parkinson: informações para médicos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539302871",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Burocracia e Ideologia",
+   "brasilapi": true,
+   "brasilapi_titulo": "Burocracia e ideologia",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788526816534",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Rebeldia Tornou-Se de Direita? Como o Antiprogressismo e a Anticorreção Política Estão Construindo Um Novo Sentido Comum (e Por Que a Esquerda Deveria Levá-los a Sério)",
+   "brasilapi": true,
+   "brasilapi_titulo": "A rebeldia tornou-se de direita?",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786587626086",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "patologização Do Processo de Escolarização",
+   "brasilapi": true,
+   "brasilapi_titulo": "A (des)patologização do processo de escolarização",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080870",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Manual de Sobrevivência para Divulgar Ciência e Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Manual de sobrevivência para divulgar ciência e saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579820205",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Força Sindical",
+   "brasilapi": true,
+   "brasilapi_titulo": "Força sindical: uma análise sócio-política",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788500005428",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Minidicionário Ediouro da Língua Portuguesa",
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    200,
+    404
+   ]
+  },
+  {
+   "isbn": "9788595462830",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Climatologia Escolar",
+   "brasilapi": true,
+   "brasilapi_titulo": "Climatologia escolar: saberes e práticas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788574555485",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Leia-me negras",
+   "brasilapi": true,
+   "brasilapi_titulo": "Leia-me negras",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786526622841",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Pontos de Doutrina e da Fé: uma exposição bíblica",
+   "openlibrary": true,
+   "openlibrary_titulo": "Pontos de Doutrina e da Fé",
+   "brasilapi": true,
+   "brasilapi_titulo": "Pontos de Doutrina e da Fé",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413807",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Violência e Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Violência e saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575412268",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "alcool e Outras Drogas",
+   "brasilapi": true,
+   "brasilapi_titulo": "Álcool e outras drogas: diálogos sobre um mal-estar contemporâneo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786589524977",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Antropoentomofagia",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788572166522",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Duas ou três páginas despretensiosas: a crônica, Rubem Braga e outros cronistas",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Duas ou três páginas despretensiosas: a crônica, Rubem Braga e outros cronistas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786558461692",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "As Comissões Da Verdade e Os Arquivos Da Ditadura Militar Brasileira",
+   "brasilapi": true,
+   "brasilapi_titulo": "As comissões da verdade e os arquivos da ditadura militar brasileira",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788534224710",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O grito da selva",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O GRITO DA SELVA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081723",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "O Hospício Da Praia Vermelha",
+   "brasilapi": true,
+   "brasilapi_titulo": "O Hospício da Praia Vermelha",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575412497",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Agonia Da Fome",
+   "brasilapi": true,
+   "brasilapi_titulo": "Agonia da fome",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786558460527",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "O Negro No Mundo Dos Ricos",
+   "brasilapi": true,
+   "brasilapi_titulo": "O negro no mundo dos ricos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788586156038",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Frágeis deuses",
+   "brasilapi": true,
+   "brasilapi_titulo": "FRAGEIS DEUSES: PROFISSIONAIS DA EMERGENCIA ENTRE OS DANOS DA VIOLENCIA E A RECRIACAO DA VIDA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303342",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Palhaços",
+   "brasilapi": true,
+   "brasilapi_titulo": "Palhaços",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539304509",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Sociedade de Educação de São Paulo",
+   "brasilapi": true,
+   "brasilapi_titulo": "A sociedade de educação de São Paulo: embates no campo educacional (1922-1931)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081181",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Gravidez na adolescência",
+   "brasilapi": true,
+   "brasilapi_titulo": "Gravidez na adolescência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578880828",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Justin Bieber de A a Z",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786589524991",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "No tempo da in-presença",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559721696",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Diagnóstico sobre a devolução de crianças e adolescentes em estágio de convivência e adotadas",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Diagnóstico sobre a devolução de crianças e adolescentes em estágio de convivência e adotadas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579820281",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Política e Racionalidade",
+   "brasilapi": true,
+   "brasilapi_titulo": "Política e racionalidde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557144527",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Introdução à pesquisa sobre atividades de ensino e de aprendizagem em sala de aula",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415405",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Bioética e Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Bioética e saúde: novos tempos mulheres e crianças?",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788526807020",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O QUADRANTE DE PASTEUR",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788573003628",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Variações interétnicas: etnicidade, conflito e transformações em perspectiva antropológica",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786500070477",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Livro das Suspeições: O que fazer quando sabemos que Moro era parcial e suspeito?",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O Livro das Suspeições",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788538603900",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Página Violada",
+   "brasilapi": true,
+   "brasilapi_titulo": "A pagina violada: da ternura à injuria na construção do livro de artista",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788535902990",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "A ditadura escancarada",
+   "brasilapi": true,
+   "brasilapi_titulo": "AS ILUSOES ARMADAS - A DITADURA ESCANCARADA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786500945492",
+   "consulta": "wikidata",
+   "titulo_wikidata": "14 Camadas de Observação Comportamental",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "14 Camadas de observação comportamental",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586383058",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "O Crime Do Padre Amaro - eça de Queirós",
+   "brasilapi": true,
+   "brasilapi_titulo": "O crime do padre Amaro - Eça de Queirós",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788508042487",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Impressionismo",
+   "openlibrary": true,
+   "openlibrary_titulo": "Impressionismo, O",
+   "brasilapi": true,
+   "brasilapi_titulo": "O IMPRESSIONISMO",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786588211137",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Mitologia Grega e Bíblica",
+   "brasilapi": true,
+   "brasilapi_titulo": "Mitologia grega e bíblica",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788544106976",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Jogador nº 1",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Jogador nº1: capa filme",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523220020",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Estado e Capital Na China",
+   "brasilapi": true,
+   "brasilapi_titulo": "Estado e capital na China",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523209186",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Memória e Formação de Professores",
+   "brasilapi": true,
+   "brasilapi_titulo": "Memória e formação de professores",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523208943",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Comunicação Plural",
+   "brasilapi": true,
+   "brasilapi_titulo": "Comunicação Plural",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557082331",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Superbactérias resistentes a antimicrobianos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579831263",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Leitura e Escrita Como Espaços Autobiográficos de Formação",
+   "brasilapi": true,
+   "brasilapi_titulo": "Leitura e escrita como espaços autobiográficos de formação",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575412800",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Traçando Caminhos Em Uma Sociedade Violenta",
+   "brasilapi": true,
+   "brasilapi_titulo": "Traçando caminhos em uma sociedade violenta: a vida de jovens infratores e de seus irmãos não-infratores",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786555653045",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Uma questão de química",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Uma questão de química",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788568165003",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Navegar é fácil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586221671",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Celso Furtado",
+   "brasilapi": true,
+   "brasilapi_titulo": "Celso Furtado",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556301976",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "OMINÍBÚ: maternidade negra em um defeito de cor",
+   "brasilapi": true,
+   "brasilapi_titulo": "OMINÍBÚ",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786553934399",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Profissional do Futuro: Como se preparar para o mercado de trabalho na era da IA",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    404
+   ]
+  },
+  {
+   "isbn": "9788523211950",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "O Catolicismo Brasileiro e a Construção de Identidades Negras Na Contemporaneide",
+   "brasilapi": true,
+   "brasilapi_titulo": "O catolicismo brasileiro e a construção de identidades negras na contemporaneidade: um olhar socioantropológico sobre a Pastoral Afro-Brasileira",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579835605",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Comunicação, Cultura e Linguagem",
+   "brasilapi": true,
+   "brasilapi_titulo": "Comunicação, cultura e linguagem",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586221664",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Objetivos Humanísticos, Conteúdos Científicos",
+   "brasilapi": true,
+   "brasilapi_titulo": "Objetivos humanísticos, conteúdos científicos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557170519",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Interseccionalidade",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Interseccionalidade",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788574555270",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O guia intérprete e a inclusão da pessoa com surdocegueira",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788573341164",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Largos, coretos e praças de Belém",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "LARGOS, CORETOS E PRAÇAS DE BELÉM - PA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786590041920",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Cultura de Segurança",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Cultura de segurança",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786587949109",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Autoscopia",
+   "brasilapi": true,
+   "brasilapi_titulo": "Autoscopia",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788551841983",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Negacionismo: a construção social do fascismo no tempo presente",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Negacionismo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080801",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "O Jogo Como Prática de Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "O jogo como prática de saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575416136",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Agente Comunitário de Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Agente comunitário de saúde: o ser, o saber, o fazer",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579801556",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Insurgente",
+   "openlibrary": true,
+   "openlibrary_titulo": "Insurgente (Em Portugues do Brasil)",
+   "brasilapi": true,
+   "brasilapi_titulo": "Insurgente",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413548",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Proteção à Natureza e Identidade Nacional No Brasil, Anos 1920 - 1940",
+   "brasilapi": true,
+   "brasilapi_titulo": "Proteção à natureza e identidade nacional no Brasil, anos 1920-1940",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788574554860",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Representação Social Na Construção Da Velhice",
+   "brasilapi": true,
+   "brasilapi_titulo": "A representação social na construção da velhice",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578794866",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Água e Democracia Na América Latina",
+   "brasilapi": true,
+   "brasilapi_titulo": "Água e democracia na Amárica Latina",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788599662540",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Tecnologia para a Indústria",
+   "brasilapi": true,
+   "brasilapi_titulo": "TECNOLOGIA PARA A INDUSTRIA: A HISTÓRIA DO INSTITUTO NACIONAL DE TECNOLOGIA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788561673673",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Atualização em fisioterapia na emergência",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Atualização em fisioterapia na emergência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786500981605",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Sorte ou Capacidade",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Sorte ou Capacidade",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788520920664",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Omara & Bethânia, Cuba, Bahia",
+   "brasilapi": true,
+   "brasilapi_titulo": "OMARA E BETHÂNIA: CUBA E BRASIL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788577982325",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Modelagem Matemática",
+   "brasilapi": true,
+   "brasilapi_titulo": "Modelagem matemática: perspectivas, experiências, reflexões e teorizações",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586546903",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "A emergência do Design da Informação na contemporaneidade da Ciência da Informação",
+   "brasilapi": true,
+   "brasilapi_titulo": "A emergência do design da informação na contemporaneidade da ciência da informação",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579820069",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Violência e Cultura No Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "VIOLÊNCIA E CULTURA NO BRASIL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788568334546",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Dimensões Da Cultura e Da Sociabilidade",
+   "brasilapi": true,
+   "brasilapi_titulo": "Dimensões da cultura e da sociabilidade: os festejos carnavalescos da cidade de São Paulo (1940-1964)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575413937",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Doença de Chagas",
+   "brasilapi": true,
+   "brasilapi_titulo": "Doenças de chagas: manual para experimentação animal",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586383041",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Busca Da Perfeição",
+   "brasilapi": true,
+   "brasilapi_titulo": "A busca da perfeição",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786556301945",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Education and literature",
+   "brasilapi": true,
+   "brasilapi_titulo": "Education and literature",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788527311588",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Sociologia Do Negro Brasileiro",
+   "brasilapi": true,
+   "brasilapi_titulo": "Sociologia do negro brasileiro",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080597",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Saúde de Migrantes e Refugiados",
+   "brasilapi": true,
+   "brasilapi_titulo": "Saúde de migrantes e refugiados",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557143025",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Introdução à filosofia de Bergson",
+   "brasilapi": true,
+   "brasilapi_titulo": "Introdução à filosofia de Bergson",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788579830051",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Fragmentos Do Contemporâneo",
+   "brasilapi": true,
+   "brasilapi_titulo": "FRAGMENTOS DO CONTEMPORÂNEO: LEITURAS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786558461708",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Segurança pública, redes e governança",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786501478449",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Muito Além do Zero",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Muito além do zero",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786583140067",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Mercadores da dúvida: Como um pequeno grupo de cientistas distorceu fatos que vão do tabagismo às mudanças climáticas",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Mercadores da dúvida",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786558421344",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Dispensados pelo Excesso de Contingente",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788526816701",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Um intelectual na urgência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786558580461",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Para Além das Fronteiras",
+   "brasilapi": true,
+   "brasilapi_titulo": "Para além das fronteiras",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786589824015",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Breve história de Guaratinguetá e região",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523220051",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Saúde para Todos, Já!",
+   "brasilapi": true,
+   "brasilapi_titulo": "Saúde para todos, já!",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559280803",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A política no banco dos réus",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557145036",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Lygia Fagundes Telles e René Magritte",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788524402951",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "DIFFERENTIAL EQUATIONS OF CLASSICAL GEOMETRY, A QUALITATIVE THEORY",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081624",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Os Animais Peçonhentos Na Saúde Pública",
+   "brasilapi": true,
+   "brasilapi_titulo": "Os animais peçonhentos na Saúde Pública",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788576351542",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Construindo Uma Vida",
+   "brasilapi": true,
+   "brasilapi_titulo": "CONSTRUINDO UMA VIDA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523211516",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "10necessárias Falas",
+   "brasilapi": true,
+   "brasilapi_titulo": "10 necessárias falas: cidade, arquitetura e urbanismo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523209315",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Avaliação Educacional",
+   "brasilapi": true,
+   "brasilapi_titulo": "Avaliação educanional: desatando e reatando nós",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788585813338",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Entre Os Muros Da Exclusão",
+   "brasilapi": true,
+   "brasilapi_titulo": "Entre os muros da exclusão",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788577982318",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Política Social Na América Do Sul",
+   "brasilapi": true,
+   "brasilapi_titulo": "A política social na América do Sul: perspectivas e desafios no século XXI",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788584392445",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Fabulosas: Histórias de um Brasil LGBTQIAP+",
+   "openlibrary": true,
+   "openlibrary_titulo": "Fabulosas",
+   "brasilapi": true,
+   "brasilapi_titulo": "Fabulosas",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788568334805",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Construções Subordinadas Na Lusofonia",
+   "brasilapi": true,
+   "brasilapi_titulo": "Construções Subordinadas Na Lusofonia",
+   "brasilapi_provedor": "open-library",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303120",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "História Natural Da Religião",
+   "brasilapi": true,
+   "brasilapi_titulo": "História natural da religião",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788531400933",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Tractatus Logico-Philosophicus",
+   "openlibrary": true,
+   "openlibrary_titulo": "Tractatus Logico-Philosophicus",
+   "brasilapi": true,
+   "brasilapi_titulo": "Tractatus Logico-Philosophicus",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788585490164",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O espaço crítico",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    404
+   ]
+  },
+  {
+   "isbn": "9788582930472",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Estudos linguísticos e literários: aplicado ao ensino",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788561024260",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Paulo H. Alkmin",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Máquinas virtuais com VitualBox",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786587233734",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Sexualidade e socialismo: história, política e teoria da libertação LGBT",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Sexualidade e socialismo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578616397",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Tópicos de álgebra clássica: um prelúdio à álgebra moderna",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    404
+   ]
+  },
+  {
+   "isbn": "9788534704236",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O candomblé bem explicado: Nações Bantu, Iorubá e Fon",
+   "openlibrary": true,
+   "openlibrary_titulo": "O candomblé bem explicado",
+   "brasilapi": true,
+   "brasilapi_titulo": "O Candomblé bem explicado",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788594066008",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Política de migração e refúgio do Brasil consolidada",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Política de migração e refúgio do Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788503008709",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Frescos Trópicosː Fontes Sobre a Homossexualidade Masculina no Brasil",
+   "openlibrary": true,
+   "openlibrary_titulo": "Frescos trópicos",
+   "brasilapi": true,
+   "brasilapi_titulo": "FRESCOS TRÓPICOS: FONTES SOBRE A HOMOSSEXUALIDADE MASCULINA NO BRASIL (1870-1980)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786550190507",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O tradutor-intérprete de Libras escolar, seu conhecimento de Física e a percepção de sua práxis",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786599345258",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Nós amávamos tanto o acesso aberto",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Nós amávamos tanto o acesso aberto",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788594631916",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Um carisma no tempo",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Um carisma no tempo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788562942075",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Selva Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "Selva Brasil",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557146095",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": false,
+   "brasilapi_titulo": null,
+   "brasilapi_provedor": null,
+   "status": [
+    404,
+    404
+   ]
+  },
+  {
+   "isbn": "9788586831010",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O universo mágico do barroco brasileiro",
+   "openlibrary": true,
+   "openlibrary_titulo": "O universo mágico do barroco brasileiro",
+   "brasilapi": true,
+   "brasilapi_titulo": "O UNIVERSO MAGICO DO BARRO BRASILEIRO",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586832358",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Música de museu",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557145227",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "D. B. Elkonin",
+   "brasilapi": true,
+   "brasilapi_titulo": "D. B. ELKONIN",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788576287414",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Gêneros Textuais Em Contexto de Vestibular",
+   "brasilapi": true,
+   "brasilapi_titulo": "Gêneros textuais em contexto de vestibular",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586768459",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Fúria Narcísica Entre Alunos e Professores",
+   "brasilapi": true,
+   "brasilapi_titulo": "Fúria narcísica entre alunos e professores",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539302550",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Economia, poder e influência externa: o Banco Mundial e os anos de ajuste na América Latina",
+   "openlibrary": true,
+   "openlibrary_titulo": "Economia, poder e influência externa",
+   "brasilapi": true,
+   "brasilapi_titulo": "Economia, poder e influência externa: o banco mundial e os anos de ajuste na América Latina",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575115732",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Além do paradigma: sobre o legado de Thomas Kuhn",
+   "openlibrary": true,
+   "openlibrary_titulo": "Além Do Paradigma : (sobre o Legado de Thomas Kuhn)",
+   "brasilapi": true,
+   "brasilapi_titulo": "Além Do Paradigma : (sobre o Legado de Thomas Kuhn)",
+   "brasilapi_provedor": "open-library",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586113013",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Comunidades, algoritimos e ativismos digitais",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523208905",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Bahia: inquisição e sociedade",
+   "openlibrary": true,
+   "openlibrary_titulo": "Bahia",
+   "brasilapi": true,
+   "brasilapi_titulo": "Bahia: inquisição e sociedade",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415238",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Saneamento",
+   "brasilapi": true,
+   "brasilapi_titulo": "Saneamento: promoção da saúde, qualidade de vida e sustentabilidade ambiental",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788576286547",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Políticas de Financiamento e Gestão Da Educação Básica : Os Casos Brasil e Portugal",
+   "brasilapi": true,
+   "brasilapi_titulo": "Politicas de financiamento e gestão da educação básica (1990-2010): os casos Brasil e Portugal",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788520013649",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Revolucionário e gay: A vida extraordinária de Herbert Daniel",
+   "openlibrary": true,
+   "openlibrary_titulo": "Revolucionário e gay",
+   "brasilapi": true,
+   "brasilapi_titulo": "Revolucionário e gay: a vida extraordinária de Herbert Daniel",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788552600602",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Anais do IV Encontro Estadual de História da ANPUH",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Anais IV Encontro Estadual de História: ensino de história no Amazonas, democracia e desigualdades",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557145180",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Cartas e Escrita",
+   "brasilapi": true,
+   "brasilapi_titulo": "Cartas e escrita (práticas culturais, linguagem, tessitura da amizade)",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788585676667",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A REFORMA PSIQUIATRICA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788574801216",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Idiotas & demagogos",
+   "brasilapi": true,
+   "brasilapi_titulo": "IDIOTAS E DEMAGOGOS",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559542505",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Memória muscular",
+   "brasilapi": true,
+   "brasilapi_titulo": "Memória muscular",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786586546934",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Semiótica e Pragmatismo",
+   "brasilapi": true,
+   "brasilapi_titulo": "Semiótica e pragmatismo",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788573932638",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Estratégia Digital",
+   "brasilapi": true,
+   "brasilapi_titulo": "ESTRATÉGIA DIGITAL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575421857",
+   "consulta": "wikidata",
+   "titulo_wikidata": "A Essencial Arte de Parar",
+   "openlibrary": true,
+   "openlibrary_titulo": "Essencial Arte de Parar, A",
+   "brasilapi": true,
+   "brasilapi_titulo": "A ESSENCIA ARTE DE PARAR",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578614249",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Introdução à álgebra linear",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Introdução à álgebra linear",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578792770",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Desenvolvimento Regional",
+   "brasilapi": true,
+   "brasilapi_titulo": "Desenvolvimento regional: um problema político",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788576797937",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O diário de litat: litat dmefinos",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575415542",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Crianças, Adolescentes e Crack",
+   "brasilapi": true,
+   "brasilapi_titulo": "Crianças, adolescentes e crack: desafios para o cuidado",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786559541300",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Política de indexação",
+   "brasilapi": true,
+   "brasilapi_titulo": "Política de indexação",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303090",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Grande Ibéria",
+   "brasilapi": true,
+   "brasilapi_titulo": "A grande Ibéria",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788562042072",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Tudo o que você sempre quis saber sobre a urna eletrônica brasileira",
+   "openlibrary": true,
+   "openlibrary_titulo": "Tudo o que você sempre quis saber sobre a urna eletrônica brasileira",
+   "brasilapi": true,
+   "brasilapi_titulo": "Tudo o que você sempre quis saber sobre a urna eletrônica brasileira",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523211561",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Agadá: dinâmica da civilização africano-brasileira",
+   "openlibrary": true,
+   "openlibrary_titulo": "Agadá",
+   "brasilapi": true,
+   "brasilapi_titulo": "Agadá: dinâmica da civilização africano-brasileira",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788539303359",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Persistência Dos Deuses",
+   "brasilapi": true,
+   "brasilapi_titulo": "A persistência dos deuses: religião, cultura e natureza",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557081709",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Vozes Indígenas Na Saúde",
+   "brasilapi": true,
+   "brasilapi_titulo": "Vozes indígenas na saúde",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080689",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Mania de Liberdade",
+   "brasilapi": true,
+   "brasilapi_titulo": "Mania de liberdade",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788575410912",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "AIDS na terceira década",
+   "brasilapi": true,
+   "brasilapi_titulo": "AIDS NA TERCEIRA DÉCADA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788571238855",
+   "consulta": "wikidata",
+   "titulo_wikidata": "A Menina da Sexta Lua",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "A MENINA DA SEXTA LUA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788588742192",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Fragmentos de Mata Atlântica do Nordeste",
+   "brasilapi": true,
+   "brasilapi_titulo": "FRAGMENTOS DE MATA ATLÂNTICA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788576003649",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Nos limites da ação: preconceito, inclusão e deficiência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557145029",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O papel de filosofia na teoria crítica de Herbert Marcuse",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788580410198",
+   "consulta": "wikidata",
+   "titulo_wikidata": "O Dia da Caça",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "O Dia da Caça",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786500468069",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Faça a Diferença, Seja Líder em Saúde e Segurança",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Make The Difference",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788585994310",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Terras indígenas & unidades de conservação da natureza: o desafio das sobreposições",
+   "openlibrary": true,
+   "openlibrary_titulo": "Terras Indigenas & Unidades de Conservac~ao Da Natureza",
+   "brasilapi": true,
+   "brasilapi_titulo": "TERRAS INDIGENAS & UNIDADES DE CONSERVACAO DA NATUREZA",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788521101956",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Hidrelétricas na Amazônia: Impactos Ambientais e Sociais na Tomada de Decisões sobre Grandes Obras",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "Hidrelétricas na Amazônia: impactos ambientais e sociais na tomada de decisões sobre grandes obras: volume 3",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9788585008895",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Fósseis do Brasil",
+   "brasilapi": true,
+   "brasilapi_titulo": "FOSSEIS DO BRASIL",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788577162772",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Etnobotânica, uso e classificaçao dos vegetais pelos kaingangː Terra Indigena Xapecó",
+   "openlibrary": false,
+   "openlibrary_titulo": null,
+   "brasilapi": true,
+   "brasilapi_titulo": "SANTO OSAMA BIN LADEN",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    404,
+    200
+   ]
+  },
+  {
+   "isbn": "9786557080788",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Manguinhos Do Sonho à Vida",
+   "brasilapi": true,
+   "brasilapi_titulo": "Manguinhos do sonho à vida",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523208936",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Construção Da Universidade Baiana",
+   "brasilapi": true,
+   "brasilapi_titulo": "A construção da universidade baiana: objetivos, missões e afrodescendência",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788523219604",
+   "consulta": "wikidata",
+   "titulo_wikidata": "Coleção Arquitetura Moderna na Bahia (1947-1951)",
+   "openlibrary": true,
+   "openlibrary_titulo": "Coleção Arquitetura noderna na Bahia",
+   "brasilapi": true,
+   "brasilapi_titulo": "Coleção Arquitetura moderna na Bahia",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  },
+  {
+   "isbn": "9788578793470",
+   "consulta": "wikidata",
+   "titulo_wikidata": null,
+   "openlibrary": true,
+   "openlibrary_titulo": "Interculturalidade, Linguagens e Formação de Professores, Vol. 2",
+   "brasilapi": true,
+   "brasilapi_titulo": "Interculturalidade, linguagens e formação de professores",
+   "brasilapi_provedor": "cbl",
+   "status": [
+    200,
+    200
+   ]
+  }
+ ]
+}
