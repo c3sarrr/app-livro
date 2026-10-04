@@ -8,6 +8,7 @@ analyzer:
     - android/**
     - ios/**
     - design_handoff/** # pacote de handoff somente leitura
+    - spikes/** # G02: cada spike é um pacote próprio, analisado na própria pasta
 
 linter:
   rules:

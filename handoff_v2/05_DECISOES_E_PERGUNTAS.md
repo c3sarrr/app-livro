@@ -45,6 +45,12 @@
 | D-51 | **Divergências conhecidas do arquivo** (o agente NÃO para por causa delas): (a) a prancha 21 não tem a prop `brand` → usa a `brand` global; (b) a prop `paper` oferece `#F3E7CF`, mas o cartão Sépia usa `#EEDDBF` → o tema Sépia é `#EEDDBF` (o `#F3E7CF` era variação de Creme do Claude Design); (c) `aria-label="1 marcas"` → o app diz "1 marca" (plural correto); (d) o rótulo `role=img` da nota à mão na 25 contém o texto escrito → D-31; (e) contagens por rótulo da 23b → D-40; (f) números do sumário ilustrativos → D-19/D-34 | Evitar paradas por divergências já decididas | PROPOSTA |
 | D-52 | Moderação do conteúdo social (exigência da App Store 1.2 para conteúdo gerado por usuários): denunciar, bloquear, filtro de palavras na publicação, fila de moderação interna com meta de resposta em até 24 h, termos aceitos antes de publicar, contato publicado | Sem isso o app com clubes/perfis pode ser rejeitado | PROPOSTA |
 | D-53 | Privacidade operacional: encarregado (DPO) nomeado e publicado; plano de resposta a incidentes com prazos da ANPD; política para menores conforme a lei vigente (Q13) | LGPD e lojas | PROPOSTA |
+| D-54 | "≈" de "≈ 2 h 10 min" (telas 20/26b): embutir **só o glifo "≈" da Inter Bold** (OFL) numa família de fallback da Figtree 800 — igual à referência medida em qualquer aparelho | Achado 1 da G01: a Figtree não tem "≈" e o navegador usou fonte do sistema (Q14) | **APROVADA 03/10/2026** |
+| D-55 | Prancha 21: a referência de teste é a versão **corrigida** `21_selecao_texto_corrigida_*` (19 linhas, rodapé limpo), não a literal com o texto vazando | Achado 2 da G01 (Q15) | **APROVADA 03/10/2026** |
+| D-56 | Tela 25: teste visual (golden) só até 2170 px; o botão "Continuar lendo · pág. 159" (até 2271,58) vale pelas medidas | Achado 3 da G01 (Q16) | **APROVADA 03/10/2026** |
+| D-57 | Prancha 21: a semântica segue **só a seleção visível** (um único "Trecho selecionado") | Achado 4 da G01: dois `aria-label` iguais, um num span transparente (Q17) | **APROVADA 03/10/2026** |
+| D-58 | Prateleira de ferramentas: a cor `brand` (desenho de ativa) **acompanha a ferramenta ativa**; na 23b a caneta volta ao desenho de inativa e o marca-texto sobe 12 px | Achado 5 da G01 (Q18) | **APROVADA 03/10/2026** |
+| D-59 | Tinta já feita **mantém a cor com que foi feita**; trocar de ferramenta/cor só muda o poço de cor e as espessuras do painel | Achado 6 da G01: na 23b a tinta existente aparece amarela (Q19) | **APROVADA 03/10/2026** |
 
 ## 2. ADRs técnicos a escrever (com prova) — `docs/adr/`
 
@@ -69,7 +75,7 @@ Versões: sempre a estável mais recente compatível com Flutter 3.47.2 / Dart 3
 
 ## 4. Perguntas para o Cesar (responder antes da fase indicada)
 
-Respostas em 03/10/2026: **Q2** = R$ 9,99/mês e R$ 79,99/ano · **Q5** = decidir depois (manter `com.example` até a G27) · **Q12** = sim, commitar e limpar (feito na G00) · **Q13** = **13 anos ou mais** (exige cuidados com adolescentes: verificação etária, padrões protetivos e textos legais — G05/G25).
+Respostas em 03/10/2026: **Q2** = R$ 9,99/mês e R$ 79,99/ano · **Q5** = decidir depois (manter `com.example` até a G27) · **Q12** = sim, commitar e limpar (feito na G00) · **Q13** = **13 anos ou mais** (exige cuidados com adolescentes: verificação etária, padrões protetivos e textos legais — G05/G25). **Q14–Q19** = as 6 recomendações aceitas (A · sim · sim · sim · A · A) → D-54…D-59 (início da G02).
 
 
 | # | Pergunta | Bloqueia |

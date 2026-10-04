@@ -13,3 +13,5 @@ tools/medicao/idmaps/** -text
 tools/medicao/pranchas/extracao.json -text
 tools/fonts/** -text
 docs/progresso/G01_hashes_saida.txt -text
+# G02: spikes (pacotes fora do app) byte a byte iguais aos do container onde parte deles roda
+spikes/** -text

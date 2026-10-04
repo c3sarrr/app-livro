@@ -51,3 +51,7 @@ app.*.map.json
 tools/medicao/pranchas/*
 !tools/medicao/pranchas/extracao.json
 tools/medicao/tmp/
+
+# G02: dados baixados pelos spikes (EPUB de domínio público etc.) e dependências Node
+spikes/_dados/
+node_modules/
