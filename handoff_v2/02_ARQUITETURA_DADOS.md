@@ -14,7 +14,7 @@
 4. **O servidor manda no que é compartilhado e no dinheiro.** Social, clubes, direitos de assinatura e limites são decididos no Postgres (RLS + funções), nunca só no app.
 5. **O catálogo de livros não mora no banco transacional.** ISBN e busca ampla ficam em arquivos estáticos (R2 + Workers) e no aparelho; o Postgres guarda só os livros **referenciados** por dados sociais/Pro.
 6. **IDs gerados no aparelho** (UUIDv7, ordenáveis por tempo) — permitem criar offline e sincronizar sem colisão.
-7. **Tudo que é apagado vira tombstone** (`deleted_at` + novo `version_hlc`) — inclusive nas tabelas `localOnly` do Grátis: senão, quem volta a assinar dentro dos 12 meses "ressuscitaria" na nuvem o que apagou enquanto estava no Grátis. A remoção física acontece por rotina (retenção) ou por exclusão de conta.
+7. **Tudo que é apagado vira tombstone** (`deleted_at` + novo `version_hlc`) — inclusive no Grátis (que escreve nas mesmas tabelas, sem fila): senão, quem volta a assinar dentro dos 12 meses "ressuscitaria" na nuvem o que apagou enquanto estava no Grátis. A remoção física acontece por rotina (retenção) ou por exclusão de conta.
 8. **Privacidade por padrão** (LGPD): coleta mínima, finalidade clara, exclusão imediata a pedido, exportação dos próprios dados.
 
 ## 2. Onde mora cada dado
@@ -46,13 +46,13 @@
 
 - **SQLite** gerenciado pelo SDK do **PowerSync** (`powersync` no pub.dev), com **drift** por cima (via `drift_sqlite_async`) para consultas tipadas, DAOs e testes.
 - **Risco crítico a eliminar (revisão independente):** o cliente do PowerSync **apaga do aparelho** as linhas de um bucket que deixou de valer (perdeu o Pro) e aplica as exclusões do servidor (purge de 12 meses). Isso pode destruir a única cópia dos dados. Além disso, escrever em tabelas sincronizadas sem nunca conectar faz a fila `ps_crud` crescer sem fim. Por isso:
-  1. **Grátis (e Pro desconectado) escreve em tabelas `localOnly`** com o mesmo formato. As tabelas sincronizadas só existem/recebem escrita enquanto o Pro está ativo (padrão "local-only → synced" do PowerSync: troca de `Schema` com `viewName` iguais, para o app não perceber).
-  2. **Virar Pro:** copiar as linhas `localOnly` para as sincronizadas numa transação (elas entram na fila como `PUT`) → trocar o esquema → conectar.
-  3. **Perder o Pro:** o app conhece a data de expiração (RevenueCat) → **antes** dela: copiar sincronizadas → `localOnly`, trocar o esquema, desconectar e só então limpar o estado do PowerSync. Se a perda for detectada já conectado (reembolso), desconectar **imediatamente** e copiar antes de qualquer nova sincronização. Nunca conectar sem direito ativo.
-  4. **Voltar a ser Pro depois de um intervalo:** tratar como "virar Pro" (todas as linhas locais — inclusive os tombstones — reenfileiradas como `PUT`; o LWW resolve o que já existia na nuvem).
-  5. **Rede de segurança no servidor:** `billing.sync_access` mantém o bucket concedido por **7 dias** depois do fim do Pro (o upload já é bloqueado na hora por `can_sync`), para o app ganhar a "corrida" com a remoção do bucket mesmo se ficou offline perto da expiração.
-  6. Esses fluxos são **critérios de aceite do spike S2** (com o aparelho em modo avião no meio de cada um). Se o PowerSync não passar, vale o plano B.
-- Decisão a confirmar no spike S2 (G02, ADR-003). Plano B: drift puro + sincronização própria (fila de saída + puxar por `updated_at`/HLC, sem exclusão automática local) — documentado no ADR.
+  1. **Decidido no spike S2 (ADR-002/003, Q20 aceita em 04/10/2026):** as 10 tabelas pessoais são **tabelas próprias** do drift (as *raw tables* do PowerSync), as mesmas para Grátis e Pro. O `put` do PowerSync é um upsert com LWW (`version_hlc`) que guarda colunas desconhecidas em `_extras`; o **`delete` do PowerSync não apaga** (só registra) — o modelo usa só exclusão lógica, então perder o bucket nunca apaga dado do aparelho.
+  2. **Fila só no Pro:** os gatilhos que alimentam a fila de upload (`ps_crud`) ficam ligados só no modo Pro; o Grátis nunca enfileira nada (fila 0, nenhuma conexão).
+  3. **Virar Pro:** ligar os gatilhos, reenfileirar todas as linhas locais (inclusive os tombstones) como `PUT` com a linha inteira e conectar. **Voltar a ser Pro** (antes ou depois do purge) é o mesmo caminho; o LWW resolve o que já existia na nuvem.
+  4. **Perder o Pro:** desligar os gatilhos e desconectar (`disconnectAndClear(clearLocal: false)`) na expiração prevista (RevenueCat), no `pro_required` do upload ou na checagem periódica. Nada é copiado e nada é apagado.
+  5. **Rede de segurança no servidor:** `billing.sync_access` mantém o acesso por **7 dias** depois do fim do Pro (o upload já é bloqueado na hora por `can_sync`).
+  6. **Regra do HLC:** toda escrita faz `receive` da versão lida antes do `send` (porta única `LocalVersioning.write`); um gatilho recusa versão local menor que a gravada. O padrão antigo ("views `localOnly` ↔ sincronizadas") foi **reprovado** no S2: em modo avião ele apagou 10.000 → 0 linhas.
+- Plano B (se o PowerSync falhar na G06): drift puro + sincronização própria, com o mesmo esquema e a mesma RPC (ADR-003).
 
 ### 3.2 Tabelas pessoais (espelho de `personal.*`)
 
@@ -165,6 +165,8 @@ Pendências do SQL (fazer na G04, com teste): `public.publish_my_stats` (já exi
 
 **Revisão independente da G04** (migration `revisao_g04`, testes em `13_revisao_g04.test.sql`): conteúdo ocultado pela moderação ganha `moderated_at` (só servidor) e o autor não edita nem restaura; ocultar perfil zera nome ("Leitor"), @, bio e foto; o filtro de termos olha também o @; nome provisório com termo proibido vira "Leitor" (o cadastro não falha); seguir: o dono do perfil só aceita (pendente → aceito) e terceiros não veem pedidos pendentes; curtida/seguir/pedido repetidos geram no máximo 1 notificação por dia; token de push só pela RPC `public.register_device_token` (o token passa para a conta que entrou no aparelho); código de convite gerado pelo servidor (12 caracteres) e bloqueado pelo dono não entra no clube; RevenueCat: `TRANSFER` aplica as contas de origem e destino, assinatura que sumiu do estado sai do banco, o dono anterior é recalculado na hora, a chave "produto@data" é por usuário e um estado buscado antes do último aplicado é ignorado (`billing.rc_fetch_state`); cota de e-books com reservas (`private.ebook_upload_reservations`: cada URL ativa conta 200 MiB; perto do limite, um último upload pelo tamanho informado); retenção: o prazo de 30 dias conta do aviso **entregue** (e-mail enviado ou, sem e-mail, a notificação no app); a limpeza do Storage pula quem voltou a ser Pro; partições das sessões com RLS e privilégios explícitos; push agrupa só respostas do clube; o webhook não guarda atributos do assinante e os eventos somem com a conta.
 
+**Feito na G05** (migration `conta_e_idade`, testes em `14_conta_e_idade.test.sql`): faixa etária da conta em `private.account_age` (só a **faixa** — `13_15`, `16_17`, `18_plus` — e a **fonte** — `play_signal`, `apple_signal`, `birthdate`; nunca a data de nascimento), gravada pela RPC `public.set_my_age_band` (menor de 13 recusado com `underage`; a data de nascimento não sobrescreve faixa já registrada, o sinal da loja sim; menor de 18 tem o perfil fechado por padrão — D-66); `public.my_account()` devolve o resumo da conta para o app (@, nome, visibilidade, se o @ ainda é o provisório "leitor_…", faixa, Pro); o @ no formato do provisório é reservado ao servidor (gatilho `profiles_handle_reserved`); `export_my_data` passa a `format_version` 2, com a faixa etária. A Edge Function `delete-account` aceita CORS **só** da origem da página web de exclusão (`EXCLUSAO_WEB_ORIGEM`). Ver `docs/progresso/RELATORIO_G05.md`.
+
 ### 5.4 RLS — padrões obrigatórios
 
 - RLS **ligada em todas** as tabelas; tabela sem política = só `service_role`.
@@ -193,33 +195,35 @@ PowerSync Service ◀── replicação lógica ── Postgres (personal.*, bi
      └────────────▶ baixa para todos os aparelhos do usuário
 ```
 
-### 6.2 Regras de sincronização (rascunho — conferir a sintaxe vigente na G02)
+### 6.2 Regras de sincronização (Sync Streams — ADR-003, provadas no S2)
 
 ```yaml
-bucket_definitions:
+config: { edition: 3 }            # bucket_definitions é legado no serviço PowerSync 1.27
+with:
+  pro: SELECT user_id FROM billing.sync_access WHERE user_id = auth.user_id() AND granted = true
+streams:
   pessoal:
-    # só recebe quem tem Pro (tabela replicada; regras não avaliam now())
-    parameters: SELECT user_id FROM billing.sync_access WHERE user_id = request.user_id() AND granted = true
-    data:
-      - SELECT * FROM personal.user_books        WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.reading_positions WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.reading_sessions  WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.bookmarks         WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.ink_layers        WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.annotations       WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.highlight_labels  WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.reader_settings   WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.pen_presets       WHERE user_id = bucket.user_id
-      - SELECT * FROM personal.reading_goals     WHERE user_id = bucket.user_id
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM personal.user_books        WHERE user_id IN pro
+      - SELECT * FROM personal.reading_positions WHERE user_id IN pro
+      - SELECT * FROM personal."reading_sessions_%" AS reading_sessions WHERE user_id IN pro
+      - SELECT * FROM personal.bookmarks         WHERE user_id IN pro
+      - SELECT * FROM personal.ink_layers        WHERE user_id IN pro
+      - SELECT * FROM personal.annotations       WHERE user_id IN pro
+      - SELECT * FROM personal.highlight_labels  WHERE user_id IN pro
+      - SELECT * FROM personal.reader_settings   WHERE user_id IN pro
+      - SELECT * FROM personal.pen_presets       WHERE user_id IN pro
+      - SELECT * FROM personal.reading_goals     WHERE user_id IN pro
 ```
 
-Notas: nomes **qualificados** pelo esquema (sem isso o PowerSync procura em `public`); publicação lógica com `publish_via_partition_root = true` (sessões particionadas — replicação de tabela particionada é **critério do spike S2**); o PowerSync exige coluna `id` única por linha (ok — UUIDv7); linhas com `deleted_at` **são** enviadas (é assim que a exclusão chega aos outros aparelhos; a UI filtra `deleted_at is null`); tombstones com mais de 90 dias podem ser podados depois que todos os aparelhos do usuário confirmaram (G06).
+Notas: nomes **qualificados** pelo esquema; publicação lógica `powersync` **sem** `publish_via_partition_root` (o serviço recusa: `PSYNC_S1143`) — cada partição de `reading_sessions` chega com o próprio nome e o curinga `reading_sessions_%` junta todas (partições novas entram sozinhas; conferido por pgTAP na G04); o PowerSync exige coluna `id` única por linha (ok — UUIDv7); linhas com `deleted_at` **são** enviadas (é assim que a exclusão chega aos outros aparelhos; a UI filtra `deleted_at is null`); o upload é sempre `PUT` com a linha inteira (sem `PATCH`); tombstones com mais de 90 dias podem ser podados depois que todos os aparelhos do usuário confirmaram (G06).
 
 ### 6.3 Momentos
 
-- **Virar Pro:** copiar `localOnly` → sincronizadas (§3.1), autenticar o PowerSync com o JWT do Supabase e subir tudo em lotes, com progresso discreto. Conflito impossível na primeira subida (ids únicos).
+- **Virar Pro:** ligar a fila (§3.1), reenfileirar tudo como `PUT`, autenticar o PowerSync com o JWT do Supabase e subir em lotes de até 500, com progresso discreto. Conflito impossível na primeira subida (ids únicos).
 - **Segundo aparelho:** entrar com a conta → baixar o bucket → baixar os e-books do Storage sob demanda (só metadados de início).
-- **Cancelou/expirou:** o app desconecta **antes** da expiração e copia sincronizadas → `localOnly` (§3.1); no servidor, o webhook atualiza `entitlements`, o upload para na hora e `refresh_sync_access` revoga o bucket 7 dias depois. Nada local é apagado. Dados na nuvem: 12 meses (`run_retention`).
+- **Cancelou/expirou:** o app desliga a fila e desconecta na expiração prevista (§3.1) — nada é copiado nem apagado; no servidor, o webhook atualiza `entitlements`, o upload para na hora e `refresh_sync_access` revoga o bucket 7 dias depois. Nada local é apagado. Dados na nuvem: 12 meses (`run_retention`).
 - **Assinou de novo:** dentro de 12 meses → reenfileira tudo como `PUT` e reconecta (o LWW reconcilia); depois do purge → mesma coisa, a nuvem é repovoada a partir do aparelho.
 - **Excluir conta:** apaga tudo no servidor imediatamente (LGPD), inclusive Storage e RevenueCat; o app pergunta se apaga também os dados locais.
 
@@ -297,6 +301,7 @@ Paginação sempre por **keyset** (nunca `OFFSET` em listas grandes). Todo SQL n
 | Categoria | Exemplos | Onde | Base legal (proposta) | Retenção |
 |---|---|---|---|---|
 | Conta | e-mail, provedor de login | Supabase Auth | execução de contrato | até excluir a conta |
+| Faixa etária (G05, D-66) | faixa (13–15, 16–17, 18+) e fonte (loja ou data informada) — **sem** a data de nascimento (usada só no aparelho para calcular a faixa e não guardada) | `private.account_age` | cumprimento de obrigação legal (ECA Digital) — confirmar na G25 | até excluir a conta |
 | Perfil público | @, nome, foto, bio, números | `public.*` | execução de contrato | até excluir |
 | Conteúdo social | posts, clubes, respostas | `public.*` | execução de contrato | até excluir (ou o autor apagar) |
 | Dados pessoais de leitura (Pro) | estante, grifos, tinta, sessões | `personal.*` | execução de contrato | assinatura + 12 meses |

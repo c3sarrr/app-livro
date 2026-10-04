@@ -97,7 +97,7 @@ Ajustes da v2:
 5. Esquema local ≡ esquema `personal.*` do servidor (teste de contrato).
 6. Migrações: nunca destrutivas para dados do Grátis (são a única cópia).
 7. **O que o Grátis pode enviar à rede (lista branca do teste de privacidade):** login/sessão; perfil e `profile_stats` (só agregados, via `publish_my_stats`); posts, comentários e curtidas que a pessoa publica; ações de clube (entrar, responder, progresso de capítulo publicado no clube, grifo que ela escolheu compartilhar); consultas de catálogo por **ISBN ou texto de busca** (sem a estante); token de push; Sentry (sem PII) e analytics só com consentimento. Qualquer outra coisa com dado pessoal = bug crítico.
-8. Tabelas pessoais: Grátis escreve em tabelas `localOnly`; só o Pro conectado escreve nas sincronizadas (Anexo 02 §3.1 — evita o PowerSync apagar a única cópia ao perder o Pro).
+8. Tabelas pessoais: as mesmas tabelas próprias do drift para Grátis e Pro, com `delete` do PowerSync que não apaga e fila de upload só no Pro (Anexo 02 §3.1, ADR-002/003 — evita o PowerSync apagar a única cópia ao perder o Pro).
 
 ### 4.4 Segurança e privacidade
 1. Chave `service_role` e segredos **só** em Edge Functions/CI. O app leva apenas chaves públicas (URL + anon key, chaves públicas do RevenueCat, DSN do Sentry) via `--dart-define-from-file=env/<ambiente>.json` (arquivos reais no `.gitignore`; `env/*.example.json` versionados).
@@ -244,8 +244,8 @@ Objetivo: provar as decisões arriscadas antes de construir (Anexo 05 §2). Cada
 
 #### G06 · Sincronização Pro e e-books na nuvem (G)
 - [ ] Conector PowerSync: `fetchCredentials` (JWT do Supabase), `uploadData` em lotes ≤ 500 para `public.sync_apply_changes`, tratamento de erro (`pro_required` → desconectar e avisar; rede → repetir com recuo).
-- [ ] Regras de sync (Anexo 02 §6.2) publicadas; publicação lógica com `publish_via_partition_root`.
-- [ ] Troca `localOnly` ⇄ sincronizadas (Anexo 02 §3.1): virar Pro → copiar e subir tudo (com progresso); perder o Pro → desconectar **antes** da expiração e copiar de volta, sem apagar nada local; voltar (antes ou depois do purge) → reenfileirar tudo e reconectar.
+- [ ] Regras de sync (Anexo 02 §6.2 — Sync Streams) publicadas; publicação lógica `powersync` **sem** `publish_via_partition_root` (ADR-003; já criada e testada na G04).
+- [ ] Modo Pro ⇄ Grátis (Anexo 02 §3.1, ADR-002/003): virar Pro → ligar a fila, reenfileirar tudo como `PUT` e subir (com progresso); perder o Pro → desligar a fila e desconectar na expiração prevista, sem apagar nada local; voltar (antes ou depois do purge) → reenfileirar tudo e reconectar.
 - [ ] Tratar a resposta da RPC: `rejected` (erro permanente: dado inválido, referência de outro usuário, HLC no futuro) → tirar da fila, gravar em `sync_rejections`, enviar ao Sentry (sem conteúdo); **erro da chamada inteira** (rede, 5xx, conflito/trava transitória — a RPC relança esses) → manter tudo na fila e repetir com recuo exponencial.
 - [ ] Teste com 2 aparelhos simulados (offline, edições cruzadas, apagar num e editar no outro) → estados iguais.
 - [ ] E-books na nuvem: upload **só por URL assinada** emitida pela Edge Function `ebook-upload-url` (confere Pro e cota de 2 GB); retomada de upload só se o S2 provar que funciona com URL assinada (senão, upload em partes pela própria função); download sob demanda no 2º aparelho.
