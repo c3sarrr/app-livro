@@ -1,0 +1,8 @@
+# G03: opções do drift_dev (código gerado do banco local — ADR-002).
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          # só as classes de linha/companion/tabela; a API "manager" não é usada (DAOs próprios)
+          generate_manager: false
