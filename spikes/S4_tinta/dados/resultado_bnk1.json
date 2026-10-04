@@ -1,0 +1,32 @@
+{
+ "ida_e_volta": {
+  "tracos": 1000,
+  "pontos": 152005
+ },
+ "erros": {
+  "prefixos_truncados_recusados": 570
+ },
+ "tamanho": {
+  "60 Hz": {
+   "bytes_por_100_pontos_media": 423.6,
+   "p05": 415.1,
+   "p95": 452.4,
+   "pontos_em_256KiB": 61881,
+   "minutos_de_tinta_em_256KiB": 17.2
+  },
+  "120 Hz": {
+   "bytes_por_100_pontos_media": 412.1,
+   "p05": 408.1,
+   "p95": 427.5,
+   "pontos_em_256KiB": 63607,
+   "minutos_de_tinta_em_256KiB": 8.8
+  },
+  "240 Hz": {
+   "bytes_por_100_pontos_media": 406.3,
+   "p05": 404.2,
+   "p95": 414.9,
+   "pontos_em_256KiB": 64515,
+   "minutos_de_tinta_em_256KiB": 4.5
+  }
+ }
+}

@@ -1,0 +1,16 @@
+name: spike_s4_tinta
+description: "G02 · S4 — tinta: codec BNK1, suavização (porte do perfect-freehand), custo por ponto e app de medição de latência. Fora do app."
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: ^3.13.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

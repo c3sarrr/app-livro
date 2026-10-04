@@ -1,0 +1,97 @@
+{
+ "dart": "3.13.2 (stable) (Tue Aug 25 01:01:12 2026 -0700) on \"windows_x64\"",
+ "so": "\"Windows 10 Pro\" 10.0 (Build 19045)",
+ "cpus": 12,
+ "codec": {
+  "tracos": 50,
+  "pontos": 4402,
+  "bytes": 18170,
+  "codificar_us_por_100_pontos": 3.594729668332576,
+  "decodificar_us_por_100_pontos": 2.781122217174012
+ },
+ "suavizacao_contorno_inteiro": {
+  "50/esferografica": {
+   "us_contorno": 6.57,
+   "us_por_ponto": 0.13140000000000002
+  },
+  "50/tinteiro": {
+   "us_contorno": 5.46,
+   "us_por_ponto": 0.1092
+  },
+  "50/pincel": {
+   "us_contorno": 6.145,
+   "us_por_ponto": 0.1229
+  },
+  "200/esferografica": {
+   "us_contorno": 19.44,
+   "us_por_ponto": 0.09720000000000001
+  },
+  "200/tinteiro": {
+   "us_contorno": 18.33,
+   "us_por_ponto": 0.09165
+  },
+  "200/pincel": {
+   "us_contorno": 18.72,
+   "us_por_ponto": 0.09359999999999999
+  },
+  "500/esferografica": {
+   "us_contorno": 49.625,
+   "us_por_ponto": 0.09925
+  },
+  "500/tinteiro": {
+   "us_contorno": 45.925,
+   "us_por_ponto": 0.09185
+  },
+  "500/pincel": {
+   "us_contorno": 52.5,
+   "us_por_ponto": 0.105
+  },
+  "1000/esferografica": {
+   "us_contorno": 96.4,
+   "us_por_ponto": 0.0964
+  },
+  "1000/tinteiro": {
+   "us_contorno": 110.05,
+   "us_por_ponto": 0.11005
+  },
+  "1000/pincel": {
+   "us_contorno": 111.55,
+   "us_por_ponto": 0.11155
+  },
+  "2000/esferografica": {
+   "us_contorno": 185.6,
+   "us_por_ponto": 0.0928
+  },
+  "2000/tinteiro": {
+   "us_contorno": 163.15,
+   "us_por_ponto": 0.08157500000000001
+  },
+  "2000/pincel": {
+   "us_contorno": 181.65,
+   "us_por_ponto": 0.090825
+  }
+ },
+ "traco_ao_vivo": {
+  "60 Hz": {
+   "amostras": 120,
+   "us_p50": 8.0,
+   "us_p95": 13.0,
+   "us_max": 119.0,
+   "orcamento_quadro_us": 16666.666666666668
+  },
+  "120 Hz": {
+   "amostras": 240,
+   "us_p50": 14.0,
+   "us_p95": 27.0,
+   "us_max": 265.0,
+   "orcamento_quadro_us": 8333.333333333334
+  },
+  "240 Hz": {
+   "amostras": 480,
+   "us_p50": 25.0,
+   "us_p95": 52.0,
+   "us_max": 232.0,
+   "orcamento_quadro_us": 4166.666666666667
+  }
+ }
+}
