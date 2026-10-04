@@ -7,3 +7,9 @@ test/reference/*.dart -text
 tools/compare_images.py -text
 docs/handoff_checksums.txt -text
 handoff_v2/** -text
+# G01: referências do leitor e saídas da medição também byte a byte (o manifesto docs/progresso/G01_hashes_saida.txt confere estes bytes)
+test/reference/**/*.dart -text
+tools/medicao/idmaps/** -text
+tools/medicao/pranchas/extracao.json -text
+tools/fonts/** -text
+docs/progresso/G01_hashes_saida.txt -text
