@@ -12,6 +12,7 @@ final class AppEnv {
     this.googleWebClientId = '',
     this.googleIosClientId = '',
     this.authRedirect = defaultAuthRedirect,
+    this.powersyncUrl = '',
   });
 
   /// Lê os `--dart-define`.
@@ -28,6 +29,7 @@ final class AppEnv {
       'AUTH_REDIRECT',
       defaultValue: defaultAuthRedirect,
     ),
+    powersyncUrl: String.fromEnvironment('POWERSYNC_URL'),
   );
 
   /// Deep link de retorno do login pelo navegador (Apple no Android — D-67).
@@ -44,6 +46,9 @@ final class AppEnv {
   final String googleIosClientId;
   final String authRedirect;
 
+  /// Serviço PowerSync (sincronização do Pro — ADR-003). Local: `tools/powersync/subir_local.sh`.
+  final String powersyncUrl;
+
   static bool _filled(String v) => v.isNotEmpty && !v.startsWith('<');
 
   /// Há servidor (Supabase) para conta, login e social.
@@ -51,4 +56,7 @@ final class AppEnv {
 
   /// Há credencial do Google (D-67: só quando houver projeto na nuvem).
   bool get hasGoogle => _filled(googleWebClientId);
+
+  /// Há sincronização do Pro (precisa do login e do serviço PowerSync).
+  bool get hasSync => hasServer && _filled(powersyncUrl);
 }

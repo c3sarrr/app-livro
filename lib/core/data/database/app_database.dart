@@ -59,8 +59,14 @@ class AppDatabase extends _$AppDatabase {
         ...kvDefaults,
         ...annotationsFtsStatements,
         ...versionGuardTriggers(),
-        if (withSyncQueue) ...syncQueueTriggers(),
       ]) {
+        await customStatement(s);
+      }
+    },
+    // a fila do Pro é recriada a cada abertura (a regra pode mudar sem nova versão do esquema)
+    beforeOpen: (details) async {
+      if (!withSyncQueue) return;
+      for (final s in syncQueueTriggerRefresh()) {
         await customStatement(s);
       }
     },

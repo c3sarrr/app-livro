@@ -17,7 +17,7 @@ abstract final class OwnerKeys {
   static const String guest = 'conta.convidado';
 
   /// Dono cujas linhas o app mostra agora (conta logada ou o convidado).
-  static const String active = 'conta.dono_ativo';
+  static const String active = activeOwnerKey;
 
   /// "Menor de 13" já informado neste aparelho (D-66): outra data digitada não destrava o login.
   static const String underageBlocked = 'conta.menor_de_13';

@@ -62,3 +62,5 @@ spikes/**/build/
 !.env.example
 env/*.json
 !env/*.example.json
+# G06: estado e segredos de DESENVOLVIMENTO local (senha do papel do PowerSync, tokens) — nunca no git
+/_local/

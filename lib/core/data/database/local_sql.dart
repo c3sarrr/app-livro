@@ -60,6 +60,11 @@ const String syncModeKey = 'sync';
 const String syncModeFree = 'gratis';
 const String syncModePro = 'pro';
 
+/// Dono cujas linhas o app mostra agora (a conta logada ou o convidado — D-68). Só as linhas DELE
+/// entram na fila de upload (G06): dado de outra conta guardada no aparelho nunca sobe com o JWT
+/// da conta atual.
+const String activeOwnerKey = 'conta.dono_ativo';
+
 /// Valores iniciais do `kv`.
 const List<String> kvDefaults = [
   "INSERT OR IGNORE INTO kv (key, value) VALUES ('$syncModeKey', '$syncModeFree')",
@@ -95,18 +100,41 @@ List<String> versionGuardTriggers() => [
         "BEGIN SELECT RAISE(ABORT, 'version_hlc_regressed'); END",
 ];
 
-/// Gatilhos da fila de upload: `PUT` com a linha inteira em `powersync_crud`, só no modo Pro e
-/// nunca durante a aplicação da própria sincronização. Exigem a conexão do PowerSync.
+/// Gatilhos da fila de upload: `PUT` com a linha inteira em `powersync_crud`, só no modo Pro, só
+/// das linhas do dono ativo e nunca durante a aplicação da própria sincronização. Exigem a conexão
+/// do PowerSync. Recriados a cada abertura do banco ([syncQueueTriggerRefresh]): mudar a regra não
+/// exige subir a versão do esquema.
 List<String> syncQueueTriggers() => [
   for (final MapEntry(key: t, value: cols) in personalSyncColumns.entries)
     for (final ev in const ['INSERT', 'UPDATE'])
       'CREATE TRIGGER IF NOT EXISTS ${t}_queue_${ev.toLowerCase()} '
           'AFTER $ev ON $t FOR EACH ROW '
           'WHEN NOT powersync_in_sync_operation() AND '
-          "(SELECT value FROM kv WHERE key = '$syncModeKey') = '$syncModePro' "
+          "(SELECT value FROM kv WHERE key = '$syncModeKey') = '$syncModePro' AND "
+          "NEW.user_id = (SELECT value FROM kv WHERE key = '$activeOwnerKey') "
           "BEGIN INSERT INTO powersync_crud (op, id, type, data) VALUES ('PUT', NEW.id, '$t', "
-          'json_object(${cols.map((c) => "'$c', NEW.$c").join(', ')})); END',
+          '${_rowJson(cols, 'NEW.')}); END',
 ];
+
+/// Derruba e recria os gatilhos da fila (na abertura do banco).
+List<String> syncQueueTriggerRefresh() => [
+  for (final t in personalSyncColumns.keys)
+    for (final ev in const ['insert', 'update'])
+      'DROP TRIGGER IF EXISTS ${t}_queue_$ev',
+  ...syncQueueTriggers(),
+];
+
+/// Virar Pro (Anexo 02 §3.1 item 2): toda linha do dono — inclusive as apagadas logicamente — entra
+/// na fila como `PUT` com a linha inteira (o servidor aplica por LWW; voltar ao Pro depois do purge
+/// repovoa a nuvem). Um parâmetro: o dono.
+String enqueueAllSql(String table) {
+  final cols = personalSyncColumns[table]!;
+  return "INSERT INTO powersync_crud (op, id, type, data) SELECT 'PUT', id, '$table', "
+      '${_rowJson(cols, '')} FROM $table WHERE user_id = ?';
+}
+
+String _rowJson(List<String> cols, String prefix) =>
+    'json_object(${cols.map((c) => "'$c', $prefix$c").join(', ')})';
 
 /// `put` das tabelas próprias: upsert com last-writer-wins pelo `version_hlc` (nunca volta uma
 /// versão mais nova do aparelho); o que o app não conhece vai para `_extras`.

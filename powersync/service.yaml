@@ -1,0 +1,31 @@
+# G06 — configuração do serviço PowerSync (ADR-003, D-71). Local: edição Open no Docker do WSL contra o
+# Supabase local (tools/powersync/subir_local.sh). Produção: PowerSync Cloud região Brasil, com os mesmos
+# Sync Streams (sync_config.yaml). Nenhum segredo aqui: tudo vem do ambiente.
+replication:
+  connections:
+    - type: postgresql
+      uri: !env PS_DATA_SOURCE_URI
+      sslmode: disable
+
+# armazenamento dos buckets: banco separado (powersync_storage) no mesmo Postgres local
+storage:
+  type: postgresql
+  uri: !env PS_STORAGE_URI
+  sslmode: disable
+
+port: 8080
+
+sync_config:
+  path: sync_config.yaml
+
+# JWT do Supabase Auth (ES256): chaves públicas pelo JWKS do próprio Auth; o `sub` vira auth.user_id()
+client_auth:
+  jwks_uri: !env PS_JWKS_URL
+  audience: ['authenticated']
+
+api:
+  tokens:
+    - !env PS_API_TOKEN
+
+telemetry:
+  disable_telemetry_sharing: true

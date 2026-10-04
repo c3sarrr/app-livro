@@ -1,0 +1,25 @@
+# G06 — Sync Streams (Anexo 02 §6.2, ADR-003; provado no spike S2). Só recebe quem tem
+# billing.sync_access.granted (mantida pelo webhook do RevenueCat e por private.refresh_sync_access;
+# o bucket fica 7 dias depois do fim do Pro). No aparelho a remoção do bucket NÃO apaga nada
+# (tabelas próprias com `delete` que só registra).
+config:
+  edition: 3
+
+with:
+  pro: SELECT user_id FROM billing.sync_access WHERE user_id = auth.user_id() AND granted = true
+
+streams:
+  pessoal:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM personal.user_books        WHERE user_id IN pro
+      - SELECT * FROM personal.reading_positions WHERE user_id IN pro
+      # tabela particionada: cada partição chega pelo próprio nome → curinga + alias
+      - SELECT * FROM personal."reading_sessions_%" AS reading_sessions WHERE user_id IN pro
+      - SELECT * FROM personal.bookmarks         WHERE user_id IN pro
+      - SELECT * FROM personal.ink_layers        WHERE user_id IN pro
+      - SELECT * FROM personal.annotations       WHERE user_id IN pro
+      - SELECT * FROM personal.highlight_labels  WHERE user_id IN pro
+      - SELECT * FROM personal.reader_settings   WHERE user_id IN pro
+      - SELECT * FROM personal.pen_presets       WHERE user_id IN pro
+      - SELECT * FROM personal.reading_goals     WHERE user_id IN pro

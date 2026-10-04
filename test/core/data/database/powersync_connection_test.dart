@@ -20,14 +20,13 @@ void main() {
   late Directory dir;
   late PowerSyncDatabase ps;
   late AppDatabase db;
+  late String caminho;
   var n = 0;
 
   setUp(() async {
     dir = await Directory.systemTemp.createTemp('booknest_g03_');
-    ps = PowerSyncDatabase(
-      schema: buildPowerSyncSchema(),
-      path: '${dir.path}${Platform.pathSeparator}app_${n++}.db',
-    );
+    caminho = '${dir.path}${Platform.pathSeparator}app_${n++}.db';
+    ps = PowerSyncDatabase(schema: buildPowerSyncSchema(), path: caminho);
     await ps.initialize();
     db = AppDatabase(SqliteAsyncDriftConnection(ps));
     await db
@@ -63,6 +62,7 @@ void main() {
     'Pro: cada escrita vira um PUT com a linha inteira (formato da RPC)',
     () async {
       await KvDao(db).set(syncModeKey, syncModePro);
+      await KvDao(db).set(activeOwnerKey, usuarioTeste);
       final livro = livroTeste(1);
       final grifo = grifoTeste(2, livro: livro.id);
       await UserBooksDao(db).upsert(livro);
@@ -88,6 +88,86 @@ void main() {
       );
     },
   );
+
+  group('G06 — fila por dono', () {
+    const outraConta = '0199a7c4-2f00-7a10-8b20-0000000000ff';
+
+    test('Pro: só as linhas do dono ativo entram na fila (outra conta guardada não sobe)', () async {
+      await KvDao(db).set(syncModeKey, syncModePro);
+      await KvDao(db).set(activeOwnerKey, usuarioTeste);
+      await UserBooksDao(db).upsert(livroTeste(1));
+      await UserBooksDao(db).upsert(livroTeste(2, dono: outraConta));
+      await AnnotationsDao(db)
+          .upsert(grifoTeste(3, livro: idTeste(2), dono: outraConta));
+      final lote = (await ps.getCrudBatch(limit: 500))!;
+      expect(lote.crud.map((e) => e.id), [idTeste(1)]);
+    });
+
+    test('Pro sem dono ativo registrado: nada entra na fila', () async {
+      await KvDao(db).set(syncModeKey, syncModePro);
+      await UserBooksDao(db).upsert(livroTeste(1));
+      expect(await fila(), 0);
+    });
+
+    test('virar Pro: enqueueAllSql põe toda linha do dono (inclusive apagada) como PUT; de outro dono, não', () async {
+      await UserBooksDao(db).upsert(livroTeste(1));
+      await UserBooksDao(db).upsert(livroTeste(2, apagado: true));
+      await UserBooksDao(db).upsert(livroTeste(3, dono: outraConta));
+      await AnnotationsDao(db).upsert(grifoTeste(4, livro: idTeste(1)));
+      expect(await fila(), 0);
+      await ps.writeTransaction((tx) async {
+        for (final t in personalSyncColumns.keys) {
+          await tx.execute(enqueueAllSql(t), [usuarioTeste]);
+        }
+      });
+      final lote = (await ps.getCrudBatch(limit: 500))!;
+      expect(lote.crud.map((e) => (e.op, e.table, e.id)), [
+        (UpdateType.put, 'user_books', idTeste(1)),
+        (UpdateType.put, 'user_books', idTeste(2)),
+        (UpdateType.put, 'annotations', idTeste(4)),
+      ]);
+      final apagado = lote.crud[1].opData!;
+      expect(apagado.keys.toSet(), personalSyncColumns['user_books']!.toSet());
+      expect(apagado['deleted_at'], isNotNull);
+      expect(apagado['version_hlc'], '0001789945200000-0000-aparelhoA');
+    });
+
+    test(
+      'disconnectAndClear(clearLocal: false): a fila esvazia e as linhas ficam',
+      () async {
+        await KvDao(db).set(syncModeKey, syncModePro);
+        await KvDao(db).set(activeOwnerKey, usuarioTeste);
+        await UserBooksDao(db).upsert(livroTeste(1));
+        expect(await fila(), 1);
+        await ps.disconnectAndClear(clearLocal: false);
+        expect(await fila(), 0);
+        expect(await UserBooksDao(db).byId(idTeste(1)), isNotNull);
+        expect(await KvDao(db).get(syncModeKey), syncModePro);
+      },
+    );
+
+    test('os gatilhos da fila são recriados ao abrir o banco (regra antiga é trocada)', () async {
+      // regra antiga (G03): sem o filtro do dono
+      await ps.execute('DROP TRIGGER user_books_queue_insert');
+      await ps.execute(
+        'CREATE TRIGGER user_books_queue_insert AFTER INSERT ON user_books '
+        "FOR EACH ROW BEGIN INSERT INTO powersync_crud (op, id, type, data) VALUES ('PUT', NEW.id, "
+        "'user_books', json_object('user_id', NEW.user_id)); END",
+      );
+      await db.close();
+      await ps.close();
+      ps = PowerSyncDatabase(schema: buildPowerSyncSchema(), path: caminho);
+      await ps.initialize();
+      db = AppDatabase(SqliteAsyncDriftConnection(ps));
+      await db.customSelect('SELECT 1').get();
+      await KvDao(db).set(syncModeKey, syncModePro);
+      await KvDao(db).set(activeOwnerKey, usuarioTeste);
+      await UserBooksDao(db).upsert(livroTeste(1, dono: outraConta));
+      expect(await fila(), 0);
+      await UserBooksDao(db).upsert(livroTeste(2));
+      expect(await fila(), 1);
+    });
+  });
 
   group('instruções do servidor (aplicadas pelo PowerSync)', () {
     List<Object?> valores(Map<String, Object?> linha) => [
