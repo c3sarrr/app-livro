@@ -1,8 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- G05: conta e login (Supabase). Os manifests de debug/profile já pedem; o de release não. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- §4 (regra 4): o banco e os livros do Grátis não vão para o backup do Google nem para a
+         transferência entre aparelhos (Android 12+) — senão "só neste aparelho" não é verdade. -->
     <application
         android:label="app_leitura"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,6 +31,15 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- G05 (D-67): retorno do login pelo navegador (Entrar com Apple no Android). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="booknest" android:host="login-callback"/>
+            </intent-filter>
+            <!-- O retorno do login é tratado pelo supabase_flutter (app_links), não pelo roteador. -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false"/>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

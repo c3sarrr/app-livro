@@ -2,33 +2,16 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/account/presentation/account_block.dart';
+import '../features/account/presentation/onboarding_screen.dart';
+import '../features/account/presentation/sign_in_screen.dart';
 import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
 import '../features/shell/presentation/main_shell.dart';
+import 'routes.dart';
 
-/// Caminhos das rotas (F02 2.6).
-abstract final class AppRoutes {
-  // Abas (ramos do StatefulShellRoute).
-  static const inicio = '/inicio';
-  static const biblioteca = '/biblioteca';
-  static const clubes = '/clubes';
-  static const perfil = '/perfil';
-
-  /// Full screen, fora do shell (D-08).
-  static const scanner = '/scanner';
-
-  // Destinos (placeholders; usados na F12).
-  static const notificacoes = '/notificacoes';
-  static const paraVoce = '/para-voce';
-  static String leitor(String bookId) => '/leitor/$bookId';
-  static String livro(String bookId) => '/livro/$bookId';
-  static String destaques(String bookId) => '/livro/$bookId/destaques';
-  static String discussao(String clubId) => '/clube/$clubId/discussao';
-
-  /// Galeria do design system (F01) — somente em debug.
-  static const designSystem = '/_ds';
-}
+export 'routes.dart';
 
 /// Roteador do app: `StatefulShellRoute.indexedStack` com as 4 abas (cada aba preserva o próprio
 /// estado, inclusive a rolagem) e as rotas full screen no navigator raiz.
@@ -69,7 +52,11 @@ GoRouter createRouter({
           tab(AppRoutes.inicio, const HomeScreen()),
           tab(AppRoutes.biblioteca, const PlaceholderScreen('Biblioteca')),
           tab(AppRoutes.clubes, const PlaceholderScreen('Clubes')),
-          tab(AppRoutes.perfil, const PlaceholderScreen('Perfil')),
+          // D-69: até o design do Perfil, o placeholder ganha o bloco mínimo da conta (D-21).
+          tab(
+            AppRoutes.perfil,
+            const PlaceholderScreen('Perfil', below: AccountBlock()),
+          ),
         ],
       ),
       fullScreen(AppRoutes.scanner, 'Scanner', dialog: true),
@@ -79,6 +66,17 @@ GoRouter createRouter({
       fullScreen('/livro/:bookId/destaques', 'Destaques e notas'),
       fullScreen(AppRoutes.paraVoce, 'Para você'),
       fullScreen('/clube/:clubId/discussao', 'Discussão'),
+      GoRoute(
+        path: AppRoutes.entrar,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) =>
+            _page(state, const SignInScreen(), fullscreenDialog: true),
+      ),
+      GoRoute(
+        path: AppRoutes.cadastro,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => _page(state, const OnboardingScreen()),
+      ),
       if (kDebugMode)
         GoRoute(
           path: AppRoutes.designSystem,

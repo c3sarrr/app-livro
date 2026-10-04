@@ -1,0 +1,54 @@
+// Configuração PÚBLICA do app (§4.4.1): vem de `--dart-define-from-file=env/<ambiente>.json`
+// (`env/*.example.json` versionados; os reais ficam fora do git). Nunca chave secreta aqui.
+// Sem servidor configurado (testes, build sem env) o app roda só como convidado (D-64).
+import 'package:flutter/foundation.dart' show immutable;
+
+@immutable
+final class AppEnv {
+  const AppEnv({
+    this.environment = 'dev',
+    this.supabaseUrl = '',
+    this.supabasePublishableKey = '',
+    this.googleWebClientId = '',
+    this.googleIosClientId = '',
+    this.authRedirect = defaultAuthRedirect,
+  });
+
+  /// Lê os `--dart-define`.
+  factory AppEnv.fromDefines() => const AppEnv(
+    environment: String.fromEnvironment(
+      'BOOKNEST_AMBIENTE',
+      defaultValue: 'dev',
+    ),
+    supabaseUrl: String.fromEnvironment('SUPABASE_URL'),
+    supabasePublishableKey: String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY'),
+    googleWebClientId: String.fromEnvironment('GOOGLE_WEB_CLIENT_ID'),
+    googleIosClientId: String.fromEnvironment('GOOGLE_IOS_CLIENT_ID'),
+    authRedirect: String.fromEnvironment(
+      'AUTH_REDIRECT',
+      defaultValue: defaultAuthRedirect,
+    ),
+  );
+
+  /// Deep link de retorno do login pelo navegador (Apple no Android — D-67).
+  static const String defaultAuthRedirect = 'booknest://login-callback';
+
+  final String environment;
+  final String supabaseUrl;
+  final String supabasePublishableKey;
+
+  /// Cliente OAuth "Web" do Google (o Supabase confere o idToken contra ele).
+  final String googleWebClientId;
+
+  /// Cliente OAuth "iOS" do Google.
+  final String googleIosClientId;
+  final String authRedirect;
+
+  static bool _filled(String v) => v.isNotEmpty && !v.startsWith('<');
+
+  /// Há servidor (Supabase) para conta, login e social.
+  bool get hasServer => _filled(supabaseUrl) && _filled(supabasePublishableKey);
+
+  /// Há credencial do Google (D-67: só quando houver projeto na nuvem).
+  bool get hasGoogle => _filled(googleWebClientId);
+}

@@ -42,9 +42,10 @@ UserBook livroTeste(
   int n, {
   String title = 'Dom Casmurro',
   bool apagado = false,
+  String dono = usuarioTeste,
 }) => UserBook(
   id: idTeste(n),
-  meta: metaTeste(apagado: apagado),
+  meta: metaTeste(apagado: apagado, userId: dono),
   title: title,
   authorDisplay: 'Machado de Assis',
   format: BookFileFormat.epub,
@@ -87,9 +88,10 @@ Annotation grifoTeste(
   String exato = 'aqueles olhos de Capitu',
   bool apagado = false,
   int contador = 0,
+  String dono = usuarioTeste,
 }) => Annotation(
   id: idTeste(n),
-  meta: metaTeste(apagado: apagado, contador: contador),
+  meta: metaTeste(apagado: apagado, contador: contador, userId: dono),
   userBookId: livro,
   kind: AnnotationKind.highlight,
   groupId: idTeste(n),
@@ -106,9 +108,10 @@ Annotation notaTeste(
   required String livro,
   required Annotation pai,
   required String texto,
+  String? dono,
 }) => Annotation(
   id: idTeste(n),
-  meta: metaTeste(),
+  meta: metaTeste(userId: dono ?? pai.meta.userId),
   userBookId: livro,
   kind: AnnotationKind.note,
   parentId: pai.id,
@@ -131,24 +134,26 @@ InkLayer camadaTeste(int n, {required String livro}) => InkLayer(
   strokeCount: 0,
 );
 
-ReadingPosition posicaoTeste(String livro) => ReadingPosition(
-  id: livro,
-  meta: metaTeste(),
-  locator: localizadorTeste(),
-  refPage: 159,
-  chapterIndex: 31,
-  progression: 0.62113,
-  deviceId: 'aparelhoA',
-);
+ReadingPosition posicaoTeste(String livro, {String dono = usuarioTeste}) =>
+    ReadingPosition(
+      id: livro,
+      meta: metaTeste(userId: dono),
+      locator: localizadorTeste(),
+      refPage: 159,
+      chapterIndex: 31,
+      progression: 0.62113,
+      deviceId: 'aparelhoA',
+    );
 
 ReadingSession sessaoTeste(
   int n, {
   required String livro,
   required DateTime inicio,
   int segundos = 600,
+  String dono = usuarioTeste,
 }) => ReadingSession(
   id: idTeste(n),
-  meta: metaTeste(),
+  meta: metaTeste(userId: dono),
   userBookId: livro,
   startedAt: inicio,
   endedAt: inicio.add(Duration(seconds: segundos)),
@@ -165,9 +170,10 @@ Bookmark marcadorTeste(
   required String livro,
   int pagina = 159,
   bool apagado = false,
+  String dono = usuarioTeste,
 }) => Bookmark(
   id: idTeste(n),
-  meta: metaTeste(apagado: apagado),
+  meta: metaTeste(apagado: apagado, userId: dono),
   userBookId: livro,
   locator: localizadorTeste(pagina: pagina),
   refPage: pagina,

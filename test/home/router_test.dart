@@ -5,6 +5,7 @@ import 'package:app_leitura/core/design_system/gallery/design_system_gallery.dar
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
+import 'package:app_leitura/features/account/presentation/account_block.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
@@ -186,9 +187,10 @@ void main() {
       _device(tester);
       await pumpApp(tester);
       final semantics = tester.ensureSemantics();
-      _router(tester).go(AppRoutes.perfil);
+      // Clubes: desde a G05 o Perfil ganhou o bloco da conta abaixo do título (D-69 — teste abaixo).
+      _router(tester).go(AppRoutes.clubes);
       await tester.pumpAndSettle();
-      final page = _placeholder('Perfil');
+      final page = _placeholder('Clubes');
       final box = tester.widget<ColoredBox>(
         find.descendant(of: page, matching: find.byType(ColoredBox)).first,
       );
@@ -206,7 +208,7 @@ void main() {
       final texts = find.descendant(of: page, matching: find.byType(AppText));
       expect(texts, findsOneWidget);
       final span = tester.widget<AppText>(texts).span as TextSpan;
-      expect(span.text, 'Perfil');
+      expect(span.text, 'Clubes');
       expect(span.style, same(AppTextStyles.sectionTitleL));
       // Centro da área segura: x = 195; y = 47 + (844 − 47 − 34) / 2 = 428,5.
       final center = tester.getCenter(texts);
@@ -214,9 +216,44 @@ void main() {
       expect(center.dy, moreOrLessEquals(428.5, epsilon: 1e-6));
       expect(
         tester.getSemantics(texts),
-        matchesSemantics(label: 'Perfil', isHeader: true),
+        matchesSemantics(label: 'Clubes', isHeader: true),
       );
       semantics.dispose();
+    },
+  );
+
+  testWidgets(
+    'Perfil (D-69): o título continua no centro e o bloco da conta fica abaixo dele, acima da barra',
+    (tester) async {
+      _device(tester);
+      await pumpApp(tester);
+      _router(tester).go(AppRoutes.perfil);
+      await tester.pumpAndSettle();
+      final page = _placeholder('Perfil');
+      expect(tester.widget<PlaceholderScreen>(page).below, isA<AccountBlock>());
+      final title = find.descendant(
+        of: page,
+        matching: find.byWidgetPredicate(
+          (w) => w is AppText && w.span.toPlainText() == 'Perfil',
+        ),
+      );
+      final center = tester.getCenter(title);
+      expect(center.dx, moreOrLessEquals(195, epsilon: 1e-6));
+      expect(center.dy, moreOrLessEquals(428.5, epsilon: 1e-6));
+      final block = tester.getRect(find.byType(AccountBlock));
+      // Começa 32 abaixo do meio da área segura; termina antes da barra (744) com folga.
+      expect(block.top, moreOrLessEquals(47 + 763 / 2 + 32, epsilon: 1e-6));
+      expect(block.left, 20); // AppSpacing.gutter
+      expect(block.right, 390 - 20);
+      expect(block.top, greaterThan(tester.getRect(title).bottom));
+      final viewport = tester.getRect(
+        find.ancestor(
+          of: find.byType(AccountBlock),
+          matching: find.byType(SingleChildScrollView),
+        ),
+      );
+      expect(viewport.bottom, moreOrLessEquals(844 - 34 - 116, epsilon: 1e-6));
+      expect(viewport.bottom, lessThan(744));
     },
   );
 }

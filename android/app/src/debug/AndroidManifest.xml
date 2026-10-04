@@ -4,4 +4,7 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- G05: só no debug — o Supabase LOCAL (WSL) responde em http (emulador: 10.0.2.2:54321).
+         Release e profile continuam exigindo https. -->
+    <application android:usesCleartextTraffic="true"/>
 </manifest>

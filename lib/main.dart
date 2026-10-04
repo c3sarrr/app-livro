@@ -4,8 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show FlutterAuthClientOptions, Supabase;
+
 import 'app/app.dart';
+import 'core/config/app_env.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
+import 'features/account/application/account_providers.dart';
+import 'features/account/data/secure_session_storage.dart';
 
 /// Licença SIL OFL 1.1 das fontes do arquivo (Bricolage Grotesque, Figtree,
 /// Instrument Serif), distribuída junto das fontes em `assets/fonts/`.
@@ -28,7 +34,31 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
   await configureSystemUi();
   // F12 12.4: os 18 SVGs já estão prontos no primeiro quadro (sem "piscar" na primeira abertura).
   await preloadAppIcons();
-  runApp(ProviderScope(overrides: overrides, child: const App()));
+  final server = await connectServer(AppEnv.fromDefines());
+  runApp(
+    ProviderScope(overrides: [...server, ...overrides], child: const App()),
+  );
+}
+
+/// G05: com servidor configurado, liga o Supabase com a sessão no armazenamento seguro (Keychain /
+/// Keystore) e só aceita como retorno de login o deep link do app (D-67). Sem servidor, o app é só
+/// convidado (D-64) e nada é ligado.
+Future<List<Override>> connectServer(AppEnv env) async {
+  if (!env.hasServer) return const [];
+  final store = FlutterSecureStore();
+  final supabase = await Supabase.initialize(
+    url: env.supabaseUrl,
+    publishableKey: env.supabasePublishableKey,
+    authOptions: FlutterAuthClientOptions(
+      localStorage: SecureSessionStorage(store),
+      pkceAsyncStorage: SecurePkceStorage(store),
+      detectSessionInUriPredicate: (uri) =>
+          uri.toString().startsWith(env.authRedirect),
+    ),
+    debug: false,
+  );
+  // `appEnvProvider` já lê os mesmos `--dart-define` (AppEnv.fromDefines).
+  return [supabaseClientProvider.overrideWithValue(supabase.client)];
 }
 
 /// D-13: Android edge-to-edge (o conteúdo passa sob as barras do sistema).
