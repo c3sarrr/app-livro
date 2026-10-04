@@ -2,6 +2,8 @@
 import 'dart:async';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
+import 'package:app_leitura/core/sync/sync_engine.dart';
+import 'package:app_leitura/core/sync/sync_providers.dart';
 import 'package:app_leitura/features/account/application/account_providers.dart';
 import 'package:app_leitura/features/account/data/account_api.dart';
 import 'package:app_leitura/features/account/data/auth_gateway.dart';
@@ -163,6 +165,38 @@ final class FakeExportSink implements ExportSink {
   }) async => entregas.add((fileName, json));
 }
 
+/// Sincronização de mentira: grava o que a conta pediu e quantas linhas da conta havia naquela hora
+/// (para conferir a ORDEM: parar a fila antes de mexer nos dados).
+final class FakeSync implements SyncPort {
+  FakeSync(this._lib);
+
+  final LocalLibrary Function() _lib;
+  final List<String> calls = [];
+  int pendentes = 0;
+
+  /// `onAccountConfirmed` falha com isto (uma vez).
+  Object? falhaConfirmar;
+
+  @override
+  Future<void> resume(String owner) async => calls.add('retomar:$owner');
+
+  @override
+  Future<void> onAccountConfirmed(String owner, {required bool pro}) async {
+    final linhas = await _lib().countRows(owner);
+    calls.add('confirmada:$owner:${pro ? 'pro' : 'gratis'}:$linhas');
+    final f = falhaConfirmar;
+    falhaConfirmar = null;
+    if (f != null) throw f;
+  }
+
+  @override
+  Future<void> beforeOwnerChange() async =>
+      calls.add('parar:${await _lib().countRows(contaTeste)}');
+
+  @override
+  Future<int> pendingUploads() async => pendentes;
+}
+
 /// Tudo da conta ligado aos dublês (banco do aparelho em memória).
 final class AccountHarness {
   AccountHarness({
@@ -183,6 +217,7 @@ final class AccountHarness {
   final AppDatabase db;
   late final LocalLibrary library;
   final List<String> apagados = [];
+  late final FakeSync sync = FakeSync(() => library);
 
   List<Override> get overrides => [
     authGatewayProvider.overrideWithValue(gateway),
@@ -196,6 +231,7 @@ final class AccountHarness {
     storeAgeSignalsProvider.overrideWithValue(store),
     exportSinkProvider.overrideWithValue(sink),
     localLibraryProvider.overrideWith((ref) => library),
+    syncPortProvider.overrideWith((ref) async => sync),
   ];
 
   /// Relógio fixo ([agoraTeste]). Fora das listas acima: o app nos testes de tela já usa o relógio do

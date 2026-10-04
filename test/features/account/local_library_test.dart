@@ -5,7 +5,9 @@ import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/database/local_sql.dart';
+import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/account/data/local_library.dart';
+import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:drift/drift.dart' hide isNull, isNotNull;
@@ -219,6 +221,67 @@ void main() {
       final daConta = await HighlightLabelsDao(db).forUser(conta);
       expect(daConta.map((l) => l.label), containsAll(['da conta', 'roxo']));
       expect(daConta.map((l) => l.label), isNot(contains('do convidado')));
+    });
+
+    test('G06 — o mesmo arquivo na estante do convidado e da conta vira um livro só (o da conta)', () async {
+      final g = await lib.guestOwnerId();
+      await semearLivro(1, conta);
+      // o convidado tem o MESMO arquivo (outro id), lido depois (versão mais nova)
+      final dup = livroTeste(2, dono: g, title: 'Dom Casmurro (convidado)')
+          .copyWith(
+            contentSha256: Nullable(shaDoLivroTeste(1)),
+            status: ShelfStatus.finished,
+            meta: metaTeste(userId: g, contador: 5),
+          );
+      await UserBooksDao(db).upsert(dup);
+      await AnnotationsDao(db).upsert(grifoTeste(30, livro: dup.id, dono: g));
+      await BookmarksDao(db).upsert(marcadorTeste(31, livro: dup.id, dono: g));
+      await ReadingPositionsDao(db).upsert(posicaoTeste(dup.id, dono: g));
+      await db
+          .into(db.localFiles)
+          .insert(
+            LocalFilesCompanion.insert(
+              userBookId: dup.id,
+              path: '/livros/copia.epub',
+              bytes: 10,
+              sha256: shaDoLivroTeste(1),
+              updatedAt: t0Teste,
+            ),
+          );
+
+      final r = await lib.adopt(from: g, to: conta);
+      expect(r.mergedBooks, 1);
+      expect(await UserBooksDao(db).byId(dup.id), isNull);
+      final fica = (await UserBooksDao(db).byId(idTeste(1)))!;
+      expect(fica.meta.userId, conta);
+      expect(fica.status, ShelfStatus.finished); // o estado mais novo
+      expect(fica.title, 'Dom Casmurro (convidado)');
+      expect(
+        await linhas(
+          'SELECT count(*) AS n FROM user_books WHERE content_sha256 = ? '
+          'AND deleted_at IS NULL',
+          [shaDoLivroTeste(1)],
+        ),
+        1,
+        reason: 'o servidor só aceita um livro ativo por arquivo',
+      );
+      for (final t in ['annotations', 'bookmarks']) {
+        expect(
+          await linhas(
+            'SELECT count(*) AS n FROM $t WHERE user_book_id = ? AND user_id = ?',
+            [idTeste(1), conta],
+          ),
+          2,
+          reason: t,
+        );
+      }
+      expect(await linhas('SELECT count(*) AS n FROM reading_positions'), 1);
+      expect(
+        await AnnotationsDao(db).search(idTeste(1), 'Capitu'),
+        hasLength(2),
+      );
+      expect(await linhas('SELECT count(*) AS n FROM local_files'), 1);
+      expect(arquivosApagados, ['/livros/copia.epub']);
     });
 
     test('de um dono para ele mesmo: nada muda', () async {

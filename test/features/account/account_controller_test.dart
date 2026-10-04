@@ -414,6 +414,118 @@ void main() {
     });
   });
 
+  group('sincronização do Pro (G06)', () {
+    test('conta confirmada: a sincronização recebe a conta (Grátis) DEPOIS que o convidado passou para ela', () async {
+      montar(AccountHarness());
+      await assentar();
+      await UserBooksDao(h.db).upsert(livroTeste(1, dono: await convidado()));
+      await entrar();
+      expect(h.sync.calls.last, 'confirmada:$contaTeste:gratis:1');
+    });
+
+    test('conta Pro: a sincronização é avisada de que é Pro', () async {
+      montar(AccountHarness());
+      h.api!.json = contaJson(pro: true);
+      await entrar();
+      expect(h.sync.calls.last, 'confirmada:$contaTeste:pro:0');
+    });
+
+    test('app reaberto com a mesma conta: retoma antes de falar com o servidor (também sem internet)', () async {
+      final harness = AccountHarness(
+        inicial: const SignedIn(userId: contaTeste, email: emailTeste),
+      );
+      await harness.library.setActiveOwner(contaTeste);
+      harness.api!.falhaResumo = const OfflineFailure();
+      montar(harness);
+      await assentar();
+      expect(h.sync.calls, ['retomar:$contaTeste']);
+      expect((estado() as MemberView).offline, isTrue);
+      h.api!.falhaResumo = null;
+      await ctl().refresh();
+      expect(h.sync.calls, [
+        'retomar:$contaTeste',
+        'confirmada:$contaTeste:gratis:0',
+      ]);
+    });
+
+    test(
+      'sair e apagar: a fila para ANTES de os dados saírem do aparelho',
+      () async {
+        montar(AccountHarness());
+        await entrar();
+        await UserBooksDao(h.db).upsert(livroTeste(1, dono: contaTeste));
+        h.sync.calls.clear();
+        await ctl().signOut(eraseLocal: true);
+        expect(h.sync.calls.first, 'parar:1');
+        expect(await h.library.countRows(contaTeste), 0);
+      },
+    );
+
+    test(
+      'excluir e manter: a fila para ANTES de os dados passarem ao convidado',
+      () async {
+        montar(AccountHarness());
+        await entrar();
+        await UserBooksDao(h.db).upsert(livroTeste(1, dono: contaTeste));
+        h.sync.calls.clear();
+        await ctl().deleteAccount(eraseLocal: false);
+        expect(h.sync.calls.first, 'parar:1');
+        expect(await h.library.countRows(contaTeste), 0);
+      },
+    );
+
+    test('conta excluída fora do app: a fila para antes de os dados voltarem ao convidado', () async {
+      montar(AccountHarness());
+      await entrar();
+      await UserBooksDao(h.db).upsert(livroTeste(1, dono: contaTeste));
+      h.sync.calls.clear();
+      h.api!.falhaResumo = const AccountGone();
+      await ctl().refresh();
+      expect(h.sync.calls.first, 'parar:1');
+      expect(await h.library.countRows(contaTeste), 0);
+    });
+
+    test(
+      'outra conta entra: a fila da anterior para antes de qualquer coisa',
+      () async {
+        montar(AccountHarness());
+        await entrar();
+        await ctl().signOut(eraseLocal: false);
+        h.sync.calls.clear();
+        h.gateway!.emit(const SignedIn(userId: 'outra', email: 'o@x.com'));
+        await assentar();
+        expect(h.sync.calls.first, startsWith('parar:'));
+      },
+    );
+
+    test(
+      'falha inesperada na sincronização não derruba a conta (é reportada)',
+      () async {
+        final erros = <FlutterErrorDetails>[];
+        final antes = FlutterError.onError;
+        FlutterError.onError = erros.add;
+        addTearDown(() => FlutterError.onError = antes);
+        montar(AccountHarness());
+        h.sync.falhaConfirmar = StateError('fila');
+        await entrar();
+        expect(erros, hasLength(1));
+        expect(erros.single.library, 'sincronizacao');
+        expect((estado() as MemberView).summary, isNotNull);
+        expect((estado() as MemberView).problem, isNull);
+      },
+    );
+
+    test(
+      'alterações ainda não enviadas: a conta pergunta à sincronização',
+      () async {
+        montar(AccountHarness());
+        await entrar();
+        h.sync.pendentes = 7;
+        expect(await ctl().pendingUploads(), 7);
+      },
+    );
+  });
+
   test('convidado apaga os dados guardados de contas que saíram', () async {
     montar(AccountHarness());
     await entrar();

@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart'
     show FlutterError, FlutterErrorDetails, immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/sync/sync_engine.dart' show SyncPort;
+import '../../../core/sync/sync_providers.dart';
 import '../../home/application/home_providers.dart' show clockProvider;
 import '../data/account_api.dart';
 import '../data/auth_gateway.dart';
@@ -150,6 +152,24 @@ class AccountController extends Notifier<AccountView> {
 
   Future<LocalLibrary> get _library => ref.read(localLibraryProvider.future);
 
+  Future<SyncPort> get _sync => ref.read(syncPortProvider.future);
+
+  /// A sincronização não pode derrubar a conta: falha inesperada nela é reportada e a conta segue.
+  Future<void> _syncSafely(Future<void> Function(SyncPort s) run) async {
+    try {
+      await run(await _sync);
+    } on Object catch (e, st) {
+      FlutterError.reportError(
+        FlutterErrorDetails(exception: e, stack: st, library: 'sincronizacao'),
+      );
+    }
+  }
+
+  /// Antes de mudar o dono das linhas (sair, excluir, outra conta): desconecta e esvazia a fila.
+  /// Aqui a falha NÃO é engolida — mexer nos dados com a fila da conta anterior ligada subiria
+  /// linhas com o dono errado.
+  Future<void> _stopSync() async => (await _sync).beforeOwnerChange();
+
   /// Mudanças de sessão em fila (uma de cada vez, sem repetir a mesma).
   void _enqueue(AuthStatus s) {
     final life = _life;
@@ -183,6 +203,7 @@ class AccountController extends Notifier<AccountView> {
     switch (s) {
       case SignedOut():
         final guest = await lib.guestOwnerId();
+        await _stopSync();
         await lib.setActiveOwner(guest);
         state = GuestView(
           canSignIn: true,
@@ -190,7 +211,13 @@ class AccountController extends Notifier<AccountView> {
         );
       case SignedIn(:final userId):
         state = MemberView(userId: userId);
-        if (await lib.activeOwnerId() != userId) await lib.clearSocialCache();
+        if (await lib.activeOwnerId() != userId) {
+          await _stopSync();
+          await lib.clearSocialCache();
+        } else {
+          // mesma conta (app reaberto): o Pro volta a sincronizar mesmo sem resposta do servidor
+          await _syncSafely((s) => s.resume(userId));
+        }
         await _refresh(userId);
     }
   }
@@ -208,12 +235,15 @@ class AccountController extends Notifier<AccountView> {
         summary = await _api.summary();
       }
       final lib = await _library;
+      if (await lib.activeOwnerId() != userId) await _stopSync();
       await lib.adopt(from: await lib.guestOwnerId(), to: userId);
       await lib.setActiveOwner(userId);
       state = MemberView(userId: userId, summary: summary);
+      await _syncSafely((s) => s.onAccountConfirmed(userId, pro: summary.pro));
     } on AccountGone {
       // Excluída pela página web ou em outro aparelho: o que era dela neste aparelho continua aqui,
       // agora sem conta (como promete a página de exclusão).
+      await _stopSync();
       final lib = await _library;
       await lib.adopt(from: userId, to: await lib.guestOwnerId());
       await _endSession();
@@ -347,6 +377,7 @@ class AccountController extends Notifier<AccountView> {
       // sem rede ou erro do servidor: a sessão local já foi removida (o Supabase remove antes de avisar
       // o servidor) e o token vence sozinho
     }
+    await _stopSync();
     final lib = await _library;
     await lib.clearSocialCache();
     if (eraseLocal) await lib.erase(s.userId);
@@ -354,12 +385,16 @@ class AccountController extends Notifier<AccountView> {
     await settled();
   }
 
+  /// Alterações ainda não enviadas à nuvem (a tela avisa antes de sair).
+  Future<int> pendingUploads() async => (await _sync).pendingUploads();
+
   /// Exclui a conta no servidor (imediato — LGPD). Os dados do aparelho são apagados ([eraseLocal])
   /// ou continuam no aparelho, sem conta.
   Future<void> deleteAccount({required bool eraseLocal}) async {
     final s = state;
     if (s is! MemberView) throw const NotSignedIn();
     await _api.deleteAccount();
+    await _stopSync();
     final lib = await _library;
     if (eraseLocal) {
       await lib.erase(s.userId);

@@ -1,9 +1,8 @@
 // Ligações da conta (Riverpod). Sem servidor configurado (AppEnv.hasServer = false) não há cliente do
 // Supabase e o app é só convidado (D-64). O `main()` injeta o cliente depois do `Supabase.initialize`.
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 
-import '../../../core/config/app_env.dart';
+import '../../../core/config/server_providers.dart';
 import '../../../core/data/database/local_database.dart';
 import '../data/account_api.dart';
 import '../data/auth_gateway.dart';
@@ -12,10 +11,8 @@ import '../data/local_library.dart';
 import '../data/native_sign_in.dart';
 import '../data/store_age_signals.dart';
 
-final appEnvProvider = Provider<AppEnv>((ref) => AppEnv.fromDefines());
-
-/// Cliente do Supabase (null = sem servidor nesta versão).
-final supabaseClientProvider = Provider<SupabaseClient?>((ref) => null);
+export '../../../core/config/server_providers.dart'
+    show appEnvProvider, supabaseClientProvider;
 
 final googleTokenSourceProvider = Provider<GoogleTokenSource>(
   (ref) => GoogleSignInTokenSource(ref.watch(appEnvProvider)),

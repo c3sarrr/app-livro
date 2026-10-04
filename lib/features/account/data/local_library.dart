@@ -1,7 +1,7 @@
 // Biblioteca do aparelho por dono (D-68): cada conta — e o convidado — tem as suas linhas nas 10
 // tabelas pessoais (coluna `user_id`). O app mostra só as do dono ATIVO. Entrar numa conta traz para
 // ela o que foi feito como convidado; sair esconde (ou apaga, se a pessoa pedir). Nada daqui vai para
-// a rede (o upload do Pro é outra porta — G06).
+// a rede (o upload do Pro é outra porta — `lib/core/sync`, G06).
 import 'dart:io' show File, FileSystemException;
 
 import 'package:drift/drift.dart';
@@ -10,6 +10,7 @@ import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/daos/kv_dao.dart';
 import '../../../core/data/database/local_sql.dart';
 import '../../../core/data/ids/uuid_v7.dart';
+import '../../../core/sync/local_merge.dart';
 
 /// Chaves no `kv` (só local).
 abstract final class OwnerKeys {
@@ -32,7 +33,11 @@ const Set<String> singletonTables = {
 
 /// O resultado de juntar o convidado a uma conta (para o relatório/diagnóstico — sem conteúdo).
 final class AdoptReport {
-  const AdoptReport({required this.moved, required this.discarded});
+  const AdoptReport({
+    required this.moved,
+    required this.discarded,
+    this.mergedBooks = 0,
+  });
 
   /// Linhas que passaram para a conta.
   final int moved;
@@ -40,6 +45,10 @@ final class AdoptReport {
   /// Linhas do convidado descartadas por conflito (preferência única ou rótulo da mesma cor que a
   /// conta já tinha neste aparelho).
   final int discarded;
+
+  /// Livros do convidado com o mesmo arquivo de um livro da conta: juntados ao da conta (o servidor
+  /// não aceita dois livros ativos com o mesmo arquivo — G06).
+  final int mergedBooks;
 }
 
 /// Apaga um arquivo do aparelho (o do livro). Arquivo que já não existe não é erro.
@@ -125,59 +134,89 @@ final class LocalLibrary {
 
   /// Passa as linhas de [from] para [to]. Conflitos: nas tabelas de linha única vence a versão mais
   /// nova (LWW pelo `version_hlc`, o mesmo critério do servidor; o id passa a ser o da conta); num
-  /// rótulo da mesma cor vence o que a conta já tinha (ele pode já estar no servidor).
-  Future<AdoptReport> adopt({required String from, required String to}) {
-    if (from == to) {
-      return Future.value(const AdoptReport(moved: 0, discarded: 0));
+  /// rótulo da mesma cor vence o que a conta já tinha (ele pode já estar no servidor); um livro com o
+  /// mesmo arquivo de um livro da conta é juntado a ele (anotações, marcadores, sessões e posição
+  /// passam para o da conta; do livro vale o estado mais novo).
+  Future<AdoptReport> adopt({required String from, required String to}) async {
+    if (from == to) return const AdoptReport(moved: 0, discarded: 0);
+    final (report, files) = await _adopt(from, to);
+    for (final f in files) {
+      await _remove(f);
     }
-    return _db.transaction(() async {
-      var moved = 0, discarded = 0;
-      for (final t in singletonTables) {
-        final rows = await _db
-            .customSelect(
-              'SELECT id, version_hlc FROM $t WHERE id IN (?, ?)',
-              variables: [Variable.withString(from), Variable.withString(to)],
-            )
-            .get();
-        String? hlcOf(String id) => rows
-            .where((r) => r.read<String>('id') == id)
-            .map((r) => r.read<String>('version_hlc'))
-            .firstOrNull;
-        final mine = hlcOf(from);
-        if (mine == null) continue;
-        final theirs = hlcOf(to);
-        if (theirs != null && mine.compareTo(theirs) <= 0) {
-          await _db.customStatement('DELETE FROM $t WHERE id = ?', [from]);
-          discarded++;
-          continue;
-        }
-        if (theirs != null) {
-          await _db.customStatement('DELETE FROM $t WHERE id = ?', [to]);
-        }
-        await _db.customStatement(
-          'UPDATE $t SET id = ?, user_id = ? WHERE id = ?',
-          [to, to, from],
-        );
-        moved++;
-      }
-      discarded += await _db.customUpdate(
-        'DELETE FROM highlight_labels WHERE user_id = ? AND deleted_at IS NULL '
-        'AND color IN (SELECT color FROM highlight_labels '
-        'WHERE user_id = ? AND deleted_at IS NULL)',
-        variables: [Variable.withString(from), Variable.withString(to)],
-        updates: {_db.highlightLabels},
-        updateKind: UpdateKind.delete,
-      );
-      for (final t in _tables.where((t) => !singletonTables.contains(t))) {
-        moved += await _db.customUpdate(
-          'UPDATE $t SET user_id = ? WHERE user_id = ?',
-          variables: [Variable.withString(to), Variable.withString(from)],
-          updates: {_tableInfo(t)},
-        );
-      }
-      return AdoptReport(moved: moved, discarded: discarded);
-    });
+    return report;
   }
+
+  Future<(AdoptReport, List<String>)> _adopt(
+    String from,
+    String to,
+  ) => _db.transaction(() async {
+    var moved = 0, discarded = 0, merged = 0;
+    final files = <String>[];
+    final dups = await _db
+        .customSelect(
+          'SELECT g.id AS loser, a.id AS survivor FROM user_books g JOIN user_books a '
+          'ON a.content_sha256 = g.content_sha256 AND a.user_id = ? AND a.deleted_at IS NULL '
+          'WHERE g.user_id = ? AND g.deleted_at IS NULL AND g.content_sha256 IS NOT NULL',
+          variables: [Variable.withString(to), Variable.withString(from)],
+        )
+        .get();
+    for (final d in dups) {
+      final m = await mergeUserBook(
+        _db,
+        loser: d.read<String>('loser'),
+        survivor: d.read<String>('survivor'),
+      );
+      files.addAll(m.removedFiles);
+      merged++;
+    }
+    for (final t in singletonTables) {
+      final rows = await _db
+          .customSelect(
+            'SELECT id, version_hlc FROM $t WHERE id IN (?, ?)',
+            variables: [Variable.withString(from), Variable.withString(to)],
+          )
+          .get();
+      String? hlcOf(String id) => rows
+          .where((r) => r.read<String>('id') == id)
+          .map((r) => r.read<String>('version_hlc'))
+          .firstOrNull;
+      final mine = hlcOf(from);
+      if (mine == null) continue;
+      final theirs = hlcOf(to);
+      if (theirs != null && mine.compareTo(theirs) <= 0) {
+        await _db.customStatement('DELETE FROM $t WHERE id = ?', [from]);
+        discarded++;
+        continue;
+      }
+      if (theirs != null) {
+        await _db.customStatement('DELETE FROM $t WHERE id = ?', [to]);
+      }
+      await _db.customStatement(
+        'UPDATE $t SET id = ?, user_id = ? WHERE id = ?',
+        [to, to, from],
+      );
+      moved++;
+    }
+    discarded += await _db.customUpdate(
+      'DELETE FROM highlight_labels WHERE user_id = ? AND deleted_at IS NULL '
+      'AND color IN (SELECT color FROM highlight_labels '
+      'WHERE user_id = ? AND deleted_at IS NULL)',
+      variables: [Variable.withString(from), Variable.withString(to)],
+      updates: {_db.highlightLabels},
+      updateKind: UpdateKind.delete,
+    );
+    for (final t in _tables.where((t) => !singletonTables.contains(t))) {
+      moved += await _db.customUpdate(
+        'UPDATE $t SET user_id = ? WHERE user_id = ?',
+        variables: [Variable.withString(to), Variable.withString(from)],
+        updates: {_tableInfo(t)},
+      );
+    }
+    return (
+      AdoptReport(moved: moved, discarded: discarded, mergedBooks: merged),
+      files,
+    );
+  });
 
   /// Apaga DESTE APARELHO tudo o que é do [owner]: dados pessoais, índices/caches locais dos livros e
   /// os arquivos dos livros. Exclusão física — não é a exclusão lógica que sincroniza. Devolve quantas
