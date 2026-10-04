@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "postgres": "npm:postgres@3.4.9"
+  },
+  "tasks": {
+    "testar": "deno test --allow-net --allow-env --allow-read --allow-write=dados testes/"
+  },
+  "fmt": { "lineWidth": 110, "singleQuote": true }
+}

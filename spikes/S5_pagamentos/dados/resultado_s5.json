@@ -1,0 +1,139 @@
+{
+ "segredo_errado": 401,
+ "compra_sandbox": {
+  "pro": true,
+  "ambiente": "sandbox",
+  "assinatura": {
+   "status": "active",
+   "will_renew": true,
+   "product_id": "booknest_pro_mensal",
+   "period_type": "trial",
+   "store": "app_store"
+  },
+  "bucket": true,
+  "podeSubir": true,
+  "alerta": true
+ },
+ "compra_producao": {
+  "pro": true,
+  "ambiente": "production",
+  "assinatura": {
+   "status": "active",
+   "will_renew": true,
+   "product_id": "booknest_pro:anual",
+   "period_type": "normal",
+   "store": "play_store"
+  },
+  "bucket": true,
+  "podeSubir": true
+ },
+ "duplicado": {
+  "primeira": "processado",
+  "segunda": "duplicado"
+ },
+ "fora_de_ordem": {
+  "pro": true,
+  "ambiente": "sandbox",
+  "assinatura": {
+   "status": "active",
+   "will_renew": true,
+   "product_id": "booknest_pro_mensal",
+   "period_type": "normal",
+   "store": "app_store"
+  },
+  "bucket": true,
+  "podeSubir": true
+ },
+ "cancelamento": {
+  "pro": true,
+  "ambiente": "sandbox",
+  "assinatura": {
+   "status": "cancelled",
+   "will_renew": false,
+   "product_id": "booknest_pro_mensal",
+   "period_type": "normal",
+   "store": "app_store"
+  },
+  "bucket": true,
+  "podeSubir": true
+ },
+ "carencia": {
+  "durante": {
+   "pro": true,
+   "ambiente": "sandbox",
+   "assinatura": {
+    "status": "in_grace_period",
+    "will_renew": true,
+    "product_id": "booknest_pro_mensal",
+    "period_type": "normal",
+    "store": "app_store"
+   },
+   "bucket": true,
+   "podeSubir": true
+  },
+  "depois": {
+   "pro": false,
+   "ambiente": "sandbox",
+   "assinatura": {
+    "status": "in_billing_retry",
+    "will_renew": false,
+    "product_id": "booknest_pro_mensal",
+    "period_type": "normal",
+    "store": "app_store"
+   },
+   "bucket": true,
+   "podeSubir": false
+  }
+ },
+ "reembolso": {
+  "na_hora": {
+   "pro": false,
+   "ambiente": "sandbox",
+   "assinatura": {
+    "status": "refunded",
+    "will_renew": false,
+    "product_id": "booknest_pro_mensal",
+    "period_type": "normal",
+    "store": "app_store"
+   },
+   "bucket": true,
+   "podeSubir": false
+  },
+  "sete_dias_depois_bucket": false
+ },
+ "troca_de_plano": {
+  "produto": "booknest_pro_anual",
+  "assinaturas_registradas": 1
+ },
+ "expiracao": {
+  "pro": false,
+  "ambiente": "sandbox",
+  "assinatura": {
+   "status": "expired",
+   "will_renew": false,
+   "product_id": "booknest_pro_mensal",
+   "period_type": "normal",
+   "store": "app_store"
+  },
+  "bucket": true,
+  "podeSubir": false
+ },
+ "transferencia": {
+  "origem_pro": false,
+  "destino_pro": true
+ },
+ "falha_e_reenvio": {
+  "primeira": 500,
+  "reenvio": "processado"
+ },
+ "test_e_conta_excluida": {
+  "test": 200,
+  "conta_excluida": "usuario_inexistente"
+ },
+ "tempo_ms": {
+  "chamadas": 22,
+  "p50": 3.7,
+  "p95": 5.7,
+  "max": 20.4
+ }
+}
