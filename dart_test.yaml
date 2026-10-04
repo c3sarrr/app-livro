@@ -1,0 +1,5 @@
+# Etiquetas dos testes (package:test).
+tags:
+  # Ponta a ponta contra o Supabase LOCAL (WSL) — só com `flutter test --tags integracao` e as variáveis
+  # BOOKNEST_SUPABASE_URL / BOOKNEST_SUPABASE_PUBLISHABLE_KEY no ambiente (G05).
+  integracao:
