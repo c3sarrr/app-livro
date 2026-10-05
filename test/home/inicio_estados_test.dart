@@ -97,6 +97,9 @@ final class _SemFoto implements CoverImages {
   Future<File?> cached(PhotoCover cover) async => null;
 
   @override
+  Future<void> discard(PhotoCover cover) async {}
+
+  @override
   Future<File?> resolve(PhotoCover cover) async => null;
 }
 
@@ -366,6 +369,24 @@ void main() {
       expect(fonte.fluxos, hasLength(2));
       fonte.fluxos.last.add(_vazia());
       await tester.pumpAndSettle();
+      expect(_key('home.error'), findsNothing);
+      expect(findAppText('Sua estante está vazia'), findsOneWidget);
+    });
+
+    testWidgets('erro depois de dados: a Início continua com os dados (D-85)', (
+      tester,
+    ) async {
+      final fonte = _Fluxo();
+      final relatados = <Object>[];
+      await _abrir(tester, [
+        homeRepositoryProvider.overrideWithValue(fonte),
+        homeErrorReporterProvider.overrideWithValue((e, _) => relatados.add(e)),
+      ]);
+      fonte.fluxos.single.add(_vazia());
+      await tester.pumpAndSettle();
+      fonte.fluxos.single.addError(const FileSystemException('banco'));
+      await tester.pumpAndSettle();
+      expect(relatados, hasLength(1));
       expect(_key('home.error'), findsNothing);
       expect(findAppText('Sua estante está vazia'), findsOneWidget);
     });

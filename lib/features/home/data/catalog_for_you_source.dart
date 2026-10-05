@@ -79,7 +79,7 @@ final class CatalogForYouSource implements ForYouSource {
     ForYou? result;
     for (final author in request.authors.take(maxAuthors)) {
       final items = _pick(
-        await catalog.byAuthor(author),
+        await catalog.byAuthor(author, language: language),
         author,
         request.shelfIsbns,
         titles,

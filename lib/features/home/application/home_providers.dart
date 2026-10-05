@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:ui' show Color, PlatformDispatcher;
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/foundation.dart'
+    show FlutterError, FlutterErrorDetails, immutable;
+import 'package:flutter/widgets.dart' show AppLifecycleListener;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/data/database/local_database.dart';
@@ -33,25 +35,37 @@ final homeRepositoryProvider = Provider<HomeRepository>(
       ),
     ),
     club: CachedClubTicketSource(() => ref.read(localDatabaseProvider.future)),
-    users: () => ref.read(homeUsersProvider)(),
+    wakeups: appResumes,
   ),
 );
 
-/// Usuário do cabeçalho a cada mudança da conta, começando pelo atual (D-84). Só é montado quando a fonte real
-/// passa a assistir a Início.
-final homeUsersProvider = Provider<Stream<UserSummary> Function()>((ref) {
-  var user = homeUserOf(ref.read(accountControllerProvider));
-  final changes = StreamController<UserSummary>.broadcast();
-  ref.listen(accountControllerProvider, (_, view) {
-    user = homeUserOf(view);
-    changes.add(user);
-  });
-  ref.onDispose(changes.close);
-  return () async* {
-    yield user;
-    yield* changes.stream;
-  };
+/// Cada volta do app ao primeiro plano (o timer do relógio não anda com o aparelho dormindo).
+Stream<void> appResumes() {
+  late final StreamController<void> c;
+  AppLifecycleListener? l;
+  c = StreamController<void>(
+    onListen: () => l = AppLifecycleListener(onResume: () => c.add(null)),
+    onCancel: () => l?.dispose(),
+  );
+  return c.stream;
+}
+
+/// Cabeçalho da Início vindo da conta (D-84) — só para a fonte real: a fixture (fonte síncrona, D-09) traz o
+/// usuário do arquivo no próprio instantâneo (`null` = não troca).
+final homeAccountUserProvider = Provider<UserSummary?>((ref) {
+  if (ref.watch(homeRepositoryProvider) is SyncHomeRepository) return null;
+  return homeUserOf(ref.watch(accountControllerProvider));
 });
+
+/// Erro da fonte depois de já haver dados: a tela continua com os dados e o erro vai para o relatório de
+/// falhas (D-85). Os testes trocam.
+final homeErrorReporterProvider =
+    Provider<void Function(Object error, StackTrace stack)>(
+      (ref) =>
+          (e, st) => FlutterError.reportError(
+            FlutterErrorDetails(exception: e, stack: st, library: 'inicio'),
+          ),
+    );
 
 /// Cabeçalho a partir da conta (D-84): primeiro nome do perfil e a inicial; sem conta (ou antes do perfil
 /// chegar), convidado. Notificações chegam na G21.
@@ -81,11 +95,19 @@ class HomeStateController extends Notifier<AsyncValue<HomeSnapshot>> {
   AsyncValue<HomeSnapshot> build() {
     final repo = ref.watch(homeRepositoryProvider);
     final clock = ref.watch(clockProvider);
+    final report = ref.watch(homeErrorReporterProvider);
     final sub = repo
         .watch(clock)
         .listen(
           (s) => state = AsyncData(s),
-          onError: (Object e, StackTrace st) => state = AsyncError(e, st),
+          // Com dados na tela, um erro não a troca pela tela de erro (a rolagem e o que se vê ficam).
+          onError: (Object e, StackTrace st) {
+            if (state.hasValue) {
+              report(e, st);
+            } else {
+              state = AsyncError(e, st);
+            }
+          },
         );
     ref.onDispose(sub.cancel);
     return switch (repo) {
@@ -100,9 +122,11 @@ class HomeStateController extends Notifier<AsyncValue<HomeSnapshot>> {
 
 /// Dados da tela (só existem no estado "dados" — a tela não monta as seções antes). Widgets de seção leem só o
 /// recorte de que precisam: `ref.watch(homeSnapshotProvider.select((s) => s.continueReading))`.
-final homeSnapshotProvider = Provider<HomeSnapshot>(
-  (ref) => ref.watch(homeStateProvider).requireValue,
-);
+final homeSnapshotProvider = Provider<HomeSnapshot>((ref) {
+  final s = ref.watch(homeStateProvider).requireValue;
+  final user = ref.watch(homeAccountUserProvider);
+  return user == null ? s : s.withUser(user);
+});
 
 /// Props do componente no arquivo (D-11): `brand` e `weekColor`, padrão `#B6ACE4`.
 @immutable

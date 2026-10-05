@@ -1,6 +1,7 @@
 // Capa de livro real (G08, D-79): a foto da fonte guardada no aparelho, na mesma moldura de cada seção (borda,
 // raio, sombra dura e lombada das capas do arquivo); sem foto, a capa gerada — cor, forma e título derivados
 // do livro, no estilo das 9 capas desenhadas — até a foto chegar.
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
@@ -119,6 +120,8 @@ class PhotoBookCover extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final file = ref.watch(coverFileProvider(cover)).value;
+    final images = ref.read(coverImagesProvider);
+    final container = ProviderScope.containerOf(context, listen: false);
     final generated = GeneratedCoverArt(
       title: book.title,
       author: book.author,
@@ -139,7 +142,16 @@ class PhotoBookCover extends ConsumerWidget {
             if (file == null)
               generated
             else
-              _Photo(file: file, slot: slot, fallback: generated),
+              _Photo(
+                file: file,
+                slot: slot,
+                fallback: generated,
+                // Arquivo guardado que não abre: descarta e volta para a capa gerada (sem baixar de novo por 7 dias).
+                onBroken: () async {
+                  await images.discard(cover);
+                  container.invalidate(coverFileProvider(cover));
+                },
+              ),
             // Lombada por cima da foto também (a capa "vira livro" como as do arquivo).
             Positioned(
               left: 0,
@@ -155,27 +167,44 @@ class PhotoBookCover extends ConsumerWidget {
   }
 }
 
-class _Photo extends StatelessWidget {
+class _Photo extends StatefulWidget {
   const _Photo({
     required this.file,
     required this.slot,
     required this.fallback,
+    required this.onBroken,
   });
 
   final File file;
   final CoverSlot slot;
   final Widget fallback;
+  final Future<void> Function() onBroken;
+
+  @override
+  State<_Photo> createState() => _PhotoState();
+}
+
+class _PhotoState extends State<_Photo> {
+  var _reported = false;
 
   @override
   Widget build(BuildContext context) {
     final dpr = MediaQuery.devicePixelRatioOf(context);
     return Image.file(
-      file,
+      widget.file,
       key: const ValueKey('cover.photo'),
       fit: BoxFit.cover,
-      cacheWidth: (slot.width * dpr).ceil(),
+      cacheWidth: (widget.slot.width * dpr).ceil(),
       gaplessPlayback: true,
-      errorBuilder: (context, error, stack) => fallback,
+      errorBuilder: (context, error, stack) {
+        if (!_reported) {
+          _reported = true;
+          WidgetsBinding.instance.addPostFrameCallback(
+            (_) => unawaited(widget.onBroken()),
+          );
+        }
+        return widget.fallback;
+      },
     );
   }
 }

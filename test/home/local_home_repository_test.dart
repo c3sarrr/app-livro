@@ -98,6 +98,27 @@ ReadingSession _sessao(
   source: SessionSource.auto,
 );
 
+/// Espera curta das gravações em rajada nos testes (a do app é 300 ms).
+const Duration _rajada = Duration(milliseconds: 20);
+
+/// Deixa passar a espera da rajada e o recálculo.
+Future<void> _assentar() async {
+  await Future<void>.delayed(const Duration(milliseconds: 120));
+  await pumpEventQueue();
+}
+
+final class _ParaVoceQuebrado implements ForYouSource {
+  @override
+  Future<ForYou?> suggest(ForYouRequest request) async =>
+      throw StateError('catálogo trocado no meio da consulta');
+}
+
+final class _ClubeQuebrado implements ClubTicketSource {
+  @override
+  Future<BookClub?> current(String owner) async =>
+      throw const FormatException('cache estragado');
+}
+
 /// Fonte de "Para você" que só registra o pedido.
 final class _ParaVoceFalso implements ForYouSource {
   ForYouRequest? pedido;
@@ -122,17 +143,21 @@ void main() {
   late _ParaVoceFalso paraVoce;
   late _ClubeFalso clube;
   late LocalHomeRepository repo;
+  late List<Object> erros;
 
   setUp(() {
     db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
     paraVoce = _ParaVoceFalso();
     clube = _ClubeFalso();
+    erros = [];
     repo = LocalHomeRepository(
       database: () async => db,
       owner: () async => usuarioTeste,
       utcOffsetAt: (_) => _sp,
       forYou: paraVoce,
       club: clube,
+      debounce: _rajada,
+      onSourceError: (e, _) => erros.add(e),
     );
   });
   tearDown(() => db.close());
@@ -577,30 +602,128 @@ void main() {
     });
   });
 
-  group('usuário (D-84)', () {
-    test('o último usuário do fluxo da conta entra no instantâneo', () async {
-      final usuarios = StreamController<UserSummary>.broadcast();
-      addTearDown(usuarios.close);
+  group('robustez (revisão da G08)', () {
+    test('falha em Para você ou no Clube: a seção some, a Início continua e o erro é reportado', () async {
+      await gravar([_livro(1, titulo: 'Um', autor: 'Clarice Lispector')]);
       final r = LocalHomeRepository(
         database: () async => db,
         owner: () async => usuarioTeste,
         utcOffsetAt: (_) => _sp,
-        users: () => usuarios.stream,
+        forYou: _ParaVoceQuebrado(),
+        club: _ClubeQuebrado(),
+        onSourceError: (e, _) => erros.add(e),
       );
+      final s = await r.read(_agora);
+      expect(s.forYou, isNull);
+      expect(s.club, isNull);
+      expect(s.recent.single.book.title, 'Um');
+      expect(erros, [isA<StateError>(), isA<FormatException>()]);
+    });
+
+    test('sessão com a data em outro formato (+0000): conta no dia certo e não derruba', () async {
+      final a = _livro(1, status: ShelfStatus.reading);
+      await gravar([a]);
+      await db.customStatement(
+        'INSERT INTO reading_sessions (id, user_id, user_book_id, started_at, ended_at, '
+        'active_seconds, source, created_at, updated_at, version_hlc) '
+        'VALUES (?, ?, ?, ?, ?, 600, ?, ?, ?, ?)',
+        [
+          idTeste(9001),
+          usuarioTeste,
+          a.id,
+          '2026-10-05T12:00:00+0000',
+          '2026-10-05T12:10:00+0000',
+          'auto',
+          '2026-10-05T12:10:00+0000',
+          '2026-10-05T12:10:00+0000',
+          '0001791000000000-0000-aparelhoA',
+        ],
+      );
+      final d = (await repo.read(_agora)).readingDay;
+      expect(d.readMinutes, 10);
+      expect(d.streakDays, 1);
+    });
+  });
+
+  group('tempo (revisão da G08)', () {
+    test('dia local pelo fuso de cada sessão (troca de horário)', () async {
+      // −2 h antes de 04/10 12:00 UTC, −3 h depois (como o fim de um horário de verão)
+      final troca = DateTime.utc(2026, 10, 4, 12);
+      final r = LocalHomeRepository(
+        database: () async => db,
+        owner: () async => usuarioTeste,
+        utcOffsetAt: (t) => t.isBefore(troca)
+            ? const Duration(hours: -2)
+            : const Duration(hours: -3),
+      );
+      final a = _livro(1, status: ShelfStatus.reading);
+      await gravar([a]);
+      // 02:30 UTC de 04/10 = 00:30 do dia 04 no fuso de então (com o fuso de hoje seria 23:30 do dia 03)
+      await sessoes([
+        _sessao(a, DateTime.utc(2026, 10, 4, 2, 30), segundos: 1200),
+      ]);
+      final w = (await r.read(_agora)).readingDay.week;
+      expect(w[5].date, DateTime(2026, 10, 4));
+      expect(w[5].minutes, 20);
+      expect(w[4].minutes, 0);
+    });
+
+    test(
+      'próximo recálculo: meia-noite, 5h, 12h e 18h locais (dia e saudação)',
+      () {
+        Duration d(int dia, int h, int m) =>
+            LocalHomeRepository.untilNextRefresh(
+              _local(10, dia, h, m),
+              (_) => _sp,
+            );
+        const s1 = Duration(seconds: 1);
+        expect(d(5, 20, 0), const Duration(hours: 4) + s1);
+        expect(d(5, 3, 0), const Duration(hours: 2) + s1);
+        expect(d(5, 11, 30), const Duration(minutes: 30) + s1);
+        expect(d(5, 12, 0), const Duration(hours: 6) + s1);
+        expect(d(5, 17, 59), const Duration(minutes: 1) + s1);
+        expect(d(5, 0, 0), const Duration(hours: 5) + s1);
+      },
+    );
+
+    test(
+      'o app volta do segundo plano: recalcula o "agora" (saudação e dia)',
+      () async {
+        final acordar = StreamController<void>.broadcast();
+        addTearDown(acordar.close);
+        var agora = _agora;
+        final r = LocalHomeRepository(
+          database: () async => db,
+          owner: () async => usuarioTeste,
+          utcOffsetAt: (_) => _sp,
+          debounce: _rajada,
+          wakeups: () => acordar.stream,
+        );
+        final emitidos = <HomeSnapshot>[];
+        final sub = r.watch(() => agora).listen(emitidos.add);
+        addTearDown(sub.cancel);
+        await _assentar();
+        expect(emitidos.single.now, DateTime(2026, 10, 5, 20));
+        agora = _agora.add(const Duration(hours: 13));
+        acordar.add(null);
+        await _assentar();
+        expect(emitidos.last.now, DateTime(2026, 10, 6, 9));
+        expect(emitidos.last.readingDay.week.last.date, DateTime(2026, 10, 6));
+      },
+    );
+
+    test('gravações em rajada viram um recálculo só', () async {
       final emitidos = <HomeSnapshot>[];
-      final sub = r.watch(() => _agora).listen(emitidos.add);
+      final sub = repo.watch(() => _agora).listen(emitidos.add);
       addTearDown(sub.cancel);
-      await pumpEventQueue();
-      expect(emitidos.last.user.firstName, isNull);
-      usuarios.add(
-        const UserSummary(
-          firstName: 'Ana',
-          initial: 'A',
-          unreadNotifications: 0,
-        ),
-      );
-      await pumpEventQueue();
-      expect(emitidos.last.user.firstName, 'Ana');
+      await _assentar();
+      expect(emitidos, hasLength(1));
+      for (var n = 1; n <= 5; n++) {
+        await gravar([_livro(n, titulo: 'L$n')]);
+      }
+      await _assentar();
+      expect(emitidos, hasLength(2));
+      expect(emitidos.last.recent, hasLength(3));
     });
   });
 
@@ -609,14 +732,14 @@ void main() {
       final emitidos = <HomeSnapshot>[];
       final sub = repo.watch(() => _agora).listen(emitidos.add);
       addTearDown(sub.cancel);
-      await pumpEventQueue();
+      await _assentar();
       expect(emitidos, hasLength(1));
       expect(emitidos.last.shelfIsEmpty, isTrue);
       await gravar([_livro(1, titulo: 'Novo')]);
-      await pumpEventQueue();
+      await _assentar();
       expect(emitidos, hasLength(2));
       expect(emitidos.last.recent.single.book.title, 'Novo');
-      await pumpEventQueue(times: 50);
+      await _assentar();
       expect(emitidos, hasLength(2));
     });
 
@@ -628,7 +751,7 @@ void main() {
         final emitidos = <HomeSnapshot>[];
         final sub = repo.watch(() => _agora).listen(emitidos.add);
         addTearDown(sub.cancel);
-        await pumpEventQueue();
+        await _assentar();
         await gravar([
           b.copyWith(
             status: ShelfStatus.finished,
@@ -636,7 +759,7 @@ void main() {
             finishedAt: Nullable(_local(10, 5, 9)),
           ),
         ]);
-        await pumpEventQueue();
+        await _assentar();
         expect(emitidos.last.recent, isEmpty);
       },
     );

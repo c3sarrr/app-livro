@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart' show FlutterError, FlutterErrorDetails;
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/codecs.dart';
@@ -25,8 +26,10 @@ final class LocalHomeRepository implements HomeRepository {
     this._utcOffsetAt = deviceUtcOffset,
     this._forYou,
     this._club,
-    this._users,
-  });
+    this.debounce = const Duration(milliseconds: 300),
+    this._wakeups,
+    void Function(Object error, StackTrace stack)? onSourceError,
+  }) : _onSourceError = onSourceError ?? _report;
 
   final Future<AppDatabase> Function() _database;
   final Future<String> Function() _owner;
@@ -34,8 +37,18 @@ final class LocalHomeRepository implements HomeRepository {
   final ForYouSource? _forYou;
   final ClubTicketSource? _club;
 
-  /// Usuário da conta: o fluxo começa com o atual (D-84).
-  final Stream<UserSummary> Function()? _users;
+  /// Gravações em rajada (a sincronização, o leitor virando página) viram um recálculo só.
+  final Duration debounce;
+
+  /// O app voltou do segundo plano (o relógio do timer não anda com o aparelho dormindo): recalcula.
+  final Stream<void> Function()? _wakeups;
+
+  /// Falha de "Para você" ou do Clube: a seção some e a Início continua (D-81, D-80).
+  final void Function(Object error, StackTrace stack) _onSourceError;
+
+  static void _report(Object e, StackTrace st) => FlutterError.reportError(
+    FlutterErrorDetails(exception: e, stack: st, library: 'inicio'),
+  );
 
   /// Sem conta (ou antes de a conta responder): convidado, sem notificações (D-84; G21).
   static const UserSummary guest = UserSummary(unreadNotifications: 0);
@@ -60,9 +73,9 @@ final class LocalHomeRepository implements HomeRepository {
   Stream<HomeSnapshot> watch(DateTime Function() clock) {
     late final StreamController<HomeSnapshot> out;
     StreamSubscription<void>? tables;
-    StreamSubscription<UserSummary>? users;
-    Timer? midnight;
-    var user = guest;
+    StreamSubscription<void>? wakeups;
+    Timer? next;
+    Timer? burst;
     var closed = false;
     var running = false;
     var again = false;
@@ -78,17 +91,26 @@ final class LocalHomeRepository implements HomeRepository {
         do {
           again = false;
           final now = clock();
-          final s = await read(now, user: user);
-          if (closed) return;
-          out.add(s);
-          midnight?.cancel();
-          midnight = Timer(_untilNextLocalDay(now), refresh);
+          try {
+            final s = await read(now);
+            if (closed) return;
+            out.add(s);
+          } on Object catch (e, st) {
+            if (!closed) out.addError(e, st);
+          }
+          next?.cancel();
+          if (!closed) {
+            next = Timer(untilNextRefresh(now, _utcOffsetAt), refresh);
+          }
         } while (again && !closed);
-      } on Object catch (e, st) {
-        if (!closed) out.addError(e, st);
       } finally {
         running = false;
       }
+    }
+
+    void soon() {
+      burst?.cancel();
+      burst = Timer(debounce, refresh);
     }
 
     out = StreamController<HomeSnapshot>(
@@ -108,11 +130,8 @@ final class LocalHomeRepository implements HomeRepository {
                   db.socialCache,
                 ]),
               )
-              .listen((_) => unawaited(refresh()));
-          users = _users?.call().listen((u) {
-            user = u;
-            unawaited(refresh());
-          });
+              .listen((_) => soon());
+          wakeups = _wakeups?.call().listen((_) => unawaited(refresh()));
           await refresh();
         } on Object catch (e, st) {
           if (!closed) out.addError(e, st);
@@ -120,39 +139,37 @@ final class LocalHomeRepository implements HomeRepository {
       },
       onCancel: () async {
         closed = true;
-        midnight?.cancel();
+        next?.cancel();
+        burst?.cancel();
         await tables?.cancel();
-        await users?.cancel();
+        await wakeups?.cancel();
       },
     );
     return out.stream;
   }
 
-  /// Tempo até a próxima meia-noite local (+1 s): a semana e a sequência andam sozinhas.
-  Duration _untilNextLocalDay(DateTime now) {
+  /// Até a próxima mudança do que a tela mostra pelo relógio (+1 s): meia-noite (dia, semana, sequência) e 5h,
+  /// 12h e 18h (saudação), no fuso do aparelho.
+  static Duration untilNextRefresh(DateTime now, UtcOffsetAt utcOffsetAt) {
     final utc = now.toUtc();
-    final offset = _utcOffsetAt(utc);
-    final local = utc.add(offset);
-    final next = DateTime.utc(
-      local.year,
-      local.month,
-      local.day + 1,
-    ).subtract(offset);
-    return next.difference(utc) + const Duration(seconds: 1);
+    final local = utc.add(utcOffsetAt(utc));
+    final day = DateTime.utc(local.year, local.month, local.day);
+    final next = [
+      for (final h in const [5, 12, 18, 24]) day.add(Duration(hours: h)),
+    ].firstWhere((t) => t.isAfter(local));
+    return next.difference(local) + const Duration(seconds: 1);
   }
 
   /// Um instantâneo coerente (uma transação) para o "agora" [now].
-  Future<HomeSnapshot> read(DateTime now, {UserSummary user = guest}) async {
+  Future<HomeSnapshot> read(DateTime now) async {
     final db = await _database();
     final owner = await _owner();
     final utc = now.toUtc();
     final offset = _utcOffsetAt(utc);
     final local = utc.add(offset);
     final today = DateTime.utc(local.year, local.month, local.day);
-    final modifier = '${offset.inMinutes} minutes';
-
     final data = await db.transaction(
-      () => _Reader(db, owner, modifier).read(utc, today),
+      () => _Reader(db, owner, _utcOffsetAt).read(utc, today),
     );
 
     final reading = data.books.where((b) => b.status == 'reading').toList()
@@ -174,8 +191,13 @@ final class LocalHomeRepository implements HomeRepository {
     final forYouSource = _forYou;
     final forYou = forYouSource == null || data.books.isEmpty
         ? null
-        : await forYouSource.suggest(_forYouRequest(data.books));
-    final club = await _club?.current(owner);
+        : await _guarded(
+            () => forYouSource.suggest(_forYouRequest(data.books)),
+          );
+    final clubSource = _club;
+    final club = clubSource == null
+        ? null
+        : await _guarded(() => clubSource.current(owner));
 
     return HomeSnapshot(
       now: DateTime(
@@ -185,7 +207,8 @@ final class LocalHomeRepository implements HomeRepository {
         local.hour,
         local.minute,
       ),
-      user: user,
+      // O cabeçalho vem da conta, por cima (home_providers — D-84).
+      user: guest,
       continueReading: hero == null
           ? null
           : ContinueReading(
@@ -223,6 +246,15 @@ final class LocalHomeRepository implements HomeRepository {
       ]),
       shelfIsEmpty: data.books.isEmpty,
     );
+  }
+
+  Future<T?> _guarded<T>(Future<T?> Function() f) async {
+    try {
+      return await f();
+    } on Object catch (e, st) {
+      _onSourceError(e, st);
+      return null;
+    }
   }
 
   /// Aberto mais recentemente primeiro (sem abertura: a posição, o início, a chegada).
@@ -390,13 +422,31 @@ final class _Data {
 
 /// As consultas de um instantâneo (todas dentro da mesma transação).
 final class _Reader {
-  _Reader(this._db, this._owner, this._modifier);
+  _Reader(this._db, this._owner, this._utcOffsetAt);
 
   final AppDatabase _db;
   final String _owner;
 
-  /// Modificador do SQLite para o dia local ("-180 minutes").
-  final String _modifier;
+  /// Fuso de cada instante: o dia local de uma sessão é o do fuso de quando ela começou (horário de verão).
+  final UtcOffsetAt _utcOffsetAt;
+
+  /// 'AAAA-MM-DD' do dia local de um instante.
+  String _localDay(DateTime utc) => _dayKey(utc.add(_utcOffsetAt(utc)));
+
+  static String _dayKey(DateTime d) =>
+      '${d.year.toString().padLeft(4, '0')}-'
+      '${d.month.toString().padLeft(2, '0')}-'
+      '${d.day.toString().padLeft(2, '0')}';
+
+  /// Instante gravado (o servidor pode mandar outros formatos — `parseInstant`); ilegível = ignorado.
+  static DateTime? _instant(String? s) {
+    if (s == null) return null;
+    try {
+      return parseInstant(s);
+    } on FormatException {
+      return null;
+    }
+  }
 
   Future<List<QueryRow>> _all(String sql, List<Object> args) => _db
       .customSelect(sql, variables: [for (final a in args) _variable(a)])
@@ -422,18 +472,32 @@ final class _Reader {
         _ShelfBook(r),
     ];
 
-    final days = <String, _Day>{
-      for (final r in await _all(
-        'SELECT date(started_at, ?2) AS d, sum(active_seconds) AS s, '
-        'sum(coalesce(pages_viewed, 0)) AS p FROM reading_sessions '
-        'WHERE user_id = ?1 AND deleted_at IS NULL GROUP BY d',
-        [_owner, _modifier],
-      ))
-        r.read<String>('d'): (
-          seconds: r.read<int>('s'),
-          pages: r.read<int>('p'),
-        ),
-    };
+    // Sessões somadas por dia local aqui, não no SQL: o `date()` do SQLite não lê todos os formatos que o
+    // servidor manda e usaria um fuso só para todas (revisão da G08).
+    final days = <String, _Day>{};
+    final speedFrom = nowUtc.subtract(LocalHomeRepository.speedWindow);
+    var speedSeconds = 0;
+    var speedPages = 0;
+    for (final r in await _all(
+      'SELECT started_at, active_seconds, pages_viewed FROM reading_sessions '
+      'WHERE user_id = ?1 AND deleted_at IS NULL',
+      [_owner],
+    )) {
+      final start = _instant(r.read<String>('started_at'));
+      if (start == null) continue;
+      final seconds = r.read<int>('active_seconds');
+      final pages = r.readNullable<int>('pages_viewed') ?? 0;
+      final day = _localDay(start);
+      final d = days[day];
+      days[day] = (
+        seconds: (d?.seconds ?? 0) + seconds,
+        pages: (d?.pages ?? 0) + pages,
+      );
+      if (pages > 0 && !start.isBefore(speedFrom)) {
+        speedSeconds += seconds;
+        speedPages += pages;
+      }
+    }
 
     final reading = books.where((b) => b.status == 'reading').toList()
       ..sort(LocalHomeRepository._byLastOpened);
@@ -445,24 +509,18 @@ final class _Reader {
             [_owner, reading.first.id],
           )).single.read<int>('n');
 
-    final todayKey =
-        '${today.year.toString().padLeft(4, '0')}-'
-        '${today.month.toString().padLeft(2, '0')}-'
-        '${today.day.toString().padLeft(2, '0')}';
-    final highlightsToday = (await _all(
-      "SELECT count(*) AS n FROM annotations WHERE user_id = ?1 AND deleted_at IS NULL "
-      "AND kind = 'highlight' AND date(created_at, ?2) = ?3",
-      [_owner, _modifier, todayKey],
-    )).single.read<int>('n');
-
-    final speed = (await _all(
-      'SELECT sum(active_seconds) AS s, sum(pages_viewed) AS p FROM reading_sessions '
-      'WHERE user_id = ?1 AND deleted_at IS NULL AND pages_viewed > 0 '
-      'AND julianday(started_at) >= julianday(?2)',
-      [_owner, formatInstant(nowUtc.subtract(LocalHomeRepository.speedWindow))],
-    )).single;
-    final speedSeconds = speed.readNullable<int>('s');
-    final speedPages = speed.readNullable<int>('p');
+    // Grifos de hoje: só os criados de anteontem (UTC) para cá vêm do banco — o prefixo da data é o mesmo em
+    // todos os formatos aceitos; o dia local de cada um é decidido aqui.
+    final todayKey = _dayKey(today);
+    var highlightsToday = 0;
+    for (final r in await _all(
+      'SELECT created_at FROM annotations WHERE user_id = ?1 AND deleted_at IS NULL '
+      "AND kind = 'highlight' AND substr(created_at, 1, 10) >= ?2",
+      [_owner, _dayKey(nowUtc.subtract(const Duration(days: 2)))],
+    )) {
+      final created = _instant(r.read<String>('created_at'));
+      if (created != null && _localDay(created) == todayKey) highlightsToday++;
+    }
 
     final goals = await _all(
       'SELECT daily_minutes, badge_target_days FROM reading_goals '
@@ -475,10 +533,7 @@ final class _Reader {
       days: days,
       heroAnnotations: heroAnnotations,
       highlightsToday: highlightsToday,
-      secondsPerPage:
-          speedSeconds == null || speedPages == null || speedPages == 0
-          ? null
-          : speedSeconds / speedPages,
+      secondsPerPage: speedPages == 0 ? null : speedSeconds / speedPages,
       goalMinutes: goals.isEmpty
           ? null
           : goals.single.read<int>('daily_minutes'),

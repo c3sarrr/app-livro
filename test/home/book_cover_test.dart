@@ -15,6 +15,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/app_text_finder.dart';
+import '../support/load_fonts.dart';
 import '../support/personal_builders.dart';
 
 final class _Capas implements CoverImages {
@@ -22,6 +23,10 @@ final class _Capas implements CoverImages {
 
   final File? arquivo;
   final List<PhotoCover> pedidos = [];
+  final List<PhotoCover> descartadas = [];
+
+  @override
+  Future<void> discard(PhotoCover cover) async => descartadas.add(cover);
 
   @override
   Future<File?> cached(PhotoCover cover) async => arquivo;
@@ -51,7 +56,75 @@ const _livro = Book(
   cover: PhotoCover(ref: 'ol:1', isbn13: '9786555321234'),
 );
 
+/// Devolve, a cada pedido, o próximo da lista (o último se repete).
+final class _CapasEmSequencia implements CoverImages {
+  _CapasEmSequencia(this.respostas);
+
+  final List<File?> respostas;
+  final List<PhotoCover> pedidos = [];
+
+  @override
+  Future<File?> cached(PhotoCover cover) async => null;
+
+  @override
+  Future<File?> resolve(PhotoCover cover) async {
+    pedidos.add(cover);
+    return respostas[(pedidos.length - 1).clamp(0, respostas.length - 1)];
+  }
+
+  @override
+  Future<void> discard(PhotoCover cover) async {}
+}
+
 void main() {
+  setUpAll(loadAppFonts);
+
+  test('foto que não veio (rede fora) é pedida de novo depois da espera (D-79: troca quando chega)', () async {
+    const c = PhotoCover(ref: 'ol:1');
+    final capas = _CapasEmSequencia([null, File('capa.jpg')]);
+    final container = ProviderContainer.test(
+      overrides: [
+        coverImagesProvider.overrideWithValue(capas),
+        coverRetryDelayProvider.overrideWithValue(
+          const Duration(milliseconds: 30),
+        ),
+      ],
+    );
+    final vistos = <String?>[];
+    container.listen(coverFileProvider(c), (_, v) {
+      if (v.hasValue) vistos.add(v.value?.path);
+    }, fireImmediately: true);
+    await Future<void>.delayed(const Duration(milliseconds: 200));
+    expect(capas.pedidos, hasLength(2));
+    // durante a nova tentativa o valor anterior (sem foto) continua; depois, a foto
+    expect(vistos.first, isNull);
+    expect(vistos.last, 'capa.jpg');
+  });
+
+  testWidgets('foto guardada que não abre: descartada e a capa gerada fica', (
+    tester,
+  ) async {
+    final dir = Directory.systemTemp.createTempSync('booknest_capa_ruim_');
+    addTearDown(() => dir.deleteSync(recursive: true));
+    final ruim = File('${dir.path}${Platform.pathSeparator}ruim.img')
+      ..writeAsBytesSync([0xFF, 0xD8, 0xFF, 0xE0, ...List.filled(60, 7)]);
+    final capas = _Capas(ruim);
+    const c = PhotoCover(ref: 'ol:9');
+    await tester.runAsync(() async {
+      await _pump(
+        tester,
+        const PhotoBookCover(book: _livro, cover: c, slot: CoverSlot.hero),
+        capas,
+      );
+      for (var i = 0; i < 40 && capas.descartadas.isEmpty; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 50));
+        await tester.pump();
+      }
+    });
+    expect(capas.descartadas, [c]);
+    await tester.pump();
+    expect(find.byKey(const ValueKey('cover.generated')), findsOneWidget);
+  });
   group('capa gerada', () {
     test(
       'a mesma para o mesmo livro (sem acento e sem caixa não muda nada)',

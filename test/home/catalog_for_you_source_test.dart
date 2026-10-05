@@ -36,7 +36,11 @@ final class _Catalogo implements LocalCatalog {
   final List<String> pedidos = [];
 
   @override
-  Future<List<CatalogBook>> byAuthor(String author, {int limit = 200}) async {
+  Future<List<CatalogBook>> byAuthor(
+    String author, {
+    String? language,
+    int limit = 200,
+  }) async {
     pedidos.add(author);
     final palavras = author.toLowerCase().split(' ');
     return [
@@ -252,10 +256,26 @@ void main() {
     test(
       'busca só na coluna de autores, palavra inteira, sem acento',
       () async {
+        // a ordem sai do SQL antes do limite: língua do aparelho, com capa, mais nova (revisão da G08)
+        expect(
+          (await cat.byAuthor(
+            'Jane Austen',
+            language: 'eng',
+          )).map((b) => b.isbn13),
+          ['9780141439518', '9780199535569'],
+        );
         expect((await cat.byAuthor('Jane Austen')).map((b) => b.isbn13), [
-          '9780141439518',
           '9780199535569',
+          '9780141439518',
         ]);
+        expect(
+          (await cat.byAuthor(
+            'Jane Austen',
+            language: 'eng',
+            limit: 1,
+          )).single.isbn13,
+          '9780141439518',
+        );
         expect(
           (await cat.byAuthor('anna muller')).single.title,
           'Über Bücher!',

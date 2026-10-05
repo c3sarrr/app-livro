@@ -19,8 +19,14 @@ abstract interface class LocalCatalog {
   Future<List<CatalogBook>> search(String text, {int limit = 20});
 
   /// Edições cujo campo de autores tem todas as palavras de [author] (FTS5 só na coluna de autores, palavra
-  /// inteira, sem acento) — "Para você" confere o nome exato depois (G08, D-81).
-  Future<List<CatalogBook>> byAuthor(String author, {int limit = 200});
+  /// inteira, sem acento) — "Para você" confere o nome exato depois (G08, D-81). A ordem sai do banco antes
+  /// do [limit]: [language] (ISO 639-2/B), com capa, mais nova — autor com muitas edições não perde as da língua
+  /// do aparelho para o limite.
+  Future<List<CatalogBook>> byAuthor(
+    String author, {
+    String? language,
+    int limit = 200,
+  });
 
   Future<void> close();
 }
@@ -144,13 +150,19 @@ final class SqliteLocalCatalog implements LocalCatalog {
   }
 
   @override
-  Future<List<CatalogBook>> byAuthor(String author, {int limit = 200}) async {
+  Future<List<CatalogBook>> byAuthor(
+    String author, {
+    String? language,
+    int limit = 200,
+  }) async {
     final q = authorQuery(author);
     if (q == null) return const [];
     final rows = await _db.getAll(
       'SELECT e.* FROM editions_fts f JOIN editions e ON e.id = f.rowid '
-      'WHERE editions_fts MATCH ? ORDER BY e.isbn13 LIMIT ?',
-      [q, limit.clamp(1, 500)],
+      'WHERE editions_fts MATCH ? '
+      'ORDER BY (e.language = ?) DESC, (e.cover_ref IS NOT NULL) DESC, '
+      'coalesce(e.year, -1) DESC, e.isbn13 LIMIT ?',
+      [q, language, limit.clamp(1, 500)],
     );
     return [for (final r in rows) _book(r)];
   }

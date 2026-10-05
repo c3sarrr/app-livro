@@ -51,6 +51,9 @@ abstract interface class CoverImages {
 
   /// Do aparelho ou da rede; `null` = sem foto agora (a capa gerada fica — D-79).
   Future<File?> resolve(PhotoCover cover);
+
+  /// A foto guardada não abre (arquivo corrompido): apaga e marca "sem capa" (só tenta de novo em 7 dias).
+  Future<void> discard(PhotoCover cover);
 }
 
 enum _Fetch { ok, missing, transient }
@@ -81,6 +84,7 @@ final class CoverStore implements CoverImages {
   static const Duration missingRetry = Duration(days: 7);
   static const Duration transientBackoff = Duration(minutes: 10);
   static const int maxConcurrent = 4;
+  static const int maxRedirects = 3;
   static const String userAgent =
       'BookNest/1.0 (app de leitura; capas no aparelho)';
 
@@ -106,6 +110,23 @@ final class CoverStore implements CoverImages {
       if (await f.exists()) return f;
     }
     return null;
+  }
+
+  @override
+  Future<void> discard(PhotoCover cover) async {
+    for (final u in coverCandidates(cover)) {
+      final key = _key(u);
+      final img = await _file(key, 'img');
+      if (!await img.exists()) continue;
+      try {
+        await img.delete();
+      } on FileSystemException {
+        // em uso: a marca abaixo já impede de usar de novo
+      }
+      final none = await _file(key, 'none');
+      await none.writeAsBytes(const []);
+      await none.setLastModified(_now());
+    }
   }
 
   @override
@@ -178,37 +199,61 @@ final class CoverStore implements CoverImages {
     }
   }
 
-  /// Bytes da imagem; vazio = a fonte não tem capa (404, não é imagem, grande demais); `null` = falha passageira.
-  Future<Uint8List?> _download(Uri u) async {
+  /// Bytes da imagem; vazio = a fonte não tem capa (404/410, grande demais, redireciona para fora do https);
+  /// `null` = falha passageira (rede, servidor, ou uma resposta que não é imagem — Wi-Fi com página de login).
+  /// Redirecionamentos seguidos à mão, até 3, só para https.
+  Future<Uint8List?> _download(Uri first) async {
     try {
-      final req = http.Request('GET', u)
-        ..headers['User-Agent'] = userAgent
-        ..followRedirects = true;
-      final res = await _client.send(req).timeout(timeout);
-      if (res.statusCode == 404 || res.statusCode == 410) {
-        await res.stream.drain<void>();
-        return Uint8List(0);
+      var u = first;
+      for (var hop = 0; hop <= maxRedirects; hop++) {
+        final req = http.Request('GET', u)
+          ..headers['User-Agent'] = userAgent
+          ..followRedirects = false;
+        final res = await _client.send(req).timeout(timeout);
+        final code = res.statusCode;
+        if (code >= 300 && code < 400) {
+          await _discardBody(res);
+          final to = res.headers['location'];
+          final next = to == null ? null : u.resolve(to);
+          if (next == null || next.scheme != 'https') return Uint8List(0);
+          u = next;
+          continue;
+        }
+        if (code == 404 || code == 410) {
+          await _discardBody(res);
+          return Uint8List(0);
+        }
+        if (code != 200) {
+          await _discardBody(res);
+          return null;
+        }
+        final declared =
+            int.tryParse(res.headers['content-length'] ?? '') ??
+            res.contentLength;
+        if (declared != null && declared > maxImageBytes) {
+          await _discardBody(res);
+          return Uint8List(0);
+        }
+        final out = BytesBuilder(copy: false);
+        await for (final chunk in res.stream.timeout(timeout)) {
+          out.add(chunk);
+          if (out.length > maxImageBytes) return Uint8List(0);
+        }
+        final bytes = out.takeBytes();
+        return _isImage(bytes) ? bytes : null;
       }
-      if (res.statusCode != 200) {
-        await res.stream.drain<void>();
-        return null;
-      }
-      final declared =
-          int.tryParse(res.headers['content-length'] ?? '') ??
-          res.contentLength;
-      if (declared != null && declared > maxImageBytes) {
-        await res.stream.drain<void>();
-        return Uint8List(0);
-      }
-      final out = BytesBuilder(copy: false);
-      await for (final chunk in res.stream.timeout(timeout)) {
-        out.add(chunk);
-        if (out.length > maxImageBytes) return Uint8List(0);
-      }
-      final bytes = out.takeBytes();
-      return _isImage(bytes) ? bytes : Uint8List(0);
+      return Uint8List(0);
     } on Object {
       return null;
+    }
+  }
+
+  /// Fecha a resposta sem baixar o corpo.
+  static Future<void> _discardBody(http.StreamedResponse res) async {
+    try {
+      await res.stream.listen(null).cancel();
+    } on Object {
+      // já fechada
     }
   }
 

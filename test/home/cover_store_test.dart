@@ -126,27 +126,72 @@ void main() {
       expect(pedidos.map((p) => p.url.toString()), [ol, porIsbn]);
     });
 
+    test('aceita JPEG, PNG, WebP e GIF; o resto é falha passageira (Wi-Fi com página de login)', () async {
+      final tipos = {
+        'a': _jpeg(),
+        'b': _png(),
+        'c': _webp(),
+        'd': Uint8List(64)..setAll(0, 'GIF89a'.codeUnits),
+      };
+      for (final MapEntry(key: k, value: bytes) in tipos.entries) {
+        final url = 'https://x.com/$k.img';
+        respostas[url] = () => http.Response.bytes(bytes, 200);
+        expect(await loja.resolve(PhotoCover(ref: url)), isNotNull, reason: k);
+      }
+      const html = 'https://x.com/pagina';
+      respostas[html] = () => http.Response('<html>oi</html>', 200);
+      expect(await loja.resolve(const PhotoCover(ref: html)), isNull);
+      // não vira "sem capa" por 7 dias: passados 10 min, tenta de novo
+      final antes = pedidos.length;
+      expect(await loja.resolve(const PhotoCover(ref: html)), isNull);
+      expect(pedidos, hasLength(antes));
+      agora = agora.add(const Duration(minutes: 11));
+      respostas[html] = () => http.Response.bytes(_jpeg(), 200);
+      expect(await loja.resolve(const PhotoCover(ref: html)), isNotNull);
+    });
+
     test(
-      'aceita JPEG, PNG, WebP e GIF; recusa o resto (vira "sem capa")',
+      'redirecionamento: só para https (http é recusado, sem ir à rede)',
       () async {
-        final tipos = {
-          'a': _jpeg(),
-          'b': _png(),
-          'c': _webp(),
-          'd': Uint8List(64)..setAll(0, 'GIF89a'.codeUnits),
-        };
-        for (final MapEntry(key: k, value: bytes) in tipos.entries) {
-          final url = 'https://x.com/$k.img';
-          respostas[url] = () => http.Response.bytes(bytes, 200);
-          expect(
-            await loja.resolve(PhotoCover(ref: url)),
-            isNotNull,
-            reason: k,
-          );
-        }
-        const html = 'https://x.com/pagina';
-        respostas[html] = () => http.Response('<html>oi</html>', 200);
-        expect(await loja.resolve(const PhotoCover(ref: html)), isNull);
+        respostas['https://x.com/r1'] = () => http.Response(
+          '',
+          302,
+          headers: {'location': 'https://y.com/a.jpg'},
+        );
+        respostas['https://y.com/a.jpg'] = () =>
+            http.Response.bytes(_jpeg(), 200);
+        expect(
+          await loja.resolve(const PhotoCover(ref: 'https://x.com/r1')),
+          isNotNull,
+        );
+        respostas['https://x.com/r2'] = () =>
+            http.Response('', 301, headers: {'location': 'http://y.com/b.jpg'});
+        expect(
+          await loja.resolve(const PhotoCover(ref: 'https://x.com/r2')),
+          isNull,
+        );
+        expect(
+          pedidos.map((p) => p.url.toString()),
+          isNot(contains('http://y.com/b.jpg')),
+        );
+        expect(pedidos.every((p) => p.followRedirects == false), isTrue);
+      },
+    );
+
+    test(
+      'foto que não abre (corrompida): descartada e marcada "sem capa"',
+      () async {
+        respostas[ol] = () => http.Response.bytes(_jpeg(), 200);
+        const c = PhotoCover(ref: 'ol:123');
+        expect(await loja.resolve(c), isNotNull);
+        await loja.discard(c);
+        expect(await loja.cached(c), isNull);
+        expect(await loja.resolve(c), isNull);
+        expect(
+          pedidos,
+          hasLength(1),
+          reason: 'não baixa de novo antes de 7 dias',
+        );
       },
     );
 

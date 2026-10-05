@@ -1,5 +1,6 @@
 // Fotos de capa no aparelho (G08, D-79): pasta de suporte do app, cliente HTTP compartilhado e as capas dos
 // livros da estante (nunca saem do cache). Os testes trocam [coverImagesProvider].
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,10 +25,24 @@ final coverImagesProvider = Provider<CoverImages>(
   ),
 );
 
-/// A foto de uma capa (do aparelho ou da rede); `null` = sem foto agora (capa gerada).
-final coverFileProvider = FutureProvider.family<File?, PhotoCover>(
-  (ref, cover) => ref.watch(coverImagesProvider).resolve(cover),
+/// Sem foto agora (rede fora, servidor fora, Wi-Fi com página de login): pede de novo depois da espera da loja.
+final coverRetryDelayProvider = Provider<Duration>(
+  (ref) => CoverStore.transientBackoff + const Duration(seconds: 5),
 );
+
+/// A foto de uma capa (do aparelho ou da rede); `null` = sem foto agora (capa gerada). Enquanto a capa está na
+/// tela e sem foto, tenta de novo de tempos em tempos — a foto entra quando chega (D-79).
+final coverFileProvider = FutureProvider.autoDispose.family<File?, PhotoCover>((
+  ref,
+  cover,
+) async {
+  final file = await ref.watch(coverImagesProvider).resolve(cover);
+  if (file == null) {
+    final again = Timer(ref.watch(coverRetryDelayProvider), ref.invalidateSelf);
+    ref.onDispose(again.cancel);
+  }
+  return file;
+});
 
 /// Endereços das capas de todos os livros guardados no aparelho (qualquer dono — D-68: a conta que voltar
 /// encontra as capas).

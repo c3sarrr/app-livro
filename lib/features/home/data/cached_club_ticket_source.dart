@@ -44,13 +44,32 @@ final class CachedClubTicketSource implements ClubTicketSource {
 
   BookClub? _parse(Object? json) {
     if (json is! Map<String, Object?>) return null;
+    // Números fora da faixa não viram ticket (barra estourada, "+-2" participantes…).
+    double fraction(String k) {
+      final v = (json[k]! as num).toDouble();
+      if (v.isNaN || v < 0 || v > 1) throw FormatException(k);
+      return v;
+    }
+
+    int atLeast(String k, int min) {
+      final v = (json[k]! as num).toInt();
+      if (v < min) throw FormatException(k);
+      return v;
+    }
+
+    final highlight = json['name_highlight']! as String;
+    if (highlight.trim().isEmpty) throw const FormatException('name');
+    final shown = [
+      for (final p in json['participants']! as List<Object?>)
+        _participant(p! as Map<String, Object?>),
+    ];
     final book = json['book']! as Map<String, Object?>;
     final meeting = parseInstant(json['next_meeting']! as String);
     final local = meeting.add(_utcOffsetAt(meeting));
     return BookClub(
       id: json['id']! as String,
       namePrefix: json['name_prefix']! as String,
-      nameHighlight: json['name_highlight']! as String,
+      nameHighlight: highlight,
       book: Book(
         id: book['id']! as String,
         title: book['title']! as String,
@@ -60,16 +79,13 @@ final class CachedClubTicketSource implements ClubTicketSource {
           isbn13: book['isbn13'] as String?,
         ),
       ),
-      untilChapter: (json['until_chapter']! as num).toInt(),
-      shownParticipants: List.unmodifiable([
-        for (final p in json['participants']! as List<Object?>)
-          _participant(p! as Map<String, Object?>),
-      ]),
-      participantsCount: (json['participants_count']! as num).toInt(),
-      groupProgress: (json['group_progress']! as num).toDouble(),
-      userProgress: (json['user_progress']! as num).toDouble(),
+      untilChapter: atLeast('until_chapter', 1),
+      shownParticipants: List.unmodifiable(shown),
+      participantsCount: atLeast('participants_count', shown.length),
+      groupProgress: fraction('group_progress'),
+      userProgress: fraction('user_progress'),
       userInitial: json['user_initial']! as String,
-      unreadMessages: (json['unread_messages']! as num).toInt(),
+      unreadMessages: atLeast('unread_messages', 0),
       nextMeeting: DateTime(
         local.year,
         local.month,

@@ -280,4 +280,17 @@ class HomeSnapshot {
 
   /// Nenhum livro na estante do dono ativo: escolhe a frase do convite (D-78/D-85).
   final bool shelfIsEmpty;
+
+  /// O mesmo instantâneo com outro cabeçalho (a conta — D-84); as seções continuam as mesmas instâncias.
+  HomeSnapshot withUser(UserSummary user) => HomeSnapshot(
+    now: now,
+    user: user,
+    continueReading: continueReading,
+    alsoReading: alsoReading,
+    readingDay: readingDay,
+    forYou: forYou,
+    club: club,
+    recent: recent,
+    shelfIsEmpty: shelfIsEmpty,
+  );
 }

@@ -94,6 +94,13 @@ void main() {
       {..._payload(), 'group_progress': 'muito'},
       {..._payload(), 'next_meeting': 'ontem'},
       {..._payload(), 'participants': 'A,J'},
+      // números fora da faixa (revisão da G08)
+      {..._payload(), 'group_progress': 1.5},
+      {..._payload(), 'user_progress': -0.1},
+      {..._payload(), 'participants_count': 1},
+      {..._payload(), 'unread_messages': -1},
+      {..._payload(), 'until_chapter': 0},
+      {..._payload(), 'name_highlight': ''},
       [1, 2, 3],
       '"texto"',
     ]) {

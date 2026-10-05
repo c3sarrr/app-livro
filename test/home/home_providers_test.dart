@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:ui' show Color;
 
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/features/account/application/account_controller.dart';
+import 'package:app_leitura/features/account/domain/account_summary.dart';
 import 'package:app_leitura/features/home/application/formatters.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
@@ -193,4 +196,102 @@ void main() {
       expect(seen, [0xFFFFC1C6]);
     });
   });
+
+  group('G08: estado da Início e usuário da conta (revisão)', () {
+    test('erro depois de dados: os dados continuam na tela e o erro vai para o relatório', () async {
+      final fonte = _Fluxo();
+      final relatados = <Object>[];
+      final container = ProviderContainer.test(
+        overrides: [
+          relogioDoMundo,
+          homeRepositoryProvider.overrideWithValue(fonte),
+          homeAccountUserProvider.overrideWithValue(null),
+          homeErrorReporterProvider.overrideWithValue(
+            (e, _) => relatados.add(e),
+          ),
+        ],
+      );
+      container.listen(homeStateProvider, (_, _) {});
+      expect(container.read(homeStateProvider).isLoading, isTrue);
+      final dados = const HomeMockRepository().snapshot(
+        HomeMockRepository.referenceNow,
+      );
+      fonte.c.add(dados);
+      await pumpEventQueue();
+      expect(container.read(homeSnapshotProvider).recent, same(dados.recent));
+      fonte.c.addError(StateError('banco'));
+      await pumpEventQueue();
+      final st = container.read(homeStateProvider);
+      expect(st.hasValue, isTrue);
+      expect(st.hasError, isFalse);
+      expect(relatados, [isA<StateError>()]);
+      expect(container.read(homeSnapshotProvider).recent, same(dados.recent));
+    });
+
+    test(
+      'fonte real: o cabeçalho vem da conta; fixture: do próprio instantâneo',
+      () async {
+        const ana = UserSummary(
+          firstName: 'Ana',
+          initial: 'A',
+          unreadNotifications: 0,
+        );
+        final fonte = _Fluxo();
+        final real = ProviderContainer.test(
+          overrides: [
+            relogioDoMundo,
+            homeRepositoryProvider.overrideWithValue(fonte),
+            homeAccountUserProvider.overrideWithValue(ana),
+          ],
+        );
+        real.listen(homeStateProvider, (_, _) {});
+        fonte.c.add(
+          const HomeMockRepository().snapshot(HomeMockRepository.referenceNow),
+        );
+        await pumpEventQueue();
+        expect(real.read(homeSnapshotProvider).user, same(ana));
+        // a fixture (fonte síncrona) mantém a Marina do arquivo
+        final fixture = ProviderContainer.test(overrides: overridesDoMundo);
+        expect(fixture.read(homeAccountUserProvider), isNull);
+        expect(fixture.read(homeSnapshotProvider).user.firstName, 'Marina');
+      },
+    );
+
+    test(
+      'perfil → cabeçalho: primeiro nome e inicial; sem perfil, convidado',
+      () {
+        AccountSummary resumo(String nome) => AccountSummary(
+          id: 'u',
+          handle: 'h',
+          displayName: nome,
+          isPrivate: false,
+          handleProvisional: false,
+          ageBand: null,
+          pro: false,
+        );
+        final u = homeUserOf(
+          MemberView(userId: 'u', summary: resumo('  ana   lima ')),
+        );
+        expect(
+          (u.firstName, u.initial, u.unreadNotifications),
+          ('ana', 'A', 0),
+        );
+        expect(
+          homeUserOf(MemberView(userId: 'u', summary: resumo('Élida'))).initial,
+          'É',
+        );
+        expect(homeUserOf(const MemberView(userId: 'u')).firstName, isNull);
+        expect(homeUserOf(const GuestView(canSignIn: true)).firstName, isNull);
+        expect(homeUserOf(const AccountLoading()).initial, isNull);
+      },
+    );
+  });
+}
+
+/// Fonte assíncrona controlada pelo teste (como a do banco).
+final class _Fluxo implements HomeRepository {
+  final c = StreamController<HomeSnapshot>();
+
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => c.stream;
 }
