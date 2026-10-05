@@ -88,9 +88,13 @@ void main() {
   group('uploadData', () {
     Future<void> semear(int livros) async {
       await t.modoPro(usuarioTeste);
-      for (var i = 1; i <= livros; i++) {
-        await UserBooksDao(t.db).upsert(livroTeste(i));
-      }
+      // uma transação só: 1.203 transações seguidas passaram de 30 s com a máquina ocupada (suíte inteira
+      // em paralelo com o pipeline do catálogo, G07) — o que se testa aqui é o envio em lotes, não a escrita
+      await t.db.transaction(() async {
+        for (var i = 1; i <= livros; i++) {
+          await UserBooksDao(t.db).upsert(livroTeste(i));
+        }
+      });
     }
 
     test('1.203 operações → lotes de 500, 500 e 203, no formato da RPC; a fila esvazia', () async {
