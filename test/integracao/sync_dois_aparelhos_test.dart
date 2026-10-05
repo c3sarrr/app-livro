@@ -3,8 +3,10 @@
 // (SyncEngine → BookNestConnector → sync_apply_changes / Sync Streams).
 //
 //   virar Pro sobe tudo → o 2º aparelho baixa igual · offline com edições cruzadas e apagar × editar →
-//   estados iguais · relógio 10 min adiantado (versão corrigida aceita; HLC cru recusado) · perder o
-//   Pro não apaga nada (nem no aparelho que recebe a remoção do bucket) · voltar sobe tudo de novo.
+//   estados iguais · relógio 10 min adiantado (versão corrigida aceita; HLC cru recusado e reemitido) · perder o
+//   Pro não apaga nada (nem no aparelho que recebe a remoção do bucket) · voltar sobe tudo de novo ·
+//   e-book na nuvem (G06.4): envio retomável pela URL assinada, download sob demanda no 2º aparelho,
+//   apagar o livro põe o arquivo na fila de exclusão do servidor.
 //
 // Roda só quando pedido (Supabase local + `bash tools/powersync/subir_local.sh` no WSL):
 //   $env:BOOKNEST_SUPABASE_URL = 'http://127.0.0.1:54321'
@@ -14,9 +16,13 @@
 library;
 
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/clock/server_clock.dart';
+import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
@@ -25,6 +31,7 @@ import 'package:app_leitura/core/data/database/local_sql.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/core/data/model/record_meta.dart';
+import 'package:app_leitura/core/sync/ebook_cloud.dart';
 import 'package:app_leitura/core/sync/sync_backend.dart';
 import 'package:app_leitura/core/sync/sync_engine.dart';
 import 'package:app_leitura/core/sync/sync_store.dart';
@@ -33,7 +40,10 @@ import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:crypto/crypto.dart';
+import 'package:drift/drift.dart' show Value;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:powersync/powersync.dart' show SyncOptions;
 import 'package:supabase_flutter/supabase_flutter.dart'
     show AuthClientOptions, OtpType, SupabaseClient;
@@ -71,19 +81,20 @@ final class Aparelho {
     final relogio = ServerClock(
       deviceNowMs: () => DateTime.now().millisecondsSinceEpoch + adiantadoMs,
     );
-    final motor = SyncEngine(
-      connection: PowerSyncConnection(t.ps, options: opcoes),
-      store: SyncStore(t.db),
-      backend: SupabaseSyncBackend(client),
-      endpoint: powersyncUrlLocal,
-      clock: relogio,
-    );
-    await KvDao(t.db).set(activeOwnerKey, client.auth.currentUser!.id);
     final v = await LocalVersioning.open(
       t.db,
       deviceId: nome,
       nowMs: relogio.nowMs,
     );
+    // como no app (sync_providers): o lado do banco gera versões com o relógio corrigido
+    final motor = SyncEngine(
+      connection: PowerSyncConnection(t.ps, options: opcoes),
+      store: SyncStore(t.db, versioning: v),
+      backend: SupabaseSyncBackend(client),
+      endpoint: powersyncUrlLocal,
+      clock: relogio,
+    );
+    await KvDao(t.db).set(activeOwnerKey, client.auth.currentUser!.id);
     return Aparelho._(nome, client, t, motor, relogio, v);
   }
 
@@ -149,6 +160,38 @@ final class Aparelho {
     await t.fechar();
   }
 }
+
+/// Cliente HTTP que derruba a conexão no N-ésimo pedaço do envio (o resto passa para a rede).
+final class Cortador extends http.BaseClient {
+  Cortador(this.cortarNoPatch);
+  final int cortarNoPatch;
+  final http.Client _rede = http.Client();
+  int patches = 0;
+
+  @override
+  Future<http.StreamedResponse> send(http.BaseRequest request) {
+    if (request.method == 'PATCH' && ++patches == cortarNoPatch) {
+      throw http.ClientException('conexão caiu (teste)', request.url);
+    }
+    return _rede.send(request);
+  }
+}
+
+EbookCloud nuvemDe(Aparelho x, {http.Client? rede}) => EbookCloud(
+  db: x.t.db,
+  api: SupabaseEbookCloudApi(
+    x.client,
+    projectUrl: Uri.parse(supabaseUrlLocal!),
+  ),
+  uploader: ResumableUploader(
+    endpoint: Uri.parse('$supabaseUrlLocal/storage/v1/upload/resumable/sign'),
+    apiKey: supabaseChaveLocal!,
+    client: rede,
+  ),
+  versioning: x.v,
+  bookFilePath: (id, f) async =>
+      '${x.t.dir.path}${Platform.pathSeparator}baixado_$id.$f',
+);
 
 Future<void> esperar(
   String oque,
@@ -286,6 +329,13 @@ update billing.sync_access set granted = false, updated_at = now() where user_id
             jsonEncode(await b.estado()) == jsonEncode(await a.estado()),
       );
       expect((await b.estado())['user_books'], hasLength(4));
+      expect(
+        await b.t.fila(),
+        0,
+        reason:
+            'B está no Pro (gatilhos ligados): o que veio do servidor não volta para a fila '
+            '(guarda powersync_in_sync_operation)',
+      );
       await esperar(
         'B mostra "sincronizado"',
         () async => b.motor.state.phase == SyncPhase.synced,
@@ -445,6 +495,20 @@ update billing.sync_access set granted = false, updated_at = now() where user_id
       );
       expect((await c.livro(idTeste(3))).title, 'versão no futuro');
       expect((await a.livro(idTeste(3))).title, 'B mexeu depois');
+
+      // revisão da G06: com a hora do servidor medida nesta sessão, a próxima consulta do Pro reemite
+      // a versão com a hora certa e a edição sobe (sem esperar 10 min)
+      await c.motor.connector!.fetchCredentials();
+      await esperar(
+        'A recebe a edição reemitida',
+        () async => (await a.livro(idTeste(3))).title == 'versão no futuro',
+      );
+      expect(await c.t.conta('SELECT count(*) FROM sync_rejections'), 0);
+      expect(
+        (await c.livro(idTeste(3))).meta.version.ms <
+            DateTime.now().millisecondsSinceEpoch + LocalVersioning.maxFutureMs,
+        isTrue,
+      );
     },
     skip: pular,
     timeout: tempo,
@@ -488,6 +552,89 @@ update billing.sync_access set granted = false, updated_at = now() where user_id
                   "select title from personal.user_books where id = '${idTeste(1)}'",
                 ) ==
                 'Escrito sem Pro',
+      );
+    },
+    skip: pular,
+    timeout: tempo,
+  );
+
+  test(
+    'e-book na nuvem: A sobe pela URL assinada e RETOMA depois de um corte; B baixa sob demanda igual; apagar tira da nuvem',
+    () async {
+      final rnd = Random(3);
+      final bytes = Uint8List(7 * 1024 * 1024); // 2 pedaços do envio retomável
+      for (var i = 0; i < bytes.length; i += 4096) {
+        bytes[i] = rnd.nextInt(256);
+      }
+      final sha = sha256.convert(bytes).toString();
+      final base = livroTeste(5, dono: uid).copyWith(
+        contentSha256: Nullable(sha),
+        fileBytes: Nullable(bytes.length),
+      );
+      await UserBooksDao(a.t.db).upsert(
+        base.copyWith(meta: await a.editado(base.meta, 'user_books', base.id)),
+      );
+      final arquivo = File(
+        '${a.t.dir.path}${Platform.pathSeparator}livro5.epub',
+      );
+      await arquivo.writeAsBytes(bytes);
+      await a.t.db
+          .into(a.t.db.localFiles)
+          .insert(
+            LocalFilesCompanion.insert(
+              userBookId: base.id,
+              path: arquivo.path,
+              bytes: bytes.length,
+              sha256: sha,
+              uploadState: const Value('pending'),
+              updatedAt: DateTime.now().toUtc(),
+            ),
+          );
+      await esperar(
+        'o livro chega ao servidor (a cota confere o livro)',
+        () async =>
+            await sqlLocal(
+              "select count(*) from personal.user_books where id = '${base.id}'",
+            ) ==
+            '1',
+      );
+
+      final cortador = Cortador(2);
+      await expectLater(
+        nuvemDe(a, rede: cortador).upload(base.id),
+        throwsA(isA<EbookTransient>()),
+      );
+      final caminho = await nuvemDe(a).upload(base.id);
+      expect(caminho, '$uid/${base.id}/$sha.epub');
+      expect(
+        await sqlLocal(
+          "select (metadata ->> 'size') from storage.objects where bucket_id = 'ebooks' and name = '$caminho'",
+        ),
+        '${bytes.length}',
+      );
+
+      await esperar(
+        'B recebe o livro com o arquivo na nuvem',
+        () async =>
+            (await UserBooksDao(b.t.db).byId(base.id))?.storageObjectPath ==
+            caminho,
+      );
+      final local = await nuvemDe(b).download(base.id);
+      expect(sha256.convert(await File(local).readAsBytes()).toString(), sha);
+
+      final lb = (await UserBooksDao(b.t.db).byId(base.id))!;
+      await UserBooksDao(b.t.db).upsert(
+        lb.copyWith(
+          meta: await b.editado(lb.meta, 'user_books', lb.id, apagar: true),
+        ),
+      );
+      await esperar(
+        'o arquivo entra na fila de exclusão do servidor',
+        () async =>
+            await sqlLocal(
+              "select count(*) from private.ebook_object_deletions where path = '$caminho'",
+            ) ==
+            '1',
       );
     },
     skip: pular,

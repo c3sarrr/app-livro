@@ -116,20 +116,31 @@ resolução de lacunas de HLC entre aparelhos; estimativa +1 fase (M) na trilha 
   `sincronizacao_em_lote`): lotes de 500 operações com 100 mil usuários no Postgres 17 local —
   p50 47–48 ms, p95 63–154 ms em 3 rodadas (antes: p50 238 ms / p95 459 ms); ver
   `docs/progresso/RELATORIO_G04.md`.
-- G06: as partições de `reading_sessions` agora nascem com RLS e privilégios explícitos
-  (`private.secure_session_partition`, revisão da G04) — partição não herda GRANT. Se o PowerSync
-  usar um papel próprio, ele entra nessa função com SELECT (senão o snapshot das partições novas falha).
-- G06 (e-books na nuvem): download por URL curta emitida por Edge Function e exclusão pelo
-  servidor; depois disso, tirar a política SELECT do bucket `ebooks` (hoje o dono pode gerar link
-  assinado de validade longa — achado #5 da revisão da G04, a parte da cota já foi corrigida).
-- G06: o conector Dart real (com `fetchCredentials` = sessão do Supabase), teste de integração Dart ↔ serviço
-  e os mesmos 4 critérios no aparelho; checagem periódica do Pro com o RevenueCat.
+- G06 (feito): papel próprio `powersync_role` (migration `powersync_papel`) — entra em
+  `private.secure_session_partition` com SELECT; teste `16_powersync_papel`.
+- G06 (feito): download por URL de 5 min (`ebook-download-url`), exclusão pelo servidor (fila
+  `private.ebook_object_deletions` + `purge-storage`) e o bucket `ebooks` sem as políticas SELECT e
+  DELETE (migration `g06_ebooks_download`). Upload retomável com o token da URL assinada **provado**
+  (TUS em `/upload/resumable/sign`).
+- G06 (feito): o conector Dart real (`lib/core/sync/`) e o teste de integração com 2 aparelhos contra o
+  serviço local (critérios 1–4 + relógio). O Pro é conferido no servidor (`my_entitlement`) a cada
+  credencial do PowerSync e no fim previsto (`active_until`); o SDK do RevenueCat entra com a compra (G22).
 - G03 (feito): a regra receive-antes-de-send virou a porta única `LocalVersioning.write` (ler, versionar e
   gravar numa transação) + gatilho `<tabela>_version_guard` que recusa versão local menor que a gravada; um
   HLC salvo > 5 min à frente do relógio é ignorado na abertura (relógio adiantado e depois acertado).
-- G06: relógio do aparelho > 5 min adiantado → a RPC recusa (`invalid_hlc`, não repetível) toda escrita do
-  período. Falta (a) medir a defasagem pela hora do servidor (resposta da RPC/checkpoint) e avisar/limitar
-  o HLC, e (b) reenfileirar com versão nova as linhas recusadas por `invalid_hlc` depois que o relógio
-  voltar (hoje elas vão para `sync_rejections`).
-- G06: checar no upload os únicos parciais do servidor também para linhas que chegaram de outro aparelho
-  (o DAO já recusa duplicata local de arquivo na estante e de cor nos rótulos — `DuplicateActiveRow`).
+- G06 (feito): (a) `my_entitlement()` devolve `server_time_ms`; o app mede a defasagem a cada credencial,
+  corrige os HLC novos (`ServerClock`) e avisa a pessoa (≥ 5 min); (b) a linha recusada por `invalid_hlc`
+  volta à fila com o estado atual quando a versão dela deixa de estar no futuro para o servidor.
+- G06 (revisão independente): (a) a hora corrigida usa uma âncora **monotônica** (hora do servidor na
+  medida + tempo decorrido) — acertar o relógio do aparelho depois da medida não a desloca; sem medida na
+  sessão (offline), só vale a correção para trás guardada; (b) com uma medida nesta sessão, a linha
+  recusada por `invalid_hlc` é **reemitida** com a hora certa — a versão desce **uma vez**, porque nunca
+  chegou ao servidor nem a outro aparelho (a guarda de versão libera só a linha marcada em
+  `kv['versao.reemitir']`, dentro da transação); (c) versão lida > 5 min à frente do relógio não puxa o
+  relógio do aparelho — só a versão daquela linha fica acima dela; (d) a RPC pública recusa linha cujo
+  `user_id` não é o da sessão (`owner_mismatch`) em vez de gravá-la na conta de quem chamou; (e) o
+  `storage_object_path` não é rebaixado pela sincronização (só muda para um arquivo que existe na pasta da
+  conta e do livro).
+- G06 (feito): livro/rótulo recusado com 23505 (o servidor já tem outro ativo com o mesmo arquivo/cor,
+  vindo de outro aparelho) vira um só quando o outro chega (`local_merge.dart`); se o outro sumiu, volta à
+  fila depois de uma sincronização completa; as linhas recusadas por 23503 voltam à fila.

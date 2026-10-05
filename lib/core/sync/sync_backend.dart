@@ -173,6 +173,9 @@ final class SupabaseSyncBackend implements SyncBackend {
   /// Renova o token quando faltar menos que isto.
   static const Duration refreshMargin = Duration(minutes: 1);
 
+  /// Uma chamada pendurada (rede ruim) não segura a fila nem a troca de conta: vira falha passageira.
+  static const Duration callTimeout = Duration(seconds: 30);
+
   @override
   String? get userId => _client.auth.currentUser?.id;
 
@@ -204,7 +207,9 @@ final class SupabaseSyncBackend implements SyncBackend {
   @override
   Future<Entitlement> entitlement() async {
     try {
-      final r = await _client.rpc<Object?>('my_entitlement');
+      final r = await _client
+          .rpc<Object?>('my_entitlement')
+          .timeout(callTimeout);
       return Entitlement.fromJson((r! as Map).cast<String, Object?>());
     } catch (e) {
       throw syncFailureOf(e);
@@ -214,10 +219,9 @@ final class SupabaseSyncBackend implements SyncBackend {
   @override
   Future<ApplyResult> applyChanges(List<Map<String, Object?>> changes) async {
     try {
-      final r = await _client.rpc<Object?>(
-        'sync_apply_changes',
-        params: {'p_changes': changes},
-      );
+      final r = await _client
+          .rpc<Object?>('sync_apply_changes', params: {'p_changes': changes})
+          .timeout(callTimeout);
       return ApplyResult.fromJson((r! as Map).cast<String, Object?>());
     } catch (e) {
       throw syncFailureOf(e);

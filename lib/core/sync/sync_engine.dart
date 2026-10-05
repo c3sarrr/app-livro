@@ -254,10 +254,15 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
 
   // ------------------------------------------------------------------ SyncPort
 
+  /// A sessão do servidor ainda é a do [owner] (a conta pode ter trocado enquanto esperava a fila).
+  bool _sessionIs(String owner) => _backend.userId == owner;
+
   @override
   Future<void> resume(String owner) => _serial(() async {
     _emit(_state.copyWith(deviceAheadMs: _clock.deviceAheadMs));
-    if (await _store.isPro() && await _store.activeOwner() == owner) {
+    if (_sessionIs(owner) &&
+        await _store.isPro() &&
+        await _store.activeOwner() == owner) {
       await _connect(owner);
     }
   });
@@ -265,6 +270,7 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
   @override
   Future<void> onAccountConfirmed(String owner, {required bool pro}) =>
       _serial(() async {
+        if (!_sessionIs(owner)) return; // outra conta entrou no meio
         final wasPro = await _store.isPro();
         if (pro) {
           if (!wasPro) {
@@ -307,7 +313,7 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
         serverTimeMs: server,
       );
       if (off != null) {
-        _clock.offsetMs = off;
+        _clock.record(off);
         unawaited(_store.saveClockOffset(off));
         _emit(_state.copyWith(deviceAheadMs: _clock.deviceAheadMs));
       }
@@ -326,13 +332,22 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
     final owner = _owner;
     if (e.pro && owner != null && server != null) {
       unawaited(
-        _serial(
-          () =>
-              _store.requeueClockRejections(owner: owner, serverNowMs: server),
-        ),
+        _serial(() async {
+          if (!await _stillPro(owner)) return;
+          await _store.requeueClockRejections(
+            owner: owner,
+            serverNowMs: _clock.measured ? _clock.nowMs() : server,
+            reissue: _clock.measured,
+          );
+          await _refreshPending();
+        }),
       );
     }
   }
+
+  /// Tarefa atrasada na fila: só vale se a mesma conta ainda está no Pro.
+  Future<bool> _stillPro(String owner) async =>
+      _owner == owner && _connector != null && await _store.isPro();
 
   @override
   void proLost() {
@@ -345,7 +360,8 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
     final owner = _owner;
     unawaited(
       _serial(() async {
-        if (owner != null && result.rejected.any((r) => r.code == '23505')) {
+        if (owner == null || !await _stillPro(owner)) return;
+        if (result.rejected.any((r) => r.code == '23505')) {
           await _store.resolveUniqueConflicts(owner: owner);
         }
         await _refreshPending();
@@ -356,11 +372,16 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
   // ------------------------------------------------------------------ interno
 
   Future<void> _connect(String owner) async {
-    if (_connector != null) await _connection.disconnect();
+    final antigo = _connector;
+    if (antigo != null) {
+      antigo.stop();
+      await _connection.disconnect();
+    }
     _owner = owner;
-    _clock.offsetMs = await _store.clockOffset();
+    if (!_clock.measured) _clock.offsetMs = await _store.clockOffset();
     final c = _connector = BookNestConnector(
       endpoint: _endpoint,
+      owner: owner,
       backend: _backend,
       store: _store,
       listener: this,
@@ -384,11 +405,13 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
   Future<void> _goFree({required bool proLost, bool resetFlag = false}) async {
     _expiry?.cancel();
     _expiry = null;
-    _connector?.backoff.wakeUp();
+    // primeiro o modo: escrita nesta janela já não entra na fila; e um corte no meio deixa o
+    // aparelho no Grátis (voltar ao Pro reenfileira tudo), nunca no Pro com a fila vazia
+    await _store.setFree();
+    _connector?.stop();
     await _statusSub?.cancel();
     _statusSub = null;
     await _connection.disconnectAndClear();
-    await _store.setFree();
     _connector = null;
     _owner = null;
     _emit(
@@ -431,7 +454,7 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
       // chegou uma sincronização completa: junta o que o servidor recusou por já ter igual
       unawaited(
         _serial(() async {
-          if (_owner != owner) return;
+          if (!await _stillPro(owner)) return;
           await _store.resolveUniqueConflicts(owner: owner, syncedAt: synced);
           await _refreshPending();
         }),
@@ -448,7 +471,7 @@ final class SyncEngine implements SyncPort, SyncConnectorListener {
   /// App fechando: desconecta sem limpar (a fila continua para a próxima abertura).
   Future<void> dispose() async {
     _expiry?.cancel();
-    _connector?.backoff.wakeUp();
+    _connector?.stop();
     await _statusSub?.cancel();
     if (_connector != null) await _connection.disconnect();
     _disposed = true;

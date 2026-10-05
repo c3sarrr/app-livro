@@ -1,5 +1,6 @@
 // G05: convidado por padrão (D-64), idade antes do login (D-66), login (D-67), dados por conta (D-68),
 // @ (onboarding), sair, excluir e exportar (D-65) — o AccountController com dublês e o banco em memória.
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
@@ -497,6 +498,38 @@ void main() {
         expect(h.sync.calls.first, startsWith('parar:'));
       },
     );
+
+    test('sair: a fila para ANTES de a sessão sair (o envio em andamento não fica sem sessão)', () async {
+      montar(AccountHarness());
+      await entrar();
+      h.gateway!.calls.clear();
+      h.sync.eco = h.gateway!.calls;
+      await ctl().signOut(eraseLocal: false);
+      expect(h.gateway!.calls.take(2), ['parar', 'sair']);
+    });
+
+    test('a sessão troca enquanto o servidor responde: nada segue para a conta anterior', () async {
+      final harness = AccountHarness(
+        inicial: const SignedIn(userId: contaTeste, email: emailTeste),
+      );
+      final g = await harness.library.guestOwnerId();
+      await UserBooksDao(harness.db).upsert(livroTeste(1, dono: g));
+      final segurar = harness.api!.segurarResumo = Completer<void>();
+      montar(harness);
+      await pumpEventQueue();
+      expect(h.api!.calls, ['resumo'], reason: 'esperando o servidor');
+      h.gateway!.emit(const SignedIn(userId: 'outra', email: 'o@x.com'));
+      segurar.complete();
+      await assentar();
+      expect(
+        h.sync.calls.where((c) => c.startsWith('confirmada:$contaTeste')),
+        isEmpty,
+      );
+      expect(await h.library.countRows(contaTeste), 0);
+      expect(await h.library.countRows('outra'), 1);
+      expect(await h.library.activeOwnerId(), 'outra');
+      expect(h.sync.calls.last, 'confirmada:outra:gratis:1');
+    });
 
     test(
       'falha inesperada na sincronização não derruba a conta (é reportada)',

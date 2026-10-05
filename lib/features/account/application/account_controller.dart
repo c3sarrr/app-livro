@@ -234,6 +234,9 @@ class AccountController extends Notifier<AccountView> {
         _pendingAge = null;
         summary = await _api.summary();
       }
+      // a sessão pode ter trocado enquanto o servidor respondia: nada da conta antiga segue adiante
+      // (nem os dados do convidado nem a sincronização — revisão da G06)
+      if (!_sessionIs(userId)) return;
       final lib = await _library;
       if (await lib.activeOwnerId() != userId) await _stopSync();
       await lib.adopt(from: await lib.guestOwnerId(), to: userId);
@@ -256,6 +259,21 @@ class AccountController extends Notifier<AccountView> {
     }
   }
 
+  bool _sessionIs(String userId) {
+    final c = ref.read(authGatewayProvider)?.current;
+    return c is SignedIn && c.userId == userId;
+  }
+
+  /// [_refresh] na mesma fila das mudanças de sessão: nunca em paralelo com uma troca de conta.
+  Future<void> _refreshInQueue(String userId) {
+    final life = _life;
+    final feito = _queue.then((_) async {
+      if (life.alive) await _refresh(userId);
+    });
+    _queue = feito.then<void>((_) {}, onError: (Object _) {});
+    return feito;
+  }
+
   Future<void> _endSession() async {
     try {
       await _gateway.signOut();
@@ -268,7 +286,7 @@ class AccountController extends Notifier<AccountView> {
   /// Tenta de novo o resumo (ex.: voltou a internet).
   Future<void> refresh() async {
     final s = state;
-    if (s is MemberView) await _refresh(s.userId);
+    if (s is MemberView) await _refreshInQueue(s.userId);
     await settled();
   }
 
@@ -310,7 +328,7 @@ class AccountController extends Notifier<AccountView> {
     _pendingAge = check;
     final s = state;
     if (s is MemberView) {
-      await _refresh(s.userId); // conta sem faixa registrada
+      await _refreshInQueue(s.userId); // conta sem faixa registrada
       await settled();
     }
     return AgeAllowed(check);
@@ -360,7 +378,7 @@ class AccountController extends Notifier<AccountView> {
     final handle = normalizeHandle(raw);
     if (handle == null) throw const HandleInvalid();
     await _api.setHandle(handle);
-    await _refresh(s.userId);
+    await _refreshInQueue(s.userId);
     await settled();
   }
 
@@ -371,13 +389,14 @@ class AccountController extends Notifier<AccountView> {
   Future<void> signOut({required bool eraseLocal}) async {
     final s = state;
     if (s is! MemberView) return;
+    // a fila para ANTES de a sessão sair (um envio em andamento não fica esperando sem sessão)
+    await _stopSync();
     try {
       await _gateway.signOut();
     } on AccountFailure {
       // sem rede ou erro do servidor: a sessão local já foi removida (o Supabase remove antes de avisar
       // o servidor) e o token vence sozinho
     }
-    await _stopSync();
     final lib = await _library;
     await lib.clearSocialCache();
     if (eraseLocal) await lib.erase(s.userId);

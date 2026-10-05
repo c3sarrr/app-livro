@@ -40,6 +40,7 @@ final class LocalVersioning {
         last: ultimo != null && ultimo.ms <= agora + maxFutureMs
             ? ultimo
             : null,
+        maxDriftMs: maxFutureMs,
       ),
     );
   }
@@ -56,7 +57,8 @@ final class LocalVersioning {
         )
         .getSingleOrNull();
     final version = clock.sendAfterReading([row?.read<String>('version_hlc')]);
-    await KvDao(_db).set(lastHlcKey, version.toString());
+    // guarda o relógio do aparelho (não a versão de uma linha que ficou no futuro)
+    await KvDao(_db).set(lastHlcKey, (clock.last ?? version).toString());
     return version;
   }
 

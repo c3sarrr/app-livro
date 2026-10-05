@@ -10,6 +10,7 @@ import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/daos/kv_dao.dart';
 import '../../../core/data/database/local_sql.dart';
 import '../../../core/data/ids/uuid_v7.dart';
+import '../../../core/sync/ebook_cloud.dart' show EbookCloud;
 import '../../../core/sync/local_merge.dart';
 
 /// Chaves no `kv` (só local).
@@ -258,6 +259,26 @@ final class LocalLibrary {
     await _db.customStatement(
       'DELETE FROM annotations_fts WHERE annotation_id IN '
       '(SELECT id FROM annotations WHERE user_id = ?)',
+      [owner],
+    );
+    // o que a sincronização guardou dessas linhas: recusas (com a operação inteira — título, nota,
+    // traços), remoções ignoradas e envios de e-book pela metade (com o token) — revisão da G06
+    for (final t in _tables) {
+      for (final log in const ['sync_rejections', 'sync_ignored_deletes']) {
+        await _db.customStatement(
+          'DELETE FROM $log WHERE entity = ? AND row_id IN '
+          '(SELECT id FROM $t WHERE user_id = ?)',
+          [t, owner],
+        );
+      }
+    }
+    await _db.customStatement(
+      "DELETE FROM sync_rejections WHERE json_extract(operation, '\$.data.user_id') = ?",
+      [owner],
+    );
+    await _db.customStatement(
+      "DELETE FROM kv WHERE key IN (SELECT '${EbookCloud.resumePrefix}' || id "
+      'FROM user_books WHERE user_id = ?)',
       [owner],
     );
     for (final t in _tables) {

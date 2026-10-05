@@ -1,11 +1,14 @@
 // D-68: cada conta (e o convidado) tem as suas linhas no aparelho. Entrar traz o que foi feito como
 // convidado; sair esconde ou apaga; exportar leva tudo do dono (D-65).
+import 'dart:convert';
+
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/database/local_sql.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
+import 'package:app_leitura/core/sync/ebook_cloud.dart' show EbookCloud;
 import 'package:app_leitura/features/account/data/local_library.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
@@ -338,6 +341,73 @@ void main() {
       expect(arquivosApagados, ['/livros/${idTeste(1)}.epub']);
       expect(await lib.countRows(g), 5);
       expect(await fts(g), 1);
+    });
+
+    test('G06 — o que a sincronização guardou das linhas do dono sai junto (recusas, remoções ignoradas, envio de e-book pela metade)', () async {
+      final g = await lib.guestOwnerId();
+      await semearLivro(1, conta);
+      await semearLivro(2, g, titulo: 'Memórias Póstumas');
+      Future<void> recusa(String id, String linha, String dono) =>
+          db.customStatement(
+            'INSERT INTO sync_rejections (id, entity, row_id, reason, code, operation, rejected_at) '
+            'VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [
+              id,
+              'user_books',
+              linha,
+              'duplicate key value',
+              '23505',
+              jsonEncode({
+                'table': 'user_books',
+                'id': linha,
+                'data': {'user_id': dono, 'title': 'título guardado'},
+              }),
+              '2026-10-04T12:00:00.000Z',
+            ],
+          );
+      await recusa('r1', idTeste(1), conta);
+      await recusa('r2', idTeste(2), g);
+      await recusa('r3', idTeste(99), conta); // linha que já saiu do aparelho
+      for (final id in [idTeste(1), idTeste(2)]) {
+        await db.customStatement(
+          'INSERT INTO sync_ignored_deletes (entity, row_id, received_at) VALUES (?, ?, ?)',
+          ['user_books', id, '2026-10-04T12:00:00.000Z'],
+        );
+        await db.customStatement('INSERT INTO kv (key, value) VALUES (?, ?)', [
+          EbookCloud.resumeKey(id),
+          '{"url":"https://exemplo.invalid/envio"}',
+        ]);
+      }
+
+      await lib.erase(conta);
+      expect(
+        await linhas(
+          'SELECT count(*) AS n FROM sync_rejections WHERE id <> ?',
+          ['r2'],
+        ),
+        0,
+      );
+      expect(await linhas('SELECT count(*) AS n FROM sync_rejections'), 1);
+      expect(
+        await linhas(
+          'SELECT count(*) AS n FROM sync_ignored_deletes WHERE row_id = ?',
+          [idTeste(1)],
+        ),
+        0,
+      );
+      expect(await linhas('SELECT count(*) AS n FROM sync_ignored_deletes'), 1);
+      expect(
+        await linhas('SELECT count(*) AS n FROM kv WHERE key = ?', [
+          EbookCloud.resumeKey(idTeste(1)),
+        ]),
+        0,
+      );
+      expect(
+        await linhas('SELECT count(*) AS n FROM kv WHERE key = ?', [
+          EbookCloud.resumeKey(idTeste(2)),
+        ]),
+        1,
+      );
     });
   });
 

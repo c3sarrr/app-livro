@@ -7,6 +7,7 @@ import 'package:app_leitura/core/data/clock/server_clock.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/local_sql.dart';
+import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/sync/booknest_connector.dart';
 import 'package:app_leitura/core/sync/sync_backend.dart';
 import 'package:app_leitura/core/sync/sync_engine.dart';
@@ -26,6 +27,9 @@ final class FakeConnection implements SyncConnection {
 
   final PowerSyncDatabase _ps;
   final List<String> chamadas = [];
+
+  /// O modo gravado no aparelho na hora de limpar a fila (o Grátis tem de vir ANTES).
+  final List<String?> modoAoLimpar = [];
   final status = StreamController<LinkStatus>.broadcast(sync: true);
   PowerSyncBackendConnector? conector;
 
@@ -38,6 +42,12 @@ final class FakeConnection implements SyncConnection {
   @override
   Future<void> disconnectAndClear() async {
     chamadas.add('desconectar_e_limpar');
+    modoAoLimpar.add(
+      (await _ps.getOptional('SELECT value FROM kv WHERE key = ?', [
+            syncModeKey,
+          ]))?['value']
+          as String?,
+    );
     conector = null;
     await _ps.disconnectAndClear(clearLocal: false);
   }
@@ -137,6 +147,18 @@ void main() {
     await motor.onAccountConfirmed(usuarioTeste, pro: true);
     expect(conexao.chamadas, ['conectar'], reason: 'já conectado: nada muda');
   });
+
+  test(
+    'conta Grátis confirmada: não conecta e escrever não enche a fila',
+    () async {
+      await motor.onAccountConfirmed(usuarioTeste, pro: false);
+      await livros(2);
+      expect(conexao.chamadas, isEmpty);
+      expect(await modoPro(), isFalse);
+      expect(await t.fila(), 0);
+      expect(motor.state.pro, isFalse);
+    },
+  );
 
   test('o servidor diz que não é mais Pro: desconecta, volta ao Grátis e NADA local é apagado', () async {
     await livros(3);
@@ -279,6 +301,113 @@ void main() {
       await conector().fetchCredentials();
       await motor.settled();
       expect(await t.fila(), 1);
+    });
+  });
+
+  group('revisão da G06', () {
+    test('perder o Pro: o modo Grátis é gravado ANTES de limpar a fila (um corte no meio nunca deixa Pro com a fila vazia)', () async {
+      await livros(1);
+      await motor.onAccountConfirmed(usuarioTeste, pro: true);
+      await motor.onAccountConfirmed(usuarioTeste, pro: false);
+      expect(conexao.modoAoLimpar, [syncModeFree]);
+      await motor.onAccountConfirmed(usuarioTeste, pro: true);
+      await motor.beforeOwnerChange();
+      expect(conexao.modoAoLimpar, [syncModeFree, syncModeFree]);
+    });
+
+    test('a confirmação chega depois que outra conta entrou: não liga o Pro da anterior', () async {
+      await livros(2);
+      servidor.userId = 'outra-conta';
+      await motor.onAccountConfirmed(usuarioTeste, pro: true);
+      await motor.resume(usuarioTeste);
+      expect(conexao.chamadas, isEmpty);
+      expect(await modoPro(), isFalse);
+      expect(await t.fila(), 0);
+    });
+
+    test('perdeu o Pro antes de a tarefa atrasada do lote rodar: ela não mexe em nada', () async {
+      await livros(2);
+      await t.ps.execute(
+        'UPDATE user_books SET content_sha256 = ? WHERE id = ?',
+        [shaDoLivroTeste(1), idTeste(2)],
+      );
+      await motor.onAccountConfirmed(usuarioTeste, pro: true);
+      const dup = SyncRejection(
+        table: 'user_books',
+        id: '0199a7c4-2f00-7a10-8b20-000000000002',
+        error: 'duplicate key value',
+        code: '23505',
+      );
+      await SyncStore(t.db).recordRejections(
+        [dup],
+        [
+          {'op': 'PUT', 'table': dup.table, 'id': dup.id, 'hlc': 'v'},
+        ],
+      );
+      // a perda do Pro entra na fila antes da tarefa do lote
+      final perder = motor.onAccountConfirmed(usuarioTeste, pro: false);
+      motor.batchUploaded(
+        const ApplyResult(applied: 0, skipped: 0, rejected: [dup]),
+      );
+      await perder;
+      await motor.settled();
+      expect(await modoPro(), isFalse);
+      expect(
+        await t.conta('SELECT count(*) FROM user_books'),
+        2,
+        reason: 'nenhuma junção fora do Pro',
+      );
+    });
+
+    test('hora do servidor medida: versão no futuro recusada é reemitida na hora (não espera)', () async {
+      final t2 = await DbTeste.abrir();
+      addTearDown(t2.fechar);
+      final c2 = FakeConnection(t2.ps);
+      // aparelho 10 min adiantado
+      final rel = ServerClock(deviceNowMs: () => aparelho);
+      final m2 = SyncEngine(
+        connection: c2,
+        store: SyncStore(
+          t2.db,
+          versioning: await LocalVersioning.open(
+            t2.db,
+            deviceId: 'aparelhoA',
+            nowMs: rel.nowMs,
+          ),
+        ),
+        backend: servidor,
+        endpoint: 'http://powersync.teste',
+        clock: rel,
+        backoffFor: (_) => Duration.zero,
+        timer: (d, f) => TimerTeste(d, f),
+      );
+      addTearDown(m2.dispose);
+      await KvDao(t2.db).set(activeOwnerKey, usuarioTeste);
+      await UserBooksDao(t2.db).upsert(
+        livroTeste(1).copyWith(
+          meta: metaTeste(
+            em: DateTime.fromMillisecondsSinceEpoch(aparelho, isUtc: true),
+          ),
+        ),
+      );
+      await m2.onAccountConfirmed(usuarioTeste, pro: true);
+      final con = c2.conector! as BookNestConnector;
+      servidor.recusar[idTeste(1)] = ('invalid_hlc', '22023');
+      await con.uploadData(t2.ps);
+      servidor.recusar.clear();
+      await m2.settled();
+      expect(await t2.fila(), 0);
+
+      servidor.entitlementAtual = const Entitlement(
+        pro: true,
+        activeUntil: null,
+        serverTimeMs: aparelho - 10 * minuto,
+      );
+      await con.fetchCredentials();
+      await m2.settled();
+      expect(await t2.fila(), 1);
+      final v = (await UserBooksDao(t2.db).byId(idTeste(1)))!.meta.version;
+      expect((v.ms - (aparelho - 10 * minuto)).abs() < 2000, isTrue);
     });
   });
 

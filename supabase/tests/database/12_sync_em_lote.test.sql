@@ -24,7 +24,7 @@ create function pg_temp.anotacoes(n int, base bigint, cor text default '#FED170'
              'group_id', gen_random_uuid(), 'anchor', '{"v":1,"spine":3}', 'ref_page', i, 'chapter_index', 0,
              'color', case when i = 7 then cor else '#FED170' end, 'style', 'fill', 'fill_height', 'medium',
              'created_at', '2026-10-01T00:00:00Z', 'updated_at', '2026-10-01T00:00:00Z', 'deleted_at', null,
-             'user_id', '00000000-0000-7000-8000-00000000000c')) order by i)
+             'user_id', '00000000-0000-7000-8000-00000000000a')) order by i)
     from generate_series(1, n) i
 $$;
 
@@ -34,7 +34,7 @@ select pg_temp.como('00000000-0000-7000-8000-00000000000a');
 select is(public.sync_apply_changes(pg_temp.anotacoes(300, 1790000001000)), '{"applied": 300, "skipped": 0, "rejected": []}'::jsonb,
   '300 PUTs da mesma tabela gravados em lote');
 select is((select count(*)::int from personal.annotations where user_id = '00000000-0000-7000-8000-00000000000a'), 300,
-  'dono imposto pelo servidor no lote (user_id falsificado ignorado)');
+  'gravadas na conta da sessão (user_id de outra conta é recusado — 19_revisao_g06)');
 select is((select count(*)::int from personal.annotations where jsonb_typeof(anchor) = 'object'), 300,
   'âncora em texto vira objeto também no lote');
 select is((public.sync_apply_changes(pg_temp.anotacoes(300, 1790000000500)) ->> 'skipped')::int, 300,

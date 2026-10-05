@@ -87,6 +87,7 @@ final class HlcClock {
     int Function()? nowMs,
     Hlc? last,
     this.onAdvance,
+    this.maxDriftMs,
   }) : _nowMs = nowMs ?? _systemMs,
        _last = last,
        _ms = last?.ms ?? 0,
@@ -104,6 +105,11 @@ final class HlcClock {
 
   final String deviceId;
   final void Function(Hlc)? onAdvance;
+
+  /// Versão lida mais que isto à frente do relógio NÃO puxa o relógio do aparelho (G06): ela veio de
+  /// um período com o relógio errado e levaria todas as escritas seguintes para o futuro (a RPC
+  /// recusa tudo). A versão nova daquela LINHA continua maior que a dela. Null = sem limite.
+  final int? maxDriftMs;
   final int Function() _nowMs;
   Hlc? _last;
   int _ms;
@@ -138,10 +144,24 @@ final class HlcClock {
 
   /// Regra do ADR-003: `receive` de cada versão lida (nulas ignoradas) e depois `send`.
   Hlc sendAfterReading(Iterable<String?> versions) {
+    final now = _nowMs();
+    final drift = maxDriftMs;
+    Hlc? far;
     for (final v in versions) {
-      if (v != null) receive(Hlc.parse(v));
+      if (v == null) continue;
+      final h = Hlc.parse(v);
+      if (drift != null && h.ms > now + drift) {
+        if (far == null || h.compareTo(far) > 0) far = h;
+      } else {
+        receive(h);
+      }
     }
-    return send();
+    final s = send();
+    if (far == null || s.compareTo(far) > 0) return s;
+    // acima da versão da linha, sem mexer no relógio do aparelho
+    return far.counter < Hlc.maxCounter
+        ? Hlc(far.ms, far.counter + 1, deviceId)
+        : Hlc(far.ms + 1, 0, deviceId);
   }
 
   Hlc _advance(Hlc h) {

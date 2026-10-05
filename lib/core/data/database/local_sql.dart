@@ -93,14 +93,27 @@ const String _ftsBody =
     "trim(coalesce(json_extract(NEW.anchor, '\$.quote.exact'), '') || ' ' || "
     "coalesce(NEW.note_text, ''))";
 
+/// Linha cuja versão pode DESCER uma vez (G06): uma versão que a RPC recusou por estar no futuro
+/// (`invalid_hlc`) nunca chegou ao servidor nem a outro aparelho — é reemitida com a hora certa.
+const String reissueKey = 'versao.reemitir';
+
 /// Guarda de versão (ADR-003): nenhuma escrita LOCAL grava um `version_hlc` menor que o da linha —
 /// senão a edição seria descartada pela RPC (LWW) e o aparelho ficaria divergente. Versão igual passa
-/// (o `put` do PowerSync reaplica a mesma versão sem mudar nada).
+/// (o `put` do PowerSync reaplica a mesma versão sem mudar nada). Exceção: a linha marcada em
+/// [reissueKey]. Recriada a cada abertura do banco ([versionGuardRefresh]).
 List<String> versionGuardTriggers() => [
   for (final t in personalSyncColumns.keys)
     'CREATE TRIGGER IF NOT EXISTS ${t}_version_guard BEFORE UPDATE ON $t FOR EACH ROW '
-        'WHEN NEW.version_hlc < OLD.version_hlc '
+        'WHEN NEW.version_hlc < OLD.version_hlc AND NOT EXISTS '
+        "(SELECT 1 FROM kv WHERE key = '$reissueKey' AND value = NEW.id) "
         "BEGIN SELECT RAISE(ABORT, 'version_hlc_regressed'); END",
+];
+
+/// Derruba e recria a guarda de versão (na abertura do banco).
+List<String> versionGuardRefresh() => [
+  for (final t in personalSyncColumns.keys)
+    'DROP TRIGGER IF EXISTS ${t}_version_guard',
+  ...versionGuardTriggers(),
 ];
 
 /// Gatilhos da fila de upload: `PUT` com a linha inteira em `powersync_crud`, só no modo Pro, só

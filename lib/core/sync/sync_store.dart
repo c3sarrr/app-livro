@@ -6,6 +6,7 @@ import 'package:drift/drift.dart';
 
 import '../data/clock/server_clock.dart';
 import '../data/database/app_database.dart';
+import '../data/database/codecs.dart' show formatInstant;
 import '../data/database/daos/kv_dao.dart';
 import '../data/database/local_sql.dart';
 import '../data/database/versioning.dart';
@@ -16,10 +17,18 @@ import 'sync_backend.dart';
 typedef SyncFileRemover = Future<void> Function(String path);
 
 final class SyncStore {
-  SyncStore(this._db, {SyncFileRemover? removeFile, DateTime Function()? now})
-    : _kv = KvDao(_db),
-      _remove = removeFile,
-      _now = now ?? DateTime.now;
+  SyncStore(
+    this._db, {
+    SyncFileRemover? removeFile,
+    DateTime Function()? now,
+    this.versioning,
+  }) : _kv = KvDao(_db),
+       _remove = removeFile,
+       _now = now ?? DateTime.now;
+
+  /// Versões das escritas locais (relógio corrigido pela hora do servidor). Com ele, as linhas
+  /// mexidas por uma junção ganham versão nova e as recusadas por `invalid_hlc` são reemitidas.
+  final LocalVersioning? versioning;
 
   final AppDatabase _db;
   final KvDao _kv;
@@ -94,12 +103,15 @@ final class SyncStore {
       _kv.set(ServerClock.offsetKey, ms.toString());
 
   /// Linhas recusadas por `invalid_hlc` (versão > 5 min à frente do servidor, de um período com o
-  /// relógio adiantado): voltam à fila com o estado atual quando a versão delas deixar de estar no
-  /// futuro para o servidor ([serverNowMs]). A versão não pode descer (o gatilho de versão recusa e o
-  /// LWW perderia a edição) — então é esperar o tempo real alcançá-la. Devolve quantas voltaram.
+  /// relógio errado). Com [reissue] (há [versioning] e uma medida da hora do servidor NESTA sessão), a
+  /// versão é REEMITIDA com a hora certa — ela pode descer: nunca chegou ao servidor nem a outro
+  /// aparelho (revisão da G06). Sem isso, a linha volta à fila quando a versão dela deixar de estar no
+  /// futuro para o servidor ([serverNowMs]). Em seguida, as recusas 23503 que dependiam delas voltam à
+  /// fila. Devolve quantas linhas voltaram.
   Future<int> requeueClockRejections({
     required String owner,
     required int serverNowMs,
+    bool reissue = false,
   }) => _db.transaction(() async {
     final rows = await _db
         .customSelect(
@@ -124,13 +136,37 @@ final class SyncStore {
       }
       if (row.read<String>('user_id') != owner) continue;
       final wall = int.parse(row.read<String>('version_hlc').substring(0, 16));
+      final v = versioning;
       if (wall > serverNowMs + LocalVersioning.maxFutureMs - requeueMarginMs) {
-        continue;
+        // sem reemissão: espera o tempo real alcançar a versão
+        if (!reissue || v == null) {
+          continue;
+        }
+        final h = v.clock.send();
+        await _kv.set(
+          LocalVersioning.lastHlcKey,
+          (v.clock.last ?? h).toString(),
+        );
+        await _kv.set(reissueKey, id);
+        await _db.customStatement(
+          'UPDATE $table SET version_hlc = ?, updated_at = ? WHERE id = ?',
+          [
+            h.toString(),
+            formatInstant(
+              DateTime.fromMillisecondsSinceEpoch(h.ms, isUtc: true),
+            ),
+            id,
+          ],
+        );
+        // a versão nova entra na fila pelo gatilho (Pro, dono ativo)
+        await _db.customStatement('DELETE FROM kv WHERE key = ?', [reissueKey]);
+      } else {
+        await _db.customStatement(enqueueRowSql(table), [id]);
       }
-      await _db.customStatement(enqueueRowSql(table), [id]);
       await _dropRejection(rejection);
       n++;
     }
+    if (n > 0) n += await _requeueForeignKeyRejections(owner);
     return n;
   });
 
@@ -183,7 +219,12 @@ final class SyncStore {
           if (survivor != null) {
             final s = survivor.read<String>('id');
             if (table == 'user_books') {
-              final m = await mergeUserBook(_db, loser: loser, survivor: s);
+              final m = await mergeUserBook(
+                _db,
+                loser: loser,
+                survivor: s,
+                newVersion: versioning?.next,
+              );
               files.addAll(m.removedFiles);
             } else {
               await mergeHighlightLabel(_db, loser: loser, survivor: s);
@@ -200,7 +241,9 @@ final class SyncStore {
           resolved++;
         }
       }
-      if (resolved > 0) resolved += await _requeueForeignKeyRejections(owner);
+      if (resolved > 0 || syncedAt != null) {
+        resolved += await _requeueForeignKeyRejections(owner, before: syncedAt);
+      }
       return resolved;
     });
     final remove = _remove;
@@ -212,12 +255,30 @@ final class SyncStore {
     return n;
   }
 
-  /// Linhas recusadas com 23503 (referência a um livro que o servidor não tinha) voltam à fila com o
-  /// estado atual.
-  Future<int> _requeueForeignKeyRejections(String owner) async {
+  /// Referências de cada tabela pessoal a outras (as FKs compostas do servidor).
+  static const Map<String, List<(String, String)>> _parents = {
+    'reading_positions': [('id', 'user_books')],
+    'reading_sessions': [('user_book_id', 'user_books')],
+    'bookmarks': [('user_book_id', 'user_books')],
+    'ink_layers': [('user_book_id', 'user_books')],
+    'annotations': [
+      ('user_book_id', 'user_books'),
+      ('parent_id', 'annotations'),
+      ('ink_layer_id', 'ink_layers'),
+    ],
+  };
+
+  /// Linhas recusadas com 23503 (referência a uma linha que o servidor não tinha) voltam à fila com o
+  /// estado atual — só quando cada linha referenciada existe no aparelho e não está recusada também
+  /// (senão voltariam a ser recusadas em seguida). Com [before] (uma sincronização completa), só as
+  /// recusadas antes dela.
+  Future<int> _requeueForeignKeyRejections(
+    String owner, {
+    DateTime? before,
+  }) async {
     final rows = await _db
         .customSelect(
-          "SELECT id, entity, row_id FROM sync_rejections WHERE code = '23503'",
+          "SELECT id, entity, row_id, rejected_at FROM sync_rejections WHERE code = '23503'",
         )
         .get();
     var n = 0;
@@ -225,17 +286,40 @@ final class SyncStore {
       final table = r.read<String>('entity');
       final id = r.read<String>('row_id');
       if (!personalSyncColumns.containsKey(table)) continue;
-      final dono = await _db
+      if (before != null &&
+          !before.isAfter(DateTime.parse(r.read<String>('rejected_at')))) {
+        continue;
+      }
+      final refs = _parents[table] ?? const [];
+      final linha = await _db
           .customSelect(
-            'SELECT user_id FROM $table WHERE id = ?',
+            'SELECT user_id${refs.map((p) => ', ${p.$1} AS ref_${p.$1}').join()} '
+            'FROM $table WHERE id = ?',
             variables: [Variable.withString(id)],
           )
           .getSingleOrNull();
-      if (dono == null) {
+      if (linha == null) {
         await _dropRejection(r.read<String>('id'));
         continue;
       }
-      if (dono.read<String>('user_id') != owner) continue;
+      if (linha.read<String>('user_id') != owner) continue;
+      var pronto = true;
+      for (final (col, alvo) in refs) {
+        final ref = linha.read<String?>('ref_$col');
+        if (ref == null) continue;
+        final ok = await _db
+            .customSelect(
+              'SELECT 1 FROM $alvo WHERE id = ? AND NOT EXISTS '
+              "(SELECT 1 FROM sync_rejections WHERE entity = '$alvo' AND row_id = ?)",
+              variables: [Variable.withString(ref), Variable.withString(ref)],
+            )
+            .getSingleOrNull();
+        if (ok == null) {
+          pronto = false;
+          break;
+        }
+      }
+      if (!pronto) continue;
       await _db.customStatement(enqueueRowSql(table), [id]);
       await _dropRejection(r.read<String>('id'));
       n++;

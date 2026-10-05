@@ -25,8 +25,7 @@ select is(public.sync_apply_changes($j$[
   "data":{"title":"Dom Casmurro","author_display":"Machado de Assis","format":"epub","status":"reading",
           "content_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           "ref_pages_total":256,"ref_page_version":1,"chapters_total":148,
-          "added_at":"2026-09-01T12:00:00Z","created_at":"2026-09-01T12:00:00Z","updated_at":"2026-09-01T12:00:00Z",
-          "user_id":"00000000-0000-7000-8000-00000000000b"}},
+          "added_at":"2026-09-01T12:00:00Z","created_at":"2026-09-01T12:00:00Z","updated_at":"2026-09-01T12:00:00Z"}},
  {"table":"annotations","op":"PUT","id":"01927a00-0000-7000-8000-000000000101","hlc":"0001726862400000-0001-dev1",
   "data":{"user_book_id":"01927a00-0000-7000-8000-000000000001","kind":"highlight","group_id":"01927a00-0000-7000-8000-000000000201",
           "anchor":{"v":1,"spine":3,"start":120,"end":198,"quote":{"exact":"que eu conheço de vista e de chapéu."}},
@@ -38,7 +37,7 @@ select is(public.sync_apply_changes($j$[
 ]$j$::jsonb), '{"applied": 3, "skipped": 0, "rejected": []}'::jsonb, 'OK 02 lote do Pro aplicado inteiro');
 select is((select count(*)::int from personal.user_books), 1, 'OK 02 A vê o próprio livro');
 select is((select user_id from personal.user_books), '00000000-0000-7000-8000-00000000000a'::uuid,
-  'OK 02 dono imposto pelo servidor (user_id falsificado foi trocado pelo do token)');
+  'OK 02 dono imposto pelo servidor (sem user_id no dado, vale o do token; user_id de OUTRA conta é recusado — 19_revisao_g06)');
 
 -- ---------------------------------------------------------------- OK 03: last-writer-wins
 select is((public.sync_apply_changes($j$[

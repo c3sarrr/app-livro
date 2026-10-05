@@ -5,11 +5,18 @@
 //
 // A linha que fica ([survivor]) é a que o servidor já tem (ou a da conta); da outra ([loser]) vale
 // o que for mais novo (LWW pelo `version_hlc`) e o que pendura nela passa para a que fica. A [loser]
-// nunca esteve no servidor, então sai do aparelho de verdade (não é exclusão lógica).
+// sai do aparelho de verdade (não é exclusão lógica). Ela pode JÁ ter estado no servidor (apagada lá e
+// o arquivo reimportado noutro aparelho — revisão da G06): por isso, com [newVersion], o que passa
+// para a que fica ganha versão nova — senão o servidor ignoraria a mudança (mesma versão, LWW).
 // Chame dentro de uma transação.
 import 'package:drift/drift.dart';
 
+import '../data/clock/hlc.dart';
 import '../data/database/app_database.dart';
+import '../data/database/codecs.dart' show formatInstant;
+
+/// Versão nova para a linha [id] de [table] (`LocalVersioning.next`).
+typedef NewVersion = Future<Hlc> Function(String table, String id);
 
 /// Colunas do livro que seguem a versão mais nova (estado de leitura e metadados). As do arquivo
 /// (`content_sha256`, `file_bytes`, páginas de referência, capítulos) são as mesmas nas duas — mesmo
@@ -43,7 +50,22 @@ Future<BookMerge> mergeUserBook(
   AppDatabase db, {
   required String loser,
   required String survivor,
+  NewVersion? newVersion,
 }) async {
+  Future<void> bump(String table, String id) async {
+    final v = newVersion;
+    if (v == null) return;
+    final h = await v(table, id);
+    await db.customStatement(
+      'UPDATE $table SET version_hlc = ?, updated_at = ? WHERE id = ?',
+      [
+        h.toString(),
+        formatInstant(DateTime.fromMillisecondsSinceEpoch(h.ms, isUtc: true)),
+        id,
+      ],
+    );
+  }
+
   final cols = mergedBookColumns.join(', ');
   await db.customStatement(
     'UPDATE user_books SET ($cols) = (SELECT $cols FROM user_books WHERE id = ?1) '
@@ -69,6 +91,7 @@ Future<BookMerge> mergeUserBook(
       'UPDATE reading_positions SET id = ? WHERE id = ?',
       [survivor, loser],
     );
+    await bump('reading_positions', survivor);
     moved['reading_positions'] = [survivor];
   }
 
@@ -79,6 +102,9 @@ Future<BookMerge> mergeUserBook(
       'UPDATE $t SET user_book_id = ? WHERE user_book_id = ?',
       [survivor, loser],
     );
+    for (final id in ids) {
+      await bump(t, id);
+    }
     moved[t] = ids;
   }
 

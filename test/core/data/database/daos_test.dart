@@ -347,10 +347,17 @@ void main() {
       );
       final v = await versoes.next('user_books', idTeste(1));
       expect(v > remota, isTrue);
-      expect(await KvDao(db).get(LocalVersioning.lastHlcKey), v.toString());
+      // G06 (revisão): versão lida mais de 5 min à frente não puxa o relógio do aparelho — só a
+      // versão DAQUELA linha fica acima dela (senão um período com o relógio errado levaria todas as
+      // escritas seguintes para o futuro e a RPC recusaria tudo)
+      final relogio = Hlc.parse(
+        (await KvDao(db).get(LocalVersioning.lastHlcKey))!,
+      );
+      expect(relogio.ms, t0Teste.millisecondsSinceEpoch);
       // linha nova: só o relógio
       final n = await versoes.next('user_books', idTeste(2));
-      expect(n > v, isTrue);
+      expect(n > relogio, isTrue);
+      expect(n.ms, t0Teste.millisecondsSinceEpoch);
       // reabrir retoma do último HLC salvo, mesmo com o relógio 2 min atrás dele
       final reaberto = await LocalVersioning.open(
         db,

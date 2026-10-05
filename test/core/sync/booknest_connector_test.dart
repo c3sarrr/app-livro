@@ -31,6 +31,7 @@ void main() {
     recuos = [];
     c = BookNestConnector(
       endpoint: 'http://powersync.teste',
+      owner: usuarioTeste,
       backend: servidor,
       store: SyncStore(t.db),
       listener: ouvinte,
@@ -172,9 +173,11 @@ void main() {
       }
       expect(recuos, [1, 2, 3]);
       expect(c.consecutiveFailures, 3);
+      expect(c.batchLimit, 250, reason: '3 falhas seguidas: lote pela metade');
       await c.uploadData(t.ps);
       expect(await t.fila(), 0);
       expect(c.consecutiveFailures, 0);
+      expect(c.batchLimit, 500);
       expect(telemetria.eventos, [
         'falha:rede',
         'falha:pg_40001',
@@ -195,5 +198,82 @@ void main() {
     final espera = b.wait(const Duration(hours: 1));
     b.wakeUp();
     await espera.timeout(const Duration(seconds: 1));
+  });
+
+  test(
+    'Backoff fechado: até uma espera que AINDA vai começar volta na hora',
+    () async {
+      final b = Backoff()..close();
+      await b
+          .wait(const Duration(hours: 1))
+          .timeout(const Duration(seconds: 1));
+      expect(b.closed, isTrue);
+    },
+  );
+
+  group('revisão da G06', () {
+    test(
+      'a sessão já é de outra conta: nada desta fila sobe com o JWT dela',
+      () async {
+        await t.modoPro(usuarioTeste);
+        await UserBooksDao(t.db).upsert(livroTeste(1));
+        servidor.userId = 'outra-conta';
+        await expectLater(c.uploadData(t.ps), throwsA(isA<SyncUnauthorized>()));
+        expect(servidor.lotes, isEmpty);
+        expect(await t.fila(), 1);
+      },
+    );
+
+    test(
+      'linha de outro dono na fila: não sobe, fica registrada e sai da fila',
+      () async {
+        const outra = '0199a7c4-2f00-7a10-8b20-0000000000ff';
+        await t.modoPro(outra);
+        await UserBooksDao(t.db).upsert(livroTeste(2, dono: outra));
+        await t.modoPro(usuarioTeste);
+        await UserBooksDao(t.db).upsert(livroTeste(1));
+        await c.uploadData(t.ps);
+        expect(servidor.lotes.single.map((o) => o['id']), [idTeste(1)]);
+        expect(await t.fila(), 0);
+        final r = await t.ps.getAll(
+          'SELECT row_id, reason FROM sync_rejections',
+        );
+        expect(r.map((x) => (x['row_id'], x['reason'])), [
+          (idTeste(2), 'owner_mismatch'),
+        ]);
+      },
+    );
+
+    test(
+      'lote limitado também pelo tamanho (≈ 2 MiB), não só por 500 operações',
+      () async {
+        await t.modoPro(usuarioTeste);
+        final grande = 'x' * (900 * 1024);
+        for (var i = 1; i <= 3; i++) {
+          await t.ps.execute(
+            "INSERT INTO powersync_crud (op, id, type, data) VALUES ('PUT', ?, 'ink_layers', "
+            "json_object('user_id', ?, 'strokes_b64', ?, 'version_hlc', ?))",
+            [
+              idTeste(i),
+              usuarioTeste,
+              grande,
+              '0001789945200000-000$i-aparelhoA',
+            ],
+          );
+        }
+        await c.uploadData(t.ps);
+        expect(servidor.lotes.map((l) => l.length), [2, 1]);
+        expect(await t.fila(), 0);
+      },
+    );
+
+    test('stop(): o envio para no próximo lote', () async {
+      await t.modoPro(usuarioTeste);
+      await UserBooksDao(t.db).upsert(livroTeste(1));
+      c.stop();
+      await c.uploadData(t.ps);
+      expect(servidor.lotes, isEmpty);
+      expect(await t.fila(), 1);
+    });
   });
 }

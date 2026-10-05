@@ -107,9 +107,15 @@ final class FakeAccountApi implements AccountApi {
   Object? falhaInesperada;
   AccountFailure? falhaExportacao;
 
+  /// O próximo resumo só responde quando este completer terminar (uma vez).
+  Completer<void>? segurarResumo;
+
   @override
   Future<AccountSummary> summary() async {
     calls.add('resumo');
+    final segurar = segurarResumo;
+    segurarResumo = null;
+    if (segurar != null) await segurar.future;
     if (falhaInesperada != null) throw falhaInesperada!;
     if (falhaResumo != null) throw falhaResumo!;
     return AccountSummary.fromJson(json);
@@ -177,6 +183,9 @@ final class FakeSync implements SyncPort {
   /// `onAccountConfirmed` falha com isto (uma vez).
   Object? falhaConfirmar;
 
+  /// Também anota 'parar' aqui (ex.: as chamadas do login, para conferir a ordem entre os dois).
+  List<String>? eco;
+
   @override
   Future<void> resume(String owner) async => calls.add('retomar:$owner');
 
@@ -190,8 +199,10 @@ final class FakeSync implements SyncPort {
   }
 
   @override
-  Future<void> beforeOwnerChange() async =>
-      calls.add('parar:${await _lib().countRows(contaTeste)}');
+  Future<void> beforeOwnerChange() async {
+    eco?.add('parar');
+    calls.add('parar:${await _lib().countRows(contaTeste)}');
+  }
 
   @override
   Future<int> pendingUploads() async => pendentes;

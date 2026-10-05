@@ -3,12 +3,14 @@
 // no servidor vira um só quando o outro chega (ou volta à fila se o outro sumiu).
 import 'dart:convert';
 
+import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/database/local_sql.dart';
+import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/sync/sync_backend.dart';
 import 'package:app_leitura/core/sync/sync_store.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
@@ -123,6 +125,140 @@ void main() {
         await store.rejectionCount(),
         1,
         reason: 'a da outra conta fica para quando ela for a dona ativa',
+      );
+    });
+  });
+
+  group('revisão da G06', () {
+    const minuto = 60 * 1000;
+    final base = DateTime.utc(2026, 10, 4, 12);
+    final agora = base.millisecondsSinceEpoch;
+
+    Future<LocalVersioning> versoes() =>
+        LocalVersioning.open(t.db, deviceId: 'aparelhoA', nowMs: () => agora);
+
+    test('com a hora do servidor medida nesta sessão, a versão no futuro é REEMITIDA e sobe já', () async {
+      await t.modoPro(usuarioTeste);
+      await UserBooksDao(t.db).upsert(
+        livroTeste(
+          1,
+        ).copyWith(meta: metaTeste(em: base.add(const Duration(minutes: 10)))),
+      );
+      await t.ps.disconnectAndClear(clearLocal: false);
+      await recusa('user_books', idTeste(1), 'invalid_hlc', '22023');
+      final s = SyncStore(t.db, versioning: await versoes(), now: () => base);
+
+      expect(
+        await s.requeueClockRejections(owner: usuarioTeste, serverNowMs: agora),
+        0,
+        reason: 'sem medida nesta sessão: espera',
+      );
+      expect(
+        await s.requeueClockRejections(
+          owner: usuarioTeste,
+          serverNowMs: agora,
+          reissue: true,
+        ),
+        1,
+      );
+      final livro = (await UserBooksDao(t.db).byId(idTeste(1)))!;
+      expect(
+        livro.meta.version.ms,
+        agora,
+        reason: 'a versão desceu para o presente',
+      );
+      expect(livro.meta.updatedAt.millisecondsSinceEpoch, agora);
+      expect(await idsNaFila(), {idTeste(1)});
+      final op = jsonDecode(
+        (await t.ps.get('SELECT data FROM ps_crud'))['data'] as String,
+      ) as Map;
+      expect(
+        ((op['data'] as Map)['version_hlc'] as String).startsWith(
+          agora.toString().padLeft(16, '0'),
+        ),
+        isTrue,
+        reason: 'sobe a versão reemitida',
+      );
+      expect(await s.rejectionCount(), 0);
+      expect(await KvDao(t.db).get(reissueKey), isNull);
+      expect(
+        Hlc.parse((await KvDao(t.db).get(LocalVersioning.lastHlcKey))!).ms,
+        agora,
+      );
+    });
+
+    test(
+      'fora da reemissão a guarda de versão continua recusando versão menor',
+      () async {
+        await UserBooksDao(t.db)
+            .upsert(livroTeste(1).copyWith(meta: metaTeste(em: base)));
+        await expectLater(
+          t.ps.execute('UPDATE user_books SET version_hlc = ? WHERE id = ?', [
+            Hlc(agora - minuto, 0, 'aparelhoA').toString(),
+            idTeste(1),
+          ]),
+          throwsA(anything),
+        );
+      },
+    );
+
+    test('junção com o relógio: o que passa para o livro que fica ganha versão nova', () async {
+      await t.modoPro(usuarioTeste);
+      final meu = livroTeste(1);
+      await UserBooksDao(t.db).upsert(meu);
+      await AnnotationsDao(t.db).upsert(grifoTeste(10, livro: meu.id));
+      await ReadingPositionsDao(t.db).upsert(posicaoTeste(meu.id));
+      await UserBooksDao(t.db)
+          .upsert(livroTeste(2, title: 'Do outro aparelho'));
+      await t.ps.execute(
+        'UPDATE user_books SET content_sha256 = ? WHERE id = ?',
+        [shaDoLivroTeste(1), idTeste(2)],
+      );
+      await t.ps.disconnectAndClear(clearLocal: false);
+      await recusa('user_books', meu.id, 'duplicate key value', '23505');
+      final s = SyncStore(t.db, versioning: await versoes(), now: () => base);
+
+      expect(await s.resolveUniqueConflicts(owner: usuarioTeste), 1);
+      final grifo = (await AnnotationsDao(t.db).forBook(idTeste(2))).single;
+      expect(grifo.meta.version.ms, agora);
+      final pos =
+          (await t.ps.get(
+                'SELECT version_hlc FROM reading_positions WHERE id = ?',
+                [idTeste(2)],
+              ))['version_hlc']
+              as String;
+      expect(Hlc.parse(pos).ms, agora);
+      expect(await idsNaFila(), {idTeste(2), idTeste(10)});
+    });
+
+    test('depois de uma sincronização completa, a recusa 23503 volta à fila só se o livro dela existe e não está recusado', () async {
+      await t.modoPro(usuarioTeste);
+      await UserBooksDao(t.db).upsert(livroTeste(1));
+      await UserBooksDao(t.db).upsert(livroTeste(3));
+      await AnnotationsDao(t.db).upsert(grifoTeste(10, livro: idTeste(1)));
+      await AnnotationsDao(t.db).upsert(grifoTeste(11, livro: idTeste(3)));
+      await t.ps.disconnectAndClear(clearLocal: false);
+      await recusa('user_books', idTeste(3), 'invalid_hlc', '22023');
+      await recusa('annotations', idTeste(10), 'fk', '23503');
+      await recusa('annotations', idTeste(11), 'fk', '23503');
+
+      expect(
+        await store.resolveUniqueConflicts(owner: usuarioTeste),
+        0,
+        reason: 'sem sincronização completa nem junção: nada muda',
+      );
+      expect(
+        await store.resolveUniqueConflicts(
+          owner: usuarioTeste,
+          syncedAt: recusadoEm.add(const Duration(minutes: 1)),
+        ),
+        1,
+      );
+      expect(await idsNaFila(), {idTeste(10)});
+      expect(
+        await store.rejectionCount(),
+        2,
+        reason: 'o grifo do livro recusado espera o livro',
       );
     });
   });

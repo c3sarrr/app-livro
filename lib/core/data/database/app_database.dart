@@ -55,18 +55,17 @@ class AppDatabase extends _$AppDatabase {
   MigrationStrategy get migration => MigrationStrategy(
     onCreate: (m) async {
       await m.createAll();
-      for (final s in [
-        ...kvDefaults,
-        ...annotationsFtsStatements,
-        ...versionGuardTriggers(),
-      ]) {
+      for (final s in [...kvDefaults, ...annotationsFtsStatements]) {
         await customStatement(s);
       }
     },
-    // a fila do Pro é recriada a cada abertura (a regra pode mudar sem nova versão do esquema)
+    // a guarda de versão e a fila do Pro são recriadas a cada abertura (a regra pode mudar sem nova
+    // versão do esquema)
     beforeOpen: (details) async {
-      if (!withSyncQueue) return;
-      for (final s in syncQueueTriggerRefresh()) {
+      for (final s in [
+        ...versionGuardRefresh(),
+        if (withSyncQueue) ...syncQueueTriggerRefresh(),
+      ]) {
         await customStatement(s);
       }
     },
