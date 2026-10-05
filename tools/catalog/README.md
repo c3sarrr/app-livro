@@ -48,3 +48,5 @@ Registro (shard e delta): `{"i": isbn13, "t": título, "s": subtítulo, "a": [au
   temporário do SQLite em `/var/tmp` (`SQLITE_TMPDIR` muda) — prever ~2× o tamanho da pasta de trabalho.
   Uma pasta de trabalho do formato antigo (um arquivo só) é recusada: use outra pasta.
 - Um `.gz` cortado derruba a leitura (código de saída do `pigz`/`gzip` conferido) — baixe de novo.
+- Rode sozinho: o pipeline satura o WSL (CPU, memória e o HD) e o Supabase local do mesmo WSL passa a estourar o
+  `statement_timeout` — testes de integração e o app contra o banco local ficam para depois.
