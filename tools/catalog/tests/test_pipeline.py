@@ -9,6 +9,7 @@ from argparse import Namespace
 from pathlib import Path
 
 from catalogo import catalogo_db, pipeline, shards
+from catalogo.staging import Staging
 from conftest import escrever_dumps
 
 
@@ -21,8 +22,9 @@ def rodar(dumps: Path, base: Path, **kw) -> dict:
 
 def test_uniao_e_registros(dumps, tmp_path):
     m = rodar(dumps, tmp_path)
-    con = sqlite3.connect(tmp_path / "trabalho" / "staging.db")
-    rec = {r[0]: r for r in con.execute("SELECT isbn13, titulo, autores, fonte, licenca, pontos FROM rec")}
+    st = Staging(tmp_path / "trabalho" / "staging.db")
+    rec = {r[0]: r for r in st.db.execute("SELECT isbn13, titulo, autores, fonte, licenca, pontos FROM rec")}
+    st.fechar()
     assert set(rec) == {"9788535902778", "9780141439518", "9780199535569", "9786555321234", "9783596294336",
                         "9783446236202"}
     # autores pela obra quando a edição não tem
@@ -135,9 +137,9 @@ def test_refazer_a_dnb_depois_de_uma_execucao_sem_ela(dumps, tmp_path):
     (e a união) e o resultado é o mesmo de uma execução completa."""
     sem = rodar(dumps, tmp_path / "a", sem_dnb=True)
     assert sem["db"]["registros"] == 5  # o ISBN que só a DNB tem ainda não entrou
-    con = sqlite3.connect(tmp_path / "a" / "trabalho" / "staging.db")
-    assert con.execute("SELECT count(*) FROM cand WHERE fonte = 'dnb'").fetchone()[0] == 0
-    con.close()
+    st = Staging(tmp_path / "a" / "trabalho" / "staging.db")
+    assert st.db.execute("SELECT count(*) FROM cand WHERE fonte = 'dnb'").fetchone()[0] == 0
+    st.fechar()
     depois = rodar(dumps, tmp_path / "a", refazer=["dnb"], revisao=2)
     completa = rodar(dumps, tmp_path / "b", revisao=2)
     assert depois["db"]["registros"] == completa["db"]["registros"] == 6
@@ -159,7 +161,6 @@ def test_mesmo_banco_de_trabalho_com_dumps_novos_refaz_o_que_mudou(tmp_path):
 
 def test_refazer_autores_refaz_as_edicoes_e_a_uniao(dumps, tmp_path):
     rodar(dumps, tmp_path)
-    from catalogo.staging import Staging
     st = Staging(tmp_path / "trabalho" / "staging.db")
     assert st.desfazer("autores") == ["autores", "edicoes_ol", "unir"]
     assert not st.feito("edicoes_ol") and st.feito("obras") and st.feito("dnb")
@@ -172,13 +173,13 @@ def test_estagio_interrompido_e_refeito_sem_sobras(dumps, tmp_path):
     """Um estágio que caiu no meio (Ctrl+C) deixou linhas e não ficou marcado: a próxima execução
     apaga as sobras antes de refazê-lo (banco em WAL — não corrompe)."""
     rodar(dumps, tmp_path)
-    con = sqlite3.connect(tmp_path / "trabalho" / "staging.db")
-    assert con.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
-    con.execute("DELETE FROM estagios WHERE nome IN ('autores', 'edicoes_ol', 'unir')")
-    con.execute("INSERT INTO autores VALUES ('/authors/OL999A', 'Sobra de uma execução interrompida')")
-    con.commit()
-    con.close()
+    st = Staging(tmp_path / "trabalho" / "staging.db")
+    assert st.db.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
+    st.db.execute("DELETE FROM estagios WHERE nome IN ('autores', 'edicoes_ol', 'unir')")
+    st.db.execute("INSERT INTO autores VALUES ('/authors/OL999A', 'Sobra de uma execução interrompida')")
+    st.fechar()
     rodar(dumps, tmp_path, revisao=2)
-    con = sqlite3.connect(tmp_path / "trabalho" / "staging.db")
-    assert con.execute("SELECT count(*) FROM autores WHERE chave = '/authors/OL999A'").fetchone()[0] == 0
-    con.close()
+    st = Staging(tmp_path / "trabalho" / "staging.db")
+    assert st.db.execute("SELECT count(*) FROM autores WHERE chave = '/authors/OL999A'").fetchone()[0] == 0
+    assert st.db.execute("SELECT count(*) FROM autores").fetchone()[0] == 4
+    st.fechar()

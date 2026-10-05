@@ -40,8 +40,11 @@ Registro (shard e delta): `{"i": isbn13, "t": título, "s": subtítulo, "a": [au
 - DNB: as triplas de um mesmo título vêm espalhadas no dump — são filtradas (grep) e ordenadas por sujeito
   (sort em disco) antes de juntar.
 - Disco e memória (o banco de trabalho fica no HD do WSL): nada de consulta aleatória ao banco por linha.
-  Autores e obras são gravados ordenados pela chave (tabela temporária + ordenação externa do SQLite); as
-  edições consultam autores/obras em índices compactos em memória (`catalogo/indice.py`, ~1 GB com os dumps
-  de 2026); a união lê os candidatos ordenados por ISBN. Espaço temporário do SQLite em `/var/tmp`
-  (`SQLITE_TMPDIR` muda) — prever ~2× o tamanho do `staging.db`.
+  Cada estágio grava num arquivo próprio em `--trabalho` (`autores.db`, `obras.db`, `pop.db`, `cand_ol.db`,
+  `cand_dnb.db`, `rec.db`; `staging.db` guarda só os estágios feitos) e refazer um estágio apaga o arquivo —
+  as tabelas ficam contíguas no disco. Autores e obras são gravados ordenados pela chave (tabela temporária
+  + ordenação externa do SQLite); as edições consultam autores/obras em índices compactos em memória
+  (`catalogo/indice.py`, ~1 GB com os dumps de 2026); a união lê os candidatos ordenados por ISBN. Espaço
+  temporário do SQLite em `/var/tmp` (`SQLITE_TMPDIR` muda) — prever ~2× o tamanho da pasta de trabalho.
+  Uma pasta de trabalho do formato antigo (um arquivo só) é recusada: use outra pasta.
 - Um `.gz` cortado derruba a leitura (código de saída do `pigz`/`gzip` conferido) — baixe de novo.

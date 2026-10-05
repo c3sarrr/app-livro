@@ -28,24 +28,34 @@ PROGRESSO_A_CADA = 5_000_000
 def _progresso(msg: str) -> None:
     print(f"[{datetime.now(timezone.utc).strftime('%H:%M:%S')}]   {msg}", flush=True)
 
-ESQUEMA = """
-CREATE TABLE IF NOT EXISTS estagios (nome TEXT PRIMARY KEY, feito_em TEXT NOT NULL, detalhe TEXT) WITHOUT ROWID;
-CREATE TABLE IF NOT EXISTS autores (chave TEXT PRIMARY KEY, nome TEXT NOT NULL) WITHOUT ROWID;
--- só as obras com autores (o que a união usa: autores da obra quando a edição não tem)
-CREATE TABLE IF NOT EXISTS obras (chave TEXT PRIMARY KEY, autores TEXT NOT NULL) WITHOUT ROWID;
-CREATE TABLE IF NOT EXISTS pop_obra (chave TEXT PRIMARY KEY, n INTEGER NOT NULL) WITHOUT ROWID;
-CREATE TABLE IF NOT EXISTS pop_edicao (chave TEXT PRIMARY KEY, n INTEGER NOT NULL) WITHOUT ROWID;
-CREATE TABLE IF NOT EXISTS cand (
+CAND_COLUNAS = """(
   isbn13 TEXT NOT NULL, titulo TEXT NOT NULL, subtitulo TEXT, autores TEXT NOT NULL,
   editora TEXT, ano INTEGER, paginas INTEGER, idioma TEXT, capa TEXT, obra TEXT, edicao TEXT,
   fonte TEXT NOT NULL, licenca TEXT NOT NULL, completude INTEGER NOT NULL, prioridade INTEGER NOT NULL
-);
-CREATE TABLE IF NOT EXISTS rec (
+)"""
+
+#: Cada estágio grava num ARQUIVO próprio (anexado à conexão): refazer um estágio = apagar o arquivo e
+#: criá-lo de novo. Num banco único, as páginas liberadas por um DELETE eram reaproveitadas pela tabela
+#: seguinte fora de ordem, e ler uma tabela de 8 GB espalhada num HD leva horas (achado 16).
+#: estágio → (arquivo/esquema, tabelas)
+ARQUIVOS: dict[str, tuple[str, str]] = {
+    "autores": ("autores", "CREATE TABLE IF NOT EXISTS autores.autores "
+                           "(chave TEXT PRIMARY KEY, nome TEXT NOT NULL) WITHOUT ROWID"),
+    # só as obras com autores (o que a união usa: autores da obra quando a edição não tem)
+    "obras": ("obras", "CREATE TABLE IF NOT EXISTS obras.obras "
+                       "(chave TEXT PRIMARY KEY, autores TEXT NOT NULL) WITHOUT ROWID"),
+    "popularidade": ("pop", "CREATE TABLE IF NOT EXISTS pop.pop_obra (chave TEXT PRIMARY KEY, n INTEGER NOT NULL) "
+                            "WITHOUT ROWID; CREATE TABLE IF NOT EXISTS pop.pop_edicao "
+                            "(chave TEXT PRIMARY KEY, n INTEGER NOT NULL) WITHOUT ROWID"),
+    "edicoes_ol": ("cand_ol", f"CREATE TABLE IF NOT EXISTS cand_ol.cand_ol {CAND_COLUNAS}"),
+    "dnb": ("cand_dnb", f"CREATE TABLE IF NOT EXISTS cand_dnb.cand_dnb {CAND_COLUNAS}"),
+    "unir": ("rec", """CREATE TABLE IF NOT EXISTS rec.rec (
   isbn13 TEXT PRIMARY KEY, titulo TEXT NOT NULL, subtitulo TEXT, autores TEXT NOT NULL,
   editora TEXT, ano INTEGER, paginas INTEGER, idioma TEXT, capa TEXT,
   fonte TEXT NOT NULL, licenca TEXT NOT NULL, pontos INTEGER NOT NULL
-) WITHOUT ROWID;
-"""
+) WITHOUT ROWID"""),
+}
+FORMATO = 2  # PRAGMA user_version do staging.db (1 = banco único, antes do achado 16)
 
 #: colunas do registro final, na ordem usada por shards, catalog.db e delta
 COLUNAS = ("isbn13", "titulo", "subtitulo", "autores", "editora", "ano", "paginas", "idioma", "capa", "fonte", "licenca")
@@ -58,14 +68,46 @@ def _completude(*campos: object) -> int:
 class Staging:
     def __init__(self, caminho: Path):
         caminho.parent.mkdir(parents=True, exist_ok=True)
+        self.pasta = caminho.parent
         self.db = sqlite3.connect(caminho)
         # WAL: interromper o pipeline (Ctrl+C, queda) não corrompe o banco — o estágio é refeito do zero
-        # (LIMPEZA) na próxima execução. synchronous=OFF: a queda do sistema pode perder o fim, nunca
-        # deixar o banco inconsistente para o próprio processo.
+        # na próxima execução. synchronous=OFF: a queda do sistema pode perder o fim, nunca deixar o
+        # banco inconsistente para o próprio processo. O cache do principal (só `estagios`) é o limite de
+        # memória das ordenações do SQLite (1 GB); cada arquivo anexado tem o seu.
         self.db.executescript(
-            "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF; PRAGMA temp_store=FILE;"
-            "PRAGMA cache_size=-1000000; PRAGMA wal_autocheckpoint=50000;" + ESQUEMA
+            "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF; PRAGMA temp_store=FILE; PRAGMA cache_size=-1000000;"
+            "CREATE TABLE IF NOT EXISTS estagios (nome TEXT PRIMARY KEY, feito_em TEXT NOT NULL, detalhe TEXT)"
+            " WITHOUT ROWID;"
         )
+        tabelas = {r[0] for r in self.db.execute("SELECT name FROM sqlite_schema WHERE type = 'table'")}
+        if self.db.execute("PRAGMA user_version").fetchone()[0] != FORMATO:
+            if tabelas - {"estagios"}:
+                raise SystemExit(f"{caminho}: banco de trabalho no formato antigo (um arquivo só) — use outra pasta "
+                                 "em --trabalho ou apague esta")
+            self.db.execute(f"PRAGMA user_version = {FORMATO}")
+        for esquema, ddl in ARQUIVOS.values():
+            self._anexar(esquema, ddl)
+        # os candidatos das duas fontes, lidos juntos pela união
+        self.db.execute("CREATE TEMP VIEW IF NOT EXISTS cand AS "
+                        "SELECT * FROM cand_ol.cand_ol UNION ALL SELECT * FROM cand_dnb.cand_dnb")
+
+    def _arquivo(self, esquema: str) -> Path:
+        return self.pasta / f"{esquema}.db"
+
+    def _anexar(self, esquema: str, ddl: str) -> None:
+        self.db.execute(f"ATTACH DATABASE ? AS {esquema}", (str(self._arquivo(esquema)),))
+        self.db.executescript(f"PRAGMA {esquema}.journal_mode=WAL; PRAGMA {esquema}.synchronous=OFF;"
+                              f"PRAGMA {esquema}.cache_size=-200000; PRAGMA {esquema}.wal_autocheckpoint=50000;")
+        self.db.executescript(ddl)
+
+    def _recriar(self, estagio: str) -> None:
+        """Apaga o arquivo do estágio e cria vazio (páginas novas sempre contíguas, no fim do arquivo)."""
+        esquema, ddl = ARQUIVOS[estagio]
+        self.db.commit()
+        self.db.execute(f"DETACH DATABASE {esquema}")
+        for suf in ("", "-wal", "-shm", "-journal"):
+            Path(f"{self._arquivo(esquema)}{suf}").unlink(missing_ok=True)
+        self._anexar(esquema, ddl)
 
     def fechar(self) -> None:
         self.db.commit()
@@ -75,15 +117,6 @@ class Staging:
     def feito(self, nome: str) -> bool:
         return self.db.execute("SELECT 1 FROM estagios WHERE nome = ?", (nome,)).fetchone() is not None
 
-    #: o que cada estágio grava (para refazê-lo do zero, sem sobras da execução anterior)
-    LIMPEZA = {
-        "autores": ["DELETE FROM autores"],
-        "obras": ["DELETE FROM obras"],
-        "popularidade": ["DELETE FROM pop_obra", "DELETE FROM pop_edicao"],
-        "edicoes_ol": [f"DELETE FROM cand WHERE fonte = '{openlibrary.FONTE}'"],
-        "dnb": [f"DELETE FROM cand WHERE fonte = '{dnb.FONTE}'"],
-        "unir": ["DELETE FROM rec"],
-    }
     #: quem copia dados de quem: as edições do Open Library levam os nomes dos autores e das obras
     DEPENDENTES = {"autores": ["edicoes_ol"], "obras": ["edicoes_ol"]}
 
@@ -94,18 +127,15 @@ class Staging:
         for n in [nome, *self.DEPENDENTES.get(nome, []), "unir"]:
             if n in feitos:
                 continue
-            for sql in self.LIMPEZA.get(n, []):
-                self.db.execute(sql)
+            self._recriar(n)
             self.db.execute("DELETE FROM estagios WHERE nome = ?", (n,))
+            self.db.commit()
             feitos.append(n)
-        self.db.commit()
         return feitos
 
     def limpar_estagio(self, nome: str) -> None:
         """Antes de (re)fazer um estágio: apaga o que uma execução interrompida deixou dele."""
-        for sql in self.LIMPEZA.get(nome, []):
-            self.db.execute(sql)
-        self.db.commit()
+        self._recriar(nome)
 
     def assinatura(self, nome: str) -> object:
         """A assinatura das entradas gravada quando o estágio foi feito (None = não feito)."""
@@ -151,7 +181,7 @@ class Staging:
         self.db.execute(f"CREATE TEMP TABLE bruto ({a} TEXT NOT NULL, {b} TEXT NOT NULL)")
         n = self._lotes("INSERT INTO temp.bruto VALUES (?, ?)", linhas)
         _progresso(f"{tabela}: ordenando {n:,} linhas pela chave".replace(",", "."))
-        self.db.execute(f"INSERT OR REPLACE INTO {tabela} SELECT {a}, {b} FROM temp.bruto ORDER BY {a}, rowid")
+        self.db.execute(f"INSERT OR REPLACE INTO {tabela}.{tabela} SELECT {a}, {b} FROM temp.bruto ORDER BY {a}, rowid")
         self.db.execute("DROP TABLE temp.bruto")
         self.db.commit()
         return n
@@ -176,8 +206,8 @@ class Staging:
                 if edicao:
                     por_edicao[edicao] += peso
         # em ordem de chave: o B-tree cresce só pelo fim (sem busca aleatória no disco)
-        self._lotes("INSERT OR REPLACE INTO pop_obra VALUES (?, ?)", sorted(por_obra.items()))
-        self._lotes("INSERT OR REPLACE INTO pop_edicao VALUES (?, ?)", sorted(por_edicao.items()))
+        self._lotes("INSERT OR REPLACE INTO pop.pop_obra VALUES (?, ?)", sorted(por_obra.items()))
+        self._lotes("INSERT OR REPLACE INTO pop.pop_edicao VALUES (?, ?)", sorted(por_edicao.items()))
         return {"obras": len(por_obra), "edicoes": len(por_edicao)}
 
     def _indices_ol(self) -> tuple[Nomes, Obras]:
@@ -206,7 +236,7 @@ class Staging:
                     yield (i, e.titulo, e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa,
                            e.obra, e.chave, openlibrary.FONTE, openlibrary.LICENCA, comp, prio)
 
-        return self._lotes("INSERT INTO cand VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
+        return self._lotes("INSERT INTO cand_ol.cand_ol VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
 
     # ------------------------------------------------------------------ DNB
     def carregar_dnb(self, caminho: Path, trabalho: Path | None = None) -> int:
@@ -219,7 +249,7 @@ class Staging:
                     yield (i, t.titulo, t.subtitulo, a_json, t.editora, t.ano, t.paginas, t.idioma, None,
                            None, None, dnb.FONTE, dnb.LICENCA, comp, prio)
 
-        return self._lotes("INSERT INTO cand VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
+        return self._lotes("INSERT INTO cand_dnb.cand_dnb VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
 
     # ------------------------------------------------------------------ união
     #: desempate total na escolha do registro de um ISBN (mesma entrada → mesma saída, sempre)
@@ -267,8 +297,8 @@ class Staging:
             if atual is not None:
                 yield self._final(atual, melhor, peso_br)
 
-        self.db.executescript("DROP TABLE IF EXISTS ed_por_obra; DELETE FROM rec;")
-        return self._lotes("INSERT INTO rec VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", registros())
+        self._recriar("unir")  # `rec` sempre do zero, num arquivo novo
+        return self._lotes("INSERT INTO rec.rec VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", registros())
 
     @staticmethod
     def _final(r: tuple, melhor: int, peso_br: int) -> tuple:

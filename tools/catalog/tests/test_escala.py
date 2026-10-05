@@ -95,9 +95,13 @@ def test_uniao_igual_a_consulta_de_referencia(tmp_path, monkeypatch):
         linhas.append((isbn, rnd.choice(["T", "U", "V"]), None, '["A"]', None, None, None,
                        rnd.choice([None, "por", "eng"]), None, obra, ed, fonte, "lic", rnd.randint(0, 6),
                        rnd.randint(0, 2)))
-    st.db.executemany("INSERT INTO cand VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas)
+    st.db.executemany("INSERT INTO cand_ol VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                      [r for r in linhas if r[11] == "openlibrary"])
+    st.db.executemany("INSERT INTO cand_dnb VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                      [r for r in linhas if r[11] == "dnb"])
     st.db.commit()
     n = st.unir(peso_br=3)
+    assert st.unir(peso_br=3) == n  # refazer a união começa de uma tabela vazia
     feito = st.db.execute("SELECT * FROM rec ORDER BY isbn13").fetchall()
     esperado = st.db.execute(REFERENCIA, (3,)).fetchall()
     assert n == len(esperado) > 50
@@ -156,3 +160,43 @@ def test_tabelas_de_trabalho_gravadas_em_ordem_de_chave(tmp_path, monkeypatch):
     assert st.db.execute("SELECT nome FROM autores WHERE chave = ?", (chaves[0],)).fetchone() == ("Última",)
     assert st.db.execute("SELECT count(*) FROM autores").fetchone() == (3000,)
     st.fechar()
+
+
+def test_refazer_estagio_recria_o_arquivo_sem_paginas_livres(dumps, tmp_path):
+    """Cada estágio num arquivo próprio: refazer apaga o arquivo — nenhuma página liberada fica para a
+    tabela seguinte ocupar fora de ordem (num banco único, o DELETE deixava o arquivo cheio de buracos)."""
+    from test_pipeline import rodar
+
+    rodar(dumps, tmp_path)
+    trabalho = tmp_path / "trabalho"
+    assert sorted(p.name for p in trabalho.glob("*.db")) == [
+        "autores.db", "cand_dnb.db", "cand_ol.db", "obras.db", "pop.db", "rec.db", "staging.db"]
+    st = Staging(trabalho / "staging.db")
+    for esquema in ("autores", "obras", "cand_ol", "rec"):  # marca em cada arquivo: some se o arquivo for refeito
+        st.db.execute(f"CREATE TABLE {esquema}.marca (x)")
+    st.db.commit()
+    assert st.desfazer("autores") == ["autores", "edicoes_ol", "unir"]
+    st.fechar()
+    rodar(dumps, tmp_path, revisao=2)
+    st = Staging(trabalho / "staging.db")
+    marcas = {e for e in ("autores", "obras", "cand_ol", "rec")
+              if st.db.execute(f"SELECT 1 FROM {e}.sqlite_schema WHERE name = 'marca'").fetchone()}
+    assert marcas == {"obras"}  # só o estágio que não foi refeito guarda a marca
+    for esquema in ("autores", "obras", "pop", "cand_ol", "cand_dnb", "rec"):
+        assert st.db.execute(f"PRAGMA {esquema}.freelist_count").fetchone() == (0,), esquema
+        assert st.db.execute(f"PRAGMA {esquema}.journal_mode").fetchone() == ("wal",), esquema
+    assert st.db.execute("SELECT count(*) FROM rec").fetchone() == (6,)
+    st.fechar()
+
+
+def test_banco_de_trabalho_no_formato_antigo_e_recusado(tmp_path):
+    import sqlite3
+
+    import pytest
+
+    con = sqlite3.connect(tmp_path / "staging.db")
+    con.execute("CREATE TABLE autores (chave TEXT PRIMARY KEY, nome TEXT NOT NULL) WITHOUT ROWID")
+    con.commit()
+    con.close()
+    with pytest.raises(SystemExit, match="formato antigo"):
+        Staging(tmp_path / "staging.db")
