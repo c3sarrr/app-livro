@@ -18,6 +18,7 @@ import '../../application/css_flex.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
+import '../covers/book_cover.dart';
 import '../covers/frankenstein_mini_cover.dart';
 import '../covers/o_alienista_mini_cover.dart';
 import '../covers/senhora_mini_cover.dart';
@@ -181,6 +182,7 @@ class _Row extends StatelessWidget {
     final id = 'recent.row$index';
     final book = item.book;
     final subtitle = HomeFormatters.recentSubtitle(item);
+    final real = book.cover is PhotoCover;
     final (tagLabel, tagStyle, tagColor) = switch (item.status) {
       RecentStatus.wantToRead => (
         HomeFormatters.recentStatusLabel(item.status),
@@ -201,8 +203,15 @@ class _Row extends StatelessWidget {
         id: '$id.cover',
       ),
       DesignedCover(art: CoverArt.senhora) => SenhoraMiniCover(id: '$id.cover'),
-      _ => throw ArgumentError.value(
-        book.cover,
+      // Livro real (D-79): a foto na moldura da miniatura (44×66).
+      final PhotoCover c => PhotoBookCover(
+        key: ValueKey<String>('$id.cover'),
+        book: book,
+        cover: c,
+        slot: CoverSlot.recent,
+      ),
+      final other => throw ArgumentError.value(
+        other,
         'cover',
         'sem mini-capa em "Recém-chegados"',
       ),
@@ -254,11 +263,16 @@ class _Row extends StatelessWidget {
                         book.title,
                         key: ValueKey<String>('$id.title'),
                         style: AppTextStyles.title15,
+                        // Livro real: até 2 linhas (os do arquivo cabem).
+                        maxLines: real ? 2 : null,
+                        ellipsis: real,
                       ),
                       AppText(
                         subtitle,
                         key: ValueKey<String>('$id.subtitle'),
                         style: AppTextStyles.body13Muted,
+                        maxLines: real ? 2 : null,
+                        ellipsis: real,
                       ),
                     ],
                   ),

@@ -28,7 +28,7 @@ const kFontLicensePackages = <String>[
 Future<void> main() => runBookNest();
 
 /// Sobe o app. [overrides]: só para testes e para o app com a fixture do mundo de referência
-/// (`test/fixtures/main_mundo_referencia.dart`, D-34) enquanto a Início não tem dados reais (G08).
+/// (`test/fixtures/main_mundo_referencia.dart`, D-34). Produção: a Início lê o banco do aparelho (G08, D-85).
 Future<void> runBookNest({List<Override> overrides = const []}) async {
   WidgetsFlutterBinding.ensureInitialized();
   registerFontLicenses();

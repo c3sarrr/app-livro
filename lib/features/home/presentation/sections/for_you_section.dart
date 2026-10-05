@@ -12,6 +12,7 @@ import '../../../../core/design_system/widgets/pressable.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
+import '../covers/book_cover.dart';
 import '../covers/memorias_postumas_cover.dart';
 import '../covers/o_cortico_cover.dart';
 import '../covers/quincas_borba_cover.dart';
@@ -213,12 +214,21 @@ class _Item extends StatelessWidget {
         const MemoriasPostumasCover(),
       DesignedCover(art: CoverArt.quincasBorba) => const QuincasBorbaCover(),
       DesignedCover(art: CoverArt.oCortico) => const OCorticoCover(),
-      _ => throw ArgumentError.value(
-        book.cover,
+      // Livro real (D-79): a foto na moldura do arquivo (116×174).
+      final PhotoCover c => PhotoBookCover(
+        key: ValueKey('$id.cover'),
+        book: book,
+        cover: c,
+        slot: CoverSlot.forYou,
+      ),
+      final other => throw ArgumentError.value(
+        other,
         'cover',
         'sem arte em "Para você"',
       ),
     };
+    // Livro real: título em até 2 linhas e autor em 1 (os do arquivo não precisam).
+    final real = book.cover is PhotoCover;
     return Pressable(
       isLink: true, // <a href>
       onTap: onTap,
@@ -242,13 +252,15 @@ class _Item extends StatelessWidget {
                   book.shortTitle ?? book.title,
                   key: ValueKey('$id.title'),
                   style: AppTextStyles.label14Bold,
-                  maxLines: ellipsis ? 1 : null,
-                  ellipsis: ellipsis,
+                  maxLines: ellipsis ? 1 : (real ? 2 : null),
+                  ellipsis: ellipsis || real,
                 ),
                 AppText(
                   book.author,
                   key: ValueKey('$id.author'),
                   style: AppTextStyles.body13Muted,
+                  maxLines: real ? 1 : null,
+                  ellipsis: real,
                 ),
               ],
             ),

@@ -14,6 +14,7 @@ import '../../../../core/design_system/widgets/pressable.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
+import '../covers/book_cover.dart';
 import '../covers/mrs_dalloway_cover.dart';
 import '../covers/pride_prejudice_cover.dart';
 
@@ -81,7 +82,8 @@ class AlsoReadingSection extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 12,
             children: [
-              for (final (i, item) in items.indexed)
+              // Até 2 cartões (o contador mostra todos — D-85); com 1, o cartão fica na metade, como no arquivo.
+              for (final (i, item) in items.take(2).indexed)
                 Expanded(
                   child: _BookCard(
                     id: 'alsoReading.card${i + 1}',
@@ -91,6 +93,7 @@ class AlsoReadingSection extends ConsumerWidget {
                         : () => onBookTap(item.book),
                   ),
                 ),
+              if (items.length == 1) const Expanded(child: SizedBox()),
             ],
           ),
         ],
@@ -134,7 +137,7 @@ class _BookCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  _CoverSlot(id: '$id.cover', art: item.book.cover),
+                  _CoverSlot(id: '$id.cover', book: item.book),
                   // margin-top 12 → o anel ocupa 58 e, alinhado embaixo, começa 13 abaixo do topo da linha.
                   Padding(
                     padding: const EdgeInsets.only(top: 12),
@@ -177,15 +180,15 @@ class _BookCard extends StatelessWidget {
 /// tamanho de layout do CSS). `transform: rotate` em torno do centro, sem afetar o layout; a sombra 2/2
 /// gira junto com a arte.
 class _CoverSlot extends StatelessWidget {
-  const _CoverSlot({required this.id, required this.art});
+  const _CoverSlot({required this.id, required this.book});
 
   /// `alsoReading.card1.cover` / `alsoReading.card2.cover`.
   final String id;
-  final BookCover art;
+  final Book book;
 
   @override
   Widget build(BuildContext context) {
-    final (cover, degrees) = switch (art) {
+    final (cover, degrees) = switch (book.cover) {
       DesignedCover(art: CoverArt.mrsDalloway) => (
         const MrsDallowayCover(),
         -4.0,
@@ -194,7 +197,16 @@ class _CoverSlot extends StatelessWidget {
         const PridePrejudiceCover(),
         3.0,
       ),
-      _ => throw ArgumentError.value(art, 'art', 'sem arte em "Também lendo"'),
+      // Livro real (D-79): a foto na moldura do arquivo, com a inclinação do cartão (1º −4°, 2º 3°).
+      final PhotoCover c => (
+        PhotoBookCover(book: book, cover: c, slot: CoverSlot.alsoReading),
+        id.endsWith('card1.cover') ? -4.0 : 3.0,
+      ),
+      final other => throw ArgumentError.value(
+        other,
+        'cover',
+        'sem arte em "Também lendo"',
+      ),
     };
     return SizedBox(
       width: 54,

@@ -19,7 +19,9 @@ import '../../../../core/design_system/widgets/stadium_progress_bar.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
+import '../covers/book_cover.dart';
 import '../covers/dom_casmurro_cover.dart';
+import '../home_states.dart';
 
 /// Seção 3 — Cartão "Continuar lendo" (F05): fundo `brand`, borda 1,5, raio 28, sombra dura 4/4 e
 /// `overflow: hidden`; padding 20 e coluna com gap 20 (linha da capa + metadados, 158; ações, 54) → 275.
@@ -29,6 +31,8 @@ class ContinueReadingHero extends ConsumerWidget {
     super.key,
     this.onContinueTap,
     this.onHighlightsTap,
+    this.onScanTap,
+    this.onLibraryTap,
   });
 
   /// "Continuar lendo" (ligado a `/leitor/:bookId` na F12).
@@ -37,13 +41,28 @@ class ContinueReadingHero extends ConsumerWidget {
   /// Destaques e notas do livro (ligado na F12).
   final VoidCallback? onHighlightsTap;
 
+  /// Convite com a estante vazia: "Escanear livro" (D-78).
+  final VoidCallback? onScanTap;
+
+  /// Convite com livros e nenhum em leitura: "Ver biblioteca" (D-85).
+  final VoidCallback? onLibraryTap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reading = ref.watch(
       homeSnapshotProvider.select((s) => s.continueReading),
     );
     final brand = ref.watch(homeThemeProvider.select((t) => t.brand));
-    if (reading == null) return const SizedBox.shrink();
+    if (reading == null) {
+      final empty = ref.watch(
+        homeSnapshotProvider.select((s) => s.shelfIsEmpty),
+      );
+      return _Invitation(
+        brand: brand,
+        shelfIsEmpty: empty,
+        onTap: empty ? onScanTap : onLibraryTap,
+      );
+    }
     assert(switch (reading.book.cover) {
       DesignedCover(:final art) => art == CoverArt.domCasmurro,
       PhotoCover() => true,
@@ -76,7 +95,7 @@ class ContinueReadingHero extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       spacing: 20,
                       children: [
-                        const _CoverSlot(),
+                        _CoverSlot(book: reading.book),
                         Expanded(child: _Meta(reading: reading)),
                       ],
                     ),
@@ -119,7 +138,9 @@ class ContinueReadingHero extends ConsumerWidget {
 /// centro. O `Align(topLeft)` impede que o stretch da linha estique a capa (altura definida no CSS):
 /// em 360 o título quebra, a linha mede 158,8 e a capa continua com 156.
 class _CoverSlot extends StatelessWidget {
-  const _CoverSlot();
+  const _CoverSlot({required this.book});
+
+  final Book book;
 
   static const double _angle = -3 * math.pi / 180;
 
@@ -135,9 +156,16 @@ class _CoverSlot extends StatelessWidget {
           height: 156,
           child: Transform.rotate(
             angle: _angle,
-            child: const KeyedSubtree(
-              key: ValueKey('hero.cover#rot'),
-              child: DomCasmurroCover(),
+            child: KeyedSubtree(
+              key: const ValueKey('hero.cover#rot'),
+              child: switch (book.cover) {
+                DesignedCover() => const DomCasmurroCover(),
+                final PhotoCover c => PhotoBookCover(
+                  book: book,
+                  cover: c,
+                  slot: CoverSlot.hero,
+                ),
+              },
             ),
           ),
         ),
@@ -158,6 +186,8 @@ class _Meta extends StatelessWidget {
     final percent = HomeFormatters.percent(reading.progress);
     final (chapter, totalChapters) = (reading.chapter, reading.totalChapters);
     final timeLeft = reading.timeLeft;
+    // Livro real (D-79): título e autor de qualquer tamanho — limitados às linhas que cabem no cartão.
+    final real = reading.book.cover is PhotoCover;
     return Padding(
       key: const ValueKey('hero.meta'),
       padding: const EdgeInsets.only(top: 2),
@@ -203,12 +233,16 @@ class _Meta extends StatelessWidget {
                       reading.book.title,
                       key: const ValueKey('hero.title'),
                       style: AppTextStyles.heroTitle,
+                      maxLines: real ? 3 : null,
+                      ellipsis: real,
                     ),
                   ),
                   AppText(
                     reading.book.author,
                     key: const ValueKey('hero.author'),
                     style: AppTextStyles.body14Plum,
+                    maxLines: real ? 1 : null,
+                    ellipsis: real,
                   ),
                 ],
               ),
@@ -346,6 +380,115 @@ class _Actions extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// Convite no lugar do cartão (D-78/D-85 — estado sem desenho no arquivo, só primitivos): mesma caixa do herói
+/// (`brand`, borda 1,5, raio 28, sombra 4/4, brilhos), título, uma linha e a pílula tinta.
+class _Invitation extends StatelessWidget {
+  const _Invitation({
+    required this.brand,
+    required this.shelfIsEmpty,
+    required this.onTap,
+  });
+
+  final Color brand;
+  final bool shelfIsEmpty;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final (title, body, label, icon) = shelfIsEmpty
+        ? (
+            'Sua estante está vazia',
+            'Escaneie o código de barras de um livro para começar.',
+            'Escanear livro',
+            AppIcons.navScanner,
+          )
+        : (
+            'Nada em leitura agora',
+            'Escolha um livro da sua estante para começar.',
+            'Ver biblioteca',
+            AppIcons.navLibrary,
+          );
+    return Semantics(
+      container: true,
+      explicitChildNodes: true,
+      label: 'Continuar lendo',
+      child: NeoBox(
+        key: const ValueKey('hero'),
+        color: brand,
+        border: const BorderSide(width: 1.5, color: AppColors.ink),
+        radius: BorderRadius.circular(AppRadii.card),
+        shadow: AppShadows.hard4,
+        clip: true,
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                spacing: 20,
+                children: [
+                  // A margem direita deixa os brilhos livres.
+                  Padding(
+                    padding: const EdgeInsets.only(right: 44),
+                    child: Column(
+                      key: const ValueKey('hero.invite'),
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      spacing: 8,
+                      children: [
+                        Semantics(
+                          container: true,
+                          header: true,
+                          headingLevel: 2, // <h2>
+                          child: AppText(
+                            title,
+                            key: const ValueKey('hero.invite.title'),
+                            style: AppTextStyles.heroTitle,
+                          ),
+                        ),
+                        AppText(
+                          body,
+                          key: const ValueKey('hero.invite.body'),
+                          style: AppTextStyles.body14Plum,
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkPillButton(
+                    key: const ValueKey('hero.invite.cta'),
+                    icon: icon,
+                    label: label,
+                    onTap: onTap,
+                  ),
+                ],
+              ),
+            ),
+            const Positioned(
+              top: 18,
+              right: 18,
+              child: AppSvg(
+                AppIcons.sparkleOutline,
+                size: 30,
+                key: ValueKey('hero.sparkleLarge'),
+              ),
+            ),
+            const Positioned(
+              top: 54,
+              right: 50,
+              child: AppSvg(
+                AppIcons.sparkleSolid,
+                size: 14,
+                key: ValueKey('hero.sparkleSmall'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

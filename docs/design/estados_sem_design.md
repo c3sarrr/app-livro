@@ -117,3 +117,25 @@ se o aparelho não tem) · **cartão de resultado** (`surface`, borda tinta, rai
 | Câmera indisponível | no cartão: "Câmera indisponível"; ajuda: "A câmera não abriu. Digite o ISBN do livro." |
 
 Livro sem autor conhecido entra na estante como "Autoria desconhecida" (o servidor exige o campo).
+
+## G08 — Início com dados reais (D-78…D-85)
+
+Os estados abaixo usam o vocabulário da própria Início (não os primitivos da conta): a caixa do cartão
+"Continuar lendo" (`brand`, borda tinta 1,5, raio `AppRadii.card`, sombra `AppShadows.hard4`, os dois brilhos) e a
+**pílula tinta** de 54 do "Continuar lendo" (`InkPillButton`: ícone 20 no tom `paper` + Figtree 16/700 `surface`).
+O caminho "com dados" do arquivo não muda.
+
+| Estado | Conteúdo |
+|---|---|
+| Estante vazia (D-78) | título "Comece *sua história.*" · cartão: "Sua estante está vazia" (Bricolage do título do livro) · "Escaneie o código de barras de um livro para começar." (Figtree 14 `inkPlum`) · pílula "Escanear livro" (ícone do scanner) → `/scanner` · "Seu dia de leitura" zerado · Também lendo, Para você, Clube e Recém-chegados não aparecem (cada uma some junto com o gap de antes dela) |
+| Livros na estante, nenhum em leitura (D-85) | "Comece *sua história.*" · cartão: "Nada em leitura agora" · "Escolha um livro da sua estante para começar." · pílula "Ver biblioteca" (ícone da Biblioteca) → aba Biblioteca · Recém-chegados com os livros |
+| Convidado (D-84) | cabeçalho: "Boa noite" (sem vírgula, sem a linha do nome) · círculo `sun` com o ícone de pessoa no lugar da inicial · sininho sem o ponto |
+| Meta do dia batida (D-83) | "Meta de hoje cumprida." no lugar de "Faltam N min para fechar a meta de hoje." |
+| Selo alcançado (D-83) | "Selo de **N dias** conquistado" no lugar de "Mais N dias para o selo de N dias" |
+| Exemplar físico (D-85) | Recém-chegados: "Autor · Físico" |
+| Livro real sem foto (D-79) | capa gerada na moldura da seção: cor de fundo, forma (sol, arco, anel ou linhas) e título em Instrument Serif + autor em maiúsculas, derivados do livro (sempre a mesma para o mesmo livro); miniatura só com cor e forma; trocada pela foto quando ela chega |
+| Livro real com título longo | herói: título em até 3 linhas e autor em 1; Para você: título em até 2 linhas e autor em 1; Recém-chegados: título e subtítulo em até 2 linhas — com "…" |
+| Também lendo com 1 livro | o cartão fica na metade da largura, como os dois do arquivo; o contador mostra o total de livros em leitura (até 2 cartões) |
+| Livro sem capítulos / sem estimativa | sem a pílula "Cap. N de M"; sem o "~Xh YYmin" |
+| Carregando (D-85) | cabeçalho (conta + relógio) · depois de 400 ms, "Carregando sua estante…" (Figtree 14 `inkPlum`, centralizado) |
+| Erro (D-85) | cabeçalho · "Não deu para abrir sua estante." (Figtree 15/700) · pílula "Tentar de novo" |

@@ -10,20 +10,32 @@ import '../../../../core/design_system/widgets/circle_icon_button.dart';
 import '../../../../core/design_system/widgets/neo_box.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
+import '../../domain/models.dart';
 
 /// Seção 1 — Cabeçalho (F03): avatar, saudação e sino.
 /// Linha de 48 com `space-between`; a identidade (44) fica centralizada → começa em y + 2.
 class HeaderSection extends ConsumerWidget {
-  const HeaderSection({super.key, this.onNotificationsTap});
+  const HeaderSection({
+    super.key,
+    this.onNotificationsTap,
+    this.user,
+    this.now,
+  });
 
   /// Toque no sino (ligado à rota na F12).
   final VoidCallback? onNotificationsTap;
 
+  /// Carregando/erro (D-85): o cabeçalho vem da conta e do relógio, sem esperar os dados.
+  final UserSummary? user;
+  final DateTime? now;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final (user, now) = ref.watch(
-      homeSnapshotProvider.select((s) => (s.user, s.now)),
-    );
+    final given = this.user;
+    final givenNow = this.now;
+    final (user, now) = given != null && givenNow != null
+        ? (given, givenNow)
+        : ref.watch(homeSnapshotProvider.select((s) => (s.user, s.now)));
     final (firstName, initial) = (user.firstName, user.initial);
     return SizedBox(
       key: const ValueKey('header'),
