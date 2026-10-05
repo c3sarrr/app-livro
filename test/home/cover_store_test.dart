@@ -24,6 +24,7 @@ Uint8List _webp([int n = 64]) => Uint8List(n)
 
 void main() {
   late Directory dir;
+  late Directory doArquivo;
   late DateTime agora;
   late List<http.Request> pedidos;
   late Map<String, http.Response Function()> respostas;
@@ -40,18 +41,25 @@ void main() {
     }),
     now: () => agora,
     pinned: () async => fixas,
+    fileCovers: () async => doArquivo,
     maxBytes: maxBytes,
   );
 
   setUp(() async {
     dir = await Directory.systemTemp.createTemp('booknest_capas_');
+    doArquivo = await Directory.systemTemp.createTemp(
+      'booknest_capas_arquivo_',
+    );
     agora = DateTime.utc(2026, 10, 5, 12);
     pedidos = [];
     respostas = {};
     fixas = {};
     loja = nova();
   });
-  tearDown(() => dir.delete(recursive: true));
+  tearDown(() async {
+    await dir.delete(recursive: true);
+    await doArquivo.delete(recursive: true);
+  });
 
   const ol = 'https://covers.openlibrary.org/b/id/123-M.jpg?default=false';
   const porIsbn =
@@ -187,6 +195,46 @@ void main() {
         );
       },
     );
+  });
+
+  group('capa que veio no arquivo (G09, D-90)', () {
+    final sha = 'a' * 64;
+
+    test(
+      'existe: vem primeiro e sem rede (nem o id da fonte é pedido)',
+      () async {
+        File('${doArquivo.path}${Platform.pathSeparator}$sha.img')
+            .writeAsBytesSync(_png());
+        final c = PhotoCover(
+          ref: 'ol:123',
+          isbn13: '9788535902778',
+          fileSha: sha,
+        );
+        expect(await (await loja.resolve(c))!.readAsBytes(), _png());
+        expect(await (await loja.cached(c))!.readAsBytes(), _png());
+        expect(pedidos, isEmpty);
+      },
+    );
+
+    test('não existe (ou sha inválido): segue para a foto da fonte', () async {
+      respostas[ol] = () => http.Response.bytes(_jpeg(), 200);
+      expect(
+        await loja.resolve(PhotoCover(ref: 'ol:123', fileSha: sha)),
+        isNotNull,
+      );
+      expect(pedidos, hasLength(1));
+      expect(await loja.cached(const PhotoCover(fileSha: '../x')), isNull);
+    });
+
+    test('a do arquivo não abre: sai, e a da fonte entra no lugar', () async {
+      final f = File('${doArquivo.path}${Platform.pathSeparator}$sha.img')
+        ..writeAsBytesSync(_jpeg());
+      final c = PhotoCover(ref: 'ol:123', fileSha: sha);
+      await loja.discard(c);
+      expect(f.existsSync(), isFalse);
+      respostas[ol] = () => http.Response.bytes(_png(), 200);
+      expect(await (await loja.resolve(c))!.readAsBytes(), _png());
+    });
   });
 
   group('baixar e guardar', () {

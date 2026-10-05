@@ -10,6 +10,7 @@ import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/local_database.dart';
 import '../../catalog/application/catalog_providers.dart'
     show catalogHttpClientProvider;
+import '../../library/data/book_dirs.dart' show fileCoversDirectory;
 import '../data/cover_store.dart';
 import '../domain/models.dart';
 
@@ -22,6 +23,8 @@ final coverImagesProvider = Provider<CoverImages>(
     client: ref.watch(catalogHttpClientProvider),
     pinned: () async =>
         shelfCoverUrls(await ref.read(localDatabaseProvider.future)),
+    // G09 (D-90): a capa que veio no EPUB/PDF primeiro
+    fileCovers: fileCoversDirectory,
   ),
 );
 

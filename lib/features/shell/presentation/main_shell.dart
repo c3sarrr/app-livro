@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/router.dart' show AppRoutes;
 import '../../../core/design_system/tokens/app_spacing.dart';
+import '../../library/presentation/incoming_books.dart' show LibraryTabSwitcher;
 import 'bottom_fade.dart';
 import 'floating_nav_bar.dart';
 import 'scanner_fab.dart';
@@ -50,46 +51,50 @@ class MainShell extends StatelessWidget {
     final navBottom = MainShell.navBottom(context);
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: overlayStyle,
-      child: Stack(
-        children: [
-          // Conteúdo da aba.
-          Positioned.fill(child: shell),
-          // Fade inferior: `pointer-events: none`, pinta antes da barra.
-          const Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            height: 150,
-            child: IgnorePointer(
-              child: BottomFade(key: ValueKey('bottomFade')),
+      // G09 (D-87): o "Abrir com" chegou com outra aba aberta → Biblioteca
+      child: LibraryTabSwitcher(
+        onRequest: () => _selectTab(1),
+        child: Stack(
+          children: [
+            // Conteúdo da aba.
+            Positioned.fill(child: shell),
+            // Fade inferior: `pointer-events: none`, pinta antes da barra.
+            const Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 150,
+              child: IgnorePointer(
+                child: BottomFade(key: ValueKey('bottomFade')),
+              ),
             ),
-          ),
-          // Barra flutuante.
-          Positioned(
-            left: AppSpacing.navSide,
-            right: AppSpacing.navSide,
-            bottom: navBottom,
-            height: AppSpacing.navHeight,
-            child: FloatingNavBar(
-              key: const ValueKey('nav'),
-              currentIndex: shell.currentIndex,
-              onSelect: _selectTab,
-              onScanner: () => _openScanner(context),
+            // Barra flutuante.
+            Positioned(
+              left: AppSpacing.navSide,
+              right: AppSpacing.navSide,
+              bottom: navBottom,
+              height: AppSpacing.navHeight,
+              child: FloatingNavBar(
+                key: const ValueKey('nav'),
+                currentIndex: shell.currentIndex,
+                onSelect: _selectTab,
+                onScanner: () => _openScanner(context),
+              ),
             ),
-          ),
-          // FAB: centro horizontal da tela (o item do meio é simétrico) e topo = topo do item − 30. Irmão da barra,
-          // depois dela: pinta por cima e o toque vale no círculo inteiro.
-          Positioned(
-            left: (width - ScannerFab.size) / 2,
-            bottom: ScannerFab.bottom(navBottom),
-            width: ScannerFab.size,
-            height: ScannerFab.size,
-            child: ScannerFab(
-              key: const ValueKey('nav.scanner.fab'),
-              onTap: () => _openScanner(context),
+            // FAB: centro horizontal da tela (o item do meio é simétrico) e topo = topo do item − 30. Irmão da barra,
+            // depois dela: pinta por cima e o toque vale no círculo inteiro.
+            Positioned(
+              left: (width - ScannerFab.size) / 2,
+              bottom: ScannerFab.bottom(navBottom),
+              width: ScannerFab.size,
+              height: ScannerFab.size,
+              child: ScannerFab(
+                key: const ValueKey('nav.scanner.fab'),
+                onTap: () => _openScanner(context),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

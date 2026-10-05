@@ -237,12 +237,23 @@ final class LocalHomeRepository implements HomeRepository {
               'physical' => BookFormat.physical,
               _ => BookFormat.epub,
             },
-            // "Novo" (desenhado na prancha) não sai de nenhum status por enquanto — a regra é da G09.
-            status: RecentStatus.wantToRead,
+            // D-88: "Novo" para quem chegou hoje ou nos 6 dias anteriores (a janela da D-82); depois "Quero ler"
+            status: today.difference(_localDay(b.addedAt)).inDays < newDays
+                ? RecentStatus.isNew
+                : RecentStatus.wantToRead,
           ),
       ]),
       shelfIsEmpty: data.books.isEmpty,
     );
+  }
+
+  /// D-88: dias em que um livro recém-chegado é "Novo" (hoje e os 6 anteriores).
+  static const int newDays = 7;
+
+  /// Dia local (meia-noite UTC do dia no fuso do aparelho naquele instante).
+  DateTime _localDay(DateTime utc) {
+    final l = utc.toUtc().add(_utcOffsetAt(utc.toUtc()));
+    return DateTime.utc(l.year, l.month, l.day);
   }
 
   Future<T?> _guarded<T>(Future<T?> Function() f) async {
@@ -356,6 +367,7 @@ final class _ShelfBook {
       refPagesTotal = r.readNullable<int>('ref_pages_total'),
       coverRef = r.readNullable<String>('cover_ref'),
       isbn13 = r.readNullable<String>('isbn13'),
+      contentSha256 = r.readNullable<String>('content_sha256'),
       addedAt = parseInstant(r.read<String>('added_at')),
       lastOpenedAt = _instant(r.readNullable<String>('last_opened_at')),
       startedAt = _instant(r.readNullable<String>('started_at')),
@@ -374,6 +386,7 @@ final class _ShelfBook {
   final int? refPagesTotal;
   final String? coverRef;
   final String? isbn13;
+  final String? contentSha256;
   final DateTime addedAt;
   final DateTime? lastOpenedAt;
   final DateTime? startedAt;
@@ -388,7 +401,7 @@ final class _ShelfBook {
     id: id,
     title: title,
     author: authorDisplay,
-    cover: PhotoCover(ref: coverRef, isbn13: isbn13),
+    cover: PhotoCover(ref: coverRef, isbn13: isbn13, fileSha: contentSha256),
   );
 }
 
@@ -459,7 +472,8 @@ final class _Reader {
     final books = [
       for (final r in await _all(
         'SELECT b.id, b.title, b.author_display, b.format, b.status, b.chapters_total, '
-        'b.ref_pages_total, b.cover_ref, b.isbn13, b.added_at, b.last_opened_at, b.started_at, '
+        'b.ref_pages_total, b.cover_ref, b.isbn13, b.content_sha256, b.added_at, b.last_opened_at, '
+        'b.started_at, '
         'p.chapter_index, CAST(p.progression AS REAL) AS progression, p.updated_at AS position_at '
         'FROM user_books b LEFT JOIN reading_positions p '
         'ON p.id = b.id AND p.user_id = b.user_id AND p.deleted_at IS NULL '

@@ -45,20 +45,25 @@ final class DesignedCover extends BookCover {
   int get hashCode => art.hashCode;
 }
 
-/// Foto real (D-79): [ref] da fonte (`ol:<id>` ou URL https da API externa) e/ou [isbn13] (recuo pelo
-/// ISBN no Open Library). Os dois podem faltar: a capa gerada é o que aparece.
+/// Foto real (D-79): a capa que veio dentro do arquivo do livro ([fileSha], o sha256 do arquivo — D-90, sem
+/// rede), [ref] da fonte (`ol:<id>` ou URL https da API externa) e/ou [isbn13] (recuo pelo ISBN no Open
+/// Library). Todos podem faltar: a capa gerada é o que aparece.
 final class PhotoCover extends BookCover {
-  const PhotoCover({this.ref, this.isbn13});
+  const PhotoCover({this.ref, this.isbn13, this.fileSha});
 
   final String? ref;
   final String? isbn13;
+  final String? fileSha;
 
   @override
   bool operator ==(Object other) =>
-      other is PhotoCover && other.ref == ref && other.isbn13 == isbn13;
+      other is PhotoCover &&
+      other.ref == ref &&
+      other.isbn13 == isbn13 &&
+      other.fileSha == fileSha;
 
   @override
-  int get hashCode => Object.hash(ref, isbn13);
+  int get hashCode => Object.hash(ref, isbn13, fileSha);
 }
 
 @immutable

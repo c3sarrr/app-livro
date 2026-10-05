@@ -220,10 +220,10 @@ void main() {
       expect(s.shelfIsEmpty, isFalse);
       expect(s.continueReading, isNull);
       expect(s.recent.map((r) => (r.book.title, r.format, r.status)), [
-        ('Livro 4', BookFormat.physical, RecentStatus.wantToRead),
-        ('Livro 3', BookFormat.physical, RecentStatus.wantToRead),
-        ('Livro 2', BookFormat.physical, RecentStatus.wantToRead),
-      ], reason: 'mais novos primeiro, até 3');
+        ('Livro 4', BookFormat.physical, RecentStatus.isNew),
+        ('Livro 3', BookFormat.physical, RecentStatus.isNew),
+        ('Livro 2', BookFormat.physical, RecentStatus.isNew),
+      ], reason: 'mais novos primeiro, até 3; chegaram nesta semana (D-88)');
       expect(
         s.recent[2].book.cover,
         const PhotoCover(ref: 'ol:42', isbn13: '9788535902772'),
@@ -501,12 +501,42 @@ void main() {
       ]);
       final s = await repo.read(_agora);
       expect(s.recent.map((x) => (x.book.title, x.status, x.format)), [
-        ('Quero', RecentStatus.wantToRead, BookFormat.epub),
-        ('PDF', RecentStatus.wantToRead, BookFormat.pdf),
+        ('Quero', RecentStatus.isNew, BookFormat.epub),
+        ('PDF', RecentStatus.isNew, BookFormat.pdf),
       ]);
       // o "lendo" nunca aberto (ex.: exemplar físico) fica só na leitura
       expect(s.continueReading!.book.title, 'Aberto');
       expect(s.alsoReading.map((a) => a.book.title), ['Lendo nunca aberto']);
+    });
+  });
+
+  group('pílula "Novo" (D-88)', () {
+    test('hoje e os 6 dias anteriores (dia local): "Novo"; do 7º dia para trás: "Quero ler"', () async {
+      await gravar([
+        _livro(1, titulo: 'Hoje', adicionado: _local(10, 5, 1)),
+        // 00:30 de 29/09 em São Paulo (03:30 UTC): 6 dias antes de hoje (5/10)
+        _livro(2, titulo: 'Seis dias', adicionado: _local(9, 29, 0, 30)),
+        // 23:30 de 28/09 em São Paulo — já é 29/09 em UTC, mas o dia local é 28: 7 dias
+        _livro(3, titulo: 'Sete dias', adicionado: _local(9, 28, 23, 30)),
+      ]);
+      final r = (await repo.read(_agora)).recent;
+      expect(r.map((x) => (x.book.title, x.status)), [
+        ('Hoje', RecentStatus.isNew),
+        ('Seis dias', RecentStatus.isNew),
+        ('Sete dias', RecentStatus.wantToRead),
+      ]);
+    });
+
+    test('capa: o sha do arquivo vai para a foto (a capa que veio no EPUB/PDF — D-90)', () async {
+      final sha = 'c' * 64;
+      await gravar([
+        _livro(1, titulo: 'Com arquivo', adicionado: _local(10, 5, 1)).copyWith(
+          contentSha256: Nullable(sha),
+          coverRef: const Nullable('ol:7'),
+        ),
+      ]);
+      final r = (await repo.read(_agora)).recent.single;
+      expect(r.book.cover, PhotoCover(ref: 'ol:7', fileSha: sha));
     });
   });
 
@@ -837,11 +867,12 @@ void main() {
           prancha.readingDay.week.map((d) => d.barHeightPx),
         ))
           'alturas das barras (D-10: arquivo × regra)': true,
-        if (s.recent.last.status != prancha.recent.last.status)
-          'Senhora: "Novo" na prancha, "Quero ler" pela regra (D-85)': (
-            s.recent.last.status,
-            prancha.recent.last.status,
-          ),
+        if (!_mesmos(
+          s.recent.map((x) => x.status),
+          prancha.recent.map((x) => x.status),
+        ))
+          'pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista':
+              [for (final x in s.recent) x.status],
         if (s.forYou != null) 'para você sem catálogo no teste': s.forYou!,
         if (s.club != null) 'clube antes da G21': s.club!,
         if (s.user.firstName != null)
@@ -854,7 +885,16 @@ void main() {
         'progresso (a prancha arredonda a 2 casas)',
         'tempo restante (o arquivo escreve; a regra pessoal é da G10)',
         'alturas das barras (D-10: arquivo × regra)',
-        'Senhora: "Novo" na prancha, "Quero ler" pela regra (D-85)',
+        'pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista',
+      ]);
+      expect(
+        diferencas['pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista'],
+        [RecentStatus.isNew, RecentStatus.isNew, RecentStatus.isNew],
+      );
+      expect(prancha.recent.map((x) => x.status), [
+        RecentStatus.wantToRead,
+        RecentStatus.wantToRead,
+        RecentStatus.isNew,
       ]);
       expect(diferencas['capítulo'], (32, 92));
       expect(diferencas['destaques'], (12, 14));
@@ -869,6 +909,16 @@ bool _iguais(Iterable<double> a, Iterable<double> b) {
   if (x.length != y.length) return false;
   for (var i = 0; i < x.length; i++) {
     if ((x[i] - y[i]).abs() > 1e-9) return false;
+  }
+  return true;
+}
+
+bool _mesmos<T>(Iterable<T> a, Iterable<T> b) {
+  final x = a.toList();
+  final y = b.toList();
+  if (x.length != y.length) return false;
+  for (var i = 0; i < x.length; i++) {
+    if (x[i] != y[i]) return false;
   }
   return true;
 }

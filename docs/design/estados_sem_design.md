@@ -139,3 +139,34 @@ O caminho "com dados" do arquivo não muda.
 | Livro sem capítulos / sem estimativa | sem a pílula "Cap. N de M"; sem o "~Xh YYmin" |
 | Carregando (D-85) | cabeçalho (conta + relógio) · depois de 400 ms, "Carregando sua estante…" (Figtree 14 `inkPlum`, centralizado) |
 | Erro (D-85) | cabeçalho · "Não deu para abrir sua estante." (Figtree 15/700) · pílula "Tentar de novo" |
+
+## G09 — importação (D-86…D-93)
+
+### Aba Biblioteca — bloco mínimo de importar (D-87)
+
+Fica **abaixo** do título "Biblioteca" (que continua no centro, como o placeholder da D-07), como o bloco da
+conta no Perfil (D-69), com os mesmos primitivos. Sem lista de livros: ela espera o design das telas 01–18.
+
+| Estado | Conteúdo |
+|---|---|
+| Parado | "Traga seus livros em EPUB ou PDF." · "Importar livro (EPUB ou PDF)" (principal) → seletor do sistema (só .epub e .pdf) |
+| Importando | o mesmo, com o botão desabilitado · "Importando «nome do arquivo»…" (`inkMuted`) |
+| Pronto | aviso verde "«Título» está na sua estante." (o livro aparece na Início em Recém-chegados, com "Novo" — D-88) |
+| Pronto, páginas fixas (D-92) | aviso vermelho "Este livro tem páginas fixas; a leitura dele ainda não está pronta no BookNest." |
+| Já na estante | aviso verde "Esse livro já está na sua estante." |
+| Não é EPUB nem PDF | aviso vermelho "Esse arquivo não é um EPUB nem um PDF." |
+| Danificado | "Não deu para abrir esse arquivo. Ele pode estar danificado." |
+| Protegido (DRM ou senha — Anexo 03 §2) | "Este arquivo tem proteção e não pode ser aberto." |
+| Sem espaço | "Não há espaço no aparelho para guardar este livro." |
+| Falha inesperada | "Não deu para importar agora. Tente de novo." (o erro vai para o relatório de falhas, sem dado da pessoa) |
+
+### "Abrir com" / "Compartilhar" (D-87)
+
+O arquivo chega por qualquer app do sistema (gerenciador de arquivos, e-mail, navegador). Com o BookNest aberto
+em qualquer aba, o app vai para a Biblioteca e o bloco acima mostra "Importando…" e depois o resultado. Com o app
+fechado, ele abre e faz o mesmo. Vários arquivos de uma vez entram um depois do outro.
+
+### Capa do livro importado (D-90)
+
+A capa que vem no arquivo (a do EPUB; a 1ª página do PDF) aparece na moldura da seção, sem rede. Sem ela, a foto
+da fonte pelo ISBN (D-79) e, sem nenhuma, a capa gerada da G08.

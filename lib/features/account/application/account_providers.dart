@@ -10,6 +10,7 @@ import '../data/export_sink.dart';
 import '../data/local_library.dart';
 import '../data/native_sign_in.dart';
 import '../data/store_age_signals.dart';
+import '../../library/data/book_dirs.dart' show fileCoversDirectory;
 
 export '../../../core/config/server_providers.dart'
     show appEnvProvider, supabaseClientProvider;
@@ -47,5 +48,9 @@ final exportSinkProvider = Provider<ExportSink>(
 );
 
 final localLibraryProvider = FutureProvider<LocalLibrary>(
-  (ref) async => LocalLibrary(await ref.watch(localDatabaseProvider.future)),
+  (ref) async => LocalLibrary(
+    await ref.watch(localDatabaseProvider.future),
+    // G09 (D-90): a capa que veio no arquivo some com o livro
+    fileCovers: fileCoversDirectory,
+  ),
 );

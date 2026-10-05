@@ -83,11 +83,11 @@ void main() {
             .map((m) => m.group(0))
             .toList();
         expect(nonFinal, isEmpty, reason: nonFinal.join('\n'));
-        // 1 + 2 (capas) + 5 + 3 + 6 + 2 + 4 + 7 + 2 + 2 + 12 + 3 + 9 campos, na ordem das classes
-        // (G08: capa desenhada/foto e `shelfIsEmpty`).
+        // 1 + 3 (capas) + 5 + 3 + 6 + 2 + 4 + 7 + 2 + 2 + 12 + 3 + 9 campos, na ordem das classes
+        // (G08: capa desenhada/foto e `shelfIsEmpty`; G09: a capa do arquivo — `fileSha`, D-90).
         expect(
           RegExp(r'^  final ', multiLine: true).allMatches(source).length,
-          58,
+          59,
         );
       },
     );
@@ -101,6 +101,7 @@ void main() {
         'id',
         'ref',
         'isbn13',
+        'fileSha',
         'title',
         'shortTitle',
         'author',

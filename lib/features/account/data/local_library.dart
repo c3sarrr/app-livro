@@ -2,7 +2,7 @@
 // tabelas pessoais (coluna `user_id`). O app mostra só as do dono ATIVO. Entrar numa conta traz para
 // ela o que foi feito como convidado; sair esconde (ou apaga, se a pessoa pedir). Nada daqui vai para
 // a rede (o upload do Pro é outra porta — `lib/core/sync`, G06).
-import 'dart:io' show File, FileSystemException;
+import 'dart:io' show Directory, File, FileSystemException, Platform;
 
 import 'package:drift/drift.dart';
 
@@ -64,15 +64,22 @@ Future<void> _removeFile(String path) async {
 }
 
 final class LocalLibrary {
-  LocalLibrary(this._db, {UuidV7Generator? ids, FileRemover? removeFile})
-    : _kv = KvDao(_db),
-      _ids = ids ?? UuidV7Generator(),
-      _remove = removeFile ?? _removeFile;
+  LocalLibrary(
+    this._db, {
+    UuidV7Generator? ids,
+    FileRemover? removeFile,
+    this._fileCovers,
+  }) : _kv = KvDao(_db),
+       _ids = ids ?? UuidV7Generator(),
+       _remove = removeFile ?? _removeFile;
 
   final AppDatabase _db;
   final KvDao _kv;
   final UuidV7Generator _ids;
   final FileRemover _remove;
+
+  /// Pasta das capas que vieram nos arquivos (G09, D-90): somem com o último livro que usa o arquivo.
+  final Future<Directory> Function()? _fileCovers;
 
   Iterable<String> get _tables => personalSyncColumns.keys;
 
@@ -230,11 +237,35 @@ final class LocalLibrary {
           variables: [Variable.withString(owner)],
         )
         .get();
+    final shas = await _db
+        .customSelect(
+          'SELECT DISTINCT content_sha256 AS sha FROM user_books '
+          'WHERE user_id = ? AND content_sha256 IS NOT NULL',
+          variables: [Variable.withString(owner)],
+        )
+        .get();
     final n = await _eraseRows(owner);
     // depois do banco: se o app fechar no meio, sobra no máximo um arquivo órfão, nunca uma linha
     // apontando para um arquivo apagado
     for (final f in files) {
       await _remove(f.read<String>('path'));
+    }
+    final covers = _fileCovers;
+    if (covers != null) {
+      final dir = await covers();
+      for (final r in shas) {
+        final sha = r.read<String>('sha');
+        // outra conta deste aparelho com o mesmo arquivo: a capa fica
+        final still = await _db
+            .customSelect(
+              'SELECT 1 FROM user_books WHERE content_sha256 = ? LIMIT 1',
+              variables: [Variable.withString(sha)],
+            )
+            .getSingleOrNull();
+        if (still == null) {
+          await _remove('${dir.path}${Platform.pathSeparator}$sha.img');
+        }
+      }
     }
     return n;
   }

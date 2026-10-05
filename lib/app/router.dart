@@ -7,6 +7,7 @@ import '../features/account/presentation/onboarding_screen.dart';
 import '../features/account/presentation/sign_in_screen.dart';
 import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/library/presentation/library_import_block.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
 import '../features/scanner/presentation/scanner_screen.dart';
 import '../features/shell/presentation/main_shell.dart';
@@ -51,7 +52,11 @@ GoRouter createRouter({
             _page(state, MainShell(shell: shell)),
         branches: [
           tab(AppRoutes.inicio, const HomeScreen()),
-          tab(AppRoutes.biblioteca, const PlaceholderScreen('Biblioteca')),
+          // G09 (D-87): até o design da Biblioteca, o placeholder ganha o bloco mínimo de importar (D-21).
+          tab(
+            AppRoutes.biblioteca,
+            const PlaceholderScreen('Biblioteca', below: LibraryImportBlock()),
+          ),
           tab(AppRoutes.clubes, const PlaceholderScreen('Clubes')),
           // D-69: até o design do Perfil, o placeholder ganha o bloco mínimo da conta (D-21).
           tab(

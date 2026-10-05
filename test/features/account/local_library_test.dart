@@ -1,6 +1,7 @@
 // D-68: cada conta (e o convidado) tem as suas linhas no aparelho. Entrar traz o que foi feito como
 // convidado; sair esconde ou apaga; exportar leva tudo do dono (D-65).
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
@@ -297,6 +298,58 @@ void main() {
   });
 
   group('erase (sair e apagar / excluir e apagar)', () {
+    test('G09 (D-90): a capa que veio no arquivo some com o último livro que usa o arquivo', () async {
+      final capas = Directory.systemTemp.createTempSync(
+        'booknest_capas_arquivo_',
+      );
+      addTearDown(() => capas.deleteSync(recursive: true));
+      final apagados = <String>[];
+      final l = LocalLibrary(
+        db,
+        removeFile: (p) async => apagados.add(p),
+        fileCovers: () async => capas,
+      );
+      final g = await l.guestOwnerId();
+      await semearLivro(1, conta);
+      await semearLivro(2, g, titulo: 'Memórias Póstumas');
+      final shaConta = (await UserBooksDao(db).byId(idTeste(1)))!
+          .contentSha256!;
+      final shaConvidado = (await UserBooksDao(db).byId(idTeste(2)))!
+          .contentSha256!;
+      await l.erase(conta);
+      String capa(String sha) =>
+          '${capas.path}${Platform.pathSeparator}$sha.img';
+      expect(apagados, contains(capa(shaConta)));
+      expect(apagados, isNot(contains(capa(shaConvidado))));
+    });
+
+    test(
+      'G09: o mesmo arquivo em outra conta do aparelho — a capa fica',
+      () async {
+        final capas = Directory.systemTemp.createTempSync(
+          'booknest_capas_arquivo_',
+        );
+        addTearDown(() => capas.deleteSync(recursive: true));
+        final apagados = <String>[];
+        final l = LocalLibrary(
+          db,
+          removeFile: (p) async => apagados.add(p),
+          fileCovers: () async => capas,
+        );
+        final g = await l.guestOwnerId();
+        await semearLivro(1, conta);
+        final mesmo = (await UserBooksDao(db).byId(idTeste(1)))!;
+        await UserBooksDao(db).upsert(
+          livroTeste(
+            3,
+            dono: g,
+          ).copyWith(contentSha256: Nullable(mesmo.contentSha256)),
+        );
+        await l.erase(conta);
+        expect(apagados.where((p) => p.endsWith('.img')), isEmpty);
+      },
+    );
+
     test('apaga só o dono: linhas, índice de busca, caches dos livros e os arquivos', () async {
       final g = await lib.guestOwnerId();
       await semearLivro(1, conta);

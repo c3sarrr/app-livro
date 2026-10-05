@@ -86,12 +86,16 @@ final class CoverStore implements CoverImages {
     required this._dir,
     required this._client,
     required this._pinned,
+    this._fileCovers,
     DateTime Function()? now,
     this.maxBytes = defaultMaxBytes,
   }) : _now = now ?? DateTime.now;
 
   /// Pasta das capas (criada na primeira escrita).
   final Future<Directory> Function() _dir;
+
+  /// Pasta das capas que vieram dentro dos arquivos (`<sha256>.img`, G09/D-90): primeiro lugar, sem rede.
+  final Future<Directory> Function()? _fileCovers;
   final http.Client _client;
 
   /// Endereços das capas dos livros da estante (nunca saem do cache).
@@ -126,8 +130,23 @@ final class CoverStore implements CoverImages {
   Future<File> _file(String key, String ext) async =>
       File('${(await _dir()).path}${Platform.pathSeparator}$key.$ext');
 
+  /// A capa do próprio arquivo do livro, quando existe (D-90).
+  Future<File?> _fromFile(PhotoCover cover) async {
+    final sha = cover.fileSha;
+    final dir = _fileCovers;
+    if (sha == null ||
+        dir == null ||
+        !RegExp(r'^[0-9a-f]{64}$').hasMatch(sha)) {
+      return null;
+    }
+    final f = File('${(await dir()).path}${Platform.pathSeparator}$sha.img');
+    return await f.exists() ? f : null;
+  }
+
   @override
   Future<File?> cached(PhotoCover cover) async {
+    final own = await _fromFile(cover);
+    if (own != null) return own;
     for (final u in coverCandidates(cover)) {
       final f = await _file(_key(u), 'img');
       if (await f.exists()) return f;
@@ -137,6 +156,16 @@ final class CoverStore implements CoverImages {
 
   @override
   Future<void> discard(PhotoCover cover) async {
+    // a capa do arquivo que não abre sai; a da fonte (se houver) entra no lugar
+    final own = await _fromFile(cover);
+    if (own != null) {
+      try {
+        await own.delete();
+      } on FileSystemException {
+        // em uso: tenta na próxima
+      }
+      return;
+    }
     for (final u in coverCandidates(cover)) {
       final key = _key(u);
       final img = await _file(key, 'img');
@@ -154,6 +183,8 @@ final class CoverStore implements CoverImages {
 
   @override
   Future<File?> resolve(PhotoCover cover) async {
+    final own = await _fromFile(cover);
+    if (own != null) return own;
     for (final u in coverCandidates(cover)) {
       final key = _key(u);
       final img = await _file(key, 'img');
