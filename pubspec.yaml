@@ -49,6 +49,11 @@ dependencies:
   crypto: ^3.0.7
   path_provider: ^2.1.6
   share_plus: ^13.3.1
+  sqlite_async: ^0.14.5
+  connectivity_plus: ^7.3.2
+  mobile_scanner: ^7.4.2
+  google_mlkit_text_recognition: ^0.17.1
+  image_picker: ^1.2.3
 
 dev_dependencies:
   flutter_test:

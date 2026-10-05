@@ -1,5 +1,5 @@
 {
-  "_LEIA": "Modelo do --dart-define-from-file=env/dev.json. Copie para env/dev.json (fora do git) e preencha SÓ chaves PÚBLICAS — nunca a chave secreta/service_role. Supabase LOCAL do WSL (supabase start). No emulador Android use http://10.0.2.2:54321; num aparelho físico, o IP do PC na rede. PowerSync local (D-71): bash tools/powersync/subir_local.sh no WSL (porta 54330; no emulador http://10.0.2.2:54330).",
+  "_LEIA": "Modelo do --dart-define-from-file=env/dev.json. Copie para env/dev.json (fora do git) e preencha SÓ chaves PÚBLICAS — nunca a chave secreta/service_role. Supabase LOCAL do WSL (supabase start). No emulador Android use http://10.0.2.2:54321; num aparelho físico, o IP do PC na rede. PowerSync local (D-71): bash tools/powersync/subir_local.sh no WSL (porta 54330; no emulador http://10.0.2.2:54330). Catálogo local (D-75): npm run dev em workers/catalog (porta 8787; no emulador http://10.0.2.2:8787/).",
   "BOOKNEST_AMBIENTE": "dev",
   "SUPABASE_URL": "http://127.0.0.1:54321",
   "SUPABASE_PUBLISHABLE_KEY": "<chave pública sb_publishable_…>",
@@ -7,6 +7,7 @@
   "GOOGLE_WEB_CLIENT_ID": "<cliente OAuth Web do Google (…apps.googleusercontent.com) — quando houver projeto na nuvem (D-67)>",
   "GOOGLE_IOS_CLIENT_ID": "<cliente OAuth iOS do Google — quando houver projeto na nuvem (D-67)>",
   "POWERSYNC_URL": "http://127.0.0.1:54330",
+  "CATALOG_URL": "http://127.0.0.1:8787/",
   "REVENUECAT_PUBLIC_KEY_ANDROID": "<chave pública goog_… — G07>",
   "REVENUECAT_PUBLIC_KEY_IOS": "<chave pública appl_… — G07>",
   "SENTRY_DSN": "<DSN — G24 (Q8)>",

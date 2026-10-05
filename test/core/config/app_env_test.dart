@@ -35,4 +35,24 @@ void main() {
     const soPowerSync = AppEnv(powersyncUrl: 'http://127.0.0.1:54330');
     expect(soPowerSync.hasSync, isFalse);
   });
+
+  test('G07: catálogo na borda não depende de conta; o endereço sempre termina em "/"', () {
+    expect(const AppEnv().hasCatalog, isFalse);
+    expect(
+      const AppEnv(catalogUrl: '<endereço do Worker>').hasCatalog,
+      isFalse,
+    );
+    const so = AppEnv(catalogUrl: 'http://127.0.0.1:8787');
+    expect((so.hasCatalog, so.hasServer), (true, false));
+    expect(
+      so.catalogBase.resolve('v1/isbn/1').toString(),
+      'http://127.0.0.1:8787/v1/isbn/1',
+    );
+    expect(
+      const AppEnv(catalogUrl: 'https://cat.exemplo/base/').catalogBase
+          .resolve('v1/x')
+          .toString(),
+      'https://cat.exemplo/base/v1/x',
+    );
+  });
 }

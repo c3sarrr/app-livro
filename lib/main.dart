@@ -12,6 +12,7 @@ import 'core/config/app_env.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
 import 'features/account/application/account_providers.dart';
 import 'features/account/data/secure_session_storage.dart';
+import 'features/catalog/application/catalog_auto_update.dart';
 
 /// Licença SIL OFL 1.1 das fontes do arquivo (Bricolage Grotesque, Figtree,
 /// Instrument Serif), distribuída junto das fontes em `assets/fonts/`.
@@ -36,7 +37,11 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
   await preloadAppIcons();
   final server = await connectServer(AppEnv.fromDefines());
   runApp(
-    ProviderScope(overrides: [...server, ...overrides], child: const App()),
+    ProviderScope(
+      overrides: [...server, ...overrides],
+      // G07: o catálogo do aparelho se atualiza sozinho no Wi-Fi
+      child: const CatalogAutoUpdate(child: App()),
+    ),
   );
 }
 

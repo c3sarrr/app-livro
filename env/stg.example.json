@@ -7,6 +7,7 @@
   "GOOGLE_WEB_CLIENT_ID": "<cliente OAuth Web do Google (…apps.googleusercontent.com) — quando houver projeto na nuvem (D-67)>",
   "GOOGLE_IOS_CLIENT_ID": "<cliente OAuth iOS do Google — quando houver projeto na nuvem (D-67)>",
   "POWERSYNC_URL": "<URL da instância PowerSync Cloud, região BR (D-71)>",
+  "CATALOG_URL": "<endereço do Worker do catálogo — quando houver conta Cloudflare (D-75)>",
   "REVENUECAT_PUBLIC_KEY_ANDROID": "<chave pública goog_… — G07>",
   "REVENUECAT_PUBLIC_KEY_IOS": "<chave pública appl_… — G07>",
   "SENTRY_DSN": "<DSN — G24 (Q8)>",

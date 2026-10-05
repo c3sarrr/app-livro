@@ -1,5 +1,15 @@
 import { deepStrictEqual as assertEquals } from 'node:assert/strict';
-import { brasilApi, type Buscar, hardcover, isbn13, isbndb, procurar } from './provedores.ts';
+import {
+  brasilApi,
+  type Buscar,
+  fontesPorRegiao,
+  hardcover,
+  isbn13,
+  isbndb,
+  procurar,
+  regiaoDoIsbn,
+  type Tentativa,
+} from './provedores.ts';
 
 const resposta = (status: number, corpo: unknown): Buscar => () =>
   Promise.resolve(new Response(JSON.stringify(corpo), { status }));
@@ -101,4 +111,69 @@ Deno.test('procurar: primeira fonte que achar; falha + ninguém achou = indispon
     await procurar('x', [() => Promise.reject(new Error('rede')), () => Promise.resolve(null)]),
     'indisponivel',
   );
+});
+
+Deno.test('região do ISBN (D-73): 978-85 e 978-65 = Brasil; o resto = mundo', () => {
+  assertEquals(regiaoDoIsbn('9788535910667'), 'BR');
+  assertEquals(regiaoDoIsbn('9786586490008'), 'BR');
+  assertEquals(regiaoDoIsbn('9780804429573'), 'MUNDO');
+  assertEquals(regiaoDoIsbn('9783161484100'), 'MUNDO');
+  assertEquals(regiaoDoIsbn('9791000000015'), 'MUNDO');
+});
+
+/** Buscar que registra as URLs e responde 404 (ninguém acha). */
+function gravador(status = 404) {
+  const urls: string[] = [];
+  const buscar: Buscar = (u) => {
+    urls.push(String(u));
+    return Promise.resolve(new Response('{}', { status }));
+  };
+  return { urls, buscar };
+}
+
+Deno.test('Brasil: CBL/Mercado Editorial primeiro, depois as fontes globais; Hardcover/ISBNdb só com chave', async () => {
+  const g = gravador();
+  assertEquals(await procurar('9786586490008', fontesPorRegiao('9786586490008', g.buscar)), 'nao_encontrado');
+  assertEquals(g.urls, [
+    'https://brasilapi.com.br/api/isbn/v1/9786586490008?providers=cbl,mercado-editorial',
+    'https://brasilapi.com.br/api/isbn/v1/9786586490008?providers=open-library,google-books',
+  ]);
+  const comChaves = fontesPorRegiao('9786586490008', g.buscar, { hardcover: 't', isbndb: 'k' });
+  assertEquals(comChaves.map((f) => f.nome), ['brasilapi:br', 'brasilapi:global', 'hardcover', 'isbndb']);
+});
+
+Deno.test('Mundo: só as fontes globais (a CBL não tem livros de fora)', async () => {
+  const g = gravador();
+  await procurar('9780804429573', fontesPorRegiao('9780804429573', g.buscar));
+  assertEquals(g.urls, [
+    'https://brasilapi.com.br/api/isbn/v1/9780804429573?providers=open-library,google-books',
+  ]);
+});
+
+Deno.test('BrasilAPI: guarda qual provedor respondeu', async () => {
+  const l = await brasilApi(
+    '9788535910667',
+    resposta(200, { title: 'Dom Casmurro', authors: [], provider: 'cbl' }),
+    ['cbl'],
+  );
+  assertEquals(l?.provider, 'cbl');
+});
+
+Deno.test('procurar registra cada tentativa (fonte, resultado, tempo)', async () => {
+  const t: Tentativa[] = [];
+  let relogio = 0;
+  const agora = () => (relogio += 5);
+  await procurar(
+    'x',
+    [
+      Object.assign(() => Promise.reject(new Error('x')), { nome: 'a' }),
+      () => Promise.resolve(null),
+    ],
+    t,
+    agora,
+  );
+  assertEquals(t, [
+    { fonte: 'a', resultado: 'falhou', ms: 5 },
+    { fonte: 'fonte2', resultado: 'nao_achou', ms: 5 },
+  ]);
 });

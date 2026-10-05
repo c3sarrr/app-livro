@@ -17,6 +17,7 @@ const livro = {
 
 function fakes(s: Partial<Dependencias> = {}) {
   const cotas: number[] = [];
+  const logs: Record<string, unknown>[] = [];
   const d: Dependencias = {
     verificarJwt: (jwt) => Promise.resolve(jwt === 'jwt-valido' ? USUARIO : null),
     ehPro: () => Promise.resolve(false),
@@ -24,10 +25,11 @@ function fakes(s: Partial<Dependencias> = {}) {
       cotas.push(limite);
       return Promise.resolve(true);
     },
-    fontes: [() => Promise.resolve(livro)],
+    fontes: () => [() => Promise.resolve(livro)],
+    registrar: (e) => logs.push(e),
     ...s,
   };
-  return { handler: criarHandler(d), cotas };
+  return { handler: criarHandler(d), cotas, logs };
 }
 const pedido = (isbn: unknown, jwt = 'jwt-valido') =>
   new Request('http://local/isbn-lookup', {
@@ -58,7 +60,7 @@ Deno.test('cota esgotada → 429 sem consultar fonte nenhuma', async () => {
   let consultou = false;
   const { handler } = fakes({
     consumirCota: () => Promise.resolve(false),
-    fontes: [() => {
+    fontes: () => [() => {
       consultou = true;
       return Promise.resolve(livro);
     }],
@@ -69,11 +71,52 @@ Deno.test('cota esgotada → 429 sem consultar fonte nenhuma', async () => {
 
 Deno.test('não achou → 404; fontes fora do ar → 503', async () => {
   assertEquals(
-    (await fakes({ fontes: [() => Promise.resolve(null)] }).handler(pedido('9788535910667'))).status,
+    (await fakes({ fontes: () => [() => Promise.resolve(null)] }).handler(pedido('9788535910667'))).status,
     404,
   );
   assertEquals(
-    (await fakes({ fontes: [() => Promise.reject(new Error('x'))] }).handler(pedido('9788535910667'))).status,
+    (await fakes({ fontes: () => [() => Promise.reject(new Error('x'))] }).handler(pedido('9788535910667')))
+      .status,
     503,
   );
+});
+
+Deno.test('log estruturado: região, prefixo e fontes tentadas — sem a conta e sem o ISBN inteiro', async () => {
+  const { handler, logs } = fakes({
+    fontes: () => [
+      Object.assign(() => Promise.reject(new Error('fora')), { nome: 'brasilapi:br' }),
+      Object.assign(() => Promise.resolve({ ...livro, provider: 'cbl' }), { nome: 'brasilapi:global' }),
+    ],
+  });
+  assertEquals((await handler(pedido('9788535910667'))).status, 200);
+  assertEquals(logs.length, 1);
+  const e = logs[0];
+  assertEquals([e.fn, e.regiao, e.prefixo, e.resultado, e.provider], [
+    'isbn-lookup',
+    'BR',
+    '97885',
+    'encontrado',
+    'cbl',
+  ]);
+  assertEquals(
+    (e.tentativas as { fonte: string; resultado: string }[]).map((t) => `${t.fonte}=${t.resultado}`),
+    [
+      'brasilapi:br=falhou',
+      'brasilapi:global=achou',
+    ],
+  );
+  const texto = JSON.stringify(e);
+  assertEquals(texto.includes(USUARIO) || texto.includes('9788535910667'), false);
+});
+
+Deno.test('as fontes são escolhidas pelo ISBN pedido (já normalizado)', async () => {
+  const pedidos: string[] = [];
+  const { handler } = fakes({
+    fontes: (isbn) => {
+      pedidos.push(isbn);
+      return [() => Promise.resolve(livro)];
+    },
+  });
+  await handler(pedido('85-359-1066-2'));
+  assertEquals(pedidos, ['9788535910667']);
 });

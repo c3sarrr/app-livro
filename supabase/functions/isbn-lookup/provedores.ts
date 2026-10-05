@@ -1,7 +1,9 @@
-// Fontes externas de ISBN (Anexo 02 §7, camada 4 — último recurso; ADR-008 / Q24):
-// BrasilAPI (dados da CBL, acha 97 % dos livros brasileiros) → Hardcover → ISBNdb (pago; só com
-// chave configurada). O resultado vai para a estante da pessoa, NÃO para o catálogo compartilhado
-// (termos do ISBNdb/Google).
+// Fontes externas de ISBN (Anexo 02 §7, camada 5 — último recurso; ADR-008; D-73 cobertura global):
+// a REGIÃO do ISBN decide a ordem. Brasil (978-85, 978-65) → BrasilAPI só com a CBL e o Mercado
+// Editorial (acham 97 % dos livros brasileiros) → BrasilAPI com Open Library e Google Books →
+// Hardcover → ISBNdb (pago; só com chave). Resto do mundo → BrasilAPI com Open Library e Google
+// Books → Hardcover → ISBNdb. O resultado vai para a estante da pessoa e o cache do aparelho, NÃO
+// para o catálogo compartilhado (termos da CBL/Google/ISBNdb — D-73).
 
 export type Livro = {
   isbn13: string;
@@ -14,7 +16,20 @@ export type Livro = {
   language: string | null;
   cover_url: string | null;
   source: 'brasilapi' | 'hardcover' | 'isbndb';
+  /** Quem respondeu dentro da fonte (a BrasilAPI agrega: cbl, mercado-editorial, open-library…). */
+  provider?: string | null;
 };
+
+export type Regiao = 'BR' | 'MUNDO';
+
+/** Grupo de registro do ISBN: 978-85 e 978-65 = Brasil. */
+export function regiaoDoIsbn(isbn: string): Regiao {
+  return isbn.startsWith('97885') || isbn.startsWith('97865') ? 'BR' : 'MUNDO';
+}
+
+/** Provedores da BrasilAPI por região (parâmetro `providers`). */
+export const PROVEDORES_BRASIL = ['cbl', 'mercado-editorial'];
+export const PROVEDORES_GLOBAIS = ['open-library', 'google-books'];
 
 export type Buscar = typeof fetch;
 
@@ -53,8 +68,9 @@ function inteiro(v: unknown): number | null {
 }
 
 /** Resultado de uma fonte: livro, "não achou" (null) ou falha (lança). */
-export async function brasilApi(isbn: string, buscar: Buscar): Promise<Livro | null> {
-  const r = await buscar(`https://brasilapi.com.br/api/isbn/v1/${isbn}`, {
+export async function brasilApi(isbn: string, buscar: Buscar, provedores?: string[]): Promise<Livro | null> {
+  const filtro = provedores?.length ? `?providers=${provedores.join(',')}` : '';
+  const r = await buscar(`https://brasilapi.com.br/api/isbn/v1/${isbn}${filtro}`, {
     signal: AbortSignal.timeout(4000),
   });
   if (r.status === 404) return null;
@@ -75,6 +91,7 @@ export async function brasilApi(isbn: string, buscar: Buscar): Promise<Livro | n
     language: null,
     cover_url: texto(j.cover_url),
     source: 'brasilapi',
+    provider: texto(j.provider),
   };
 }
 
@@ -132,19 +149,51 @@ export async function isbndb(isbn: string, buscar: Buscar, chave: string): Promi
   };
 }
 
-export type Fonte = (isbn: string) => Promise<Livro | null>;
+export type Fonte = ((isbn: string) => Promise<Livro | null>) & { nome?: string };
+
+/** Dá nome a uma fonte (vai para o log estruturado). */
+export function nomeada(nome: string, f: (isbn: string) => Promise<Livro | null>): Fonte {
+  return Object.assign(f, { nome });
+}
+
+/** Ordem das fontes para o ISBN (D-73). As opcionais entram só com chave configurada. */
+export function fontesPorRegiao(
+  isbn: string,
+  buscar: Buscar,
+  chaves: { hardcover?: string; isbndb?: string } = {},
+): Fonte[] {
+  const fontes: Fonte[] = [];
+  if (regiaoDoIsbn(isbn) === 'BR') {
+    fontes.push(nomeada('brasilapi:br', (i) => brasilApi(i, buscar, PROVEDORES_BRASIL)));
+  }
+  fontes.push(nomeada('brasilapi:global', (i) => brasilApi(i, buscar, PROVEDORES_GLOBAIS)));
+  const h = chaves.hardcover;
+  if (h) fontes.push(nomeada('hardcover', (i) => hardcover(i, buscar, h)));
+  const k = chaves.isbndb;
+  if (k) fontes.push(nomeada('isbndb', (i) => isbndb(i, buscar, k)));
+  return fontes;
+}
+
+/** Uma tentativa numa fonte (para o log estruturado). */
+export type Tentativa = { fonte: string; resultado: 'achou' | 'nao_achou' | 'falhou'; ms: number };
 
 /** Primeira fonte que achar. Se nenhuma achou e alguma falhou → 'indisponivel' (o app tenta depois). */
 export async function procurar(
   isbn: string,
   fontes: Fonte[],
+  tentativas: Tentativa[] = [],
+  agora: () => number = () => performance.now(),
 ): Promise<Livro | 'nao_encontrado' | 'indisponivel'> {
   let falhou = false;
-  for (const f of fontes) {
+  for (const [n, f] of fontes.entries()) {
+    const inicio = agora();
+    const fonte = f.nome ?? `fonte${n + 1}`;
     try {
       const livro = await f(isbn);
+      tentativas.push({ fonte, resultado: livro ? 'achou' : 'nao_achou', ms: Math.round(agora() - inicio) });
       if (livro) return livro;
     } catch {
+      tentativas.push({ fonte, resultado: 'falhou', ms: Math.round(agora() - inicio) });
       falhou = true;
     }
   }

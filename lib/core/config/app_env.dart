@@ -13,6 +13,7 @@ final class AppEnv {
     this.googleIosClientId = '',
     this.authRedirect = defaultAuthRedirect,
     this.powersyncUrl = '',
+    this.catalogUrl = '',
   });
 
   /// Lê os `--dart-define`.
@@ -30,6 +31,7 @@ final class AppEnv {
       defaultValue: defaultAuthRedirect,
     ),
     powersyncUrl: String.fromEnvironment('POWERSYNC_URL'),
+    catalogUrl: String.fromEnvironment('CATALOG_URL'),
   );
 
   /// Deep link de retorno do login pelo navegador (Apple no Android — D-67).
@@ -49,6 +51,10 @@ final class AppEnv {
   /// Serviço PowerSync (sincronização do Pro — ADR-003). Local: `tools/powersync/subir_local.sh`.
   final String powersyncUrl;
 
+  /// Worker do catálogo de livros (G07 — ISBN e o `catalog.db`). Local: `wrangler dev` em
+  /// `workers/catalog` (D-75).
+  final String catalogUrl;
+
   static bool _filled(String v) => v.isNotEmpty && !v.startsWith('<');
 
   /// Há servidor (Supabase) para conta, login e social.
@@ -59,4 +65,11 @@ final class AppEnv {
 
   /// Há sincronização do Pro (precisa do login e do serviço PowerSync).
   bool get hasSync => hasServer && _filled(powersyncUrl);
+
+  /// Há catálogo na borda (não depende de conta: o Grátis também consulta pelo ISBN — §4.3.7).
+  bool get hasCatalog => _filled(catalogUrl);
+
+  /// O endereço do catálogo sempre terminado em `/` (para `Uri.resolve`).
+  Uri get catalogBase =>
+      Uri.parse(catalogUrl.endsWith('/') ? catalogUrl : '$catalogUrl/');
 }
