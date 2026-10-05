@@ -1,0 +1,79 @@
+{
+ "criado_em": "2026-10-31T00:00:00Z",
+ "db": {
+  "bytes": 2217,
+  "conteudo_sha256": "c9759e859792ecdb5dd50284a721c994bef062b2292f3fc3db97d4bc695eebe8",
+  "db_bytes": 32768,
+  "db_sha256": "7c2d329e33bcfab9570fe3510767f8e188b67943e87d131125d2aa08f685f41e",
+  "path": "catalog/v1/2026-10-31.1/catalog.db.gz",
+  "registros": 6,
+  "sha256": "07e18f4da42e841e4673e1b2030c441b6efc128b3e0228cfd74c87aeb7e992ea"
+ },
+ "deltas": [
+  {
+   "bytes": 268,
+   "de": "2026-09-30.1",
+   "del": 1,
+   "path": "catalog/v1/2026-10-31.1/delta-2026-09-30.1.jsonl.gz",
+   "put": 2,
+   "sha256": "1fb23a0f8c64620f59252983a8f447f3452b20670adb874ac61e6ad655978541"
+  }
+ ],
+ "fontes": [
+  {
+   "arquivos": [
+    {
+     "data": "2026-10-31",
+     "nome": "ol_dump_authors_2026-10-31.txt.gz",
+     "sha256": null
+    },
+    {
+     "data": "2026-10-31",
+     "nome": "ol_dump_works_2026-10-31.txt.gz",
+     "sha256": null
+    },
+    {
+     "data": "2026-10-31",
+     "nome": "ol_dump_editions_2026-10-31.txt.gz",
+     "sha256": null
+    },
+    {
+     "data": "2026-10-31",
+     "nome": "ol_dump_ratings_2026-10-31.txt.gz",
+     "sha256": null
+    },
+    {
+     "data": "2026-10-31",
+     "nome": "ol_dump_reading-log_2026-10-31.txt.gz",
+     "sha256": null
+    }
+   ],
+   "fonte": "openlibrary",
+   "licenca": "Open Library — \"The Internet Archive does not assert any new copyright\" (LICENCAS.md)"
+  },
+  {
+   "arquivos": [
+    {
+     "data": "2026-10-05",
+     "nome": "dnb-all_lds.nt.gz",
+     "sha256": null
+    }
+   ],
+   "fonte": "dnb",
+   "licenca": "CC0 1.0 (Deutsche Nationalbibliothek)"
+  }
+ ],
+ "formato": 1,
+ "parametros": {
+  "max_shard": 2,
+  "peso_br": 3,
+  "top": 50
+ },
+ "shards": {
+  "index": "isbn/v1/index.json",
+  "maior": 2,
+  "registros": 6,
+  "shards": 5
+ },
+ "versao": "2026-10-31.1"
+}
