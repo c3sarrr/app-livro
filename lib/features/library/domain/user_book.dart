@@ -56,6 +56,7 @@ final class UserBook {
     DateTime? startedAt,
     DateTime? finishedAt,
     DateTime? lastOpenedAt,
+    String? isbn13,
   }) : id = Check.uuid(id, 'id'),
        editionId = Check.uuidOrNull(editionId, 'editionId'),
        title = Check.text(title, min: 1, max: 500, name: 'title'),
@@ -89,7 +90,8 @@ final class UserBook {
        addedAt = Check.utc(addedAt, 'addedAt'),
        startedAt = Check.utcOrNull(startedAt, 'startedAt'),
        finishedAt = Check.utcOrNull(finishedAt, 'finishedAt'),
-       lastOpenedAt = Check.utcOrNull(lastOpenedAt, 'lastOpenedAt');
+       lastOpenedAt = Check.utcOrNull(lastOpenedAt, 'lastOpenedAt'),
+       isbn13 = Check.isbn13OrNull(isbn13, 'isbn13');
 
   static const int _maxInteger = 2147483647;
   static const int _maxBigint = 9223372036854775807;
@@ -120,6 +122,9 @@ final class UserBook {
   final DateTime? finishedAt;
   final DateTime? lastOpenedAt;
 
+  /// ISBN-13 do exemplar (D-77): o scanner avisa quando o livro já está na estante.
+  final String? isbn13;
+
   UserBook copyWith({
     RecordMeta? meta,
     Nullable<String>? editionId,
@@ -139,6 +144,7 @@ final class UserBook {
     Nullable<DateTime>? startedAt,
     Nullable<DateTime>? finishedAt,
     Nullable<DateTime>? lastOpenedAt,
+    Nullable<String>? isbn13,
   }) => UserBook(
     id: id,
     meta: meta ?? this.meta,
@@ -169,6 +175,7 @@ final class UserBook {
     startedAt: startedAt == null ? this.startedAt : startedAt.value,
     finishedAt: finishedAt == null ? this.finishedAt : finishedAt.value,
     lastOpenedAt: lastOpenedAt == null ? this.lastOpenedAt : lastOpenedAt.value,
+    isbn13: isbn13 == null ? this.isbn13 : isbn13.value,
   );
 
   @override
@@ -192,7 +199,8 @@ final class UserBook {
       other.addedAt == addedAt &&
       other.startedAt == startedAt &&
       other.finishedAt == finishedAt &&
-      other.lastOpenedAt == lastOpenedAt;
+      other.lastOpenedAt == lastOpenedAt &&
+      other.isbn13 == isbn13;
 
   @override
   int get hashCode => Object.hashAll([
@@ -215,5 +223,6 @@ final class UserBook {
     startedAt,
     finishedAt,
     lastOpenedAt,
+    isbn13,
   ]);
 }

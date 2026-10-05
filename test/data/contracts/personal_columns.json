@@ -1,6 +1,8 @@
 {
- "fonte": "supabase/migrations/20261004172249_dados_pessoais.sql",
- "sha256_da_fonte": "73a3c7763876efe4b5aaa8f4970ca883f95d9b68116a6a95795599fb539a119f",
+ "fontes": [
+  {"arquivo": "supabase/migrations/20261004172249_dados_pessoais.sql", "sha256": "73a3c7763876efe4b5aaa8f4970ca883f95d9b68116a6a95795599fb539a119f"},
+  {"arquivo": "supabase/migrations/20261005010717_g07_catalogo.sql", "sha256": "d1ada5fae0834277f2cacf2c7de723bb1f9a491257d5d51b2db4d918fa6a0705"}
+ ],
  "postgres": "17.11",
  "tabelas": {
   "annotations": [
@@ -157,7 +159,8 @@
    ["created_at", "timestamp with time zone"],
    ["updated_at", "timestamp with time zone"],
    ["deleted_at", "timestamp with time zone"],
-   ["version_hlc", "text"]
+   ["version_hlc", "text"],
+   ["isbn13", "text"]
   ]
  }
 }

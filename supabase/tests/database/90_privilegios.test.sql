@@ -44,7 +44,7 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
        'public.profiles', 'public.profile_stats', 'public.follows', 'public.user_blocks', 'public.posts',
        'public.post_comments', 'public.post_likes', 'public.clubs', 'public.club_members', 'public.club_invites',
        'public.club_meetings', 'public.club_posts', 'public.club_post_replies', 'public.notifications', 'public.device_tokens',
-       'catalog.authors', 'catalog.works', 'catalog.work_authors', 'catalog.editions', 'catalog.community_submissions',
+       'catalog.authors', 'catalog.works', 'catalog.work_authors', 'catalog.editions',
        'catalog.submission_confirmations',
        'personal.user_books', 'personal.reading_positions', 'personal.reading_sessions', 'personal.bookmarks',
        'personal.ink_layers', 'personal.annotations', 'personal.highlight_labels', 'personal.reader_settings',
@@ -81,8 +81,8 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
          ('UPDATE', 'public.club_post_replies', array['deleted_at']),
          ('UPDATE', 'public.notifications', array['read_at']),
          ('INSERT', 'public.content_reports', array['reporter_id', 'target_type', 'target_id', 'reason', 'details']),
-         ('INSERT', 'catalog.community_submissions', array['isbn13', 'title', 'authors', 'publisher', 'submitted_by']),
-         ('INSERT', 'catalog.submission_confirmations', array['submission_id', 'user_id'])
+         -- G07 (D-74): quem enviou (submitted_by) não é lido; envio e confirmação só pelas RPCs
+         ('SELECT', 'catalog.community_submissions', array['id', 'isbn13', 'title', 'authors', 'publisher', 'status', 'confirmations', 'created_at'])
        ) as g(priv, tabela, colunas), unnest(g.colunas) c $$,
   'colunas: o cliente só escreve as colunas previstas (contadores, papéis, status e datas de servidor ficam de fora)');
 
@@ -94,6 +94,7 @@ select set_eq($$ select papel || ' ' || objeto from privilegios_de_funcao $$,
        'public.join_public_club(uuid)', 'public.search_editions(text, integer)', 'public.export_my_data()',
        'public.register_device_token(text, text, text)',
        'public.set_my_age_band(text, text)', 'public.my_account()',
+       'public.catalog_by_isbn(text)', 'public.catalog_submit(text, text, text, text)', 'public.catalog_confirm(uuid)',
        'private.uuid_generate_v7()', 'private.f_unaccent(text)', 'private.is_pro()', 'private.user_is_pro(uuid)',
        'private.can_sync(uuid)', 'private.is_club_member(uuid)', 'private.is_club_admin(uuid)',
        'private.is_blocked_between(uuid, uuid)', 'private.can_view_profile_content(uuid)']) f $$,

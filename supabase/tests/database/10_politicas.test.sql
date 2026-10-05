@@ -62,7 +62,8 @@ insert into catalog.work_authors (work_id, author_id) select w.id, a.id from cat
 insert into catalog.editions (title, source) values ('Dom Casmurro', 'openlibrary');
 insert into catalog.community_submissions (id, isbn13, title, authors, submitted_by)
 values (pg_temp.id('envio_a'), '9786500000001', 'Livro Novo', 'Autora', '00000000-0000-7000-8000-00000000000a');
-insert into catalog.submission_confirmations (submission_id, user_id) values (pg_temp.id('envio_a'), '00000000-0000-7000-8000-00000000000a');
+insert into catalog.submission_confirmations (submission_id, user_id) values
+  (pg_temp.id('envio_a'), '00000000-0000-7000-8000-00000000000a'), (pg_temp.id('envio_a'), '00000000-0000-7000-8000-00000000000b');
 insert into personal.user_books (id, user_id, title, author_display, format, status, added_at, created_at, updated_at, version_hlc) values
   ('01927a00-0000-7000-8000-000000000a01', '00000000-0000-7000-8000-00000000000a', 'Livro A', 'X', 'epub', 'reading', now(), now(), now(), '0001726862400000-0000-a'),
   ('01927a00-0000-7000-8000-000000000c01', '00000000-0000-7000-8000-00000000000c', 'Livro C', 'X', 'epub', 'reading', now(), now(), now(), '0001726862400000-0000-c');
@@ -96,15 +97,15 @@ select is((select count(*)::int from catalog.works), 1, 'catalog_works_read: aut
 select is((select count(*)::int from catalog.work_authors), 1, 'catalog_wa_read: autenticado lê');
 select is((select count(*)::int from catalog.editions), 1, 'catalog_editions_read: autenticado lê');
 select is((select count(*)::int from catalog.community_submissions), 1, 'submissions_read: autenticado lê');
-select lives_ok($$ insert into catalog.community_submissions (isbn13, title, authors, submitted_by)
-  values ('9786500000002', 'Outro', 'Autor', '00000000-0000-7000-8000-00000000000b') $$, 'submissions_insert: sugere em nome próprio');
-select throws_like($$ insert into catalog.community_submissions (isbn13, title, authors, submitted_by)
-  values ('9786500000003', 'Falso', 'Autor', '00000000-0000-7000-8000-00000000000a') $$, '%row-level security%',
-  'submissions_insert: não sugere em nome de outra pessoa');
-select lives_ok($$ insert into catalog.submission_confirmations (submission_id, user_id) values (pg_temp.id('envio_a'), '00000000-0000-7000-8000-00000000000b') $$,
-  'confirmations_insert: confirma em nome próprio');
-select throws_like($$ insert into catalog.submission_confirmations (submission_id, user_id) values (pg_temp.id('envio_a'), '00000000-0000-7000-8000-00000000000c') $$,
-  '%row-level security%', 'confirmations_insert: não confirma por outra pessoa');
+select throws_ok($$ select submitted_by from catalog.community_submissions $$, '42501', null,
+  'submissions_read (G07, D-74): quem enviou não é lido por ninguém');
+select throws_ok($$ insert into catalog.community_submissions (isbn13, title, authors, submitted_by)
+  values ('9786500000002', 'Outro', 'Autor', '00000000-0000-7000-8000-00000000000b') $$, '42501', null,
+  'envio à comunidade só pela RPC catalog_submit (sem INSERT direto)');
+select throws_ok($$ insert into catalog.submission_confirmations (submission_id, user_id) values (pg_temp.id('envio_a'), '00000000-0000-7000-8000-00000000000c') $$,
+  '42501', null, 'confirmação só pela RPC catalog_confirm (sem INSERT direto)');
+select is((select confirmations from catalog.community_submissions where id = pg_temp.id('envio_a')), 2,
+  'o contador de confirmações acompanha a tabela (gatilho)');
 select is((select count(*)::int from catalog.submission_confirmations where user_id = '00000000-0000-7000-8000-00000000000b'), 1,
   'confirmations_read: vê a própria confirmação');
 select is((select count(*)::int from catalog.submission_confirmations where user_id = '00000000-0000-7000-8000-00000000000a'), 0,
@@ -354,7 +355,6 @@ select set_eq(
   $$ values
     ('catalog.authors.catalog_authors_read'), ('catalog.works.catalog_works_read'), ('catalog.work_authors.catalog_wa_read'),
     ('catalog.editions.catalog_editions_read'), ('catalog.community_submissions.submissions_read'),
-    ('catalog.community_submissions.submissions_insert'), ('catalog.submission_confirmations.confirmations_insert'),
     ('catalog.submission_confirmations.confirmations_read'),
     ('public.profiles.profiles_read'), ('public.profiles.profiles_update_own'), ('public.profile_stats.profile_stats_read'),
     ('public.follows.follows_read'), ('public.follows.follows_insert'), ('public.follows.follows_delete'), ('public.follows.follows_accept'),

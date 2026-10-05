@@ -35,6 +35,7 @@ mixin _Versioned on Table {
 
 @DataClassName('UserBookRow')
 @TableIndex(name: 'user_books_user_idx', columns: {#userId, #updatedAt})
+@TableIndex(name: 'user_books_user_isbn_idx', columns: {#userId, #isbn13})
 class UserBooks extends Table with _Versioned {
   @override
   String get tableName => 'user_books';
@@ -71,6 +72,11 @@ class UserBooks extends Table with _Versioned {
       text().named('finished_at').map(const InstantConverter()).nullable()();
   TextColumn get lastOpenedAt =>
       text().named('last_opened_at').map(const InstantConverter()).nullable()();
+
+  /// D-77 (esquema v2): entra no FIM da tabela, como no servidor (`alter table … add column`).
+  TextColumn get isbn13 => text().nullable().customConstraint(
+    "NULL CHECK (isbn13 GLOB '97[89][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')",
+  )();
 
   @override
   List<String> get customConstraints => [

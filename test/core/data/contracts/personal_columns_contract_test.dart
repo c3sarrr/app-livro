@@ -1,8 +1,9 @@
 // Teste de contrato de colunas (G03.4; G04: fonte = migration) — Anexo 02 §3.2; PROMPT MESTRE
 // §4.3.5: "esquema local ≡ esquema personal.* do servidor". Três fontes têm de concordar:
-//   1. a migration das tabelas pessoais (supabase/migrations/*_dados_pessoais.sql);
+//   1. as migrations que criam ou alteram as tabelas pessoais (`create table personal.X` e, desde a
+//      G07, `alter table personal.X add column`), na ordem dos arquivos;
 //   2. o information_schema do Supabase local com as migrations aplicadas (instantâneo gerado por
-//      tools/contracts/gerar_contrato_personal.py, com o caminho e o sha256 da migration);
+//      tools/contracts/gerar_contrato_personal.py, com o caminho e o sha256 de cada migration);
 //   3. o esquema local (drift) e a lista de colunas sincronizadas (gatilhos e `put` do PowerSync).
 import 'dart:convert';
 import 'dart:io';
@@ -24,50 +25,68 @@ String tipoNoAparelho(String tipoPostgres) => switch (tipoPostgres) {
   _ => throw StateError('tipo sem mapeamento no aparelho: $tipoPostgres'),
 };
 
-/// Colunas de cada `create table personal.X (…)` da migration, com o tipo no nome do information_schema.
-Map<String, List<(String, String)>> colunasDoSql(String sql) {
+String _tipoDoInformationSchema(String tipo) => switch (tipo) {
+  'timestamptz' => 'timestamp with time zone',
+  final t => t,
+};
+
+/// Colunas de cada `create table personal.X (…)` e de cada `alter table personal.X add column`
+/// (na ordem em que aparecem), com o tipo no nome do information_schema.
+Map<String, List<(String, String)>> colunasDoSql(Iterable<String> sqls) {
   final tabelas = <String, List<(String, String)>>{};
   final inicio = RegExp(r'^create table personal\.(\w+) \(', multiLine: true);
-  for (final m in inicio.allMatches(sql)) {
-    final colunas = <(String, String)>[];
-    for (final bruta in sql.substring(m.end).split('\n').skip(1)) {
-      final linha = bruta.trim();
-      if (linha.startsWith(')')) break;
-      if (linha.isEmpty || linha.startsWith('--')) continue;
-      final partes = linha.split(RegExp(r'\s+'));
-      if (const {
-        'unique',
-        'primary',
-        'foreign',
-        'check',
-        'constraint',
-      }.contains(partes[0])) {
-        continue;
+  final adicao = RegExp(
+    r'^alter table personal\.(\w+)\s+add column (\w+) (\w+)',
+    multiLine: true,
+  );
+  for (final sql in sqls) {
+    for (final m in inicio.allMatches(sql)) {
+      final colunas = <(String, String)>[];
+      for (final bruta in sql.substring(m.end).split('\n').skip(1)) {
+        final linha = bruta.trim();
+        if (linha.startsWith(')')) break;
+        if (linha.isEmpty || linha.startsWith('--')) continue;
+        final partes = linha.split(RegExp(r'\s+'));
+        if (const {
+          'unique',
+          'primary',
+          'foreign',
+          'check',
+          'constraint',
+        }.contains(partes[0])) {
+          continue;
+        }
+        final tipo = partes[1].replaceAll(RegExp(r'[,(].*$'), '');
+        colunas.add((partes[0], _tipoDoInformationSchema(tipo)));
       }
-      final tipo = partes[1].replaceAll(RegExp(r'[,(].*$'), '');
-      colunas.add((
-        partes[0],
-        switch (tipo) {
-          'timestamptz' => 'timestamp with time zone',
-          final t => t,
-        },
-      ));
+      tabelas[m[1]!] = colunas;
     }
-    tabelas[m[1]!] = colunas;
+    for (final m in adicao.allMatches(sql)) {
+      tabelas[m[1]!]!.add((m[2]!, _tipoDoInformationSchema(m[3]!)));
+    }
   }
   return tabelas;
+}
+
+/// Migrations que mexem nas tabelas pessoais, na ordem dos arquivos.
+List<File> migrationsPessoais() {
+  final toca = RegExp(r'^(create|alter) table personal\.', multiLine: true);
+  return Directory('supabase/migrations')
+      .listSync()
+      .whereType<File>()
+      .where((f) => f.path.endsWith('.sql'))
+      .where((f) => toca.hasMatch(f.readAsStringSync()))
+      .toList()
+    ..sort(
+      (a, b) => a.uri.pathSegments.last.compareTo(b.uri.pathSegments.last),
+    );
 }
 
 void main() {
   final contrato = jsonDecode(
     File('test/data/contracts/personal_columns.json').readAsStringSync(),
   ) as Map<String, Object?>;
-  final migrations = Directory('supabase/migrations')
-      .listSync()
-      .whereType<File>()
-      .where((f) => f.path.endsWith('_dados_pessoais.sql'))
-      .toList();
-  final sqlBytes = migrations.single.readAsBytesSync();
+  final migrations = migrationsPessoais();
   final servidor = {
     for (final MapEntry(:key, :value)
         in (contrato['tabelas']! as Map<String, Object?>).entries)
@@ -80,16 +99,20 @@ void main() {
       ],
   };
 
-  test('o instantâneo do information_schema é da migration atual (caminho e sha256)', () {
-    expect(
-      migrations.single.uri.pathSegments.last,
-      (contrato['fonte']! as String).split('/').last,
-    );
-    expect(sha256.convert(sqlBytes).toString(), contrato['sha256_da_fonte']);
+  test('o instantâneo do information_schema é das migrations atuais (caminhos e sha256)', () {
+    expect(contrato['fontes'], [
+      for (final f in migrations)
+        {
+          'arquivo': 'supabase/migrations/${f.uri.pathSegments.last}',
+          'sha256': sha256.convert(f.readAsBytesSync()).toString(),
+        },
+    ]);
   });
 
-  test('migration = information_schema (nomes, ordem e tipos)', () {
-    final doSql = colunasDoSql(utf8.decode(sqlBytes));
+  test('migrations = information_schema (nomes, ordem e tipos)', () {
+    final doSql = colunasDoSql([
+      for (final f in migrations) utf8.decode(f.readAsBytesSync()),
+    ]);
     expect(doSql.keys.toSet(), servidor.keys.toSet());
     expect(doSql.keys.toSet(), personalSyncColumns.keys.toSet());
     for (final t in servidor.keys) {
@@ -112,10 +135,8 @@ void main() {
       }, reason: t);
       colunas += cols.length - 1;
     }
-    expect(
-      colunas,
-      126,
-    ); // sem os 10 `id` (mesma conta do cenário 08 do spike S2)
+    // sem os 10 `id`: 126 do cenário 08 do spike S2 + `user_books.isbn13` (G07, D-77)
+    expect(colunas, 127);
   });
 
   test('colunas sincronizadas (gatilhos da fila e `put`) = servidor sem `id`, na ordem do SQL', () {

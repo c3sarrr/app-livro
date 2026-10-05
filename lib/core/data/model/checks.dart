@@ -79,6 +79,16 @@ abstract final class Check {
   static String? uuidOrNull(String? value, String name) =>
       value == null ? null : uuid(value, name);
 
+  static final RegExp _isbn13 = RegExp(r'^97[89][0-9]{10}$');
+
+  /// ISBN-13 sem hífens (978/979 + 10 dígitos) — o CHECK de `user_books.isbn13` (D-77).
+  static String? isbn13OrNull(String? value, String name) {
+    if (value != null && !_isbn13.hasMatch(value)) {
+      throw ArgumentError.value(value, name, 'ISBN-13 sem hífens (978/979)');
+    }
+    return value;
+  }
+
   /// Valor do enum pelo código do banco; código desconhecido = dado corrompido.
   static T byCode<T extends DbCode>(List<T> values, String code) {
     for (final v in values) {

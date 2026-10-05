@@ -24,7 +24,7 @@ typedef NewVersion = Future<Hlc> Function(String table, String id);
 const List<String> mergedBookColumns = [
   'edition_id', 'title', 'author_display', 'format', 'status', 'cover_ref', //
   'rating', 'added_at', 'started_at', 'finished_at', 'last_opened_at',
-  'updated_at', 'version_hlc',
+  'updated_at', 'version_hlc', 'isbn13',
 ];
 
 /// Tabelas que apontam para o livro por `user_book_id`.

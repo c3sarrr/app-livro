@@ -59,6 +59,7 @@ final class UserBooksDao {
             startedAt: Value(b.startedAt),
             finishedAt: Value(b.finishedAt),
             lastOpenedAt: Value(b.lastOpenedAt),
+            isbn13: Value(b.isbn13),
             createdAt: Value(b.meta.createdAt),
             updatedAt: Value(b.meta.updatedAt),
             deletedAt: Value(b.meta.deletedAt),
@@ -66,6 +67,26 @@ final class UserBooksDao {
           ),
         );
   });
+
+  /// Livro ativo da estante com este ISBN-13 (D-77: o scanner avisa em vez de criar outro). Sem
+  /// índice único — dois aparelhos offline podem ter guardado o mesmo; devolve o mais antigo.
+  Future<UserBook?> activeByIsbn(String userId, String isbn13) async {
+    final r =
+        await (_db.select(_db.userBooks)
+              ..where(
+                (t) =>
+                    t.userId.equals(userId) &
+                    t.isbn13.equals(isbn13) &
+                    t.deletedAt.isNull(),
+              )
+              ..orderBy([
+                (t) => OrderingTerm(expression: t.addedAt),
+                (t) => OrderingTerm(expression: t.id),
+              ])
+              ..limit(1))
+            .getSingleOrNull();
+    return r == null ? null : _toEntity(r);
+  }
 
   Future<UserBook?> byId(String id) async {
     final r = await (_db.select(
@@ -115,6 +136,7 @@ final class UserBooksDao {
     startedAt: r.startedAt,
     finishedAt: r.finishedAt,
     lastOpenedAt: r.lastOpenedAt,
+    isbn13: r.isbn13,
   );
 }
 

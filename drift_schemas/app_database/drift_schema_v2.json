@@ -1,0 +1,3138 @@
+{
+  "_meta": {
+    "description": "This file contains a serialized version of schema entities for drift.",
+    "version": "1.3.0"
+  },
+  "options": {
+    "store_date_time_values_as_text": false
+  },
+  "entities": [
+    {
+      "id": 0,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "user_books",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "edition_id",
+            "getter_name": "editionId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "title",
+            "getter_name": "title",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "author_display",
+            "getter_name": "authorDisplay",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "format",
+            "getter_name": "format",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(BookFileFormat.fromCode)",
+              "dart_type_name": "BookFileFormat"
+            }
+          },
+          {
+            "name": "status",
+            "getter_name": "status",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(ShelfStatus.fromCode)",
+              "dart_type_name": "ShelfStatus"
+            }
+          },
+          {
+            "name": "content_sha256",
+            "getter_name": "contentSha256",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "file_bytes",
+            "getter_name": "fileBytes",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "storage_object_path",
+            "getter_name": "storageObjectPath",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_pages_total",
+            "getter_name": "refPagesTotal",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_page_version",
+            "getter_name": "refPageVersion",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "chapters_total",
+            "getter_name": "chaptersTotal",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "cover_ref",
+            "getter_name": "coverRef",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "rating",
+            "getter_name": "rating",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "added_at",
+            "getter_name": "addedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "started_at",
+            "getter_name": "startedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "finished_at",
+            "getter_name": "finishedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "last_opened_at",
+            "getter_name": "lastOpenedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "isbn13",
+            "getter_name": "isbn13",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": "NULL CHECK (isbn13 GLOB '97[89][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')",
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (length(title) BETWEEN 1 AND 500)",
+          "CHECK (length(author_display) BETWEEN 1 AND 500)",
+          "CHECK (format IN ('epub','pdf','physical'))",
+          "CHECK (status IN ('want_to_read','reading','finished','abandoned'))",
+          "CHECK (content_sha256 IS NULL OR (length(content_sha256) = 64 AND content_sha256 NOT GLOB '*[^0-9a-f]*'))",
+          "CHECK (file_bytes >= 0)",
+          "CHECK (ref_pages_total > 0)",
+          "CHECK (chapters_total > 0)",
+          "CHECK (rating BETWEEN 1 AND 5)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "reading_positions",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "locator",
+            "getter_name": "locator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const LocatorConverter()",
+              "dart_type_name": "Locator"
+            }
+          },
+          {
+            "name": "ref_page",
+            "getter_name": "refPage",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "chapter_index",
+            "getter_name": "chapterIndex",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "progression",
+            "getter_name": "progression",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const DecimalTextConverter(5)",
+              "dart_type_name": "double"
+            }
+          },
+          {
+            "name": "device_id",
+            "getter_name": "deviceId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (json_valid(locator) AND json_type(locator) = 'object')",
+          "CHECK (ref_page > 0)",
+          "CHECK (chapter_index >= 0)",
+          "CHECK (CAST(progression AS REAL) BETWEEN 0 AND 1)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "reading_sessions",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "started_at",
+            "getter_name": "startedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "ended_at",
+            "getter_name": "endedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "active_seconds",
+            "getter_name": "activeSeconds",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_page_from",
+            "getter_name": "refPageFrom",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_page_to",
+            "getter_name": "refPageTo",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "pages_viewed",
+            "getter_name": "pagesViewed",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source",
+            "getter_name": "source",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(SessionSource.fromCode)",
+              "dart_type_name": "SessionSource"
+            }
+          },
+          {
+            "name": "device_id",
+            "getter_name": "deviceId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (active_seconds BETWEEN 0 AND 86400)",
+          "CHECK (pages_viewed >= 0)",
+          "CHECK (source IN ('auto','timer','manual'))",
+          "CHECK (julianday(ended_at) >= julianday(started_at))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "bookmarks",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "locator",
+            "getter_name": "locator",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const LocatorConverter()",
+              "dart_type_name": "Locator"
+            }
+          },
+          {
+            "name": "ref_page",
+            "getter_name": "refPage",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "chapter_index",
+            "getter_name": "chapterIndex",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "excerpt",
+            "getter_name": "excerpt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (json_valid(locator) AND json_type(locator) = 'object')",
+          "CHECK (ref_page > 0)",
+          "CHECK (chapter_index >= 0)",
+          "CHECK (length(excerpt) <= 280)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "ink_layers",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "kind",
+            "getter_name": "kind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(InkLayerKind.fromCode)",
+              "dart_type_name": "InkLayerKind"
+            }
+          },
+          {
+            "name": "anchor",
+            "getter_name": "anchor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const AnchorConverter()",
+              "dart_type_name": "TextAnchor"
+            }
+          },
+          {
+            "name": "space_lines",
+            "getter_name": "spaceLines",
+            "moor_type": "int",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "collapsed",
+            "getter_name": "collapsed",
+            "moor_type": "bool",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "CHECK (\"collapsed\" IN (0, 1))",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "CHECK (\"collapsed\" IN (0, 1))"
+            },
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "strokes_b64",
+            "getter_name": "strokesB64",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "stroke_count",
+            "getter_name": "strokeCount",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "codec_version",
+            "getter_name": "codecVersion",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('1')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (kind IN ('over_text','space'))",
+          "CHECK (json_valid(anchor) AND json_type(anchor) = 'object')",
+          "CHECK (space_lines BETWEEN 1 AND 12)",
+          "CHECK (stroke_count >= 0)",
+          "CHECK ((kind = 'space') = (space_lines IS NOT NULL))",
+          "CHECK (length(strokes_b64) <= 349528)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "annotations",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "kind",
+            "getter_name": "kind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(AnnotationKind.fromCode)",
+              "dart_type_name": "AnnotationKind"
+            }
+          },
+          {
+            "name": "parent_id",
+            "getter_name": "parentId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "group_id",
+            "getter_name": "groupId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source",
+            "getter_name": "source",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'selection\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(AnnotationSource.fromCode)",
+              "dart_type_name": "AnnotationSource"
+            }
+          },
+          {
+            "name": "anchor",
+            "getter_name": "anchor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const AnchorConverter()",
+              "dart_type_name": "TextAnchor"
+            }
+          },
+          {
+            "name": "ref_page",
+            "getter_name": "refPage",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "chapter_index",
+            "getter_name": "chapterIndex",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "color",
+            "getter_name": "color",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "style",
+            "getter_name": "style",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(HighlightStyle.fromCode)",
+              "dart_type_name": "HighlightStyle"
+            }
+          },
+          {
+            "name": "fill_height",
+            "getter_name": "fillHeight",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(FillHeight.fromCode)",
+              "dart_type_name": "FillHeight"
+            }
+          },
+          {
+            "name": "note_text",
+            "getter_name": "noteText",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ink_layer_id",
+            "getter_name": "inkLayerId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "shared_club_post_id",
+            "getter_name": "sharedClubPostId",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (kind IN ('highlight','note','handwriting','drawing'))",
+          "CHECK (source IN ('selection','ink'))",
+          "CHECK (json_valid(anchor) AND json_type(anchor) = 'object')",
+          "CHECK (ref_page > 0)",
+          "CHECK (chapter_index >= 0)",
+          "CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
+          "CHECK (style IN ('fill','underline','wavy'))",
+          "CHECK (fill_height IN ('low','medium','high'))",
+          "CHECK (length(note_text) <= 10000)",
+          "CHECK ((kind = 'note') = (note_text IS NOT NULL))",
+          "CHECK (kind NOT IN ('handwriting','drawing') OR ink_layer_id IS NOT NULL)",
+          "CHECK (kind <> 'highlight' OR (color IS NOT NULL AND style IS NOT NULL))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "highlight_labels",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "color",
+            "getter_name": "color",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "label",
+            "getter_name": "label",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "sort",
+            "getter_name": "sort",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
+          "CHECK (length(label) BETWEEN 1 AND 24)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "reader_settings",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "font_step",
+            "getter_name": "fontStep",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('4')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "font_family",
+            "getter_name": "fontFamily",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'literata\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(ReaderFontFamily.fromCode)",
+              "dart_type_name": "ReaderFontFamily"
+            }
+          },
+          {
+            "name": "paper",
+            "getter_name": "paper",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'creme\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(ReaderPaper.fromCode)",
+              "dart_type_name": "ReaderPaper"
+            }
+          },
+          {
+            "name": "line_spacing",
+            "getter_name": "lineSpacing",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'medio\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(ReaderLineSpacing.fromCode)",
+              "dart_type_name": "ReaderLineSpacing"
+            }
+          },
+          {
+            "name": "margins",
+            "getter_name": "margins",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'media\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(ReaderMargins.fromCode)",
+              "dart_type_name": "ReaderMargins"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (font_step BETWEEN 1 AND 7)",
+          "CHECK (font_family IN ('literata','lora','figtree','atkinson'))",
+          "CHECK (paper IN ('creme','branco','sepia','noite'))",
+          "CHECK (line_spacing IN ('justo','medio','solto'))",
+          "CHECK (margins IN ('estreita','media','larga'))",
+          "CHECK (id = user_id)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "pen_presets",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "pen_tip",
+            "getter_name": "penTip",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'ballpoint\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(PenTip.fromCode)",
+              "dart_type_name": "PenTip"
+            }
+          },
+          {
+            "name": "pen_width_mm",
+            "getter_name": "penWidthMm",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'1.2\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const DecimalTextConverter(1)",
+              "dart_type_name": "double"
+            }
+          },
+          {
+            "name": "pen_color",
+            "getter_name": "penColor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'#FF552E\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "favorite_colors",
+            "getter_name": "favoriteColors",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'[\"#FF552E\",\"#552CB7\",\"#058CD7\",\"#00995E\",\"#F2A815\",\"#1A1714\"]\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const StringListConverter()",
+              "dart_type_name": "List<String>"
+            }
+          },
+          {
+            "name": "stroke_size",
+            "getter_name": "strokeSize",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'medium\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(StrokeSize.fromCode)",
+              "dart_type_name": "StrokeSize"
+            }
+          },
+          {
+            "name": "highlighter_style",
+            "getter_name": "highlighterStyle",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'fill\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(HighlightStyle.fromCode)",
+              "dart_type_name": "HighlightStyle"
+            }
+          },
+          {
+            "name": "highlighter_height",
+            "getter_name": "highlighterHeight",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'medium\\'')",
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const CodeConverter(FillHeight.fromCode)",
+              "dart_type_name": "FillHeight"
+            }
+          },
+          {
+            "name": "highlighter_color",
+            "getter_name": "highlighterColor",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'#FED170\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (pen_tip IN ('ballpoint','fountain','brush'))",
+          "CHECK (CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0)",
+          "CHECK (pen_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
+          "CHECK (json_valid(favorite_colors) AND json_type(favorite_colors) = 'array' AND json_array_length(favorite_colors) <= 12)",
+          "CHECK (stroke_size IN ('thin','medium','thick'))",
+          "CHECK (highlighter_style IN ('fill','underline','wavy'))",
+          "CHECK (highlighter_height IN ('low','medium','high'))",
+          "CHECK (highlighter_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]')",
+          "CHECK (id = user_id)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "reading_goals",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "deleted_at",
+            "getter_name": "deletedAt",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "version_hlc",
+            "getter_name": "versionHlc",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const HlcConverter()",
+              "dart_type_name": "Hlc"
+            }
+          },
+          {
+            "name": "_extras",
+            "getter_name": "extras",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "user_id",
+            "getter_name": "userId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "daily_minutes",
+            "getter_name": "dailyMinutes",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('30')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "badge_target_days",
+            "getter_name": "badgeTargetDays",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('7')",
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (daily_minutes BETWEEN 5 AND 600)",
+          "CHECK (badge_target_days BETWEEN 1 AND 365)",
+          "CHECK (id = user_id)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "kv",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "key",
+            "getter_name": "key",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "value",
+            "getter_name": "value",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "key"
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "local_files",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "path",
+            "getter_name": "path",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "bytes",
+            "getter_name": "bytes",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "sha256",
+            "getter_name": "sha256",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "upload_state",
+            "getter_name": "uploadState",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('\\'none\\'')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (upload_state IN ('none','pending','uploading','uploaded','failed'))",
+          "CHECK (bytes >= 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "user_book_id"
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "book_content_index",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "content_sha256",
+            "getter_name": "contentSha256",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_page_version",
+            "getter_name": "refPageVersion",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "spine_json",
+            "getter_name": "spineJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "char_counts_json",
+            "getter_name": "charCountsJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "toc_json",
+            "getter_name": "tocJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "ref_pages_json",
+            "getter_name": "refPagesJson",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "built_at",
+            "getter_name": "builtAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "user_book_id"
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "page_layout_cache",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "user_book_id",
+            "getter_name": "userBookId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "settings_hash",
+            "getter_name": "settingsHash",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "viewport",
+            "getter_name": "viewport",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "fonts_version",
+            "getter_name": "fontsVersion",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "breaks",
+            "getter_name": "breaks",
+            "moor_type": "blob",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "user_book_id",
+          "settings_hash",
+          "viewport",
+          "fonts_version"
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "catalog_cache",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "key",
+            "getter_name": "key",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "kind",
+            "getter_name": "kind",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "source",
+            "getter_name": "source",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "license",
+            "getter_name": "license",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "payload",
+            "getter_name": "payload",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "fetched_at",
+            "getter_name": "fetchedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (kind IN ('isbn','search'))",
+          "CHECK (json_valid(payload))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "key"
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "social_cache",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "key",
+            "getter_name": "key",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "payload",
+            "getter_name": "payload",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "updated_at",
+            "getter_name": "updatedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (json_valid(payload))"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "key"
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "pending_social_ops",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "op",
+            "getter_name": "op",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "payload",
+            "getter_name": "payload",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "created_at",
+            "getter_name": "createdAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          },
+          {
+            "name": "attempts",
+            "getter_name": "attempts",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": "const CustomExpression('0')",
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "last_error",
+            "getter_name": "lastError",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [
+          "CHECK (json_valid(payload))",
+          "CHECK (attempts >= 0)"
+        ],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "sync_rejections",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "id",
+            "getter_name": "id",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "entity",
+            "getter_name": "entity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "row_id",
+            "getter_name": "rowId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "reason",
+            "getter_name": "reason",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "code",
+            "getter_name": "code",
+            "moor_type": "string",
+            "nullable": true,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "operation",
+            "getter_name": "operation",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "rejected_at",
+            "getter_name": "rejectedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [],
+            "type_converter": {
+              "dart_expr": "const InstantConverter()",
+              "dart_type_name": "DateTime"
+            }
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true,
+        "explicit_pk": [
+          "id"
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "references": [],
+      "type": "table",
+      "data": {
+        "name": "sync_ignored_deletes",
+        "was_declared_in_moor": false,
+        "columns": [
+          {
+            "name": "seq",
+            "getter_name": "seq",
+            "moor_type": "int",
+            "nullable": false,
+            "customConstraints": null,
+            "defaultConstraints": "PRIMARY KEY AUTOINCREMENT",
+            "dialectAwareDefaultConstraints": {
+              "sqlite": "PRIMARY KEY AUTOINCREMENT"
+            },
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": [
+              "auto-increment"
+            ]
+          },
+          {
+            "name": "entity",
+            "getter_name": "entity",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "row_id",
+            "getter_name": "rowId",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          },
+          {
+            "name": "received_at",
+            "getter_name": "receivedAt",
+            "moor_type": "string",
+            "nullable": false,
+            "customConstraints": null,
+            "default_dart": null,
+            "default_client_dart": null,
+            "dsl_features": []
+          }
+        ],
+        "is_virtual": false,
+        "without_rowid": false,
+        "constraints": [],
+        "strict": true
+      }
+    },
+    {
+      "id": 19,
+      "references": [
+        0
+      ],
+      "type": "index",
+      "data": {
+        "on": 0,
+        "name": "user_books_user_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "user_id",
+            "order_by": null
+          },
+          {
+            "column": "updated_at",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "references": [
+        0
+      ],
+      "type": "index",
+      "data": {
+        "on": 0,
+        "name": "user_books_user_isbn_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "user_id",
+            "order_by": null
+          },
+          {
+            "column": "isbn13",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "references": [
+        2
+      ],
+      "type": "index",
+      "data": {
+        "on": 2,
+        "name": "reading_sessions_book_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "user_book_id",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "references": [
+        2
+      ],
+      "type": "index",
+      "data": {
+        "on": 2,
+        "name": "reading_sessions_started_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "started_at",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "references": [
+        3
+      ],
+      "type": "index",
+      "data": {
+        "on": 3,
+        "name": "bookmarks_book_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "user_book_id",
+            "order_by": null
+          },
+          {
+            "column": "ref_page",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "references": [
+        4
+      ],
+      "type": "index",
+      "data": {
+        "on": 4,
+        "name": "ink_layers_book_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "user_book_id",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "annotations_book_page_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "user_book_id",
+            "order_by": null
+          },
+          {
+            "column": "ref_page",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "annotations_parent_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "parent_id",
+            "order_by": null
+          }
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "references": [
+        5
+      ],
+      "type": "index",
+      "data": {
+        "on": 5,
+        "name": "annotations_ink_idx",
+        "sql": null,
+        "unique": false,
+        "columns": [
+          {
+            "column": "ink_layer_id",
+            "order_by": null
+          }
+        ]
+      }
+    }
+  ],
+  "fixed_sql": [
+    {
+      "name": "user_books",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"user_books\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"edition_id\" TEXT NULL, \"title\" TEXT NOT NULL, \"author_display\" TEXT NOT NULL, \"format\" TEXT NOT NULL, \"status\" TEXT NOT NULL, \"content_sha256\" TEXT NULL, \"file_bytes\" INTEGER NULL, \"storage_object_path\" TEXT NULL, \"ref_pages_total\" INTEGER NULL, \"ref_page_version\" INTEGER NULL, \"chapters_total\" INTEGER NULL, \"cover_ref\" TEXT NULL, \"rating\" INTEGER NULL, \"added_at\" TEXT NOT NULL, \"started_at\" TEXT NULL, \"finished_at\" TEXT NULL, \"last_opened_at\" TEXT NULL, \"isbn13\" TEXT NULL CHECK (isbn13 GLOB '97[89][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'), PRIMARY KEY (\"id\"), CHECK (length(title) BETWEEN 1 AND 500), CHECK (length(author_display) BETWEEN 1 AND 500), CHECK (format IN ('epub','pdf','physical')), CHECK (status IN ('want_to_read','reading','finished','abandoned')), CHECK (content_sha256 IS NULL OR (length(content_sha256) = 64 AND content_sha256 NOT GLOB '*[^0-9a-f]*')), CHECK (file_bytes >= 0), CHECK (ref_pages_total > 0), CHECK (chapters_total > 0), CHECK (rating BETWEEN 1 AND 5)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "reading_positions",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"reading_positions\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"locator\" TEXT NOT NULL, \"ref_page\" INTEGER NOT NULL, \"chapter_index\" INTEGER NOT NULL, \"progression\" TEXT NOT NULL, \"device_id\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (json_valid(locator) AND json_type(locator) = 'object'), CHECK (ref_page > 0), CHECK (chapter_index >= 0), CHECK (CAST(progression AS REAL) BETWEEN 0 AND 1)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "reading_sessions",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"reading_sessions\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"user_book_id\" TEXT NOT NULL, \"started_at\" TEXT NOT NULL, \"ended_at\" TEXT NOT NULL, \"active_seconds\" INTEGER NOT NULL, \"ref_page_from\" INTEGER NULL, \"ref_page_to\" INTEGER NULL, \"pages_viewed\" INTEGER NULL, \"source\" TEXT NOT NULL, \"device_id\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (active_seconds BETWEEN 0 AND 86400), CHECK (pages_viewed >= 0), CHECK (source IN ('auto','timer','manual')), CHECK (julianday(ended_at) >= julianday(started_at))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "bookmarks",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"bookmarks\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"user_book_id\" TEXT NOT NULL, \"locator\" TEXT NOT NULL, \"ref_page\" INTEGER NOT NULL, \"chapter_index\" INTEGER NOT NULL, \"excerpt\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (json_valid(locator) AND json_type(locator) = 'object'), CHECK (ref_page > 0), CHECK (chapter_index >= 0), CHECK (length(excerpt) <= 280)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "ink_layers",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"ink_layers\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"user_book_id\" TEXT NOT NULL, \"kind\" TEXT NOT NULL, \"anchor\" TEXT NOT NULL, \"space_lines\" INTEGER NULL, \"collapsed\" INTEGER NOT NULL DEFAULT 0 CHECK (\"collapsed\" IN (0, 1)), \"strokes_b64\" TEXT NOT NULL, \"stroke_count\" INTEGER NOT NULL, \"codec_version\" INTEGER NOT NULL DEFAULT 1, PRIMARY KEY (\"id\"), CHECK (kind IN ('over_text','space')), CHECK (json_valid(anchor) AND json_type(anchor) = 'object'), CHECK (space_lines BETWEEN 1 AND 12), CHECK (stroke_count >= 0), CHECK ((kind = 'space') = (space_lines IS NOT NULL)), CHECK (length(strokes_b64) <= 349528)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "annotations",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"annotations\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"user_book_id\" TEXT NOT NULL, \"kind\" TEXT NOT NULL, \"parent_id\" TEXT NULL, \"group_id\" TEXT NOT NULL, \"source\" TEXT NOT NULL DEFAULT 'selection', \"anchor\" TEXT NOT NULL, \"ref_page\" INTEGER NOT NULL, \"chapter_index\" INTEGER NOT NULL, \"color\" TEXT NULL, \"style\" TEXT NULL, \"fill_height\" TEXT NULL, \"note_text\" TEXT NULL, \"ink_layer_id\" TEXT NULL, \"shared_club_post_id\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (kind IN ('highlight','note','handwriting','drawing')), CHECK (source IN ('selection','ink')), CHECK (json_valid(anchor) AND json_type(anchor) = 'object'), CHECK (ref_page > 0), CHECK (chapter_index >= 0), CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (style IN ('fill','underline','wavy')), CHECK (fill_height IN ('low','medium','high')), CHECK (length(note_text) <= 10000), CHECK ((kind = 'note') = (note_text IS NOT NULL)), CHECK (kind NOT IN ('handwriting','drawing') OR ink_layer_id IS NOT NULL), CHECK (kind <> 'highlight' OR (color IS NOT NULL AND style IS NOT NULL))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "highlight_labels",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"highlight_labels\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"color\" TEXT NOT NULL, \"label\" TEXT NOT NULL, \"sort\" INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (\"id\"), CHECK (color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (length(label) BETWEEN 1 AND 24)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "reader_settings",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"reader_settings\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"font_step\" INTEGER NOT NULL DEFAULT 4, \"font_family\" TEXT NOT NULL DEFAULT 'literata', \"paper\" TEXT NOT NULL DEFAULT 'creme', \"line_spacing\" TEXT NOT NULL DEFAULT 'medio', \"margins\" TEXT NOT NULL DEFAULT 'media', PRIMARY KEY (\"id\"), CHECK (font_step BETWEEN 1 AND 7), CHECK (font_family IN ('literata','lora','figtree','atkinson')), CHECK (paper IN ('creme','branco','sepia','noite')), CHECK (line_spacing IN ('justo','medio','solto')), CHECK (margins IN ('estreita','media','larga')), CHECK (id = user_id)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "pen_presets",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"pen_presets\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"pen_tip\" TEXT NOT NULL DEFAULT 'ballpoint', \"pen_width_mm\" TEXT NOT NULL DEFAULT '1.2', \"pen_color\" TEXT NOT NULL DEFAULT '#FF552E', \"favorite_colors\" TEXT NOT NULL DEFAULT '[\"#FF552E\",\"#552CB7\",\"#058CD7\",\"#00995E\",\"#F2A815\",\"#1A1714\"]', \"stroke_size\" TEXT NOT NULL DEFAULT 'medium', \"highlighter_style\" TEXT NOT NULL DEFAULT 'fill', \"highlighter_height\" TEXT NOT NULL DEFAULT 'medium', \"highlighter_color\" TEXT NOT NULL DEFAULT '#FED170', PRIMARY KEY (\"id\"), CHECK (pen_tip IN ('ballpoint','fountain','brush')), CHECK (CAST(pen_width_mm AS REAL) BETWEEN 0.3 AND 4.0), CHECK (pen_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (json_valid(favorite_colors) AND json_type(favorite_colors) = 'array' AND json_array_length(favorite_colors) <= 12), CHECK (stroke_size IN ('thin','medium','thick')), CHECK (highlighter_style IN ('fill','underline','wavy')), CHECK (highlighter_height IN ('low','medium','high')), CHECK (highlighter_color GLOB '#[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'), CHECK (id = user_id)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "reading_goals",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"reading_goals\" (\"created_at\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, \"deleted_at\" TEXT NULL, \"version_hlc\" TEXT NOT NULL, \"_extras\" TEXT NULL, \"id\" TEXT NOT NULL, \"user_id\" TEXT NOT NULL, \"daily_minutes\" INTEGER NOT NULL DEFAULT 30, \"badge_target_days\" INTEGER NOT NULL DEFAULT 7, PRIMARY KEY (\"id\"), CHECK (daily_minutes BETWEEN 5 AND 600), CHECK (badge_target_days BETWEEN 1 AND 365), CHECK (id = user_id)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "kv",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"kv\" (\"key\" TEXT NOT NULL, \"value\" TEXT NOT NULL, PRIMARY KEY (\"key\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "local_files",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"local_files\" (\"user_book_id\" TEXT NOT NULL, \"path\" TEXT NOT NULL, \"bytes\" INTEGER NOT NULL, \"sha256\" TEXT NOT NULL, \"upload_state\" TEXT NOT NULL DEFAULT 'none', \"updated_at\" TEXT NOT NULL, PRIMARY KEY (\"user_book_id\"), CHECK (upload_state IN ('none','pending','uploading','uploaded','failed')), CHECK (bytes >= 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "book_content_index",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"book_content_index\" (\"user_book_id\" TEXT NOT NULL, \"content_sha256\" TEXT NOT NULL, \"ref_page_version\" INTEGER NOT NULL, \"spine_json\" TEXT NOT NULL, \"char_counts_json\" TEXT NOT NULL, \"toc_json\" TEXT NOT NULL, \"ref_pages_json\" TEXT NOT NULL, \"built_at\" TEXT NOT NULL, PRIMARY KEY (\"user_book_id\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "page_layout_cache",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"page_layout_cache\" (\"user_book_id\" TEXT NOT NULL, \"settings_hash\" TEXT NOT NULL, \"viewport\" TEXT NOT NULL, \"fonts_version\" INTEGER NOT NULL, \"breaks\" BLOB NOT NULL, \"created_at\" TEXT NOT NULL, PRIMARY KEY (\"user_book_id\", \"settings_hash\", \"viewport\", \"fonts_version\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "catalog_cache",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"catalog_cache\" (\"key\" TEXT NOT NULL, \"kind\" TEXT NOT NULL, \"source\" TEXT NOT NULL, \"license\" TEXT NULL, \"payload\" TEXT NOT NULL, \"fetched_at\" TEXT NOT NULL, PRIMARY KEY (\"key\"), CHECK (kind IN ('isbn','search')), CHECK (json_valid(payload))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "social_cache",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"social_cache\" (\"key\" TEXT NOT NULL, \"payload\" TEXT NOT NULL, \"updated_at\" TEXT NOT NULL, PRIMARY KEY (\"key\"), CHECK (json_valid(payload))) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "pending_social_ops",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"pending_social_ops\" (\"id\" TEXT NOT NULL, \"op\" TEXT NOT NULL, \"payload\" TEXT NOT NULL, \"created_at\" TEXT NOT NULL, \"attempts\" INTEGER NOT NULL DEFAULT 0, \"last_error\" TEXT NULL, PRIMARY KEY (\"id\"), CHECK (json_valid(payload)), CHECK (attempts >= 0)) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "sync_rejections",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"sync_rejections\" (\"id\" TEXT NOT NULL, \"entity\" TEXT NOT NULL, \"row_id\" TEXT NOT NULL, \"reason\" TEXT NOT NULL, \"code\" TEXT NULL, \"operation\" TEXT NOT NULL, \"rejected_at\" TEXT NOT NULL, PRIMARY KEY (\"id\")) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "sync_ignored_deletes",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE TABLE IF NOT EXISTS \"sync_ignored_deletes\" (\"seq\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, \"entity\" TEXT NOT NULL, \"row_id\" TEXT NOT NULL, \"received_at\" TEXT NOT NULL) STRICT;"
+        }
+      ]
+    },
+    {
+      "name": "user_books_user_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX user_books_user_idx ON user_books (user_id, updated_at)"
+        }
+      ]
+    },
+    {
+      "name": "user_books_user_isbn_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX user_books_user_isbn_idx ON user_books (user_id, isbn13)"
+        }
+      ]
+    },
+    {
+      "name": "reading_sessions_book_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX reading_sessions_book_idx ON reading_sessions (user_book_id)"
+        }
+      ]
+    },
+    {
+      "name": "reading_sessions_started_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX reading_sessions_started_idx ON reading_sessions (started_at)"
+        }
+      ]
+    },
+    {
+      "name": "bookmarks_book_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX bookmarks_book_idx ON bookmarks (user_book_id, ref_page)"
+        }
+      ]
+    },
+    {
+      "name": "ink_layers_book_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX ink_layers_book_idx ON ink_layers (user_book_id)"
+        }
+      ]
+    },
+    {
+      "name": "annotations_book_page_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX annotations_book_page_idx ON annotations (user_book_id, ref_page)"
+        }
+      ]
+    },
+    {
+      "name": "annotations_parent_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX annotations_parent_idx ON annotations (parent_id)"
+        }
+      ]
+    },
+    {
+      "name": "annotations_ink_idx",
+      "sql": [
+        {
+          "dialect": "sqlite",
+          "sql": "CREATE INDEX annotations_ink_idx ON annotations (ink_layer_id)"
+        }
+      ]
+    }
+  ]
+}

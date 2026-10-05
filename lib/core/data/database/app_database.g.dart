@@ -244,6 +244,16 @@ class $UserBooksTable extends UserBooks
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       ).withConverter<DateTime?>($UserBooksTable.$converterlastOpenedAtn);
+  static const VerificationMeta _isbn13Meta = const VerificationMeta('isbn13');
+  @override
+  late final GeneratedColumn<String> isbn13 = GeneratedColumn<String>(
+    'isbn13',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    $customConstraints: 'NULL CHECK (isbn13 GLOB \'97[89][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]\')',
+  );
   @override
   List<GeneratedColumn> get $columns => [
     createdAt,
@@ -270,6 +280,7 @@ class $UserBooksTable extends UserBooks
     startedAt,
     finishedAt,
     lastOpenedAt,
+    isbn13,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -388,6 +399,12 @@ class $UserBooksTable extends UserBooks
       context.handle(
         _ratingMeta,
         rating.isAcceptableOrUnknown(data['rating']!, _ratingMeta),
+      );
+    }
+    if (data.containsKey('isbn13')) {
+      context.handle(
+        _isbn13Meta,
+        isbn13.isAcceptableOrUnknown(data['isbn13']!, _isbn13Meta),
       );
     }
     return context;
@@ -515,6 +532,10 @@ class $UserBooksTable extends UserBooks
           data['${effectivePrefix}last_opened_at'],
         ),
       ),
+      isbn13: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}isbn13'],
+      ),
     );
   }
 
@@ -581,6 +602,9 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
   final DateTime? startedAt;
   final DateTime? finishedAt;
   final DateTime? lastOpenedAt;
+
+  /// D-77 (esquema v2): entra no FIM da tabela, como no servidor (`alter table … add column`).
+  final String? isbn13;
   const UserBookRow({
     required this.createdAt,
     required this.updatedAt,
@@ -606,6 +630,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
     this.startedAt,
     this.finishedAt,
     this.lastOpenedAt,
+    this.isbn13,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -694,6 +719,9 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
         $UserBooksTable.$converterlastOpenedAtn.toSql(lastOpenedAt),
       );
     }
+    if (!nullToAbsent || isbn13 != null) {
+      map['isbn13'] = Variable<String>(isbn13);
+    }
     return map;
   }
 
@@ -751,6 +779,9 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
       lastOpenedAt: lastOpenedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(lastOpenedAt),
+      isbn13: isbn13 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isbn13),
     );
   }
 
@@ -786,6 +817,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
       startedAt: serializer.fromJson<DateTime?>(json['startedAt']),
       finishedAt: serializer.fromJson<DateTime?>(json['finishedAt']),
       lastOpenedAt: serializer.fromJson<DateTime?>(json['lastOpenedAt']),
+      isbn13: serializer.fromJson<String?>(json['isbn13']),
     );
   }
   @override
@@ -816,6 +848,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
       'startedAt': serializer.toJson<DateTime?>(startedAt),
       'finishedAt': serializer.toJson<DateTime?>(finishedAt),
       'lastOpenedAt': serializer.toJson<DateTime?>(lastOpenedAt),
+      'isbn13': serializer.toJson<String?>(isbn13),
     };
   }
 
@@ -844,6 +877,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
     Value<DateTime?> startedAt = const Value.absent(),
     Value<DateTime?> finishedAt = const Value.absent(),
     Value<DateTime?> lastOpenedAt = const Value.absent(),
+    Value<String?> isbn13 = const Value.absent(),
   }) => UserBookRow(
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
@@ -879,6 +913,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
     startedAt: startedAt.present ? startedAt.value : this.startedAt,
     finishedAt: finishedAt.present ? finishedAt.value : this.finishedAt,
     lastOpenedAt: lastOpenedAt.present ? lastOpenedAt.value : this.lastOpenedAt,
+    isbn13: isbn13.present ? isbn13.value : this.isbn13,
   );
   UserBookRow copyWithCompanion(UserBooksCompanion data) {
     return UserBookRow(
@@ -924,6 +959,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
       lastOpenedAt: data.lastOpenedAt.present
           ? data.lastOpenedAt.value
           : this.lastOpenedAt,
+      isbn13: data.isbn13.present ? data.isbn13.value : this.isbn13,
     );
   }
 
@@ -953,7 +989,8 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
           ..write('addedAt: $addedAt, ')
           ..write('startedAt: $startedAt, ')
           ..write('finishedAt: $finishedAt, ')
-          ..write('lastOpenedAt: $lastOpenedAt')
+          ..write('lastOpenedAt: $lastOpenedAt, ')
+          ..write('isbn13: $isbn13')
           ..write(')'))
         .toString();
   }
@@ -984,6 +1021,7 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
     startedAt,
     finishedAt,
     lastOpenedAt,
+    isbn13,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -1012,7 +1050,8 @@ class UserBookRow extends DataClass implements Insertable<UserBookRow> {
           other.addedAt == this.addedAt &&
           other.startedAt == this.startedAt &&
           other.finishedAt == this.finishedAt &&
-          other.lastOpenedAt == this.lastOpenedAt);
+          other.lastOpenedAt == this.lastOpenedAt &&
+          other.isbn13 == this.isbn13);
 }
 
 class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
@@ -1040,6 +1079,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
   final Value<DateTime?> startedAt;
   final Value<DateTime?> finishedAt;
   final Value<DateTime?> lastOpenedAt;
+  final Value<String?> isbn13;
   final Value<int> rowid;
   const UserBooksCompanion({
     this.createdAt = const Value.absent(),
@@ -1066,6 +1106,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
     this.startedAt = const Value.absent(),
     this.finishedAt = const Value.absent(),
     this.lastOpenedAt = const Value.absent(),
+    this.isbn13 = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   UserBooksCompanion.insert({
@@ -1093,6 +1134,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
     this.startedAt = const Value.absent(),
     this.finishedAt = const Value.absent(),
     this.lastOpenedAt = const Value.absent(),
+    this.isbn13 = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : createdAt = Value(createdAt),
        updatedAt = Value(updatedAt),
@@ -1129,6 +1171,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
     Expression<String>? startedAt,
     Expression<String>? finishedAt,
     Expression<String>? lastOpenedAt,
+    Expression<String>? isbn13,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1156,6 +1199,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
       if (startedAt != null) 'started_at': startedAt,
       if (finishedAt != null) 'finished_at': finishedAt,
       if (lastOpenedAt != null) 'last_opened_at': lastOpenedAt,
+      if (isbn13 != null) 'isbn13': isbn13,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1185,6 +1229,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
     Value<DateTime?>? startedAt,
     Value<DateTime?>? finishedAt,
     Value<DateTime?>? lastOpenedAt,
+    Value<String?>? isbn13,
     Value<int>? rowid,
   }) {
     return UserBooksCompanion(
@@ -1212,6 +1257,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
       startedAt: startedAt ?? this.startedAt,
       finishedAt: finishedAt ?? this.finishedAt,
       lastOpenedAt: lastOpenedAt ?? this.lastOpenedAt,
+      isbn13: isbn13 ?? this.isbn13,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1311,6 +1357,9 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
         $UserBooksTable.$converterlastOpenedAtn.toSql(lastOpenedAt.value),
       );
     }
+    if (isbn13.present) {
+      map['isbn13'] = Variable<String>(isbn13.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -1344,6 +1393,7 @@ class UserBooksCompanion extends UpdateCompanion<UserBookRow> {
           ..write('startedAt: $startedAt, ')
           ..write('finishedAt: $finishedAt, ')
           ..write('lastOpenedAt: $lastOpenedAt, ')
+          ..write('isbn13: $isbn13, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -12064,6 +12114,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'user_books_user_idx',
     'CREATE INDEX user_books_user_idx ON user_books (user_id, updated_at)',
   );
+  late final Index userBooksUserIsbnIdx = Index(
+    'user_books_user_isbn_idx',
+    'CREATE INDEX user_books_user_isbn_idx ON user_books (user_id, isbn13)',
+  );
   late final Index readingSessionsBookIdx = Index(
     'reading_sessions_book_idx',
     'CREATE INDEX reading_sessions_book_idx ON reading_sessions (user_book_id)',
@@ -12117,6 +12171,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     syncRejections,
     syncIgnoredDeletes,
     userBooksUserIdx,
+    userBooksUserIsbnIdx,
     readingSessionsBookIdx,
     readingSessionsStartedIdx,
     bookmarksBookIdx,

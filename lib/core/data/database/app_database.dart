@@ -48,8 +48,9 @@ class AppDatabase extends _$AppDatabase {
   /// `true` no app (conexão do PowerSync): cria os gatilhos da fila de upload do Pro.
   final bool withSyncQueue;
 
+  /// v2 (G07, D-77): `user_books.isbn13` + índice.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -57,6 +58,20 @@ class AppDatabase extends _$AppDatabase {
       await m.createAll();
       for (final s in [...kvDefaults, ...annotationsFtsStatements]) {
         await customStatement(s);
+      }
+    },
+    // Migrações nunca destrutivas: no Grátis o aparelho guarda a única cópia (§4.3.6).
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        await m.addColumn(userBooks, userBooks.isbn13);
+        await m.createIndex(userBooksUserIsbnIdx);
+        // o que o servidor já mandou antes desta versão ficou em `_extras`: vira a coluna
+        await customStatement(
+          "UPDATE user_books SET isbn13 = json_extract(_extras, '\$.isbn13'), "
+          "_extras = nullif(json_remove(_extras, '\$.isbn13'), '{}') "
+          "WHERE _extras IS NOT NULL AND json_valid(_extras) "
+          "AND json_type(_extras, '\$.isbn13') = 'text'",
+        );
       }
     },
     // a guarda de versão e a fila do Pro são recriadas a cada abertura (a regra pode mudar sem nova

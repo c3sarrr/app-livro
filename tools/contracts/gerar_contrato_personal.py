@@ -1,11 +1,12 @@
 """Contrato de colunas aparelho ↔ servidor — gera test/data/contracts/personal_columns.json.
 
-G04: a fonte passou a ser a migration das tabelas pessoais (`supabase/migrations/*_dados_pessoais.sql`).
+G04: a fonte passou a ser a migration das tabelas pessoais; G07 (D-77): todas as migrations que
+criam ou alteram tabelas de `personal` (`create table personal.X` / `alter table personal.X`).
 Lê o information_schema de um banco do Supabase com as migrations aplicadas (o local do
 `supabase start`, Postgres 17) e grava, para cada tabela de `personal`, as colunas na ordem do
-servidor com o `data_type`, mais o caminho e o sha256 da migration. O teste
-`test/core/data/contracts/personal_columns_contract_test.dart` compara este arquivo com a migration
-(parser simples) e com o esquema local do drift. Rodar de novo sempre que a migration mudar.
+servidor com o `data_type`, mais o caminho e o sha256 de cada migration. O teste
+`test/core/data/contracts/personal_columns_contract_test.dart` compara este arquivo com as migrations
+(parser simples) e com o esquema local do drift. Rodar de novo sempre que uma delas mudar.
 
 Uso (no Ubuntu do WSL, com `supabase start` rodando):
   python3 tools/contracts/gerar_contrato_personal.py --db-url postgresql://postgres:postgres@127.0.0.1:54322/postgres
@@ -15,6 +16,7 @@ import argparse
 import hashlib
 import json
 import pathlib
+import re
 import subprocess
 
 RAIZ = pathlib.Path(__file__).resolve().parents[2]
@@ -34,11 +36,15 @@ CONSULTA = """
 """
 
 
-def migration_pessoal():
-    achadas = sorted((RAIZ / 'supabase' / 'migrations').glob('*_dados_pessoais.sql'))
-    if len(achadas) != 1:
-        raise SystemExit(f'esperava 1 migration *_dados_pessoais.sql, achei {len(achadas)}')
-    return achadas[0]
+TOCA = re.compile(r'^(create|alter) table personal\.', re.M)
+
+
+def migrations_pessoais():
+    achadas = [f for f in sorted((RAIZ / 'supabase' / 'migrations').glob('*.sql'), key=lambda f: f.name)
+               if TOCA.search(f.read_text(encoding='utf-8'))]
+    if not achadas:
+        raise SystemExit('nenhuma migration cria/altera tabelas de personal')
+    return achadas
 
 
 def psql(url, sql):
@@ -58,16 +64,14 @@ def main():
 
     tabelas = json.loads(psql(a.db_url, CONSULTA))
     versao = psql(a.db_url, 'show server_version')
-    fonte = migration_pessoal()
-    sha = hashlib.sha256(fonte.read_bytes()).hexdigest()
+    fontes = migrations_pessoais()
     # Uma coluna por linha ([nome, data_type]) para o diff ficar legível.
-    linhas = [
-        '{',
-        f' "fonte": "{fonte.relative_to(RAIZ).as_posix()}",',
-        f' "sha256_da_fonte": "{sha}",',
-        f' "postgres": {json.dumps(versao)},',
-        ' "tabelas": {',
-    ]
+    linhas = ['{', ' "fontes": [']
+    for i, f in enumerate(fontes):
+        sha = hashlib.sha256(f.read_bytes()).hexdigest()
+        linhas.append(f'  {{"arquivo": "{f.relative_to(RAIZ).as_posix()}", "sha256": "{sha}"}}'
+                      + (',' if i < len(fontes) - 1 else ''))
+    linhas += [' ],', f' "postgres": {json.dumps(versao)},', ' "tabelas": {']
     for i, (t, cols) in enumerate(tabelas.items()):
         linhas.append(f'  "{t}": [')
         linhas += [f'   {json.dumps([c, d])}' + (',' if j < len(cols) - 1 else '') for j, (c, d) in enumerate(cols)]
@@ -76,7 +80,7 @@ def main():
     SAIDA.parent.mkdir(parents=True, exist_ok=True)
     SAIDA.write_text('\n'.join(linhas) + '\n', encoding='utf-8', newline='\n')
     print(f'{SAIDA.relative_to(RAIZ)}: {len(tabelas)} tabelas, '
-          f'{sum(len(c) for c in tabelas.values())} colunas (fonte {fonte.name}, Postgres {versao})')
+          f'{sum(len(c) for c in tabelas.values())} colunas ({len(fontes)} migrations, Postgres {versao})')
 
 
 if __name__ == '__main__':

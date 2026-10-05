@@ -9,7 +9,9 @@ const Map<String, List<String>> personalSyncColumns = {
     'content_sha256', 'file_bytes', 'storage_object_path', 'ref_pages_total',
     'ref_page_version', 'chapters_total', 'cover_ref', 'rating', 'added_at',
     'started_at', 'finished_at', 'last_opened_at', 'created_at', 'updated_at',
-    'deleted_at', 'version_hlc',
+    'deleted_at',
+    'version_hlc',
+    'isbn13', // isbn13: D-77, no fim (como no servidor)
   ],
   'reading_positions': [
     'user_id', 'locator', 'ref_page', 'chapter_index', 'progression', //
