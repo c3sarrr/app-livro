@@ -4,6 +4,7 @@ import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/home/application/formatters.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
+import 'package:app_leitura/features/home/data/local_home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,9 +13,12 @@ import '../fixtures/home_mock_repository.dart';
 import '../fixtures/overrides_do_mundo.dart';
 
 /// Repositório falso: prova que o snapshot vem do repositório injetado.
-class _FakeRepository implements HomeRepository {
+class _FakeRepository implements SyncHomeRepository {
   const _FakeRepository(this.firstName);
   final String firstName;
+
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
 
   @override
   HomeSnapshot snapshot(DateTime now) {
@@ -38,14 +42,17 @@ class _FakeRepository implements HomeRepository {
 
 void main() {
   group('2.4 clock / homeRepository / homeSnapshot', () {
-    test('padrões de produção (G03, D-34): relógio do sistema e nenhum dado de usuário no código '
-        '(o repositório real chega na G08)', () {
+    test('padrões de produção (G08, D-85): relógio do sistema e a fonte real do banco local — nenhum dado de '
+        'usuário no código (D-34)', () {
       final container = ProviderContainer.test();
       final antes = DateTime.now();
       final agora = container.read(clockProvider)();
       expect(agora.isBefore(antes), isFalse);
       expect(agora.difference(antes).inSeconds, lessThan(5));
-      expect(() => container.read(homeRepositoryProvider), throwsA(anything));
+      expect(
+        container.read(homeRepositoryProvider),
+        isA<LocalHomeRepository>(),
+      );
     });
 
     test('com a fixture do mundo de referência: relógio = agora de referência; repositório = mock; snapshot = mock nesse agora', () {

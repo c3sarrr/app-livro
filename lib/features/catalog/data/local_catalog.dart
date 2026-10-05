@@ -18,6 +18,10 @@ abstract interface class LocalCatalog {
   /// Busca por título e autores (FTS5, sem acento).
   Future<List<CatalogBook>> search(String text, {int limit = 20});
 
+  /// Edições cujo campo de autores tem todas as palavras de [author] (FTS5 só na coluna de autores, palavra
+  /// inteira, sem acento) — "Para você" confere o nome exato depois (G08, D-81).
+  Future<List<CatalogBook>> byAuthor(String author, {int limit = 200});
+
   Future<void> close();
 }
 
@@ -125,6 +129,28 @@ final class SqliteLocalCatalog implements LocalCatalog {
       'SELECT e.* FROM editions_fts f JOIN editions e ON e.id = f.rowid '
       'WHERE editions_fts MATCH ? ORDER BY rank LIMIT ?',
       [q, limit.clamp(1, 50)],
+    );
+    return [for (final r in rows) _book(r)];
+  }
+
+  /// Nome → consulta FTS5 restrita à coluna `authors` (cada palavra entre aspas, todas exigidas).
+  static String? authorQuery(String author) {
+    final words = RegExp(
+      r'[\p{L}\p{N}]+',
+      unicode: true,
+    ).allMatches(author).map((m) => m[0]!).take(8).toList();
+    if (words.isEmpty) return null;
+    return words.map((w) => 'authors : "$w"').join(' AND ');
+  }
+
+  @override
+  Future<List<CatalogBook>> byAuthor(String author, {int limit = 200}) async {
+    final q = authorQuery(author);
+    if (q == null) return const [];
+    final rows = await _db.getAll(
+      'SELECT e.* FROM editions_fts f JOIN editions e ON e.id = f.rowid '
+      'WHERE editions_fts MATCH ? ORDER BY e.isbn13 LIMIT ?',
+      [q, limit.clamp(1, 500)],
     );
     return [for (final r in rows) _book(r)];
   }

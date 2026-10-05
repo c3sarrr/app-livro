@@ -1,12 +1,12 @@
 // G03 — o antigo `HomeMockRepository` de `lib/` agora é fixture de teste (D-34): os mesmos valores
-// do arquivo, montados a partir do mundo de referência (`telas/inicio.dart`). Produção não tem mais
-// dado de usuário no código (PROMPT MESTRE §4.3.1); o repositório real da Início chega na G08.
+// do arquivo, montados a partir do mundo de referência (`telas/inicio.dart`). Produção não tem dado de
+// usuário no código (PROMPT MESTRE §4.3.1): usa a fonte real do banco local (G08, D-85).
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 
 import 'telas/inicio.dart';
 
-class HomeMockRepository implements HomeRepository {
+class HomeMockRepository implements SyncHomeRepository {
   const HomeMockRepository();
 
   /// "Agora" de referência (D-09): domingo, 20/09/2026, 20:00 — coerente com "Boa noite,",
@@ -25,4 +25,8 @@ class HomeMockRepository implements HomeRepository {
 
   @override
   HomeSnapshot snapshot(DateTime now) => TelaInicio.snapshot(now);
+
+  /// Dados fixos: nada muda depois do instantâneo inicial (D-09).
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
 }
