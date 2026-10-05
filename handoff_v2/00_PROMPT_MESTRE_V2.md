@@ -96,7 +96,7 @@ Ajustes da v2:
 4. Todas as contagens e textos derivados (ex.: "faltam 18", "≈ 2 h 10 min", "Tudo 12") são **calculados** a partir dos dados, com teste que reproduz exatamente o texto do arquivo usando a fixture.
 5. Esquema local ≡ esquema `personal.*` do servidor (teste de contrato).
 6. Migrações: nunca destrutivas para dados do Grátis (são a única cópia).
-7. **O que o Grátis pode enviar à rede (lista branca do teste de privacidade):** login/sessão; perfil e `profile_stats` (só agregados, via `publish_my_stats`); posts, comentários e curtidas que a pessoa publica; ações de clube (entrar, responder, progresso de capítulo publicado no clube, grifo que ela escolheu compartilhar); consultas de catálogo por **ISBN ou texto de busca** (sem a estante); token de push; Sentry (sem PII) e analytics só com consentimento. Qualquer outra coisa com dado pessoal = bug crítico.
+7. **O que o Grátis pode enviar à rede (lista branca do teste de privacidade):** login/sessão; perfil e `profile_stats` (só agregados, via `publish_my_stats`); posts, comentários e curtidas que a pessoa publica; ações de clube (entrar, responder, progresso de capítulo publicado no clube, grifo que ela escolheu compartilhar); consultas de catálogo por **ISBN ou texto de busca** (sem a estante); envio de um livro ao catálogo da comunidade (ISBN, título, autor, editora) **só com toque explícito** (D-74); token de push; Sentry (sem PII) e analytics só com consentimento. Qualquer outra coisa com dado pessoal = bug crítico.
 8. Tabelas pessoais: as mesmas tabelas próprias do drift para Grátis e Pro, com `delete` do PowerSync que não apaga e fila de upload só no Pro (Anexo 02 §3.1, ADR-002/003 — evita o PowerSync apagar a única cópia ao perder o Pro).
 
 ### 4.4 Segurança e privacidade

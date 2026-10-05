@@ -64,3 +64,8 @@ env/*.json
 !env/*.example.json
 # G06: estado e segredos de DESENVOLVIMENTO local (senha do papel do PowerSync, tokens) — nunca no git
 /_local/
+# G07: caches do Python (pipeline do catálogo) e estado local do Worker (wrangler/Miniflare)
+__pycache__/
+.pytest_cache/
+.wrangler/
+.dev.vars
