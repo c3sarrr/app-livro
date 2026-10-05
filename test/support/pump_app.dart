@@ -1,11 +1,13 @@
 import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
+import 'package:app_leitura/features/scanner/presentation/scanner_camera.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/overrides_do_mundo.dart';
+import 'fake_scanner_camera.dart';
 import 'precache_svgs.dart';
 
 /// Monta o app real (`ProviderScope` + `App.forTests()`, que começa em `/inicio`) e espera assentar.
@@ -13,11 +15,19 @@ import 'precache_svgs.dart';
 Future<void> pumpApp(
   WidgetTester tester, {
   List<Override> overrides = const [],
+  ScannerCamera Function()? scannerCamera,
 }) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [...overridesDoMundo, ...overrides],
+      overrides: [
+        ...overridesDoMundo,
+        // o scanner abre por cima das abas: nos testes, sem o plugin da câmera
+        scannerCameraProvider.overrideWithValue(
+          scannerCamera ?? FakeScannerCamera.new,
+        ),
+        ...overrides,
+      ],
       child: const App.forTests(),
     ),
   );

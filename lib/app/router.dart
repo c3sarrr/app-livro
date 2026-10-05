@@ -8,6 +8,7 @@ import '../features/account/presentation/sign_in_screen.dart';
 import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
+import '../features/scanner/presentation/scanner_screen.dart';
 import '../features/shell/presentation/main_shell.dart';
 import 'routes.dart';
 
@@ -59,7 +60,13 @@ GoRouter createRouter({
           ),
         ],
       ),
-      fullScreen(AppRoutes.scanner, 'Scanner', dialog: true),
+      // G07 (D-76): scanner provisório no estilo do app até o design das telas 01–18
+      GoRoute(
+        path: AppRoutes.scanner,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) =>
+            _page(state, const ScannerScreen(), fullscreenDialog: true),
+      ),
       fullScreen(AppRoutes.notificacoes, 'Notificações'),
       fullScreen('/leitor/:bookId', 'Leitor'),
       fullScreen('/livro/:bookId', 'Livro'),

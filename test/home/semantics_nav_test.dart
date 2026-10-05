@@ -3,6 +3,7 @@ import 'dart:ui' show Tristate;
 import 'package:app_leitura/app/router.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
+import 'package:app_leitura/features/scanner/presentation/scanner_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -308,12 +309,7 @@ void main() {
       tester.semantics.tap(link('Scanner: escanear livro ou página'));
       await tester.pumpAndSettle();
       expect(_router(tester).state.uri.path, AppRoutes.scanner);
-      expect(
-        find.byWidgetPredicate(
-          (w) => w is PlaceholderScreen && w.title == 'Scanner',
-        ),
-        findsOneWidget,
-      );
+      expect(find.byType(ScannerScreen), findsOneWidget);
       _router(tester).pop();
       await tester.pumpAndSettle();
       expect(_router(tester).state.uri.path, AppRoutes.inicio);

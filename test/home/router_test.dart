@@ -8,6 +8,7 @@ import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/features/account/presentation/account_block.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
+import 'package:app_leitura/features/scanner/presentation/scanner_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ void main() {
 
       unawaited(_router(tester).push<void>(AppRoutes.scanner));
       await tester.pumpAndSettle();
-      final scanner = _placeholder('Scanner');
+      final scanner = find.byType(ScannerScreen);
       expect(scanner, findsOneWidget);
       final route = ModalRoute.of(tester.element(scanner))! as PageRoute<void>;
       expect(route.fullscreenDialog, isTrue);

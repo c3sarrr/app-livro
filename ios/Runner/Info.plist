@@ -39,6 +39,8 @@
 	</array>
 	<key>FlutterDeepLinkingEnabled</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>O BookNest usa a câmera para ler o código de barras e a capa dos livros. A imagem é processada no aparelho.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

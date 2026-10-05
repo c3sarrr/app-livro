@@ -1,6 +1,7 @@
 import 'package:app_leitura/app/router.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
+import 'package:app_leitura/features/scanner/presentation/scanner_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -169,7 +170,7 @@ void main() {
         // O ponto da sombra não é "do círculo": só garante que cai no item "Scanner" (mesma ação).
         await tester.tapAt(center + offset);
         await tester.pumpAndSettle();
-        final scanner = _placeholder('Scanner');
+        final scanner = find.byType(ScannerScreen);
         expect(scanner, findsOneWidget, reason: label);
         expect(_router(tester).state.uri.path, AppRoutes.scanner);
         expect(_shell(tester).currentIndex, 0);
@@ -178,7 +179,7 @@ void main() {
         _router(tester).pop();
         await tester.pumpAndSettle();
         expect(scanner, findsNothing, reason: label);
-        expect(_placeholder('Scanner'), findsNothing, reason: label);
+        expect(find.byType(ScannerScreen), findsNothing, reason: label);
         expect(find.byKey(const ValueKey('nav')), findsOneWidget);
         expect(_shell(tester).currentIndex, 0);
         expect(_activeItems(tester), ['nav.home']);
@@ -193,7 +194,7 @@ void main() {
       await pumpApp(tester);
       await tester.tapAt(const Offset(195, 2275));
       await tester.pumpAndSettle();
-      expect(_placeholder('Scanner'), findsOneWidget);
+      expect(find.byType(ScannerScreen), findsOneWidget);
       expect(_router(tester).state.uri.path, AppRoutes.scanner);
     },
   );
@@ -214,7 +215,7 @@ void main() {
       ]) {
         await tester.tapAt(point);
         await tester.pumpAndSettle();
-        final scanner = _placeholder('Scanner');
+        final scanner = find.byType(ScannerScreen);
         expect(scanner, findsOneWidget, reason: '$point');
         final route =
             ModalRoute.of(tester.element(scanner))! as PageRoute<void>;
@@ -234,7 +235,7 @@ void main() {
       // O FAB também, com Clubes ativa.
       await tester.tapAt(_rect(tester, 'nav.scanner.fab').center);
       await tester.pumpAndSettle();
-      expect(_placeholder('Scanner'), findsOneWidget);
+      expect(find.byType(ScannerScreen), findsOneWidget);
       _router(tester).pop();
       await tester.pumpAndSettle();
       expect(_shell(tester).currentIndex, 2);

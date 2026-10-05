@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- G05: conta e login (Supabase). Os manifests de debug/profile já pedem; o de release não. -->
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- G07: scanner (código de barras e foto da capa para o OCR — tudo processado no aparelho).
+         A câmera não é obrigatória: sem ela, o ISBN é digitado. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <!-- §4 (regra 4): o banco e os livros do Grátis não vão para o backup do Google nem para a
          transferência entre aparelhos (Android 12+) — senão "só neste aparelho" não é verdade. -->
     <application

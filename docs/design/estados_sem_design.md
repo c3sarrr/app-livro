@@ -88,3 +88,32 @@ aparelho, elas se perdem."
 
 O serviço existe (`lib/core/sync/ebook_cloud.dart`: enviar retomável e baixar sob demanda), mas o
 **botão** ("Guardar na nuvem" / "Baixar") fica para a tela do livro — ainda sem design (G09 em diante).
+
+## G07 — scanner e catálogo (D-73…D-77)
+
+### Scanner (`/scanner`, tela cheia, por cima das abas — D-08)
+
+Provisório até o design das telas 01–18 (D-76, aprovado em 04/10). De cima para baixo: "Fechar" · título
+"Escanear livro" · **câmera num cartão** (fundo tinta, borda tinta `AppStrokes.regular`, raio `AppRadii.card`,
+sombra dura `AppShadows.hard4`, proporção 4:3, moldura de mira `paper` de 2 px e raio 14 no centro) · texto de
+ajuda · **pílulas** "Digitar ISBN" e "Lanterna" (`surface` com borda tinta; ligada = `sun`; a "Lanterna" some
+se o aparelho não tem) · **cartão de resultado** (`surface`, borda tinta, raio `AppRadii.cardM`, sombra
+`AppShadows.hard3`; anunciado pelo leitor de tela).
+
+| Estado | Conteúdo |
+|---|---|
+| Mirando | ajuda "Aponte para o código de barras da contracapa." |
+| Código que não é de livro | aviso "Esse código não é de um livro." (a câmera continua) |
+| Digitar ISBN | campo "ISBN (10 ou 13 dígitos)" · "Buscar" (principal) · erro "Esse número não é um ISBN válido. Confira os dígitos." |
+| Procurando | cartão: "Procurando o ISBN 978…" |
+| Achou | cartão: título · "Autor · Editora · ano" · "Adicionar à estante" (principal) |
+| Já está na estante (D-77) | cartão: "Este livro já está na sua estante." · título · autor · "Escanear outro" — nada vai para a rede |
+| Não achou | cartão: "Não achamos o ISBN 978…" · sugestões pendentes da comunidade (caixa `paper` com borda, raio 16: "Sugestão da comunidade · N confirmações" ou "Sua sugestão (esperando confirmações)", título, autor · editora, "Confirmar e adicionar" — só com conta e em sugestão de outra pessoa) · "Adicione este livro: digite os dados ou leia a capa." · "Ler a capa" · campos "Título", "Autor (separe vários com ;)", "Editora (opcional)" · "Adicionar à estante" (principal) · com conta: "Adicionar e enviar ao catálogo" + "O envio leva o ISBN, o título, o autor e a editora para o catálogo da comunidade. Seu nome não aparece para ninguém." · "Escanear outro" |
+| Ler a capa | "Confira o que foi lido da capa antes de adicionar." · "Não deu para ler a capa. Digite o título e o autor." |
+| Adicionado | "Adicionado à sua estante." · título · autor · resultado do envio ("Enviado ao catálogo da comunidade. Ele entra no catálogo depois de 2 confirmações de outras pessoas." / "Sua confirmação foi registrada. Obrigado por ajudar o catálogo." / "Com a sua confirmação, o livro entrou no catálogo da comunidade." / "Este livro já estava no catálogo.") ou "O livro está na estante, mas o envio ao catálogo não foi: <motivo>" · "Escanear outro" (principal) |
+| Sem rede / limite do dia | "Sem conexão. Tente de novo quando a internet voltar." ou "Limite de consultas de hoje atingido. Tente amanhã ou digite os dados do livro." · "Tentar de novo" (principal) · "Digitar os dados" |
+| Contribuir sem faixa etária | "Confirme sua idade no Perfil para contribuir com o catálogo." |
+| Sem permissão da câmera | no cartão: "Câmera sem permissão"; ajuda: "Sem acesso à câmera. Permita a câmera nos ajustes do aparelho ou digite o ISBN." |
+| Câmera indisponível | no cartão: "Câmera indisponível"; ajuda: "A câmera não abriu. Digite o ISBN do livro." |
+
+Livro sem autor conhecido entra na estante como "Autoria desconhecida" (o servidor exige o campo).
