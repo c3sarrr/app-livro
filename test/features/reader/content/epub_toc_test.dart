@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:app_leitura/features/reader/content/epub_book.dart';
+import 'package:app_leitura/features/reader/content/epub_toc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/epub_builder.dart';
@@ -81,6 +82,21 @@ void main() {
       ('Capítulo II', null, 0, false),
     ]);
     expect(b.pageList.single.label, '1');
+  });
+
+  test('sumário aninhado sem fim (20.000 níveis): abre, com os 32 primeiros níveis', () {
+    const n = 20000;
+    final b = abrir(
+      simpleEpub(
+        chapters: caps,
+        navBody:
+            '<nav epub:type="toc">${'<ol><li><a href="texto/c1.xhtml">x</a>' * n}'
+            '${'</li></ol>' * n}</nav>',
+      ),
+    );
+    expect(b.toc, hasLength(maxTocDepth));
+    expect(b.toc.last.depth, maxTocDepth - 1);
+    expect(b.toc.last.hasChildren, isFalse);
   });
 
   test('sem sumário nenhum: lista vazia (não é erro)', () {

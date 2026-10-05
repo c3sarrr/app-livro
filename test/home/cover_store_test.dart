@@ -223,7 +223,30 @@ void main() {
         isNotNull,
       );
       expect(pedidos, hasLength(1));
-      expect(await loja.cached(const PhotoCover(fileSha: '../x')), isNull);
+    });
+
+    test('sha que não é sha (caminho para fora da pasta, maiúsculas): nem olha o arquivo', () async {
+      // o sha vem do banco (e, no Pro, de outro aparelho): nunca vira caminho sem conferir
+      final nome =
+          '${doArquivo.uri.pathSegments.where((s) => s.isNotEmpty).last}-fora';
+      final fora = File(
+        '${doArquivo.parent.path}${Platform.pathSeparator}$nome.img',
+      )..writeAsBytesSync(_png());
+      addTearDown(() => fora.existsSync() ? fora.deleteSync() : null);
+      File('${doArquivo.path}${Platform.pathSeparator}${'A' * 64}.img')
+          .writeAsBytesSync(_png());
+      for (final ruim in ['../$nome', 'A' * 64]) {
+        expect(
+          await loja.cached(PhotoCover(fileSha: ruim)),
+          isNull,
+          reason: ruim,
+        );
+        expect(
+          await loja.resolve(PhotoCover(fileSha: ruim)),
+          isNull,
+          reason: ruim,
+        );
+      }
     });
 
     test('a do arquivo não abre: sai, e a da fonte entra no lugar', () async {

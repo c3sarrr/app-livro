@@ -1,6 +1,6 @@
 // G09.3 — âncoras e reancoragem (Anexo 03 §5.3, D-44): mesmo arquivo → posições guardadas; senão o trecho
-// exato perto do lugar antigo (desempate pelo texto em volta), depois em qualquer lugar, depois aproximado
-// (até 10 %); senão "sem lugar" — nunca apaga. Teste de propriedade: 1.000 edições sorteadas → ≥ 99 % quando o
+// exato perto do lugar antigo (±2.000, desempate pelo texto em volta), depois aproximado no item inteiro
+// (até 10 %, primeiro perto do lugar antigo); senão "sem lugar" — nunca apaga. Teste de propriedade: 1.000 edições sorteadas → ≥ 99 % quando o
 // trecho exato sobrevive.
 import 'dart:math';
 
@@ -68,11 +68,49 @@ void main() {
       expect(r, Anchored(segundo + 3, segundo + 10, AnchorMethod.exactNearby));
     });
 
-    test('muito longe (> 2.000): acha no item inteiro', () {
+    test('janela de ±2.000: a 1.500 é o passo 2 (exato perto); a 6.000, o passo 3 (item inteiro)', () {
       final a = _anchor(texto, olhos, olhos + 23);
-      final novo = '${'x ' * 3000}$texto';
-      final r = reanchor(a, novo, currentSha: _b);
-      expect(r, Anchored(olhos + 6000, olhos + 6023, AnchorMethod.exactFar));
+      expect(
+        reanchor(a, '${'y ' * 750}$texto', currentSha: _b),
+        Anchored(olhos + 1500, olhos + 1523, AnchorMethod.exactNearby),
+      );
+      expect(
+        reanchor(a, '${'x ' * 3000}$texto', currentSha: _b),
+        Anchored(olhos + 6000, olhos + 6023, AnchorMethod.fuzzy),
+      );
+    });
+
+    test(
+      'trecho curto (< 10 caracteres) longe: só o exato, no item inteiro',
+      () {
+        final p = texto.indexOf('ressaca');
+        final a = _anchor(texto, p, p + 7);
+        expect(
+          reanchor(a, '${'x ' * 3000}$texto', currentSha: _b),
+          Anchored(p + 6000, p + 6007, AnchorMethod.fuzzy),
+        );
+      },
+    );
+
+    test('mudado no lugar e o exato longe: fica o do lugar (o perto vem antes)', () {
+      final a = _anchor(texto, olhos, olhos + 23);
+      final novo =
+          '${texto.replaceFirst('aqueles olhos de Capitu', 'aquelles olhos de Capitu')} '
+          '${'y ' * 2500}aqueles olhos de Capitu.';
+      final r = reanchor(a, novo, currentSha: _b) as Anchored;
+      expect(r.method, AnchorMethod.fuzzy);
+      expect(r.start, olhos);
+      expect(novo.substring(r.start, r.end), 'aquelles olhos de Capitu');
+    });
+
+    test('mais de 10 % diferente: sem lugar', () {
+      final a = _anchor(texto, olhos, olhos + 23);
+      // 4 trocas em 23 (17 %): com 10 %, no máximo 2
+      final novo = texto.replaceFirst(
+        'aqueles olhos de Capitu',
+        'aqXelYs olZos de CapiWu',
+      );
+      expect(reanchor(a, novo, currentSha: _b), const Orphaned());
     });
 
     test('um erro de digitação dentro do trecho: aproximado (≤ 10 %)', () {

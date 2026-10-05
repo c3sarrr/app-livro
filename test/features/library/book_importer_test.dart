@@ -12,6 +12,7 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/application/book_importer.dart';
+import 'package:app_leitura/features/library/data/book_files.dart';
 import 'package:app_leitura/features/library/data/pdf_inspector.dart';
 import 'package:app_leitura/features/library/domain/import_outcome.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
@@ -175,11 +176,12 @@ void main() {
     expect(b, isA<AlreadyOnShelf>());
     expect((b as AlreadyOnShelf).userBookId, a.userBookId);
     expect(b.title, 'Senhora');
-    // dois toques seguidos de outro arquivo
+    // ao mesmo tempo por dois caminhos (cada importador com a sua fila): a 2ª confere de novo dentro da
+    // transação e desiste
     final c = simpleEpub(title: 'Iracema', chapters: const [_cap]);
     final rs = await Future.wait([
       importador.importStream(Stream.value(c), fileName: 'c.epub'),
-      importador.importStream(Stream.value(c), fileName: 'c.epub'),
+      novo().importStream(Stream.value(c), fileName: 'c.epub'),
     ]);
     expect(rs.whereType<Imported>(), hasLength(1));
     expect(rs.whereType<AlreadyOnShelf>(), hasLength(1));
@@ -468,6 +470,141 @@ void main() {
     await UserBooksDao(db)
         .upsert(livro.copyWith(contentSha256: Nullable('f' * 64)));
     expect(await importador.indexPending(), 1);
+  });
+
+  test('2º tempo: um livro que falha não segura os outros; o que não abre não é tentado de novo', () async {
+    final ids = <String>[];
+    for (final t in ['A', 'B', 'C']) {
+      final r = await importador.importStream(
+        Stream.value(simpleEpub(title: t, chapters: const [_cap])),
+        fileName: '$t.epub',
+      );
+      ids.add((r as Imported).userBookId);
+    }
+    var vezes = 0;
+    final cuidadoso = novo(
+      run: <T>(T Function() task) async {
+        vezes++;
+        // 1º livro da vez: conteúdo que não abre; 2º: erro que não é do conteúdo (banco, isolate)
+        if (vezes == 1) throw const ContentDamaged('zip_crc');
+        if (vezes == 2) throw StateError('isolate morreu');
+        return task();
+      },
+    );
+    expect(await cuidadoso.indexPending(), 1, reason: 'o 3º indexou');
+    expect(erros, [isA<ContentDamaged>(), isA<StateError>()]);
+    Future<List<bool>> comIndice() async => [
+      for (final id in ids) await BookContentIndexDao(db).byBook(id) != null,
+    ];
+    expect((await comIndice()).where((x) => x), hasLength(1));
+    erros.clear();
+    // na próxima abertura: o do erro passageiro entra; o que não abre fica de fora (é o mesmo arquivo)
+    expect(await importador.indexPending(), 1);
+    expect(await importador.indexPending(), 0);
+    expect(erros, isEmpty);
+    final semIndice = [
+      for (var i = 0; i < 3; i++)
+        if (!(await comIndice())[i]) ids[i],
+    ];
+    expect(semIndice, hasLength(1));
+    expect(
+      File(
+        '${livros.path}${Platform.pathSeparator}.sem-indice-${semIndice.single}',
+      ).existsSync(),
+      isTrue,
+    );
+  });
+
+  test('arquivo guardado com o caminho de antes (a pasta do app mudou de lugar): acha pelo nome', () async {
+    final r = await importador.importStream(
+      Stream.value(simpleEpub(title: 'Mudou', chapters: const [_cap])),
+      fileName: 'm.epub',
+    ) as Imported;
+    final f = (await LocalFilesDao(db).byBook(r.userBookId))!;
+    final nome = f.path.split(RegExp(r'[/\\]')).last;
+    await LocalFilesDao(db).upsert(
+      userBookId: f.userBookId,
+      path: '/var/mobile/Containers/Data/Application/ANTIGA/livros/$nome',
+      bytes: f.bytes,
+      sha256: f.sha256,
+      now: DateTime.utc(2026, 10, 5),
+    );
+    expect(await importador.indexBook(r.userBookId), isTrue);
+  });
+
+  test('limpeza ao abrir: sobras antigas de importação e arquivos sem livro saem; o resto fica', () async {
+    final r = await importador.importStream(
+      Stream.value(simpleEpub(title: 'Fica', chapters: const [_cap])),
+      fileName: 'f.epub',
+    ) as Imported;
+    final antigo = DateTime.now().subtract(const Duration(days: 2));
+    File sobra(String nome, {bool velho = true}) {
+      final f = File('${livros.path}${Platform.pathSeparator}$nome')
+        ..writeAsBytesSync([1]);
+      if (velho) f.setLastModifiedSync(antigo);
+      return f;
+    }
+
+    final parte = sobra(
+      '.importando-0192c3d4-0000-7000-8000-000000000001.part',
+    );
+    final orfao = sobra('0192c3d4-0000-7000-8000-000000000002.epub');
+    final marca = sobra('.sem-indice-0192c3d4-0000-7000-8000-000000000003');
+    final parteNova = sobra(
+      '.importando-0192c3d4-0000-7000-8000-000000000004.part',
+      velho: false,
+    );
+    final orfaoNovo = sobra(
+      '0192c3d4-0000-7000-8000-000000000005.pdf',
+      velho: false,
+    );
+    final download = sobra('0192c3d4-0000-7000-8000-000000000006.epub.parte');
+    final outro = sobra('leia-me.txt');
+    final doLivro = File((await LocalFilesDao(db).byBook(r.userBookId))!.path)
+      ..setLastModifiedSync(antigo);
+    expect(await importador.cleanUp(), 3);
+    expect([parte, orfao, marca].map((f) => f.existsSync()), [
+      false,
+      false,
+      false,
+    ]);
+    expect(
+      [
+        parteNova,
+        orfaoNovo,
+        download,
+        outro,
+        doLivro,
+      ].map((f) => f.existsSync()),
+      everyElement(isTrue),
+    );
+  });
+
+  test('disco cheio também no banco (SQLITE_FULL) → "sem espaço"', () {
+    expect(
+      isNoSpace(
+        SqliteException(
+          extendedResultCode: 13,
+          message: 'database or disk is full',
+        ),
+      ),
+      isTrue,
+    );
+    expect(
+      isNoSpace(SqliteException(extendedResultCode: 19, message: 'constraint')),
+      isFalse,
+    );
+    expect(
+      isNoSpace(
+        const FileSystemException(
+          'x',
+          'y',
+          OSError('No space left on device', 28),
+        ),
+      ),
+      isTrue,
+    );
+    expect(isNoSpace(StateError('x')), isFalse);
   });
 
   test('isolate de verdade: o Dom Casmurro do Gutenberg entra e indexa (153 capítulos, 264 páginas)', () async {

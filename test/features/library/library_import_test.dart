@@ -234,10 +234,112 @@ void main() {
         fileName: 's.epub',
       ) as Imported;
       expect(await BookContentIndexDao(db).byBook(r.userBookId), isNull);
+      // sobra de uma importação de quando o app morreu no meio (antiga)
+      final livros = Directory('${raiz.path}${Platform.pathSeparator}livros');
+      final sobra =
+          File('${livros.path}${Platform.pathSeparator}.importando-x.part')
+            ..writeAsBytesSync([1, 2, 3])
+            ..setLastModifiedSync(
+              DateTime.now().subtract(const Duration(days: 1)),
+            );
+      // e um arquivo do "Abrir com" esperando
+      recebidos.fila.add(
+        IncomingFile(
+          path: recebido(
+            'u',
+            simpleEpub(
+              title: 'Ubirajara',
+              chapters: const [
+                (file: 'c.xhtml', title: 'I', body: '<p>Oi.</p>'),
+              ],
+            ),
+          ),
+          name: 'Ubirajara.epub',
+        ),
+      );
       final c = ProviderContainer.test(overrides: overrides());
-      await c.read(libraryImportProvider.notifier).start();
+      final vistos = <ImportView>[];
+      c.listen(libraryImportProvider, (_, v) => vistos.add(v));
+      await Future.wait([
+        c.read(libraryImportProvider.notifier).start(),
+        c.read(libraryImportProvider.notifier).start(),
+      ]);
       await c.read(libraryImportProvider.notifier).start();
       expect(await BookContentIndexDao(db).byBook(r.userBookId), isNotNull);
+      expect(vistos.whereType<ImportFinished>(), hasLength(1));
+      final livrosNoBanco = await db
+          .customSelect('SELECT COUNT(*) AS n FROM user_books')
+          .getSingle();
+      expect(livrosNoBanco.read<int>('n'), 2);
+      expect(sobra.existsSync(), isFalse);
+      expect(erros, isEmpty);
+    });
+
+    test('botão e "Abrir com" ao mesmo tempo: um de cada vez, cada um com o seu aviso, na ordem', () async {
+      final c = ProviderContainer.test(overrides: overrides());
+      final vistos = <ImportView>[];
+      c.listen(libraryImportProvider, (_, v) => vistos.add(v));
+      await c.read(libraryImportProvider.notifier).start();
+      final trava = Completer<void>();
+      seletor.proximo = PickedBook(
+        name: 'Senhora.epub',
+        bytes: (() async* {
+          await trava.future;
+          yield simpleEpub(
+            title: 'Senhora',
+            chapters: const [(file: 'c.xhtml', title: 'I', body: '<p>Oi.</p>')],
+          );
+        })(),
+      );
+      final escolher = c.read(libraryImportProvider.notifier).pick();
+      await ate(() => vistos.whereType<ImportBusy>().isNotEmpty);
+      recebidos.fila.add(
+        IncomingFile(
+          path: recebido(
+            'i',
+            simpleEpub(
+              title: 'Iracema',
+              chapters: const [
+                (file: 'c.xhtml', title: 'I', body: '<p>Oi.</p>'),
+              ],
+            ),
+          ),
+          name: 'Iracema.epub',
+        ),
+      );
+      recebidos.avisos.add(null);
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      // o do sistema espera: o aviso na tela continua sendo o do botão
+      expect(c.read(libraryImportProvider), isA<ImportBusy>());
+      expect(
+        (c.read(libraryImportProvider) as ImportBusy).fileName,
+        'Senhora.epub',
+      );
+      // e o botão continua desligado
+      await c.read(libraryImportProvider.notifier).pick();
+      expect(seletor.vezes, 1);
+      trava.complete();
+      await escolher;
+      await ate(() => vistos.whereType<ImportFinished>().length >= 2);
+      expect(
+        [
+          for (final v in vistos)
+            switch (v) {
+              ImportBusy(:final fileName, :final fromSystem) =>
+                'importando $fileName${fromSystem ? ' (sistema)' : ''}',
+              ImportFinished(:final outcome) =>
+                'pronto ${(outcome as Imported).title}',
+              ImportIdle() => 'parado',
+            },
+        ],
+        [
+          'importando Senhora.epub',
+          'pronto Senhora',
+          'importando Iracema.epub (sistema)',
+          'pronto Iracema',
+        ],
+      );
+      expect(erros, isEmpty);
     });
 
     test(

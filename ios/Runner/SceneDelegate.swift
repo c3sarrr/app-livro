@@ -2,8 +2,9 @@ import Flutter
 import UIKit
 
 // G09 (D-87): "Abrir com" de EPUB e PDF no iOS. O arquivo chega como URL (cópia no Inbox do app, porque
-// LSSupportsOpeningDocumentsInPlace = NO); copiamos para tmp/recebidos e o Dart pega a lista ("pendentes")
-// quando abre e a cada aviso ("chegaram"). URL que não é arquivo (o retorno do login) segue para os plugins.
+// LSSupportsOpeningDocumentsInPlace = NO); ele é movido do Inbox (que entra no backup do iCloud) para
+// tmp/recebidos — de outro lugar, copiado — e o Dart pega a lista ("pendentes") quando abre e a cada aviso
+// ("chegaram"). URL que não é arquivo (o retorno do login) segue para os plugins.
 // Sem Mac nesta máquina: escrito e não compilado — pendência de ambiente (G27).
 class SceneDelegate: FlutterSceneDelegate {
   private var prontos: [[String: String]] = []
@@ -52,6 +53,9 @@ class SceneDelegate: FlutterSceneDelegate {
     let fm = FileManager.default
     let dir = fm.temporaryDirectory.appendingPathComponent("recebidos", isDirectory: true)
     try? fm.createDirectory(at: dir, withIntermediateDirectories: true)
+    let inbox = fm.urls(for: .documentDirectory, in: .userDomainMask).first?
+      .appendingPathComponent("Inbox", isDirectory: true)
+      .resolvingSymlinksInPath().path
     var n = 0
     for ctx in contexts where ctx.url.isFileURL {
       let url = ctx.url
@@ -61,7 +65,11 @@ class SceneDelegate: FlutterSceneDelegate {
       }
       let destino = dir.appendingPathComponent(UUID().uuidString)
       do {
-        try fm.copyItem(at: url, to: destino)
+        if let inbox = inbox, url.resolvingSymlinksInPath().path.hasPrefix(inbox + "/") {
+          try fm.moveItem(at: url, to: destino)
+        } else {
+          try fm.copyItem(at: url, to: destino)
+        }
         prontos.append(["path": destino.path, "name": url.lastPathComponent])
         n += 1
       } catch {

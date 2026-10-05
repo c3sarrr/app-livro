@@ -96,6 +96,16 @@ void main() {
         ('notas.xhtml', false),
       ]);
     });
+
+    test('o mesmo item repetido no spine (OPF-034) entra uma vez só', () {
+      final p = ler(
+        simpleEpub(
+          chapters: [cap],
+          spineExtra: '<itemref idref="ch0"/>' * 5000,
+        ),
+      );
+      expect(p.spine.map((s) => s.path), ['OEBPS/cap1.xhtml']);
+    });
   });
 
   group('EPUB 2', () {

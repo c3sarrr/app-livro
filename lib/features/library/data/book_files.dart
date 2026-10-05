@@ -5,6 +5,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
+import 'package:drift/drift.dart'
+    show CouldNotRollBackException, DriftWrappedException;
+import 'package:drift/native.dart' show SqliteException;
 
 final class CopiedFile {
   const CopiedFile({
@@ -93,11 +96,15 @@ BookFileKind sniffBookFile(Uint8List head) {
   return BookFileKind.unknown;
 }
 
-/// Disco cheio (Android/iOS/Linux ENOSPC = 28; Windows 112 e 39).
-bool isNoSpace(Object e) {
-  if (e is! FileSystemException) {
-    return false;
-  }
-  final code = e.osError?.errorCode;
-  return code == 28 || code == 112 || code == 39;
-}
+/// Disco cheio: no arquivo (Android/iOS/Linux ENOSPC = 28; Windows 112 e 39) ou no banco (SQLITE_FULL = 13,
+/// inclusive embrulhado pelo drift).
+bool isNoSpace(Object e) => switch (e) {
+  FileSystemException(:final osError) =>
+    osError?.errorCode == 28 ||
+        osError?.errorCode == 112 ||
+        osError?.errorCode == 39,
+  SqliteException(:final resultCode) => resultCode == 13,
+  CouldNotRollBackException(:final cause) => isNoSpace(cause),
+  DriftWrappedException(:final cause?) => isNoSpace(cause),
+  _ => false,
+};

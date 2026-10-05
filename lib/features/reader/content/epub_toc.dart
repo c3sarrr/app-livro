@@ -97,13 +97,19 @@ final class PageEntry {
 XmlElement? childrenOrDescendantOl(XmlElement nav) =>
     childrenNamed(nav, 'ol').firstOrNull ?? allNamed(nav, 'ol').firstOrNull;
 
+/// Níveis do sumário lidos (livro de verdade usa 3 ou 4; o resto é ignorado — sumário aninhado sem fim não
+/// estoura a pilha).
+const int maxTocDepth = 32;
+
 List<TocEntry> _navList(XmlElement ol, String base, int depth) {
   final out = <TocEntry>[];
   for (final li in childrenNamed(ol, 'li')) {
     final label =
         childrenNamed(li, 'a').firstOrNull ??
         childrenNamed(li, 'span').firstOrNull;
-    final sub = childrenNamed(li, 'ol').firstOrNull;
+    final sub = depth + 1 >= maxTocDepth
+        ? null
+        : childrenNamed(li, 'ol').firstOrNull;
     final children = sub == null
         ? const <TocEntry>[]
         : _navList(sub, base, depth + 1);
@@ -128,7 +134,9 @@ List<TocEntry> _navList(XmlElement ol, String base, int depth) {
 List<TocEntry> _ncxPoints(XmlElement parent, String base, int depth) {
   final out = <TocEntry>[];
   for (final np in childrenNamed(parent, 'navPoint')) {
-    final children = _ncxPoints(np, base, depth + 1);
+    final children = depth + 1 >= maxTocDepth
+        ? const <TocEntry>[]
+        : _ncxPoints(np, base, depth + 1);
     final (path, frag) = _ncxTarget(np, base);
     out.add(
       TocEntry(

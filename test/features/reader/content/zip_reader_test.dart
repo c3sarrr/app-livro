@@ -146,6 +146,31 @@ void main() {
       expect(() => r2.read('a.txt'), throwsA(isA<ContentDamaged>()));
     });
 
+    test('tamanho comprimido que não combina com o descompactado → recusado antes de ler', () {
+      // guardado (sem compressão) dizendo 5.000 bytes comprimidos para 3; e o mesmo num deflate
+      for (final guardado in [true, false]) {
+        final z = zipBytes(
+          [('a.txt', u('abc')), ('b.bin', List<int>.filled(8000, 7))],
+          stored: {if (guardado) 'a.txt', 'b.bin'},
+        );
+        _u32(z, _centralRecords(z).first + 20, 5000);
+        final r = abrir(z);
+        addTearDown(r.close);
+        expect(
+          () => r.read('a.txt'),
+          throwsA(
+            isA<ContentDamaged>().having(
+              (e) => e.reason,
+              'motivo',
+              'zip_comprimido',
+            ),
+          ),
+          reason: guardado ? 'guardado' : 'deflate',
+        );
+        expect(r.read('b.bin'), hasLength(8000));
+      }
+    });
+
     test('compressão acima de 100:1 numa entrada grande', () {
       final z = zipBytes([('a.txt', List<int>.filled(8 * 1024 * 1024, 0))]);
       final r = abrir(z);

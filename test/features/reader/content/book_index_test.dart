@@ -8,6 +8,7 @@ import 'dart:isolate';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
+import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/content/ref_pages.dart';
 import 'package:drift/native.dart';
@@ -39,6 +40,11 @@ void main() {
       // global: "abcdefghij\nklm" (14) + "\uFFFCxyz uvw" (8) = 22; 4 → depois do \n (11);
       // 15 → depois do U+FFFC (15); 19 → depois do espaço (19)
       expect(s, [0, 11, 15, 19]);
+    });
+
+    test('o começo de um item também é fronteira (o fim de um capítulo não gruda no título do seguinte)', () {
+      // global "abcdefghijkl" + "MNOP qrs": de 10, a próxima fronteira é o começo do 2º item (12)
+      expect(syntheticStarts(['abcdefghijkl', 'MNOP qrs'], n: 10), [0, 12]);
     });
 
     test('livro sem texto: uma página', () {
@@ -159,12 +165,73 @@ void main() {
           ),
         );
         expect(idx.refPages.kind, 'page_list');
-        expect(idx.refPages.labels, ['1', '2', '3', '4']);
-        // "Primeira.\nSegunda." (18) + "Terceira." → p3 = 18; #naoexiste → começo do item (18)
-        expect(idx.refPages.starts, [0, 10, 18, 18]);
-        expect(idx.refPagesTotal, 4);
+        // "Primeira.\nSegunda." (18) + "Terceira." → p3 = 18; #naoexiste não tem lugar → a página fica fora
+        expect(idx.refPages.labels, ['1', '2', '3']);
+        expect(idx.refPages.starts, [0, 10, 18]);
+        expect(idx.refPagesTotal, 3);
       },
     );
+
+    test(
+      'marcador de página escondido (display:none) vale onde está no texto',
+      () {
+        final idx = indexar(
+          simpleEpub(
+            chapters: const [
+              (
+                file: 'c1.xhtml',
+                title: 'I',
+                body:
+                    '<p><span id="p1" style="display:none">[1]</span>Um '
+                    '<span id="p2" style="display:none">[2]</span>dois.</p>',
+              ),
+            ],
+            navBody:
+                '<nav epub:type="toc"><ol><li><a href="c1.xhtml">I</a></li></ol></nav>'
+                '<nav epub:type="page-list"><ol><li><a href="c1.xhtml#p1">1</a></li>'
+                '<li><a href="c1.xhtml#p2">2</a></li></ol></nav>',
+          ),
+        );
+        // "Um dois." → p2 no começo de "dois" (3)
+        expect(idx.refPages.labels, ['1', '2']);
+        expect(idx.refPages.starts, [0, 3]);
+      },
+    );
+
+    test('livro acima do teto de texto → danificado (protege a memória)', () {
+      final dir = Directory.systemTemp.createTempSync('booknest_idx_teto_');
+      addTearDown(() => dir.deleteSync(recursive: true));
+      final book = EpubBook.open(
+        writeTemp(
+          dir,
+          'g.epub',
+          simpleEpub(
+            chapters: const [
+              (
+                file: 'a.xhtml',
+                title: 'I',
+                body:
+                    '<p>Cinquenta caracteres de texto aqui, só para medir.</p>',
+              ),
+              (
+                file: 'b.xhtml',
+                title: 'II',
+                body: '<p>Mais cinquenta caracteres de texto, para passar.</p>',
+              ),
+            ],
+          ),
+        ),
+      );
+      addTearDown(book.close);
+      expect(
+        buildEpubIndex(book, _sha, maxChars: 1000).totalChars,
+        greaterThan(60),
+      );
+      expect(
+        () => buildEpubIndex(book, _sha, maxChars: 60),
+        throwsA(isA<ContentDamaged>()),
+      );
+    });
 
     test(
       'colunas do banco: grava, lê de volta igual, e troca no mesmo livro',

@@ -134,6 +134,15 @@ void main() {
       },
     );
 
+    test('id de imagem e de <hr> = o U+FFFC deles; id escondido = onde ele está no texto', () {
+      final p = _ler(
+        '<p>Veja <img id="fig1" src="f.png"/></p><hr id="s2"/><p>Depois '
+        '<span id="pg5" style="display:none">[5]</span>de tudo.</p>',
+      );
+      expect(p.text, 'Veja\n\uFFFC\n\uFFFC\nDepois de tudo.');
+      expect(p.idOffsets, {'fig1': 5, 's2': 7, 'pg5': 16});
+    });
+
     test('XHTML mal formado (tag sem fechar) não derruba: o texto sai', () {
       final p = XhtmlReader(css: (_) => null).parse(
         utf8.encode('<html><body><p>um <i>dois<p>três</body></html>'),

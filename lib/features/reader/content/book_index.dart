@@ -3,9 +3,14 @@
 // do sumário sem subentradas, D-93). Construído no isolate da importação; guardado em colunas JSON.
 import 'dart:convert';
 
+import 'content_failure.dart';
 import 'epub_book.dart';
 import 'epub_package.dart';
 import 'ref_pages.dart';
+
+/// Teto do texto canônico de um livro (unidades UTF-16). Os maiores livros reais têm uns 10 milhões; acima
+/// disto o arquivo é tratado como danificado (protege a memória do *isolate* contra EPUB montado para isso).
+const int maxBookChars = 40 * 1000 * 1000;
 
 final class SpineInfo {
   const SpineInfo({
@@ -144,11 +149,21 @@ final class BookIndex {
   }
 }
 
-/// Índice completo do EPUB já aberto: abre todos os itens (o texto canônico só existe aqui dentro).
-BookIndex buildEpubIndex(EpubBook book, String contentSha256) {
-  final items = [
-    for (var i = 0; i < book.package.spine.length; i++) book.parseItem(i),
-  ];
+/// Índice completo do EPUB já aberto: abre todos os itens (o texto canônico só existe aqui dentro). Só o
+/// texto e os `id` de cada item ficam na memória (os blocos são da tela); acima de [maxChars] → danificado.
+BookIndex buildEpubIndex(
+  EpubBook book,
+  String contentSha256, {
+  int maxChars = maxBookChars,
+}) {
+  final items = <({String text, Map<String, int> idOffsets})>[];
+  var total = 0;
+  for (var i = 0; i < book.package.spine.length; i++) {
+    final parsed = book.parseItem(i);
+    total += parsed.text.length;
+    if (total > maxChars) throw const ContentDamaged('livro_grande');
+    items.add((text: parsed.text, idOffsets: parsed.idOffsets));
+  }
   final spine = [
     for (var i = 0; i < items.length; i++)
       SpineInfo(
@@ -161,11 +176,16 @@ BookIndex buildEpubIndex(EpubBook book, String contentSha256) {
   for (var i = 0; i < spine.length; i++) {
     byPath.putIfAbsent(spine[i].path, () => i);
   }
-  (int, int)? locate(String? path, String? fragment) {
+  // sumário: `#id` que não existe → começo do item; página da edição: sem o `#id`, a página não entra (um
+  // começo inventado repetiria ou desordenaria as páginas)
+  (int, int)? locate(String? path, String? fragment, {bool strict = false}) {
     if (path == null) return null;
     final i = byPath[book.zip.find(path) ?? path];
     if (i == null) return null;
-    return (i, fragment == null ? 0 : items[i].idOffsets[fragment] ?? 0);
+    if (fragment == null) return (i, 0);
+    final at = items[i].idOffsets[fragment];
+    if (at == null) return strict ? null : (i, 0);
+    return (i, at);
   }
 
   final toc = <TocPoint>[];
@@ -192,7 +212,7 @@ BookIndex buildEpubIndex(EpubBook book, String contentSha256) {
   // page-list da edição (só entradas que caem no texto linear), em ordem de posição
   final pages = <(int, int, String)>[];
   for (final p in book.pageList) {
-    final at = locate(p.path, p.fragment);
+    final at = locate(p.path, p.fragment, strict: true);
     final g = at == null ? null : draft.globalOffset(at.$1, at.$2);
     if (g != null) pages.add((g, pages.length, p.label));
   }

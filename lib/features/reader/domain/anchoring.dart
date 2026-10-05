@@ -1,9 +1,10 @@
 // G09.3 — reancoragem (Anexo 03 §5.3, D-44): quando o arquivo do livro muda (outra edição, outra versão), as
 // marcações acham o lugar delas no texto canônico novo pelo trecho citado. Em ordem: (1) mesmo arquivo → as
 // posições guardadas; (2) o trecho exato perto do lugar antigo (±2.000), desempatado pelo texto em volta e
-// pela distância; (3) o trecho exato em qualquer lugar do item; (4) aproximado, até 10 % de diferença
-// (alinhamento de Sellers — o `diff_match_patch` não roda no Dart 3); (5) senão, "sem lugar": a marcação
-// fica guardada e vai para a lista de grifos sem lugar (nunca é apagada).
+// pela distância; (3) aproximado no item inteiro, até 10 % de diferença (alinhamento de Sellers — o
+// `diff_match_patch` não roda no Dart 3), primeiro perto do lugar antigo; o trecho exato longe dali também
+// sai por aqui (0 diferenças); (4) senão, "sem lugar": a marcação fica guardada e vai para a lista de grifos
+// sem lugar (nunca é apagada).
 import 'dart:math' as math;
 
 import 'locator.dart';
@@ -29,7 +30,7 @@ TextQuote quoteAt(
   suffix: text.substring(end, math.min(text.length, end + context)),
 );
 
-enum AnchorMethod { sameFile, exactNearby, exactFar, fuzzy, clamped }
+enum AnchorMethod { sameFile, exactNearby, fuzzy, clamped }
 
 sealed class Reanchored {
   const Reanchored();
@@ -127,24 +128,15 @@ Reanchored reanchorRange({
     return _emptyAnchor(text, quote, start);
   }
 
-  final all = _occurrences(text, exact);
-  if (all.isNotEmpty) {
-    final near = [
-      for (final p in all)
-        if ((p - start).abs() <= nearbyWindow) p,
-    ];
-    final p = _pick(
-      near.isNotEmpty ? near : all,
-      text,
-      quote,
-      exact.length,
-      start,
-    );
-    return Anchored(
-      p,
-      p + exact.length,
-      near.isNotEmpty ? AnchorMethod.exactNearby : AnchorMethod.exactFar,
-    );
+  final near = _occurrences(
+    text,
+    exact,
+    from: math.max(0, start - nearbyWindow),
+    until: start + nearbyWindow,
+  );
+  if (near.isNotEmpty) {
+    final p = _pick(near, text, quote, exact.length, start);
+    return Anchored(p, p + exact.length, AnchorMethod.exactNearby);
   }
   return _fuzzy(text, quote, start) ?? const Orphaned();
 }
@@ -163,7 +155,7 @@ Reanchored _emptyAnchor(String text, TextQuote q, int start) {
       p,
       (p - start).abs() <= nearbyWindow
           ? AnchorMethod.exactNearby
-          : AnchorMethod.exactFar,
+          : AnchorMethod.fuzzy,
     );
   }
   if (q.prefix.length >= 8) {
@@ -183,10 +175,17 @@ Reanchored _emptyAnchor(String text, TextQuote q, int start) {
   return const Orphaned();
 }
 
-List<int> _occurrences(String text, String pattern) {
+/// Onde [pattern] começa em [text], de [from] até [until] (inclusive).
+List<int> _occurrences(
+  String text,
+  String pattern, {
+  int from = 0,
+  int? until,
+}) {
   final out = <int>[];
-  var i = text.indexOf(pattern);
-  while (i >= 0 && out.length < 100000) {
+  final last = until ?? text.length;
+  var i = text.indexOf(pattern, from);
+  while (i >= 0 && i <= last && out.length < 100000) {
     out.add(i);
     i = text.indexOf(pattern, i + 1);
   }
@@ -233,10 +232,8 @@ Anchored? _fuzzy(String text, TextQuote q, int expected) {
   final exact = q.exact;
   final len = exact.length;
   if (len <= 64) {
+    // até 9 caracteres, 10 % é zero: só o trecho exato (longe do lugar antigo)
     final k = (len * fuzzyTolerance).floor();
-    if (k == 0) {
-      return null;
-    }
     final m = _approx(text, exact, k, expected, q);
     return m == null ? null : Anchored(m.$1, m.$2, AnchorMethod.fuzzy);
   }

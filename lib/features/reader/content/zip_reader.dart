@@ -99,6 +99,13 @@ final class ZipReader {
     if (e.size > ratioFloorBytes && e.compressedSize * maxRatio < e.size) {
       throw const ContentDamaged('zip_razao');
     }
+    // o comprimido nunca passa do descompactado (guardado: igual; deflate: no máximo uns bytes por bloco) —
+    // conferido antes de ler, para um tamanho comprimido mentiroso não pôr o arquivo inteiro na memória
+    if (e.method == 0
+        ? e.compressedSize != e.size
+        : e.compressedSize > e.size + (e.size >> 12) + 64) {
+      throw const ContentDamaged('zip_comprimido');
+    }
     try {
       final head = _readAt(e.localHeaderOffset, 30);
       final h = ByteData.sublistView(head);

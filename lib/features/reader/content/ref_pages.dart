@@ -9,14 +9,23 @@ const int refPageVersion = 1;
 /// Caracteres por página sintética (Q23 → D-89).
 const int refPageChars = 1500;
 
-/// Inícios das páginas sintéticas no texto global formado por [texts] (posições UTF-16).
+/// Inícios das páginas sintéticas no texto global formado por [texts] (posições UTF-16). O começo de cada
+/// item também é fronteira (o fim de um capítulo não gruda na 1ª palavra do seguinte).
 List<int> syntheticStarts(List<String> texts, {int n = refPageChars}) {
   final global = texts.join();
+  final itemStarts = <int>{};
+  var at = 0;
+  for (final t in texts) {
+    itemStarts.add(at);
+    at += t.length;
+  }
   final starts = <int>[0];
   var next = n;
   while (next < global.length) {
     var p = next;
-    while (p < global.length && !_boundaryBefore(global.codeUnitAt(p - 1))) {
+    while (p < global.length &&
+        !itemStarts.contains(p) &&
+        !_boundaryBefore(global.codeUnitAt(p - 1))) {
       p++;
     }
     if (p >= global.length) break;

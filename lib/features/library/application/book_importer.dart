@@ -245,7 +245,8 @@ final class BookImporter {
   }
 
   /// Segundo tempo: índice completo do EPUB [userBookId] (refeito se faltar ou se o arquivo mudou).
-  /// `true` = indexou agora.
+  /// `true` = indexou agora. Arquivo que não abre (conteúdo) fica marcado e não é tentado de novo enquanto for
+  /// o mesmo arquivo; falha de disco ou do banco é tentada na próxima vez.
   Future<bool> indexBook(String userBookId) async {
     final lf = await LocalFilesDao(_db).byBook(userBookId);
     final book = await UserBooksDao(_db).byId(userBookId);
@@ -262,14 +263,25 @@ final class BookImporter {
       return false;
     }
     final sha = lf.sha256;
+    final mark = await _failMark(userBookId);
+    final markText = '$sha:$refPageVersion';
+    if (await _readQuietly(mark) == markText) {
+      return false;
+    }
+    final path = await _localPath(lf.path);
+    if (!await File(path).exists()) {
+      return false; // o arquivo saiu do aparelho por fora do app: nada a indexar
+    }
     final BookIndex index;
     try {
-      index = await _indexIn(_run, lf.path, sha);
+      index = await _indexIn(_run, path, sha);
     } on ContentFailure catch (e, st) {
       _onError(e, st);
-      return false;
-    } on FileSystemException catch (e, st) {
-      _onError(e, st);
+      try {
+        await mark.writeAsString(markText, flush: true);
+      } on FileSystemException {
+        // sem a marca: tenta de novo na próxima abertura
+      }
       return false;
     }
     return _versioning.write('user_books', userBookId, (v) async {
@@ -315,9 +327,84 @@ final class BookImporter {
         .get();
     var n = 0;
     for (final r in rows) {
-      if (await indexBook(r.read<String>('id'))) n++;
+      // um livro que falha (disco, banco, isolate) não segura os outros
+      try {
+        if (await indexBook(r.read<String>('id'))) n++;
+      } on Object catch (e, st) {
+        _onError(e, st);
+      }
     }
     return n;
+  }
+
+  /// Quanto tempo uma sobra precisa ter para a limpeza tocar nela (nada em andamento dura isso).
+  static const Duration staleAfter = Duration(hours: 1);
+
+  /// Sobras de quando o app morreu no meio: cópias `.importando-*.part` e arquivos de livro sem linha em
+  /// `local_files` (só com mais de [staleAfter]), e marcas de índice de livro que não está mais no aparelho.
+  /// Chamada ao abrir o app, antes de importar qualquer coisa.
+  Future<int> cleanUp() async {
+    final dir = await _booksDir();
+    if (!await dir.exists()) {
+      return 0;
+    }
+    final rows = await _db
+        .customSelect('SELECT user_book_id AS id, path FROM local_files')
+        .get();
+    final ids = {for (final r in rows) r.read<String>('id')};
+    final names = {for (final r in rows) _baseName(r.read<String>('path'))};
+    final now = _now();
+    var n = 0;
+    await for (final f in dir.list(followLinks: false)) {
+      if (f is! File) continue;
+      final name = _baseName(f.path);
+      final bool remove;
+      if (name.startsWith(_failPrefix)) {
+        remove = !ids.contains(name.substring(_failPrefix.length));
+      } else if ((name.startsWith('.importando-') && name.endsWith('.part')) ||
+          (_bookFileName.hasMatch(name) && !names.contains(name))) {
+        try {
+          remove = now.difference(await f.lastModified()) > staleAfter;
+        } on FileSystemException {
+          continue;
+        }
+      } else {
+        remove = false;
+      }
+      if (remove) {
+        await _deleteQuietly(f);
+        n++;
+      }
+    }
+    return n;
+  }
+
+  static const String _failPrefix = '.sem-indice-';
+  static final RegExp _bookFileName = RegExp(
+    r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(epub|pdf)$',
+  );
+
+  static String _baseName(String path) => path.split(RegExp(r'[/\\]')).last;
+
+  Future<File> _failMark(String userBookId) async => File(
+    '${(await _booksDir()).path}${Platform.pathSeparator}$_failPrefix$userBookId',
+  );
+
+  /// O caminho guardado em `local_files`, ou o mesmo nome na pasta dos livros de agora (no iOS a pasta do app
+  /// muda de lugar numa atualização; o nome `livros/<id>.<ext>` não).
+  Future<String> _localPath(String stored) async {
+    if (await File(stored).exists()) {
+      return stored;
+    }
+    return '${(await _booksDir()).path}${Platform.pathSeparator}${_baseName(stored)}';
+  }
+
+  static Future<String?> _readQuietly(File f) async {
+    try {
+      return await f.exists() ? await f.readAsString() : null;
+    } on FileSystemException {
+      return null;
+    }
   }
 
   Future<(String, String)?> _activeBySha(String owner, String sha) async {

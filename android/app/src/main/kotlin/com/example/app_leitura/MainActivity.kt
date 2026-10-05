@@ -48,7 +48,10 @@ class MainActivity : FlutterActivity() {
 
     private fun receber(intent: Intent?) {
         if (intent == null) return
-        val uris = urisDe(intent).filter { it.scheme == "content" || it.scheme == "file" }
+        // voltar pelos Recentes depois de o processo morrer reentrega a intenção antiga: não importa de novo
+        if (intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY != 0) return
+        // só content:// (file:// de outro app abriria arquivos com as permissões deste)
+        val uris = urisDe(intent).filter { it.scheme == "content" }
         if (uris.isEmpty()) return
         // a mesma intenção não volta a importar se a activity for recriada
         setIntent(Intent(Intent.ACTION_MAIN))
@@ -84,7 +87,6 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun nomeDe(uri: Uri): String? {
-        if (uri.scheme == "file") return uri.lastPathSegment
         return try {
             contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
                 if (c.moveToFirst()) c.getString(0) else null

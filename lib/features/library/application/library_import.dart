@@ -106,7 +106,9 @@ final libraryImportProvider =
     );
 
 class LibraryImportController extends Notifier<ImportView> {
-  bool _busy = false;
+  /// Importações na fila (a que está rodando + as que esperam).
+  int _active = 0;
+  Future<void> _last = Future<void>.value();
   bool _started = false;
   bool _receiving = false;
   bool _again = false;
@@ -124,7 +126,12 @@ class LibraryImportController extends Notifier<ImportView> {
         .arrivals
         .listen((_) => unawaited(receive()));
     ref.onDispose(sub.cancel);
-    // o que chegou pelo sistema antes do app subir e o que ficou sem índice
+    // sobras de quando o app morreu no meio, o que chegou pelo sistema antes do app subir e o que ficou sem
+    // índice
+    await _guard(
+      () async => (await ref.read(bookImporterProvider.future)).cleanUp(),
+    );
+    if (!ref.mounted) return;
     await receive();
     if (!ref.mounted) return;
     await _guard(
@@ -134,7 +141,7 @@ class LibraryImportController extends Notifier<ImportView> {
 
   /// Botão "Importar livro (EPUB ou PDF)".
   Future<void> pick() async {
-    if (_busy) return;
+    if (_active > 0) return;
     final picked = await _guard(() => ref.read(bookPickerProvider).pick());
     if (picked == null || !ref.mounted) return;
     await _run(
@@ -176,12 +183,32 @@ class LibraryImportController extends Notifier<ImportView> {
     }
   }
 
+  /// Uma importação de cada vez, na ordem em que chegaram (o botão e o "Abrir com" dividem a fila): cada uma
+  /// mostra o "Importando…" e o resultado dela.
   Future<void> _run(
     String name,
     bool fromSystem,
     Future<ImportOutcome> Function(BookImporter) work,
   ) async {
-    _busy = true;
+    _active++;
+    final before = _last;
+    final done = Completer<void>();
+    _last = done.future;
+    try {
+      await before;
+      if (!ref.mounted) return;
+      await _runOne(name, fromSystem, work);
+    } finally {
+      _active--;
+      done.complete();
+    }
+  }
+
+  Future<void> _runOne(
+    String name,
+    bool fromSystem,
+    Future<ImportOutcome> Function(BookImporter) work,
+  ) async {
     state = ImportBusy(name, fromSystem: fromSystem);
     try {
       final importer = await ref.read(bookImporterProvider.future);
@@ -196,8 +223,6 @@ class LibraryImportController extends Notifier<ImportView> {
       if (!ref.mounted) return;
       ref.read(libraryErrorReporterProvider)(e, st);
       state = const ImportFinished(ImportFailed(ImportError.unexpected));
-    } finally {
-      _busy = false;
     }
   }
 

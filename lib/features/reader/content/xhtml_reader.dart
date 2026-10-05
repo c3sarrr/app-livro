@@ -302,13 +302,21 @@ final class _Walker {
       }
     }
     final p2 = top;
-    if (!hidden && id != null && !p2.inSvg) pendingIds.add((id, _idPrefix()));
+    final image = !hidden && (tag == 'img' || (tag == 'image' && p2.inSvg));
+    final src = !image
+        ? null
+        : (tag == 'img' ? _attr(e, 'src') : _attr(e, 'href'));
+    final imagePath = src == null ? null : resolveHref(dirOf(path), src);
+    final rule = !hidden && tag == 'hr' && !p2.inSvg;
+    // o `id` de imagem e de `<hr>` é o U+FFFC deles; o de elemento escondido, o ponto do texto onde ele está
+    if (id != null && !p2.inSvg && imagePath == null && !rule) {
+      pendingIds.add((id, _idPrefix()));
+    }
 
-    if (!hidden && (tag == 'img' || (tag == 'image' && p2.inSvg))) {
-      final src = tag == 'img' ? _attr(e, 'src') : (_attr(e, 'href'));
-      final p = src == null ? null : resolveHref(dirOf(path), src);
-      if (p != null) {
+    if (image) {
+      if (imagePath case final p?) {
         _flush();
+        if (id != null && !p2.inSvg) out.carry([id]);
         out.addObject(
           ImageBlock(
             path: p,
@@ -319,7 +327,8 @@ final class _Walker {
           ),
         );
       }
-    } else if (!hidden && tag == 'hr' && !p2.inSvg) {
+    } else if (rule) {
+      if (id != null) out.carry([id]);
       out.addObject(
         SceneBreakBlock(
           _blockStyle(

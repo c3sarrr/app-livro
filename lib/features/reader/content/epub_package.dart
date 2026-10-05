@@ -138,16 +138,20 @@ final class EpubPackage {
     }
 
     final spineEl = allNamed(opf, 'spine').firstOrNull;
+    // o mesmo item duas vezes no spine é erro do EPUB (epubcheck OPF-034): vale a primeira — sem isso, um
+    // arquivo pequeno repetiria o mesmo capítulo milhares de vezes no índice
+    final seen = <String>{};
     final spine = <SpineItem>[
       if (spineEl != null)
         for (final ref in childrenNamed(spineEl, 'itemref'))
           if (manifest[attr(ref, 'idref')] case final m?)
-            SpineItem(
-              path: m.path,
-              mediaType: m.mediaType,
-              linear:
-                  (attr(ref, 'linear') ?? 'yes').trim().toLowerCase() != 'no',
-            ),
+            if (seen.add(m.path))
+              SpineItem(
+                path: m.path,
+                mediaType: m.mediaType,
+                linear:
+                    (attr(ref, 'linear') ?? 'yes').trim().toLowerCase() != 'no',
+              ),
     ];
     if (spine.isEmpty) throw const ContentDamaged('epub_spine_vazio');
 
