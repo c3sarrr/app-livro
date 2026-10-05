@@ -92,6 +92,66 @@ def test_leitura_em_paralelo_igual_a_sequencial(dumps, monkeypatch):
     monkeypatch.setattr(openlibrary, "PROCESSOS", 1)
     sequencial = tudo()
     monkeypatch.setattr(openlibrary, "PROCESSOS", 3)
-    monkeypatch.setattr(openlibrary, "LOTE_LINHAS", 2)
+    monkeypatch.setattr(openlibrary, "BLOCO_BYTES", 300)  # blocos menores que uma linha também
     assert tudo() == sequencial
     assert len(sequencial[2]) > 2
+
+
+def test_blocos_nunca_dividem_uma_linha():
+    import io
+
+    from catalogo.fluxo import blocos
+
+    dados = b"".join(f"linha {i} {'x' * (i % 37)}\n".encode() for i in range(500)) + b"sem fim"
+    for tamanho in (1, 7, 64, 1000, 10**6):
+        partes = list(blocos(io.BytesIO(dados), tamanho))
+        assert b"".join(partes) == dados
+        assert all(p.endswith(b"\n") for p in partes[:-1])
+
+
+def test_registros_com_formato_inesperado_nao_derrubam_a_leitura():
+    """Dumps reais têm registros antigos: autor da obra como texto, ISBN solto em vez de lista, JSON que
+    não é objeto. Os aproveitáveis entram; os outros são contados e descartados."""
+    linhas = [
+        '/type/work\t/works/OL1W\t1\t2020\t{"title": "Velha", "authors": [{"author": "/authors/OL9A"}]}',
+        '/type/work\t/works/OL2W\t1\t2020\t["não", "é", "objeto"]',
+        '/type/work\t/works/OL3W\t1\t2020\t{"title": "Nova", "authors": [{"author": {"key": "/authors/OL8A"}}]}',
+        '/type/work\t/works/OL4W\t1\t2020\t{"title": "Quebrada", "authors": [{"author": {"key": 5}}]}',
+        '/type/work\t/works/OL5W\t1\t2020\t{json inválido',
+    ]
+    obras, estranhos = openlibrary._lote(("obra", None, ("\n".join(linhas) + "\n").encode()))
+    assert [(o[0], o[2]) for o in obras] == [("/works/OL1W", ["/authors/OL9A"]), ("/works/OL3W", ["/authors/OL8A"]),
+                                              ("/works/OL4W", [])]
+    assert estranhos == 1  # o JSON inválido (o que não é objeto é ignorado)
+    ed = ('/type/edition\t/books/OL1M\t1\t2020\t{"title": "Solto", "isbn_13": "9788535902778", '
+          '"publishers": "Editora", "authors": [{"key": "/authors/OL1A"}], "works": {"key": "/works/OL1W"}}\n')
+    (e,), _ = openlibrary._lote(("edicao", '"isbn_', ed.encode()))
+    assert (e.isbns, e.editora, e.autores, e.obra) == (["9788535902778"], "Editora", ["/authors/OL1A"], "/works/OL1W")
+
+
+def test_dump_truncado_derruba_a_leitura(tmp_path):
+    """Um .gz cortado (download interrompido, disco cheio) não pode virar um catálogo pela metade
+    em silêncio: a leitura falha quando o descompressor acusa o erro."""
+    import gzip
+
+    import pytest
+
+    from catalogo.fluxo import abrir_bytes, abrir_linhas
+
+    linhas = "".join(f'/type/author\t/authors/OL{i}A\t1\t2020\t{{"name": "Autor {i}"}}\n' for i in range(20_000))
+    inteiro = gzip.compress(linhas.encode(), mtime=0)
+    cortado = tmp_path / "ol_dump_authors_cortado.txt.gz"
+    cortado.write_bytes(inteiro[: len(inteiro) // 2])
+    with pytest.raises(RuntimeError, match="descompress"):
+        list(openlibrary.autores(cortado))
+    with pytest.raises(RuntimeError, match="descompress"), abrir_linhas(cortado) as f:
+        for _ in f:
+            pass
+    # quem para de ler antes do fim (só o começo do arquivo) não é erro
+    ok = tmp_path / "ok.txt.gz"
+    ok.write_bytes(inteiro)
+    with abrir_bytes(ok) as f:
+        assert f.read(10) == linhas[:10].encode()
+    with abrir_linhas(ok) as f:
+        assert next(iter(f)).startswith("/type/author")
+    assert len(list(openlibrary.autores(ok))) == 20_000

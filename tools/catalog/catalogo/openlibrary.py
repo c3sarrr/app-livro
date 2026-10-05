@@ -17,13 +17,15 @@ from pathlib import Path
 
 from . import isbn as isbn_mod
 from . import texto
-from .fluxo import abrir_linhas, carregar_json
+from .fluxo import abrir_bytes, abrir_linhas, blocos, carregar_json
 
 FONTE = "openlibrary"
 LICENCA = "OL-sem-direitos"  # "The Internet Archive does not assert any new copyright…" (LICENCAS.md)
 
-#: linhas por lote enviado a um processo; processos (None = núcleos − 2, no máximo 8; 1 = sem paralelo)
-LOTE_LINHAS = 4000
+#: bytes por bloco enviado a um processo; processos (None = núcleos − 2, no máximo 8; 1 = sem paralelo).
+#: O processo principal só lê blocos e grava: decodificar, separar as linhas e ler o JSON é dos
+#: processos auxiliares (com os dumps reais, a leitura linha a linha no principal era o gargalo).
+BLOCO_BYTES = 8 << 20
 PROCESSOS: int | None = None
 
 
@@ -33,54 +35,57 @@ def _processos() -> int:
     return max(1, min(8, (os.cpu_count() or 2) - 2))
 
 
-def _lote(args: tuple[str, list[str]]) -> list:
-    """Num processo auxiliar: linhas → registros já transformados (None = descartado)."""
-    tipo, linhas = args
+def _lote(args: tuple[str, str | None, bytes]) -> tuple[list, int]:
+    """Num processo auxiliar: bloco de linhas → (registros já transformados, nº de registros com
+    formato inesperado — descartados e contados, nunca derrubam a execução)."""
+    tipo, filtro, bloco = args
     f = _TRANSFORMACOES[tipo]
     saida = []
-    for linha in linhas:
-        partes = linha.rstrip("\n").split("\t", 4)
+    estranhos = 0
+    for linha in bloco.decode("utf-8", "replace").split("\n"):
+        if not linha or (filtro and filtro not in linha):
+            continue
+        partes = linha.split("\t", 4)
         if len(partes) != 5:
             continue
         try:
             j = carregar_json(partes[4])
-        except ValueError:
+            r = f(partes[1], j) if isinstance(j, dict) else None
+        except (ValueError, TypeError, AttributeError, KeyError):
+            estranhos += 1
             continue
-        r = f(partes[1], j)
         if r is not None:
             saida.append(r)
-    return saida
+    return saida, estranhos
 
 
 def _em_paralelo(caminho: Path, tipo: str, filtro: str | None = None) -> Iterator:
-    """Registros transformados de `tipo`, na ordem do arquivo, com no máximo 2 lotes por processo em
+    """Registros transformados de `tipo`, na ordem do arquivo, com no máximo 2 blocos por processo em
     andamento (o arquivo não é lido inteiro para a memória)."""
     n = _processos()
-    with abrir_linhas(caminho) as linhas:
-        def lotes() -> Iterator[tuple[str, list[str]]]:
-            atual: list[str] = []
-            for linha in linhas:
-                if filtro and filtro not in linha:
-                    continue
-                atual.append(linha)
-                if len(atual) >= LOTE_LINHAS:
-                    yield tipo, atual
-                    atual = []
-            if atual:
-                yield tipo, atual
+    estranhos = 0
 
+    def resultado(r: tuple[list, int]) -> list:
+        nonlocal estranhos
+        estranhos += r[1]
+        return r[0]
+
+    with abrir_bytes(caminho) as f:
+        tarefas = ((tipo, filtro, b) for b in blocos(f, BLOCO_BYTES))
         if n <= 1:
-            for x in lotes():
-                yield from _lote(x)
-            return
-        with ProcessPoolExecutor(max_workers=n) as pool:
-            fila: deque = deque()
-            for x in lotes():
-                fila.append(pool.submit(_lote, x))
-                if len(fila) >= 2 * n:
-                    yield from fila.popleft().result()
-            while fila:
-                yield from fila.popleft().result()
+            for t in tarefas:
+                yield from resultado(_lote(t))
+        else:
+            with ProcessPoolExecutor(max_workers=n) as pool:
+                fila: deque = deque()
+                for t in tarefas:
+                    fila.append(pool.submit(_lote, t))
+                    if len(fila) >= 2 * n:
+                        yield from resultado(fila.popleft().result())
+                while fila:
+                    yield from resultado(fila.popleft().result())
+    if estranhos:
+        print(f"[openlibrary] {tipo}: {estranhos} registros com formato inesperado (descartados)", flush=True)
 
 
 def _autor(chave: str, j: dict) -> tuple[str, str] | None:
@@ -88,11 +93,18 @@ def _autor(chave: str, j: dict) -> tuple[str, str] | None:
     return (chave, nome) if nome else None
 
 
+def _chave(v: object) -> str | None:
+    """`{"key": "/authors/OL1A"}` ou, em registros antigos do dump, só `"/authors/OL1A"`."""
+    if isinstance(v, dict):
+        v = v.get("key")
+    return v if isinstance(v, str) and v.startswith("/") else None
+
+
 def _obra(chave: str, j: dict) -> tuple[str, str | None, list[str]]:
     autores_ = []
-    for a in j.get("authors") or []:
-        k = (a.get("author") or {}).get("key") if isinstance(a, dict) else None
-        if isinstance(k, str):
+    for a in _lista(j.get("authors")):
+        k = _chave(a.get("author")) if isinstance(a, dict) else None
+        if k:
             autores_.append(k)
     return chave, texto.limpar(j.get("title")), autores_[:5]
 
@@ -133,20 +145,27 @@ class Edicao:
     extra: dict = field(default_factory=dict)
 
 
+def _lista(v: object) -> list:
+    """Campos de lista que, em registros antigos, vêm como valor solto."""
+    if v is None:
+        return []
+    return v if isinstance(v, list) else [v]
+
+
 def _edicao(chave: str, j: dict) -> Edicao | None:
     isbns: list[str] = []
-    for bruto in list(j.get("isbn_13") or []) + list(j.get("isbn_10") or []):
+    for bruto in _lista(j.get("isbn_13")) + _lista(j.get("isbn_10")):
         n = isbn_mod.normalizar(bruto)
         if n and n not in isbns:
             isbns.append(n)
     titulo = texto.limpar(j.get("title"))
     if not isbns or not titulo:
         return None
-    autores_ = [a["key"] for a in (j.get("authors") or []) if isinstance(a, dict) and isinstance(a.get("key"), str)]
-    obras_ = [o["key"] for o in (j.get("works") or []) if isinstance(o, dict) and isinstance(o.get("key"), str)]
-    editoras = j.get("publishers") or []
-    capas = [c for c in (j.get("covers") or []) if isinstance(c, int) and c > 0]
-    idiomas = [texto.idioma_ol(x.get("key")) for x in (j.get("languages") or []) if isinstance(x, dict)]
+    autores_ = [k for k in (_chave(a) for a in _lista(j.get("authors"))) if k]
+    obras_ = [k for k in (_chave(o) for o in _lista(j.get("works"))) if k]
+    editoras = _lista(j.get("publishers"))
+    capas = [c for c in _lista(j.get("covers")) if isinstance(c, int) and c > 0]
+    idiomas = [texto.idioma_ol(x.get("key")) for x in _lista(j.get("languages")) if isinstance(x, dict)]
     idiomas = [i for i in idiomas if i]
     pais = j.get("publish_country")
     return Edicao(
