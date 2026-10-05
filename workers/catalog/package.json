@@ -1,0 +1,21 @@
+{
+  "name": "booknest-catalog-worker",
+  "private": true,
+  "type": "module",
+  "description": "Worker do catálogo do BookNest (G07): ISBN por prefixo no R2, entrega do catalog.db com retomada",
+  "scripts": {
+    "dev": "wrangler dev --persist-to .wrangler/state",
+    "test": "vitest run",
+    "types": "wrangler types src/worker-configuration.d.ts",
+    "check": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test/tsconfig.json",
+    "publicar-local": "node scripts/publicar_local.mjs"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "1.3.6",
+    "@vitest/runner": "4.1.11",
+    "@vitest/snapshot": "4.1.11",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11",
+    "wrangler": "4.147.0"
+  }
+}
