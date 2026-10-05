@@ -1,0 +1,280 @@
+// Foto real da capa (G08, D-79/D-85): baixada direto da fonte pelo aparelho — sem conta nem identificador; a
+// fonte vê o IP e qual capa — e guardada na pasta de suporte do app, para aparecer offline. Um arquivo por
+// endereço (`<hash>.img`); "sem capa" fica marcado (`<hash>.none`) e só é tentado de novo depois de 7 dias.
+// As capas dos livros da estante nunca saem; as outras (Para você) saem pela menos usada acima de 40 MB.
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:crypto/crypto.dart';
+import 'package:http/http.dart' as http;
+
+import '../domain/models.dart';
+
+/// Endereços da foto, em ordem: o `cover_ref` do livro (`ol:<id>` → Open Library por id, sem limite de taxa;
+/// ou a URL da API externa, sempre em https) e o recuo pelo ISBN no Open Library (100 a cada 5 min por IP).
+List<Uri> coverCandidates(PhotoCover cover) {
+  final out = <Uri>[];
+  final ref = cover.ref?.trim();
+  if (ref != null && ref.isNotEmpty) {
+    final ol = RegExp(r'^ol:(\d+)$').firstMatch(ref);
+    if (ol != null) {
+      out.add(
+        Uri.parse(
+          'https://covers.openlibrary.org/b/id/${ol[1]}-M.jpg?default=false',
+        ),
+      );
+    } else {
+      final u = Uri.tryParse(ref);
+      if (u != null && u.host.isNotEmpty) {
+        if (u.scheme == 'https') out.add(u);
+        if (u.scheme == 'http') out.add(u.replace(scheme: 'https'));
+      }
+    }
+  }
+  final isbn = cover.isbn13;
+  if (isbn != null && RegExp(r'^97[89]\d{10}$').hasMatch(isbn)) {
+    out.add(
+      Uri.parse(
+        'https://covers.openlibrary.org/b/isbn/$isbn-M.jpg?default=false',
+      ),
+    );
+  }
+  return out;
+}
+
+/// As fotos de capa do aparelho.
+abstract interface class CoverImages {
+  /// A foto já guardada (sem rede); `null` = ainda não tem.
+  Future<File?> cached(PhotoCover cover);
+
+  /// Do aparelho ou da rede; `null` = sem foto agora (a capa gerada fica — D-79).
+  Future<File?> resolve(PhotoCover cover);
+}
+
+enum _Fetch { ok, missing, transient }
+
+final class CoverStore implements CoverImages {
+  CoverStore({
+    required this._dir,
+    required this._client,
+    required this._pinned,
+    DateTime Function()? now,
+    this.maxBytes = defaultMaxBytes,
+  }) : _now = now ?? DateTime.now;
+
+  /// Pasta das capas (criada na primeira escrita).
+  final Future<Directory> Function() _dir;
+  final http.Client _client;
+
+  /// Endereços das capas dos livros da estante (nunca saem do cache).
+  final Future<Set<Uri>> Function() _pinned;
+  final DateTime Function() _now;
+
+  /// Limite das capas fora da estante.
+  final int maxBytes;
+
+  static const int defaultMaxBytes = 40 * 1024 * 1024;
+  static const int maxImageBytes = 2 * 1024 * 1024;
+  static const Duration timeout = Duration(seconds: 15);
+  static const Duration missingRetry = Duration(days: 7);
+  static const Duration transientBackoff = Duration(minutes: 10);
+  static const int maxConcurrent = 4;
+  static const String userAgent =
+      'BookNest/1.0 (app de leitura; capas no aparelho)';
+
+  final Map<String, Future<_Fetch>> _inFlight = {};
+  final Map<String, DateTime> _backoffUntil = {};
+  int _running = 0;
+  final List<Completer<void>> _waiting = [];
+  Future<void> _eviction = Future<void>.value();
+
+  /// Fim da limpeza agendada (para os testes).
+  Future<void> get evictionDone => _eviction;
+
+  static String _key(Uri u) =>
+      sha256.convert(utf8.encode(u.toString())).toString().substring(0, 40);
+
+  Future<File> _file(String key, String ext) async =>
+      File('${(await _dir()).path}${Platform.pathSeparator}$key.$ext');
+
+  @override
+  Future<File?> cached(PhotoCover cover) async {
+    for (final u in coverCandidates(cover)) {
+      final f = await _file(_key(u), 'img');
+      if (await f.exists()) return f;
+    }
+    return null;
+  }
+
+  @override
+  Future<File?> resolve(PhotoCover cover) async {
+    for (final u in coverCandidates(cover)) {
+      final key = _key(u);
+      final img = await _file(key, 'img');
+      if (await img.exists()) {
+        await _touch(img);
+        return img;
+      }
+      final none = await _file(key, 'none');
+      if (await none.exists() &&
+          _now().difference(await none.lastModified()) < missingRetry) {
+        continue;
+      }
+      final until = _backoffUntil[key];
+      if (until != null && _now().isBefore(until)) return null;
+      final r = await (_inFlight[key] ??= _fetch(u, key).whenComplete(() {
+        // sem devolver o Future removido: o whenComplete esperaria por ele mesmo
+        _inFlight.remove(key);
+      }));
+      switch (r) {
+        case _Fetch.ok:
+          _scheduleEviction();
+          return img;
+        case _Fetch.missing:
+          continue;
+        case _Fetch.transient:
+          return null;
+      }
+    }
+    return null;
+  }
+
+  Future<void> _touch(File f) async {
+    try {
+      await f.setLastModified(_now());
+    } on FileSystemException {
+      // só a ordem da limpeza depende disso
+    }
+  }
+
+  Future<_Fetch> _fetch(Uri u, String key) async {
+    await _acquire();
+    try {
+      final r = await _download(u);
+      if (r == null) {
+        _backoffUntil[key] = _now().add(transientBackoff);
+        return _Fetch.transient;
+      }
+      final dir = await _dir();
+      await dir.create(recursive: true);
+      final none = await _file(key, 'none');
+      if (r.isEmpty) {
+        await none.writeAsBytes(const []);
+        await none.setLastModified(_now());
+        return _Fetch.missing;
+      }
+      final img = await _file(key, 'img');
+      final part = await _file(key, 'part');
+      await part.writeAsBytes(r, flush: true);
+      await part.rename(img.path);
+      await _touch(img);
+      if (await none.exists()) await none.delete();
+      _backoffUntil.remove(key);
+      return _Fetch.ok;
+    } finally {
+      _release();
+    }
+  }
+
+  /// Bytes da imagem; vazio = a fonte não tem capa (404, não é imagem, grande demais); `null` = falha passageira.
+  Future<Uint8List?> _download(Uri u) async {
+    try {
+      final req = http.Request('GET', u)
+        ..headers['User-Agent'] = userAgent
+        ..followRedirects = true;
+      final res = await _client.send(req).timeout(timeout);
+      if (res.statusCode == 404 || res.statusCode == 410) {
+        await res.stream.drain<void>();
+        return Uint8List(0);
+      }
+      if (res.statusCode != 200) {
+        await res.stream.drain<void>();
+        return null;
+      }
+      final declared =
+          int.tryParse(res.headers['content-length'] ?? '') ??
+          res.contentLength;
+      if (declared != null && declared > maxImageBytes) {
+        await res.stream.drain<void>();
+        return Uint8List(0);
+      }
+      final out = BytesBuilder(copy: false);
+      await for (final chunk in res.stream.timeout(timeout)) {
+        out.add(chunk);
+        if (out.length > maxImageBytes) return Uint8List(0);
+      }
+      final bytes = out.takeBytes();
+      return _isImage(bytes) ? bytes : Uint8List(0);
+    } on Object {
+      return null;
+    }
+  }
+
+  /// Assinatura de JPEG, PNG, GIF ou WebP.
+  static bool _isImage(Uint8List b) {
+    bool starts(List<int> sig, [int at = 0]) {
+      if (b.length < at + sig.length) return false;
+      for (var i = 0; i < sig.length; i++) {
+        if (b[at + i] != sig[i]) return false;
+      }
+      return true;
+    }
+
+    return starts(const [0xFF, 0xD8, 0xFF]) ||
+        starts(const [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]) ||
+        starts('GIF8'.codeUnits) ||
+        (starts('RIFF'.codeUnits) && starts('WEBP'.codeUnits, 8));
+  }
+
+  Future<void> _acquire() async {
+    if (_running < maxConcurrent) {
+      _running++;
+      return;
+    }
+    final c = Completer<void>();
+    _waiting.add(c);
+    await c.future;
+  }
+
+  void _release() {
+    if (_waiting.isNotEmpty) {
+      _waiting.removeAt(0).complete();
+    } else {
+      _running--;
+    }
+  }
+
+  void _scheduleEviction() {
+    _eviction = _eviction.then((_) => _evict()).catchError((Object _) {});
+  }
+
+  /// Fora da estante acima de [maxBytes]: apaga a menos usada até caber.
+  Future<void> _evict() async {
+    final dir = await _dir();
+    if (!await dir.exists()) return;
+    final pinned = {for (final u in await _pinned()) _key(u)};
+    final files = <(File, int, DateTime)>[];
+    var total = 0;
+    await for (final e in dir.list()) {
+      if (e is! File || !e.path.endsWith('.img')) continue;
+      final name = e.uri.pathSegments.last;
+      if (pinned.contains(name.substring(0, name.length - 4))) continue;
+      final st = await e.stat();
+      files.add((e, st.size, st.modified));
+      total += st.size;
+    }
+    if (total <= maxBytes) return;
+    files.sort((a, b) => a.$3.compareTo(b.$3));
+    for (final (f, size, _) in files) {
+      if (total <= maxBytes) break;
+      try {
+        await f.delete();
+        total -= size;
+      } on FileSystemException {
+        // em uso ou já apagado: segue
+      }
+    }
+  }
+}
