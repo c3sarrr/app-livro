@@ -464,7 +464,7 @@ void main() {
   });
 
   group('recém-chegados (D-85)', () {
-    test('só nunca abertos, fora lidos e abandonados; "Novo" quando não é "quero ler"', () async {
+    test('só nunca abertos, fora lidos, abandonados e os que já estão em leitura (cada livro aparece uma vez — G08.6)', () async {
       await gravar([
         _livro(1, titulo: 'Quero', adicionado: _local(10, 1, 9)),
         _livro(
@@ -499,12 +499,14 @@ void main() {
           adicionado: _local(9, 30, 9),
         ),
       ]);
-      final r = (await repo.read(_agora)).recent;
-      expect(r.map((x) => (x.book.title, x.status, x.format)), [
-        ('Lendo nunca aberto', RecentStatus.isNew, BookFormat.epub),
+      final s = await repo.read(_agora);
+      expect(s.recent.map((x) => (x.book.title, x.status, x.format)), [
         ('Quero', RecentStatus.wantToRead, BookFormat.epub),
         ('PDF', RecentStatus.wantToRead, BookFormat.pdf),
       ]);
+      // o "lendo" nunca aberto (ex.: exemplar físico) fica só na leitura
+      expect(s.continueReading!.book.title, 'Aberto');
+      expect(s.alsoReading.map((a) => a.book.title), ['Lendo nunca aberto']);
     });
   });
 

@@ -175,13 +175,11 @@ final class LocalHomeRepository implements HomeRepository {
     final reading = data.books.where((b) => b.status == 'reading').toList()
       ..sort(_byLastOpened);
     final hero = reading.isEmpty ? null : reading.first;
+    // Recém-chegados: nunca abertos e ainda "quero ler" — um livro em leitura já está em Continue lendo /
+    // Também lendo e não se repete aqui (G08.6; antes, um exemplar físico "lendo" aparecia nos dois).
     final recent =
         data.books
-            .where(
-              (b) =>
-                  b.lastOpenedAt == null &&
-                  (b.status == 'want_to_read' || b.status == 'reading'),
-            )
+            .where((b) => b.lastOpenedAt == null && b.status == 'want_to_read')
             .toList()
           ..sort((a, b) {
             final c = b.addedAt.compareTo(a.addedAt);
@@ -239,9 +237,8 @@ final class LocalHomeRepository implements HomeRepository {
               'physical' => BookFormat.physical,
               _ => BookFormat.epub,
             },
-            status: b.status == 'want_to_read'
-                ? RecentStatus.wantToRead
-                : RecentStatus.isNew,
+            // "Novo" (desenhado na prancha) não sai de nenhum status por enquanto — a regra é da G09.
+            status: RecentStatus.wantToRead,
           ),
       ]),
       shelfIsEmpty: data.books.isEmpty,

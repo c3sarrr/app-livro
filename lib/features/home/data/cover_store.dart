@@ -12,8 +12,31 @@ import 'package:http/http.dart' as http;
 
 import '../domain/models.dart';
 
+/// Hosts de onde a foto pode vir (G08.6): só os das fontes de capa — a requisição mostra o IP de quem pede,
+/// então nenhuma URL vinda de dado externo leva o aparelho a outro lugar. Medido em 05/10/2026: o Open Library
+/// responde direto ou redireciona para `archive.org` → `iaNNNNNN.us.archive.org`; o Google Books serve a miniatura
+/// em `books.google.com` (às vezes `books.googleusercontent.com`); Hardcover e ISBNdb (só com chave) usam
+/// `assets.hardcover.app` e `images.isbndb.com`. Fora da lista: sem foto por aquele endereço (fica o recuo
+/// pelo ISBN ou a capa gerada).
+bool coverHostAllowed(String host) {
+  final h = host.toLowerCase();
+  return _coverHosts.contains(h) || _archiveNode.hasMatch(h);
+}
+
+const Set<String> _coverHosts = {
+  'covers.openlibrary.org',
+  'archive.org',
+  'books.google.com',
+  'books.googleusercontent.com',
+  'assets.hardcover.app',
+  'images.isbndb.com',
+};
+
+final RegExp _archiveNode = RegExp(r'^ia\d+\.us\.archive\.org$');
+
 /// Endereços da foto, em ordem: o `cover_ref` do livro (`ol:<id>` → Open Library por id, sem limite de taxa;
-/// ou a URL da API externa, sempre em https) e o recuo pelo ISBN no Open Library (100 a cada 5 min por IP).
+/// ou a URL da API externa, sempre em https e de um host da lista) e o recuo pelo ISBN no Open Library
+/// (100 a cada 5 min por IP).
 List<Uri> coverCandidates(PhotoCover cover) {
   final out = <Uri>[];
   final ref = cover.ref?.trim();
@@ -27,7 +50,7 @@ List<Uri> coverCandidates(PhotoCover cover) {
       );
     } else {
       final u = Uri.tryParse(ref);
-      if (u != null && u.host.isNotEmpty) {
+      if (u != null && coverHostAllowed(u.host)) {
         if (u.scheme == 'https') out.add(u);
         if (u.scheme == 'http') out.add(u.replace(scheme: 'https'));
       }
@@ -199,9 +222,9 @@ final class CoverStore implements CoverImages {
     }
   }
 
-  /// Bytes da imagem; vazio = a fonte não tem capa (404/410, grande demais, redireciona para fora do https);
-  /// `null` = falha passageira (rede, servidor, ou uma resposta que não é imagem — Wi-Fi com página de login).
-  /// Redirecionamentos seguidos à mão, até 3, só para https.
+  /// Bytes da imagem; vazio = a fonte não tem capa (404/410, grande demais, redireciona para fora do https ou
+  /// da lista de hosts); `null` = falha passageira (rede, servidor, ou uma resposta que não é imagem — Wi-Fi com
+  /// página de login). Redirecionamentos seguidos à mão, até 3, só para https e só para hosts da lista.
   Future<Uint8List?> _download(Uri first) async {
     try {
       var u = first;
@@ -215,7 +238,11 @@ final class CoverStore implements CoverImages {
           await _discardBody(res);
           final to = res.headers['location'];
           final next = to == null ? null : u.resolve(to);
-          if (next == null || next.scheme != 'https') return Uint8List(0);
+          if (next == null ||
+              next.scheme != 'https' ||
+              !coverHostAllowed(next.host)) {
+            return Uint8List(0);
+          }
           u = next;
           continue;
         }

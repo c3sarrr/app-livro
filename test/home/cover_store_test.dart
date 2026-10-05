@@ -58,43 +58,132 @@ void main() {
       'https://covers.openlibrary.org/b/isbn/9788535902778-M.jpg?default=false';
 
   group('de onde vem a foto (D-79)', () {
+    test('ol:<id> → Open Library por id; URL https da API; recuo pelo ISBN', () {
+      expect(
+        coverCandidates(
+          const PhotoCover(ref: 'ol:123', isbn13: '9788535902778'),
+        ).map((u) => u.toString()),
+        [ol, porIsbn],
+      );
+      expect(
+        coverCandidates(
+          const PhotoCover(ref: 'https://books.google.com/x?id=1&zoom=1'),
+        ).map((u) => u.toString()),
+        ['https://books.google.com/x?id=1&zoom=1'],
+      );
+      // http vira https; nada que não seja http(s) ou ol:<número>
+      expect(
+        coverCandidates(
+          const PhotoCover(ref: 'http://books.google.com/books/content?id=1'),
+        ).map((u) => u.toString()),
+        ['https://books.google.com/books/content?id=1'],
+      );
+      // host fora da lista das fontes: ignorado, fica o recuo pelo ISBN (G08.6)
+      expect(
+        coverCandidates(
+          const PhotoCover(
+            ref: 'https://rastreio.exemplo.com/a.jpg',
+            isbn13: '9788535902778',
+          ),
+        ).map((u) => u.toString()),
+        [porIsbn],
+      );
+      for (final ruim in [
+        'ol:abc',
+        'ol:',
+        'file:///etc/passwd',
+        'javascript:alert(1)',
+        'ftp://x/y.jpg',
+        'capa.jpg',
+      ]) {
+        expect(coverCandidates(PhotoCover(ref: ruim)), isEmpty, reason: ruim);
+      }
+      expect(coverCandidates(const PhotoCover()), isEmpty);
+      expect(
+        coverCandidates(const PhotoCover(isbn13: '9788535902778')).single
+            .toString(),
+        porIsbn,
+      );
+    });
+  });
+
+  group('só os hosts das fontes de capa (G08.6)', () {
+    test('a lista: Open Library (e o archive.org para onde ela redireciona), Google Books, Hardcover, ISBNdb', () {
+      for (final h in [
+        'covers.openlibrary.org',
+        'archive.org',
+        'ia600502.us.archive.org',
+        'ia800505.us.archive.org',
+        'books.google.com',
+        'books.googleusercontent.com',
+        'assets.hardcover.app',
+        'images.isbndb.com',
+        'COVERS.OpenLibrary.org',
+      ]) {
+        expect(coverHostAllowed(h), isTrue, reason: h);
+      }
+      for (final h in [
+        'rastreio.exemplo.com',
+        'covers.openlibrary.org.exemplo.com',
+        'exemplo.com',
+        'xbooks.google.com',
+        'google.com',
+        'openlibrary.org.evil',
+        'ia1.us.archive.org.exemplo.com',
+        'iax.us.archive.org',
+        'web.archive.org',
+        '127.0.0.1',
+        'localhost',
+        '',
+      ]) {
+        expect(coverHostAllowed(h), isFalse, reason: h);
+      }
+    });
+
     test(
-      'ol:<id> → Open Library por id; URL https da API; recuo pelo ISBN',
-      () {
+      'o Open Library redireciona para o archive.org: segue e guarda',
+      () async {
+        const porId =
+            'https://covers.openlibrary.org/b/id/9-M.jpg?default=false';
+        respostas[porId] = () => http.Response(
+          '',
+          302,
+          headers: {'location': 'https://archive.org/download/m/9-M.jpg'},
+        );
+        respostas['https://archive.org/download/m/9-M.jpg'] = () =>
+            http.Response(
+              '',
+              302,
+              headers: {
+                'location': 'https://ia600502.us.archive.org/m/9-M.jpg',
+              },
+            );
+        respostas['https://ia600502.us.archive.org/m/9-M.jpg'] = () =>
+            http.Response.bytes(_jpeg(), 200);
+        expect(await loja.resolve(const PhotoCover(ref: 'ol:9')), isNotNull);
+        expect(pedidos, hasLength(3));
+      },
+    );
+
+    test(
+      'redirecionamento para um host de fora: sem capa, sem ir até ele',
+      () async {
+        respostas['https://books.google.com/r3'] = () => http.Response(
+          '',
+          302,
+          headers: {'location': 'https://rastreio.exemplo.com/a.jpg'},
+        );
+        respostas['https://rastreio.exemplo.com/a.jpg'] = () =>
+            http.Response.bytes(_jpeg(), 200);
         expect(
-          coverCandidates(
-            const PhotoCover(ref: 'ol:123', isbn13: '9788535902778'),
-          ).map((u) => u.toString()),
-          [ol, porIsbn],
+          await loja.resolve(
+            const PhotoCover(ref: 'https://books.google.com/r3'),
+          ),
+          isNull,
         );
         expect(
-          coverCandidates(
-            const PhotoCover(ref: 'https://books.google.com/x?id=1&zoom=1'),
-          ).map((u) => u.toString()),
-          ['https://books.google.com/x?id=1&zoom=1'],
-        );
-        // http vira https; nada que não seja http(s) ou ol:<número>
-        expect(
-          coverCandidates(
-            const PhotoCover(ref: 'http://capas.exemplo.com.br/a.jpg'),
-          ).map((u) => u.toString()),
-          ['https://capas.exemplo.com.br/a.jpg'],
-        );
-        for (final ruim in [
-          'ol:abc',
-          'ol:',
-          'file:///etc/passwd',
-          'javascript:alert(1)',
-          'ftp://x/y.jpg',
-          'capa.jpg',
-        ]) {
-          expect(coverCandidates(PhotoCover(ref: ruim)), isEmpty, reason: ruim);
-        }
-        expect(coverCandidates(const PhotoCover()), isEmpty);
-        expect(
-          coverCandidates(const PhotoCover(isbn13: '9788535902778')).single
-              .toString(),
-          porIsbn,
+          pedidos.map((p) => p.url.host),
+          isNot(contains('rastreio.exemplo.com')),
         );
       },
     );
@@ -134,11 +223,11 @@ void main() {
         'd': Uint8List(64)..setAll(0, 'GIF89a'.codeUnits),
       };
       for (final MapEntry(key: k, value: bytes) in tipos.entries) {
-        final url = 'https://x.com/$k.img';
+        final url = 'https://books.google.com/$k.img';
         respostas[url] = () => http.Response.bytes(bytes, 200);
         expect(await loja.resolve(PhotoCover(ref: url)), isNotNull, reason: k);
       }
-      const html = 'https://x.com/pagina';
+      const html = 'https://books.google.com/pagina';
       respostas[html] = () => http.Response('<html>oi</html>', 200);
       expect(await loja.resolve(const PhotoCover(ref: html)), isNull);
       // não vira "sem capa" por 7 dias: passados 10 min, tenta de novo
@@ -153,26 +242,33 @@ void main() {
     test(
       'redirecionamento: só para https (http é recusado, sem ir à rede)',
       () async {
-        respostas['https://x.com/r1'] = () => http.Response(
+        respostas['https://books.google.com/r1'] = () => http.Response(
           '',
           302,
-          headers: {'location': 'https://y.com/a.jpg'},
+          headers: {'location': 'https://books.googleusercontent.com/a.jpg'},
         );
-        respostas['https://y.com/a.jpg'] = () =>
+        respostas['https://books.googleusercontent.com/a.jpg'] = () =>
             http.Response.bytes(_jpeg(), 200);
         expect(
-          await loja.resolve(const PhotoCover(ref: 'https://x.com/r1')),
+          await loja.resolve(
+            const PhotoCover(ref: 'https://books.google.com/r1'),
+          ),
           isNotNull,
         );
-        respostas['https://x.com/r2'] = () =>
-            http.Response('', 301, headers: {'location': 'http://y.com/b.jpg'});
+        respostas['https://books.google.com/r2'] = () => http.Response(
+          '',
+          301,
+          headers: {'location': 'http://books.googleusercontent.com/b.jpg'},
+        );
         expect(
-          await loja.resolve(const PhotoCover(ref: 'https://x.com/r2')),
+          await loja.resolve(
+            const PhotoCover(ref: 'https://books.google.com/r2'),
+          ),
           isNull,
         );
         expect(
           pedidos.map((p) => p.url.toString()),
-          isNot(contains('http://y.com/b.jpg')),
+          isNot(contains('http://books.googleusercontent.com/b.jpg')),
         );
         expect(pedidos.every((p) => p.followRedirects == false), isTrue);
       },
@@ -196,11 +292,11 @@ void main() {
     );
 
     test('mais de 2 MB: recusa (pelo cabeçalho ou pelo corpo)', () async {
-      const grande = 'https://x.com/grande.jpg';
+      const grande = 'https://books.google.com/grande.jpg';
       respostas[grande] = () =>
           http.Response.bytes(_jpeg(CoverStore.maxImageBytes + 1), 200);
       expect(await loja.resolve(const PhotoCover(ref: grande)), isNull);
-      const declarado = 'https://x.com/declarado.jpg';
+      const declarado = 'https://books.google.com/declarado.jpg';
       respostas[declarado] = () => http.Response.bytes(
         _jpeg(),
         200,

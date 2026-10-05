@@ -66,9 +66,9 @@ Um agente separado leu tudo sem editar. Ele confirmou que o caminho da fixture n
 | 6 (média) | O convidado piscava para quem tem conta | O usuário da conta entra por cima dos dados |
 | 7 (média) | O dia local usava um fuso só (horário de verão), e datas em outro formato derrubavam a tela | Cada sessão usa o fuso dela; data ilegível é ignorada |
 
-Dois achados baixos ficaram como estão, registrados:
-- **Livro "lendo" nunca aberto aparece no herói e também em Recém-chegados ("Novo").** É a regra aprovada (D-85) e hoje não acontece. Rever na G09, quando importar arquivo definir o status.
-- **Capa vinda de qualquer host https das nossas fontes.** Uma lista fixa de hosts bloquearia capas legítimas das APIs. Risco aceito.
+Os dois achados baixos que tinham ficado foram corrigidos na **G08.6-correção** (pedido seu em 05/10/2026), com teste que falhou antes:
+- **Livro "lendo" nunca aberto aparecia no herói e também em Recém-chegados.** Agora cada livro aparece uma vez: Recém-chegados = só "quero ler" nunca abertos. A pílula "Novo" fica para a G09 (status do livro importado).
+- **Capa vinda de qualquer host https.** Agora só os hosts das fontes de capa (Open Library e archive.org, Google Books, Hardcover, ISBNdb), medidos no Windows e conferidos também nos redirecionamentos. Fora da lista: recuo pelo ISBN ou capa gerada.
 
 ## Pendências
 
@@ -82,6 +82,6 @@ Dois achados baixos ficaram como estão, registrados:
   - escanear um livro e ver Recém-chegados com a foto;
   - pôr em modo avião e reabrir: a foto continua;
   - voltar ao app no dia seguinte: "Bom dia" e a semana andaram.
-- **"Novo" em Recém-chegados:** rever a regra na G09 (importação).
+- **"Novo" em Recém-chegados:** a regra entra na G09 (status do livro importado); até lá, só "Quero ler".
 
 ✅ FASE G08 concluída — aguardando sua aprovação para iniciar a FASE G09.
