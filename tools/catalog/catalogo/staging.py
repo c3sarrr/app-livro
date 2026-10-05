@@ -13,12 +13,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from . import dnb, openlibrary
+from .fluxo import carregar_json
+from .indice import Contagem, Nomes, Obras
 from .isbn import regiao
 from .saida import autores_json
 
 LOTE = 20_000
 #: commit a cada tantas linhas (o WAL não cresce sem limite; um estágio interrompido perde só o lote)
 COMMIT_A_CADA = 500_000
+#: linha de progresso no log a cada tantas linhas (execuções reais levam dezenas de minutos por estágio)
+PROGRESSO_A_CADA = 5_000_000
+
+
+def _progresso(msg: str) -> None:
+    print(f"[{datetime.now(timezone.utc).strftime('%H:%M:%S')}]   {msg}", flush=True)
 
 ESQUEMA = """
 CREATE TABLE IF NOT EXISTS estagios (nome TEXT PRIMARY KEY, feito_em TEXT NOT NULL, detalhe TEXT) WITHOUT ROWID;
@@ -125,19 +133,36 @@ class Staging:
                 if desde_commit >= COMMIT_A_CADA:
                     self.db.commit()
                     desde_commit = 0
+                if n % PROGRESSO_A_CADA < LOTE:
+                    _progresso(f"{n:,} linhas".replace(",", "."))
         if lote:
             self.db.executemany(sql, lote)
             n += len(lote)
         self.db.commit()
         return n
 
+    def _lotes_ordenados(self, tabela: str, colunas: tuple[str, str], linhas: Iterable[tuple]) -> int:
+        """Grava `linhas` em `tabela` (chave primária = 1ª coluna) em ordem de chave: primeiro no fim de uma
+        tabela temporária (escrita sequencial), depois ordenadas pelo SQLite (ordenação externa) — inserir
+        no B-tree na ordem do dump é uma busca aleatória no disco por linha. Chave repetida: a última do
+        arquivo vence (como INSERT OR REPLACE na ordem do arquivo)."""
+        a, b = colunas
+        self.db.execute("DROP TABLE IF EXISTS temp.bruto")
+        self.db.execute(f"CREATE TEMP TABLE bruto ({a} TEXT NOT NULL, {b} TEXT NOT NULL)")
+        n = self._lotes("INSERT INTO temp.bruto VALUES (?, ?)", linhas)
+        _progresso(f"{tabela}: ordenando {n:,} linhas pela chave".replace(",", "."))
+        self.db.execute(f"INSERT OR REPLACE INTO {tabela} SELECT {a}, {b} FROM temp.bruto ORDER BY {a}, rowid")
+        self.db.execute("DROP TABLE temp.bruto")
+        self.db.commit()
+        return n
+
     # ------------------------------------------------------------------ Open Library
     def carregar_autores(self, caminho: Path) -> int:
-        return self._lotes("INSERT OR REPLACE INTO autores VALUES (?, ?)", openlibrary.autores(caminho))
+        return self._lotes_ordenados("autores", ("chave", "nome"), openlibrary.autores(caminho))
 
     def carregar_obras(self, caminho: Path) -> int:
         linhas = ((k, json.dumps(a)) for k, _t, a in openlibrary.obras(caminho) if a)
-        return self._lotes("INSERT OR REPLACE INTO obras VALUES (?, ?)", linhas)
+        return self._lotes_ordenados("obras", ("chave", "autores"), linhas)
 
     def carregar_popularidade(self, notas: Path | None, estantes: Path | None) -> dict:
         """Estante de leitura vale 1, nota vale 2 (quem avalia leu)."""
@@ -150,58 +175,36 @@ class Staging:
                 por_obra[obra] += peso
                 if edicao:
                     por_edicao[edicao] += peso
-        self._lotes("INSERT OR REPLACE INTO pop_obra VALUES (?, ?)", por_obra.items())
-        self._lotes("INSERT OR REPLACE INTO pop_edicao VALUES (?, ?)", por_edicao.items())
+        # em ordem de chave: o B-tree cresce só pelo fim (sem busca aleatória no disco)
+        self._lotes("INSERT OR REPLACE INTO pop_obra VALUES (?, ?)", sorted(por_obra.items()))
+        self._lotes("INSERT OR REPLACE INTO pop_edicao VALUES (?, ?)", sorted(por_edicao.items()))
         return {"obras": len(por_obra), "edicoes": len(por_edicao)}
 
-    def _nomes(self, chaves: set[str]) -> dict[str, str]:
-        out: dict[str, str] = {}
-        lista = sorted(chaves)
-        for i in range(0, len(lista), 900):
-            parte = lista[i : i + 900]
-            q = f"SELECT chave, nome FROM autores WHERE chave IN ({','.join('?' * len(parte))})"
-            out.update(self.db.execute(q, parte).fetchall())
-        return out
-
-    def _obras(self, chaves: set[str]) -> dict[str, list[str]]:
-        """Autores (chaves) de cada obra; em ordem de chave (leitura do B-tree em sequência)."""
-        out: dict[str, list[str]] = {}
-        lista = sorted(chaves)
-        for i in range(0, len(lista), 900):
-            parte = lista[i : i + 900]
-            q = f"SELECT chave, autores FROM obras WHERE chave IN ({','.join('?' * len(parte))})"
-            for k, a in self.db.execute(q, parte):
-                out[k] = json.loads(a)
-        return out
+    def _indices_ol(self) -> tuple[Nomes, Obras]:
+        """Autores e obras em memória (leitura sequencial das tabelas, em ordem de chave)."""
+        nomes = Nomes("/authors/OL", "A")
+        for k, nome in self.db.execute("SELECT chave, nome FROM autores"):
+            nomes.por(k, nome)
+        obras = Obras("/works/OL", "W", "/authors/OL", "A")
+        for k, a in self.db.execute("SELECT chave, autores FROM obras"):
+            obras.por(k, carregar_json(a))
+        return nomes, obras
 
     def carregar_edicoes_ol(self, caminho: Path) -> int:
+        nomes, obras = self._indices_ol()
+        _progresso(f"índices em memória: {len(nomes):,} autores".replace(",", "."))
+
         def linhas() -> Iterator[tuple]:
-            lote: list[openlibrary.Edicao] = []
-
-            def esvaziar() -> Iterator[tuple]:
-                # a obra só é consultada quando a edição não traz os autores
-                obras = self._obras({e.obra for e in lote if e.obra and not e.autores})
-                chaves = {k for e in lote for k in e.autores}
-                for e in lote:
-                    if not e.autores and e.obra in obras:
-                        chaves.update(obras[e.obra])
-                nomes = self._nomes(chaves)
-                for e in lote:
-                    ks = e.autores or obras.get(e.obra or "", [])
-                    autores = [nomes[k] for k in ks if k in nomes]
-                    a_json = autores_json(autores)
-                    comp = _completude(e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa)
-                    for i in e.isbns:
-                        prio = 1 if regiao(i) != "DE" else 0
-                        yield (i, e.titulo, e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa,
-                               e.obra, e.chave, openlibrary.FONTE, openlibrary.LICENCA, comp, prio)
-                lote.clear()
-
             for e in openlibrary.edicoes(caminho):
-                lote.append(e)
-                if len(lote) >= LOTE:
-                    yield from esvaziar()
-            yield from esvaziar()
+                # a obra só é consultada quando a edição não traz os autores
+                ks = e.autores or obras.get(e.obra)
+                autores = [n for n in (nomes.get(k) for k in ks) if n is not None]
+                a_json = autores_json(autores)
+                comp = _completude(e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa)
+                for i in e.isbns:
+                    prio = 1 if regiao(i) != "DE" else 0
+                    yield (i, e.titulo, e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa,
+                           e.obra, e.chave, openlibrary.FONTE, openlibrary.LICENCA, comp, prio)
 
         return self._lotes("INSERT INTO cand VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
 
@@ -219,43 +222,60 @@ class Staging:
         return self._lotes("INSERT INTO cand VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
 
     # ------------------------------------------------------------------ união
+    #: desempate total na escolha do registro de um ISBN (mesma entrada → mesma saída, sempre)
+    ORDEM_UNIAO = ("prioridade DESC, completude DESC, fonte, edicao, titulo, subtitulo, autores, editora, ano, "
+                   "paginas, idioma, capa, licenca, obra")
+
     def unir(self, peso_br: int = 3) -> int:
         """Um registro por ISBN + pontos = popularidade da obra e da edição + nº de edições da obra
-        (até 20) + completude; com peso para o mercado de lançamento (Brasil/português — D-73)."""
-        self.db.executescript(
-            """
-            DROP TABLE IF EXISTS ed_por_obra;
-            CREATE TABLE ed_por_obra AS
-              SELECT obra, count(*) AS n FROM (SELECT DISTINCT obra, edicao FROM cand WHERE obra IS NOT NULL)
-              GROUP BY obra;
-            CREATE UNIQUE INDEX ed_por_obra_idx ON ed_por_obra (obra);
-            DELETE FROM rec;
-            """
-        )
-        self.db.execute(
-            """
-            INSERT INTO rec
-            SELECT isbn13, titulo, subtitulo, autores, editora, ano, paginas, idioma, capa, fonte, licenca,
-                   CASE WHEN substr(isbn13, 1, 5) IN ('97885', '97865') OR idioma = 'por'
-                        THEN melhor * ? ELSE melhor END
-            FROM (
-              SELECT c.*,
-                     max(coalesce(po.n, 0) + coalesce(pe.n, 0) + min(coalesce(eo.n, 1), 20) - 1 + c.completude)
-                       OVER (PARTITION BY c.isbn13) AS melhor,
-                     row_number() OVER (PARTITION BY c.isbn13
-                                        ORDER BY c.prioridade DESC, c.completude DESC, c.fonte, c.edicao, c.titulo)
-                       AS rn
-              FROM cand c
-              LEFT JOIN pop_obra po ON po.chave = c.obra
-              LEFT JOIN pop_edicao pe ON pe.chave = c.edicao
-              LEFT JOIN ed_por_obra eo ON eo.obra = c.obra
-            )
-            WHERE rn = 1
-            """,
-            (peso_br,),
-        )
-        self.db.commit()
-        return self.db.execute("SELECT count(*) FROM rec").fetchone()[0]
+        (até 20) + completude; com peso para o mercado de lançamento (Brasil/português — D-73).
+
+        Tudo em leituras ordenadas pelo SQLite (ordenação externa, sequencial): juntar tabelas grandes
+        linha a linha seria uma busca aleatória no disco por candidato. Popularidade e nº de edições
+        ficam em memória (índices compactos); `rec` é gravada em ordem de ISBN (o B-tree cresce pelo fim)."""
+        pop_obra, pop_edicao = Contagem("/works/OL", "W"), Contagem("/books/OL", "M")
+        ed_obra = Contagem("/works/OL", "W")
+        for k, n in self.db.execute("SELECT chave, n FROM pop_obra"):
+            pop_obra.somar(k, n)
+        for k, n in self.db.execute("SELECT chave, n FROM pop_edicao"):
+            pop_edicao.somar(k, n)
+        anterior: tuple | None = None
+        for par in self.db.execute("SELECT obra, edicao FROM cand WHERE obra IS NOT NULL ORDER BY obra, edicao"):
+            if par != anterior:  # edições distintas da obra (uma edição com vários ISBNs conta uma vez)
+                ed_obra.somar(par[0])
+                anterior = par
+
+        def pontos(obra: str | None, edicao: str | None, completude: int) -> int:
+            n_ed = ed_obra.get(obra) if obra is not None else 0
+            return pop_obra.get(obra) + pop_edicao.get(edicao) + min(n_ed or 1, 20) - 1 + completude
+
+        cols = ", ".join(COLUNAS)
+        consulta = f"SELECT {cols}, obra, edicao, completude FROM cand ORDER BY isbn13, {self.ORDEM_UNIAO}"
+
+        def registros() -> Iterator[tuple]:
+            atual: tuple | None = None
+            melhor = 0
+            for r in self.db.execute(consulta):
+                if atual is not None and r[0] != atual[0]:
+                    yield self._final(atual, melhor, peso_br)
+                    atual = None
+                p = pontos(r[11], r[12], r[13])
+                if atual is None:
+                    atual, melhor = r, p
+                else:
+                    melhor = max(melhor, p)
+            if atual is not None:
+                yield self._final(atual, melhor, peso_br)
+
+        self.db.executescript("DROP TABLE IF EXISTS ed_por_obra; DELETE FROM rec;")
+        return self._lotes("INSERT INTO rec VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", registros())
+
+    @staticmethod
+    def _final(r: tuple, melhor: int, peso_br: int) -> tuple:
+        isbn13, idioma = r[0], r[7]
+        if isbn13[:5] in ("97885", "97865") or idioma == "por":
+            melhor *= peso_br
+        return (*r[:11], melhor)
 
     def registros(self, sql_extra: str = "", params: tuple = ()) -> Iterator[tuple]:
         cols = ", ".join(COLUNAS)

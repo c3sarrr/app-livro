@@ -39,3 +39,9 @@ Registro (shard e delta): `{"i": isbn13, "t": título, "s": subtítulo, "a": [au
   da obra (até 20) e completude; ×`--peso-br` para ISBN brasileiro ou idioma português (mercado de lançamento).
 - DNB: as triplas de um mesmo título vêm espalhadas no dump — são filtradas (grep) e ordenadas por sujeito
   (sort em disco) antes de juntar.
+- Disco e memória (o banco de trabalho fica no HD do WSL): nada de consulta aleatória ao banco por linha.
+  Autores e obras são gravados ordenados pela chave (tabela temporária + ordenação externa do SQLite); as
+  edições consultam autores/obras em índices compactos em memória (`catalogo/indice.py`, ~1 GB com os dumps
+  de 2026); a união lê os candidatos ordenados por ISBN. Espaço temporário do SQLite em `/var/tmp`
+  (`SQLITE_TMPDIR` muda) — prever ~2× o tamanho do `staging.db`.
+- Um `.gz` cortado derruba a leitura (código de saída do `pigz`/`gzip` conferido) — baixe de novo.
