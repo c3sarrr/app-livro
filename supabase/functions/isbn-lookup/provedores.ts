@@ -1,9 +1,10 @@
 // Fontes externas de ISBN (Anexo 02 §7, camada 5 — último recurso; ADR-008; D-73 cobertura global):
 // a REGIÃO do ISBN decide a ordem. Brasil (978-85, 978-65) → BrasilAPI só com a CBL e o Mercado
 // Editorial (acham 97 % dos livros brasileiros) → BrasilAPI com Open Library e Google Books →
-// Hardcover → ISBNdb (pago; só com chave). Resto do mundo → BrasilAPI com Open Library e Google
-// Books → Hardcover → ISBNdb. O resultado vai para a estante da pessoa e o cache do aparelho, NÃO
-// para o catálogo compartilhado (termos da CBL/Google/ISBNdb — D-73).
+// Hardcover → ISBNdb (pago; só com chave). Resto do mundo → API do Open Library → Google Books →
+// Hardcover → ISBNdb: a BrasilAPI recusa ISBN de fora do Brasil ("ISBN inválido", 400 — medido na
+// G07.6). O resultado vai para a estante da pessoa e o cache do aparelho, NÃO para o catálogo
+// compartilhado (termos da CBL/Google/ISBNdb — D-73).
 
 export type Livro = {
   isbn13: string;
@@ -15,7 +16,7 @@ export type Livro = {
   pages: number | null;
   language: string | null;
   cover_url: string | null;
-  source: 'brasilapi' | 'hardcover' | 'isbndb';
+  source: 'brasilapi' | 'openlibrary' | 'googlebooks' | 'hardcover' | 'isbndb';
   /** Quem respondeu dentro da fonte (a BrasilAPI agrega: cbl, mercado-editorial, open-library…). */
   provider?: string | null;
 };
@@ -95,6 +96,71 @@ export async function brasilApi(isbn: string, buscar: Buscar, provedores?: strin
   };
 }
 
+/** API do Open Library (dados abertos, mais novos que o dump do mês): `{}` = não achou. */
+export async function openLibrary(isbn: string, buscar: Buscar): Promise<Livro | null> {
+  const r = await buscar(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`, {
+    signal: AbortSignal.timeout(4000),
+  });
+  if (!r.ok) throw new Error(`openlibrary ${r.status}`);
+  const e = (await r.json())?.[`ISBN:${isbn}`];
+  const titulo = texto(e?.title);
+  if (!titulo) return null;
+  const nomes = (v: unknown) =>
+    Array.isArray(v) ? v.map((x: { name?: unknown }) => texto(x?.name)).filter((x): x is string => !!x) : [];
+  return {
+    isbn13: isbn,
+    title: titulo,
+    subtitle: texto(e.subtitle),
+    authors: nomes(e.authors),
+    publisher: nomes(e.publishers)[0] ?? null,
+    published_year: ano(e.publish_date),
+    pages: inteiro(e.number_of_pages),
+    language: null,
+    cover_url: texto(e.cover?.medium) ?? texto(e.cover?.large),
+    source: 'openlibrary',
+  };
+}
+
+/** ISBN-10 de um ISBN-13 978 (para conferir o volume do Google, que às vezes só tem o de 10). */
+function isbn10(isbn: string): string | null {
+  if (!isbn.startsWith('978')) return null;
+  const nove = isbn.slice(3, 12);
+  let soma = 0;
+  for (let i = 0; i < 9; i++) soma += (10 - i) * Number(nove[i]);
+  const d = (11 - (soma % 11)) % 11;
+  return nove + (d === 10 ? 'X' : String(d));
+}
+
+/** Google Books: a busca `isbn:` às vezes devolve outro livro — só vale o volume com o ISBN pedido. */
+export async function googleBooks(isbn: string, buscar: Buscar, chave?: string): Promise<Livro | null> {
+  const k = chave ? `&key=${encodeURIComponent(chave)}` : '';
+  const r = await buscar(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=1${k}`, {
+    signal: AbortSignal.timeout(4000),
+  });
+  if (!r.ok) throw new Error(`googlebooks ${r.status}`);
+  const v = (await r.json())?.items?.[0]?.volumeInfo;
+  const ids = Array.isArray(v?.industryIdentifiers)
+    ? v.industryIdentifiers.map((x: { identifier?: unknown }) => String(x?.identifier ?? '').toUpperCase())
+    : [];
+  const dez = isbn10(isbn);
+  if (!texto(v?.title) || !(ids.includes(isbn) || (dez !== null && ids.includes(dez)))) return null;
+  const capa = texto(v.imageLinks?.thumbnail);
+  return {
+    isbn13: isbn,
+    title: texto(v.title)!,
+    subtitle: texto(v.subtitle),
+    authors: Array.isArray(v.authors)
+      ? v.authors.map(texto).filter((a: string | null): a is string => !!a)
+      : [],
+    publisher: texto(v.publisher),
+    published_year: ano(v.publishedDate),
+    pages: inteiro(v.pageCount),
+    language: null,
+    cover_url: capa ? capa.replace(/^http:/, 'https:') : null,
+    source: 'googlebooks',
+  };
+}
+
 export async function hardcover(isbn: string, buscar: Buscar, token: string): Promise<Livro | null> {
   const consulta = `query ($isbn: String!) { editions(where: {isbn_13: {_eq: $isbn}}, limit: 1) {
     title subtitle pages release_date publisher { name } language { language } image { url }
@@ -160,13 +226,17 @@ export function nomeada(nome: string, f: (isbn: string) => Promise<Livro | null>
 export function fontesPorRegiao(
   isbn: string,
   buscar: Buscar,
-  chaves: { hardcover?: string; isbndb?: string } = {},
+  chaves: { googleBooks?: string; hardcover?: string; isbndb?: string } = {},
 ): Fonte[] {
   const fontes: Fonte[] = [];
   if (regiaoDoIsbn(isbn) === 'BR') {
     fontes.push(nomeada('brasilapi:br', (i) => brasilApi(i, buscar, PROVEDORES_BRASIL)));
+    fontes.push(nomeada('brasilapi:global', (i) => brasilApi(i, buscar, PROVEDORES_GLOBAIS)));
+  } else {
+    // a BrasilAPI só aceita ISBN brasileiro: fora do Brasil, as mesmas fontes abertas direto
+    fontes.push(nomeada('openlibrary', (i) => openLibrary(i, buscar)));
+    fontes.push(nomeada('googlebooks', (i) => googleBooks(i, buscar, chaves.googleBooks)));
   }
-  fontes.push(nomeada('brasilapi:global', (i) => brasilApi(i, buscar, PROVEDORES_GLOBAIS)));
   const h = chaves.hardcover;
   if (h) fontes.push(nomeada('hardcover', (i) => hardcover(i, buscar, h)));
   const k = chaves.isbndb;

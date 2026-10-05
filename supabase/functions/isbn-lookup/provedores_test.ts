@@ -3,9 +3,11 @@ import {
   brasilApi,
   type Buscar,
   fontesPorRegiao,
+  googleBooks,
   hardcover,
   isbn13,
   isbndb,
+  openLibrary,
   procurar,
   regiaoDoIsbn,
   type Tentativa,
@@ -142,12 +144,106 @@ Deno.test('Brasil: CBL/Mercado Editorial primeiro, depois as fontes globais; Har
   assertEquals(comChaves.map((f) => f.nome), ['brasilapi:br', 'brasilapi:global', 'hardcover', 'isbndb']);
 });
 
-Deno.test('Mundo: só as fontes globais (a CBL não tem livros de fora)', async () => {
+Deno.test('Mundo: Open Library e Google Books direto — a BrasilAPI recusa ISBN de fora do Brasil (G07.6)', async () => {
+  // medido em 05/10/2026: /api/isbn/v1/9780141439518 → 400 "ISBN inválido", com ou sem `providers`
   const g = gravador();
-  await procurar('9780804429573', fontesPorRegiao('9780804429573', g.buscar));
+  assertEquals(await procurar('9780804429573', fontesPorRegiao('9780804429573', g.buscar)), 'indisponivel');
   assertEquals(g.urls, [
-    'https://brasilapi.com.br/api/isbn/v1/9780804429573?providers=open-library,google-books',
+    'https://openlibrary.org/api/books?bibkeys=ISBN:9780804429573&format=json&jscmd=data',
+    'https://www.googleapis.com/books/v1/volumes?q=isbn:9780804429573&maxResults=1',
   ]);
+  assertEquals(g.urls.some((u) => u.includes('brasilapi')), false);
+  const comChaves = fontesPorRegiao('9780804429573', g.buscar, {
+    googleBooks: 'gk',
+    hardcover: 't',
+    isbndb: 'k',
+  });
+  assertEquals(comChaves.map((f) => f.nome), ['openlibrary', 'googlebooks', 'hardcover', 'isbndb']);
+  const g2 = gravador();
+  await procurar('9780804429573', fontesPorRegiao('9780804429573', g2.buscar, { googleBooks: 'gk' }));
+  assertEquals(
+    g2.urls[1],
+    'https://www.googleapis.com/books/v1/volumes?q=isbn:9780804429573&maxResults=1&key=gk',
+  );
+});
+
+Deno.test('Open Library (API): normaliza o livro; objeto vazio = não achou; 5xx = falha', async () => {
+  const livro = await openLibrary(
+    '9780141439518',
+    resposta(200, {
+      'ISBN:9780141439518': {
+        title: 'Pride and Prejudice',
+        subtitle: 'A Novel',
+        authors: [{ name: 'Jane Austen' }, { name: '' }],
+        publishers: [{ name: 'Penguin Classics' }],
+        publish_date: 'January 30, 2003',
+        number_of_pages: 480,
+        cover: { medium: 'https://covers.openlibrary.org/b/id/1-M.jpg' },
+      },
+    }),
+  );
+  assertEquals(
+    [livro?.title, livro?.subtitle, livro?.authors, livro?.publisher, livro?.published_year, livro?.pages],
+    ['Pride and Prejudice', 'A Novel', ['Jane Austen'], 'Penguin Classics', 2003, 480],
+  );
+  assertEquals([livro?.cover_url, livro?.source], [
+    'https://covers.openlibrary.org/b/id/1-M.jpg',
+    'openlibrary',
+  ]);
+  assertEquals(await openLibrary('9780141439518', resposta(200, {})), null);
+  assertEquals(
+    await openLibrary('9780141439518', resposta(200, { 'ISBN:9780141439518': { title: '' } })),
+    null,
+  );
+  let falhou = false;
+  try {
+    await openLibrary('9780141439518', resposta(503, {}));
+  } catch {
+    falhou = true;
+  }
+  assertEquals(falhou, true);
+});
+
+Deno.test('Google Books: confere o ISBN do volume; 0 resultados = não achou; 429 = falha', async () => {
+  const volume = (isbns: string[]) => ({
+    totalItems: 1,
+    items: [{
+      volumeInfo: {
+        title: 'The Hobbit',
+        subtitle: 'or There and Back Again',
+        authors: ['J. R. R. Tolkien'],
+        publisher: 'Mariner',
+        publishedDate: '2012-09-18',
+        pageCount: 300,
+        imageLinks: { thumbnail: 'http://books.google.com/books/content?id=x' },
+        industryIdentifiers: isbns.map((i) => ({
+          type: i.length === 13 ? 'ISBN_13' : 'ISBN_10',
+          identifier: i,
+        })),
+      },
+    }],
+  });
+  const livro = await googleBooks('9780547928227', resposta(200, volume(['054792822X', '9780547928227'])));
+  assertEquals(
+    [livro?.title, livro?.authors, livro?.publisher, livro?.published_year, livro?.pages, livro?.source],
+    ['The Hobbit', ['J. R. R. Tolkien'], 'Mariner', 2012, 300, 'googlebooks'],
+  );
+  assertEquals(livro?.cover_url, 'https://books.google.com/books/content?id=x'); // nunca http
+  // ISBN-10 do mesmo livro também vale
+  assertEquals(
+    (await googleBooks('9780547928227', resposta(200, volume(['054792822X']))))?.title,
+    'The Hobbit',
+  );
+  // a busca do Google às vezes devolve outro livro: sem o ISBN pedido = não achou
+  assertEquals(await googleBooks('9780547928227', resposta(200, volume(['9780000000002']))), null);
+  assertEquals(await googleBooks('9780547928227', resposta(200, { totalItems: 0 })), null);
+  let falhou = false;
+  try {
+    await googleBooks('9780547928227', resposta(429, {}));
+  } catch {
+    falhou = true;
+  }
+  assertEquals(falhou, true);
 });
 
 Deno.test('BrasilAPI: guarda qual provedor respondeu', async () => {

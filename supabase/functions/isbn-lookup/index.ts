@@ -4,6 +4,7 @@ import { criarHandler } from './handler.ts';
 import { fontesPorRegiao } from './provedores.ts';
 
 const chaves = {
+  googleBooks: Deno.env.get('GOOGLE_BOOKS_KEY') ?? undefined, // opcional: sem ela vale a cota por IP do Google
   hardcover: Deno.env.get('HARDCOVER_TOKEN') ?? undefined,
   isbndb: Deno.env.get('ISBNDB_KEY') ?? undefined, // pago: só se o volume pedir (ADR-008)
 };

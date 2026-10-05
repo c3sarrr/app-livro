@@ -5,8 +5,11 @@ Estratos (fontes independentes do Open Library):
   popular  — edições (Wikidata P212) de obras com 20+ artigos na Wikipédia, fora do Brasil;
   cauda    — edições de obras com 1 a 3 artigos na Wikipédia, fora do Brasil.
 Camadas, na ordem do app (Anexo 02 §7, D-73): catalog.db (top-N do aparelho) → shards da borda (o
-catálogo aberto inteiro) → APIs pela região do ISBN (BrasilAPI: Brasil = CBL + Mercado Editorial, depois
-Open Library + Google Books; resto = Open Library + Google Books). A comunidade começa vazia.
+catálogo aberto inteiro) → APIs pela região do ISBN, as mesmas da Edge Function `isbn-lookup` e só para o
+que o catálogo aberto não tem (como no app): Brasil = BrasilAPI com CBL + Mercado Editorial, depois com
+Open Library + Google Books; resto = API do Open Library, depois Google Books (a BrasilAPI responde 400
+"ISBN inválido" para ISBN de fora do Brasil). Hardcover e ISBNdb ficam de fora (precisam de chave). A
+comunidade começa vazia. 400/429/5xx/rede de uma API = medida indeterminada, nunca "não achou".
 
 Uso (Ubuntu do WSL, com internet; precisa de uma saída do pipeline):
   python3 medir_falha.py --saida /root/booknest_catalogo/publicar \\
@@ -25,11 +28,12 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from collections.abc import Callable
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from catalogo import shards  # noqa: E402
-from catalogo.isbn import eh_brasil, normalizar  # noqa: E402
+from catalogo.isbn import eh_brasil, normalizar, para_isbn10  # noqa: E402
 
 UA = {"User-Agent": "BookNest-G07/0.1 (medicao de cobertura de ISBN; projeto app livros)"}
 SEMENTE = 20261005
@@ -85,6 +89,30 @@ def brasilapi(isbn: str, provedores: list[str]) -> tuple[bool, str | None, int]:
     return achou, (j or {}).get("provider") if achou else None, st
 
 
+def openlibrary_api(isbn: str) -> tuple[bool, str | None, int]:
+    st, j = pegar(f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data")
+    achou = st == 200 and bool(((j or {}).get(f"ISBN:{isbn}") or {}).get("title"))
+    # 200 sem o livro = não achou (a API responde {}): devolve 404 para contar como "não achou"
+    return achou, "openlibrary" if achou else None, st if achou or st != 200 else 404
+
+
+def google_books(isbn: str) -> tuple[bool, str | None, int]:
+    st, j = pegar(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=1")
+    v = (((j or {}).get("items") or [{}])[0] or {}).get("volumeInfo") or {}
+    ids = {str(x.get("identifier", "")).upper() for x in v.get("industryIdentifiers") or [] if isinstance(x, dict)}
+    dez = para_isbn10(isbn)
+    achou = st == 200 and bool(v.get("title")) and (isbn in ids or (dez is not None and dez in ids))
+    return achou, "googlebooks" if achou else None, st if achou or st != 200 else 404
+
+
+def fontes_externas(isbn: str) -> list[tuple[str, Callable[[], tuple[bool, str | None, int]]]]:
+    """As fontes da Edge Function `isbn-lookup`, na ordem dela (sem as que precisam de chave)."""
+    if eh_brasil(isbn):
+        return [("brasilapi:br", lambda: brasilapi(isbn, ["cbl", "mercado-editorial"])),
+                ("brasilapi:global", lambda: brasilapi(isbn, ["open-library", "google-books"]))]
+    return [("openlibrary", lambda: openlibrary_api(isbn)), ("googlebooks", lambda: google_books(isbn))]
+
+
 def medir(isbns: list[str], saida: Path, db: sqlite3.Connection) -> list[dict]:
     linhas = []
     for k, isbn in enumerate(isbns):
@@ -92,17 +120,16 @@ def medir(isbns: list[str], saida: Path, db: sqlite3.Connection) -> list[dict]:
         no_shard = shards.procurar(saida, isbn) is not None
         tentativas = []
         api, provedor, erro_api = False, None, False
-        ordem = [["cbl", "mercado-editorial"], ["open-library", "google-books"]] if eh_brasil(isbn) \
-            else [["open-library", "google-books"]]
-        for provs in ordem:
-            achou, prov, st = brasilapi(isbn, provs)
-            tentativas.append({"provedores": ",".join(provs), "status": st})
-            time.sleep(0.4)
-            if achou:
-                api, provedor = True, prov
-                break
-            # 404/400 = não achou de verdade; o resto (429, 5xx, rede) = a medida ficou indeterminada
-            erro_api = erro_api or st not in (200, 400, 404)
+        if not (no_db or no_shard):  # como no app: a camada externa só para o que o catálogo aberto não tem
+            for nome, consultar in fontes_externas(isbn):
+                achou, prov, st = consultar()
+                tentativas.append({"fonte": nome, "status": st})
+                time.sleep(0.4)
+                if achou:
+                    api, provedor = True, prov
+                    break
+                # 404 = não achou de verdade; o resto (400, 429, 5xx, rede) = a medida ficou indeterminada
+                erro_api = erro_api or st != 404
         linhas.append({"isbn": isbn, "catalog_db": no_db, "shards": no_shard, "api": api,
                        "api_provedor": provedor, "api_erro": erro_api and not api, "api_tentativas": tentativas})
         if k % 25 == 0:
