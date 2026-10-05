@@ -107,9 +107,10 @@ def _em_paralelo(caminho: Path, tipo: str, filtro: str | None = None) -> Iterato
         print(f"[openlibrary] {tipo}: {estranhos} registros com formato inesperado (descartados)", flush=True)
 
 
-def _autor(chave: str, j: dict) -> tuple[str, str] | None:
-    nome = texto.limpar(j.get("name") or j.get("personal_name"), 200)
-    return (chave, nome) if nome else None
+def _autor(chave: str, j: dict) -> tuple[str, str]:
+    """Autor sem nome sai com nome vazio (não é descartado aqui): se a chave se repetir no dump, a versão
+    mais nova — mesmo sem nome — tem de apagar a antiga (o banco de trabalho descarta os vazios depois)."""
+    return chave, texto.limpar(j.get("name") or j.get("personal_name"), 200) or ""
 
 
 def _chave(v: object) -> str | None:

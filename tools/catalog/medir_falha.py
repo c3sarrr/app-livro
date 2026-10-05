@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sqlite3
 import sys
@@ -38,16 +39,18 @@ from catalogo.isbn import eh_brasil, normalizar, para_isbn10  # noqa: E402
 UA = {"User-Agent": "BookNest-G07/0.1 (medicao de cobertura de ISBN; projeto app livros)"}
 SEMENTE = 20261005
 
-SPARQL = """
-SELECT ?isbn WHERE {{
+LIMITE = 30000
+_FILTRO = """
   ?ed wdt:P212 ?isbn ; wdt:P629 ?obra .
   ?obra wikibase:sitelinks ?n .
   FILTER(?n >= {min} && ?n <= {max})
   FILTER(!STRSTARTS(?isbn, "978-85") && !STRSTARTS(?isbn, "978-65"))
-}}
-ORDER BY ?isbn
-LIMIT 30000
 """
+# ordem sorteada (hash com semente), não a do texto do ISBN: com o LIMIT, "ORDER BY ?isbn" deixava só 978-0/978-1
+# e nenhum 979 no estrato da cauda (revisão 2, achado 2)
+SPARQL = ("SELECT ?isbn WHERE {{" + _FILTRO + "}}\n"
+          f'ORDER BY MD5(CONCAT(STR(?isbn), "{SEMENTE}"))\nLIMIT {LIMITE}')
+SPARQL_TOTAL = "SELECT (COUNT(DISTINCT ?isbn) AS ?total) WHERE {{" + _FILTRO + "}}"
 
 
 def pegar(url: str, tentativas: int = 3, espera: float = 2.0) -> tuple[int, object]:
@@ -65,28 +68,37 @@ def pegar(url: str, tentativas: int = 3, espera: float = 2.0) -> tuple[int, obje
     return 0, None
 
 
-def amostra_wikidata(minimo: int, maximo: int, n: int) -> tuple[list[str], int]:
-    url = "https://query.wikidata.org/sparql?" + urllib.parse.urlencode(
-        {"query": SPARQL.format(min=minimo, max=maximo), "format": "json"})
-    st, j = pegar(url)
+def _sparql(consulta: str) -> tuple[int, object]:
+    return pegar("https://query.wikidata.org/sparql?" + urllib.parse.urlencode({"query": consulta, "format": "json"}))
+
+
+def amostra_wikidata(minimo: int, maximo: int, n: int) -> tuple[list[str], dict]:
+    """(amostra de n ISBNs, universo): a amostra sai de até LIMITE edições sorteadas pelo próprio Wikidata."""
+    st, j = _sparql(SPARQL.format(min=minimo, max=maximo))
+    linhas = (j or {}).get("results", {}).get("bindings", [])
     isbns = set()
-    for b in (j or {}).get("results", {}).get("bindings", []):
+    for b in linhas:
         i = normalizar(b["isbn"]["value"])
         if i and not eh_brasil(i):
             isbns.add(i)
-    print(f"wikidata sitelinks {minimo}-{maximo}: HTTP {st}, {len(isbns)} ISBN distintos", flush=True)
+    st_t, jt = _sparql(SPARQL_TOTAL.format(min=minimo, max=maximo))
+    total = int(((jt or {}).get("results", {}).get("bindings") or [{}])[0].get("total", {}).get("value", -1))
+    print(f"wikidata sitelinks {minimo}-{maximo}: HTTP {st}/{st_t}, {len(linhas)} linhas sorteadas de {total}, "
+          f"{len(isbns)} ISBN distintos", flush=True)
     if not isbns:  # tempo esgotado no Wikidata: não mede um estrato vazio sem avisar
         raise SystemExit(f"amostra vazia do Wikidata (sitelinks {minimo}-{maximo}, HTTP {st}) — rode de novo")
     chaves = sorted(isbns)
     random.Random(SEMENTE).shuffle(chaves)
-    return chaves[:n], len(isbns)
+    return chaves[:n], {"isbns_sorteados": len(isbns), "edicoes_no_wikidata": total,
+                        "sorteio_cortado_em": LIMITE if len(linhas) >= LIMITE else None}
 
 
 def brasilapi(isbn: str, provedores: list[str]) -> tuple[bool, str | None, int]:
     url = f"https://brasilapi.com.br/api/isbn/v1/{isbn}?providers={','.join(provedores)}"
     st, j = pegar(url)
     achou = st == 200 and bool((j or {}).get("title"))
-    return achou, (j or {}).get("provider") if achou else None, st
+    # 200 sem título = "não achou", como na Edge Function (revisão 2, achado 8)
+    return achou, (j or {}).get("provider") if achou else None, st if achou or st != 200 else 404
 
 
 def openlibrary_api(isbn: str) -> tuple[bool, str | None, int]:
@@ -96,12 +108,20 @@ def openlibrary_api(isbn: str) -> tuple[bool, str | None, int]:
     return achou, "openlibrary" if achou else None, st if achou or st != 200 else 404
 
 
+GOOGLE_BOOKS_KEY = os.environ.get("GOOGLE_BOOKS_KEY")  # sem chave o Google responde 429: fica de fora (como no app)
+
+
 def google_books(isbn: str) -> tuple[bool, str | None, int]:
-    st, j = pegar(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=1")
-    v = (((j or {}).get("items") or [{}])[0] or {}).get("volumeInfo") or {}
-    ids = {str(x.get("identifier", "")).upper() for x in v.get("industryIdentifiers") or [] if isinstance(x, dict)}
+    chave = f"&key={urllib.parse.quote(GOOGLE_BOOKS_KEY)}" if GOOGLE_BOOKS_KEY else ""
+    st, j = pegar(f"https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&maxResults=10{chave}")
     dez = para_isbn10(isbn)
-    achou = st == 200 and bool(v.get("title")) and (isbn in ids or (dez is not None and dez in ids))
+
+    def tem_o_isbn(v: dict) -> bool:
+        ids = {str(x.get("identifier", "")).upper() for x in v.get("industryIdentifiers") or [] if isinstance(x, dict)}
+        return bool(v.get("title")) and (isbn in ids or (dez is not None and dez in ids))
+
+    volumes = [i.get("volumeInfo") or {} for i in (j or {}).get("items") or [] if isinstance(i, dict)]
+    achou = st == 200 and any(tem_o_isbn(v) for v in volumes)
     return achou, "googlebooks" if achou else None, st if achou or st != 200 else 404
 
 
@@ -110,7 +130,10 @@ def fontes_externas(isbn: str) -> list[tuple[str, Callable[[], tuple[bool, str |
     if eh_brasil(isbn):
         return [("brasilapi:br", lambda: brasilapi(isbn, ["cbl", "mercado-editorial"])),
                 ("brasilapi:global", lambda: brasilapi(isbn, ["open-library", "google-books"]))]
-    return [("openlibrary", lambda: openlibrary_api(isbn)), ("googlebooks", lambda: google_books(isbn))]
+    fontes = [("openlibrary", lambda: openlibrary_api(isbn))]
+    if GOOGLE_BOOKS_KEY:
+        fontes.append(("googlebooks", lambda: google_books(isbn)))
+    return fontes
 
 
 def medir(isbns: list[str], saida: Path, db: sqlite3.Connection) -> list[dict]:
@@ -176,7 +199,8 @@ def main(argv: list[str] | None = None) -> None:
     br = [i for i in (normalizar(x) for x in br) if i]
     pop, universo_pop = amostra_wikidata(20, 100000, a.n)
     cauda, universo_cauda = amostra_wikidata(1, 3, a.n)
-    estratos = {"br": (br, len(br)), "popular": (pop, universo_pop), "cauda": (cauda, universo_cauda)}
+    estratos = {"br": (br, {"isbns": len(br), "origem": "amostra do spike S6 (Wikidata, 978-85/978-65)"}),
+                "popular": (pop, universo_pop), "cauda": (cauda, universo_cauda)}
 
     resultado = {"data": time.strftime("%Y-%m-%d"), "catalogo": manifesto["versao"],
                  "catalog_db_registros": manifesto["db"]["registros"], "estratos": {}}
@@ -184,11 +208,13 @@ def main(argv: list[str] | None = None) -> None:
         print(f"{nome}: {len(isbns)} ISBNs", flush=True)
         linhas = medir(isbns, saida, db)
         resultado["estratos"][nome] = {"universo": universo, "resumo": resumir(linhas), "linhas": linhas}
+    # os estratos têm frações de amostragem muito diferentes: a soma não é uma taxa do catálogo (só referência)
     todas = [l for e in resultado["estratos"].values() for l in e["linhas"]]
-    resultado["total"] = resumir(todas)
+    resultado["total_nao_ponderado"] = resumir(todas)
     Path(a.resultado).parent.mkdir(parents=True, exist_ok=True)
     Path(a.resultado).write_text(json.dumps(resultado, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(json.dumps({k: v["resumo"] for k, v in resultado["estratos"].items()} | {"total": resultado["total"]},
+    resumos = {k: v["resumo"] for k, v in resultado["estratos"].items()}
+    print(json.dumps(resumos | {"total_nao_ponderado": resultado["total_nao_ponderado"]},
                      ensure_ascii=False, indent=1))
 
 

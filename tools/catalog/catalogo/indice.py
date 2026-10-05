@@ -53,29 +53,33 @@ class Nomes:
         self._n = 0
 
     def por(self, chave: str, texto: str) -> None:
+        """A última gravação de uma chave vence (como INSERT OR REPLACE)."""
         b = texto.encode("utf-8")
         n = self._k.numero(chave)
-        if n is None or not b or len(b) > 0xFFFF:
-            if chave not in self._outros:
-                self._n += 1
+        no_array = n is not None and n < len(self._tam) and self._tam[n] > 0
+        novo = not no_array and chave not in self._outros
+        if n is None or not b or len(b) > 0xFFFF:  # não cabe no array: dicionário (e o array esquece a chave)
+            if no_array:
+                self._tam[n] = 0  # type: ignore[index]
             self._outros[chave] = texto
-            return
-        _crescer(self._pos, n)
-        _crescer(self._tam, n)
-        if not self._tam[n]:
+        else:
+            self._outros.pop(chave, None)
+            _crescer(self._pos, n)
+            _crescer(self._tam, n)
+            self._pos[n] = len(self._bloco)
+            self._tam[n] = len(b)
+            self._bloco += b
+        if novo:
             self._n += 1
-        self._pos[n] = len(self._bloco)
-        self._tam[n] = len(b)
-        self._bloco += b
 
     def get(self, chave: str | None) -> str | None:
-        n = self._k.numero(chave)
-        if n is None:
-            return self._outros.get(chave) if chave else None
-        if n >= len(self._tam) or not self._tam[n]:
+        if not chave:
             return None
-        p = self._pos[n]
-        return self._bloco[p : p + self._tam[n]].decode("utf-8")
+        n = self._k.numero(chave)
+        if n is not None and n < len(self._tam) and self._tam[n]:
+            p = self._pos[n]
+            return self._bloco[p : p + self._tam[n]].decode("utf-8")
+        return self._outros.get(chave)
 
     def __len__(self) -> int:
         return self._n

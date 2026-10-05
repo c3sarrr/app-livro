@@ -6,6 +6,7 @@ de referência da região, depois o mais completo) e dá a pontuação de popula
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from collections import Counter
 from collections.abc import Iterable, Iterator
@@ -144,7 +145,21 @@ class Staging:
             return None
         return json.loads(r[0] or "{}").get("assinatura")
 
+    def firmar(self, estagio: str) -> None:
+        """Consolida o arquivo do estágio no disco (checkpoint do WAL + fsync). Com synchronous=OFF, sem isto
+        uma queda logo depois da marca deixaria o estágio "feito" com o fim perdido (revisão 2, achado 5)."""
+        esquema, _ = ARQUIVOS[estagio]
+        self.db.commit()
+        self.db.execute(f"PRAGMA {esquema}.wal_checkpoint(TRUNCATE)").fetchall()
+        fd = os.open(self._arquivo(esquema), os.O_RDONLY)
+        try:
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+
     def marcar(self, nome: str, detalhe: dict | None = None) -> None:
+        if nome in ARQUIVOS:
+            self.firmar(nome)
         self.db.execute(
             "INSERT OR REPLACE INTO estagios VALUES (?, ?, ?)",
             (nome, datetime.now(timezone.utc).isoformat(timespec="seconds"), json.dumps(detalhe or {})),
@@ -187,12 +202,20 @@ class Staging:
         return n
 
     # ------------------------------------------------------------------ Open Library
+    # Os vazios (autor sem nome, obra sem autores) entram na ordenação e só saem depois: a versão mais nova de
+    # uma chave repetida vence mesmo vazia (revisão 2, achado 6).
     def carregar_autores(self, caminho: Path) -> int:
-        return self._lotes_ordenados("autores", ("chave", "nome"), openlibrary.autores(caminho))
+        n = self._lotes_ordenados("autores", ("chave", "nome"), openlibrary.autores(caminho))
+        self.db.execute("DELETE FROM autores.autores WHERE nome = ''")
+        self.db.commit()
+        return n
 
     def carregar_obras(self, caminho: Path) -> int:
-        linhas = ((k, json.dumps(a)) for k, _t, a in openlibrary.obras(caminho) if a)
-        return self._lotes_ordenados("obras", ("chave", "autores"), linhas)
+        linhas = ((k, json.dumps(a)) for k, _t, a in openlibrary.obras(caminho))
+        n = self._lotes_ordenados("obras", ("chave", "autores"), linhas)
+        self.db.execute("DELETE FROM obras.obras WHERE autores = '[]'")
+        self.db.commit()
+        return n
 
     def carregar_popularidade(self, notas: Path | None, estantes: Path | None) -> dict:
         """Estante de leitura vale 1, nota vale 2 (quem avalia leu)."""

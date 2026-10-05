@@ -62,22 +62,23 @@ aberto não tem, como no app:
 
 | Estrato | n | Só o aparelho | Aparelho + borda (Grátis, sem API) | Final com APIs |
 |---|---|---|---|---|
-| Brasil (amostra do S6) | 299 | 98,3 % de falha | **33,1 %** | **2,0 %** (a CBL achou 93 dos 99) |
-| Mundo, obras populares (Wikidata, 20+ artigos) | 150 de 9.350 | 70,7 % | 45,3 % | ≤ 45,3 % — indeterminado |
-| Mundo, cauda (1–3 artigos) | 150 de 24.830 | 90,0 % | 16,7 % | ≤ 16,7 % — indeterminado |
+| Brasil (amostra do S6) | 299 | 98,3 % de falha | **33,1 %** | **3,0 %** (a CBL achou 90 dos 99; 2,0 % numa medição anterior do mesmo dia) |
+| Mundo, obras populares (Wikidata, 20+ artigos) | 150 de 9.350 | 70,7 % | 45,3 % | 45,3 % (sem chave do Google) |
+| Mundo, cauda (1–3 artigos) | 150 de 24.838 | 88,0 % | 15,3 % | 15,3 % (sem chave do Google) |
 
 - A **BrasilAPI só aceita ISBN brasileiro**: para 978-0, 978-3 etc. responde 400 "ISBN inválido", com ou sem
-  `providers`. A Edge Function `isbn-lookup` passou a consultar, fora do Brasil, a **API do Open Library** e o
-  **Google Books** direto (D-73 ajustada). A API do Open Library não achou nenhum dos 93 que faltavam (o dump
-  é do mesmo mês); o Google Books respondeu **429 sem chave** em todas as consultas — a camada de APIs para
-  livros de fora do Brasil só pode ser medida (e só funciona em produção) com `GOOGLE_BOOKS_KEY` (ou Hardcover).
+  `providers`. A Edge Function `isbn-lookup` passou a consultar, fora do Brasil, a **API do Open Library** direto e o
+  **Google Books só com chave** (D-73 ajustada). A API do Open Library não achou nenhum dos 91 que faltavam (o dump
+  é do mesmo mês); o Google Books sem chave respondeu **429** em todas as consultas — por isso fica de fora sem
+  `GOOGLE_BOOKS_KEY` (senão todo livro estrangeiro ausente viraria "indisponível" em vez de "não achou").
+- Amostras do mundo sorteadas pelo próprio Wikidata (hash com semente) dentre todas as edições do estrato.
 - O `catalog.db` do aparelho quase não acerta a amostra brasileira (5/299): a popularidade vem das estantes do
   Open Library, onde livro brasileiro quase não aparece. A borda resolve 2/3; a CBL, o resto.
 - Consultas externas por 100 leituras: 33 (Brasil), 32 no total — dentro da cota (Grátis 30/dia ≈ 90 leituras).
 
 ## Pendências
 
-- Chave do Google Books (e/ou Hardcover) na produção — e medir de novo a camada de APIs fora do Brasil.
+- Chave do Google Books (e/ou Hardcover) na produção — e medir quanto ela reduz os 45 % / 15 % de fora do Brasil.
 - Peso do Brasil/português no top-N do `catalog.db` (hoje ×3) — só 5 dos 299 brasileiros entram; avaliar com
   dados de uso reais.
 - Q24: licença dos dados da CBL para o catálogo compartilhado.

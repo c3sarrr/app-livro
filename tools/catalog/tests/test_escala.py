@@ -5,6 +5,7 @@ from __future__ import annotations
 import gzip
 import json
 import random
+from pathlib import Path
 
 from catalogo.indice import Contagem, Nomes, Obras
 from catalogo import staging
@@ -28,6 +29,14 @@ def test_nomes_por_chave():
     for ausente in ("/authors/OL2A", "/authors/OL99999999A", "/authors/OLA", "/works/OL1W", "/authors/OL-1A",
                     "/authors/OL²A"):
         assert n.get(ausente) is None
+    assert len(n) == 5
+    # a última gravação vence também quando ela não cabe no array (texto vazio ou enorme) — revisão 2, achado 7
+    n.por("/authors/OL10A", "")
+    assert n.get("/authors/OL10A") == ""
+    n.por("/authors/OL1A", "x" * 70_000)
+    assert n.get("/authors/OL1A") == "x" * 70_000
+    n.por("/authors/OL1A", "De volta ao array")
+    assert n.get("/authors/OL1A") == "De volta ao array"
     assert len(n) == 5
 
 
@@ -249,3 +258,57 @@ def test_edicoes_montadas_nos_processos_auxiliares(dumps, tmp_path, monkeypatch)
     assert pids_tres and str(os.getpid()) not in pids_tres  # com 3 processos, nenhum nome é buscado no principal
     assert {r[0]: json.loads(r[3]) for r in um}["9788535902778"] == ["Machado de Assis"]
     assert openlibrary._MONTAGEM is None  # nada fica pendurado no módulo depois do estágio
+
+
+def test_chave_repetida_no_dump_a_ultima_versao_vence_mesmo_vazia(tmp_path):
+    """Revisão 2, achado 6: a versão mais nova de um autor sem nome (ou de uma obra sem autores) apaga a antiga —
+    o filtro vem depois da escolha da última versão."""
+    dumps = tmp_path / "dumps"
+    dumps.mkdir()
+    with gzip.open(dumps / "a.txt.gz", "wt", encoding="utf-8") as f:
+        f.write(_ol("author", "/authors/OL1A", {"name": "Velho"}) + _ol("author", "/authors/OL2A", {"name": "Fica"})
+                + _ol("author", "/authors/OL1A", {"bio": "sem nome"}))
+    with gzip.open(dumps / "w.txt.gz", "wt", encoding="utf-8") as f:
+        f.write(_ol("work", "/works/OL1W", {"authors": [{"author": {"key": "/authors/OL2A"}}]})
+                + _ol("work", "/works/OL2W", {"authors": [{"author": {"key": "/authors/OL2A"}}]})
+                + _ol("work", "/works/OL1W", {"title": "sem autores"}))
+    st = Staging(tmp_path / "staging.db")
+    st.carregar_autores(dumps / "a.txt.gz")
+    st.carregar_obras(dumps / "w.txt.gz")
+    assert st.db.execute("SELECT chave, nome FROM autores ORDER BY chave").fetchall() == [("/authors/OL2A", "Fica")]
+    assert st.db.execute("SELECT chave FROM obras ORDER BY chave").fetchall() == [("/works/OL2W",)]
+    st.fechar()
+
+
+def test_estagio_so_e_marcado_depois_de_gravado_no_disco(dumps, tmp_path, monkeypatch):
+    """Revisão 2, achado 5: com synchronous=OFF, o arquivo do estágio é consolidado (checkpoint + fsync) antes
+    da marca em `estagios` — uma queda logo depois não deixa um estágio "feito" com o fim perdido."""
+    import os
+
+    from catalogo.staging import ARQUIVOS
+    from test_pipeline import rodar
+
+    trabalho = tmp_path / "trabalho"
+    vistos: dict[str, int] = {}
+    marcar = Staging.marcar
+
+    def espiando(self, nome, detalhe=None):
+        wal = trabalho / f"{ARQUIVOS[nome][0]}.db-wal"
+
+        def na_marca(sql):  # no instante em que a marca é gravada, o WAL do estágio já tem de estar vazio
+            if sql.startswith("INSERT OR REPLACE INTO estagios"):
+                vistos[nome] = wal.stat().st_size if wal.exists() else 0
+
+        self.db.set_trace_callback(na_marca)
+        try:
+            return marcar(self, nome, detalhe)
+        finally:
+            self.db.set_trace_callback(None)
+
+    monkeypatch.setattr(Staging, "marcar", espiando)
+    sincronizados: list[str] = []
+    fsync = os.fsync
+    monkeypatch.setattr(os, "fsync", lambda fd: sincronizados.append(os.readlink(f"/proc/self/fd/{fd}")) or fsync(fd))
+    rodar(dumps, tmp_path)
+    assert vistos == {n: 0 for n in ARQUIVOS}
+    assert {Path(s).name for s in sincronizados} >= {f"{e}.db" for e, _ in ARQUIVOS.values()}
