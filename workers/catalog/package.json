@@ -8,7 +8,8 @@
     "test": "vitest run",
     "types": "wrangler types src/worker-configuration.d.ts",
     "check": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test/tsconfig.json",
-    "publicar-local": "node scripts/publicar_local.mjs"
+    "publicar-local": "node scripts/publicar_local.mjs",
+    "test:scripts": "node --test scripts/em_paralelo.test.mjs"
   },
   "devDependencies": {
     "@cloudflare/vitest-plugin": "1.3.6",
