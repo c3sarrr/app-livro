@@ -224,19 +224,19 @@ class Staging:
         nomes, obras = self._indices_ol()
         _progresso(f"índices em memória: {len(nomes):,} autores".replace(",", "."))
 
-        def linhas() -> Iterator[tuple]:
-            for e in openlibrary.edicoes(caminho):
-                # a obra só é consultada quando a edição não traz os autores
-                ks = e.autores or obras.get(e.obra)
-                autores = [n for n in (nomes.get(k) for k in ks) if n is not None]
-                a_json = autores_json(autores)
-                comp = _completude(e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa)
-                for i in e.isbns:
-                    prio = 1 if regiao(i) != "DE" else 0
-                    yield (i, e.titulo, e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa,
-                           e.obra, e.chave, openlibrary.FONTE, openlibrary.LICENCA, comp, prio)
+        def montar(e: openlibrary.Edicao) -> list[tuple]:
+            """Roda nos processos auxiliares (herdam `nomes` e `obras` pelo fork)."""
+            # a obra só é consultada quando a edição não traz os autores
+            ks = e.autores or obras.get(e.obra)
+            autores = [n for n in (nomes.get(k) for k in ks) if n is not None]
+            a_json = autores_json(autores)
+            comp = _completude(e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa)
+            return [(i, e.titulo, e.subtitulo, a_json, e.editora, e.ano, e.paginas, e.idioma, e.capa,
+                     e.obra, e.chave, openlibrary.FONTE, openlibrary.LICENCA, comp, 1 if regiao(i) != "DE" else 0)
+                    for i in e.isbns]
 
-        return self._lotes("INSERT INTO cand_ol.cand_ol VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", linhas())
+        return self._lotes("INSERT INTO cand_ol.cand_ol VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                           openlibrary.edicoes_montadas(caminho, montar))
 
     # ------------------------------------------------------------------ DNB
     def carregar_dnb(self, caminho: Path, trabalho: Path | None = None) -> int:

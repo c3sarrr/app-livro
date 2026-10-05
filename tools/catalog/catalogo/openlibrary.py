@@ -8,6 +8,7 @@ ordem do arquivo — a saída é a mesma de uma leitura sequencial) e o processo
 """
 from __future__ import annotations
 
+import multiprocessing
 import os
 from collections import deque
 from collections.abc import Callable, Iterator
@@ -35,11 +36,21 @@ def _processos() -> int:
     return max(1, min(8, (os.cpu_count() or 2) - 2))
 
 
+#: montagem das linhas finais de cada edição (autores pelos índices em memória do principal), feita nos
+#: processos auxiliares — que a herdam pelo fork. Com os dumps reais, montar no principal o deixava no
+#: limite (GIL) e os auxiliares ociosos (achado 17).
+_MONTAGEM: Callable[[Edicao], list] | None = None
+MONTADA = "edicao_montada"
+
+
 def _lote(args: tuple[str, str | None, bytes]) -> tuple[list, int]:
     """Num processo auxiliar: bloco de linhas → (registros já transformados, nº de registros com
     formato inesperado — descartados e contados, nunca derrubam a execução)."""
     tipo, filtro, bloco = args
-    f = _TRANSFORMACOES[tipo]
+    montar = _MONTAGEM if tipo == MONTADA else None
+    if tipo == MONTADA and montar is None:
+        raise RuntimeError("edições montadas sem a montagem (o processo auxiliar não veio do fork)")
+    f = _TRANSFORMACOES["edicao" if montar else tipo]
     saida = []
     estranhos = 0
     for linha in bloco.decode("utf-8", "replace").split("\n"):
@@ -54,8 +65,12 @@ def _lote(args: tuple[str, str | None, bytes]) -> tuple[list, int]:
         except (ValueError, TypeError, AttributeError, KeyError):
             estranhos += 1
             continue
-        if r is not None:
+        if r is None:
+            continue
+        if montar is None:
             saida.append(r)
+        else:
+            saida.extend(montar(r))  # fora do try: erro na montagem é erro do programa, não do dump
     return saida, estranhos
 
 
@@ -63,6 +78,10 @@ def _em_paralelo(caminho: Path, tipo: str, filtro: str | None = None) -> Iterato
     """Registros transformados de `tipo`, na ordem do arquivo, com no máximo 2 blocos por processo em
     andamento (o arquivo não é lido inteiro para a memória)."""
     n = _processos()
+    # fork: os auxiliares herdam a montagem e os índices do principal (sem copiar — só leitura)
+    contexto = multiprocessing.get_context("fork") if "fork" in multiprocessing.get_all_start_methods() else None
+    if tipo == MONTADA and contexto is None:  # pragma: no cover - sem fork (fora do Linux): tudo no principal
+        n = 1
     estranhos = 0
 
     def resultado(r: tuple[list, int]) -> list:
@@ -76,7 +95,7 @@ def _em_paralelo(caminho: Path, tipo: str, filtro: str | None = None) -> Iterato
             for t in tarefas:
                 yield from resultado(_lote(t))
         else:
-            with ProcessPoolExecutor(max_workers=n) as pool:
+            with ProcessPoolExecutor(max_workers=n, mp_context=contexto) as pool:
                 fila: deque = deque()
                 for t in tarefas:
                     fila.append(pool.submit(_lote, t))
@@ -187,6 +206,17 @@ def _edicao(chave: str, j: dict) -> Edicao | None:
 def edicoes(caminho: Path) -> Iterator[Edicao]:
     """Só as edições com ISBN válido (as outras não servem ao scanner)."""
     return _em_paralelo(caminho, "edicao", filtro='"isbn_')
+
+
+def edicoes_montadas(caminho: Path, montar: Callable[[Edicao], list]) -> Iterator:
+    """As linhas que `montar` faz de cada edição com ISBN, na ordem do arquivo; `montar` roda nos processos
+    auxiliares (que a herdam pelo fork, com tudo o que ela enxerga no principal)."""
+    global _MONTAGEM
+    _MONTAGEM = montar
+    try:
+        yield from _em_paralelo(caminho, MONTADA, filtro='"isbn_')
+    finally:
+        _MONTAGEM = None
 
 
 _TRANSFORMACOES: dict[str, Callable[[str, dict], object]] = {"autor": _autor, "obra": _obra, "edicao": _edicao}

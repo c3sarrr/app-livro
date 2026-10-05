@@ -131,13 +131,18 @@ def test_edicoes_com_chaves_fora_do_padrao(tmp_path):
                                        "works": [{"key": "/works/OL1W"}]}),
         _ol("edition", "/books/OL3M", {"title": "Três", "isbn_13": ["9780141439518"],
                                        "authors": [{"key": "/authors/OL7A"}, {"key": "/authors/sumiu"}]}),
+        # dois ISBNs na mesma edição (13 e 10): uma linha para cada
+        _ol("edition", "/books/OL4M", {"title": "Quatro", "isbn_13": ["9783161484100"], "isbn_10": ["0451526538"],
+                                       "authors": [{"key": "/authors/OL07A"}]}),
     ])
     st = Staging(tmp_path / "staging.db")
     assert st.carregar_autores(dumps / "a.txt.gz") == 3
     assert st.carregar_obras(dumps / "w.txt.gz") == 2
-    assert st.carregar_edicoes_ol(dumps / "e.txt.gz") == 3
-    got = {i: json.loads(a) for i, a in st.db.execute("SELECT isbn13, autores FROM cand")}
-    assert got == {"9780306406157": ["Antigo"], "9788535902778": ["Zero Sete", "Sete"], "9780141439518": ["Sete"]}
+    assert st.carregar_edicoes_ol(dumps / "e.txt.gz") == 5
+    got = {i: (json.loads(a), p) for i, a, p in st.db.execute("SELECT isbn13, autores, prioridade FROM cand")}
+    assert got == {"9780306406157": (["Antigo"], 1), "9788535902778": (["Zero Sete", "Sete"], 1),
+                   "9780141439518": (["Sete"], 1), "9783161484100": (["Zero Sete"], 0),
+                   "9780451526533": (["Zero Sete"], 1)}
     st.fechar()
 
 
@@ -200,3 +205,47 @@ def test_banco_de_trabalho_no_formato_antigo_e_recusado(tmp_path):
     con.close()
     with pytest.raises(SystemExit, match="formato antigo"):
         Staging(tmp_path / "staging.db")
+
+
+_NOMES_GET = Nomes.get
+
+
+def _nome_anotando_o_processo(self, chave):
+    """Envolve a consulta do nome do autor e anota em que processo ela rodou (arquivo em PIDS_NOMES)."""
+    import os
+
+    with open(os.environ["PIDS_NOMES"], "a") as f:
+        f.write(f"{os.getpid()}\n")
+    return _NOMES_GET(self, chave)
+
+
+def test_edicoes_montadas_nos_processos_auxiliares(dumps, tmp_path, monkeypatch):
+    """Nomes dos autores, obra e linhas finais são montados nos processos auxiliares (herdam os índices do
+    principal pelo fork): o principal só grava. Mesmas linhas, na mesma ordem, que num processo só."""
+    import os
+
+    from catalogo import openlibrary
+
+    edicoes = next(dumps.glob("ol_dump_editions_*.txt.gz"))
+    monkeypatch.setattr(Nomes, "get", _nome_anotando_o_processo)
+
+    def carregar(pasta, processos, bloco):
+        monkeypatch.setattr(openlibrary, "PROCESSOS", processos)
+        monkeypatch.setattr(openlibrary, "BLOCO_BYTES", bloco)
+        pids = pasta / "pids.txt"
+        monkeypatch.setenv("PIDS_NOMES", str(pids))
+        st = Staging(pasta / "staging.db")
+        st.carregar_autores(next(dumps.glob("ol_dump_authors_*.txt.gz")))
+        st.carregar_obras(next(dumps.glob("ol_dump_works_*.txt.gz")))
+        st.carregar_edicoes_ol(edicoes)
+        linhas = st.db.execute("SELECT * FROM cand_ol ORDER BY rowid").fetchall()
+        st.fechar()
+        return linhas, set(pids.read_text().split())
+
+    um, pids_um = carregar(tmp_path / "um", 1, 1 << 20)
+    tres, pids_tres = carregar(tmp_path / "tres", 3, 300)
+    assert um == tres and len(um) >= 5
+    assert pids_um == {str(os.getpid())}
+    assert pids_tres and str(os.getpid()) not in pids_tres  # com 3 processos, nenhum nome é buscado no principal
+    assert {r[0]: json.loads(r[3]) for r in um}["9788535902778"] == ["Machado de Assis"]
+    assert openlibrary._MONTAGEM is None  # nada fica pendurado no módulo depois do estágio
