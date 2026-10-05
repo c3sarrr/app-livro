@@ -420,6 +420,8 @@ deno_version = 2
 verify_jwt = true
 [functions.ebook-upload-url]
 verify_jwt = true
+[functions.ebook-download-url]
+verify_jwt = true
 [functions.export-data]
 verify_jwt = true
 [functions.delete-account]

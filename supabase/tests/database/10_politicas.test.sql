@@ -331,13 +331,15 @@ select is((select count(*)::int from personal.reading_goals     where user_id = 
 -- =====================================================================================
 -- storage.objects (bucket ebooks)
 -- =====================================================================================
-select is((select count(*)::int from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000a/%'), 1, 'ebooks_owner_read: vê o próprio e-book');
-select is((select count(*)::int from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000c/%'), 0, 'ebooks_owner_read: não vê o de outra pessoa');
+-- G06: o cliente não toca no bucket — download por URL curta (ebook-download-url) e exclusão pelo
+-- servidor (fila private.ebook_object_deletions). Sem política nenhuma para authenticated.
+select is((select count(*)::int from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000a/%'), 0, 'G06: nem o próprio e-book aparece (sem link assinado longo feito pelo cliente)');
+select is((select count(*)::int from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000c/%'), 0, 'G06: o de outra pessoa também não');
 -- o Supabase bloqueia DELETE em storage.objects fora da API do Storage (gatilho protect_delete);
 -- a API liga esta chave na própria sessão — aqui ela é ligada para testar só a RLS.
 select set_config('storage.allow_delete_query', 'true', true);
-select is(pg_temp.linhas($$ delete from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000c/%' $$), 0, 'ebooks_owner_delete: não apaga o de outra pessoa');
-select is(pg_temp.linhas($$ delete from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000a/%' $$), 1, 'ebooks_owner_delete: apaga o próprio');
+select is(pg_temp.linhas($$ delete from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000c/%' $$), 0, 'G06: não apaga o de outra pessoa');
+select is(pg_temp.linhas($$ delete from storage.objects where bucket_id = 'ebooks' and name like '00000000-0000-7000-8000-00000000000a/%' $$), 0, 'G06: nem o próprio (a exclusão é do servidor)');
 select throws_like($$ insert into storage.objects (bucket_id, name) values ('ebooks', '00000000-0000-7000-8000-00000000000a/x/y.epub') $$,
   '%row-level security%', 'sem política de INSERT: upload direto proibido (só por URL assinada)');
 
@@ -372,8 +374,7 @@ select set_eq(
     ('personal.user_books.own_read'), ('personal.reading_positions.own_read'), ('personal.reading_sessions.own_read'),
     ('personal.bookmarks.own_read'), ('personal.ink_layers.own_read'), ('personal.annotations.own_read'),
     ('personal.highlight_labels.own_read'), ('personal.reader_settings.own_read'), ('personal.pen_presets.own_read'),
-    ('personal.reading_goals.own_read'),
-    ('storage.objects.ebooks_owner_read'), ('storage.objects.ebooks_owner_delete') $$,
+    ('personal.reading_goals.own_read') $$,
   'toda política de RLS tem caso permitido e negado neste arquivo');
 
 select * from finish();

@@ -78,6 +78,65 @@ Deno.test({
 
 Deno.test({
   ...opcoes,
+  name: 'G06 ebook-download-url: Pro baixa por URL curta; outra conta não; apagar o livro tira o arquivo',
+  fn: async () => {
+    const u = await novoUsuario(`ebook-dl-${sufixo}@exemplo.com`);
+    const sha = 'd'.repeat(64);
+    const livro = crypto.randomUUID();
+    await sql`insert into billing.entitlements (user_id, entitlement, active_until) values (${u.id}, 'pro', now() + interval '30 days')`;
+    await sql`insert into personal.user_books (id, user_id, title, author_display, format, status, content_sha256, added_at, created_at, updated_at, version_hlc)
+            values (${livro}, ${u.id}, 'Livro', 'Autor', 'epub', 'reading', ${sha}, now(), now(), now(), '0001790000000000-0000-it')`;
+    const r = await chamar(
+      'ebook-upload-url',
+      comJwt(u.jwt, { user_book_id: livro, sha256: sha, bytes: 2048 }),
+    );
+    const j = await r.json();
+    const bytes = crypto.getRandomValues(new Uint8Array(2048));
+    const up = await createClient(API, PUB).storage.from('ebooks')
+      .uploadToSignedUrl(j.path, j.token, new Blob([bytes], { type: 'application/epub+zip' }));
+    ok(!up.error, String(up.error?.message));
+    // o app grava o caminho no livro (sincronização)
+    await sql`update personal.user_books set storage_object_path = ${j.path}, version_hlc = '0001790000000001-0000-it' where id = ${livro}`;
+
+    const d = await chamar('ebook-download-url', comJwt(u.jwt, { user_book_id: livro }));
+    assertEquals(d.status, 200);
+    const dj = await d.json();
+    assertEquals([dj.path, dj.expires_in], [j.path, 300]);
+    const baixado = new Uint8Array(await (await fetch(`${API}${dj.signed_path}`)).arrayBuffer());
+    assertEquals(baixado, bytes);
+
+    // o próprio dono não lê o bucket direto (sem política SELECT): nem gera link longo
+    const cliente = createClient(API, PUB, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${u.jwt}` } },
+    });
+    const longo = await cliente.storage.from('ebooks').createSignedUrl(j.path, 60 * 60 * 24 * 365);
+    ok(longo.error, 'o cliente não pode gerar link assinado do e-book');
+
+    const outro = await novoUsuario(`ebook-dl2-${sufixo}@exemplo.com`);
+    await sql`insert into billing.entitlements (user_id, entitlement, active_until) values (${outro.id}, 'pro', now() + interval '30 days')`;
+    const n = await chamar('ebook-download-url', comJwt(outro.jwt, { user_book_id: livro }));
+    assertEquals([n.status, (await n.json()).erro], [404, 'book_not_found']);
+
+    // apagar o livro (exclusão lógica que chega pela sincronização) → a função do agendador apaga o arquivo
+    await sql`update personal.user_books set deleted_at = now(), version_hlc = '0001790000000002-0000-it' where id = ${livro}`;
+    await sql`select private.invoke_edge_function('purge-storage')`;
+    let restante = 1;
+    for (let i = 0; i < 30 && restante > 0; i++) {
+      await new Promise((ok) => setTimeout(ok, 500));
+      const [o] =
+        await sql`select count(*)::int as n from storage.objects where bucket_id = 'ebooks' and name = ${j.path}`;
+      restante = o.n;
+    }
+    assertEquals(restante, 0);
+    const [q] =
+      await sql`select count(*)::int as n from private.ebook_object_deletions where path = ${j.path}`;
+    assertEquals(q.n, 0);
+  },
+});
+
+Deno.test({
+  ...opcoes,
   name: 'export-data: o usuário baixa os próprios dados',
   fn: async () => {
     const u = await novoUsuario(`export-${sufixo}@exemplo.com`);
