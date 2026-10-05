@@ -2,6 +2,8 @@
 // (roteador + shell) com os dublês da conta.
 import 'package:app_leitura/app/router.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
+import 'package:app_leitura/core/sync/sync_engine.dart';
+import 'package:app_leitura/core/sync/sync_providers.dart';
 import 'package:app_leitura/features/account/application/account_controller.dart';
 import 'package:app_leitura/features/account/data/store_age_signals.dart';
 import 'package:app_leitura/features/account/domain/account_failure.dart';
@@ -13,6 +15,7 @@ import 'package:app_leitura/features/account/presentation/sign_in_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,7 +36,11 @@ void main() {
 
   late AccountHarness h;
 
-  Future<void> abrirPerfil(WidgetTester tester, AccountHarness harness) async {
+  Future<void> abrirPerfil(
+    WidgetTester tester,
+    AccountHarness harness, {
+    List<Override> extras = const [],
+  }) async {
     h = harness;
     addTearDown(h.close);
     setCanvasView(
@@ -42,7 +49,7 @@ void main() {
       safeTop: 47,
       safeBottom: 34,
     );
-    await pumpApp(tester, overrides: h.overrides);
+    await pumpApp(tester, overrides: [...h.overrides, ...extras]);
     _router(tester).go(AppRoutes.perfil);
     await tester.pumpAndSettle();
     await assentar(tester);
@@ -191,6 +198,43 @@ void main() {
       await assentar(tester);
       expect(h.gateway!.calls, ['sair']);
       expect(botao('Entrar ou criar conta'), findsOneWidget);
+    });
+
+    testWidgets('G06: indicador discreto da sincronização abaixo do @', (
+      tester,
+    ) async {
+      await abrirPerfil(
+        tester,
+        logado(),
+        extras: [
+          syncStateProvider.overrideWith(
+            (ref) => Stream.value(
+              const SyncState(pro: true, phase: SyncPhase.offline, pending: 3),
+            ),
+          ),
+        ],
+      );
+      expect(texto('@ana.lima'), findsOneWidget);
+      expect(
+        texto('Sem conexão: 3 alterações esperando para ir à nuvem.'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('G06: sair com alterações não enviadas avisa antes de apagar', (
+      tester,
+    ) async {
+      final x = logado();
+      x.sync.pendentes = 2;
+      await abrirPerfil(tester, x);
+      expect(texto('Sincronizado'), findsNothing, reason: 'Grátis: nada');
+      await tocar(tester, 'Sair');
+      expect(
+        texto(
+          'Há 2 alterações ainda não enviadas à nuvem: se apagar deste aparelho, elas se perdem.',
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('excluir pede confirmação e avisa quando termina', (

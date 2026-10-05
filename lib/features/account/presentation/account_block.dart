@@ -8,6 +8,7 @@ import '../../../app/routes.dart';
 import '../application/account_controller.dart';
 import '../domain/account_failure.dart';
 import 'account_widgets.dart';
+import 'sync_indicator.dart';
 
 enum _Confirm { none, signOut, delete, eraseHidden }
 
@@ -21,6 +22,7 @@ class AccountBlock extends ConsumerStatefulWidget {
 class _AccountBlockState extends ConsumerState<AccountBlock> {
   _Confirm _confirm = _Confirm.none;
   bool _busy = false;
+  int _pending = 0;
   String? _notice;
   bool _noticeIsError = false;
 
@@ -118,6 +120,25 @@ class _AccountBlockState extends ConsumerState<AccountBlock> {
     ],
   };
 
+  static String _notSent(int n) => n == 1
+      ? 'Há 1 alteração ainda não enviada à nuvem: se apagar deste aparelho, ela se perde.'
+      : 'Há $n alterações ainda não enviadas à nuvem: se apagar deste aparelho, elas se perdem.';
+
+  /// Antes de confirmar a saída, conta o que ainda não foi para a nuvem (Pro).
+  Future<void> _askSignOut() async {
+    var n = 0;
+    try {
+      n = await _controller.pendingUploads();
+    } on Object {
+      n = 0; // sem a contagem, a confirmação aparece do mesmo jeito
+    }
+    if (!mounted) return;
+    setState(() {
+      _pending = n;
+      _confirm = _Confirm.signOut;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final view = ref.watch(accountControllerProvider);
@@ -158,6 +179,7 @@ class _AccountBlockState extends ConsumerState<AccountBlock> {
         AccountHeading('@${summary.handle}')
       else
         AccountText(m.problem?.message ?? 'Carregando a conta…', muted: true),
+      const SyncIndicator(),
       if (m.needsOnboarding)
         AccountButton(
           'Concluir cadastro',
@@ -176,10 +198,7 @@ class _AccountBlockState extends ConsumerState<AccountBlock> {
   List<Widget> _memberActions(bool busy) => switch (_confirm) {
     _Confirm.none || _Confirm.eraseHidden => [
       AccountButton('Exportar meus dados', onTap: busy ? null : _export),
-      AccountButton(
-        'Sair',
-        onTap: busy ? null : () => setState(() => _confirm = _Confirm.signOut),
-      ),
+      AccountButton('Sair', onTap: busy ? null : _askSignOut),
       AccountButton(
         'Excluir conta',
         tone: AccountButtonTone.danger,
@@ -190,6 +209,7 @@ class _AccountBlockState extends ConsumerState<AccountBlock> {
       const AccountText(
         'Ao sair, seus livros e grifos ficam guardados neste aparelho e voltam quando você entrar de novo.',
       ),
+      if (_pending > 0) AccountText(_notSent(_pending)),
       AccountButton(
         'Sair e manter neste aparelho',
         tone: AccountButtonTone.primary,

@@ -61,3 +61,30 @@ de navegação; rola se não couber.
 
 `supabase/templates/codigo_de_acesso.html` — HTML simples com o código de 6 dígitos (usado no Supabase
 local e como base do modelo da nuvem). O design do e-mail é um item do design.
+
+## G06 — sincronização do Pro e e-books na nuvem
+
+### Indicador discreto da sincronização (bloco da conta, abaixo do @)
+
+Uma linha de `AccountText` secundário (`inkMuted`), anunciada pelo leitor de tela quando muda
+(`lib/features/account/presentation/sync_indicator.dart`). No Grátis não aparece nada.
+
+| Estado | Texto |
+|---|---|
+| Virando Pro (envio inicial) | "Enviando sua biblioteca para a nuvem… N%" |
+| Conectando | "Conectando à nuvem…" |
+| Enviando ou recebendo | "Sincronizando…" |
+| Em dia | "Sincronizado" |
+| Sem conexão | "Sem conexão com a nuvem." · com fila: "Sem conexão: N alterações esperando para ir à nuvem." |
+| Relógio do aparelho ≥ 5 min adiantado | "O relógio do aparelho está N min adiantado. Acerte a hora nos ajustes do sistema." |
+| O Pro acabou | "O Pro terminou: a sincronização parou e seus dados continuam neste aparelho." |
+
+### Confirmar saída com alterações não enviadas (Pro)
+
+Acima dos botões de "Confirmar saída": "Há N alterações ainda não enviadas à nuvem: se apagar deste
+aparelho, elas se perdem."
+
+### E-books na nuvem
+
+O serviço existe (`lib/core/sync/ebook_cloud.dart`: enviar retomável e baixar sob demanda), mas o
+**botão** ("Guardar na nuvem" / "Baixar") fica para a tela do livro — ainda sem design (G09 em diante).
