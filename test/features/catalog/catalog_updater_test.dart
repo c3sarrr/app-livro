@@ -7,6 +7,7 @@ import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/features/catalog/application/catalog_updater.dart';
 import 'package:app_leitura/features/catalog/domain/catalog_failure.dart';
+import 'package:crypto/crypto.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -257,5 +258,24 @@ void main() {
     );
     expect(await depois.byIsbn('9780199535569'), isNotNull);
     expect(await arquivos(), ['catalog.db']);
+  });
+
+  test('gzip quebrado (publicado com o sha certo): falha tipada e nenhuma sobra na pasta', () async {
+    final lixo = Uint8List.fromList(List.generate(4096, (i) => (i * 7) % 256));
+    server.overrides['catalog/v1/$v1/catalog.db.gz'] = lixo;
+    final sha = sha256.convert(lixo).toString();
+    server.editManifest = (m) => {
+      ...m,
+      'db': {
+        ...(m['db']! as Map<String, Object?>),
+        'sha256': sha,
+        'bytes': lixo.length,
+      },
+    };
+    await expectLater(
+      updater.update(),
+      throwsA(isA<CatalogCorrupted>().having((e) => e.code, 'code', 'gzip')),
+    );
+    expect(await arquivos(), isEmpty);
   });
 }

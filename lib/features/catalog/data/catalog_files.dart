@@ -24,12 +24,16 @@ Future<String> gunzipWithSha256(String gz, String out) => Isolate.run(() async {
   final sink = File(out).openWrite();
   final hash = _Coletor();
   final hashing = sha256.startChunkedConversion(hash);
-  await for (final chunk in File(gz).openRead().transform(gzip.decoder)) {
-    hashing.add(chunk);
-    sink.add(chunk);
+  try {
+    await for (final chunk in File(gz).openRead().transform(gzip.decoder)) {
+      hashing.add(chunk);
+      sink.add(chunk);
+    }
+  } finally {
+    // fecha mesmo com o gzip quebrado: no Windows, arquivo aberto não pode ser apagado depois
+    await sink.close();
   }
   hashing.close();
-  await sink.close();
   return hash.value.toString();
 });
 
