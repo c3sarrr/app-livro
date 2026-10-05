@@ -42,6 +42,22 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="booknest" android:host="login-callback"/>
             </intent-filter>
+            <!-- G09 (D-87): "Abrir com" e "Compartilhar" de EPUB e PDF (MainActivity copia e avisa o Dart). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="application/epub+zip"/>
+                <data android:mimeType="application/pdf"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND_MULTIPLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/epub+zip"/>
+                <data android:mimeType="application/pdf"/>
+            </intent-filter>
             <!-- O retorno do login é tratado pelo supabase_flutter (app_links), não pelo roteador. -->
             <meta-data android:name="flutter_deeplinking_enabled" android:value="false"/>
         </activity>

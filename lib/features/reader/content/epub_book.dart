@@ -58,6 +58,7 @@ final class EpubBook {
     try {
       final protection = epubProtection(zip);
       if (protection != null) throw ContentProtected(protection);
+      if (!_looksLikeEpub(zip)) throw const ContentUnsupported('nao_epub');
       final pkg = EpubPackage.read(zip);
       final nav = readNavigation(
         zip,
@@ -142,6 +143,18 @@ final class EpubBook {
   });
 
   void close() => zip.close();
+}
+
+/// Um ZIP qualquer não é EPUB: precisa do `container.xml` ou do `mimetype` do EPUB.
+bool _looksLikeEpub(ZipReader zip) {
+  if (zip.find('META-INF/container.xml') != null) return true;
+  final m = zip.find('mimetype');
+  if (m == null) return false;
+  try {
+    return zip.readText(m, maxBytes: 256).trim() == 'application/epub+zip';
+  } on ContentFailure {
+    return false;
+  }
 }
 
 /// Assinatura de JPEG, PNG, GIF ou WebP.
