@@ -134,16 +134,22 @@ function isbn10(isbn: string): string | null {
 /** Google Books: a busca `isbn:` às vezes devolve outro livro — só vale o volume com o ISBN pedido. */
 export async function googleBooks(isbn: string, buscar: Buscar, chave?: string): Promise<Livro | null> {
   const k = chave ? `&key=${encodeURIComponent(chave)}` : '';
-  const r = await buscar(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=1${k}`, {
+  const r = await buscar(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&maxResults=10${k}`, {
     signal: AbortSignal.timeout(4000),
   });
   if (!r.ok) throw new Error(`googlebooks ${r.status}`);
-  const v = (await r.json())?.items?.[0]?.volumeInfo;
-  const ids = Array.isArray(v?.industryIdentifiers)
-    ? v.industryIdentifiers.map((x: { identifier?: unknown }) => String(x?.identifier ?? '').toUpperCase())
-    : [];
   const dez = isbn10(isbn);
-  if (!texto(v?.title) || !(ids.includes(isbn) || (dez !== null && ids.includes(dez)))) return null;
+  const temOIsbn = (v: { industryIdentifiers?: unknown } | undefined) => {
+    const ids = Array.isArray(v?.industryIdentifiers)
+      ? v.industryIdentifiers.map((x: { identifier?: unknown }) => String(x?.identifier ?? '').toUpperCase())
+      : [];
+    return ids.includes(isbn) || (dez !== null && ids.includes(dez));
+  };
+  const itens = (await r.json())?.items;
+  const v = (Array.isArray(itens) ? itens : []).map((i: { volumeInfo?: unknown }) => i?.volumeInfo)
+    // deno-lint-ignore no-explicit-any
+    .find((x: any) => texto(x?.title) && temOIsbn(x)) as any;
+  if (!v) return null;
   const capa = texto(v.imageLinks?.thumbnail);
   return {
     isbn13: isbn,
@@ -233,9 +239,11 @@ export function fontesPorRegiao(
     fontes.push(nomeada('brasilapi:br', (i) => brasilApi(i, buscar, PROVEDORES_BRASIL)));
     fontes.push(nomeada('brasilapi:global', (i) => brasilApi(i, buscar, PROVEDORES_GLOBAIS)));
   } else {
-    // a BrasilAPI só aceita ISBN brasileiro: fora do Brasil, as mesmas fontes abertas direto
+    // a BrasilAPI só aceita ISBN brasileiro: fora do Brasil, as mesmas fontes abertas direto. O Google Books só
+    // com chave: sem ela ele responde 429 (medido) e todo livro ausente do Open Library viraria "indisponível"
     fontes.push(nomeada('openlibrary', (i) => openLibrary(i, buscar)));
-    fontes.push(nomeada('googlebooks', (i) => googleBooks(i, buscar, chaves.googleBooks)));
+    const g = chaves.googleBooks;
+    if (g) fontes.push(nomeada('googlebooks', (i) => googleBooks(i, buscar, g)));
   }
   const h = chaves.hardcover;
   if (h) fontes.push(nomeada('hardcover', (i) => hardcover(i, buscar, h)));

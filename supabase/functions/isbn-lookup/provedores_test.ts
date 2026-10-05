@@ -144,15 +144,17 @@ Deno.test('Brasil: CBL/Mercado Editorial primeiro, depois as fontes globais; Har
   assertEquals(comChaves.map((f) => f.nome), ['brasilapi:br', 'brasilapi:global', 'hardcover', 'isbndb']);
 });
 
-Deno.test('Mundo: Open Library e Google Books direto — a BrasilAPI recusa ISBN de fora do Brasil (G07.6)', async () => {
-  // medido em 05/10/2026: /api/isbn/v1/9780141439518 → 400 "ISBN inválido", com ou sem `providers`
+Deno.test('Mundo: Open Library direto; Google Books só com chave — a BrasilAPI recusa ISBN de fora do Brasil', async () => {
+  // medido em 05/10/2026: /api/isbn/v1/9780141439518 → 400 "ISBN inválido", com ou sem `providers`; e o Google
+  // Books sem chave respondeu 429 em todas as consultas → sem chave ele fica de fora (senão todo livro estrangeiro
+  // ausente do Open Library viraria "indisponível" para sempre, em vez de "não achou")
   const g = gravador();
   assertEquals(await procurar('9780804429573', fontesPorRegiao('9780804429573', g.buscar)), 'indisponivel');
   assertEquals(g.urls, [
     'https://openlibrary.org/api/books?bibkeys=ISBN:9780804429573&format=json&jscmd=data',
-    'https://www.googleapis.com/books/v1/volumes?q=isbn:9780804429573&maxResults=1',
   ]);
-  assertEquals(g.urls.some((u) => u.includes('brasilapi')), false);
+  const vazio: Buscar = () => Promise.resolve(new Response('{}', { status: 200 }));
+  assertEquals(await procurar('9780804429573', fontesPorRegiao('9780804429573', vazio)), 'nao_encontrado');
   const comChaves = fontesPorRegiao('9780804429573', g.buscar, {
     googleBooks: 'gk',
     hardcover: 't',
@@ -161,10 +163,11 @@ Deno.test('Mundo: Open Library e Google Books direto — a BrasilAPI recusa ISBN
   assertEquals(comChaves.map((f) => f.nome), ['openlibrary', 'googlebooks', 'hardcover', 'isbndb']);
   const g2 = gravador();
   await procurar('9780804429573', fontesPorRegiao('9780804429573', g2.buscar, { googleBooks: 'gk' }));
-  assertEquals(
-    g2.urls[1],
-    'https://www.googleapis.com/books/v1/volumes?q=isbn:9780804429573&maxResults=1&key=gk',
-  );
+  assertEquals(g2.urls, [
+    'https://openlibrary.org/api/books?bibkeys=ISBN:9780804429573&format=json&jscmd=data',
+    'https://www.googleapis.com/books/v1/volumes?q=isbn:9780804429573&maxResults=10&key=gk',
+  ]);
+  assertEquals(g2.urls.some((u) => u.includes('brasilapi')), false);
 });
 
 Deno.test('Open Library (API): normaliza o livro; objeto vazio = não achou; 5xx = falha', async () => {
@@ -236,6 +239,11 @@ Deno.test('Google Books: confere o ISBN do volume; 0 resultados = não achou; 42
   );
   // a busca do Google às vezes devolve outro livro: sem o ISBN pedido = não achou
   assertEquals(await googleBooks('9780547928227', resposta(200, volume(['9780000000002']))), null);
+  // …e às vezes o certo vem depois de outro: vale o primeiro volume que tem o ISBN (revisão 2, achado 3)
+  const doisVolumes = volume(['9780547928227']);
+  doisVolumes.items.unshift({ ...volume(['9780000000002']).items[0] });
+  doisVolumes.items[0].volumeInfo.title = 'Outro livro';
+  assertEquals((await googleBooks('9780547928227', resposta(200, doisVolumes)))?.title, 'The Hobbit');
   assertEquals(await googleBooks('9780547928227', resposta(200, { totalItems: 0 })), null);
   let falhou = false;
   try {
