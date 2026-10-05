@@ -95,7 +95,7 @@ void main() {
       final slice = container.read(
         homeSnapshotProvider.select((s) => s.continueReading),
       );
-      expect(slice.book.title, 'Dom Casmurro');
+      expect(slice!.book.title, 'Dom Casmurro');
       expect(slice.chapter, 92);
     });
   });

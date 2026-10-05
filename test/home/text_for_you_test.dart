@@ -99,7 +99,7 @@ RenderAppText _renderOf(WidgetTester tester, String id) =>
 ForYou _forYouData(WidgetTester tester) => ProviderScope.containerOf(
   tester.element(find.byType(ForYouSection)),
   listen: false,
-).read(homeSnapshotProvider).forYou;
+).read(homeSnapshotProvider).forYou!;
 
 /// Largura natural (uma linha) de [text] no parágrafo do SkParagraph (inclui o letter-spacing final).
 double _naturalWidth(TextStyle style, String text) {
@@ -548,19 +548,19 @@ void main() {
             id: 'teste-1',
             title: 'Memórias Póstumas de Brás Cubas',
             author: 'Joaquim Maria Machado de Assis',
-            cover: CoverArt.memoriasPostumas,
+            cover: DesignedCover(CoverArt.memoriasPostumas),
           ),
           Book(
             id: 'teste-2',
             title: 'Quincas Borba, o Filósofo do Humanitismo',
             author: 'M. de Assis',
-            cover: CoverArt.quincasBorba,
+            cover: DesignedCover(CoverArt.quincasBorba),
           ),
           Book(
             id: 'teste-3',
             title: 'O Mulato',
             author: 'Aluísio Tancredo Gonçalves de Azevedo',
-            cover: CoverArt.oCortico,
+            cover: DesignedCover(CoverArt.oCortico),
           ),
         ],
       );

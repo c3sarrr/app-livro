@@ -46,6 +46,12 @@ class HomeScreen extends ConsumerWidget {
     void push(String location) => unawaited(context.push<void>(location));
     HomeSnapshot snapshot() => ref.read(homeSnapshotProvider);
     void openBook(Book book) => push(AppRoutes.livro(book.id));
+    // Os toques só existem quando a seção aparece (com dados); a leitura no toque é o instantâneo atual.
+    void withReading(void Function(ContinueReading r) f) {
+      final r = snapshot().continueReading;
+      if (r != null) f(r);
+    }
+
     // Scaffold sem appBar/drawer/FAB: só pinta o fundo e, no iOS, trata o toque na status bar
     // (anima o PrimaryScrollController para o topo — `primary: true` sozinho não faz isso).
     return Scaffold(
@@ -70,10 +76,9 @@ class HomeScreen extends ConsumerWidget {
             _gutter(
               ContinueReadingHero(
                 onContinueTap: () =>
-                    push(AppRoutes.leitor(snapshot().continueReading.book.id)),
-                onHighlightsTap: () => push(
-                  AppRoutes.destaques(snapshot().continueReading.book.id),
-                ),
+                    withReading((r) => push(AppRoutes.leitor(r.book.id))),
+                onHighlightsTap: () =>
+                    withReading((r) => push(AppRoutes.destaques(r.book.id))),
               ),
             ),
             SizedBox(height: gaps[2]),
@@ -92,8 +97,10 @@ class HomeScreen extends ConsumerWidget {
             SizedBox(height: gaps[5]),
             _gutter(
               BookClubTicket(
-                onDiscussionTap: () =>
-                    push(AppRoutes.discussao(snapshot().club.id)),
+                onDiscussionTap: () {
+                  final club = snapshot().club;
+                  if (club != null) push(AppRoutes.discussao(club.id));
+                },
               ),
             ),
             SizedBox(height: gaps[6]),

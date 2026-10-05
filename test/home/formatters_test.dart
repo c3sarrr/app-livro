@@ -12,7 +12,7 @@ void main() {
     HomeMockRepository.referenceNow,
   );
   final week = snap.readingDay.week;
-  final meeting = snap.club.nextMeeting;
+  final meeting = snap.club!.nextMeeting;
 
   group('tabela 2.3 (entrada do mock → saída exata)', () {
     test('greeting(20:00) → "Boa noite," e faixas 5–11 / 12–17 / 18–4', () {
@@ -38,27 +38,27 @@ void main() {
     });
 
     test('chapterLabel(92, 148) → "Cap. 92 de 148"', () {
-      final c = snap.continueReading;
+      final c = snap.continueReading!;
       expect(
-        HomeFormatters.chapterLabel(c.chapter, c.totalChapters),
+        HomeFormatters.chapterLabel(c.chapter!, c.totalChapters!),
         'Cap. 92 de 148',
       );
     });
 
     test('percent(0.62) → "62%"', () {
-      expect(HomeFormatters.percent(snap.continueReading.progress), '62%');
+      expect(HomeFormatters.percent(snap.continueReading!.progress), '62%');
       // Demais frações do mock (anéis e clube) também arredondam sem resíduo de ponto flutuante.
       expect(HomeFormatters.percent(snap.alsoReading[0].progress), '34%');
       expect(HomeFormatters.percent(snap.alsoReading[1].progress), '81%');
-      expect(HomeFormatters.percent(snap.club.groupProgress), '54%');
-      expect(HomeFormatters.percent(snap.club.userProgress), '62%');
+      expect(HomeFormatters.percent(snap.club!.groupProgress), '54%');
+      expect(HomeFormatters.percent(snap.club!.userProgress), '62%');
     });
 
     test('durationLabel(130 min, approx: true) → "~2h 10min"', () {
-      expect(snap.continueReading.timeLeft, const Duration(minutes: 130));
+      expect(snap.continueReading!.timeLeft, const Duration(minutes: 130));
       expect(
         HomeFormatters.durationLabel(
-          snap.continueReading.timeLeft,
+          snap.continueReading!.timeLeft!,
           approx: true,
         ),
         '~2h 10min',
@@ -136,7 +136,7 @@ void main() {
       'forYouReason("Machado de Assis") → "Porque você lê Machado de Assis"',
       () {
         expect(
-          HomeFormatters.forYouReason(snap.forYou.reasonAuthor),
+          HomeFormatters.forYouReason(snap.forYou!.reasonAuthor),
           'Porque você lê Machado de Assis',
         );
         expect(
@@ -147,7 +147,7 @@ void main() {
     );
 
     test('participantsExtra(11, 3) → "+8" · aria "11 participantes"', () {
-      final c = snap.club;
+      final c = snap.club!;
       expect(
         HomeFormatters.participantsExtra(
           c.participantsCount,
@@ -163,8 +163,8 @@ void main() {
 
     test('clubSubtitle(...) → "Dom Casmurro · até o cap. 100" (U+00B7 com espaços)', () {
       final s = HomeFormatters.clubSubtitle(
-        snap.club.book,
-        snap.club.untilChapter,
+        snap.club!.book,
+        snap.club!.untilChapter,
       );
       expect(s, 'Dom Casmurro · até o cap. 100');
       final dot = String.fromCharCode(0x00B7);
@@ -172,16 +172,16 @@ void main() {
     });
 
     test('clubName(club) → "Leitoras de Capitu" (espaço no lugar do <br>)', () {
-      expect(HomeFormatters.clubName(snap.club), 'Leitoras de Capitu');
+      expect(HomeFormatters.clubName(snap.club!), 'Leitoras de Capitu');
     });
 
     test('groupProgressLabel(0,54) → "Grupo em 54%" · userProgressLabel(0,62) → "Você em 62%"', () {
       expect(
-        HomeFormatters.groupProgressLabel(snap.club.groupProgress),
+        HomeFormatters.groupProgressLabel(snap.club!.groupProgress),
         'Grupo em 54%',
       );
       expect(
-        HomeFormatters.userProgressLabel(snap.club.userProgress),
+        HomeFormatters.userProgressLabel(snap.club!.userProgress),
         'Você em 62%',
       );
       // Derivados dos dados (o percentual sai de `percent`).
@@ -232,7 +232,7 @@ void main() {
 
     test('highlightsAria(14) → "Destaques e notas deste livro (14)"', () {
       expect(
-        HomeFormatters.highlightsAria(snap.continueReading.highlightsCount),
+        HomeFormatters.highlightsAria(snap.continueReading!.highlightsCount),
         'Destaques e notas deste livro (14)',
       );
     });
@@ -250,7 +250,7 @@ void main() {
 
     test('messagesAria(3) → "3 mensagens novas"', () {
       expect(
-        HomeFormatters.messagesAria(snap.club.unreadMessages),
+        HomeFormatters.messagesAria(snap.club!.unreadMessages),
         '3 mensagens novas',
       );
     });
@@ -312,10 +312,10 @@ void main() {
         '${t.before}<strong style=${q}font-weight: 800;$q>${t.strong}${close}strong>${t.after}';
 
     test('aria-labels', () {
-      final c = snap.club;
+      final c = snap.club!;
       for (final label in [
         HomeFormatters.notificationsAria(snap.user.unreadNotifications),
-        HomeFormatters.highlightsAria(snap.continueReading.highlightsCount),
+        HomeFormatters.highlightsAria(snap.continueReading!.highlightsCount),
         HomeFormatters.weekAria(week, snap.readingDay.goalMinutes),
         HomeFormatters.participantsAria(c.participantsCount),
         HomeFormatters.messagesAria(c.unreadMessages),
@@ -327,19 +327,19 @@ void main() {
     });
 
     test('textos visíveis (nós de texto exatos)', () {
-      final c = snap.club;
+      final c = snap.club!;
       final d = snap.readingDay;
       for (final text in [
         HomeFormatters.greeting(snap.now),
         HomeFormatters.chapterLabel(
-          snap.continueReading.chapter,
-          snap.continueReading.totalChapters,
+          snap.continueReading!.chapter!,
+          snap.continueReading!.totalChapters!,
         ),
-        HomeFormatters.percent(snap.continueReading.progress),
+        HomeFormatters.percent(snap.continueReading!.progress),
         HomeFormatters.percent(snap.alsoReading[0].progress),
         HomeFormatters.percent(snap.alsoReading[1].progress),
         HomeFormatters.durationLabel(
-          snap.continueReading.timeLeft,
+          snap.continueReading!.timeLeft!,
           approx: true,
         ),
         HomeFormatters.weekTotalLabel(week),
@@ -370,7 +370,7 @@ void main() {
         reason: streak,
       );
       // Motivo de "Para você": texto solto depois do brilho do chip (espaços e \n do bundle em volta).
-      final reason = HomeFormatters.forYouReason(snap.forYou.reasonAuthor);
+      final reason = HomeFormatters.forYouReason(snap.forYou!.reasonAuthor);
       expect(
         RegExp(r'>(?:\\n| )*' + RegExp.escape(reason) + r'(?:\\n| )*<')
             .hasMatch(html),

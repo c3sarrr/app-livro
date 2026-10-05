@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import '../domain/models.dart';
 
 /// Frase com um trecho em negrito no meio (`<strong>` do arquivo): `before` + **`strong`** + `after`.
@@ -65,12 +63,16 @@ abstract final class HomeFormatters {
     'dezembro',
   ];
 
-  /// 5–11 h "Bom dia,"; 12–17 h "Boa tarde,"; 18–4 h "Boa noite,".
-  static String greeting(DateTime now) => switch (now.hour) {
-    >= 5 && <= 11 => 'Bom dia,',
-    >= 12 && <= 17 => 'Boa tarde,',
-    _ => 'Boa noite,',
-  };
+  /// 5–11 h "Bom dia,"; 12–17 h "Boa tarde,"; 18–4 h "Boa noite,". Sem nome embaixo (convidado — D-84),
+  /// sem a vírgula: "Boa noite".
+  static String greeting(DateTime now, {bool named = true}) {
+    final g = switch (now.hour) {
+      >= 5 && <= 11 => 'Bom dia',
+      >= 12 && <= 17 => 'Boa tarde',
+      _ => 'Boa noite',
+    };
+    return named ? '$g,' : g;
+  }
 
   /// "Cap. 92 de 148".
   static String chapterLabel(int chapter, int totalChapters) =>
@@ -94,27 +96,34 @@ abstract final class HomeFormatters {
     return '${durationLabel(Duration(minutes: total))} no total';
   }
 
-  /// "Faltam " + **"12 min"** + " para fechar a meta de hoje."
-  static EmphasisText remainingGoal(int goalMinutes, int readMinutes) => (
-    before: 'Faltam ',
-    strong: '${math.max(0, goalMinutes - readMinutes)} min',
-    after: ' para fechar a meta de hoje.',
-  );
+  /// "Faltam " + **"12 min"** + " para fechar a meta de hoje."; meta batida → "Meta de hoje cumprida."
+  /// (D-83 — estado que o arquivo não desenha).
+  static EmphasisText remainingGoal(int goalMinutes, int readMinutes) =>
+      readMinutes >= goalMinutes
+      ? (before: 'Meta de hoje cumprida.', strong: '', after: '')
+      : (
+          before: 'Faltam ',
+          strong: '${goalMinutes - readMinutes} min',
+          after: ' para fechar a meta de hoje.',
+        );
 
   /// "24 páginas", "2 destaques", "12 dias" (singular só para 1).
   static String countLabel(int count, String singular, String plural) =>
       '$count ${count == 1 ? singular : plural}';
 
-  /// "Mais " + **"2 dias"** + " para o selo de 14 dias".
-  static EmphasisText badgeHint(int streakDays, int badgeTargetDays) => (
-    before: 'Mais ',
-    strong: countLabel(
-      math.max(0, badgeTargetDays - streakDays),
-      'dia',
-      'dias',
-    ),
-    after: ' para o selo de ${countLabel(badgeTargetDays, 'dia', 'dias')}',
-  );
+  /// "Mais " + **"2 dias"** + " para o selo de 14 dias"; selo alcançado → "Selo de " + **"14 dias"** +
+  /// " conquistado" (D-83 — estado que o arquivo não desenha).
+  static EmphasisText badgeHint(int streakDays, int badgeTargetDays) {
+    final target = countLabel(badgeTargetDays, 'dia', 'dias');
+    if (streakDays >= badgeTargetDays) {
+      return (before: 'Selo de ', strong: target, after: ' conquistado');
+    }
+    return (
+      before: 'Mais ',
+      strong: countLabel(badgeTargetDays - streakDays, 'dia', 'dias'),
+      after: ' para o selo de $target',
+    );
+  }
 
   /// Rótulos do gráfico da semana: inicial do dia ("S T Q Q S S") e "Hoje" no dia atual.
   static List<String> weekInitials(Iterable<WeekDayStat> week) => [
@@ -160,10 +169,11 @@ abstract final class HomeFormatters {
   static String userProgressLabel(double progress) =>
       'Você em ${percent(progress)}';
 
-  /// "EPUB" · "PDF".
+  /// "EPUB" · "PDF" · "Físico" (exemplar escaneado — D-85).
   static String formatLabel(BookFormat format) => switch (format) {
     BookFormat.epub => 'EPUB',
     BookFormat.pdf => 'PDF',
+    BookFormat.physical => 'Físico',
   };
 
   /// "Mary Shelley · EPUB".
@@ -195,9 +205,10 @@ abstract final class HomeFormatters {
       'Próximo encontro: ${_weekdayName[meeting.weekday - 1]}, '
       '${meeting.day} de ${_monthName[meeting.month - 1]}, às ${hourLabel(meeting)}';
 
-  /// "Notificações, 2 novas".
-  static String notificationsAria(int unread) =>
-      'Notificações, ${countLabel(unread, 'nova', 'novas')}';
+  /// "Notificações, 2 novas"; sem novidades, só "Notificações".
+  static String notificationsAria(int unread) => unread == 0
+      ? 'Notificações'
+      : 'Notificações, ${countLabel(unread, 'nova', 'novas')}';
 
   /// "Destaques e notas deste livro (14)".
   static String highlightsAria(int highlightsCount) =>

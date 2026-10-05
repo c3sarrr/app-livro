@@ -33,6 +33,8 @@ class BookClubTicket extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final club = ref.watch(homeSnapshotProvider.select((s) => s.club));
+    // Sem clube, sem ticket (D-80).
+    if (club == null) return const SizedBox.shrink();
     // <section aria-label="Seu clube do livro"> (convenção §5.1 do prompt mestre).
     return Semantics(
       container: true,

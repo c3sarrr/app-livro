@@ -344,7 +344,7 @@ void main() {
             id: 'x',
             title: 'x',
             author: 'x',
-            cover: CoverArt.frankenstein,
+            cover: DesignedCover(CoverArt.frankenstein),
           ),
         ),
         returnsNormally,

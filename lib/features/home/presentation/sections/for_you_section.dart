@@ -32,11 +32,15 @@ class ForYouSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final forYou = ref.watch(homeSnapshotProvider.select((s) => s.forYou));
+    if (forYou == null) return const SizedBox.shrink();
     assert(
-      forYou.items.length == 3 &&
-          forYou.items[0].cover == CoverArt.memoriasPostumas &&
-          forYou.items[1].cover == CoverArt.quincasBorba &&
-          forYou.items[2].cover == CoverArt.oCortico,
+      forYou.items.every((b) => b.cover is PhotoCover) ||
+          (forYou.items.length == 3 &&
+              forYou.items[0].cover ==
+                  const DesignedCover(CoverArt.memoriasPostumas) &&
+              forYou.items[1].cover ==
+                  const DesignedCover(CoverArt.quincasBorba) &&
+              forYou.items[2].cover == const DesignedCover(CoverArt.oCortico)),
       'As artes de capa do arquivo nesta seção: Memórias Póstumas, Quincas Borba e O Cortiço.',
     );
     final onBookTap = this.onBookTap;
@@ -205,9 +209,10 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget cover = switch (book.cover) {
-      CoverArt.memoriasPostumas => const MemoriasPostumasCover(),
-      CoverArt.quincasBorba => const QuincasBorbaCover(),
-      CoverArt.oCortico => const OCorticoCover(),
+      DesignedCover(art: CoverArt.memoriasPostumas) =>
+        const MemoriasPostumasCover(),
+      DesignedCover(art: CoverArt.quincasBorba) => const QuincasBorbaCover(),
+      DesignedCover(art: CoverArt.oCortico) => const OCorticoCover(),
       _ => throw ArgumentError.value(
         book.cover,
         'cover',

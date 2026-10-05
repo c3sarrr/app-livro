@@ -303,7 +303,7 @@ void main() {
             id: 'outro',
             title: 'Memórias de Um Sargento de Milícias',
             author: 'Manuel Antônio de Almeida',
-            cover: CoverArt.frankenstein,
+            cover: DesignedCover(CoverArt.frankenstein),
           ),
           format: BookFormat.pdf,
           status: RecentStatus.isNew,

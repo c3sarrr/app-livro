@@ -30,9 +30,12 @@ class AlsoReadingSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(homeSnapshotProvider.select((s) => s.alsoReading));
     assert(
-      items.length == 2 &&
-          items[0].book.cover == CoverArt.mrsDalloway &&
-          items[1].book.cover == CoverArt.pridePrejudice,
+      items.every((i) => i.book.cover is PhotoCover) ||
+          (items.length == 2 &&
+              items[0].book.cover ==
+                  const DesignedCover(CoverArt.mrsDalloway) &&
+              items[1].book.cover ==
+                  const DesignedCover(CoverArt.pridePrejudice)),
       'As artes de capa do arquivo nesta seção: Mrs. Dalloway (card 1) e Orgulho e Preconceito (card 2).',
     );
     final onBookTap = this.onBookTap;
@@ -178,13 +181,19 @@ class _CoverSlot extends StatelessWidget {
 
   /// `alsoReading.card1.cover` / `alsoReading.card2.cover`.
   final String id;
-  final CoverArt art;
+  final BookCover art;
 
   @override
   Widget build(BuildContext context) {
     final (cover, degrees) = switch (art) {
-      CoverArt.mrsDalloway => (const MrsDallowayCover(), -4.0),
-      CoverArt.pridePrejudice => (const PridePrejudiceCover(), 3.0),
+      DesignedCover(art: CoverArt.mrsDalloway) => (
+        const MrsDallowayCover(),
+        -4.0,
+      ),
+      DesignedCover(art: CoverArt.pridePrejudice) => (
+        const PridePrejudiceCover(),
+        3.0,
+      ),
       _ => throw ArgumentError.value(art, 'art', 'sem arte em "Também lendo"'),
     };
     return SizedBox(

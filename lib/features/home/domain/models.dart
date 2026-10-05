@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart' show immutable;
 // títulos; rótulos, contagens, datas e durações são montados em `application/formatters.dart`.
 
 /// Arte de capa de cada livro do arquivo (cada uma é uma ilustração própria nas fases das seções).
+/// Só a fixture do mundo de referência usa (D-34); livro real tem foto (D-79).
 enum CoverArt {
   domCasmurro,
   mrsDalloway,
@@ -18,11 +19,47 @@ enum CoverArt {
   senhora,
 }
 
-/// Formato do arquivo do livro (rótulo "EPUB"/"PDF" só no formatador).
-enum BookFormat { epub, pdf }
+/// Formato do livro (rótulo "EPUB"/"PDF"/"Físico" só no formatador). `physical` = exemplar escaneado (D-85).
+enum BookFormat { epub, pdf, physical }
 
 /// Situação de um livro recém-chegado (rótulo "Quero ler"/"Novo" só no formatador).
 enum RecentStatus { wantToRead, isNew }
+
+/// Capa de um livro: a arte desenhada do arquivo ([DesignedCover], só a fixture) ou a foto real
+/// ([PhotoCover], D-79). Sem foto disponível, a seção desenha a capa gerada a partir do título e do autor.
+@immutable
+sealed class BookCover {
+  const BookCover();
+}
+
+/// Arte desenhada do arquivo.
+final class DesignedCover extends BookCover {
+  const DesignedCover(this.art);
+
+  final CoverArt art;
+
+  @override
+  bool operator ==(Object other) => other is DesignedCover && other.art == art;
+
+  @override
+  int get hashCode => art.hashCode;
+}
+
+/// Foto real (D-79): [ref] da fonte (`ol:<id>` ou URL https da API externa) e/ou [isbn13] (recuo pelo
+/// ISBN no Open Library). Os dois podem faltar: a capa gerada é o que aparece.
+final class PhotoCover extends BookCover {
+  const PhotoCover({this.ref, this.isbn13});
+
+  final String? ref;
+  final String? isbn13;
+
+  @override
+  bool operator ==(Object other) =>
+      other is PhotoCover && other.ref == ref && other.isbn13 == isbn13;
+
+  @override
+  int get hashCode => Object.hash(ref, isbn13);
+}
 
 @immutable
 class Book {
@@ -40,19 +77,22 @@ class Book {
   /// Título curto usado onde o arquivo abrevia (ex.: "Memórias Póstumas").
   final String? shortTitle;
   final String author;
-  final CoverArt cover;
+  final BookCover cover;
 }
 
 @immutable
 class UserSummary {
   const UserSummary({
-    required this.firstName,
-    required this.initial,
+    this.firstName,
+    this.initial,
     required this.unreadNotifications,
   });
 
-  final String firstName;
-  final String initial;
+  /// Primeiro nome do perfil; `null` = convidado (D-84).
+  final String? firstName;
+
+  /// Inicial do avatar; `null` = convidado (ícone de pessoa).
+  final String? initial;
   final int unreadNotifications;
 }
 
@@ -60,22 +100,24 @@ class UserSummary {
 class ContinueReading {
   const ContinueReading({
     required this.book,
-    required this.chapter,
-    required this.totalChapters,
+    this.chapter,
+    this.totalChapters,
     required this.progress,
-    required this.timeLeft,
+    this.timeLeft,
     required this.highlightsCount,
   });
 
   final Book book;
-  final int chapter;
-  final int totalChapters;
+
+  /// Capítulo atual e total; `null` quando o livro não tem capítulos (a pílula some).
+  final int? chapter;
+  final int? totalChapters;
 
   /// Fração lida (0–1).
   final double progress;
 
-  /// Tempo estimado para terminar o livro.
-  final Duration timeLeft;
+  /// Tempo estimado para terminar o livro; `null` sem sessões para estimar (o rótulo some — D-85).
+  final Duration? timeLeft;
   final int highlightsCount;
 }
 
@@ -211,15 +253,31 @@ class HomeSnapshot {
     required this.forYou,
     required this.club,
     required this.recent,
+    this.shelfIsEmpty = false,
   });
 
   /// "Agora" usado na formatação (saudação etc.).
   final DateTime now;
   final UserSummary user;
-  final ContinueReading continueReading;
+
+  /// `null` = nenhum livro em leitura: o herói vira convite (D-78).
+  final ContinueReading? continueReading;
+
+  /// Todos os outros livros em leitura; a seção mostra até 2 e conta todos (D-85). Vazia → some.
   final List<AlsoReadingItem> alsoReading;
+
+  /// Existe sempre (zerado sem leitura — D-78).
   final ReadingDay readingDay;
-  final ForYou forYou;
-  final BookClub club;
+
+  /// `null` → a seção some (D-81).
+  final ForYou? forYou;
+
+  /// `null` → o ticket some (D-80).
+  final BookClub? club;
+
+  /// Vazia → a seção some.
   final List<RecentItem> recent;
+
+  /// Nenhum livro na estante do dono ativo: escolhe a frase do convite (D-78/D-85).
+  final bool shelfIsEmpty;
 }

@@ -325,22 +325,22 @@ void main() {
       final s = const HomeMockRepository().snapshot(
         HomeMockRepository.referenceNow,
       );
-      expect(s.continueReading.book.title, dc.title);
-      expect(s.continueReading.book.author, dc.authorDisplay);
-      expect(s.continueReading.totalChapters, 148);
+      expect(s.continueReading!.book.title, dc.title);
+      expect(s.continueReading!.book.author, dc.authorDisplay);
+      expect(s.continueReading!.totalChapters, 148);
       expect(
-        (s.continueReading.progress * 100).round(),
+        (s.continueReading!.progress * 100).round(),
         t20.porcentagem,
       ); // 62 %
       expect(
-        s.continueReading.timeLeft,
+        s.continueReading!.timeLeft,
         t20.tempoRestante,
       ); // "~2h 10min" ↔ "≈ 2 h 10 min"
       expect(s.readingDay.readMinutes, t20.minutosHoje); // "18 min hoje"
       expect(t20.minutosHoje, 18);
-      expect(s.club.nameHighlight, 'Capitu');
-      expect(s.club.nextMeeting, DateTime(2026, 9, 24, 20));
-      expect(s.club.book.title, dc.title);
+      expect(s.club!.nameHighlight, 'Capitu');
+      expect(s.club!.nextMeeting, DateTime(2026, 9, 24, 20));
+      expect(s.club!.book.title, dc.title);
     });
 
     test(
@@ -356,13 +356,13 @@ void main() {
               a,
         ];
         final divergencias = {
-          if (s.continueReading.chapter != t20.capituloAtual)
-            'capítulo': (s.continueReading.chapter, t20.capituloAtual),
-          if (s.club.untilChapter != m.clube.metaCapitulo)
-            'meta do clube': (s.club.untilChapter, m.clube.metaCapitulo),
-          if (s.continueReading.highlightsCount != t20.contagens.all)
+          if (s.continueReading!.chapter != t20.capituloAtual)
+            'capítulo': (s.continueReading!.chapter, t20.capituloAtual),
+          if (s.club!.untilChapter != m.clube.metaCapitulo)
+            'meta do clube': (s.club!.untilChapter, m.clube.metaCapitulo),
+          if (s.continueReading!.highlightsCount != t20.contagens.all)
             'destaques do livro': (
-              s.continueReading.highlightsCount,
+              s.continueReading!.highlightsCount,
               t20.contagens.all,
             ),
           if (s.readingDay.highlightsToday != hoje.length)
@@ -496,7 +496,7 @@ void main() {
       HomeMockRepository.referenceNow,
     );
     expect(identical(a.continueReading, b.continueReading), isTrue);
-    expect(a.continueReading.book, same(HomeMockRepository.domCasmurro));
+    expect(a.continueReading!.book, same(HomeMockRepository.domCasmurro));
     expect(a.readingDay.week.map((d) => d.minutes), [
       32,
       45,

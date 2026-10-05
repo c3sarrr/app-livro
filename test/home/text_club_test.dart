@@ -100,7 +100,7 @@ List<RenderAppText> _rendersOf(WidgetTester tester, String id) => [
 BookClub _clubData(WidgetTester tester) => ProviderScope.containerOf(
   tester.element(find.byType(BookClubTicket)),
   listen: false,
-).read(homeSnapshotProvider).club;
+).read(homeSnapshotProvider).club!;
 
 String _f(double v) => v.toStringAsFixed(3);
 

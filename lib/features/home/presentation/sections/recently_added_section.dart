@@ -47,10 +47,13 @@ class RecentlyAddedSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final recent = ref.watch(homeSnapshotProvider.select((s) => s.recent));
     assert(
-      recent.length == 3 &&
-          recent[0].book.cover == CoverArt.frankenstein &&
-          recent[1].book.cover == CoverArt.oAlienista &&
-          recent[2].book.cover == CoverArt.senhora,
+      recent.every((r) => r.book.cover is PhotoCover) ||
+          (recent.length == 3 &&
+              recent[0].book.cover ==
+                  const DesignedCover(CoverArt.frankenstein) &&
+              recent[1].book.cover ==
+                  const DesignedCover(CoverArt.oAlienista) &&
+              recent[2].book.cover == const DesignedCover(CoverArt.senhora)),
       'As artes de capa do arquivo nesta seção: Frankenstein, O Alienista e Senhora.',
     );
     final onBookTap = this.onBookTap;
@@ -191,9 +194,13 @@ class _Row extends StatelessWidget {
       ),
     };
     final Widget cover = switch (book.cover) {
-      CoverArt.frankenstein => FrankensteinMiniCover(id: '$id.cover'),
-      CoverArt.oAlienista => OAlienistaMiniCover(id: '$id.cover'),
-      CoverArt.senhora => SenhoraMiniCover(id: '$id.cover'),
+      DesignedCover(art: CoverArt.frankenstein) => FrankensteinMiniCover(
+        id: '$id.cover',
+      ),
+      DesignedCover(art: CoverArt.oAlienista) => OAlienistaMiniCover(
+        id: '$id.cover',
+      ),
+      DesignedCover(art: CoverArt.senhora) => SenhoraMiniCover(id: '$id.cover'),
       _ => throw ArgumentError.value(
         book.cover,
         'cover',

@@ -15,42 +15,52 @@ void main() {
         .map((m) => m.group(1)!)
         .toList();
 
-    test(
-      'os tipos da 2.1 existem (11 classes + 2 enums, e o enum cru BookFormat)',
-      () {
-        expect(classes, [
-          'Book',
-          'UserSummary',
-          'ContinueReading',
-          'AlsoReadingItem',
-          'WeekDayStat',
-          'ReadingDay',
-          'ForYou',
-          'ClubParticipant',
-          'BookClub',
-          'RecentItem',
-          'HomeSnapshot',
-        ]);
-        expect(CoverArt.values.map((e) => e.name), [
-          'domCasmurro',
-          'mrsDalloway',
-          'pridePrejudice',
-          'memoriasPostumas',
-          'quincasBorba',
-          'oCortico',
-          'frankenstein',
-          'oAlienista',
-          'senhora',
-        ]);
-        expect(RecentStatus.values.map((e) => e.name), ['wantToRead', 'isNew']);
-        expect(BookFormat.values.map((e) => e.name), ['epub', 'pdf']);
-      },
-    );
+    test('os tipos da 2.1 existem (12 classes + 2 enums, e o enum cru BookFormat) — G08: capa selada', () {
+      expect(classes, [
+        'BookCover',
+        'Book',
+        'UserSummary',
+        'ContinueReading',
+        'AlsoReadingItem',
+        'WeekDayStat',
+        'ReadingDay',
+        'ForYou',
+        'ClubParticipant',
+        'BookClub',
+        'RecentItem',
+        'HomeSnapshot',
+      ]);
+      expect(CoverArt.values.map((e) => e.name), [
+        'domCasmurro',
+        'mrsDalloway',
+        'pridePrejudice',
+        'memoriasPostumas',
+        'quincasBorba',
+        'oCortico',
+        'frankenstein',
+        'oAlienista',
+        'senhora',
+      ]);
+      expect(RecentStatus.values.map((e) => e.name), ['wantToRead', 'isNew']);
+      // G08 (D-85): exemplar físico escaneado.
+      expect(BookFormat.values.map((e) => e.name), ['epub', 'pdf', 'physical']);
+    });
 
     test(
       'toda classe é @immutable, tem construtor const e só campos final',
       () {
-        for (final name in classes) {
+        // G08 (D-79): a capa é selada, com duas variantes finais e const.
+        expect(source.contains('@immutable\nsealed class BookCover {'), isTrue);
+        expect(source.contains('const BookCover();'), isTrue);
+        for (final sub in ['DesignedCover', 'PhotoCover']) {
+          expect(
+            source.contains('final class $sub extends BookCover {'),
+            isTrue,
+            reason: sub,
+          );
+          expect(source.contains('const $sub('), isTrue, reason: sub);
+        }
+        for (final name in classes.where((c) => c != 'BookCover')) {
           expect(
             source.contains('@immutable\nclass $name {'),
             isTrue,
@@ -73,10 +83,11 @@ void main() {
             .map((m) => m.group(0))
             .toList();
         expect(nonFinal, isEmpty, reason: nonFinal.join('\n'));
-        // 5 + 3 + 6 + 2 + 4 + 7 + 2 + 2 + 12 + 3 + 8 campos, na ordem das classes.
+        // 1 + 2 (capas) + 5 + 3 + 6 + 2 + 4 + 7 + 2 + 2 + 12 + 3 + 9 campos, na ordem das classes
+        // (G08: capa desenhada/foto e `shelfIsEmpty`).
         expect(
           RegExp(r'^  final ', multiLine: true).allMatches(source).length,
-          54,
+          58,
         );
       },
     );
@@ -88,6 +99,8 @@ void main() {
       ).allMatches(source).map((m) => m.group(1)).toSet();
       expect(stringFields, {
         'id',
+        'ref',
+        'isbn13',
         'title',
         'shortTitle',
         'author',
@@ -105,7 +118,7 @@ void main() {
         id: 'x',
         title: 'T',
         author: 'A',
-        cover: CoverArt.senhora,
+        cover: DesignedCover(CoverArt.senhora),
       );
       const items = [
         UserSummary(firstName: 'N', initial: 'N', unreadNotifications: 0),
@@ -152,10 +165,10 @@ void main() {
     });
 
     test('continuar lendo: Dom Casmurro — Machado de Assis, cap. 92 de 148, 0,62, ~2h10min, 14 destaques', () {
-      final c = snap.continueReading;
+      final c = snap.continueReading!;
       expect(c.book.title, 'Dom Casmurro');
       expect(c.book.author, 'Machado de Assis');
-      expect(c.book.cover, CoverArt.domCasmurro);
+      expect(c.book.cover, const DesignedCover(CoverArt.domCasmurro));
       expect(c.chapter, 92);
       expect(c.totalChapters, 148);
       expect(c.progress, 0.62);
@@ -168,11 +181,21 @@ void main() {
       final [a, b] = snap.alsoReading;
       expect(
         (a.book.title, a.book.author, a.book.cover, a.progress),
-        ('Mrs. Dalloway', 'Virginia Woolf', CoverArt.mrsDalloway, 0.34),
+        (
+          'Mrs. Dalloway',
+          'Virginia Woolf',
+          const DesignedCover(CoverArt.mrsDalloway),
+          0.34,
+        ),
       );
       expect(
         (b.book.title, b.book.author, b.book.cover, b.progress),
-        ('Orgulho e Preconceito', 'Jane Austen', CoverArt.pridePrejudice, 0.81),
+        (
+          'Orgulho e Preconceito',
+          'Jane Austen',
+          const DesignedCover(CoverArt.pridePrejudice),
+          0.81,
+        ),
       );
     });
 
@@ -213,22 +236,32 @@ void main() {
     );
 
     test('para você: motivo Machado de Assis; Memórias Póstumas (curto), Quincas Borba, O Cortiço', () {
-      final f = snap.forYou;
+      final f = snap.forYou!;
       expect(f.reasonAuthor, 'Machado de Assis');
       expect(f.items.map((b) => (b.title, b.shortTitle, b.author, b.cover)), [
         (
           'Memórias Póstumas de Brás Cubas',
           'Memórias Póstumas',
           'Machado de Assis',
-          CoverArt.memoriasPostumas,
+          const DesignedCover(CoverArt.memoriasPostumas),
         ),
-        ('Quincas Borba', null, 'Machado de Assis', CoverArt.quincasBorba),
-        ('O Cortiço', null, 'Aluísio Azevedo', CoverArt.oCortico),
+        (
+          'Quincas Borba',
+          null,
+          'Machado de Assis',
+          const DesignedCover(CoverArt.quincasBorba),
+        ),
+        (
+          'O Cortiço',
+          null,
+          'Aluísio Azevedo',
+          const DesignedCover(CoverArt.oCortico),
+        ),
       ]);
     });
 
     test('clube: "Leitoras de" + "Capitu", Dom Casmurro até o cap. 100, A/J/L, 11, 0,54, 0,62 (M), 3, 24/09 20:00', () {
-      final c = snap.club;
+      final c = snap.club!;
       expect(c.namePrefix, 'Leitoras de');
       expect(c.nameHighlight, 'Capitu');
       expect(c.book, same(HomeMockRepository.domCasmurro));
@@ -259,21 +292,21 @@ void main() {
             'Mary Shelley',
             BookFormat.epub,
             RecentStatus.wantToRead,
-            CoverArt.frankenstein,
+            const DesignedCover(CoverArt.frankenstein),
           ),
           (
             'O Alienista',
             'Machado de Assis',
             BookFormat.pdf,
             RecentStatus.wantToRead,
-            CoverArt.oAlienista,
+            const DesignedCover(CoverArt.oAlienista),
           ),
           (
             'Senhora',
             'José de Alencar',
             BookFormat.epub,
             RecentStatus.isNew,
-            CoverArt.senhora,
+            const DesignedCover(CoverArt.senhora),
           ),
         ],
       );
@@ -283,14 +316,16 @@ void main() {
       'ids dos livros únicos (destinos /leitor/:bookId e /livro/:bookId)',
       () {
         final books = [
-          snap.continueReading.book,
+          snap.continueReading!.book,
           ...snap.alsoReading.map((a) => a.book),
-          ...snap.forYou.items,
+          ...snap.forYou!.items,
           ...snap.recent.map((r) => r.book),
         ];
         expect(books, hasLength(9));
         expect(books.map((b) => b.id).toSet(), hasLength(9));
-        expect(books.map((b) => b.cover).toSet(), CoverArt.values.toSet());
+        expect(books.map((b) => b.cover).toSet(), {
+          for (final a in CoverArt.values) DesignedCover(a),
+        });
       },
     );
 
@@ -300,8 +335,11 @@ void main() {
         throwsUnsupportedError,
       );
       expect(() => snap.alsoReading.clear(), throwsUnsupportedError);
-      expect(() => snap.forYou.items.clear(), throwsUnsupportedError);
-      expect(() => snap.club.shownParticipants.clear(), throwsUnsupportedError);
+      expect(() => snap.forYou!.items.clear(), throwsUnsupportedError);
+      expect(
+        () => snap.club!.shownParticipants.clear(),
+        throwsUnsupportedError,
+      );
       expect(() => snap.recent.clear(), throwsUnsupportedError);
     });
 
@@ -329,7 +367,7 @@ void main() {
               .toList();
       expect(
         avatars,
-        snap.club.shownParticipants
+        snap.club!.shownParticipants
             .map((p) => (p.initial, p.color.toARGB32()))
             .toList(),
       );

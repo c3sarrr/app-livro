@@ -950,7 +950,7 @@ void main() {
       final base = const HomeMockRepository().snapshot(
         HomeMockRepository.referenceNow,
       );
-      final c = base.club;
+      final c = base.club!;
       BookClub club(double group, {List<ClubParticipant>? shown, int? count}) =>
           BookClub(
             id: c.id,

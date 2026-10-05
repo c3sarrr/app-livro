@@ -30,56 +30,56 @@ abstract final class TelaInicio {
     id: Slugs.domCasmurro,
     title: 'Dom Casmurro',
     author: 'Machado de Assis',
-    cover: CoverArt.domCasmurro,
+    cover: DesignedCover(CoverArt.domCasmurro),
   );
   static const Book mrsDalloway = Book(
     id: Slugs.mrsDalloway,
     title: 'Mrs. Dalloway',
     author: 'Virginia Woolf',
-    cover: CoverArt.mrsDalloway,
+    cover: DesignedCover(CoverArt.mrsDalloway),
   );
   static const Book pridePrejudice = Book(
     id: Slugs.orgulho,
     title: 'Orgulho e Preconceito',
     author: 'Jane Austen',
-    cover: CoverArt.pridePrejudice,
+    cover: DesignedCover(CoverArt.pridePrejudice),
   );
   static const Book memoriasPostumas = Book(
     id: 'memorias-postumas-de-bras-cubas',
     title: 'Memórias Póstumas de Brás Cubas',
     shortTitle: 'Memórias Póstumas',
     author: 'Machado de Assis',
-    cover: CoverArt.memoriasPostumas,
+    cover: DesignedCover(CoverArt.memoriasPostumas),
   );
   static const Book quincasBorba = Book(
     id: 'quincas-borba',
     title: 'Quincas Borba',
     author: 'Machado de Assis',
-    cover: CoverArt.quincasBorba,
+    cover: DesignedCover(CoverArt.quincasBorba),
   );
   static const Book oCortico = Book(
     id: 'o-cortico',
     title: 'O Cortiço',
     author: 'Aluísio Azevedo',
-    cover: CoverArt.oCortico,
+    cover: DesignedCover(CoverArt.oCortico),
   );
   static const Book frankenstein = Book(
     id: Slugs.frankenstein,
     title: 'Frankenstein',
     author: 'Mary Shelley',
-    cover: CoverArt.frankenstein,
+    cover: DesignedCover(CoverArt.frankenstein),
   );
   static const Book oAlienista = Book(
     id: Slugs.alienista,
     title: 'O Alienista',
     author: 'Machado de Assis',
-    cover: CoverArt.oAlienista,
+    cover: DesignedCover(CoverArt.oAlienista),
   );
   static const Book senhora = Book(
     id: Slugs.senhora,
     title: 'Senhora',
     author: 'José de Alencar',
-    cover: CoverArt.senhora,
+    cover: DesignedCover(CoverArt.senhora),
   );
 
   /// Alturas das barras do gráfico da semana, em px do arquivo (D-10), de segunda 14 a hoje 20.

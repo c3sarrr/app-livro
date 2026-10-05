@@ -43,10 +43,11 @@ class ContinueReadingHero extends ConsumerWidget {
       homeSnapshotProvider.select((s) => s.continueReading),
     );
     final brand = ref.watch(homeThemeProvider.select((t) => t.brand));
-    assert(
-      reading.book.cover == CoverArt.domCasmurro,
-      'A única arte de capa do hero no arquivo é a de Dom Casmurro.',
-    );
+    if (reading == null) return const SizedBox.shrink();
+    assert(switch (reading.book.cover) {
+      DesignedCover(:final art) => art == CoverArt.domCasmurro,
+      PhotoCover() => true,
+    }, 'A única arte de capa do hero no arquivo é a de Dom Casmurro.');
     // <section aria-label="Continuar lendo"> (convenção §5.1 do prompt mestre).
     return Semantics(
       container: true,
@@ -155,6 +156,8 @@ class _Meta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final percent = HomeFormatters.percent(reading.progress);
+    final (chapter, totalChapters) = (reading.chapter, reading.totalChapters);
+    final timeLeft = reading.timeLeft;
     return Padding(
       key: const ValueKey('hero.meta'),
       padding: const EdgeInsets.only(top: 2),
@@ -168,26 +171,24 @@ class _Meta extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 10,
             children: [
-              // align-self: flex-start → a pílula abraça o texto.
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Pill(
-                  key: const ValueKey('hero.chapterPill'),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                  color: AppColors.surface,
-                  border: const BorderSide(width: 1.5, color: AppColors.ink),
-                  child: AppText(
-                    HomeFormatters.chapterLabel(
-                      reading.chapter,
-                      reading.totalChapters,
+              // align-self: flex-start → a pílula abraça o texto. Sem capítulos (PDF), sem pílula.
+              if (chapter != null && totalChapters != null)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Pill(
+                    key: const ValueKey('hero.chapterPill'),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 10,
                     ),
-                    style: AppTextStyles.label12Bold,
+                    color: AppColors.surface,
+                    border: const BorderSide(width: 1.5, color: AppColors.ink),
+                    child: AppText(
+                      HomeFormatters.chapterLabel(chapter, totalChapters),
+                      style: AppTextStyles.label12Bold,
+                    ),
                   ),
                 ),
-              ),
               Column(
                 key: const ValueKey('hero.titleBlock'),
                 mainAxisSize: MainAxisSize.min,
@@ -230,14 +231,13 @@ class _Meta extends StatelessWidget {
                     key: const ValueKey('hero.percent'),
                     style: AppTextStyles.heroPercent,
                   ),
-                  AppText(
-                    HomeFormatters.durationLabel(
-                      reading.timeLeft,
-                      approx: true,
+                  // Sem sessões para estimar, sem rótulo (D-85).
+                  if (timeLeft != null)
+                    AppText(
+                      HomeFormatters.durationLabel(timeLeft, approx: true),
+                      key: const ValueKey('hero.timeLeft'),
+                      style: AppTextStyles.caption12Plum,
                     ),
-                    key: const ValueKey('hero.timeLeft'),
-                    style: AppTextStyles.caption12Plum,
-                  ),
                 ],
               ),
               // role="progressbar" aria-label="Progresso do livro" aria-valuenow="62".
