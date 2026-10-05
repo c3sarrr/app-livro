@@ -2,7 +2,7 @@
 // envio leva ISBN + título + autor + editora e só acontece com um toque explícito da pessoa
 // (lista branca do Grátis, §4.3.7). Quem enviou nunca volta do servidor.
 import 'dart:async';
-import 'dart:io' show SocketException;
+import 'dart:io' show IOException;
 
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart'
@@ -92,7 +92,10 @@ final class SupabaseCommunityCatalogApi implements CommunityCatalogApi {
       'pending' => ContributionPending(j['submission_id']! as String),
       'confirmed' => ContributionConfirmed(j['submission_id']! as String),
       'approved' when book != null => ContributionApproved(book),
-      'exists' => ContributionAlreadyInCatalog(book),
+      // 'rejected': outro envio do mesmo ISBN entrou antes (lista desatualizada) — achado 8
+      'exists' ||
+      'rejected' ||
+      'approved' => ContributionAlreadyInCatalog(book),
       final s => throw CatalogUnexpected('status_$s'),
     };
   }
@@ -103,6 +106,8 @@ final class SupabaseCommunityCatalogApi implements CommunityCatalogApi {
     }
     try {
       return await run().timeout(timeout);
+    } on CatalogFailure {
+      rethrow;
     } on PostgrestException catch (e) {
       throw switch ((e.code, e.message)) {
         (_, 'age_required') => const CatalogNeedsAge(),
@@ -122,10 +127,12 @@ final class SupabaseCommunityCatalogApi implements CommunityCatalogApi {
       };
     } on TimeoutException {
       throw const CatalogOffline();
-    } on SocketException {
+    } on IOException {
       throw const CatalogOffline();
     } on http.ClientException {
       throw const CatalogOffline();
+    } on Object {
+      throw const CatalogUnexpected('resposta'); // achado 4 da revisão
     }
   }
 }

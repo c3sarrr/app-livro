@@ -53,51 +53,77 @@ final class IsbnResolver {
         ? cached
         : null;
 
-    final local = await localCatalog();
-    final fromLocal = local == null ? null : await local.byIsbn(isbn13);
+    CatalogBook? fromLocal;
+    try {
+      final local = await localCatalog();
+      fromLocal = local == null ? null : await local.byIsbn(isbn13);
+    } on Object {
+      fromLocal =
+          null; // catálogo trocando de versão ou ilegível: segue para a borda
+    }
     if (fromLocal != null) {
       return _found(fromLocal, CatalogLayer.localCatalog, now);
     }
 
     CatalogFailure? failure;
-    Future<T?> attempt<T>(Future<T?> Function() f) async {
+    // (resposta, respondeu?) — "respondeu" com null = a camada não tem o livro
+    Future<(T?, bool)> attempt<T>(Future<T?> Function() f) async {
       try {
-        return await f();
+        return (await f(), true);
       } on CatalogNeedsAccount {
-        return null;
+        return (
+          null,
+          false,
+        ); // convidado: a camada não vale (e não conta como consultada)
       } on CatalogFailure catch (e) {
         failure ??= e;
-        return null;
+        return (null, false);
+      } on Object {
+        // TLS de portal de Wi-Fi, resposta que não é JSON…: a tela oferece tentar de novo (achado 4)
+        failure ??= const CatalogUnexpected('erro');
+        return (null, false);
       }
     }
 
     // a borda e a comunidade são grátis para o servidor: sempre consultadas (o catálogo cresce)
     final e = edge;
     if (e != null) {
-      final b = await attempt(() => e.byIsbn(isbn13));
+      final (b, _) = await attempt(() => e.byIsbn(isbn13));
       if (b != null) return _found(b, CatalogLayer.edge, now);
     }
     final c = community;
     var suggestions = const <CommunitySuggestion>[];
     if (c != null) {
-      final r = await attempt(() => c.lookup(isbn13));
+      final (r, _) = await attempt(() => c.lookup(isbn13));
       final b = r?.book;
       if (b != null) return _found(b, CatalogLayer.community, now);
       suggestions = r?.pending ?? const [];
     }
     final x = external;
     var externalTried = recentMiss?.externalTried ?? false;
+    var externalAnswered = false;
     var missAt = recentMiss?.fetchedAt ?? now;
     if (x != null && allowExternal && !(recentMiss?.externalTried ?? false)) {
-      final b = await attempt(() => x.byIsbn(isbn13));
+      final (b, respondeu) = await attempt(() => x.byIsbn(isbn13));
       if (b != null) return _found(b, CatalogLayer.external, now);
-      if (failure == null) {
-        externalTried = true;
+      if (respondeu) {
+        externalTried = externalAnswered = true;
         missAt = now; // a contagem dos 7 dias recomeça só quando a externa é consultada de novo
       }
     }
     final f = failure;
-    if (f != null) throw f; // sem rede/cota: a pessoa tenta de novo; nada fica guardado como "não achou"
+    if (f != null) {
+      // a consulta externa respondeu "não tem": a falha da borda não muda a resposta (achado 9), mas
+      // o "não achou" não é guardado — a borda não respondeu
+      if (externalAnswered) {
+        return IsbnNotFound(
+          isbn13,
+          externalTried: true,
+          suggestions: suggestions,
+        );
+      }
+      throw f; // sem rede/cota: a pessoa tenta de novo; nada fica guardado como "não achou"
+    }
     await cache.putMiss(isbn13, missAt, externalTried: externalTried);
     return IsbnNotFound(
       isbn13,

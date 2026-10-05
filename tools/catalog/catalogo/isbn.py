@@ -4,6 +4,9 @@ from __future__ import annotations
 import re
 
 _LIMPA = re.compile(r"[\s\-‐‑‒–—.]")
+# só dígitos ASCII: `str.isdigit()` aceitaria '²' e dígitos de outras escritas (achado 10 da revisão)
+_ISBN10 = re.compile(r"[0-9]{9}[0-9X]")
+_ISBN13 = re.compile(r"97[89][0-9]{10}")
 
 
 def _digito13(doze: str) -> str:
@@ -16,14 +19,14 @@ def normalizar(entrada: object) -> str | None:
     if not isinstance(entrada, str):
         return None
     s = _LIMPA.sub("", entrada).upper()
-    if len(s) == 10 and s[:9].isdigit() and (s[9].isdigit() or s[9] == "X"):
+    if _ISBN10.fullmatch(s):
         soma = sum((10 - i) * int(c) for i, c in enumerate(s[:9]))
         soma += 10 if s[9] == "X" else int(s[9])
         if soma % 11:
             return None
         doze = "978" + s[:9]
         return doze + _digito13(doze)
-    if len(s) == 13 and s.isdigit() and s[:3] in ("978", "979"):
+    if _ISBN13.fullmatch(s):
         return s if _digito13(s[:12]) == s[12] else None
     return None
 

@@ -87,6 +87,16 @@ void main() {
     );
     expect((await cat.search('oxford')).single.isbn13, '9780199535569');
     expect(await cat.search('estrela'), isEmpty);
+    // livro de 2 autores no delta: o JSON da coluna `authors` tem de ser o mesmo do pipeline (o hash
+    // acima fecha — achado 1 da revisão)
+    final dois = (await cat.byIsbn('9783446236202'))!;
+    expect(
+      [dois.authors, dois.year],
+      [
+        ['Anna Müller', 'Bernd Weiß'],
+        2011,
+      ],
+    );
   });
 
   test('delta com hash errado ou de outra versão: nada muda', () async {

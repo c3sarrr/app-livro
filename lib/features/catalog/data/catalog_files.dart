@@ -67,6 +67,15 @@ Future<File> downloadCatalogFile({
     if (await part.exists()) await part.delete();
     state = {'sha256': file.sha256};
   }
+  // já baixado e conferido numa tentativa anterior (que falhou depois, ao descompactar): reaproveita
+  final done = File('${dir.path}${Platform.pathSeparator}$name');
+  if (await done.exists()) {
+    if (await done.length() == file.bytes &&
+        await fileSha256(done.path) == file.sha256) {
+      return done;
+    }
+    await done.delete(); // de outra versão
+  }
   final url = base.resolve(
     'v1/catalog/${file.path.replaceFirst('catalog/v1/', '')}',
   );
@@ -136,13 +145,15 @@ Future<File> downloadCatalogFile({
     }
     if (have == file.bytes && await fileSha256(part.path) == file.sha256) {
       await info.delete();
-      final done = File('${dir.path}${Platform.pathSeparator}$name');
-      if (await done.exists()) await done.delete();
       return part.rename(done.path);
     }
     // tamanho ou hash diferente: descarta e tenta uma vez do zero
     await part.delete();
     state.remove('etag');
+  }
+  // nada de sobra na pasta do catálogo
+  if (await info.exists()) {
+    await info.delete();
   }
   throw const CatalogCorrupted('sha');
 }

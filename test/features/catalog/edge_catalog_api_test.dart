@@ -1,6 +1,7 @@
 // G07 — cliente do Worker do catálogo (camada da borda): só o ISBN no pedido; erros tipados.
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show HandshakeException;
 
 import 'package:app_leitura/features/catalog/data/edge_catalog_api.dart';
 import 'package:app_leitura/features/catalog/domain/catalog_failure.dart';
@@ -93,6 +94,17 @@ void main() {
       );
       expect(
         await erro((_) async => http.Response('', 400)),
+        isA<CatalogUnexpected>(),
+      );
+      // portal de login do Wi-Fi: certificado que não confere, ou uma página HTML com 200 (achado 4)
+      expect(
+        await erro((_) async => throw const HandshakeException('certificado')),
+        isA<CatalogOffline>(),
+      );
+      expect(
+        await erro(
+          (_) async => http.Response('<html>entre no Wi-Fi</html>', 200),
+        ),
         isA<CatalogUnexpected>(),
       );
     },

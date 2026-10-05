@@ -13,6 +13,8 @@ export type Dependencias = {
   verificarJwt(jwt: string): Promise<string | null>;
   ehPro(userId: string): Promise<boolean>;
   consumirCota(userId: string, limite: number): Promise<boolean>;
+  /** Devolve a consulta quando nenhuma fonte respondeu (falha de terceiros não gasta a cota). */
+  devolverCota(userId: string): Promise<void>;
   /** Fontes na ordem para este ISBN (`fontesPorRegiao`). */
   fontes(isbn: string): Fonte[];
   registrar?(evento: Record<string, unknown>): void;
@@ -45,7 +47,10 @@ export function criarHandler(d: Dependencias) {
       tentativas,
     });
     if (r === 'nao_encontrado') return json(404, { encontrado: false, isbn13: isbn });
-    if (r === 'indisponivel') return erro(503, 'fontes_indisponiveis');
+    if (r === 'indisponivel') {
+      await d.devolverCota(usuario);
+      return erro(503, 'fontes_indisponiveis');
+    }
     return json(200, { encontrado: true, livro: r });
   };
 }

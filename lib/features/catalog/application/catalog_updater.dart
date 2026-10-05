@@ -2,6 +2,7 @@
 // app está aberto —, retoma de onde parou (Range), confere o sha256, troca o arquivo de uma vez, e no
 // mês seguinte aplica só o delta (conferido pelo hash do conteúdo). Consulta o manifesto no máximo
 // uma vez por dia.
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -76,10 +77,16 @@ final class CatalogUpdater {
   SqliteLocalCatalog? _current;
   Future<void>? _running;
 
+  /// Troca do arquivo em andamento: quem pede o catálogo espera e recebe o novo.
+  Future<void>? _swapping;
+
   File get _dbFile => File('${dir.path}${Platform.pathSeparator}catalog.db');
 
   /// O catálogo aberto (null = ainda não baixado ou ilegível).
   Future<LocalCatalog?> catalog() async {
+    while (_swapping != null) {
+      await _swapping;
+    }
     final c = _current;
     if (c != null) return c;
     if (!await _dbFile.exists()) return null;
@@ -117,25 +124,35 @@ final class CatalogUpdater {
       return const CatalogUpdateSkipped('verificado_hoje');
     }
     await dir.create(recursive: true);
+    try {
+      final r = await _check(now);
+      await _kv.set(checkedKey, now.toIso8601String());
+      return r;
+    } on CatalogOffline {
+      rethrow; // rede: a próxima volta ao Wi-Fi tenta de novo e retoma o download
+    } on Object {
+      // manifesto/arquivo com defeito, limite, disco cheio…: só tenta de novo no dia seguinte (não
+      // baixa dezenas de MB a cada abertura do app — achado 6 da revisão)
+      await _kv.set(checkedKey, now.toIso8601String());
+      rethrow;
+    }
+  }
+
+  Future<CatalogUpdate> _check(DateTime now) async {
     final manifest = await _manifest();
     final local = await catalog();
     final have = await local?.version();
-    if (have == manifest.version) {
-      await _kv.set(checkedKey, now.toIso8601String());
-      return CatalogUpToDate(manifest.version);
-    }
+    if (have == manifest.version) return CatalogUpToDate(manifest.version);
     final delta = have == null ? null : manifest.deltas[have];
     if (delta != null && local is SqliteLocalCatalog) {
       try {
         await _applyDelta(local, delta, have!, manifest);
-        await _kv.set(checkedKey, now.toIso8601String());
         return CatalogInstalled(manifest.version, fromDelta: have);
       } on CatalogCorrupted {
         // delta que não fecha com o hash: cai para o arquivo inteiro
       }
     }
     await _installFull(manifest);
-    await _kv.set(checkedKey, now.toIso8601String());
     return CatalogInstalled(manifest.version);
   }
 
@@ -195,26 +212,51 @@ final class CatalogUpdater {
       file: m.db,
     );
     final tmp = File('${dir.path}${Platform.pathSeparator}catalog.db.novo');
+    // o .gz conferido fica quando a falha é do aparelho (disco cheio): a próxima vez não baixa de novo
+    var keepGz = false;
     try {
-      final sha = await gunzipWithSha256(gz.path, tmp.path);
+      final String sha;
+      try {
+        sha = await gunzipWithSha256(gz.path, tmp.path);
+      } on FileSystemException {
+        keepGz = true;
+        throw const CatalogUnexpected('disco');
+      } on FormatException {
+        throw const CatalogCorrupted('gzip');
+      }
       if (sha != m.dbSha256) throw const CatalogCorrupted('db_sha');
       final novo = await SqliteLocalCatalog.open(tmp.path);
       final v = await novo.version();
       await novo.close();
       if (v != m.version) throw const CatalogCorrupted('db_versao');
-      await _current?.close();
-      _current = null;
-      if (await _dbFile.exists()) await _dbFile.delete();
-      await _deleteSideFiles(_dbFile.path);
-      await _deleteSideFiles(tmp.path);
-      await tmp.rename(_dbFile.path);
-    } on FileSystemException {
-      throw const CatalogCorrupted('gzip');
+      await _swapIn(tmp);
     } finally {
-      if (await gz.exists()) await gz.delete();
+      if (!keepGz && await gz.exists()) await gz.delete();
       if (await tmp.exists()) await tmp.delete();
       await _deleteSideFiles(tmp.path);
     }
+  }
+
+  /// Troca o arquivo num passo só (`rename` sobre o antigo — atômico; achado 7 da revisão). Enquanto
+  /// troca, [catalog] espera: ninguém reabre o arquivo antigo.
+  Future<void> _swapIn(File tmp) async {
+    final done = Completer<void>();
+    _swapping = done.future;
+    try {
+      await _current?.close();
+      _current = null;
+      await _deleteSideFiles(_dbFile.path);
+      await _deleteSideFiles(tmp.path);
+      await tmp.rename(_dbFile.path);
+    } finally {
+      _swapping = null;
+      done.complete();
+    }
+  }
+
+  Future<void> close() async {
+    await _current?.close();
+    _current = null;
   }
 
   /// Diário/WAL que o SQLite pode deixar ao lado de um arquivo (versões antigas, queda no meio).
@@ -223,10 +265,5 @@ final class CatalogUpdater {
       final f = File('$path$s');
       if (await f.exists()) await f.delete();
     }
-  }
-
-  Future<void> close() async {
-    await _current?.close();
-    _current = null;
   }
 }

@@ -188,4 +188,78 @@ void main() {
     );
     expect(sugestao.canConfirm, isTrue);
   });
+
+  test('erro que não é falha do catálogo (TLS do portal de Wi-Fi, JSON quebrado): vira falha tipada', () async {
+    const isbn = '9786586490077';
+    edge.failure = StateError('HandshakeException');
+    external.books[isbn] = livroCatalogo(
+      isbn,
+      title: 'Da CBL',
+      source: 'brasilapi',
+    );
+    expect(
+      await resolver().resolve(isbn),
+      isA<IsbnFound>().having((f) => f.layer, 'camada', CatalogLayer.external),
+    );
+    await expectLater(
+      resolver(conta: false).resolve('9786586490084'),
+      throwsA(isA<CatalogUnexpected>()),
+    );
+  });
+
+  test(
+    'catálogo do aparelho que falha (trocando de versão): segue para a borda',
+    () async {
+      const isbn = '9788535902778';
+      edge.books[isbn] = livroCatalogo(isbn, title: 'Da borda');
+      final r = await IsbnResolver(
+        cache: CatalogCacheDao(db),
+        localCatalog: () async => throw StateError('fechado'),
+        edge: edge,
+        now: () => agora,
+      ).resolve(isbn);
+      expect(
+        r,
+        isA<IsbnFound>().having((f) => f.layer, 'camada', CatalogLayer.edge),
+      );
+    },
+  );
+
+  test('convidado: a externa recusa (sem conta) e NÃO conta como consultada (achado 5)', () async {
+    const isbn = '9786586490091';
+    external.failure = const CatalogNeedsAccount();
+    final r = await resolver().resolve(isbn);
+    expect(
+      r,
+      isA<IsbnNotFound>().having((n) => n.externalTried, 'externa', isFalse),
+    );
+    final c = await CatalogCacheDao(db).byIsbn(isbn);
+    expect(
+      c,
+      isA<CachedMiss>().having((m) => m.externalTried, 'externa', isFalse),
+    );
+    // entrou na conta: a externa é consultada já
+    external.failure = null;
+    external.books[isbn] = livroCatalogo(
+      isbn,
+      title: 'Agora sim',
+      source: 'brasilapi',
+    );
+    expect(await resolver().resolve(isbn), isA<IsbnFound>());
+  });
+
+  test('borda fora do ar, mas a externa respondeu "não tem": não achou (sem guardar), não "sem conexão"', () async {
+    const isbn = '9786586490107';
+    edge.failure = const CatalogOffline();
+    final r = await resolver().resolve(isbn);
+    expect(
+      r,
+      isA<IsbnNotFound>().having((n) => n.externalTried, 'externa', isTrue),
+    );
+    expect(
+      await CatalogCacheDao(db).byIsbn(isbn),
+      isNull,
+      reason: 'a borda não respondeu',
+    );
+  });
 }

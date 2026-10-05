@@ -19,6 +19,18 @@ def test_isbn_normaliza_valida_e_converte():
     assert isbn.para_isbn10("9791090636071") is None
 
 
+def test_isbn_so_aceita_digitos_ascii():
+    # achado 10 da revisão: '²' derrubava o estágio (int('²')) e dígitos arábico-índicos viravam "ISBN"
+    assert isbn.normalizar("030640615²") is None
+    assert isbn.normalizar("٠٣٠٦٤٠٦١٥٢") is None
+    assert isbn.normalizar("978٠٣٠٦٤٠٦١٥7") is None
+    assert isbn.normalizar("0306406152") == "9780306406157"
+
+
+def test_texto_sem_surrogate_sozinho():
+    assert texto.limpar("Livro \ud800quebrado") == "Livro quebrado"
+
+
 def test_regiao_do_isbn():
     assert isbn.regiao("9788535902778") == "BR"
     assert isbn.regiao("9786555321234") == "BR"
@@ -67,3 +79,19 @@ def test_dnb_triplas_e_registros(dumps):
         "Der Zauberberg", "Roman", ["Thomas Mann"], "S. Fischer", 1991, 1008, "ger")
     assert regs[1].titulo == "Über Bücher!"
     assert regs[1].titulo == unicodedata.normalize("NFC", regs[1].titulo)
+
+
+def test_leitura_em_paralelo_igual_a_sequencial(dumps, monkeypatch):
+    """Lotes pequenos em 3 processos: mesma saída, na mesma ordem, que a leitura num processo só."""
+    caminhos = {t: next(dumps.glob(f"ol_dump_{t}_*.txt.gz")) for t in ("authors", "works", "editions")}
+
+    def tudo():
+        return (list(openlibrary.autores(caminhos["authors"])), list(openlibrary.obras(caminhos["works"])),
+                list(openlibrary.edicoes(caminhos["editions"])))
+
+    monkeypatch.setattr(openlibrary, "PROCESSOS", 1)
+    sequencial = tudo()
+    monkeypatch.setattr(openlibrary, "PROCESSOS", 3)
+    monkeypatch.setattr(openlibrary, "LOTE_LINHAS", 2)
+    assert tudo() == sequencial
+    assert len(sequencial[2]) > 2

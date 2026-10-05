@@ -92,6 +92,8 @@ def escrever_dumps(pasta: Path, variante: int = 1, data: str = "2026-09-30") -> 
         '<https://d-nb.info/2> <http://rdaregistry.info/Elements/u/P60327> "von Anna Müller und Bernd Weiß [Ill.]" .\n',
         '<https://d-nb.info/1> <http://iflastandards.info/ns/isbd/elements/P1053> "1008 S." .\n',
     ]
+    if variante == 2:  # o livro de 2 autores muda de ano: o delta leva um registro com vários autores
+        nt.append('<https://d-nb.info/2> <http://purl.org/dc/terms/issued> "2011" .\n')
     _gz(pasta / "dnb-all_lds.nt.gz", [unicodedata.normalize("NFD", l) for l in nt])
     return pasta
 

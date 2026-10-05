@@ -199,4 +199,63 @@ void main() {
       expect(await updater.catalog(), isNull);
     },
   );
+
+  test('falha que não é de rede (sha do banco errado no manifesto): espera o dia seguinte e reaproveita o .gz conferido', () async {
+    server.editManifest = (m) => {
+      ...m,
+      'db': {...(m['db']! as Map<String, Object?>), 'db_sha256': 'f' * 64},
+    };
+    await expectLater(
+      updater.update(),
+      throwsA(isA<CatalogCorrupted>().having((e) => e.code, 'code', 'db_sha')),
+    );
+    expect(server.downloads, 1);
+    // abrir o app de novo / voltar ao Wi-Fi no mesmo dia: não baixa tudo de novo (achado 6)
+    expect(await updater.update(), isA<CatalogUpdateSkipped>());
+    expect(server.downloads, 1);
+    // no dia seguinte, com o manifesto certo
+    server.editManifest = null;
+    agora = agora.add(const Duration(days: 1, minutes: 1));
+    expect(await updater.update(), isA<CatalogInstalled>());
+  });
+
+  test('o .gz já baixado e conferido não desce de novo (disco cheio ao descompactar, por exemplo)', () async {
+    final gz = File('${dir.path}/catalogo/catalog.db.gz');
+    await gz.parent.create(recursive: true);
+    await gz.writeAsBytes(fixtureBytes('catalog/v1/$v1/catalog.db.gz'));
+    expect(await updater.update(), isA<CatalogInstalled>());
+    expect(server.downloads, 0);
+    expect(await arquivos(), ['catalog.db']);
+  });
+
+  test('sem rede no meio: a próxima volta ao Wi-Fi tenta de novo (não espera o dia seguinte)', () async {
+    server.cutAfterBytes = 500;
+    await expectLater(updater.update(), throwsA(isA<CatalogOffline>()));
+    expect(await updater.update(), isA<CatalogInstalled>());
+  });
+
+  test('troca da versão: quem pede o catálogo durante a instalação recebe o novo (nunca um fechado)', () async {
+    await updater.update();
+    final antigo = (await updater.catalog())!;
+    expect(await antigo.version(), v1);
+    server.current = v2;
+    server.overrides['catalog/v1/$v2/delta-$v1.jsonl.gz'] = Uint8List(3);
+    agora = agora.add(const Duration(days: 31));
+    var terminou = false;
+    final instalando = updater.update().whenComplete(() => terminou = true);
+    // pedidos durante a instalação (o scanner buscando enquanto o catálogo troca)
+    while (!terminou) {
+      await updater.catalog();
+      await Future<void>.delayed(Duration.zero);
+    }
+    await instalando;
+    final depois = (await updater.catalog())!;
+    expect(
+      await depois.version(),
+      v2,
+      reason: 'nunca fica preso ao arquivo antigo',
+    );
+    expect(await depois.byIsbn('9780199535569'), isNotNull);
+    expect(await arquivos(), ['catalog.db']);
+  });
 }

@@ -20,6 +20,12 @@ def registro_json(linha: tuple) -> dict:
     return r
 
 
+def autores_json(autores: list[str]) -> str:
+    """Coluna `authors`: JSON compacto, sem escapar o que não é ASCII — byte a byte o que o `jsonEncode`
+    do Dart produz ao aplicar um delta no aparelho (o hash do conteúdo tem de fechar dos dois lados)."""
+    return json.dumps(autores, ensure_ascii=False, separators=(",", ":"))
+
+
 def linha_json(obj: dict) -> bytes:
     return (json.dumps(obj, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n").encode()
 

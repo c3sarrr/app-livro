@@ -2,7 +2,7 @@
 // O pedido leva só o ISBN (permitido também ao Grátis — §4.3.7).
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io' show SocketException;
+import 'dart:io' show IOException;
 
 import 'package:http/http.dart' as http;
 
@@ -31,15 +31,22 @@ final class HttpEdgeCatalogApi implements EdgeCatalogApi {
       r = await _client.get(base.resolve('v1/isbn/$isbn13')).timeout(timeout);
     } on TimeoutException {
       throw const CatalogOffline();
-    } on SocketException {
+    } on IOException {
+      // SocketException, HandshakeException (portal de login do Wi-Fi) — achado 4 da revisão
       throw const CatalogOffline();
     } on http.ClientException {
       throw const CatalogOffline();
     }
     switch (r.statusCode) {
       case 200:
-        final j = jsonDecode(utf8.decode(r.bodyBytes)) as Map<String, Object?>;
-        return CatalogBook.fromJson(j['livro']! as Map<String, Object?>);
+        try {
+          final j =
+              jsonDecode(utf8.decode(r.bodyBytes)) as Map<String, Object?>;
+          return CatalogBook.fromJson(j['livro']! as Map<String, Object?>);
+        } on Object {
+          // 200 que não é a resposta do Worker (portal de Wi-Fi devolvendo HTML, por exemplo)
+          throw const CatalogUnexpected('resposta');
+        }
       case 404:
         return null;
       case 429:

@@ -1,22 +1,22 @@
 {
  "criado_em": "2026-10-31T00:00:00Z",
  "db": {
-  "bytes": 2217,
-  "conteudo_sha256": "c9759e859792ecdb5dd50284a721c994bef062b2292f3fc3db97d4bc695eebe8",
+  "bytes": 2220,
+  "conteudo_sha256": "b1ca5d1fc63b349cb49cf2ceba05515673e33f4ca68cc4fd81dd34327a68871b",
   "db_bytes": 32768,
-  "db_sha256": "7c2d329e33bcfab9570fe3510767f8e188b67943e87d131125d2aa08f685f41e",
+  "db_sha256": "6839aace96c33119a8e24d144cdc747897c0689ac83749ca0398c61a7a1fdf6f",
   "path": "catalog/v1/2026-10-31.1/catalog.db.gz",
   "registros": 6,
-  "sha256": "07e18f4da42e841e4673e1b2030c441b6efc128b3e0228cfd74c87aeb7e992ea"
+  "sha256": "5f35bd0031ab9c7ca760b8343d5340a401060cbb9c82306fce1717e9b32e6da9"
  },
  "deltas": [
   {
-   "bytes": 268,
+   "bytes": 333,
    "de": "2026-09-30.1",
    "del": 1,
    "path": "catalog/v1/2026-10-31.1/delta-2026-09-30.1.jsonl.gz",
-   "put": 2,
-   "sha256": "1fb23a0f8c64620f59252983a8f447f3452b20670adb874ac61e6ad655978541"
+   "put": 3,
+   "sha256": "0126030726222accd986c607415d4c095c03a3fc8eff306926422efa6b10b725"
   }
  ],
  "fontes": [

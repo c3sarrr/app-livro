@@ -153,6 +153,25 @@ void main() {
     expect(backend.pedidos.last.json, {'p_submission': _envio});
   });
 
+  test('confirmar uma sugestão que outro envio já venceu ("rejected"): mostra a edição que ficou', () async {
+    await montar(
+      respostas: {
+        'POST /rest/v1/rpc/catalog_confirm': (
+          200,
+          {'status': 'rejected', 'submission_id': _envio, 'edition': _edicao()},
+        ),
+      },
+    );
+    expect(
+      await api.confirm(_envio),
+      isA<ContributionAlreadyInCatalog>().having(
+        (a) => a.book?.title,
+        'livro',
+        'Memórias do Livro',
+      ),
+    );
+  });
+
   test('erros do servidor viram falhas do catálogo', () async {
     await montar(
       respostas: {

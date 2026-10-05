@@ -53,9 +53,23 @@ def executar(args: argparse.Namespace) -> dict:
 
     st = Staging(Path(args.trabalho) / "staging.db")
     for nome in getattr(args, "refazer", None) or []:
-        # a união depende de todos os candidatos: refazer qualquer estágio refaz a união também
-        for n in (nome, "unir"):
-            st.desfazer(n)
+        _log(f"refazer {nome}: {', '.join(st.desfazer(nome))}")
+
+    def assinatura(*arqs: Path | None) -> list:
+        # o mesmo banco de trabalho com dumps novos (mês seguinte) refaz o que mudou — achado 2 da revisão
+        return [[a.name, a.stat().st_size] for a in arqs if a]
+
+    entradas = {
+        "autores": assinatura(ol["authors"]),
+        "obras": assinatura(ol["works"]),
+        "popularidade": assinatura(ol["ratings"], ol["reading-log"]),
+        "edicoes_ol": assinatura(ol["editions"]),
+        "dnb": assinatura(dnb_arq),
+        "unir": {"peso_br": args.peso_br},
+    }
+    for nome, sig in entradas.items():
+        if st.feito(nome) and st.assinatura(nome) != sig:
+            _log(f"{nome}: entradas mudaram — refazer {', '.join(st.desfazer(nome))}")
     t0 = time.time()
     estagios = [
         ("autores", lambda: st.carregar_autores(ol["authors"]) if ol["authors"] else 0),
@@ -70,8 +84,9 @@ def executar(args: argparse.Namespace) -> dict:
             _log(f"{nome}: já feito")
             continue
         _log(f"{nome}…")
+        st.limpar_estagio(nome)
         r = f()
-        st.marcar(nome, {"resultado": r})
+        st.marcar(nome, {"resultado": r, "assinatura": entradas[nome]})
         _log(f"{nome}: {r} ({time.time() - t0:.0f} s)")
 
     saida = Path(args.saida)

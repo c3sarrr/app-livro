@@ -16,6 +16,8 @@ MAX_TITULO = 500
 def limpar(v: object, maximo: int = MAX_TITULO) -> str | None:
     if not isinstance(v, str):
         return None
+    # surrogate sozinho (JSON do dump com "\ud800") não vira UTF-8: sairia com erro no SQLite e no gzip
+    v = v.encode("utf-8", "ignore").decode("utf-8")
     s = _ESPACOS.sub(" ", unicodedata.normalize("NFC", v)).strip()
     # pontuação final de catalogação ("Título /", "Editora :")
     s = s.rstrip(" /:;,").strip()

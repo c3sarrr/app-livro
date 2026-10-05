@@ -88,7 +88,9 @@ def aplicar_delta(db: Path, delta_gz: Path) -> None:
                 con.execute("DELETE FROM editions WHERE isbn13 = ?", (op["i"],))
                 continue
             r = op["r"]
-            vals = (r["i"], r["t"], r.get("s"), json.dumps(r["a"], ensure_ascii=False), r.get("p"), r.get("y"),
+            # como o `jsonEncode` do Dart: compacto, sem escapar o que não é ASCII (achado 1 da revisão)
+            vals = (r["i"], r["t"], r.get("s"), json.dumps(r["a"], ensure_ascii=False, separators=(",", ":")),
+                    r.get("p"), r.get("y"),
                     r.get("n"), r.get("l"), r.get("c"), r["f"], r["lic"])
             con.execute(
                 "INSERT INTO editions (isbn13, title, subtitle, authors, publisher, year, pages, language, cover_ref, "
@@ -114,7 +116,9 @@ def test_delta_entre_versoes_reproduz_a_nova(tmp_path):
     assert m2["versao"] == "2026-10-31.1"
     assert len(m2["deltas"]) == 1
     d = m2["deltas"][0]
-    assert (d["de"], d["put"], d["del"]) == ("2026-09-30.1", 2, 1)
+    # puts: Oxford (título), Brás Cubas (novo) e o livro de 2 autores da DNB (ano) — o hash do app com
+    # vários autores tem de fechar
+    assert (d["de"], d["put"], d["del"]) == ("2026-09-30.1", 3, 1)
     aplicar_delta(copia, tmp_path / "saida" / d["path"])
     con = sqlite3.connect(copia)
     assert catalogo_db.hash_conteudo(con) == m2["db"]["conteudo_sha256"]
@@ -138,3 +142,43 @@ def test_refazer_a_dnb_depois_de_uma_execucao_sem_ela(dumps, tmp_path):
     completa = rodar(dumps, tmp_path / "b", revisao=2)
     assert depois["db"]["registros"] == completa["db"]["registros"] == 6
     assert depois["db"]["conteudo_sha256"] == completa["db"]["conteudo_sha256"]
+
+
+def test_mesmo_banco_de_trabalho_com_dumps_novos_refaz_o_que_mudou(tmp_path):
+    """No mês seguinte o comando do README roda com o MESMO --trabalho: o que mudou de entrada é refeito
+    (achado 2 da revisão) e o resultado é igual ao de um banco de trabalho novo."""
+    d1 = escrever_dumps(tmp_path / "d1", 1, "2026-09-30")
+    d2 = escrever_dumps(tmp_path / "d2", 2, "2026-10-31")
+    rodar(d1, tmp_path / "a")
+    reaproveitado = rodar(d2, tmp_path / "a")
+    novo = rodar(d2, tmp_path / "b")
+    assert reaproveitado["versao"] == novo["versao"] == "2026-10-31.1"
+    assert reaproveitado["db"]["conteudo_sha256"] == novo["db"]["conteudo_sha256"]
+    assert reaproveitado["deltas"][0]["put"] > 0
+
+
+def test_refazer_autores_refaz_as_edicoes_e_a_uniao(dumps, tmp_path):
+    rodar(dumps, tmp_path)
+    from catalogo.staging import Staging
+    st = Staging(tmp_path / "trabalho" / "staging.db")
+    assert st.desfazer("autores") == ["autores", "edicoes_ol", "unir"]
+    assert not st.feito("edicoes_ol") and st.feito("obras") and st.feito("dnb")
+    assert st.db.execute("SELECT count(*) FROM cand WHERE fonte = 'openlibrary'").fetchone()[0] == 0
+    assert st.db.execute("SELECT count(*) FROM cand WHERE fonte = 'dnb'").fetchone()[0] > 0
+    st.fechar()
+
+
+def test_estagio_interrompido_e_refeito_sem_sobras(dumps, tmp_path):
+    """Um estágio que caiu no meio (Ctrl+C) deixou linhas e não ficou marcado: a próxima execução
+    apaga as sobras antes de refazê-lo (banco em WAL — não corrompe)."""
+    rodar(dumps, tmp_path)
+    con = sqlite3.connect(tmp_path / "trabalho" / "staging.db")
+    assert con.execute("PRAGMA journal_mode").fetchone()[0] == "wal"
+    con.execute("DELETE FROM estagios WHERE nome IN ('autores', 'edicoes_ol', 'unir')")
+    con.execute("INSERT INTO autores VALUES ('/authors/OL999A', 'Sobra de uma execução interrompida')")
+    con.commit()
+    con.close()
+    rodar(dumps, tmp_path, revisao=2)
+    con = sqlite3.connect(tmp_path / "trabalho" / "staging.db")
+    assert con.execute("SELECT count(*) FROM autores WHERE chave = '/authors/OL999A'").fetchone()[0] == 0
+    con.close()

@@ -41,6 +41,7 @@ SELECT ?isbn WHERE {{
   FILTER(?n >= {min} && ?n <= {max})
   FILTER(!STRSTARTS(?isbn, "978-85") && !STRSTARTS(?isbn, "978-65"))
 }}
+ORDER BY ?isbn
 LIMIT 30000
 """
 
@@ -70,6 +71,8 @@ def amostra_wikidata(minimo: int, maximo: int, n: int) -> tuple[list[str], int]:
         if i and not eh_brasil(i):
             isbns.add(i)
     print(f"wikidata sitelinks {minimo}-{maximo}: HTTP {st}, {len(isbns)} ISBN distintos", flush=True)
+    if not isbns:  # tempo esgotado no Wikidata: não mede um estrato vazio sem avisar
+        raise SystemExit(f"amostra vazia do Wikidata (sitelinks {minimo}-{maximo}, HTTP {st}) — rode de novo")
     chaves = sorted(isbns)
     random.Random(SEMENTE).shuffle(chaves)
     return chaves[:n], len(isbns)
@@ -88,7 +91,7 @@ def medir(isbns: list[str], saida: Path, db: sqlite3.Connection) -> list[dict]:
         no_db = db.execute("SELECT 1 FROM editions WHERE isbn13 = ?", (isbn,)).fetchone() is not None
         no_shard = shards.procurar(saida, isbn) is not None
         tentativas = []
-        api, provedor = False, None
+        api, provedor, erro_api = False, None, False
         ordem = [["cbl", "mercado-editorial"], ["open-library", "google-books"]] if eh_brasil(isbn) \
             else [["open-library", "google-books"]]
         for provs in ordem:
@@ -98,8 +101,10 @@ def medir(isbns: list[str], saida: Path, db: sqlite3.Connection) -> list[dict]:
             if achou:
                 api, provedor = True, prov
                 break
+            # 404/400 = não achou de verdade; o resto (429, 5xx, rede) = a medida ficou indeterminada
+            erro_api = erro_api or st not in (200, 400, 404)
         linhas.append({"isbn": isbn, "catalog_db": no_db, "shards": no_shard, "api": api,
-                       "api_provedor": provedor, "api_tentativas": tentativas})
+                       "api_provedor": provedor, "api_erro": erro_api and not api, "api_tentativas": tentativas})
         if k % 25 == 0:
             print(f"  {k}/{len(isbns)}", flush=True)
     return linhas
@@ -123,7 +128,9 @@ def resumir(linhas: list[dict]) -> dict:
         "final_com_apis": {"acertos": final, "taxa_falha": round(1 - final / n, 3)},
         "apis_usadas_no_resto_por_provedor": provs,
         "consultas_externas_por_100_leituras": round(100 * (n - borda) / n, 1),
-        "erros_de_rede": sum(1 for l in linhas for t in l["api_tentativas"] if t["status"] == 0),
+        # sem resposta conclusiva das APIs (429, 5xx, rede): contados como falha acima — a taxa real é
+        # no máximo `taxa_falha` e no mínimo `taxa_falha - indeterminados / n`
+        "indeterminados_api": sum(1 for l in linhas if l.get("api_erro") and not (l["catalog_db"] or l["shards"])),
     }
 
 

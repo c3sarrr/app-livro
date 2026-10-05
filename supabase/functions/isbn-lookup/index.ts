@@ -18,5 +18,8 @@ Deno.serve(criarHandler({
     const [r] = await sql()`select private.consume_quota(${userId}, 'isbn_externo', ${limite}) as ok`;
     return r.ok === true;
   },
+  async devolverCota(userId) {
+    await sql()`select private.refund_quota(${userId}, 'isbn_externo')`;
+  },
   fontes: (isbn) => fontesPorRegiao(isbn, fetch, chaves),
 }));

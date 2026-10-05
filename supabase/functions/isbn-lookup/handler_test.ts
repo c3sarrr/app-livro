@@ -17,6 +17,7 @@ const livro = {
 
 function fakes(s: Partial<Dependencias> = {}) {
   const cotas: number[] = [];
+  const devolvidas: string[] = [];
   const logs: Record<string, unknown>[] = [];
   const d: Dependencias = {
     verificarJwt: (jwt) => Promise.resolve(jwt === 'jwt-valido' ? USUARIO : null),
@@ -25,11 +26,15 @@ function fakes(s: Partial<Dependencias> = {}) {
       cotas.push(limite);
       return Promise.resolve(true);
     },
+    devolverCota: (u) => {
+      devolvidas.push(u);
+      return Promise.resolve();
+    },
     fontes: () => [() => Promise.resolve(livro)],
     registrar: (e) => logs.push(e),
     ...s,
   };
-  return { handler: criarHandler(d), cotas, logs };
+  return { handler: criarHandler(d), cotas, devolvidas, logs };
 }
 const pedido = (isbn: unknown, jwt = 'jwt-valido') =>
   new Request('http://local/isbn-lookup', {
@@ -119,4 +124,13 @@ Deno.test('as fontes são escolhidas pelo ISBN pedido (já normalizado)', async 
   });
   await handler(pedido('85-359-1066-2'));
   assertEquals(pedidos, ['9788535910667']);
+});
+
+Deno.test('todas as fontes fora do ar: 503 e a consulta volta para a cota; "não achou" gasta a consulta', async () => {
+  const fora = fakes({ fontes: () => [() => Promise.reject(new Error('x'))] });
+  assertEquals((await fora.handler(pedido('9788535910667'))).status, 503);
+  assertEquals([fora.cotas, fora.devolvidas], [[COTA_GRATIS], [USUARIO]]);
+  const nada = fakes({ fontes: () => [() => Promise.resolve(null)] });
+  assertEquals((await nada.handler(pedido('9788535910667'))).status, 404);
+  assertEquals(nada.devolvidas, []);
 });

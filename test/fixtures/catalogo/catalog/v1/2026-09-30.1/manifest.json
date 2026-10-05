@@ -1,13 +1,13 @@
 {
  "criado_em": "2026-09-30T00:00:00Z",
  "db": {
-  "bytes": 2214,
-  "conteudo_sha256": "af979ec31f93b6f65531a967109fd1ac6b952117ca67d9f97f3270d7b9bec139",
+  "bytes": 2215,
+  "conteudo_sha256": "4663da4c27e2685721b4346a2918a0f1ff95d9ff16c4ff7e57d37882c1006de5",
   "db_bytes": 32768,
-  "db_sha256": "03ade8a6413a4a8e432e6b5a1b5869bd97aa207aa3124458a67ba41b6865bf1a",
+  "db_sha256": "613a6b3e970710a219f2a844df4bd2d9c52780f1c319d9eb645fe296c172a3ef",
   "path": "catalog/v1/2026-09-30.1/catalog.db.gz",
   "registros": 6,
-  "sha256": "f53f7e5107fd28f92ad430ae2d7944dc3ce1b7fc691446917747f5951b0a6754"
+  "sha256": "019aefaaf78e731fd91a63c6209db0214a908785f743a187ae40af7e26d0c9a1"
  },
  "deltas": [],
  "fontes": [

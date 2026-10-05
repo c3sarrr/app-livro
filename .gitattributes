@@ -22,3 +22,5 @@ test/data/contracts/** text eol=lf
 # G04: scripts de shell e workflows do CI rodam no Linux (WSL/GitHub) — sempre LF
 tools/**/*.sh text eol=lf
 .github/** text eol=lf
+# G07: catálogo de teste do app (gerado pelo pipeline; o manifesto confere os bytes) — byte a byte
+test/fixtures/catalogo/** -text

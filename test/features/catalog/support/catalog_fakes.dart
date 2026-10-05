@@ -36,6 +36,9 @@ final class FakeCatalogServer extends http.BaseClient {
   /// Versão anunciada em `/v1/catalog/manifest.json`.
   String current = v1;
 
+  /// Troca o manifesto servido (ex.: um sha256 errado publicado por engano).
+  Map<String, Object?> Function(Map<String, Object?>)? editManifest;
+
   /// Arquivos trocados (caminho publicado → bytes) — para corromper um delta, por exemplo.
   final Map<String, Uint8List> overrides = {};
 
@@ -64,7 +67,8 @@ final class FakeCatalogServer extends http.BaseClient {
         );
     if (statuses.isNotEmpty) return json(statuses.removeAt(0), {'erro': 'x'});
     if (path == '/v1/catalog/manifest.json') {
-      return json(200, fixtureManifest(current));
+      final m = fixtureManifest(current);
+      return json(200, editManifest?.call(m) ?? m);
     }
     const prefix = '/v1/catalog/';
     if (!path.startsWith(prefix)) return json(404, {'erro': 'nao_encontrado'});
