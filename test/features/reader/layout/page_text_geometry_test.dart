@@ -2,7 +2,9 @@
 // (30,44 na Literata 20,5), as caixas por linha com a linha de base, o ponto e a palavra sob o dedo presos à
 // página (D-47), o trecho mostrado e o texto canônico.
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
+import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
+import 'package:app_leitura/features/reader/layout/reader_typography.dart';
 import 'package:app_leitura/features/reader/layout/text_geometry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -108,4 +110,28 @@ void main() {
     expect(p.textOf(p.spine, a, a + selecao.length), selecao);
     expect(p.textOf(p.spine + 1, a, a + 4), '', reason: 'outro item');
   });
+
+  test(
+    'G14: na Lora, as caixas da página usam a área do texto da Lora',
+    () async {
+      final lora = await EpubReaderDocument.open(
+        livro.deps(t: const ReaderTypography(font: ReaderFontFamily.lora)),
+      );
+      addTearDown(lora.dispose);
+      final p = lora.current as PageSnapshot;
+      final de = p.shown!.from;
+      final caixa = p.boxesOf(p.spine, de, de + 5).first;
+      expect(
+        caixa.textBottom - caixa.textTop,
+        moreOrLessEquals(
+          readerTextArea(20.5, ReaderFontFamily.lora),
+          epsilon: 1e-6,
+        ),
+      );
+      expect(
+        readerTextArea(20.5, ReaderFontFamily.lora),
+        isNot(moreOrLessEquals(readerTextArea(20.5), epsilon: 1)),
+      );
+    },
+  );
 }

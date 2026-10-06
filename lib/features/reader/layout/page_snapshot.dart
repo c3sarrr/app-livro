@@ -243,7 +243,7 @@ final class PageSnapshot implements DisplayPage {
                 .end;
       final top = base + line.top;
       final em = line.height / t.lineSpacing;
-      final area = readerTextArea(em);
+      final area = readerTextArea(em, t.font);
       final textTop = top + (line.height - area) / 2;
       for (final box in b.pieces[pa].paragraph.getBoxesForRange(pi, end)) {
         yield (
