@@ -36,6 +36,9 @@ final class PageSnapshot implements DisplayPage {
   @override
   bool get alive => _alive?.call() ?? true;
 
+  /// O bloco [index] do capítulo montado (os da página são os das fatias de [page]) — medidas e seleção.
+  LaidBlock block(int index) => _blockOf(index);
+
   @override
   void paint(ui.Canvas canvas) {
     if (!alive) return;
