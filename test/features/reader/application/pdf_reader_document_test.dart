@@ -96,12 +96,12 @@ void main() {
     });
     tearDown(() => db.close());
 
-    PdfPositionKeeper guardiao() => PdfPositionKeeper(
+    PdfPositionKeeper guardiao({String sha = shaTeste}) => PdfPositionKeeper(
       db: db,
       versioning: versioning,
       owner: () async => usuarioTeste,
       userBookId: livro.id,
-      sha: shaTeste,
+      sha: sha,
       deviceId: 'aparelhoA',
       delay: Duration.zero,
       onError: (e, _) => fail('erro: $e'),
@@ -205,6 +205,88 @@ void main() {
       expect(d3.numbers.refPage, 3, reason: 'a última');
       await d3.goTo((spine: 0, offset: 0));
       expect(d3.numbers.refPage, 1);
+    });
+
+    test('páginas de tamanhos diferentes (A4, carta, A4 deitada): cada uma no seu encaixe', () async {
+      final d = await abrir(path: 'test/fixtures/livros/tamanhos.pdf');
+      const tamanhos = [
+        ui.Size(595.2756, 841.8898),
+        ui.Size(612, 792),
+        ui.Size(841.8898, 595.2756),
+      ];
+      const textos = ['A4 em pe', 'Carta', 'A4 deitada'];
+      for (var i = 0; i < 3; i++) {
+        final pagina = d.current as PdfDisplayPage;
+        final esperado = pdfPageRect(
+          pageSize: tamanhos[i],
+          viewport: _tela,
+          top: 0,
+          footerBottom: 40,
+        );
+        expect(
+          pagina.rect.left,
+          closeTo(esperado.left, 0.01),
+          reason: textos[i],
+        );
+        expect(pagina.rect.top, closeTo(esperado.top, 0.01), reason: textos[i]);
+        expect(
+          pagina.rect.width,
+          closeTo(esperado.width, 0.01),
+          reason: textos[i],
+        );
+        expect(
+          pagina.rect.height,
+          closeTo(esperado.height, 0.01),
+          reason: textos[i],
+        );
+        expect(
+          (pagina.image.width, pagina.image.height),
+          (esperado.width.round(), esperado.height.round()),
+          reason: 'imagem na largura da tela − 16 (dpr 1)',
+        );
+        expect(pagina.spokenText, textos[i]);
+        if (i < 2) await d.turn(PageDirection.forward);
+      }
+    });
+
+    test(
+      'viradas em fila: duas seguidas partem uma de onde a outra parou',
+      () async {
+        final d = await abrir();
+        final a = d.turn(PageDirection.forward);
+        final b = d.turn(PageDirection.forward);
+        expect((await a, await b), (true, true));
+        expect(d.numbers.refPage, 3);
+      },
+    );
+
+    test(
+      'posição de outro arquivo (o PDF foi trocado): vale a % guardada',
+      () async {
+        final k = guardiao(sha: 'f' * 64)
+          ..pageShown(4, 10); // 40 % de outro PDF de 10 páginas
+        await k.flush();
+        final d = await abrir();
+        expect(
+          d.numbers.refPage,
+          2,
+          reason: '40 % de 3 páginas → a 2ª (não a última)',
+        );
+      },
+    );
+
+    test('alfinete (D-115): com ele, a posição gravada é a dele; solto, a página mostrada', () async {
+      final d = await abrir();
+      await d.pin((spine: 0, offset: 0));
+      await d.turn(PageDirection.forward);
+      await d.turn(PageDirection.forward);
+      await d.flush();
+      var pos = await ReadingPositionsDao(db).forBook(livro.id);
+      expect((pos!.locator as PdfLocator).page, 0);
+      await d.pin(null);
+      await d.flush();
+      pos = await ReadingPositionsDao(db).forBook(livro.id);
+      expect((pos!.locator as PdfLocator).page, 2);
     });
 
     test('PDF quebrado → danificado', () async {

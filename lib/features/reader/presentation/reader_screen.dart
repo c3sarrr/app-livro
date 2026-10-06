@@ -6,7 +6,8 @@
 // Próxima/Anterior (Anexo 03 §11).
 import 'dart:async';
 
-import 'package:flutter/semantics.dart' show CustomSemanticsAction;
+import 'package:flutter/semantics.dart'
+    show CustomSemanticsAction, SemanticsService;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,6 +38,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   ReaderSessionController? _c;
   AppLifecycleListener? _life;
   ReaderSystemUi? _ui;
+  ReaderViewport? _viewport;
   bool _started = false;
   bool _depsFailed = false;
   bool _showOpening = false;
@@ -44,6 +46,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   bool _closeVisible = false;
   Timer? _closeTimer;
   bool _immersive = false;
+  bool _leaving = false;
+  ReaderState? _lastState;
 
   @override
   void didChangeDependencies() {
@@ -51,17 +55,23 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     if (_started) return;
     _started = true;
     _ui = ref.read(readerSystemUiProvider);
+    _armOpening();
+    final mq = MediaQuery.of(context);
+    final v = _viewport = (
+      size: mq.size,
+      padding: mq.viewPadding,
+      devicePixelRatio: mq.devicePixelRatio,
+    );
+    unawaited(_start(v));
+  }
+
+  /// "Abrindo o livro…" só depois de 300 ms (D-113) — de novo a cada abertura ("Tentar de novo").
+  void _armOpening() {
+    _openingTimer?.cancel();
+    _showOpening = false;
     _openingTimer = Timer(readerOpeningDelay, () {
       if (mounted) setState(() => _showOpening = true);
     });
-    final mq = MediaQuery.of(context);
-    unawaited(
-      _start((
-        size: mq.size,
-        padding: mq.viewPadding,
-        devicePixelRatio: mq.devicePixelRatio,
-      )),
-    );
   }
 
   Future<void> _start(ReaderViewport v) async {
@@ -83,15 +93,49 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     await c.open(v);
   }
 
+  /// As dependências do leitor não vieram (banco, pasta): "Tentar de novo" pede de novo.
+  void _retryDeps() {
+    final v = _viewport;
+    if (v == null) return;
+    ref.invalidate(readerDepsProvider);
+    setState(() => _depsFailed = false);
+    _armOpening();
+    unawaited(_start(v));
+  }
+
   void _changed() {
     if (!mounted) return;
-    final ready = _c?.state is ReaderReady;
-    if (ready) {
+    final state = _c?.state;
+    final before = _lastState;
+    _lastState = state;
+    final ready = state is ReaderReady;
+    if (ready && before is! ReaderReady) {
+      // a página apareceu: conta como leitura e liga a tela acesa (depois, só toques e o ciclo de vida)
       _openingTimer?.cancel();
       _c!.setVisible(true);
     }
+    if (state is ReaderOpening && before != null && before is! ReaderOpening) {
+      _armOpening();
+    }
+    if (state is ReaderReady &&
+        state.back != null &&
+        (before is! ReaderReady || before.back == null)) {
+      _announceBack(state.back!.refPage);
+    }
     _systemUi(immersive: ready);
     setState(() {});
+  }
+
+  /// Com o leitor de tela, a pílula que apareceu é anunciada (D-116).
+  void _announceBack(int refPage) {
+    if (!MediaQuery.accessibleNavigationOf(context)) return;
+    unawaited(
+      SemanticsService.sendAnnouncement(
+        View.of(context),
+        'Voltar à pág. $refPage, no rodapé',
+        TextDirection.ltr,
+      ),
+    );
   }
 
   /// Esconde a barra de status com a página na tela; devolve o padrão do app (D-13) só se escondeu.
@@ -115,7 +159,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     }
   }
 
+  /// Fecha o livro: grava, devolve a barra de status já na saída (não no fim da animação) e volta.
   void _leave() {
+    if (_leaving) return;
+    _leaving = true;
+    _systemUi(immersive: false);
     unawaited(_c?.close());
     if (context.canPop()) {
       context.pop();
@@ -148,9 +196,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final c = _c;
     final palette = c?.palette ?? ReaderPalette.of(ReaderPaper.creme);
     final state = c?.state;
+    // o Voltar do sistema fecha pelo mesmo caminho do "Fechar o livro"; sem o gesto de voltar da borda (no iOS
+    // ele roubaria o arrasto para a página anterior)
     return PopScope(
+      canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (didPop) unawaited(_c?.close());
+        if (!didPop) _leave();
       },
       child: ColoredBox(
         color: palette.paper,
@@ -164,6 +215,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           _ when _depsFailed => ReaderFailureView(
             failure: ReaderFailure.unexpected,
             onBack: _leave,
+            onRetry: _retryDeps,
           ),
           ReaderOpening(:final preparing) => ReaderOpeningView(
             visible: _showOpening,
@@ -192,7 +244,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             document: doc,
             onTurn: c.turn,
             onCenter: _toggleClose,
-            onLink: (hit) => unawaited(c.follow(hit)),
+            // com o leitor de tela a volta fica até as 2 viradas (D-116)
+            onLink: (hit) => c.follow(
+              hit,
+              timed: !MediaQuery.accessibleNavigationOf(context),
+            ),
             onInteraction: c.interaction,
           ),
         ),
@@ -213,21 +269,20 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   unawaited(c.turn(PageDirection.forward)),
               const CustomSemanticsAction(label: 'Página anterior'): () =>
                   unawaited(c.turn(PageDirection.backward)),
+              // o "Fechar" provisório só aparece com toque no centro (D-116)
+              const CustomSemanticsAction(label: 'Fechar o livro'): _leave,
             },
             child: const SizedBox.expand(),
           ),
         ),
         ReaderFooter(numbers: n, palette: palette, bottom: insets.footerBottom),
         if (back != null)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: insets.footerBottom - 9,
-            child: Center(
-              child: BackToPagePill(
-                refPage: back.refPage,
-                onTap: () => unawaited(c.back()),
-              ),
+          ReaderFooterGap(
+            numbers: n,
+            bottom: insets.footerBottom,
+            child: BackToPagePill(
+              refPage: back.refPage,
+              onTap: () => unawaited(c.back()),
             ),
           ),
         ReaderCloseButton(visible: _closeVisible, onTap: _leave),

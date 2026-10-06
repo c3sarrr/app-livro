@@ -73,12 +73,14 @@ final class PdfPositionKeeper {
     });
   }
 
-  /// A página onde a pessoa parou, dentro de [count] (fora do total → a última; outra posição → a 1ª).
+  /// A página onde a pessoa parou, dentro de [count] (fora do total → a última; outra posição → a 1ª). Posição
+  /// de outro arquivo (o PDF foi trocado): vale a % guardada, como na outra edição de um EPUB (G10).
   Future<int> savedPage(int count) async {
     final saved = await ReadingPositionsDao(_db).forBook(userBookId);
     final l = saved?.locator;
     if (l is! PdfLocator || saved!.meta.isDeleted || count <= 0) return 0;
-    return l.page < count ? l.page : count - 1;
+    final page = l.sha == sha ? l.page : (l.progression * count).floor();
+    return page < count ? page : count - 1;
   }
 
   void dispose() {

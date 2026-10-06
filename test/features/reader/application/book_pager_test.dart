@@ -12,6 +12,7 @@ import 'package:app_leitura/core/data/database/daos/content_daos.dart';
 import 'package:app_leitura/features/reader/application/book_pager.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart';
+import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/layout/chapter_layout.dart';
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
@@ -459,6 +460,37 @@ void main() {
       expect((p.position!.spine, p.position!.page.start), (prox.spine, 0));
       final ant = (await p.peek(PageDirection.backward))!;
       expect((ant.spine, ant.page.start), (2, layout.pages.last.start));
+    });
+
+    test('capítulo vizinho que não abre: peek dá o erro dele (não é o fim do livro)', () async {
+      final linear = [
+        for (var i = 0; i < index.spine.length; i++)
+          if (index.spine[i].linear) i,
+      ];
+      final quebrado = linear[linear.indexOf(2) + 1];
+      final ler = isolateChapterLoader(_arquivo);
+      final p = BookPager(
+        index: index,
+        load: (s) => s == quebrado
+            ? Future<ChapterContent>.error(const ContentDamaged('teste'))
+            : ler(s),
+        typography: const ReaderTypography(),
+        scheduler: LayoutScheduler(),
+      );
+      addTearDown(p.dispose);
+      await p.openAt(2, 0);
+      final layout = (await p.settle())!;
+      await p.openAt(2, layout.pages.last.start);
+      await expectLater(
+        p.peek(PageDirection.forward),
+        throwsA(isA<ContentDamaged>()),
+      );
+      await expectLater(p.next(), throwsA(isA<ContentDamaged>()));
+      expect(
+        (await p.peek(PageDirection.backward))!.spine,
+        2,
+        reason: 'o outro lado continua',
+      );
     });
 
     test('começo e fim do livro: peek = null', () async {

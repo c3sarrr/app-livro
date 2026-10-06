@@ -63,7 +63,8 @@ abstract interface class ReaderDocument {
 
   RefRange get shownRange;
 
-  /// A página vizinha sem virar; `null` = começo/fim do livro.
+  /// A página vizinha sem virar; `null` = começo/fim do livro. Vizinha que não abre (arquivo danificado) = erro,
+  /// não fim do livro: a tela vira e a sessão mostra o aviso.
   Future<DisplayPage?> peek(PageDirection d);
 
   /// Vira; `false` = começo/fim do livro.
@@ -77,6 +78,10 @@ abstract interface class ReaderDocument {
 
   /// Grava a posição pendente agora (segundo plano, sair).
   Future<void> flush();
+
+  /// Enquanto houver [mark], a posição gravada é ela e não a página mostrada — a volta de um link (D-115): sair
+  /// do livro com a pílula valendo guarda a página de onde se saiu. `null` solta e grava a página mostrada.
+  Future<void> pin(ReaderMark? mark);
 
   void dispose();
 }

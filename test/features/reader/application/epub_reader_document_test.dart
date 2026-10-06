@@ -169,4 +169,40 @@ void main() {
     );
     expect(lidos, [1, 1], reason: 'só lê o item quando há fragmento');
   });
+
+  test('números do rodapé: rótulos, igualdade e texto', () {
+    const n = ReaderNumbersView(
+      refPage: 159,
+      refTotal: 256,
+      progression: 0.62113,
+    );
+    expect((n.pageLabel, n.percentLabel), ('pág. 159 de 256', '62%'));
+    expect(
+      n,
+      const ReaderNumbersView(
+        refPage: 159,
+        refTotal: 256,
+        progression: 0.62113,
+      ),
+    );
+    expect(
+      n.hashCode,
+      const ReaderNumbersView(
+        refPage: 159,
+        refTotal: 256,
+        progression: 0.62113,
+      ).hashCode,
+    );
+    expect(
+      n,
+      isNot(
+        const ReaderNumbersView(
+          refPage: 160,
+          refTotal: 256,
+          progression: 0.62113,
+        ),
+      ),
+    );
+    expect(n.toString(), 'pág. 159 de 256 · 62%');
+  });
 }

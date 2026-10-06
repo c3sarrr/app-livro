@@ -258,7 +258,8 @@ final class BookPager {
   }
 
   /// A página vizinha **sem virar** — para pintar a página que vem atrás do dedo (G11, D-107). `null` = começo
-  /// ou fim do livro, ou uma abertura mais nova passou na frente.
+  /// ou fim do livro, ou uma abertura mais nova passou na frente. O capítulo vizinho que não abre dá o erro dele
+  /// (não é o fim do livro).
   Future<PageSnapshot?> peek(PageDirection d) async {
     if (_disposed) return null;
     final open = _pendingOpen;
@@ -292,23 +293,21 @@ final class BookPager {
     if (job.pagesSoFar.length > i + 1) {
       return _snapshot(pos.spine, job.pagesSoFar[i + 1], i + 1, ch, _t);
     }
+    if (ch.error != null) {
+      Error.throwWithStackTrace(ch.error!, ch.errorStack ?? StackTrace.current);
+    }
     if (!job.done) return null;
     return _peekCross(pos.spine, 1, gen);
   }
 
   /// A 1ª página do capítulo seguinte ([step] = 1) ou a última do anterior (-1), pulando os sem texto, sem
-  /// virar. `null` = começo/fim do livro, desistiu, ou o capítulo não abre (o erro aparece ao virar).
+  /// virar. `null` = começo/fim do livro ou desistiu; o capítulo que não abre dá o erro dele.
   Future<PageSnapshot?> _peekCross(int from, int step, int gen) async {
     var s = from;
     while (true) {
       final n = _neighbor(s, step);
       if (n == null) return null;
-      final _Chapter nc;
-      try {
-        nc = await _chapter(n);
-      } on Object {
-        return null;
-      }
+      final nc = await _chapter(n);
       if (gen != _gen || _disposed) return null;
       final job = _ensureJob(nc, step > 0 ? _nextPriority : _previousPriority);
       if (step > 0) {
@@ -345,7 +344,12 @@ final class BookPager {
           );
         }
       }
-      if (nc.error != null) return null;
+      if (nc.error != null) {
+        Error.throwWithStackTrace(
+          nc.error!,
+          nc.errorStack ?? StackTrace.current,
+        );
+      }
       s = n; // capítulo sem texto: segue
     }
   }

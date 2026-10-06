@@ -13,8 +13,8 @@ import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/core/design_system/widgets/circle_icon_button.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
-import 'package:app_leitura/features/reader/content/chapter_content.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
+import 'package:app_leitura/features/reader/content/chapter_content.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
@@ -40,6 +40,18 @@ Future<void> _quadros(WidgetTester tester, [int n = 40]) async {
   for (var i = 0; i < n; i++) {
     await tester.pump(const Duration(milliseconds: 16));
   }
+}
+
+/// A pílula "Voltar à pág. N" no vão entre "pág. X de Y" e "%" (D-108): centralizada nele, na altura da linha
+/// do rodapé, sem cobrir os números (8 px de folga de cada lado).
+void _pilulaNoVao(WidgetTester tester) {
+  final pilula = tester.getRect(_key('leitor.voltarDoLink'));
+  final pag = tester.getRect(_key('r19.footer.pageLabel'));
+  final pct = tester.getRect(_key('r19.footer.percent'));
+  expect(pilula.left, greaterThanOrEqualTo(pag.right + 8 - 1));
+  expect(pilula.right, lessThanOrEqualTo(pct.left - 8 + 1));
+  expect(pilula.center.dx, closeTo((pag.right + pct.left) / 2, 1));
+  expect(pilula.center.dy, closeTo(pag.center.dy, 0.5));
 }
 
 void main() {
@@ -116,17 +128,24 @@ void main() {
       final t = await abrirLeitor(tester, livro);
       final antes = _doc(tester).mark;
       await tester.tapAt(const Offset(360, 420));
-      await _quadros(tester);
+      await _quadros(
+        tester,
+        20,
+      ); // a virada (220 ms) — a animação anda de quadro em quadro
       final depois = _doc(tester).mark;
       expect(depois.offset, greaterThan(antes.offset));
       await tester.binding.handlePopRoute();
-      await _quadros(tester, 10);
-      await tester.pumpAndSettle(); // a saída da rota
-      expect(find.byType(ReaderScreen), findsNothing);
-      expect(t.ui.log, ['imersivo', 'padrão']);
-      expect(t.awake.log.last, 'off');
+      await tester.pump();
+      // menos de 1 s depois da virada: só o fechar pode ter gravado a página nova (o guardião espera 1 s)
       final p = await posicao(tester);
       expect((p!.spine, p.offset), (depois.spine, depois.offset));
+      expect(t.ui.log, [
+        'imersivo',
+        'padrão',
+      ], reason: 'a barra volta já na saída');
+      await tester.pumpAndSettle(); // a saída da rota
+      expect(find.byType(ReaderScreen), findsNothing);
+      expect(t.awake.log.last, 'off');
     },
   );
 
@@ -175,15 +194,23 @@ void main() {
       ); // 4 s depois do toque: começa a sumir
       await tester.pump(const Duration(milliseconds: 150));
       expect(opacidade(), 0, reason: '4 s');
+      // vira e fecha em menos de 1 s: a página nova só fica gravada se o fechar gravar
+      await tester.tapAt(const Offset(360, 420));
+      await _quadros(tester, 20);
+      final nova = _doc(tester).mark;
       await tester.tapAt(const Offset(195, 420));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 150));
       await tester.tap(_key('leitor.fechar'));
-      await _quadros(tester, 20);
+      await tester.pump();
+      expect(t.ui.log, [
+        'imersivo',
+        'padrão',
+      ], reason: 'a barra volta já na saída');
+      final p = (await posicao(tester))!;
+      expect((p.spine, p.offset), (nova.spine, nova.offset));
       await tester.pumpAndSettle(); // a saída da rota
       expect(find.byType(ReaderScreen), findsNothing);
-      expect(t.ui.log, ['imersivo', 'padrão']);
-      expect((await posicao(tester))!.spine, 2);
     },
   );
 
@@ -336,6 +363,12 @@ void main() {
       expect(findAppText('Não deu para abrir o livro agora.'), findsOneWidget);
       expect(t.erros.single, isA<StateError>());
       await tester.tap(findAppText('Tentar de novo'));
+      await tester.pump();
+      expect(
+        findAppText('Abrindo o livro…'),
+        findsNothing,
+        reason: 'de novo só depois de 300 ms (D-113)',
+      );
       await esperarLeitor(tester);
       expect(_key('r19.footer'), findsOneWidget);
     });
@@ -356,9 +389,30 @@ void main() {
         for (final id in data.customSemanticsActionIds ?? <int>[])
           CustomSemanticsAction.getAction(id)!.label,
       };
-      expect(acoes, {'Próxima página', 'Página anterior'});
+      expect(acoes, {'Próxima página', 'Página anterior', 'Fechar o livro'});
       // o rodapé não repete a página
       expect(find.semantics.byLabel(RegExp(r'^pág\.')), findsNothing);
+      // as ações fazem o que dizem
+      final pagina = find.semantics.byLabel(RegExp(r'^Dom Casmurro, página'));
+      final antes = _doc(tester).mark;
+      tester.semantics.customAction(
+        pagina,
+        const CustomSemanticsAction(label: 'Próxima página'),
+      );
+      await _quadros(tester);
+      expect(_doc(tester).mark.offset, greaterThan(antes.offset));
+      tester.semantics.customAction(
+        pagina,
+        const CustomSemanticsAction(label: 'Página anterior'),
+      );
+      await _quadros(tester);
+      expect(_doc(tester).mark, antes);
+      tester.semantics.customAction(
+        pagina,
+        const CustomSemanticsAction(label: 'Fechar o livro'),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(ReaderScreen), findsNothing);
       handle.dispose();
     },
   );
@@ -391,9 +445,7 @@ void main() {
       expect(_doc(tester).mark.spine, isNot(rosto));
       final pilula = findAppText('Voltar à pág. $pag');
       expect(pilula, findsOneWidget);
-      final r = tester.getRect(_key('leitor.voltarDoLink'));
-      expect(r.center.dx, closeTo(195, 0.5));
-      expect(r.center.dy, closeTo(797.1, 3));
+      _pilulaNoVao(tester);
       await tester.tap(pilula);
       await _quadros(tester);
       expect(_doc(tester).mark, origem);
@@ -407,4 +459,226 @@ void main() {
       expect(pilula, findsNothing);
     },
   );
+
+  group('revisão da G11', () {
+    /// Abre na página da folha de rosto que tem o "Indice" e toca nele: volta (mark de origem, pág. dela).
+    Future<(ReaderMark, int)> seguirIndice(WidgetTester tester) async {
+      final rosto = livro.index.spine.indexWhere(
+        (s) => s.path.endsWith('55752-h-0.htm.xhtml'),
+      );
+      final indice = chapterOf(livro.epub, rosto).item.text.indexOf('Indice');
+      await tester.runAsync(() => livro.guardarPosicao(rosto, indice));
+      await abrirLeitor(tester, livro);
+      final origem = _doc(tester).mark;
+      final pag = _doc(tester).numbers.refPage;
+      Offset? alvo;
+      for (var y = 92.0; y < 762 && alvo == null; y += 3) {
+        for (var x = 28.0; x < 362 && alvo == null; x += 3) {
+          if (_doc(tester).current.linkAt(Offset(x, y)) != null) {
+            alvo = Offset(x + 3, y + 3);
+          }
+        }
+      }
+      await tester.tapAt(alvo!);
+      await _quadros(tester);
+      expect(_doc(tester).mark.spine, isNot(rosto));
+      return (origem, pag);
+    }
+
+    testWidgets('pílula no vão também numa tela de 360 px (D-108)', (
+      tester,
+    ) async {
+      setCanvasView(tester, logical: const Size(360, 800));
+      final (_, pag) = await seguirIndice(tester);
+      expect(findAppText('Voltar à pág. $pag'), findsOneWidget);
+      _pilulaNoVao(tester);
+    });
+
+    testWidgets(
+      'fechar com a pílula valendo grava a página de onde saiu (D-115)',
+      (tester) async {
+        setCanvasView(tester, logical: const Size(390, 844));
+        final (origem, _) = await seguirIndice(tester);
+        await tester.pump(
+          const Duration(seconds: 2),
+        ); // mais que o 1 s do guardião, dentro dos 6 s
+        await tester.binding.handlePopRoute();
+        await tester.pumpAndSettle();
+        final p = (await posicao(tester))!;
+        expect((p.spine, p.offset), (origem.spine, origem.offset));
+      },
+    );
+
+    testWidgets('depois que a pílula some, a posição é a do destino', (
+      tester,
+    ) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await seguirIndice(tester);
+      final destino = _doc(tester).mark;
+      await tester.pump(const Duration(seconds: 6));
+      await tester.pump(const Duration(seconds: 2));
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      final p = (await posicao(tester))!;
+      expect((p.spine, p.offset), (destino.spine, destino.offset));
+    });
+
+    testWidgets(
+      'com o leitor de tela: a pílula é anunciada e fica até as 2 viradas (D-116)',
+      (tester) async {
+        tester.platformDispatcher.accessibilityFeaturesTestValue =
+            const FakeAccessibilityFeatures(accessibleNavigation: true);
+        addTearDown(
+          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+        );
+        setCanvasView(tester, logical: const Size(390, 844));
+        final (_, pag) = await seguirIndice(tester);
+        expect(
+          tester.takeAnnouncements().map((a) => a.message),
+          contains('Voltar à pág. $pag, no rodapé'),
+        );
+        await tester.pump(const Duration(seconds: 7));
+        expect(
+          findAppText('Voltar à pág. $pag'),
+          findsOneWidget,
+          reason: 'sem os 6 s',
+        );
+        for (var i = 0; i < 2; i++) {
+          await tester.tapAt(const Offset(360, 420));
+          await _quadros(tester, 20);
+        }
+        expect(findAppText('Voltar à pág. $pag'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'capítulo que não abre no meio da leitura: aviso de arquivo danificado (D-21)',
+      (tester) async {
+        setCanvasView(tester, logical: const Size(390, 844));
+        await tester.runAsync(() => livro.guardarPosicao(2, 0));
+        await abrirLeitor(
+          tester,
+          livro,
+          deps: (t) async => livro.readerDeps(awake: t.awake, quebrados: {1}),
+        );
+        await tester.tapAt(
+          const Offset(40, 420),
+        ); // volta para o item 1, que não abre
+        await _quadros(tester);
+        expect(
+          findAppText(
+            'Não deu para abrir este livro. O arquivo pode estar danificado.',
+          ),
+          findsOneWidget,
+        );
+        expect(tester.takeException(), isNull);
+      },
+    );
+
+    testWidgets(
+      'dependências que não vieram: "Tentar de novo" pede de novo e abre',
+      (tester) async {
+        setCanvasView(tester, logical: const Size(390, 844));
+        var vez = 0;
+        await abrirLeitor(
+          tester,
+          livro,
+          deps: (t) async {
+            if (vez++ == 0) throw StateError('sem banco');
+            return livro.readerDeps(awake: t.awake);
+          },
+        );
+        expect(tester.takeException(), isA<StateError>(), reason: 'relatado');
+        expect(
+          findAppText('Não deu para abrir o livro agora.'),
+          findsOneWidget,
+        );
+        await tester.tap(findAppText('Tentar de novo'));
+        await esperarLeitor(tester);
+        expect(_key('r19.footer'), findsOneWidget);
+        expect(vez, 2);
+      },
+    );
+
+    testWidgets(
+      'em segundo plano a página que muda por dentro não religa a tela acesa',
+      (tester) async {
+        setCanvasView(tester, logical: const Size(390, 844));
+        final t = await abrirLeitor(tester, livro);
+        final b = tester.binding;
+        for (final s in [
+          AppLifecycleState.inactive,
+          AppLifecycleState.hidden,
+        ]) {
+          b.handleAppLifecycleStateChanged(s);
+        }
+        await tester.pump();
+        expect(t.awake.log.last, 'off');
+        unawaited(_doc(tester).goTo((spine: 3, offset: 0)));
+        await _quadros(tester);
+        expect(
+          t.awake.log.last,
+          'off',
+          reason: 'a página mudou por dentro, ninguém tocou',
+        );
+        for (final s in [
+          AppLifecycleState.inactive,
+          AppLifecycleState.resumed,
+        ]) {
+          b.handleAppLifecycleStateChanged(s);
+        }
+        await tester.pump();
+        expect(t.awake.log.last, 'on');
+      },
+    );
+
+    testWidgets(
+      'iOS: arrastar da borda esquerda volta a página, não fecha o livro',
+      (tester) async {
+        setCanvasView(tester, logical: const Size(390, 844));
+        await abrirLeitor(tester, livro);
+        final antes = _doc(tester).mark;
+        await tester.timedDragFrom(
+          const Offset(4, 420),
+          const Offset(200, 0),
+          const Duration(milliseconds: 300),
+        );
+        await tester.pumpAndSettle();
+        expect(find.byType(ReaderScreen), findsOneWidget);
+        expect(_doc(tester).mark.offset, lessThan(antes.offset));
+      },
+      variant: TargetPlatformVariant.only(TargetPlatform.iOS),
+    );
+
+    testWidgets('"Abrindo" e os erros são região viva para o leitor de tela', (
+      tester,
+    ) async {
+      final h = tester.ensureSemantics();
+      setCanvasView(tester, logical: const Size(390, 844));
+      final pronto = Completer<void>();
+      await abrirLeitor(
+        tester,
+        livro,
+        esperar: false,
+        deps: (t) async {
+          await pronto.future;
+          throw StateError('sem banco');
+        },
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 310));
+      expect(
+        tester.getSemantics(find.byKey(const ValueKey('leitor.abrindo'))),
+        isSemantics(isLiveRegion: true),
+      );
+      pronto.complete();
+      await esperarLeitor(tester);
+      expect(tester.takeException(), isA<StateError>());
+      expect(
+        tester.getSemantics(findAppText('Não deu para abrir o livro agora.')),
+        isSemantics(isLiveRegion: true),
+      );
+      h.dispose();
+    });
+  });
 }

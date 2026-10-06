@@ -177,29 +177,47 @@ final class PdfReaderDocument implements ReaderDocument {
     return j < 0 || j >= pageCount ? null : j;
   }
 
+  /// Página vizinha que não renderiza dá o erro (não é o fim do PDF).
   @override
   Future<DisplayPage?> peek(PageDirection d) async {
     final j = _neighbor(d);
     if (j == null || _disposed) return null;
-    try {
-      return await _page(j);
-    } on Object {
-      return null; // o erro aparece ao virar
-    }
+    return _page(j);
+  }
+
+  /// Viradas e saltos em fila: cada um parte da página onde o anterior parou.
+  Future<void> _queue = Future<void>.value();
+
+  Future<T> _serial<T>(Future<T> Function() f) {
+    final run = _queue.then((_) => f());
+    _queue = run.then<void>((_) {}, onError: (Object _) {});
+    return run;
   }
 
   @override
-  Future<bool> turn(PageDirection d) async {
+  Future<bool> turn(PageDirection d) => _serial(() async {
     final j = _neighbor(d);
     if (j == null || _disposed) return false;
     await _show(j);
     return true;
-  }
+  });
 
   @override
-  Future<void> goTo(ReaderMark m) async {
+  Future<void> goTo(ReaderMark m) => _serial(() async {
     if (pageCount == 0 || _disposed) return;
     await _show(m.offset.clamp(0, pageCount - 1));
+  });
+
+  int? _pinned;
+
+  @override
+  Future<void> pin(ReaderMark? mark) async {
+    _pinned = mark?.offset;
+    if (mark == null) {
+      _announce();
+      return;
+    }
+    _keeper.pageShown(mark.offset.clamp(0, pageCount - 1), pageCount);
   }
 
   @override
@@ -221,8 +239,16 @@ final class PdfReaderDocument implements ReaderDocument {
     unawaited(_doc.dispose());
   }
 
+  /// A página que está sendo aberta (a que chega tarde e não é ela, longe da atual, não fica na memória).
+  int? _target;
+
   Future<void> _show(int page) async {
-    await _page(page);
+    _target = page;
+    try {
+      await _page(page);
+    } finally {
+      _target = null;
+    }
     if (_disposed) return;
     _at = page;
     _evict();
@@ -240,19 +266,25 @@ final class PdfReaderDocument implements ReaderDocument {
 
   void _prefetch() {
     for (final d in PageDirection.values) {
-      final j = _neighbor(d);
-      if (j != null) unawaited(peek(d));
+      if (_neighbor(d) == null) continue;
+      // a vizinha que não renderiza dá o erro quando a pessoa virar
+      unawaited(peek(d).then((_) {}, onError: (Object _) {}));
     }
   }
 
-  void _announce() => _keeper.pageShown(_at, pageCount);
+  /// A página mostrada vai para a posição — a não ser que haja um alfinete (D-115).
+  void _announce() {
+    if (_pinned != null) return;
+    _keeper.pageShown(_at, pageCount);
+  }
 
   Future<PdfDisplayPage> _page(int index) {
     final have = _pages[index];
     if (have != null && have.alive) return Future.value(have);
     return _rendering[index] ??= _render(index)
         .then((p) {
-          if (_disposed) {
+          // fechou, ou é uma vizinha que chegou depois de a pessoa ir para longe dela
+          if (_disposed || (index != _target && (index - _at).abs() > 1)) {
             p.dispose();
             return p;
           }

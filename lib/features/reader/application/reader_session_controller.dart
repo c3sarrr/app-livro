@@ -165,6 +165,7 @@ class ReaderSessionController extends ChangeNotifier {
     _insets = ReaderInsets.of(v.padding);
     final gen = ++_opening;
     _set(const ReaderOpening());
+    await _detach(); // "Tentar de novo" depois de uma falha no meio da leitura: o livro de antes sai
     try {
       final result = await _open(v, gen);
       if (gen != _opening || _closed || _disposed) {
@@ -395,41 +396,70 @@ class ReaderSessionController extends ChangeNotifier {
     }
   }
 
-  /// Vira; `false` = começo/fim do livro.
-  Future<bool> turn(PageDirection d) async {
+  /// Vira; `false` = começo/fim do livro, ou não deu (a falha vira o aviso da D-21).
+  Future<bool> turn(PageDirection d) {
     final doc = _doc;
-    if (doc == null || _closed) return false;
+    if (doc == null || _closed || _state is ReaderFailed) {
+      return Future.value(false);
+    }
     interaction();
-    final ok = await doc.turn(d);
-    if (ok && _back != null && ++_backTurns >= backLinkTurns) _clearBack();
-    return ok;
+    return _serial(() async {
+      if (_closed || !identical(_doc, doc)) return false;
+      try {
+        final ok = await doc.turn(d);
+        if (ok && _back != null && ++_backTurns >= backLinkTurns) _clearBack();
+        return ok;
+      } on Object catch (e, st) {
+        return _navFailed(e, st);
+      }
+    });
   }
 
-  /// Segue um link interno e guarda a volta (D-108).
-  Future<bool> follow(LinkHit link) async {
+  /// Segue um link interno e guarda a volta (D-108). [timed] = a volta some em 6 s; com o leitor de tela ela
+  /// fica até as 2 viradas (D-116). Enquanto a volta vale, a posição gravada é a de onde se saiu (D-115).
+  Future<bool> follow(LinkHit link, {bool timed = true}) {
     final doc = _doc;
-    if (doc == null || _closed) return false;
+    if (doc == null || _closed || _state is ReaderFailed) {
+      return Future.value(false);
+    }
     interaction();
-    final from = doc.mark;
-    final refPage = doc.numbers.refPage;
-    final ok = await doc.follow(link);
-    if (!ok || _disposed) return ok;
-    _back = (mark: from, refPage: refPage);
-    _backTurns = 0;
-    _backTimer?.cancel();
-    _backTimer = deps.startTimer(backLinkLife, _clearBack);
-    _set(ReaderReady(doc, back: _back));
-    return true;
+    return _serial(() async {
+      if (_closed || !identical(_doc, doc)) return false;
+      final from = doc.mark;
+      final refPage = doc.numbers.refPage;
+      try {
+        final ok = await doc.follow(link);
+        if (!ok || _disposed || _closed) return ok;
+        _back = (mark: from, refPage: refPage);
+        _backTurns = 0;
+        _backTimer?.cancel();
+        _backTimer = timed ? deps.startTimer(backLinkLife, _clearBack) : null;
+        await doc.pin(from);
+        _set(ReaderReady(doc, back: _back));
+        return true;
+      } on Object catch (e, st) {
+        return _navFailed(e, st);
+      }
+    });
   }
 
   /// "Voltar à pág. N": de volta ao caractere de onde se saiu.
-  Future<void> back() async {
+  Future<void> back() {
     final doc = _doc;
     final b = _back;
-    if (doc == null || b == null) return;
+    if (doc == null || b == null || _closed || _state is ReaderFailed) {
+      return Future.value();
+    }
     interaction();
-    _clearBack();
-    await doc.goTo(b.mark);
+    return _serial(() async {
+      if (_closed || !identical(_back, b)) return;
+      _clearBack();
+      try {
+        await doc.goTo(b.mark);
+      } on Object catch (e, st) {
+        _navFailed(e, st);
+      }
+    });
   }
 
   void _clearBack() {
@@ -438,7 +468,59 @@ class ReaderSessionController extends ChangeNotifier {
     if (_back == null) return;
     _back = null;
     final doc = _doc;
-    if (doc != null && !_disposed) _set(ReaderReady(doc));
+    if (doc == null || _disposed) return;
+    unawaited(
+      doc
+          .pin(null)
+          .catchError((Object e, StackTrace st) => deps.onError(e, st)),
+    );
+    if (!_closed) _set(ReaderReady(doc));
+  }
+
+  /// Virar, seguir link e voltar em fila: um termina antes do outro começar (a volta de um link fica gravada
+  /// antes da virada seguinte contar).
+  Future<void> _nav = Future<void>.value();
+
+  Future<T> _serial<T>(Future<T> Function() f) {
+    final run = _nav.then((_) => f());
+    _nav = run.then<void>((_) {}, onError: (Object _) {});
+    return run;
+  }
+
+  /// Virar, seguir ou voltar falhou: arquivo danificado → o aviso da D-21; o resto é relatado e vira "Não deu
+  /// para abrir o livro agora" com "Tentar de novo" (reabre onde a pessoa estava).
+  bool _navFailed(Object e, StackTrace st) {
+    if (e is PagerClosed || _closed || _disposed) return false;
+    if (e is ContentFailure) {
+      _set(const ReaderFailed(ReaderFailure.damaged));
+    } else {
+      deps.onError(e, st);
+      _set(const ReaderFailed(ReaderFailure.unexpected));
+    }
+    return false;
+  }
+
+  /// Solta o livro aberto (antes de reabrir): grava a posição e o tempo dele.
+  Future<void> _detach() async {
+    final doc = _doc;
+    if (doc == null) return;
+    final tracker = _tracker;
+    doc.changes.removeListener(_pageChanged);
+    _doc = null;
+    _tracker = null;
+    _lastMark = null;
+    _backTimer?.cancel();
+    _backTimer = null;
+    _back = null;
+    _awake?.stop();
+    try {
+      await doc.flush();
+      await tracker?.close();
+    } on Object catch (e, st) {
+      deps.onError(e, st);
+    }
+    tracker?.dispose();
+    doc.dispose();
   }
 
   /// Sai do livro: grava a posição e fecha o tempo (a tela chama ao fechar ou voltar). Chamar de novo devolve

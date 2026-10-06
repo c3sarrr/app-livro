@@ -18,6 +18,7 @@ import 'package:app_leitura/features/reader/application/reading_position_keeper.
 import 'package:app_leitura/features/reader/application/screen_awake.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart';
+import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
@@ -150,6 +151,7 @@ final class LivroNaEstante {
     Duration Function()? elapsed,
     DateTime Function()? now,
     Timer Function(Duration, void Function())? startTimer,
+    Set<int> quebrados = const {},
   }) => ReaderDeps(
     db: db,
     versioning: versioning,
@@ -171,8 +173,11 @@ final class LivroNaEstante {
     now: now,
     elapsed: elapsed,
     autoTick: false,
+    // [quebrados]: capítulos que não abrem (arquivo danificado no meio do livro)
     chapterLoader: (path) =>
-        (s) async => chapterOf(epub, s),
+        (s) async => quebrados.contains(s)
+        ? throw const ContentDamaged('capitulo_quebrado')
+        : chapterOf(epub, s),
     startTimer: startTimer ?? Timer.new,
     onError: onError ?? reportReaderError,
   );

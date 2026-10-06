@@ -1,7 +1,9 @@
 // G11.3 — virar página (D-22, D-107, D-113) com um livro de mentira de 5 páginas: toque nos terços (esquerdo
 // volta, direito avança, centro chama o fechar), o toque num link vale antes dos terços, o arrasto completa
 // com 1/4 da largura ou ≥ 300 px/s e volta abaixo disso, a animação leva 220 ms `easeOutCubic`, no começo e no
-// fim do livro a página anda 1/3 do dedo e volta (batente), e a vizinha atrasada aparece quando chega.
+// fim do livro a página anda 1/3 do dedo e volta (batente), e a vizinha atrasada aparece quando chega. Revisão:
+// a vizinha que não abre não é batente, a virada que falha não trava a página, pressão longa não faz nada
+// (D-113), seguir um link segura os gestos, e o limite de 300 px/s vale dos dois lados.
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -46,6 +48,11 @@ final class _Livro implements ReaderDocument {
   /// Segura a vizinha (capítulo ainda sendo montado).
   Completer<void>? segura;
 
+  /// A vizinha não abre (arquivo danificado): o peek dá erro.
+  bool quebrada = false;
+
+  ReaderMark? alfinete;
+
   int? _vizinha(PageDirection d) {
     final j = d == PageDirection.forward ? at + 1 : at - 1;
     return j < 0 || j >= total ? null : j;
@@ -77,6 +84,7 @@ final class _Livro implements ReaderDocument {
   Future<DisplayPage?> peek(PageDirection d) async {
     final s = segura;
     if (s != null) await s.future;
+    if (quebrada) throw StateError('capítulo vizinho danificado');
     final j = _vizinha(d);
     return j == null ? null : paginas[j];
   }
@@ -101,6 +109,9 @@ final class _Livro implements ReaderDocument {
   Future<void> flush() async {}
 
   @override
+  Future<void> pin(ReaderMark? mark) async => alfinete = mark;
+
+  @override
   void dispose() {}
 }
 
@@ -108,7 +119,12 @@ void main() {
   late _Livro livro;
   late List<String> eventos;
 
-  Future<void> montar(WidgetTester tester, {int at = 2}) async {
+  Future<void> montar(
+    WidgetTester tester, {
+    int at = 2,
+    Future<bool> Function(PageDirection d)? virar,
+    Future<void> Function(LinkHit h)? seguir,
+  }) async {
     tester.view
       ..devicePixelRatio = 1
       ..physicalSize = const Size(390, 844);
@@ -122,10 +138,13 @@ void main() {
           document: livro,
           onTurn: (d) async {
             eventos.add('virar ${d.name}');
-            return livro.turn(d);
+            return virar == null ? livro.turn(d) : virar(d);
           },
           onCenter: () => eventos.add('centro'),
-          onLink: (h) => eventos.add('link ${h.target}'),
+          onLink: (h) async {
+            eventos.add('link ${h.target}');
+            await seguir?.call(h);
+          },
           onInteraction: () => eventos.add('toque'),
         ),
       ),
@@ -352,4 +371,123 @@ void main() {
     await tester.pumpAndSettle();
     expect(livro.viradas, [PageDirection.forward]);
   });
+
+  testWidgets(
+    'vizinha que não abre não é batente: o toque e o arrasto pedem a virada (a sessão mostra o aviso)',
+    (tester) async {
+      await montar(
+        tester,
+        virar: (_) async => false,
+      ); // a sessão não virou: mostrou o aviso
+      livro.quebrada = true;
+      await tester.tapAt(const Offset(350, 400));
+      await tester.pumpAndSettle();
+      expect(eventos.where((e) => e.startsWith('virar')), ['virar forward']);
+      await tester.timedDragFrom(
+        const Offset(300, 400),
+        const Offset(-150, 0),
+        const Duration(milliseconds: 300),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        eventos.where((e) => e.startsWith('virar')),
+        ['virar forward', 'virar forward'],
+        reason: 'o arrasto acompanha o dedo inteiro (não é o 1/3 do batente) e pede a virada',
+      );
+      expect(x(2), 0, reason: 'não virou: a página voltou');
+    },
+  );
+
+  testWidgets('a virada que lança erro não trava a página', (tester) async {
+    var falhar = true;
+    await montar(
+      tester,
+      virar: (d) async {
+        if (falhar) throw StateError('falhou ao virar');
+        return livro.turn(d);
+      },
+    );
+    await tester.tapAt(const Offset(350, 400));
+    await tester.pumpAndSettle();
+    expect(
+      tester.takeException(),
+      isA<StateError>(),
+      reason: 'relatado (relatório de falhas)',
+    );
+    expect((livro.at, x(2)), (2, 0.0));
+    falhar = false;
+    await tester.tapAt(const Offset(350, 400));
+    await tester.pumpAndSettle();
+    expect(livro.at, 3, reason: 'a página aceitou o gesto seguinte');
+  });
+
+  testWidgets(
+    'pressão longa não faz nada (D-113): nem virar, nem link, nem o fechar',
+    (tester) async {
+      await montar(tester);
+      for (final p in const [
+        Offset(350, 400),
+        Offset(195, 400),
+        Offset(230, 110),
+      ]) {
+        final g = await tester.startGesture(p);
+        await tester.pump(const Duration(seconds: 1));
+        await g.up();
+        await tester.pumpAndSettle();
+      }
+      expect(eventos, isEmpty);
+      expect(livro.viradas, isEmpty);
+    },
+  );
+
+  testWidgets('seguir um link segura os gestos até ele terminar', (
+    tester,
+  ) async {
+    final chegou = Completer<void>();
+    await montar(tester, seguir: (_) => chegou.future);
+    await tester.tapAt(const Offset(230, 110));
+    await tester.pump();
+    await tester.tapAt(const Offset(350, 400));
+    await tester.pumpAndSettle();
+    expect(livro.viradas, isEmpty, reason: 'o toque durante o link é ignorado');
+    chegou.complete();
+    await tester.pump();
+    await tester.tapAt(const Offset(350, 400));
+    await tester.pumpAndSettle();
+    expect(livro.viradas, [PageDirection.forward]);
+  });
+
+  testWidgets(
+    'limite de 300 px/s dos dois lados: 50 px a ~250 px/s volta; a ~350 px/s completa',
+    (tester) async {
+      await montar(tester);
+      await tester.timedDragFrom(
+        const Offset(300, 400),
+        const Offset(-50, 0),
+        const Duration(milliseconds: 200),
+      );
+      await tester.pumpAndSettle();
+      expect(livro.viradas, isEmpty, reason: '~250 px/s < 300 e 50 px < 1/4');
+      await tester.timedDragFrom(
+        const Offset(300, 400),
+        const Offset(-50, 0),
+        const Duration(milliseconds: 140),
+      );
+      await tester.pumpAndSettle();
+      expect(livro.viradas, [PageDirection.forward], reason: '~350 px/s ≥ 300');
+    },
+  );
+
+  testWidgets(
+    'o gesto da página fica fora do leitor de tela (as ações estão no nó r19.page)',
+    (tester) async {
+      final h = tester.ensureSemantics();
+      await montar(tester);
+      expect(
+        tester.getSemantics(find.byType(ReaderPageView)),
+        isNot(isSemantics(hasTapAction: true)),
+      );
+      h.dispose();
+    },
+  );
 }

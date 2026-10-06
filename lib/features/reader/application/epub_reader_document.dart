@@ -130,14 +130,30 @@ final class EpubReaderDocument implements ReaderDocument {
   @override
   Future<void> flush() => _deps.keeper.flush();
 
+  ReaderMark? _pinned;
+
+  @override
+  Future<void> pin(ReaderMark? mark) async {
+    _pinned = mark;
+    if (mark == null) {
+      _announce();
+      return;
+    }
+    final content = await _pager.content(mark.spine);
+    // soltou ou trocou enquanto o capítulo carregava
+    if (_pinned != mark) return;
+    _deps.keeper.pageShown(mark.spine, mark.offset, content.item.text);
+  }
+
   @override
   void dispose() {
     _deps.keeper.dispose();
     _pager.dispose();
   }
 
-  /// Uma página apareceu: a posição grava depois de 1 s nela (G10).
+  /// Uma página apareceu: a posição grava depois de 1 s nela (G10) — a não ser que haja um alfinete (D-115).
   void _announce() {
+    if (_pinned != null) return;
     final p = _pager.position;
     if (p == null) return;
     final text = _pager.contentOf(p.spine)?.item.text ?? '';

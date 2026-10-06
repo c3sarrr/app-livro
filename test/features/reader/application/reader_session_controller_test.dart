@@ -4,6 +4,8 @@
 // liga tempo (D-95), posição (G10) e tela acesa (D-111) à página e ao ciclo de vida, e guarda a volta de um
 // link por 6 s ou 2 viradas (D-108). Relógio monotônico falso no tempo; o prazo da volta anda à mão.
 
+import 'dart:io';
+
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
@@ -14,11 +16,13 @@ import 'package:app_leitura/features/reader/application/reader_session_controlle
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart';
 import 'package:app_leitura/features/reader/content/content_blocks.dart';
+import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pdfrx/pdfrx.dart' show pdfrxInitialize;
 
 import '../../../support/fake_reader.dart';
 import '../../../support/load_fonts.dart';
@@ -43,6 +47,12 @@ final class _Sessao {
   Duration agora = Duration.zero;
   Future<bool> Function(String id)? indexar;
 
+  /// O capítulo que não abre e o erro dele (arquivo danificado, falha inesperada).
+  Object? Function(int spine)? erroNoCapitulo;
+
+  /// Como preparar o PDFium (livro em PDF).
+  Future<void> Function()? pdfInitialize;
+
   ReaderSessionController controller() {
     final c = ReaderSessionController(
       userBookId: livro.userBookId,
@@ -64,9 +74,13 @@ final class _Sessao {
         now: () => t0Teste.add(agora),
         elapsed: () => agora,
         autoTick: false,
-        chapterLoader: (path) =>
-            (s) async => chapterOf(livro.epub, s),
+        chapterLoader: (path) => (s) async {
+          final erro = erroNoCapitulo?.call(s);
+          if (erro != null) throw erro;
+          return chapterOf(livro.epub, s);
+        },
         startTimer: prazos.start,
+        pdfInitialize: pdfInitialize,
         onError: (e, _) => erros.add(e),
       ),
     );
@@ -391,5 +405,166 @@ void main() {
     await c.turn(PageDirection.forward);
     expect(avisos, greaterThan(0));
     expect(doc(c).numbers, isNot(antes));
+  });
+
+  group('revisão da G11', () {
+    LinkHit indice() {
+      final rosto = h.livro.index.spine.indexWhere(
+        (s) => s.path.endsWith('55752-h-0.htm.xhtml'),
+      );
+      final link = [
+        for (final b in chapterOf(h.livro.epub, rosto).item.blocks)
+          if (b is TextBlock)
+            for (final r in b.runs)
+              if (r.link != null && r.text.trim() == 'Indice') r.link!,
+      ].single;
+      return (target: link, spine: rosto, offset: 0);
+    }
+
+    Future<EpubLocator> gravada() async =>
+        (await ReadingPositionsDao(h.livro.db).forBook(h.livro.userBookId))!
+                .locator
+            as EpubLocator;
+
+    test('com a volta valendo, a posição gravada é a de onde se saiu; ao sumir, a do destino (D-115)', () async {
+      final hit = indice();
+      await h.livro.guardarPosicao(hit.spine, 0);
+      final c = await aberto();
+      final origem = doc(c).mark;
+      expect(await c.follow(hit), isTrue);
+      final destino = doc(c).mark;
+      await doc(c).flush();
+      expect(
+        ((await gravada()).spine, (await gravada()).offset),
+        (origem.spine, origem.offset),
+      );
+      h.prazos.avancar(backLinkLife);
+      await Future<void>.delayed(Duration.zero);
+      await doc(c).flush();
+      expect(
+        ((await gravada()).spine, (await gravada()).offset),
+        (destino.spine, destino.offset),
+      );
+    });
+
+    test('fechar com a volta valendo grava a origem (D-115)', () async {
+      final hit = indice();
+      await h.livro.guardarPosicao(hit.spine, 0);
+      final c = await aberto();
+      final origem = doc(c).mark;
+      await c.follow(hit);
+      await c.turn(PageDirection.forward); // 1 virada: a volta ainda vale
+      await c.close();
+      expect(
+        ((await gravada()).spine, (await gravada()).offset),
+        (origem.spine, origem.offset),
+      );
+    });
+
+    test(
+      'volta sem prazo (leitor de tela — D-116): só as 2 viradas a tiram',
+      () async {
+        final hit = indice();
+        await h.livro.guardarPosicao(hit.spine, 0);
+        final c = await aberto();
+        await c.follow(hit, timed: false);
+        expect(h.prazos.pendentes, 0);
+        expect((c.state as ReaderReady).back, isNotNull);
+        await c.turn(PageDirection.forward);
+        await c.turn(PageDirection.forward);
+        expect((c.state as ReaderReady).back, isNull);
+      },
+    );
+
+    test('em fila: virar logo depois de seguir o link vira a partir do destino e conta para a volta', () async {
+      final hit = indice();
+      await h.livro.guardarPosicao(hit.spine, 0);
+      final c = await aberto();
+      final seguiu = c.follow(hit);
+      final virou = c.turn(PageDirection.forward);
+      expect(await seguiu, isTrue);
+      expect(await virou, isTrue);
+      expect(doc(c).mark.spine, isNot(hit.spine), reason: 'virou no destino');
+      expect(
+        (c.state as ReaderReady).back,
+        isNotNull,
+        reason: '1 virada contada',
+      );
+      await c.turn(PageDirection.forward);
+      expect((c.state as ReaderReady).back, isNull, reason: '2ª virada');
+    });
+
+    test(
+      'virar para um capítulo danificado: o aviso da D-21; nada é relatado',
+      () async {
+        h.erroNoCapitulo = (s) => s == 1 ? const ContentDamaged('teste') : null;
+        await h.livro.guardarPosicao(2, 0);
+        final c = await aberto();
+        expect(await c.turn(PageDirection.backward), isFalse);
+        expect((c.state as ReaderFailed).failure, ReaderFailure.damaged);
+        expect(h.erros, isEmpty);
+        expect(
+          await c.turn(PageDirection.forward),
+          isFalse,
+          reason: 'com o aviso na tela, nada vira',
+        );
+      },
+    );
+
+    test('falha inesperada ao virar: relatada; "Tentar de novo" reabre onde a pessoa estava', () async {
+      h.erroNoCapitulo = (s) => s == 1 ? StateError('memória') : null;
+      await h.livro.guardarPosicao(2, 0);
+      final c = await aberto();
+      final onde = doc(c).mark;
+      expect(await c.turn(PageDirection.backward), isFalse);
+      expect((c.state as ReaderFailed).failure, ReaderFailure.unexpected);
+      expect(h.erros.single, isA<StateError>());
+      h.erroNoCapitulo = null;
+      await c.retry();
+      expect(doc(c).mark, onde);
+      expect(await c.turn(PageDirection.backward), isTrue);
+    });
+
+    test(
+      'livro em PDF abre pela sessão: números do PDF, virar e posição',
+      () async {
+        // a pasta do PDF é só deste teste: no Windows o PDFium solta o arquivo um pouco depois do dispose
+        final tmp = Directory.systemTemp.createTempSync(
+          'booknest_g11_sessao_pdf_',
+        );
+        addTearDown(() async {
+          for (var i = 0; i < 20 && tmp.existsSync(); i++) {
+            try {
+              tmp.deleteSync(recursive: true);
+            } on FileSystemException {
+              await Future<void>.delayed(const Duration(milliseconds: 100));
+            }
+          }
+        });
+        h.pdfInitialize = () => pdfrxInitialize(tmpPath: tmp.path);
+        final copia = File('test/fixtures/livros/amostra.pdf')
+            .copySync('${tmp.path}${Platform.pathSeparator}livro.pdf');
+        await UserBooksDao(h.livro.db)
+            .upsert(h.livro.book.copyWith(format: BookFileFormat.pdf));
+        await LocalFilesDao(h.livro.db).upsert(
+          userBookId: h.livro.userBookId,
+          path: copia.path,
+          bytes: copia.lengthSync(),
+          sha256: shaTeste,
+          now: t0Teste,
+        );
+        final c = h.controller();
+        await c.open(_tela);
+        expect(doc(c).numbers.pageLabel, 'pág. 1 de 3');
+        expect(await c.turn(PageDirection.forward), isTrue);
+        expect(doc(c).numbers.pageLabel, 'pág. 2 de 3');
+        await c.close();
+        c.dispose();
+        final pos = await ReadingPositionsDao(h.livro.db)
+            .forBook(h.livro.userBookId);
+        expect(pos!.locator, isA<PdfLocator>());
+        expect((pos.locator as PdfLocator).page, 1);
+      },
+    );
   });
 }

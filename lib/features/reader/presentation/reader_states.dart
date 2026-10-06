@@ -32,11 +32,15 @@ class ReaderOpeningView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Center(
+    // região viva: o leitor de tela anuncia quando aparece (D-116)
     child: visible
-        ? AccountText(
-            preparing ? 'Preparando o livro…' : 'Abrindo o livro…',
-            key: const ValueKey('leitor.abrindo'),
-            muted: true,
+        ? Semantics(
+            liveRegion: true,
+            child: AccountText(
+              preparing ? 'Preparando o livro…' : 'Abrindo o livro…',
+              key: const ValueKey('leitor.abrindo'),
+              muted: true,
+            ),
           )
         : const SizedBox.shrink(),
   );
@@ -64,7 +68,10 @@ class ReaderFailureView extends StatelessWidget {
         child: AccountColumn(
           key: const ValueKey('leitor.erro'),
           children: [
-            AccountNotice(readerFailureText(failure), error: true),
+            Semantics(
+              liveRegion: true,
+              child: AccountNotice(readerFailureText(failure), error: true),
+            ),
             if (failure == ReaderFailure.unexpected && onRetry != null)
               AccountButton(
                 'Tentar de novo',
