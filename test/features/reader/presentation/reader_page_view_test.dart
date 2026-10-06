@@ -53,6 +53,24 @@ final class _Pagina implements DisplayPage {
   List<Rect> rectsOf(int unit, int from, int to) => unit == n
       ? [Rect.fromLTWH(30.0 + from, 120, (to - from).toDouble(), 20)]
       : const [];
+
+  @override
+  ReaderRange? get shown => null;
+
+  @override
+  ReaderSpot? spotAt(ui.Offset p) => null;
+
+  @override
+  ReaderRange? wordAround(ReaderSpot s) => null;
+
+  @override
+  ReaderRange? wordAt(ui.Offset p) => null;
+
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
+
+  @override
+  String textOf(int unit, int from, int to) => '';
 }
 
 final class _Livro implements ReaderDocument {

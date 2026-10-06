@@ -131,6 +131,14 @@ void main() {
         expect(d.numbers.percentLabel, '0%');
         expect(d.current.spokenText, 'Primeiro conto');
         expect(d.current.linkAt(const ui.Offset(100, 100)), isNull);
+        // D-134: o PDF não tem seleção nem grifos na G13
+        final page = d.current;
+        expect(page.shown, isNull);
+        expect(page.spotAt(const ui.Offset(100, 300)), isNull);
+        expect(page.wordAt(const ui.Offset(100, 300)), isNull);
+        expect(page.wordAround((unit: 0, offset: 3)), isNull);
+        expect(page.boxesOf(0, 0, 10), isEmpty);
+        expect(page.textOf(0, 0, 10), '');
         expect(await d.peek(PageDirection.backward), isNull);
         expect(await d.turn(PageDirection.backward), isFalse);
       },

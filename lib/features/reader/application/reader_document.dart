@@ -58,8 +58,8 @@ typedef BookmarkDraft = ({
   String excerpt,
 });
 
-/// Um trecho achado pela busca: [unit] = item do spine (EPUB) ou página (PDF); [from]…[to] no texto dele.
-typedef FoundRange = ({int unit, int from, int to});
+/// Um trecho achado pela busca (D-120) — o mesmo tipo de um trecho da página.
+typedef FoundRange = ReaderRange;
 
 /// Um resultado da busca no livro pronto para a lista e para o salto (D-120): onde saltar, o que marcar na página,
 /// a página de referência e o trecho com a palavra em [matchStart, matchEnd).

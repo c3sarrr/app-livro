@@ -104,6 +104,25 @@ final class PdfDisplayPage implements DisplayPage {
   @override
   LinkHit? linkAt(ui.Offset p) => null;
 
+  // D-134: seleção e grifos no PDF ficam para uma fase própria
+  @override
+  ReaderRange? get shown => null;
+
+  @override
+  ReaderSpot? spotAt(ui.Offset p) => null;
+
+  @override
+  ReaderRange? wordAround(ReaderSpot s) => null;
+
+  @override
+  ReaderRange? wordAt(ui.Offset p) => null;
+
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
+
+  @override
+  String textOf(int unit, int from, int to) => '';
+
   /// Os caracteres [from]…[to] da página [unit], unidos por linha (mesma altura) e levados para a tela.
   @override
   List<ui.Rect> rectsOf(int unit, int from, int to) {
