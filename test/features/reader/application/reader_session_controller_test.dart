@@ -5,6 +5,7 @@
 // link por 6 s ou 2 viradas (D-108). Relógio monotônico falso no tempo; o prazo da volta anda à mão.
 
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
@@ -26,6 +27,7 @@ import 'package:app_leitura/features/reader/domain/reading_speed.dart'
     show defaultCharsPerMinute, timeLeftFor;
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
+import 'package:app_leitura/features/reader/presentation/reader_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_states.dart'
     show readerFailureText;
 import 'package:drift/drift.dart' show Variable;
@@ -903,6 +905,146 @@ void main() {
       expect(doc(c).numbers.refPage, pagOrigem);
       expect(volta(), isNull);
       expect(h.prazos.pendentes, 0);
+    });
+  });
+
+  group('G14', () {
+    Future<ReaderSettings?> linha() =>
+        ReaderSettingsDao(h.livro.db).forUser(usuarioTeste);
+
+    test('applySettings: grava com versão, repagina mantendo o caractere e avisa a tela', () async {
+      final c = await aberto();
+      for (var i = 0; i < 3; i++) {
+        await c.turn(PageDirection.forward);
+      }
+      final lendo = doc(c).mark;
+      var avisos = 0;
+      c.addListener(() => avisos++);
+      await c.applySettings(
+        (l) => l.copyWith(fontStep: 7, fontFamily: ReaderFontFamily.lora),
+      );
+      expect(
+        c.look,
+        const ReaderLook(fontStep: 7, fontFamily: ReaderFontFamily.lora),
+      );
+      expect(
+        (c.typography!.fontSize, c.typography!.font),
+        (26.0, ReaderFontFamily.lora),
+      );
+      final p = doc(c).current as PageSnapshot;
+      expect(p.typography.font, ReaderFontFamily.lora);
+      expect(lendo.offset, inInclusiveRange(p.shown!.from, p.shown!.to - 1));
+      final l1 = await linha();
+      expect(l1!.look, c.look);
+      expect(avisos, greaterThan(0));
+      // outra mudança: nova versão (LWW) e, de volta aos ajustes de antes, a mesma página
+      await c.applySettings(
+        (l) => l.copyWith(fontStep: 4, fontFamily: ReaderFontFamily.literata),
+      );
+      final l2 = await linha();
+      expect(l2!.meta.version.compareTo(l1.meta.version), greaterThan(0));
+      expect(l2.meta.createdAt, l1.meta.createdAt);
+      expect(doc(c).mark, lendo);
+      expect(h.erros, isEmpty);
+    });
+
+    test(
+      'sem linha na conta: cria com os padrões da tela 26 mais a mudança',
+      () async {
+        final c = await aberto();
+        expect(await linha(), isNull);
+        expect(c.look, const ReaderLook());
+        await c.applySettings((l) => l.copyWith(margins: ReaderMargins.larga));
+        final l = await linha();
+        expect(
+          (l!.id, l.meta.userId, l.look),
+          (
+            usuarioTeste,
+            usuarioTeste,
+            const ReaderLook(margins: ReaderMargins.larga),
+          ),
+        );
+        expect(c.typography!.sideMargin, 40);
+      },
+    );
+
+    test('a mesma escolha não grava nem repagina', () async {
+      final c = await aberto();
+      final antes = doc(c).current as PageSnapshot;
+      await c.applySettings((l) => l);
+      expect(await linha(), isNull);
+      final agora = doc(c).current as PageSnapshot;
+      expect(agora.typography, same(antes.typography), reason: 'sem repaginar');
+      expect(agora.page, same(antes.page));
+    });
+
+    test('só o papel: a cor do texto troca sem repaginar; um papel claro vira o último claro', () async {
+      final c = await aberto();
+      final quebras = (doc(c).current as PageSnapshot).typography.layoutKey;
+      final inicio = doc(c).current.shown;
+      await c.applySettings((l) => l.copyWith(paper: ReaderPaper.branco));
+      expect(c.paper, ReaderPaper.branco);
+      expect(c.palette, ReaderPalette.of(ReaderPaper.branco));
+      expect(c.typography!.ink, ReaderPalette.of(ReaderPaper.branco).text);
+      final p = doc(c).current as PageSnapshot;
+      expect((p.typography.layoutKey, p.shown), (quebras, inicio));
+      expect(p.typography.ink, ReaderPalette.of(ReaderPaper.branco).text);
+      expect(await KvDao(h.livro.db).get(lastLightPaperKey), 'branco');
+      // o Noite pela folha guarda o claro de antes; o Tema volta a ele
+      await c.applySettings((l) => l.copyWith(paper: ReaderPaper.noite));
+      expect(await KvDao(h.livro.db).get(lastLightPaperKey), 'branco');
+      await c.toggleTheme();
+      expect(c.paper, ReaderPaper.branco);
+      expect((await linha())!.paper, ReaderPaper.branco);
+      expect(h.erros, isEmpty);
+    });
+
+    test('toques rápidos somam na fila e a tela termina no último', () async {
+      final c = await aberto();
+      await Future.wait([
+        for (var i = 0; i < 3; i++)
+          c.applySettings(
+            (l) => l.copyWith(fontStep: math.min(7, l.fontStep + 1)),
+          ),
+      ]);
+      expect(c.look.fontStep, 7);
+      expect((await linha())!.fontStep, 7);
+      expect((doc(c).current as PageSnapshot).typography.fontSize, 26);
+      expect(h.erros, isEmpty);
+    });
+
+    test('falha ao gravar: relatada; os ajustes, a tipografia e a página ficam como estavam', () async {
+      final c = await aberto();
+      final antes = doc(c).current as PageSnapshot;
+      h.donoFalha = true;
+      await c.applySettings((l) => l.copyWith(fontStep: 1));
+      expect(c.look, const ReaderLook());
+      expect(c.typography!.fontSize, 20.5);
+      final agora = doc(c).current as PageSnapshot;
+      expect(agora.typography, same(antes.typography));
+      expect(agora.page, same(antes.page));
+      expect(h.erros, [isA<StateError>()]);
+      expect(c.state, isA<ReaderReady>());
+    });
+
+    test('reabrir: a sessão monta pela linha gravada', () async {
+      final c = await aberto();
+      await c.applySettings(
+        (l) => l.copyWith(
+          fontFamily: ReaderFontFamily.atkinson,
+          lineSpacing: ReaderLineSpacing.solto,
+        ),
+      );
+      final c2 = await aberto();
+      expect(c2.look, c.look);
+      expect(
+        (c2.typography!.font, c2.typography!.lineSpacing),
+        (ReaderFontFamily.atkinson, 1.95),
+      );
+      expect(
+        (doc(c2).current as PageSnapshot).typography.font,
+        ReaderFontFamily.atkinson,
+      );
     });
   });
 }

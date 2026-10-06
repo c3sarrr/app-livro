@@ -3,12 +3,14 @@
 // liga a página mostrada ao tempo automático (D-95), à posição salva (G10) e à tela acesa (D-111). Guarda uma
 // volta depois de seguir um link (D-108): some em 6 s ou em 2 viradas. G12: a mesma volta depois de um salto pela
 // barra ou pela busca (D-119), o marcador da página (fita), o Tema da conta (D-121), os minutos de hoje e o tempo
-// restante (D-97), e o livro físico (D-123).
+// restante (D-97), e o livro físico (D-123). G14.2 — os ajustes de leitura da folha (tela 26): grava com versão,
+// repagina no caractere que a pessoa lia e guarda o último papel claro; o Tema passa pelo mesmo caminho (D-121,
+// D-144).
 import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart' show ChangeNotifier;
-import 'package:flutter/painting.dart' show EdgeInsets, Size;
+import 'package:flutter/painting.dart' show Color, EdgeInsets, Size;
 import 'package:flutter/widgets.dart' show AppLifecycleState;
 
 import '../../../core/data/database/app_database.dart';
@@ -175,8 +177,14 @@ class ReaderSessionController extends ChangeNotifier {
   ReaderPalette _palette = ReaderPalette.of(ReaderPaper.creme);
 
   /// O papel escolhido (Tema — D-121).
-  ReaderPaper get paper => _paper;
-  ReaderPaper _paper = ReaderPaper.creme;
+  ReaderPaper get paper => _look.paper;
+
+  /// Os ajustes da conta (a folha da tela 26; os padrões da tela 26 enquanto a conta não tem linha).
+  ReaderLook get look => _look;
+  ReaderLook _look = const ReaderLook();
+
+  /// Repaginações pedidas: só a mais nova relata falha (as anteriores terminam com ela).
+  int _retypes = 0;
 
   /// Velocidade pessoal da conta (D-97), lida ao abrir.
   double _speed = defaultCharsPerMinute;
@@ -257,11 +265,11 @@ class ReaderSessionController extends ChangeNotifier {
     final path = file == null ? null : await _existing(file.path);
     if (file == null || path == null) return ReaderFailure.fileMissing;
     final settings = await ReaderSettingsDao(deps.db).forUser(owner);
-    _paper = settings?.paper ?? ReaderPaper.creme;
-    _palette = ReaderPalette.of(_paper);
+    _look = settings?.look ?? const ReaderLook();
+    _palette = ReaderPalette.of(_look.paper);
     // a tela já pinta o "abrindo" no papel da conta (no Noite, sem passar pelo Creme)
     if (!_disposed) notifyListeners();
-    final t = _typography = _typographyFor(settings, v);
+    final t = _typography = _typographyFor(_look, v, _palette.text);
     try {
       _speed = await deps.speedOf(deps.db, owner);
     } on Object catch (e, st) {
@@ -364,27 +372,15 @@ class ReaderSessionController extends ChangeNotifier {
     }
   }
 
-  ReaderTypography _typographyFor(ReaderSettings? s, ReaderViewport v) {
-    final w = v.size.width;
-    final h = v.size.height;
-    if (s != null) {
-      return ReaderTypography.fromSettings(
-        s,
-        viewportWidth: w,
-        viewportHeight: h,
+  ReaderTypography _typographyFor(ReaderLook l, ReaderViewport v, Color ink) =>
+      ReaderTypography.fromLook(
+        l,
+        viewportWidth: v.size.width,
+        viewportHeight: v.size.height,
         topInset: _insets.top,
         bottomInset: _insets.bottom,
-        ink: _palette.text,
+        ink: ink,
       );
-    }
-    return ReaderTypography(
-      viewportWidth: w,
-      viewportHeight: h,
-      topInset: _insets.top,
-      bottomInset: _insets.bottom,
-      ink: _palette.text,
-    );
-  }
 
   /// O caminho guardado, ou o mesmo nome na pasta dos livros de agora (como a importação — G09).
   Future<String?> _existing(String stored) async {
@@ -620,66 +616,112 @@ class ReaderSessionController extends ChangeNotifier {
     });
   }
 
-  /// O botão Tema (D-37, D-121): de um papel claro para o Noite (guardando o claro no aparelho) e do Noite de
-  /// volta ao último claro (Creme se não houver). Grava no ajuste de leitura da conta; o texto troca de cor
-  /// sem repaginar.
-  Future<void> toggleTheme() {
+  /// A folha de ajustes (tela 26, D-144): aplica [change] sobre os ajustes de agora, na fila (toques rápidos
+  /// somam), e grava a linha da conta com versão. Se o papel mudou, guarda o último claro (D-121). Tamanho, fonte,
+  /// entrelinha e margens repaginam na página do caractere que a pessoa lia; a repaginação mais nova passa na
+  /// frente, sem segurar a fila. Só o papel troca a cor do texto sem repaginar. Falha ao gravar: relatada, e tudo
+  /// fica como estava. Termina quando a página nova chega.
+  Future<void> applySettings(ReaderLookChange change) async {
     final doc = _doc;
-    if (doc == null || _closed || _state is ReaderFailed) return Future.value();
+    if (doc == null || _closed || _state is ReaderFailed) return;
     interaction();
-    return _serial(() async {
-      if (_closed || !identical(_doc, doc)) return;
+    final pending = await _serial(() => _applyLook(doc, change));
+    await pending?.relayout;
+  }
+
+  /// O botão Tema (D-37, D-121): de um papel claro para o Noite e do Noite de volta ao último claro (Creme se não
+  /// houver) — o mesmo caminho da folha: grava no ajuste da conta e o texto troca de cor sem repaginar.
+  Future<void> toggleTheme() async {
+    final doc = _doc;
+    if (doc == null || _closed || _state is ReaderFailed) return;
+    interaction();
+    await _serial(() async {
+      final ReaderPaper next;
       try {
-        final kv = KvDao(deps.db);
-        final from = _paper;
-        final ReaderPaper next;
-        if (from == ReaderPaper.noite) {
-          final light = await kv.get(lastLightPaperKey);
-          next = ReaderPaper.values.firstWhere(
-            (p) => p.code == light && p != ReaderPaper.noite,
-            orElse: () => ReaderPaper.creme,
-          );
-        } else {
-          next = ReaderPaper.noite;
-        }
-        final owner = await deps.owner();
-        final dao = ReaderSettingsDao(deps.db);
-        await deps.versioning.write('reader_settings', owner, (v) async {
-          final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
-          final old = await dao.forUser(owner);
-          await dao.upsert(
-            old == null
-                ? ReaderSettings(
-                    id: owner,
-                    meta: RecordMeta(
-                      userId: owner,
-                      createdAt: at,
-                      updatedAt: at,
-                      version: v,
-                    ),
-                    paper: next,
-                  )
-                : old.copyWith(paper: next, meta: old.meta.edited(at, v)),
-          );
-        });
-        // o último claro só depois do ajuste gravado
-        if (from != ReaderPaper.noite) {
-          await kv.set(lastLightPaperKey, from.code);
-        }
-        if (_closed || _disposed) return;
-        final palette = ReaderPalette.of(next);
-        // o texto troca de cor antes (as mesmas quebras, sem repaginar); o papel e as ilhas animam em seguida
-        await doc.recolor(palette.text);
-        if (_closed || _disposed) return;
-        _paper = next;
-        _palette = palette;
-        _typography = _typography?.withInk(palette.text);
-        notifyListeners();
+        next = _look.paper == ReaderPaper.noite
+            ? await _lastLight()
+            : ReaderPaper.noite;
       } on Object catch (e, st) {
-        // o Tema é conforto: uma falha do banco não derruba a leitura (o papel fica como estava)
         deps.onError(e, st);
+        return null;
       }
+      return _applyLook(doc, (l) => l.copyWith(paper: next));
     });
+  }
+
+  Future<ReaderPaper> _lastLight() async {
+    final light = await KvDao(deps.db).get(lastLightPaperKey);
+    return ReaderPaper.values.firstWhere(
+      (p) => p.code == light && p != ReaderPaper.noite,
+      orElse: () => ReaderPaper.creme,
+    );
+  }
+
+  /// Aplica (na fila): grava, troca a cor ou pede a repaginação e avisa a tela. `relayout` = a repaginação em
+  /// curso (quem pediu espera por ela; a fila não).
+  Future<({Future<void> relayout})?> _applyLook(
+    ReaderDocument doc,
+    ReaderLookChange change,
+  ) async {
+    if (_closed || !identical(_doc, doc)) return null;
+    final from = _look;
+    final next = change(from);
+    if (next == from) return null;
+    try {
+      await _save(from, next);
+    } on Object catch (e, st) {
+      // ajuste é conforto: uma falha do banco não derruba a leitura (tudo fica como estava)
+      deps.onError(e, st);
+      return null;
+    }
+    if (_closed || _disposed) return null;
+    final palette = ReaderPalette.of(next.paper);
+    Future<void>? relayout;
+    if (next.sameLayout(from)) {
+      // só o papel: o texto troca de cor antes (as mesmas quebras); o papel e as ilhas animam em seguida
+      await doc.recolor(palette.text);
+      if (_closed || _disposed) return null;
+      _typography = _typography?.withInk(palette.text);
+    } else {
+      final t = _typography = _typographyFor(next, _viewport!, palette.text);
+      final gen = ++_retypes;
+      relayout = doc.retypeset(t).catchError((Object e, StackTrace st) {
+        if (gen == _retypes) _navFailed(e, st);
+      });
+    }
+    _look = next;
+    _palette = palette;
+    notifyListeners();
+    return relayout == null ? null : (relayout: relayout);
+  }
+
+  /// Grava os ajustes da conta (versão HLC; sem linha, cria com os padrões da tela 26). O último claro (D-121) vai
+  /// só depois do ajuste gravado: o papel claro escolhido, ou o claro que se deixou pelo Noite.
+  Future<void> _save(ReaderLook from, ReaderLook next) async {
+    final owner = await deps.owner();
+    final dao = ReaderSettingsDao(deps.db);
+    await deps.versioning.write('reader_settings', owner, (v) async {
+      final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
+      final old = await dao.forUser(owner);
+      await dao.upsert(
+        old == null
+            ? ReaderSettings(
+                id: owner,
+                meta: RecordMeta(
+                  userId: owner,
+                  createdAt: at,
+                  updatedAt: at,
+                  version: v,
+                ),
+              ).withLook(next)
+            : old.withLook(next, meta: old.meta.edited(at, v)),
+      );
+    });
+    if (next.paper == from.paper) return;
+    final light = next.paper != ReaderPaper.noite ? next.paper : from.paper;
+    if (light != ReaderPaper.noite) {
+      await KvDao(deps.db).set(lastLightPaperKey, light.code);
+    }
   }
 
   /// "N min hoje" do chip (Anexo 03 §8): as sessões de hoje mais a aberta.
