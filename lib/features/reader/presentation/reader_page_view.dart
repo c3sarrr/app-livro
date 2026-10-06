@@ -7,6 +7,9 @@
 //   (batente). Se a vizinha ainda não está montada, desliza o papel e ela aparece quando chega;
 // - pressão longa: nada até a G13 (D-113); a vizinha que não abre não é batente: soltar vira e a sessão mostra o
 //   aviso (D-21). Seguir um link segura os gestos até ele terminar.
+// - G12 (D-117): com os controles abertos, qualquer toque só fecha os controles ([onCenter]); o arrasto vira como
+//   sempre e avisa [onDragStarted] (a tela fecha os controles). A ocorrência da busca (D-120) é pintada por trás
+//   das letras na cor [foundColor].
 // A página atual é lida do documento na hora de pintar (ele avisa quando ela muda por dentro).
 import 'dart:async';
 
@@ -40,9 +43,21 @@ class ReaderPageView extends StatefulWidget {
     required this.onCenter,
     required this.onLink,
     required this.onInteraction,
+    this.controlsOpen = false,
+    this.onDragStarted,
+    this.foundColor,
   });
 
   final ReaderDocument document;
+
+  /// Os controles estão abertos: o toque só os fecha (D-117).
+  final bool controlsOpen;
+
+  /// Um arrasto começou (a tela fecha os controles — D-117).
+  final VoidCallback? onDragStarted;
+
+  /// Cor da marca da busca (a `brand` — D-120); `null` = não pinta.
+  final Color? foundColor;
 
   /// Vira de verdade (a sessão conta a virada); `false` = começo/fim do livro, ou não deu (a sessão mostra o
   /// aviso).
@@ -125,6 +140,11 @@ class _ReaderPageViewState extends State<ReaderPageView>
   void _tapUp(TapUpDetails d) {
     if (_busy) return;
     widget.onInteraction();
+    if (widget.controlsOpen) {
+      // com os controles abertos o toque só os fecha: nem vira, nem segue link (D-117)
+      widget.onCenter();
+      return;
+    }
     final hit = widget.document.current.linkAt(d.localPosition);
     if (hit != null) {
       unawaited(_follow(hit));
@@ -184,6 +204,7 @@ class _ReaderPageViewState extends State<ReaderPageView>
   void _dragStart(DragStartDetails _) {
     if (_busy) return;
     widget.onInteraction();
+    widget.onDragStarted?.call();
     _dragging = true;
     _drag = 0;
     _dir = null;
@@ -299,25 +320,29 @@ class _ReaderPageViewState extends State<ReaderPageView>
         dx: _dx,
         dir: _dir,
         neighbor: _neighbor,
+        foundColor: widget.foundColor,
       ),
     ),
   );
 }
 
 /// A página atual deslocada por [dx] e a vizinha encostada nela, do lado de [dir]. Repinta quando o documento
-/// avisa que a página atual mudou por dentro ([ReaderDocument.changes]) ou quando um dos campos muda.
+/// avisa que a página atual mudou por dentro ([ReaderDocument.changes]) ou quando um dos campos muda. A marca da
+/// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor].
 class ReaderPagesPainter extends CustomPainter {
   ReaderPagesPainter({
     required this.document,
     required this.dx,
     required this.dir,
     required this.neighbor,
+    this.foundColor,
   }) : super(repaint: document.changes);
 
   final ReaderDocument document;
   final double dx;
   final PageDirection? dir;
   final DisplayPage? neighbor;
+  final Color? foundColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -325,7 +350,19 @@ class ReaderPagesPainter extends CustomPainter {
       ..save()
       ..clipRect(Offset.zero & size)
       ..translate(dx, 0);
-    document.current.paint(canvas);
+    final page = document.current;
+    final f = document.found;
+    final color = foundColor;
+    if (f != null && color != null) {
+      final paint = Paint()..color = color;
+      for (final r in page.rectsOf(f.unit, f.from, f.to)) {
+        canvas.drawRRect(
+          RRect.fromRectAndRadius(r.inflate(1), const Radius.circular(3)),
+          paint,
+        );
+      }
+    }
+    page.paint(canvas);
     canvas.restore();
     final n = neighbor;
     if (n == null || dir == null || dx == 0) return;
@@ -344,6 +381,7 @@ class ReaderPagesPainter extends CustomPainter {
   bool shouldRepaint(ReaderPagesPainter old) =>
       old.dx != dx ||
       old.dir != dir ||
+      old.foundColor != foundColor ||
       !identical(old.neighbor, neighbor) ||
       !identical(old.document, document);
 }

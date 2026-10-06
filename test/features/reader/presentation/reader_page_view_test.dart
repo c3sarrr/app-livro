@@ -5,6 +5,7 @@
 // a vizinha que não abre não é batente, a virada que falha não trava a página, pressão longa não faz nada
 // (D-113), seguir um link segura os gestos, e o limite de 300 px/s vale dos dois lados.
 import 'dart:async';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/application/reader_document.dart';
@@ -34,6 +35,12 @@ final class _Pagina implements DisplayPage {
 
   @override
   bool get alive => true;
+
+  /// Marca da busca (G12): um retângulo por trecho, na página dele.
+  @override
+  List<Rect> rectsOf(int unit, int from, int to) => unit == n
+      ? [Rect.fromLTWH(30.0 + from, 120, (to - from).toDouble(), 20)]
+      : const [];
 }
 
 final class _Livro implements ReaderDocument {
@@ -106,6 +113,9 @@ final class _Livro implements ReaderDocument {
   Future<void> goTo(ReaderMark m) async {}
 
   @override
+  Future<void> goToRefPage(int refPage) async {}
+
+  @override
   Future<void> flush() async {}
 
   @override
@@ -113,6 +123,55 @@ final class _Livro implements ReaderDocument {
 
   @override
   void dispose() {}
+
+  // ---- G12 (os controles não aparecem nestes testes da página) ----
+  @override
+  String get author => 'Autor';
+
+  @override
+  int get totalChars => total * 1500;
+
+  @override
+  bool get atEnd => at == total - 1;
+
+  @override
+  ReaderMark markOfRefPage(int refPage) => (spine: 0, offset: refPage - 1);
+
+  @override
+  BookmarkDraft bookmarkHere() => throw UnimplementedError();
+
+  @override
+  Future<void> recolor(Color ink) async {}
+
+  @override
+  FoundRange? found;
+
+  @override
+  void showFound(FoundRange f) {
+    found = f;
+    _changes.value++;
+  }
+}
+
+/// Grava o que o pintor desenha: a marca (`rrect`) e o texto (a página lê a translação ao se pintar).
+final class _Tela implements ui.Canvas {
+  final chamadas = <String>[];
+  final marcas = <(RRect, Color)>[];
+
+  @override
+  void drawRRect(RRect rrect, Paint paint) {
+    chamadas.add('marca');
+    marcas.add((rrect, paint.color));
+  }
+
+  @override
+  Float64List getTransform() {
+    chamadas.add('texto');
+    return Float64List(16);
+  }
+
+  @override
+  Object? noSuchMethod(Invocation invocation) => null;
 }
 
 void main() {
@@ -124,6 +183,8 @@ void main() {
     int at = 2,
     Future<bool> Function(PageDirection d)? virar,
     Future<void> Function(LinkHit h)? seguir,
+    bool controlsOpen = false,
+    Color? foundColor,
   }) async {
     tester.view
       ..devicePixelRatio = 1
@@ -146,6 +207,9 @@ void main() {
             await seguir?.call(h);
           },
           onInteraction: () => eventos.add('toque'),
+          controlsOpen: controlsOpen,
+          onDragStarted: () => eventos.add('arrasto'),
+          foundColor: foundColor,
         ),
       ),
     );
@@ -490,4 +554,136 @@ void main() {
       h.dispose();
     },
   );
+
+  group('G12 — controles abertos e a marca da busca (D-117, D-120)', () {
+    testWidgets(
+      'com os controles abertos, o toque nos terços e no centro só fecha (onCenter)',
+      (tester) async {
+        await montar(tester, controlsOpen: true);
+        for (final x in [40.0, 195.0, 350.0]) {
+          await tester.tapAt(Offset(x, 600));
+          await tester.pumpAndSettle();
+        }
+        expect(livro.viradas, isEmpty);
+        expect(livro.at, 2);
+        expect(eventos, [
+          'toque',
+          'centro',
+          'toque',
+          'centro',
+          'toque',
+          'centro',
+        ]);
+      },
+    );
+
+    testWidgets('com os controles abertos, o toque no link não segue: fecha', (
+      tester,
+    ) async {
+      await montar(tester, controlsOpen: true);
+      await tester.tapAt(const Offset(230, 110));
+      await tester.pumpAndSettle();
+      expect(eventos, ['toque', 'centro']);
+    });
+
+    testWidgets(
+      'com os controles abertos, o arrasto vira como sempre e avisa no começo',
+      (tester) async {
+        await montar(tester, controlsOpen: true);
+        final g = await tester.startGesture(const Offset(300, 400));
+        await g.moveBy(const Offset(-40, 0));
+        await tester.pump();
+        expect(eventos, contains('arrasto'));
+        expect(eventos.where((e) => e == 'arrasto'), hasLength(1));
+        await g.moveBy(const Offset(-100, 0));
+        await tester.pump();
+        await g.up();
+        await tester.pumpAndSettle();
+        expect(livro.viradas, [PageDirection.forward]);
+        expect(eventos.where((e) => e == 'centro'), isEmpty);
+      },
+    );
+
+    testWidgets('fechados, o arrasto também avisa (a tela decide)', (
+      tester,
+    ) async {
+      await montar(tester);
+      await tester.dragFrom(const Offset(300, 400), const Offset(-150, 0));
+      await tester.pumpAndSettle();
+      expect(eventos.where((e) => e == 'arrasto'), hasLength(1));
+      expect(livro.viradas, [PageDirection.forward]);
+    });
+
+    testWidgets('a cor da marca chega ao pintor', (tester) async {
+      const brand = Color(0xFFE85D3A);
+      await montar(tester, foundColor: brand);
+      final p = tester
+          .widgetList<CustomPaint>(find.byType(CustomPaint))
+          .map((c) => c.painter)
+          .whereType<ReaderPagesPainter>()
+          .single;
+      expect(p.foundColor, brand);
+    });
+
+    test('a marca é pintada antes do texto, um retângulo arredondado (raio 3) por caixa, 1 px maior', () {
+      const brand = Color(0xFFE85D3A);
+      final l = _Livro()..found = (unit: 2, from: 10, to: 50);
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: brand,
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['marca', 'texto']);
+      final (rr, cor) = tela.marcas.single;
+      expect(rr.outerRect, const Rect.fromLTWH(39, 119, 42, 22));
+      expect(rr.tlRadius, const Radius.circular(3));
+      expect(rr.brRadius, const Radius.circular(3));
+      expect(cor.toARGB32(), brand.toARGB32());
+    });
+
+    test('sem cor, ou a marca noutro capítulo: só o texto', () {
+      final l = _Livro()..found = (unit: 2, from: 10, to: 50);
+      final semCor = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+      ).paint(semCor, const Size(390, 844));
+      expect(semCor.chamadas, ['texto']);
+      l.found = (unit: 3, from: 10, to: 50);
+      final outra = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: const Color(0xFFE85D3A),
+      ).paint(outra, const Size(390, 844));
+      expect(outra.chamadas, ['texto']);
+    });
+
+    test('trocar a cor repinta', () {
+      final l = _Livro();
+      ReaderPagesPainter pintor(Color? c) => ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: c,
+      );
+      expect(
+        pintor(const Color(0xFFE85D3A))
+            .shouldRepaint(pintor(const Color(0xFFE85D3A))),
+        isFalse,
+      );
+      expect(
+        pintor(null).shouldRepaint(pintor(const Color(0xFFE85D3A))),
+        isTrue,
+      );
+    });
+  });
 }
