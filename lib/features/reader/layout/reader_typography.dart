@@ -3,7 +3,8 @@
 // mais larga); altura de linha EXATA (`tamanho × entrelinha`, D-94); `fontWeight` fica 400 para o Skia não
 // fazer negrito sintético por cima do eixo `wght`.
 // G14.1 — a fonte escolhida (D-18): Literata, Lora e Figtree pelos eixos; Atkinson pelos arquivos de 400 e 700. As
-// letras que a fonte não tem (o grego, e o cirílico na Figtree e na Atkinson) vêm dos subconjuntos da Literata.
+// letras que a fonte não tem (o grego, o cirílico na Figtree e na Atkinson, as setas e as linhas ′ ″) vêm da
+// Literata: a base, depois os subconjuntos.
 import 'dart:ui' as ui;
 
 import '../../../core/design_system/tokens/reader_fonts.dart';
@@ -44,6 +45,10 @@ String readerFamilyOf(ReaderFontFamily f) => switch (f) {
   ReaderFontFamily.figtree => readerFigtreeFamily,
   ReaderFontFamily.atkinson => readerAtkinsonFamily,
 };
+
+/// A reserva da fonte [f]: as letras que ela não tem vêm da Literata (nas outras fontes, a base primeiro).
+List<String> readerFallbackOf(ReaderFontFamily f) =>
+    f == ReaderFontFamily.literata ? readerFontFallback : readerBookFallback;
 
 /// Peso do texto corrido, do negrito e dos títulos (eixo `wght`).
 const double readerTextWeight = 400;
@@ -216,7 +221,7 @@ final class ReaderTextSpec {
   final ui.Color ink;
 
   String get family => readerFamilyOf(font);
-  List<String> get fallback => readerFontFallback;
+  List<String> get fallback => readerFallbackOf(font);
 
   /// Literata, Lora e Figtree: o peso vem do eixo e o Skia fica em 400 (sem negrito sintético por cima). A Atkinson
   /// não tem eixo: o peso escolhe o arquivo (400 ou 700).

@@ -1,8 +1,9 @@
 // G13.1 — a área do texto de uma linha como no Chromium: o fundo de um `span` (grifo, seleção) cobre o ascent +
 // descent da fonte, centrado na linha (30,44 px na Literata 20,5 com a entrelinha de 35,26 — L21a). G14: medida uma
-// vez por (fonte, tamanho), com a mesma família do livro (D-18).
+// vez por (fonte, tamanho), com a família, a reserva e os eixos do texto do livro (D-18).
 import 'dart:ui' as ui;
 
+import '../content/content_blocks.dart';
 import '../domain/reader_settings.dart';
 import 'reader_typography.dart';
 
@@ -15,20 +16,19 @@ double readerTextArea(
 ]) => _areas[(font, em)] ??= _measure(font, em);
 
 double _measure(ReaderFontFamily font, double em) {
+  // o estilo do texto corrido, sem a entrelinha (ela mudaria o ascent e o descent da linha)
+  final s = ReaderTypography(font: font).spec(RunStyle.plain, size: em);
   final b =
       ui.ParagraphBuilder(
           ui.ParagraphStyle(textDirection: ui.TextDirection.ltr),
         )
         ..pushStyle(
           ui.TextStyle(
-            fontFamily: readerFamilyOf(font),
-            fontFamilyFallback: readerFontFallback,
+            fontFamily: s.family,
+            fontFamilyFallback: s.fallback,
             fontSize: em,
-            fontWeight: ui.FontWeight.w400,
-            fontVariations: [
-              ui.FontVariation('opsz', em),
-              const ui.FontVariation('wght', readerTextWeight),
-            ],
+            fontWeight: s.skiaWeight,
+            fontVariations: s.variations,
           ),
         )
         ..addText('x');

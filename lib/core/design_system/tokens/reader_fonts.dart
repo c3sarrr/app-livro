@@ -19,3 +19,10 @@ const List<String> readerFontFallback = [
 const String readerLoraFamily = 'LoraBook';
 const String readerFigtreeFamily = 'FigtreeBook';
 const String readerAtkinsonFamily = 'AtkinsonBook';
+
+/// A reserva das fontes que não são a Literata: as letras que faltam nelas vêm da Literata — a base (setas, ′ ″)
+/// antes dos subconjuntos.
+const List<String> readerBookFallback = [
+  readerFontFamily,
+  ...readerFontFallback,
+];

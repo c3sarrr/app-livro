@@ -1,7 +1,9 @@
 // G14.1 — o texto do livro nas 4 fontes da tela 26 (D-18): a família de cada uma; os eixos (opsz = tamanho e wght
 // explícitos) com o Skia em 400, sem negrito sintético; a Atkinson, sem eixos, pelos arquivos de 400 e 700 (os
 // títulos em 700); itálico e negrito vindos dos arquivos (a imagem é a do arquivo); as letras que a fonte não tem
-// (o grego) vindas da Literata; a chave do cache com a fonte; a área do texto (o fundo do grifo) de cada fonte.
+// (o grego, as setas, as linhas ′ ″) vindas da Literata, a base primeiro; a chave do cache com a fonte; a área do
+// texto (o fundo do grifo) de cada fonte. Revisão: o grego do negrito da Atkinson (o Skia em 700 para escolher o
+// arquivo) é o da Literata em 700, sem negrito sintético por cima — a imagem prova.
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/content/content_blocks.dart';
@@ -59,7 +61,9 @@ void main() {
     expect(readerFontsVersion, 2);
   });
 
-  test('estilo por família: eixos e Skia em 400; Atkinson pelos arquivos (títulos e negrito em 700)', () {
+  test('estilo por família: eixos e Skia em 400; reserva na Literata (a base antes dos subconjuntos nas outras); '
+      'Atkinson pelos arquivos (títulos e negrito em 700)', () {
+    const reserva = ['LiterataVF', ...readerFontFallback];
     for (final f in [
       ReaderFontFamily.literata,
       ReaderFontFamily.lora,
@@ -67,9 +71,11 @@ void main() {
     ]) {
       final t = ReaderTypography(font: f);
       final s = t.spec(RunStyle.plain);
+      expect((s.family, s.skiaWeight), (readerFamilyOf(f), ui.FontWeight.w400));
       expect(
-        (s.family, s.fallback.first, s.skiaWeight),
-        (readerFamilyOf(f), 'LiterataVFExt', ui.FontWeight.w400),
+        s.fallback,
+        f == ReaderFontFamily.literata ? readerFontFallback : reserva,
+        reason: '$f',
       );
       expect(s.variations.map((v) => (v.axis, v.value)), [
         ('opsz', 20.5),
@@ -89,6 +95,7 @@ void main() {
       (texto.family, texto.wght, texto.skiaWeight),
       ('AtkinsonBook', 400.0, ui.FontWeight.w400),
     );
+    expect(texto.fallback, reserva);
     final titulo = a.spec(
       RunStyle.plain,
       size: 26.65,
@@ -96,7 +103,11 @@ void main() {
     );
     expect((titulo.wght, titulo.skiaWeight), (700.0, ui.FontWeight.w700));
     final negrito = a.spec(const RunStyle(bold: true));
-    expect((negrito.wght, negrito.skiaWeight), (700.0, ui.FontWeight.w700));
+    expect(
+      (negrito.family, negrito.wght, negrito.skiaWeight),
+      ('AtkinsonBook', 700.0, ui.FontWeight.w700),
+    );
+    expect(negrito.fallback, reserva);
     expect(a.spec(const RunStyle(italic: true)).italic, isTrue);
     expect(a.runStyle(RunStyle.plain), isA<ui.TextStyle>());
   });
@@ -177,6 +188,54 @@ void main() {
       }
     },
   );
+
+  test('o grego em negrito na Atkinson é o da Literata em 700 (sem negrito sintético por cima do eixo)', () async {
+    const grego = 'λόγοςκαὶἦθος';
+    const preto = ui.Color(0xFF000000);
+    const negrito = RunStyle(bold: true);
+    final atkinson = await _pixels(
+      const ReaderTypography(
+        font: ReaderFontFamily.atkinson,
+        ink: preto,
+      ).runStyle(negrito),
+      grego,
+    );
+    expect(
+      atkinson,
+      await _pixels(
+        const ReaderTypography(ink: preto).runStyle(negrito),
+        grego,
+      ),
+    );
+    // a imagem mostra o peso (não é a mesma caixa vazia nos dois): o regular é outro
+    expect(
+      atkinson,
+      isNot(
+        await _pixels(
+          const ReaderTypography(ink: preto).runStyle(RunStyle.plain),
+          grego,
+        ),
+      ),
+    );
+  });
+
+  test('setas e linhas (′ ″) que a fonte não tem vêm da Literata base: mesma largura da Literata', () {
+    double largura(ReaderFontFamily f, String t) => _paragrafo(
+      ReaderTypography(font: f).runStyle(RunStyle.plain),
+      t,
+    ).maxIntrinsicWidth;
+    for (final (f, t) in const [
+      (ReaderFontFamily.lora, '↑↓'),
+      (ReaderFontFamily.figtree, '′″'),
+      (ReaderFontFamily.atkinson, '′″↑↓'),
+    ]) {
+      expect(
+        largura(f, t),
+        moreOrLessEquals(largura(ReaderFontFamily.literata, t), epsilon: 0.01),
+        reason: '$f',
+      );
+    }
+  });
 
   test('fromLook: a fonte entra; layoutKey muda com a fonte; a cor não muda o layout', () {
     ReaderTypography de(ReaderLook l) =>
