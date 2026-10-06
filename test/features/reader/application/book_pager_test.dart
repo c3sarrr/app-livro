@@ -256,7 +256,7 @@ void main() {
 
     void pinta(BookPager p) {
       final rec = ui.PictureRecorder();
-      p.paintCurrent(ui.Canvas(rec));
+      p.current?.paint(ui.Canvas(rec));
       rec.endRecording().dispose();
     }
 
@@ -421,5 +421,89 @@ void main() {
         expect(gravado!.chapters[4], layout.pageStarts);
       },
     );
+  });
+
+  group('página atual e vizinha sem virar (G11.2)', () {
+    test(
+      'peek(forward) = a página que next() mostra; nada muda até virar',
+      () async {
+        final p = novo();
+        await p.openAt(2, 0);
+        final antes = p.current!;
+        final vizinha = (await p.peek(PageDirection.forward))!;
+        expect(
+          p.current!.page.start,
+          antes.page.start,
+          reason: 'peek não vira',
+        );
+        expect(vizinha.page.start, greaterThan(antes.page.start));
+        expect(await p.next(), isTrue);
+        expect(
+          (p.current!.spine, p.current!.page.start),
+          (vizinha.spine, vizinha.page.start),
+        );
+        final volta = (await p.peek(PageDirection.backward))!;
+        expect(volta.page.start, antes.page.start);
+      },
+    );
+
+    test('peek atravessa capítulos nos dois sentidos, como a virada', () async {
+      final p = novo();
+      await p.openAt(2, 0);
+      final layout = (await p.settle())!;
+      await p.openAt(2, layout.pages.last.start);
+      final prox = (await p.peek(PageDirection.forward))!;
+      expect(prox.spine, greaterThan(2));
+      expect(prox.page.start, 0);
+      expect(await p.next(), isTrue);
+      expect((p.position!.spine, p.position!.page.start), (prox.spine, 0));
+      final ant = (await p.peek(PageDirection.backward))!;
+      expect((ant.spine, ant.page.start), (2, layout.pages.last.start));
+    });
+
+    test('começo e fim do livro: peek = null', () async {
+      final p = novo();
+      await p.openAt(p.firstSpine, 0);
+      expect(await p.peek(PageDirection.backward), isNull);
+      final ultimo = [
+        for (var i = 0; i < index.spine.length; i++)
+          if (index.spine[i].linear) i,
+      ].last;
+      await p.openAt(ultimo, index.spine[ultimo].chars);
+      expect(await p.peek(PageDirection.forward), isNull);
+      expect(await p.next(), isFalse);
+    });
+
+    test('a página vista deixa de valer quando os ajustes mudam; a atual avisa a troca', () async {
+      final p = novo();
+      await p.openAt(2, 0);
+      final vizinha = (await p.peek(PageDirection.forward))!;
+      final atual = p.current!;
+      expect((vizinha.alive, atual.alive), (true, true));
+      var avisos = 0;
+      p.changes.addListener(() => avisos++);
+      await p.relayout(const ReaderTypography(fontSize: 26));
+      expect(vizinha.alive, isFalse);
+      expect(p.current!.alive, isTrue);
+      expect(p.current!.typography.fontSize, 26);
+      expect(avisos, greaterThan(0));
+      p.dispose();
+      expect(p.current, isNull);
+      expect(atual.alive, isFalse);
+    });
+
+    test('a página atual tem o texto e pinta', () async {
+      final p = novo();
+      await p.openAt(2, 0);
+      final c = p.current!;
+      expect(c.spokenText, isNotEmpty);
+      expect(
+        p.contentOf(2)!.item.text.contains(c.spokenText.substring(0, 20)),
+        isTrue,
+      );
+      final rec = ui.PictureRecorder();
+      c.paint(ui.Canvas(rec));
+      rec.endRecording().dispose();
+    });
   });
 }

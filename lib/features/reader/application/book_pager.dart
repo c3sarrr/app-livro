@@ -12,19 +12,23 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
-import 'dart:ui' as ui;
 
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart' show Listenable, ValueNotifier;
 
 import '../../../core/data/database/daos/content_daos.dart';
 import '../content/book_index.dart';
 import '../content/chapter_content.dart';
 import '../layout/chapter_layout.dart';
+import '../layout/display_page.dart';
 import '../layout/laid_block.dart';
 import '../layout/layout_scheduler.dart';
-import '../layout/page_painter.dart';
+import '../layout/page_snapshot.dart';
 import '../layout/paginator.dart';
 import '../layout/reader_typography.dart';
+
+export '../layout/display_page.dart' show PageDirection;
+export '../layout/page_snapshot.dart' show PageSnapshot;
 
 /// Lê o capítulo (item do spine) [spine].
 typedef ChapterLoader = Future<ChapterContent> Function(int spine);
@@ -241,21 +245,133 @@ final class BookPager {
   /// Página anterior (atravessa capítulos). `false` = começo do livro, ou a virada perdeu a vez.
   Future<bool> previous() => _turn(_backward);
 
-  /// Pinta a página mostrada (sem o papel e o rodapé, que são da tela), com os blocos e os ajustes com que ela
-  /// foi montada.
-  void paintCurrent(ui.Canvas c, {ReaderImageOf? imageOf}) {
+  /// Avisa quando a página mostrada muda — inclusive por dentro (a página do cache vira a do layout completo):
+  /// quem pinta a página atual lê [current] de novo.
+  Listenable get changes => _changes;
+  final _changes = ValueNotifier<int>(0);
+
+  /// A página mostrada, pronta para a tela, com os blocos e os ajustes com que ela foi montada.
+  PageSnapshot? get current {
     final s = _shown;
-    if (s == null) return;
-    final q = s.ch.quick;
-    final job = s.ch.job;
-    paintReaderPage(
-      c,
-      s.pos.page,
-      (b) => s.pos.pageIndex == null && q != null
-          ? q.blocks[b - q.firstBlock]
-          : job!.blocksSoFar[b],
-      s.t,
-      imageOf: imageOf,
+    if (s == null) return null;
+    return _snapshot(s.pos.spine, s.pos.page, s.pos.pageIndex, s.ch, s.t);
+  }
+
+  /// A página vizinha **sem virar** — para pintar a página que vem atrás do dedo (G11, D-107). `null` = começo
+  /// ou fim do livro, ou uma abertura mais nova passou na frente.
+  Future<PageSnapshot?> peek(PageDirection d) async {
+    if (_disposed) return null;
+    final open = _pendingOpen;
+    if (open != null) {
+      try {
+        await open;
+      } on Object {
+        return null;
+      }
+    }
+    await _turning;
+    final gen = _gen;
+    final pos = await _settled(gen);
+    if (pos == null || gen != _gen || _disposed) return null;
+    final ch = _shown!.ch;
+    final i = pos.pageIndex!;
+    if (d == PageDirection.backward) {
+      if (i > 0) return _snapshot(pos.spine, ch.pages[i - 1], i - 1, ch, _t);
+      return _peekCross(pos.spine, -1, gen);
+    }
+    final job = ch.job;
+    if (job == null) return null;
+    await _scheduler.waitFor(
+      () =>
+          gen != _gen ||
+          job.done ||
+          ch.error != null ||
+          job.pagesSoFar.length > i + 1,
+    );
+    if (gen != _gen || _disposed) return null;
+    if (job.pagesSoFar.length > i + 1) {
+      return _snapshot(pos.spine, job.pagesSoFar[i + 1], i + 1, ch, _t);
+    }
+    if (!job.done) return null;
+    return _peekCross(pos.spine, 1, gen);
+  }
+
+  /// A 1ª página do capítulo seguinte ([step] = 1) ou a última do anterior (-1), pulando os sem texto, sem
+  /// virar. `null` = começo/fim do livro, desistiu, ou o capítulo não abre (o erro aparece ao virar).
+  Future<PageSnapshot?> _peekCross(int from, int step, int gen) async {
+    var s = from;
+    while (true) {
+      final n = _neighbor(s, step);
+      if (n == null) return null;
+      final _Chapter nc;
+      try {
+        nc = await _chapter(n);
+      } on Object {
+        return null;
+      }
+      if (gen != _gen || _disposed) return null;
+      final job = _ensureJob(nc, step > 0 ? _nextPriority : _previousPriority);
+      if (step > 0) {
+        await _scheduler.waitFor(
+          () =>
+              gen != _gen ||
+              job.done ||
+              nc.error != null ||
+              job.pagesSoFar.isNotEmpty,
+        );
+        if (gen != _gen || _disposed) return null;
+        if (job.pagesSoFar.isNotEmpty) {
+          return _snapshot(n, job.pagesSoFar.first, 0, nc, _t);
+        }
+      } else {
+        final ChapterLayout layout;
+        try {
+          layout = await _scheduler.run(
+            job,
+            priority: _previousPriority,
+            urgent: true,
+          );
+        } on LayoutCancelled {
+          return null;
+        }
+        if (gen != _gen || _disposed) return null;
+        if (layout.pages.isNotEmpty) {
+          return _snapshot(
+            n,
+            layout.pages.last,
+            layout.pages.length - 1,
+            nc,
+            _t,
+          );
+        }
+      }
+      if (nc.error != null) return null;
+      s = n; // capítulo sem texto: segue
+    }
+  }
+
+  /// A página [page] do capítulo [ch]: vale enquanto os blocos dela existirem (o job, ou a página do cache,
+  /// ainda são os mesmos — descartar o capítulo ou repaginar a mata).
+  PageSnapshot _snapshot(
+    int spine,
+    ReaderPage page,
+    int? pageIndex,
+    _Chapter ch,
+    ReaderTypography t,
+  ) {
+    final q = ch.quick;
+    final job = ch.job;
+    final fromQuick = pageIndex == null && q != null;
+    return PageSnapshot(
+      spine: spine,
+      page: page,
+      typography: t,
+      item: ch.content.item,
+      blockOf: (b) =>
+          fromQuick ? q.blocks[b - q.firstBlock] : job!.blocksSoFar[b],
+      alive: () =>
+          !_disposed &&
+          (fromQuick ? identical(ch.quick, q) : identical(ch.job, job)),
     );
   }
 
@@ -282,6 +398,7 @@ final class BookPager {
   }
 
   void dispose() {
+    if (_disposed) return;
     _disposed = true;
     _gen++;
     _layoutGen++;
@@ -294,6 +411,7 @@ final class BookPager {
     }
     _retired.clear();
     _shown = null;
+    _changes.dispose();
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -518,6 +636,7 @@ final class BookPager {
   void _show(PagerPosition p, _Chapter ch) {
     final before = _shown;
     _shown = (pos: p, ch: ch, t: _t);
+    if (!_disposed) _changes.value++;
     for (final r in _retired) {
       r.dispose(_scheduler);
     }
