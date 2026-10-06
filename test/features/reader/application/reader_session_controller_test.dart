@@ -7,6 +7,7 @@
 import 'dart:io';
 
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
+import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/model/record_meta.dart';
@@ -19,7 +20,13 @@ import 'package:app_leitura/features/reader/content/content_blocks.dart';
 import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/domain/reading_speed.dart'
+    show defaultCharsPerMinute, timeLeftFor;
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
+import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
+import 'package:app_leitura/features/reader/presentation/reader_states.dart'
+    show readerFailureText;
+import 'package:drift/drift.dart' show Variable;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdfrx/pdfrx.dart' show pdfrxInitialize;
@@ -216,15 +223,22 @@ void main() {
       },
     );
 
-    test('exemplar físico não tem arquivo', () async {
-      expect(
-        await falha(
-          () => UserBooksDao(h.livro.db)
-              .upsert(h.livro.book.copyWith(format: BookFileFormat.physical)),
-        ),
-        ReaderFailure.fileMissing,
-      );
-    });
+    test(
+      'exemplar físico: o aviso próprio (D-123), não o de arquivo sumido',
+      () async {
+        expect(
+          await falha(
+            () => UserBooksDao(h.livro.db)
+                .upsert(h.livro.book.copyWith(format: BookFileFormat.physical)),
+          ),
+          ReaderFailure.physical,
+        );
+        expect(
+          readerFailureText(ReaderFailure.physical),
+          'Este livro é físico: não tem arquivo para ler aqui.',
+        );
+      },
+    );
 
     test('arquivo danificado: o índice não sai', () async {
       h.indexar = (_) async => false;
@@ -566,5 +580,149 @@ void main() {
         expect((pos.locator as PdfLocator).page, 1);
       },
     );
+  });
+
+  group('G12', () {
+    test('jumpToPage (barra) guarda a volta como o link (D-119): pílula, alfinete (D-115), 6 s; rodapé = página escolhida', () async {
+      final c = await aberto();
+      final origem = doc(c).mark;
+      final pagOrigem = doc(c).numbers.refPage;
+      BackLink? volta() => (c.state as ReaderReady).back;
+      expect(await c.jumpToPage(200), isTrue);
+      expect(doc(c).numbers.refPage, 200);
+      expect(volta(), (mark: origem, refPage: pagOrigem));
+      expect(doc(c).found, isNull);
+      await doc(c).flush();
+      final pos = await ReadingPositionsDao(h.livro.db)
+          .forBook(h.livro.userBookId);
+      expect(
+        (pos!.locator as EpubLocator).spine,
+        origem.spine,
+        reason: 'alfinete: grava a origem (D-115)',
+      );
+      h.prazos.avancar(const Duration(seconds: 6));
+      expect(volta(), isNull);
+      // leitor de tela: sem prazo (D-116)
+      await c.jumpToPage(10, timed: false);
+      h.prazos.avancar(const Duration(seconds: 60));
+      expect(volta(), isNotNull);
+    });
+
+    test(
+      'jumpTo (busca) mostra a página da ocorrência, marca e guarda a volta',
+      () async {
+        final c = await aberto();
+        final pagOrigem = doc(c).numbers.refPage;
+        final destino = doc(c).markOfRefPage(200);
+        final ocorrencia = (
+          unit: destino.spine,
+          from: destino.offset,
+          to: destino.offset + 3,
+        );
+        expect(await c.jumpTo(destino, found: ocorrencia), isTrue);
+        final p = (doc(c).current as PageSnapshot).page;
+        expect(doc(c).mark.spine, destino.spine);
+        expect(destino.offset, inInclusiveRange(p.start, p.end - 1));
+        expect(doc(c).found, ocorrencia);
+        expect((c.state as ReaderReady).back?.refPage, pagOrigem);
+      },
+    );
+
+    test('jumpTo para a mesma página de referência não guarda volta', () async {
+      final c = await aberto();
+      final aqui = doc(c).numbers.refPage;
+      expect(await c.jumpToPage(aqui), isTrue);
+      expect((c.state as ReaderReady).back, isNull);
+      expect(await c.jumpTo(doc(c).mark), isTrue);
+      expect((c.state as ReaderReady).back, isNull);
+    });
+
+    test(
+      'toggleBookmark: grava com versão, apaga com deleted_at e grava de novo',
+      () async {
+        final c = await aberto();
+        // o livro abre na capa (só imagem): a fita vale numa página de texto
+        await c.jumpToPage(10);
+        final dao = BookmarksDao(h.livro.db);
+        await c.toggleBookmark();
+        final m = (await dao.forBook(h.livro.userBookId)).single;
+        expect(m.refPage, doc(c).numbers.refPage);
+        expect(m.meta.userId, usuarioTeste);
+        expect(m.excerpt, isNotEmpty);
+        expect(m.locator, isA<EpubLocator>());
+        await c.toggleBookmark();
+        expect(await dao.forBook(h.livro.userBookId), isEmpty);
+        final linhas = await h.livro.db
+            .customSelect(
+              'SELECT deleted_at, version_hlc FROM bookmarks WHERE id = ?',
+              variables: [Variable.withString(m.id)],
+            )
+            .get();
+        expect(linhas.single.readNullable<String>('deleted_at'), isNotNull);
+        expect(
+          linhas.single.read<String>('version_hlc'),
+          isNot(m.meta.version.toString()),
+        );
+        await c.toggleBookmark();
+        expect(await dao.forBook(h.livro.userBookId), hasLength(1));
+      },
+    );
+
+    test('toggleTheme: Creme → Noite → Creme; Sépia → Noite → Sépia (último claro no aparelho); mesma página', () async {
+      final c = await aberto();
+      final antes = doc(c).mark;
+      await c.toggleTheme();
+      expect(c.paper, ReaderPaper.noite);
+      expect(c.palette.paper, const Color(0xFF1F1B17));
+      expect(c.typography!.ink, const Color(0xFFE3D9C6));
+      expect(
+        (doc(c).current as PageSnapshot).typography.ink,
+        const Color(0xFFE3D9C6),
+      );
+      expect(doc(c).mark, antes);
+      final ajuste = await ReaderSettingsDao(h.livro.db).forUser(usuarioTeste);
+      expect(ajuste!.paper, ReaderPaper.noite);
+      expect(await KvDao(h.livro.db).get(lastLightPaperKey), 'creme');
+      await c.toggleTheme();
+      expect(c.paper, ReaderPaper.creme);
+      expect(
+        (await ReaderSettingsDao(h.livro.db).forUser(usuarioTeste))!.paper,
+        ReaderPaper.creme,
+      );
+
+      // com Sépia gravada, volta a Sépia
+      await ReaderSettingsDao(h.livro.db).upsert(
+        (await ReaderSettingsDao(h.livro.db).forUser(usuarioTeste))!
+            .copyWith(paper: ReaderPaper.sepia),
+      );
+      final c2 = await aberto();
+      expect(c2.paper, ReaderPaper.sepia);
+      await c2.toggleTheme();
+      expect(await KvDao(h.livro.db).get(lastLightPaperKey), 'sepia');
+      await c2.toggleTheme();
+      expect(c2.paper, ReaderPaper.sepia);
+      expect(h.erros, isEmpty);
+    });
+
+    test('minutesToday soma a sessão aberta; timeLeft = restante ÷ velocidade e some na última página', () async {
+      final c = await aberto();
+      c.setVisible(true);
+      c.interaction();
+      h.agora = const Duration(minutes: 3);
+      expect(await c.minutesToday(), 3);
+      final n = doc(c).numbers;
+      final esperado = timeLeftFor(
+        ((1 - n.progression) * h.livro.index.totalChars).round(),
+        defaultCharsPerMinute,
+      );
+      expect(c.timeLeft(), esperado);
+      // fim do livro (D-124): a última página da tela, mesmo que o rodapé não diga a última de referência
+      await doc(c).goToRefPage(n.refTotal);
+      while (await doc(c).turn(PageDirection.forward)) {}
+      expect(doc(c).atEnd, isTrue);
+      expect(c.timeLeft(), isNull);
+      expect(await doc(c).turn(PageDirection.backward), isTrue);
+      expect(c.timeLeft(), isNotNull);
+    });
   });
 }

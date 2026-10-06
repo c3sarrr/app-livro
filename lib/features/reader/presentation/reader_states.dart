@@ -17,6 +17,8 @@ String readerFailureText(ReaderFailure f) => switch (f) {
   ReaderFailure.damaged =>
     'Não deu para abrir este livro. O arquivo pode estar danificado.',
   ReaderFailure.fixedLayout => 'Este livro tem páginas fixas; a leitura dele ainda não está pronta no BookNest.',
+  ReaderFailure.physical =>
+    'Este livro é físico: não tem arquivo para ler aqui.',
   ReaderFailure.unexpected => 'Não deu para abrir o livro agora.',
 };
 

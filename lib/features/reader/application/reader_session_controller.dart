@@ -1,7 +1,9 @@
 // G11.2 — a sessão de leitura de uma tela aberta (desenho G11 §2): abre o livro da estante pelo id (o arquivo, o
 // índice — indexa ao abrir se faltar —, os ajustes e a posição), diz por que não abriu (D-21, D-92, D-113), e
 // liga a página mostrada ao tempo automático (D-95), à posição salva (G10) e à tela acesa (D-111). Guarda uma
-// volta depois de seguir um link (D-108): some em 6 s ou em 2 viradas.
+// volta depois de seguir um link (D-108): some em 6 s ou em 2 viradas. G12: a mesma volta depois de um salto pela
+// barra ou pela busca (D-119), o marcador da página (fita), o Tema da conta (D-121), os minutos de hoje e o tempo
+// restante (D-97), e o livro físico (D-123).
 import 'dart:async';
 import 'dart:io';
 
@@ -11,13 +13,18 @@ import 'package:flutter/widgets.dart' show AppLifecycleState;
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/daos/content_daos.dart';
+import '../../../core/data/database/daos/kv_dao.dart';
 import '../../../core/data/database/daos/library_daos.dart';
 import '../../../core/data/database/daos/reader_daos.dart';
 import '../../../core/data/database/versioning.dart';
+import '../../../core/data/ids/uuid_v7.dart';
+import '../../../core/data/model/record_meta.dart';
 import '../../library/domain/user_book.dart';
 import '../content/content_failure.dart';
 import '../content/ref_pages.dart' show refPageVersion;
+import '../domain/bookmark.dart';
 import '../domain/reader_settings.dart';
+import '../domain/reading_speed.dart' show defaultCharsPerMinute, timeLeftFor;
 import '../layout/layout_scheduler.dart';
 import '../layout/reader_typography.dart';
 import '../presentation/reader_insets.dart';
@@ -31,10 +38,23 @@ import 'reader_document.dart';
 import 'reader_errors.dart';
 import 'reading_position_keeper.dart';
 import 'reading_session_tracker.dart';
+import 'reading_session_tracker.dart' as sessions show minutesToday;
+import 'reading_speed_source.dart';
 import 'screen_awake.dart';
 
-/// Por que o livro não abriu (textos na tela — G11 §3).
-enum ReaderFailure { notOnShelf, fileMissing, damaged, fixedLayout, unexpected }
+/// Por que o livro não abriu (textos na tela — G11 §3; [physical] — D-123).
+enum ReaderFailure {
+  notOnShelf,
+  fileMissing,
+  damaged,
+  fixedLayout,
+  physical,
+  unexpected,
+}
+
+/// O último papel claro (Creme, Branco ou Sépia), para o Tema voltar a ele saindo do Noite (D-121). Fica no
+/// aparelho (`kv`).
+const String lastLightPaperKey = 'pref.leitor.papelClaro';
 
 sealed class ReaderState {
   const ReaderState();
@@ -144,6 +164,13 @@ class ReaderSessionController extends ChangeNotifier {
   ReaderPalette get palette => _palette;
   ReaderPalette _palette = ReaderPalette.of(ReaderPaper.creme);
 
+  /// O papel escolhido (Tema — D-121).
+  ReaderPaper get paper => _paper;
+  ReaderPaper _paper = ReaderPaper.creme;
+
+  /// Velocidade pessoal da conta (D-97), lida ao abrir.
+  double _speed = defaultCharsPerMinute;
+
   /// Áreas da tela (D-112) para a última abertura.
   ReaderInsets get insets => _insets;
   ReaderInsets _insets = ReaderInsets.of(EdgeInsets.zero);
@@ -208,14 +235,16 @@ class ReaderSessionController extends ChangeNotifier {
       return ReaderFailure.notOnShelf;
     }
     if (book.format == BookFileFormat.physical) {
-      return ReaderFailure.fileMissing;
+      return ReaderFailure.physical;
     }
     final file = await LocalFilesDao(deps.db).byBook(userBookId);
     final path = file == null ? null : await _existing(file.path);
     if (file == null || path == null) return ReaderFailure.fileMissing;
     final settings = await ReaderSettingsDao(deps.db).forUser(owner);
-    _palette = ReaderPalette.of(settings?.paper ?? ReaderPaper.creme);
+    _paper = settings?.paper ?? ReaderPaper.creme;
+    _palette = ReaderPalette.of(_paper);
     final t = _typography = _typographyFor(settings, v);
+    _speed = await readingSpeedOf(deps.db, owner);
     if (book.format == BookFileFormat.pdf) {
       return _openPdf(book, path, file.sha256, v);
     }
@@ -424,7 +453,33 @@ class ReaderSessionController extends ChangeNotifier {
 
   /// Segue um link interno e guarda a volta (D-108). [timed] = a volta some em 6 s; com o leitor de tela ela
   /// fica até as 2 viradas (D-116). Enquanto a volta vale, a posição gravada é a de onde se saiu (D-115).
-  Future<bool> follow(LinkHit link, {bool timed = true}) {
+  Future<bool> follow(LinkHit link, {bool timed = true}) =>
+      _jump((doc) => doc.follow(link), timed: timed);
+
+  /// Salta para [to] (barra de posição, resultado da busca) e guarda a volta como o link (D-119). [found] = a
+  /// ocorrência da busca a marcar na página (D-120). Para a mesma página de referência não guarda volta.
+  Future<bool> jumpTo(ReaderMark to, {FoundRange? found, bool timed = true}) =>
+      _jump(
+        (doc) async {
+          await doc.goTo(to);
+          return true;
+        },
+        timed: timed,
+        found: found,
+      );
+
+  /// A barra de posição (D-22, D-119): salta para a página de referência [refPage] e guarda a volta.
+  Future<bool> jumpToPage(int refPage, {bool timed = true}) =>
+      _jump((doc) async {
+        await doc.goToRefPage(refPage);
+        return true;
+      }, timed: timed);
+
+  Future<bool> _jump(
+    Future<bool> Function(ReaderDocument doc) go, {
+    required bool timed,
+    FoundRange? found,
+  }) {
     final doc = _doc;
     if (doc == null || _closed || _state is ReaderFailed) {
       return Future.value(false);
@@ -435,8 +490,10 @@ class ReaderSessionController extends ChangeNotifier {
       final from = doc.mark;
       final refPage = doc.numbers.refPage;
       try {
-        final ok = await doc.follow(link);
+        final ok = await go(doc);
         if (!ok || _disposed || _closed) return ok;
+        if (found != null) doc.showFound(found);
+        if (doc.numbers.refPage == refPage) return true;
         _back = (mark: from, refPage: refPage);
         _backTurns = 0;
         _backTimer?.cancel();
@@ -448,6 +505,126 @@ class ReaderSessionController extends ChangeNotifier {
         return _navFailed(e, st);
       }
     });
+  }
+
+  /// A fita da ilha de cima: marca a página de referência mostrada ou tira o marcador dela (tombstone).
+  Future<void> toggleBookmark() {
+    final doc = _doc;
+    if (doc == null || _closed || _state is ReaderFailed) return Future.value();
+    interaction();
+    return _serial(() async {
+      if (_closed || !identical(_doc, doc)) return;
+      try {
+        final draft = doc.bookmarkHere();
+        final owner = await deps.owner();
+        final dao = BookmarksDao(deps.db);
+        final here = [
+          for (final b in await dao.forBook(userBookId))
+            if (b.refPage == draft.refPage) b,
+        ];
+        if (here.isNotEmpty) {
+          for (final b in here) {
+            await deps.versioning.write('bookmarks', b.id, (v) async {
+              final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
+              await dao.upsert(b.copyWith(meta: b.meta.deleted(at, v)));
+            });
+          }
+          return;
+        }
+        final id = UuidV7Generator().next();
+        await deps.versioning.write('bookmarks', id, (v) async {
+          final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
+          await dao.upsert(
+            Bookmark(
+              id: id,
+              meta: RecordMeta(
+                userId: owner,
+                createdAt: at,
+                updatedAt: at,
+                version: v,
+              ),
+              userBookId: userBookId,
+              locator: draft.locator,
+              refPage: draft.refPage,
+              chapterIndex: draft.chapterIndex,
+              excerpt: draft.excerpt.isEmpty ? null : draft.excerpt,
+            ),
+          );
+        });
+      } on Object catch (e, st) {
+        deps.onError(e, st);
+      }
+    });
+  }
+
+  /// O botão Tema (D-37, D-121): de um papel claro para o Noite (guardando o claro no aparelho) e do Noite de
+  /// volta ao último claro (Creme se não houver). Grava no ajuste de leitura da conta; o texto troca de cor
+  /// sem repaginar.
+  Future<void> toggleTheme() {
+    final doc = _doc;
+    if (doc == null || _closed || _state is ReaderFailed) return Future.value();
+    interaction();
+    return _serial(() async {
+      if (_closed || !identical(_doc, doc)) return;
+      try {
+        final kv = KvDao(deps.db);
+        final ReaderPaper next;
+        if (_paper == ReaderPaper.noite) {
+          final light = await kv.get(lastLightPaperKey);
+          next = ReaderPaper.values.firstWhere(
+            (p) => p.code == light && p != ReaderPaper.noite,
+            orElse: () => ReaderPaper.creme,
+          );
+        } else {
+          await kv.set(lastLightPaperKey, _paper.code);
+          next = ReaderPaper.noite;
+        }
+        final owner = await deps.owner();
+        final dao = ReaderSettingsDao(deps.db);
+        await deps.versioning.write('reader_settings', owner, (v) async {
+          final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
+          final old = await dao.forUser(owner);
+          await dao.upsert(
+            old == null
+                ? ReaderSettings(
+                    id: owner,
+                    meta: RecordMeta(
+                      userId: owner,
+                      createdAt: at,
+                      updatedAt: at,
+                      version: v,
+                    ),
+                    paper: next,
+                  )
+                : old.copyWith(paper: next, meta: old.meta.edited(at, v)),
+          );
+        });
+        if (_closed || _disposed) return;
+        _paper = next;
+        _palette = ReaderPalette.of(next);
+        _typography = _typography?.withInk(_palette.text);
+        notifyListeners();
+        await doc.recolor(_palette.text);
+      } on Object catch (e, st) {
+        _navFailed(e, st);
+      }
+    });
+  }
+
+  /// "N min hoje" do chip (Anexo 03 §8): as sessões de hoje mais a aberta.
+  Future<int> minutesToday() async => sessions.minutesToday(
+    deps.db,
+    userId: await deps.owner(),
+    now: (deps.now ?? DateTime.now)(),
+    open: _tracker,
+  );
+
+  /// Tempo para terminar (D-97): o que falta ÷ a velocidade; `null` na última página do livro (D-124).
+  Duration? timeLeft() {
+    final doc = _doc;
+    if (doc == null || doc.atEnd) return null;
+    final n = doc.numbers;
+    return timeLeftFor(((1 - n.progression) * doc.totalChars).round(), _speed);
   }
 
   /// "Voltar à pág. N": de volta ao caractere de onde se saiu.
