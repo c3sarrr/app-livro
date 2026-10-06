@@ -40,4 +40,25 @@ final class ReaderPalette {
       footer: AppColors.readerFooterNight,
     ),
   };
+
+  /// O caminho de uma paleta à outra (Tema em 220 ms — D-121).
+  static ReaderPalette lerp(ReaderPalette a, ReaderPalette b, double t) {
+    if (t <= 0) return a;
+    if (t >= 1) return b;
+    return ReaderPalette(
+      paper: Color.lerp(a.paper, b.paper, t)!,
+      text: Color.lerp(a.text, b.text, t)!,
+      footer: Color.lerp(a.footer, b.footer, t)!,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      other is ReaderPalette &&
+      other.paper == paper &&
+      other.text == text &&
+      other.footer == footer;
+
+  @override
+  int get hashCode => Object.hash(paper, text, footer);
 }

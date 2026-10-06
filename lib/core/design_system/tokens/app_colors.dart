@@ -45,6 +45,24 @@ abstract final class AppColors {
   static const Color readerFooterSepia = Color(0xFFA08E74);
   static const Color readerFooterNight = Color(0xFF8A8073);
 
+  // Leitor — ilhas dos controles (telas 20 e 26b, G12; medidas no arquivo — L20a/L20b/L26b).
+  /// Hachura da barra de posição (`#E9DFCC` sobre `#FFFAF1`).
+  static const Color hatchReader = Color(0xFFE9DFCC);
+
+  /// Tracejado acima das ferramentas.
+  static const Color dashReader = Color(0xFFCFC3AE);
+
+  /// Noite: fundo das ilhas, tinta clara (borda, título, rótulos), sombra dura, texto apagado.
+  static const Color islandNight = Color(0xFF2A2520);
+  static const Color inkNight = Color(0xFFEDE3D1);
+  static const Color shadowNight = Color(0xFF0B0A08);
+  static const Color mutedNight = Color(0xFFB5AA98);
+  static const Color hatchNight = Color(0xFF3A332B);
+  static const Color dashNight = Color(0xFF4A433A);
+
+  /// Noite: véu da página (a 55 %).
+  static const Color veilNight = Color(0xFF14110E);
+
   // Paleta
 
   /// Brand padrão e weekColor padrão; capa O Alienista; lua do Frankenstein.
