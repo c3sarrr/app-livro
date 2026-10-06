@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/data/database/local_database.dart';
 import '../../../core/design_system/tokens/app_colors.dart';
+import '../../../core/preferences/brand_preference.dart';
 import '../../account/application/account_controller.dart';
 import '../../account/application/account_providers.dart';
 import '../../catalog/application/catalog_providers.dart';
@@ -138,20 +139,36 @@ class HomeTheme {
 
   final Color brand;
   final Color weekColor;
+
+  @override
+  bool operator ==(Object other) =>
+      other is HomeTheme &&
+      other.brand == brand &&
+      other.weekColor == weekColor;
+
+  @override
+  int get hashCode => Object.hash(brand, weekColor);
 }
 
-/// Só aceita as opções do arquivo (`AppColors.brandOptions` / `AppColors.weekColorOptions`).
+/// Só aceita as opções do arquivo (`AppColors.brandOptions` / `AppColors.weekColorOptions`). O `brand` é o
+/// global do app (D-33, `brandProvider`); o `weekColor` é só da Início.
 class HomeThemeController extends Notifier<HomeTheme> {
+  Color _week = AppColors.lavender;
+
   @override
-  HomeTheme build() => const HomeTheme();
+  HomeTheme build() =>
+      HomeTheme(brand: ref.watch(brandProvider), weekColor: _week);
 
   void setBrand(Color c) {
     assert(AppColors.brandOptions.contains(c));
-    state = HomeTheme(brand: c, weekColor: state.weekColor);
+    // troca na hora (quem observa é avisado já); o global grava e reconstrói este com a mesma cor
+    state = HomeTheme(brand: c, weekColor: _week);
+    unawaited(ref.read(brandProvider.notifier).set(c));
   }
 
   void setWeekColor(Color c) {
     assert(AppColors.weekColorOptions.contains(c));
+    _week = c;
     state = HomeTheme(brand: state.brand, weekColor: c);
   }
 }
