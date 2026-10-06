@@ -88,6 +88,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/icons/leitor/
+    - assets/icons/leitor_extra/
     - assets/fonts/LICENCAS_FONTES_OFL.txt
 
   # Bloco copiado literalmente de design_handoff/ferramentas/pubspec_fonts.yaml.
@@ -189,6 +190,19 @@ flutter:
       fonts:
         - asset: assets/fonts/Bricolage42Vi-ExtraBold.ttf
           weight: 800
+    # G12: Bricolage 17/800 (título da ilha de cima do leitor — L20a), gerada na G01.7.
+    - family: Bricolage17
+      fonts:
+        - asset: assets/fonts/Bricolage17-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17Ext
+      fonts:
+        - asset: assets/fonts/Bricolage17Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17Vi
+      fonts:
+        - asset: assets/fonts/Bricolage17Vi-ExtraBold.ttf
+          weight: 800
     - family: Figtree
       fonts:
         - asset: assets/fonts/Figtree-Regular.ttf
@@ -265,3 +279,41 @@ flutter:
         - asset: assets/fonts/Literata-VFGrExt.ttf
         - asset: assets/fonts/LiterataItalic-VFGrExt.ttf
           style: italic
+    # G12 (D-104): Literata ESTÁTICA na interface do leitor — 19/500 no "Aa" da ferramenta Fonte (L20b) e 17 no trecho
+    # dos resultados da busca (D-120). Instâncias da G01.7, uma família por tamanho (opsz).
+    - family: Literata17
+      fonts:
+        - asset: assets/fonts/Literata17-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17-Medium.ttf
+          weight: 500
+    - family: Literata17Ext
+      fonts:
+        - asset: assets/fonts/Literata17Ext-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17Ext-Medium.ttf
+          weight: 500
+    - family: Literata17Vi
+      fonts:
+        - asset: assets/fonts/Literata17Vi-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17Vi-Medium.ttf
+          weight: 500
+    - family: Literata19
+      fonts:
+        - asset: assets/fonts/Literata19-Medium.ttf
+          weight: 500
+    - family: Literata19Ext
+      fonts:
+        - asset: assets/fonts/Literata19Ext-Medium.ttf
+          weight: 500
+    - family: Literata19Vi
+      fonts:
+        - asset: assets/fonts/Literata19Vi-Medium.ttf
+          weight: 500
+    # G12 (D-54): só o glifo "≈" da Inter Bold 4.0 (tools/fontes/gerar_aprox_inter.py), fallback da Figtree do
+    # leitor ("≈ 2 h 10 min" das telas 20/26b, em 700).
+    - family: BookNestApprox
+      fonts:
+        - asset: assets/fonts/BookNestApprox-Bold.ttf
+          weight: 700

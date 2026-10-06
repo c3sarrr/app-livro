@@ -66,7 +66,8 @@ void main() {
   test('Figtree 800 real nas telas 19–27b (D-16, L00); a Início continua até 700 (D-14)', () {
     final s = AppFonts.figtreeReader(12.5, FontWeight.w800);
     expect((s.fontFamily, s.fontWeight), ('Figtree', FontWeight.w800));
-    expect(s.fontFamilyFallback, ['FigtreeExt']);
+    // G12 (D-54): o "≈" do tempo restante vem da Inter Bold (BookNestApprox), depois da FigtreeExt
+    expect(s.fontFamilyFallback, ['FigtreeExt', 'BookNestApprox']);
     expect(
       () => AppFonts.figtree(12.5, FontWeight.w800),
       throwsA(isA<AssertionError>()),

@@ -19,6 +19,9 @@ e "Redesign mobile — App de leitura (1).html"):
   nem renomeada aqui.
 - Atkinson Hyperlegible — Copyright 2020 Braille Institute of America, Inc.
   Arquivos: AtkinsonHyperlegible{,Ext}-{Regular,Bold}.ttf (só convertidas de WOFF2)
+- Inter — Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
+  Arquivo: BookNestApprox-Bold.ttf — só o glifo "≈" (U+2248) da Inter Bold 4.0 (D-54), com a família renomeada
+  para "BookNestApprox" (tools/fontes/gerar_aprox_inter.py). A Inter não declara Reserved Font Name.
 
 Modificações (versões modificadas conforme a licença) — só em Bricolage Grotesque, Figtree, Instrument Serif e
 Literata: conversão WOFF2 -> TTF, instanciação de eixos variáveis (opsz/wght) com UPM 10000 (nas instâncias geradas na G01, avanços

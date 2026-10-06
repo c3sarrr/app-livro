@@ -4,7 +4,7 @@ import 'app_colors.dart';
 
 abstract final class AppFonts {
   /// Instâncias estáticas existentes da Bricolage (optical size = tamanho em px; 11 px usa 12).
-  static const Set<int> bricolageOpsz = {12, 18, 20, 22, 24, 26, 34, 42};
+  static const Set<int> bricolageOpsz = {12, 17, 18, 20, 22, 24, 26, 34, 42};
 
   static TextStyle bricolage(
     double size, {
@@ -54,7 +54,7 @@ abstract final class AppFonts {
   }
 
   /// Figtree das telas do leitor (19–27b): ali o 800 é real (D-16, L00 — `Figtree-ExtraBold`). A Início continua
-  /// com [figtree], até 700 (D-14).
+  /// com [figtree], até 700 (D-14). O "≈" (que a Figtree não tem) vem da Inter Bold (D-54, `BookNestApprox`).
   static TextStyle figtreeReader(
     double size,
     FontWeight weight, {
@@ -68,11 +68,42 @@ abstract final class AppFonts {
     );
     return TextStyle(
       fontFamily: 'Figtree',
-      fontFamilyFallback: const ['FigtreeExt'],
+      fontFamilyFallback: const ['FigtreeExt', 'BookNestApprox'],
       fontSize: size,
       fontWeight: weight,
       height: height,
       letterSpacing: letterSpacing,
+      color: color,
+      leadingDistribution: TextLeadingDistribution.even,
+    );
+  }
+
+  /// Literata ESTÁTICA da interface do leitor (D-104: a variável fica só no texto do livro). Uma família por
+  /// tamanho (opsz), registrada só com os pesos que existem.
+  static final Map<double, Set<int>> literataStatic = {
+    17: {400, 500},
+    19: {500},
+  };
+
+  static TextStyle literata(
+    double size,
+    FontWeight weight, {
+    double? height,
+    Color color = AppColors.ink,
+  }) {
+    assert(
+      literataStatic[size]?.contains(weight.value) ?? false,
+      'Sem Literata estática $size/${weight.value} registrada no pubspec',
+    );
+    final name = size == size.roundToDouble()
+        ? '${size.round()}'
+        : size.toString().replaceAll('.', '_');
+    return TextStyle(
+      fontFamily: 'Literata$name',
+      fontFamilyFallback: ['Literata${name}Ext', 'Literata${name}Vi'],
+      fontSize: size,
+      fontWeight: weight,
+      height: height,
       color: color,
       leadingDistribution: TextLeadingDistribution.even,
     );
@@ -388,4 +419,94 @@ abstract final class AppTextStyles {
     FontWeight.w600,
     color: AppColors.readerFooter,
   ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  // Leitor — controles (telas 20/26b, G12). Cores da Creme; as telas trocam pela paleta do papel.
+
+  /// r20.topIsland.title: Bricolage 17/800, 1,1, −0,3 (nowrap + "…").
+  static final TextStyle readerIslandTitle = AppFonts.bricolage(
+    17,
+    height: 1.1,
+    letterSpacing: -0.3,
+  );
+
+  /// r20.topIsland.author
+  static final TextStyle readerIslandAuthor = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w600,
+    color: AppColors.inkMuted,
+  );
+
+  /// r20.timeChip
+  static final TextStyle readerChip = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+  );
+
+  /// r20.bottomIsland.scrubber.bubble ("pág. 159")
+  static final TextStyle readerBubble = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+    color: AppColors.paper,
+  );
+
+  /// r20.bottomIsland.progressRow ("62% do livro · 256 pág." e "≈ 2 h 10 min"): `tabular-nums`.
+  static final TextStyle readerProgress = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w700,
+    color: AppColors.inkMuted,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  /// r20.bottomIsland.progressRow.position.percent (`strong`)
+  static final TextStyle readerProgressStrong = readerProgress.copyWith(
+    fontWeight: FontWeight.w800,
+    color: AppColors.ink,
+  );
+
+  /// r20.bottomIsland.tools.* (rótulos)
+  static final TextStyle readerToolLabel = AppFonts.figtreeReader(
+    12,
+    FontWeight.w700,
+  );
+
+  /// r20.bottomIsland.tools.font.circle ("Aa"): Literata estática 19/500 (D-104).
+  static final TextStyle readerToolAa = AppFonts.literata(19, FontWeight.w500);
+
+  /// r20.bottomIsland.tools.notes.badge
+  static final TextStyle readerBadge = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+  );
+
+  /// Pílulas do leitor ("Voltar à pág. N" — D-108; "Chega numa próxima fase" — D-118).
+  static final TextStyle readerPill = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+  );
+
+  /// Busca no livro (D-120, sem desenho — D-23: só os primitivos do leitor).
+  static final TextStyle readerSearchField = AppFonts.figtreeReader(
+    16,
+    FontWeight.w500,
+  );
+  static final TextStyle readerSearchCount = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w700,
+    color: AppColors.inkMuted,
+  );
+  static final TextStyle readerSearchGroup = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w800,
+    color: AppColors.inkMuted,
+  );
+  static final TextStyle readerSearchPage = AppFonts.figtreeReader(
+    12,
+    FontWeight.w700,
+    color: AppColors.readerFooter,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  static final TextStyle readerSearchExcerpt = AppFonts.literata(
+    17,
+    FontWeight.w400,
+    height: 1.45,
+    color: AppColors.bookText,
+  );
 }
