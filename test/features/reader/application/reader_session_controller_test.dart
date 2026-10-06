@@ -1160,6 +1160,45 @@ void main() {
       expect(h.erros, isEmpty);
     });
 
+    test('D-148: o ajuste que chegou de outro aparelho com o livro aberto fica; o toque daqui soma a ele', () async {
+      final c = await aberto();
+      // outro aparelho (pela sincronização): margens largas
+      await ReaderSettingsDao(h.livro.db).upsert(
+        ReaderSettings(
+          id: usuarioTeste,
+          meta: metaTeste(),
+          margins: ReaderMargins.larga,
+        ),
+      );
+      expect(c.look.margins, ReaderMargins.media, reason: 'a sessão não sabe');
+      await c.applySettings((l) => l.copyWith(fontStep: 5));
+      const esperado = ReaderLook(fontStep: 5, margins: ReaderMargins.larga);
+      expect((await linha())!.look, esperado);
+      expect(c.look, esperado);
+      expect((c.typography!.fontSize, c.typography!.sideMargin), (22.0, 40.0));
+      final p = doc(c).current as PageSnapshot;
+      expect((p.typography.fontSize, p.typography.sideMargin), (22.0, 40.0));
+      // chega de novo de fora (entrelinha solta) e aqui muda só o papel: a entrelinha entra junto e repagina
+      final linhaAgora = (await linha())!;
+      await ReaderSettingsDao(h.livro.db).upsert(
+        linhaAgora.withLook(
+          linhaAgora.look.copyWith(lineSpacing: ReaderLineSpacing.solto),
+        ),
+      );
+      await c.applySettings((l) => l.copyWith(paper: ReaderPaper.sepia));
+      final fim = esperado.copyWith(
+        lineSpacing: ReaderLineSpacing.solto,
+        paper: ReaderPaper.sepia,
+      );
+      expect(((await linha())!.look, c.look), (fim, fim));
+      final q = doc(c).current as PageSnapshot;
+      expect(
+        (q.typography.lineSpacing, q.typography.ink),
+        (1.95, ReaderPalette.of(ReaderPaper.sepia).text),
+      );
+      expect(h.erros, isEmpty);
+    });
+
     test('reabrir: a sessão monta pela linha gravada', () async {
       final c = await aberto();
       await c.applySettings(

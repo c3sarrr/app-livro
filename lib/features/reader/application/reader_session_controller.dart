@@ -619,8 +619,9 @@ class ReaderSessionController extends ChangeNotifier {
     });
   }
 
-  /// A folha de ajustes (tela 26, D-144): aplica [change] sobre os ajustes de agora, na fila (toques rápidos
-  /// somam), e grava a linha da conta com versão. Se o papel mudou, guarda o último claro (D-121). Tamanho, fonte,
+  /// A folha de ajustes (tela 26, D-144): aplica [change] sobre os ajustes mais novos da conta (os da linha do
+  /// banco, que podem ter vindo de outro aparelho — D-148), na fila (toques rápidos somam), e grava a linha com
+  /// versão; a tela passa a mostrar a linha inteira. Se o papel mudou, guarda o último claro (D-121). Tamanho, fonte,
   /// entrelinha e margens repaginam na página do caractere que a pessoa lia; a repaginação mais nova passa na
   /// frente, sem segurar a fila. Só o papel troca a cor do texto sem repaginar (no meio de uma repaginação, vai
   /// junto com ela). Falha ao gravar: relatada, e tudo fica como estava; falha ao guardar o último claro: relatada,
@@ -669,16 +670,15 @@ class ReaderSessionController extends ChangeNotifier {
     ReaderLookChange change,
   ) async {
     if (_closed || !identical(_doc, doc)) return null;
-    final from = _look;
-    final next = change(from);
-    if (next == from) return null;
+    final ReaderLook? next;
     try {
-      await _save(from, next);
+      next = await _save(change);
     } on Object catch (e, st) {
       // ajuste é conforto: uma falha do banco não derruba a leitura (tudo fica como estava)
       deps.onError(e, st);
       return null;
     }
+    if (next == null) return null; // a mesma escolha: nada a gravar
     // enquanto gravava, a sessão pode ter reaberto ("Tentar de novo"): o ajuste gravado vai para o livro de agora
     final now = _doc;
     if (_closed || _disposed || now == null || _state is ReaderFailed) {
@@ -727,15 +727,21 @@ class ReaderSessionController extends ChangeNotifier {
         });
   }
 
-  /// Grava os ajustes da conta (versão HLC; sem linha, cria com os padrões da tela 26). O último claro (D-121) vai
-  /// só depois do ajuste gravado: o papel claro escolhido, ou o claro que se deixou pelo Noite (a falha dele é
-  /// relatada e não desfaz o ajuste).
-  Future<void> _save(ReaderLook from, ReaderLook next) async {
+  /// Grava [change] sobre a linha da conta (D-148: os ajustes mais novos, mesmo os vindos de outro aparelho; sem
+  /// linha, os da sessão — os padrões da tela 26), com versão HLC. Devolve os ajustes gravados, ou `null` se a
+  /// mudança não muda nada. O último claro (D-121) vai só depois do ajuste gravado: o papel claro escolhido, ou o
+  /// claro que se deixou pelo Noite (a falha dele é relatada e não desfaz o ajuste).
+  Future<ReaderLook?> _save(ReaderLookChange change) async {
     final owner = await deps.owner();
     final dao = ReaderSettingsDao(deps.db);
+    final from = (await dao.forUser(owner))?.look ?? _look;
+    if (change(from) == from) return null;
+    late ReaderLook next;
     await deps.versioning.write('reader_settings', owner, (v) async {
       final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
+      // de novo dentro da transação: o que chegou entre a leitura e a gravação também fica
       final old = await dao.forUser(owner);
+      next = change(old?.look ?? from);
       await dao.upsert(
         old == null
             ? ReaderSettings(
@@ -750,6 +756,12 @@ class ReaderSessionController extends ChangeNotifier {
             : old.withLook(next, meta: old.meta.edited(at, v)),
       );
     });
+    await _saveLastLight(from, next);
+    return next;
+  }
+
+  /// O último claro (D-121): o papel claro escolhido, ou o claro que se deixou pelo Noite.
+  Future<void> _saveLastLight(ReaderLook from, ReaderLook next) async {
     if (next.paper == from.paper) return;
     final light = next.paper != ReaderPaper.noite ? next.paper : from.paper;
     if (light == ReaderPaper.noite) return;
