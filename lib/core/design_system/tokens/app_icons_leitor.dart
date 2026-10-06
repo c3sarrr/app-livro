@@ -1,9 +1,62 @@
 // G11 — ícones das telas do leitor (19–27b), exportados do arquivo novo na G01.8 (`assets/icons/leitor/`,
-// catálogo em `handoff_v2/referencia/svg_catalogo.json`). As cores já estão nos SVGs. Cada fase registra os que
-// usa; o tamanho de uso entre parênteses.
+// catálogo em `handoff_v2/referencia/svg_catalogo.json`). As cores já estão nos SVGs (as variantes `_noite` são as
+// da tela 26b). Cada fase registra os que usa; o tamanho de uso entre parênteses. Os que o arquivo não desenha
+// (extrapolados, como os `_extrapolado_` da Início) ficam em `assets/icons/leitor_extra/`, fora do catálogo da G01.
 abstract final class AppIconsLeitor {
-  /// (20) "Fechar o livro" (`r20.topIsland.close`); (16) "Voltar à pág. N" (D-108).
-  static const arrowLeft = 'assets/icons/leitor/ic_arrow_left.svg';
+  static const _d = 'assets/icons/leitor';
 
-  static const all = [arrowLeft];
+  /// (20) "Fechar o livro" (`r20.topIsland.close`); (16) "Voltar à pág. N" (D-108).
+  static const arrowLeft = '$_d/ic_arrow_left.svg';
+  static const arrowLeftNight = '$_d/ic_arrow_left_noite.svg';
+
+  /// (21) "Buscar no livro" (`r20.topIsland.search`).
+  static const search = '$_d/ic_search.svg';
+  static const searchNight = '$_d/ic_search_noite.svg';
+
+  /// (22×24) fita "Página marcada" (`r20.topIsland.bookmark`); desmarcada = só o contorno (D-124, extrapolado).
+  static const ribbonMarked = '$_d/ic_ribbon_marked.svg';
+  static const ribbonMarkedNight = '$_d/ic_ribbon_marked_noite.svg';
+  static const ribbonEmpty =
+      'assets/icons/leitor_extra/_extrapolado_ic_ribbon_empty.svg';
+  static const ribbonEmptyNight =
+      'assets/icons/leitor_extra/_extrapolado_ic_ribbon_empty_noite.svg';
+
+  /// (21) Tema: sol nos papéis claros, lua no Noite (D-37).
+  static const sun = '$_d/ic_sun.svg';
+  static const moon = '$_d/ic_moon.svg';
+
+  /// (21) Grifos, Anotar, Sumário (`r20.bottomIsland.tools.*`).
+  static const highlighter = '$_d/ic_highlighter_reader.svg';
+  static const highlighterNight = '$_d/ic_highlighter_reader_noite.svg';
+  static const annotate = '$_d/ic_annotate.svg';
+  static const annotateNight = '$_d/ic_annotate_noite.svg';
+  static const toc = '$_d/ic_toc.svg';
+  static const tocNight = '$_d/ic_toc_noite.svg';
+
+  /// (15) chip "N min hoje · contando sozinho" (`r20.timeChip.icon`).
+  static const timer = '$_d/ic_timer.svg';
+
+  /// (×) limpar a busca (D-120).
+  static const close = '$_d/ic_close.svg';
+
+  static const all = [
+    arrowLeft,
+    arrowLeftNight,
+    search,
+    searchNight,
+    ribbonMarked,
+    ribbonMarkedNight,
+    ribbonEmpty,
+    ribbonEmptyNight,
+    sun,
+    moon,
+    highlighter,
+    highlighterNight,
+    annotate,
+    annotateNight,
+    toc,
+    tocNight,
+    timer,
+    close,
+  ];
 }
