@@ -5,8 +5,10 @@
 //   Books); ao soltar, completa se passou de 1/4 da largura ou se foi rápido (≥ 300 px/s no sentido), senão
 //   volta — 220 ms `easeOutCubic` nos dois casos; no começo e no fim do livro a página anda 1/3 do dedo e volta
 //   (batente). Se a vizinha ainda não está montada, desliza o papel e ela aparece quando chega;
-// - pressão longa: nada até a G13 (D-113); a vizinha que não abre não é batente: soltar vira e a sessão mostra o
-//   aviso (D-21). Seguir um link segura os gestos até ele terminar.
+// - pressão longa: a seleção da G13 (D-45), avisada à tela; a vizinha que não abre não é batente: soltar vira e a
+//   sessão mostra o aviso (D-21). Seguir um link segura os gestos até ele terminar.
+// - G13 (D-132, D-136): com uma seleção na tela, o toque é dela ([onTapSelecting]); sem seleção, o link vale
+//   primeiro, depois o grifo ([onTapHighlight]), depois os terços.
 // - G12 (D-117): com os controles abertos, qualquer toque só fecha os controles ([onCenter]); o arrasto vira como
 //   sempre e avisa [onDragStarted] (a tela fecha os controles). A ocorrência da busca (D-120) é pintada por trás
 //   das letras na cor [foundColor].
@@ -52,9 +54,27 @@ class ReaderPageView extends StatefulWidget {
     this.highlights,
     this.selection,
     this.selectionColor,
+    this.selecting = false,
+    this.onTapSelecting,
+    this.onTapHighlight,
+    this.onLongPressStart,
+    this.onLongPressMove,
+    this.onLongPressEnd,
   });
 
   final ReaderDocument document;
+
+  /// Há uma seleção na tela (G13): o toque vai para [onTapSelecting] (fechar ou não — D-136).
+  final bool selecting;
+  final ValueChanged<Offset>? onTapSelecting;
+
+  /// Toque fora de link: `true` = era um grifo e a tela abriu a barra dele (D-132); senão valem os terços.
+  final bool Function(Offset p)? onTapHighlight;
+
+  /// Pressão longa (a seleção — D-45), arrastar sem soltar e soltar.
+  final ValueChanged<Offset>? onLongPressStart;
+  final ValueChanged<Offset>? onLongPressMove;
+  final VoidCallback? onLongPressEnd;
 
   /// Os controles estão abertos: o toque só os fecha (D-117).
   final bool controlsOpen;
@@ -162,11 +182,18 @@ class _ReaderPageViewState extends State<ReaderPageView>
       widget.onCenter();
       return;
     }
+    if (widget.selecting) {
+      // com uma seleção na tela o toque é dela: fecha ou não (D-136), nunca vira nem segue link
+      widget.onTapSelecting?.call(d.localPosition);
+      return;
+    }
+    // sem seleção: o link primeiro (G11), depois o grifo (a barra dele — D-132), depois os terços
     final hit = widget.document.current.linkAt(d.localPosition);
     if (hit != null) {
       unawaited(_follow(hit));
       return;
     }
+    if (widget.onTapHighlight?.call(d.localPosition) ?? false) return;
     final x = d.localPosition.dx / _width;
     if (x < 1 / 3) {
       unawaited(_tapTurn(PageDirection.backward));
@@ -321,8 +348,14 @@ class _ReaderPageViewState extends State<ReaderPageView>
     behavior: HitTestBehavior.opaque,
     // o leitor de tela usa as ações do nó da página (r19.page), não um toque sem rótulo no meio da tela
     excludeFromSemantics: true,
-    // pressão longa: nada até a seleção da G13 (D-113) — sem ela, segurar e soltar valeria como toque
-    onLongPress: () {},
+    // pressão longa: a seleção da tela 21 (D-45); segurar e soltar nunca vale como toque (D-113)
+    onLongPressStart: (d) {
+      if (_busy || widget.onLongPressStart == null) return;
+      widget.onInteraction();
+      widget.onLongPressStart!(d.localPosition);
+    },
+    onLongPressMoveUpdate: (d) => widget.onLongPressMove?.call(d.localPosition),
+    onLongPressEnd: (_) => widget.onLongPressEnd?.call(),
     // o deslocamento conta do ponto onde o dedo encostou (a página acompanha o dedo desde o começo)
     dragStartBehavior: DragStartBehavior.down,
     onTapUp: _tapUp,

@@ -15,6 +15,7 @@ import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:flutter/foundation.dart' show ValueListenable;
+import 'package:flutter/gestures.dart' show kLongPressTimeout;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -289,6 +290,9 @@ void main() {
     Future<void> Function(LinkHit h)? seguir,
     bool controlsOpen = false,
     Color? foundColor,
+    bool selecting = false,
+    bool Function(Offset p)? grifo,
+    bool pressaoLonga = false,
   }) async {
     tester.view
       ..devicePixelRatio = 1
@@ -314,6 +318,16 @@ void main() {
           controlsOpen: controlsOpen,
           onDragStarted: () => eventos.add('arrasto'),
           foundColor: foundColor,
+          selecting: selecting,
+          onTapSelecting: (p) => eventos.add('toque na seleção $p'),
+          onTapHighlight: grifo,
+          onLongPressStart: pressaoLonga
+              ? (p) => eventos.add('pressão $p')
+              : null,
+          onLongPressMove: pressaoLonga
+              ? (p) => eventos.add('arrastando $p')
+              : null,
+          onLongPressEnd: pressaoLonga ? () => eventos.add('soltou') : null,
         ),
       ),
     );
@@ -925,6 +939,104 @@ void main() {
         isFalse,
       );
       expect(noite(null).shouldRepaint(noite(const Color(0xFFE3D9C6))), isTrue);
+    });
+  });
+
+  group('G13 — gestos da seleção (D-45, D-132, D-136)', () {
+    testWidgets(
+      'pressão longa: começa, arrasta sem soltar e solta, sem virar',
+      (tester) async {
+        await montar(tester, pressaoLonga: true);
+        final g = await tester.startGesture(const Offset(42, 130));
+        await tester.pump(kLongPressTimeout + const Duration(milliseconds: 50));
+        await g.moveBy(const Offset(30, 0));
+        await tester.pump();
+        await g.moveBy(const Offset(0, 40));
+        await tester.pump();
+        await g.up();
+        await tester.pumpAndSettle();
+        expect(eventos, [
+          'toque',
+          'pressão Offset(42.0, 130.0)',
+          'arrastando Offset(72.0, 130.0)',
+          'arrastando Offset(72.0, 170.0)',
+          'soltou',
+        ]);
+        expect(livro.viradas, isEmpty);
+        expect(livro.at, 2);
+      },
+    );
+
+    testWidgets(
+      'com os controles abertos a pressão longa também chega (quem fecha é a tela); o toque só fecha',
+      (tester) async {
+        await montar(tester, pressaoLonga: true, controlsOpen: true);
+        await tester.longPressAt(const Offset(195, 400));
+        await tester.pumpAndSettle();
+        expect(eventos, ['toque', 'pressão Offset(195.0, 400.0)', 'soltou']);
+        eventos.clear();
+        await tester.tapAt(const Offset(350, 400));
+        await tester.pumpAndSettle();
+        expect(eventos, ['toque', 'centro']);
+      },
+    );
+
+    testWidgets(
+      'com uma seleção na tela, o toque em qualquer lugar vai para ela: não vira nem segue link',
+      (tester) async {
+        await montar(tester, selecting: true);
+        for (final p in const [
+          Offset(350, 400),
+          Offset(20, 400),
+          Offset(195, 400),
+          Offset(195, 115),
+        ]) {
+          await tester.tapAt(p);
+          await tester.pumpAndSettle();
+        }
+        expect(eventos, [
+          'toque',
+          'toque na seleção Offset(350.0, 400.0)',
+          'toque',
+          'toque na seleção Offset(20.0, 400.0)',
+          'toque',
+          'toque na seleção Offset(195.0, 400.0)',
+          'toque',
+          'toque na seleção Offset(195.0, 115.0)',
+        ]);
+        expect(livro.viradas, isEmpty);
+      },
+    );
+
+    testWidgets('precedência sem seleção: link → grifo → terços', (
+      tester,
+    ) async {
+      final tocados = <Offset>[];
+      var ehGrifo = true;
+      await montar(
+        tester,
+        grifo: (p) {
+          tocados.add(p);
+          return ehGrifo;
+        },
+      );
+      // o link vale mesmo com um grifo embaixo
+      await tester.tapAt(const Offset(195, 115));
+      await tester.pumpAndSettle();
+      expect(eventos, ['toque', 'link OEBPS/n.xhtml#2']);
+      expect(tocados, isEmpty);
+      // fora do link, o grifo: não vira
+      eventos.clear();
+      await tester.tapAt(const Offset(350, 400));
+      await tester.pumpAndSettle();
+      expect(eventos, ['toque']);
+      expect(tocados, [const Offset(350, 400)]);
+      expect(livro.viradas, isEmpty);
+      // não era grifo: os terços
+      ehGrifo = false;
+      await tester.tapAt(const Offset(350, 400));
+      await tester.pumpAndSettle();
+      expect(livro.viradas, [PageDirection.forward]);
     });
   });
 
