@@ -12,6 +12,7 @@ import '../content/chapter_content.dart';
 import '../domain/reader_numbers.dart';
 import '../layout/layout_scheduler.dart';
 import '../layout/reader_typography.dart';
+import 'annotation_anchors.dart';
 import 'book_pager.dart';
 import 'book_search.dart';
 import 'epub_images.dart';
@@ -96,6 +97,9 @@ final class EpubReaderDocument implements ReaderDocument {
     _images.changes,
     _marks,
   ]);
+
+  @override
+  late final AnnotationAnchors anchors = _EpubAnchors(this);
 
   @override
   String get title => _deps.book.title;
@@ -340,4 +344,23 @@ Future<ReaderMark?> resolveEpubLink(
   if (frag == null || frag.isEmpty) return (spine: spine, offset: 0);
   final c = await content(spine);
   return (spine: spine, offset: c.item.idOffsets[frag] ?? 0);
+}
+
+/// As âncoras do EPUB aberto: o sha do índice, o texto dos itens já abertos e a página e o capítulo pelo índice.
+final class _EpubAnchors implements AnnotationAnchors {
+  _EpubAnchors(this._d);
+
+  final EpubReaderDocument _d;
+
+  @override
+  String get sha => _d._deps.index.contentSha256;
+
+  @override
+  String? textOf(int spine) => _d._pager.contentOf(spine)?.item.text;
+
+  @override
+  ({int refPage, int chapterIndex}) placeOf(int spine, int offset) {
+    final n = numbersAt(_d._deps.index, spine, offset);
+    return (refPage: n.refPage, chapterIndex: n.chapterIndex);
+  }
 }

@@ -214,6 +214,20 @@ void main() {
       },
     );
 
+    test(
+      'byId: a linha viva ou apagada; id que não existe → null (G13)',
+      () async {
+        final dao = AnnotationsDao(db);
+        final vivo = grifoTeste(45, livro: idTeste(1));
+        final apagado = grifoTeste(46, livro: idTeste(1), apagado: true);
+        await dao.upsert(vivo);
+        await dao.upsert(apagado);
+        expect(await dao.byId(vivo.id), vivo);
+        expect(await dao.byId(apagado.id), apagado);
+        expect(await dao.byId(idTeste(47)), isNull);
+      },
+    );
+
     test('grifos do usuário em todos os livros (D-40)', () async {
       final dao = AnnotationsDao(db);
       await dao.upsert(grifoTeste(40, livro: idTeste(1)));

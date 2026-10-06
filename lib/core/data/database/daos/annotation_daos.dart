@@ -41,6 +41,11 @@ final class AnnotationsDao {
         ),
       );
 
+  /// A linha [id], viva ou não (a sobreposição e a nota leem o pai que acabou de mudar — G13).
+  Future<Annotation?> byId(String id) => (_db.select(
+    _db.annotations,
+  )..where((t) => t.id.equals(id))).map(_toEntity).getSingleOrNull();
+
   /// Itens do livro na ordem do livro (página, início da âncora, criação) — tela 25.
   Future<List<Annotation>> forBook(String userBookId) =>
       _forBook(userBookId).get();

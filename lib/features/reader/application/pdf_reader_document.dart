@@ -14,6 +14,7 @@ import 'package:pdfrx/pdfrx.dart';
 import '../../library/domain/user_book.dart';
 import '../content/content_failure.dart';
 import '../content/ref_pages.dart' show refPageChars;
+import 'annotation_anchors.dart';
 import 'book_search.dart';
 import 'pdf_position_keeper.dart';
 import 'reader_document.dart';
@@ -242,6 +243,10 @@ final class PdfReaderDocument implements ReaderDocument {
   bool _disposed = false;
 
   int get pageCount => _doc.pages.length;
+
+  /// D-134: grifos no PDF ficam para uma fase própria.
+  @override
+  AnnotationAnchors? get anchors => null;
 
   @override
   String get title => _book.title;

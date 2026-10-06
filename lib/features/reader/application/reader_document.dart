@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart' show Listenable;
 import '../domain/locator.dart';
 import '../domain/reader_numbers.dart';
 import '../layout/display_page.dart';
+import 'annotation_anchors.dart';
 
 export '../layout/display_page.dart';
 
@@ -118,6 +119,9 @@ abstract interface class ReaderDocument {
 
   /// A página mostrada.
   DisplayPage get current;
+
+  /// O que os grifos precisam do livro (EPUB); `null` no PDF, que não tem grifos na G13 (D-134).
+  AnnotationAnchors? get anchors;
 
   /// Avisa quando a página mostrada muda (virar, abrir outro lugar, repaginar, a página do cache que vira a do
   /// layout completo).

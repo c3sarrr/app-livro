@@ -10,6 +10,7 @@ import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
     show HighlightStyle;
+import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
@@ -92,6 +93,9 @@ final class _Pagina implements DisplayPage {
 
 final class _Livro implements ReaderDocument {
   _Livro({this.at = 2});
+
+  @override
+  AnnotationAnchors? get anchors => null;
 
   final int total = 5;
   int at;
