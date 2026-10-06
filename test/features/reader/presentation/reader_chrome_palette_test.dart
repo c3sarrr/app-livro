@@ -116,4 +116,24 @@ void main() {
       Color.lerp(a.footer, b.footer, 0.5),
     );
   });
+
+  test('igualdade e hash por valor (o Tema compara a paleta de destino)', () {
+    for (final p in ReaderPaper.values) {
+      final a = ReaderChromePalette.of(p);
+      final b = ReaderChromePalette.of(p);
+      expect(a, b);
+      expect(a.hashCode, b.hashCode);
+      final c = ReaderPalette.of(p);
+      expect(c, ReaderPalette.of(p));
+      expect(c.hashCode, ReaderPalette.of(p).hashCode);
+    }
+    expect(
+      ReaderChromePalette.of(ReaderPaper.creme).hashCode,
+      isNot(ReaderChromePalette.of(ReaderPaper.noite).hashCode),
+    );
+    expect(
+      ReaderPalette.of(ReaderPaper.creme).hashCode,
+      isNot(ReaderPalette.of(ReaderPaper.noite).hashCode),
+    );
+  });
 }

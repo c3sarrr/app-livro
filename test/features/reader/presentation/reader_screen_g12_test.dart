@@ -432,18 +432,30 @@ void main() {
         ),
       );
       setCanvasView(tester, logical: const Size(390, 844));
-      await abrirLeitor(tester, livro, esperar: false);
       final creme = ReaderPalette.of(ReaderPaper.creme).paper;
       final noite = ReaderPalette.of(ReaderPaper.noite).paper;
+      // o papel de cada quadro desde o 1º (a abertura assenta as animações antes de devolver)
       final vistos = <Color>{};
+      var olhando = true;
+      addTearDown(() => olhando = false);
+      tester.binding.addPersistentFrameCallback((_) {
+        if (!olhando) return;
+        final papel = find.descendant(
+          of: find.byType(ReaderScreen),
+          matching: find.byType(ColoredBox),
+        );
+        if (papel.evaluate().isNotEmpty) {
+          vistos.add(tester.widget<ColoredBox>(papel.first).color);
+        }
+      });
+      await abrirLeitor(tester, livro, esperar: false);
       for (var i = 0; i < 400 && _key('r19.footer').evaluate().isEmpty; i++) {
         await tester.pump(const Duration(milliseconds: 16));
-        if (find.byType(ReaderScreen).evaluate().isNotEmpty) {
-          vistos.add(_papel(tester));
-        }
       }
       await tester.pumpAndSettle();
+      olhando = false;
       expect(_papel(tester), noite);
+      expect(vistos, contains(noite));
       // a palavra achada pela busca fica escura na marca (D-127): o pintor recebe a cor clara das letras
       expect(
         _pintor(tester).foundLightText,

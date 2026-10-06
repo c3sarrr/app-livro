@@ -358,6 +358,21 @@ void main() {
     expect(scrubberStep(1), 1);
   });
 
+  test(
+    'FillWavePainter: a onda cheia e, por cima, o traço de 1,5 na cor da borda',
+    () {
+      final tela = _Tela();
+      const FillWavePainter(
+        fill: AppColors.lavender,
+        stroke: AppColors.ink,
+      ).paint(tela, const Size(10, 15));
+      expect(tela.tracos, [
+        (PaintingStyle.fill, AppColors.lavender.toARGB32(), 0.0),
+        (PaintingStyle.stroke, AppColors.ink.toARGB32(), 1.5),
+      ]);
+    },
+  );
+
   testWidgets('FillWavePainter repinta só quando as cores mudam', (
     tester,
   ) async {
@@ -384,4 +399,16 @@ void main() {
       isTrue,
     );
   });
+}
+
+/// Grava os caminhos que o pintor desenha (estilo, cor e espessura).
+final class _Tela implements Canvas {
+  final tracos = <(PaintingStyle, int, double)>[];
+
+  @override
+  void drawPath(Path path, Paint paint) =>
+      tracos.add((paint.style, paint.color.toARGB32(), paint.strokeWidth));
+
+  @override
+  Object? noSuchMethod(Invocation invocation) => null;
 }
