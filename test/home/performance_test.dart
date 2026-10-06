@@ -21,6 +21,7 @@ import 'package:app_leitura/features/home/presentation/sections/reading_day_card
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
+import 'package:app_leitura/features/reader/presentation/highlight_toolbar.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/selection_layer.dart';
 import 'package:app_leitura/features/reader/presentation/scrubber.dart'
@@ -289,6 +290,35 @@ void main() {
       });
     });
 
+    test(
+      'RainbowRingPainter (borda, miolo) e UnderlineIconPainter (letra) — G13',
+      () {
+        _expectRepaintsOnlyOnChange(
+          () => const RainbowRingPainter(
+            border: AppColors.ink,
+            center: AppColors.surface,
+          ),
+          {
+            'border': () => const RainbowRingPainter(
+              border: AppColors.inkNight,
+              center: AppColors.surface,
+            ),
+            'center': () => const RainbowRingPainter(
+              border: AppColors.ink,
+              center: AppColors.islandNight,
+            ),
+          },
+        );
+        _expectRepaintsOnlyOnChange(
+          () => const UnderlineIconPainter(letter: AppColors.ink),
+          {
+            'letter': () =>
+                const UnderlineIconPainter(letter: AppColors.inkNight),
+          },
+        );
+      },
+    );
+
     test('todo pintor do app está coberto aqui (nenhum CustomPainter novo sem teste)', () {
       final painters = <String>{};
       for (final file in Directory('lib').listSync(recursive: true)) {
@@ -309,6 +339,8 @@ void main() {
         'ReaderPagesPainter',
         'FillWavePainter',
         'MagnifierPainter',
+        'RainbowRingPainter',
+        'UnderlineIconPainter',
       });
     });
   });

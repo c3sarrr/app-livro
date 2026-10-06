@@ -11,6 +11,7 @@ class Pressable extends StatefulWidget {
     this.semanticsLabel,
     this.isLink = false,
     this.toggled,
+    this.selected,
     this.enabled = true,
   });
   final Widget child;
@@ -20,6 +21,9 @@ class Pressable extends StatefulWidget {
 
   /// Botão de alternar (`aria-pressed`): o estado vai para a semântica (a fita do marcador — G12).
   final bool? toggled;
+
+  /// Escolhido num grupo (a cor do grifo existente na barra de ações — G13).
+  final bool? selected;
 
   /// `false` = desabilitado: sem toque e "indisponível" para o leitor de tela (Fonte no PDF — D-122).
   final bool enabled;
@@ -56,6 +60,7 @@ class _PressableState extends State<Pressable> {
       link: widget.isLink,
       label: widget.semanticsLabel,
       toggled: widget.toggled,
+      selected: widget.selected,
       enabled: widget.enabled ? null : false,
       excludeSemantics: widget.semanticsLabel != null,
       onTap: onTap,
