@@ -1,6 +1,7 @@
 // G09.5 — a importação ligada ao app (D-87): botão da Biblioteca (seletor), "Abrir com" (pendentes ao abrir e a
 // cada aviso, inclusive o que chega no meio), índice em segundo plano, frases de cada resultado (D-21, D-92) e a
-// troca para a aba Biblioteca quando o arquivo vem do sistema.
+// troca para a aba Biblioteca quando o arquivo vem do sistema. As esperas vão até 15 s (a suíte inteira roda em
+// paralelo e o isolate do índice disputa a CPU).
 import 'dart:async';
 import 'dart:io';
 
@@ -110,7 +111,7 @@ void main() {
   }
 
   Future<void> ate(bool Function() ok) async {
-    for (var i = 0; i < 200 && !ok(); i++) {
+    for (var i = 0; i < 1500 && !ok(); i++) {
       await Future<void>.delayed(const Duration(milliseconds: 10));
     }
   }
@@ -142,7 +143,7 @@ void main() {
       expect(ok.title, 'Senhora');
       for (
         var i = 0;
-        i < 300 && await BookContentIndexDao(db).byBook(ok.userBookId) == null;
+        i < 1500 && await BookContentIndexDao(db).byBook(ok.userBookId) == null;
         i++
       ) {
         await Future<void>.delayed(const Duration(milliseconds: 10));
@@ -488,7 +489,7 @@ void main() {
           await tester.tap(findAppText('Importar livro (EPUB ou PDF)'));
           expect(seletor.vezes, 1, reason: 'desligado enquanto importa');
           trava.complete();
-          for (var i = 0; i < 100; i++) {
+          for (var i = 0; i < 1500; i++) {
             await Future<void>.delayed(const Duration(milliseconds: 10));
             await tester.pump();
             if (findAppText('«Senhora» está na sua estante.')
@@ -530,7 +531,7 @@ void main() {
               child: const IncomingBooks(child: App.forTests()),
             ),
           );
-          for (var i = 0; i < 200; i++) {
+          for (var i = 0; i < 1500; i++) {
             await Future<void>.delayed(const Duration(milliseconds: 10));
             await tester.pump();
             if (findAppText('«Iracema» está na sua estante.')
