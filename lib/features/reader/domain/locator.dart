@@ -54,7 +54,9 @@ sealed class Locator {
   const Locator();
 
   factory Locator.fromJson(Map<String, Object?> json) =>
-      EpubLocator._tryFromJson(json) ?? RawLocator(json);
+      EpubLocator._tryFromJson(json) ??
+      PdfLocator._tryFromJson(json) ??
+      RawLocator(json);
 
   Map<String, Object?> toJson();
 }
@@ -141,6 +143,67 @@ final class EpubLocator extends Locator {
   @override
   int get hashCode =>
       Object.hash(sha, spine, offset, quote, refPage, progression);
+}
+
+/// Posição num PDF (G11, D-109): a página (a partir de 0); as páginas de referência são as do PDF (D-89).
+final class PdfLocator extends Locator {
+  PdfLocator({
+    required String sha,
+    required int page,
+    required int refPage,
+    required double progression,
+  }) : sha = _sha(sha),
+       page = Check.range(page, 0, _maxInt, 'page'),
+       refPage = Check.range(refPage, 1, _maxInt, 'refPage'),
+       progression = _progression(progression);
+
+  static const _keys = {'v', 'sha', 'page', 'refPage', 'progression'};
+
+  static PdfLocator? _tryFromJson(Map<String, Object?> j) {
+    if (j['v'] != 1 ||
+        !_keys.containsAll(j.keys) ||
+        j['sha'] is! String ||
+        j['page'] is! int ||
+        j['refPage'] is! int ||
+        j['progression'] is! num) {
+      return null;
+    }
+    try {
+      return PdfLocator(
+        sha: j['sha'] as String,
+        page: j['page'] as int,
+        refPage: j['refPage'] as int,
+        progression: (j['progression'] as num).toDouble(),
+      );
+    } on ArgumentError {
+      return null;
+    }
+  }
+
+  final String sha;
+  final int page;
+  final int refPage;
+  final double progression;
+
+  @override
+  Map<String, Object?> toJson() => {
+    'v': 1,
+    'sha': sha,
+    'page': page,
+    'refPage': refPage,
+    'progression': progression,
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      other is PdfLocator &&
+      other.sha == sha &&
+      other.page == page &&
+      other.refPage == refPage &&
+      other.progression == progression;
+
+  @override
+  int get hashCode => Object.hash(sha, page, refPage, progression);
 }
 
 /// Localizador em formato não reconhecido — guardado como veio.
