@@ -5,6 +5,7 @@
 // aparelho, o contador muda na hora.
 import 'dart:async';
 
+import 'package:drift/drift.dart' show TableUpdateQuery;
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 
 import '../../../core/data/database/app_database.dart';
@@ -32,20 +33,19 @@ class ReaderChrome extends ChangeNotifier {
     required this.timeLeft,
     this.startTimer = Timer.new,
     this.onError,
-  }) {
-    _marks = BookmarksDao(db).watchForBook(userBookId).listen((list) {
-      _pages = {for (final b in list) b.refPage};
-      _markedReady = true;
-      _changed();
-    }, onError: _fail);
-    _notes = AnnotationsDao(db).watchForBook(userBookId).listen((list) {
-      _count = AnnotationStats.countByKind(list, userBookId: userBookId).all;
-      _notesReady = true;
-      _changed();
-    }, onError: _fail);
+  }) : _db = db {
+    // relê a cada escrita nas tabelas (marcador, anotações — inclusive as que o Pro sincroniza); sem as consultas
+    // "vivas" do drift, que deixam um timer para trás ao cancelar
+    _updates = db
+        .tableUpdates(
+          TableUpdateQuery.onAllTables([db.bookmarks, db.annotations]),
+        )
+        .listen((_) => unawaited(_reload()), onError: _fail);
+    unawaited(_reload());
     unawaited(refreshMinutes());
   }
 
+  final AppDatabase _db;
   final String userBookId;
 
   /// A página de referência mostrada agora.
@@ -58,19 +58,33 @@ class ReaderChrome extends ChangeNotifier {
   final Duration? Function() timeLeft;
   final Timer Function(Duration, void Function()) startTimer;
   final void Function(Object error, StackTrace stack)? onError;
-  late final StreamSubscription<Object?> _marks;
-  late final StreamSubscription<Object?> _notes;
+  late final StreamSubscription<Object?> _updates;
   Set<int> _pages = const {};
   int _count = 0;
   int _minutesToday = 0;
-  bool _markedReady = false;
-  bool _notesReady = false;
+  bool _marksReady = false;
   bool _minutesReady = false;
   bool _disposed = false;
+  int _gen = 0;
   Timer? _tick;
 
-  /// As três leituras do banco chegaram (testes).
-  bool get ready => _markedReady && _notesReady && _minutesReady;
+  Future<void> _reload() async {
+    final gen = ++_gen;
+    try {
+      final marks = await BookmarksDao(_db).forBook(userBookId);
+      final notes = await AnnotationsDao(_db).forBook(userBookId);
+      if (_disposed || gen != _gen) return;
+      _pages = {for (final b in marks) b.refPage};
+      _count = AnnotationStats.countByKind(notes, userBookId: userBookId).all;
+      _marksReady = true;
+      _changed();
+    } on Object catch (e, st) {
+      _fail(e, st);
+    }
+  }
+
+  /// As leituras do banco chegaram (testes).
+  bool get ready => _marksReady && _minutesReady;
 
   /// A página de referência mostrada tem marcador vivo (fita "Página marcada").
   bool get marked => _pages.contains(refPage());
@@ -132,8 +146,7 @@ class ReaderChrome extends ChangeNotifier {
     _disposed = true;
     _tick?.cancel();
     _tick = null;
-    unawaited(_marks.cancel());
-    unawaited(_notes.cancel());
+    unawaited(_updates.cancel());
     super.dispose();
   }
 }
