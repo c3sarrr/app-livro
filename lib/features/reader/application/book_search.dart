@@ -59,8 +59,25 @@ const String _latin =
 
 bool _combining(int c) => c >= 0x0300 && c <= 0x036F;
 
+/// Some do texto dobrado: marcas combinantes, hífen discreto (U+00AD) e os caracteres de largura zero.
+bool _ignored(int c) =>
+    _combining(c) ||
+    c == 0x00AD ||
+    (c >= 0x200B && c <= 0x200D) ||
+    c == 0x2060 ||
+    c == 0xFEFF;
+
+/// Espaços que contam como espaço comum (sem quebra, finos, ideográfico).
+bool _isSpace(int c) =>
+    c == 0x00A0 ||
+    (c >= 0x2000 && c <= 0x200A) ||
+    c == 0x202F ||
+    c == 0x205F ||
+    c == 0x3000;
+
 /// Uma unidade: sem acento (Latin-1 e Latin Extended-A) e em caixa baixa.
 int _fold(int c) {
+  if (_isSpace(c)) return 0x20;
   var x = c;
   if (c >= 0xC0 && c <= 0x17F) {
     final b = _latin.codeUnitAt(c - 0xC0);
@@ -78,8 +95,9 @@ FoldedText foldForSearch(String s) {
   final map = <int>[];
   for (var i = 0; i < s.length; i++) {
     final c = s.codeUnitAt(i);
-    // marcas combinantes (texto decomposto): somem do dobrado e ficam dentro do intervalo da letra
-    if (_combining(c)) continue;
+    // marcas combinantes (texto decomposto), hífen discreto e largura zero: somem do dobrado e ficam dentro do
+    // intervalo achado
+    if (_ignored(c)) continue;
     out.writeCharCode(_fold(c));
     map.add(i);
   }
@@ -180,19 +198,32 @@ Iterable<UnitHits> searchTexts(
   }
 }
 
-/// O capítulo do sumário (folha) onde fica a posição global [global]: o número da folha e o título; antes da 1ª
-/// folha, "Começo do livro" (-1).
-({int leaf, String title}) searchChapterAt(BookIndex index, int global) {
+/// O capítulo do sumário (folha) onde fica a posição global [global]: a folha que começa mais perto antes dela (o
+/// número da folha e o título); antes da 1ª folha, "Começo do livro" (-1); livro sem sumário: [withoutToc] (o
+/// título do livro), um grupo só.
+({int leaf, String title}) searchChapterAt(
+  BookIndex index,
+  int global, {
+  String? withoutToc,
+}) {
   var out = (leaf: -1, title: 'Começo do livro');
+  var best = -1;
   var leaf = -1;
+  var any = false;
   for (final t in index.toc) {
     if (!t.leaf) continue;
     leaf++;
     final s = t.spine;
     if (s == null) continue;
     final g = index.globalOffset(s, t.offset ?? 0);
-    if (g != null && g <= global) out = (leaf: leaf, title: t.title);
+    if (g == null) continue;
+    any = true;
+    if (g <= global && g >= best) {
+      best = g;
+      out = (leaf: leaf, title: t.title);
+    }
   }
+  if (!any && withoutToc != null) return (leaf: -1, title: withoutToc);
   return out;
 }
 
@@ -226,12 +257,22 @@ Stream<UnitHits> isolateEpubSearch(
             if (!cancelled) out.add(u);
           case (final String kind, final String message) when kind == 'erro':
             if (!cancelled) out.addError(StateError(message));
+          case [final Object? error, _]:
+            // o isolate morreu fora do `finally` (falta de memória): a busca termina com erro
+            if (!cancelled) out.addError(StateError('$error'));
+            finish();
           default:
+            // `null`: fim da busca (ou o aviso de saída do isolate)
             finish();
         }
       });
       try {
-        await Isolate.spawn(_searchMain, (p.sendPort, path, spines, query));
+        await Isolate.spawn(
+          _searchMain,
+          (p.sendPort, path, spines, query),
+          onExit: p.sendPort,
+          onError: p.sendPort,
+        );
       } on Object catch (e, st) {
         out.addError(e, st);
         finish();

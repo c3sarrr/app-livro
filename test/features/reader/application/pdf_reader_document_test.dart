@@ -368,6 +368,7 @@ void main() {
         final d = await abrir();
         final grupos = await d.search('CONTO').toList();
         expect(grupos.map((g) => g.title), ['Pág. 1', 'Pág. 3']);
+        expect(grupos.every((g) => g.byPage), isTrue);
         final h = grupos.last.hits.single;
         expect(h.at, (spine: 0, offset: 2));
         expect((h.found.unit, h.refPage), (2, 3));

@@ -72,8 +72,9 @@ typedef SearchHit = ({
   int matchEnd,
 });
 
-/// Os resultados seguidos de um capítulo (EPUB) ou de uma página (PDF).
-typedef SearchGroup = ({String title, List<SearchHit> hits});
+/// Os resultados seguidos de um capítulo (EPUB) ou de uma página (PDF — [byPage]: o grupo já diz a página e os
+/// resultados não repetem o "pág. N").
+typedef SearchGroup = ({String title, List<SearchHit> hits, bool byPage});
 
 /// D-49: o começo da página para o marcador — até 90 caracteres, cortado em palavra, com "…" quando cortado.
 String bookmarkExcerpt(String pageText) {

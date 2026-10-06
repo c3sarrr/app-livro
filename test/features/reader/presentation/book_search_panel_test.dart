@@ -11,9 +11,13 @@ import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/presentation/book_search_panel.dart';
+import 'package:app_leitura/features/reader/presentation/reader_chrome_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
+import 'package:app_leitura/features/reader/presentation/reader_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
+import 'package:flutter/material.dart' show MaterialApp;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -40,8 +44,14 @@ final class _Doc implements ReaderDocument {
   Object? noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-SearchGroup _grupo(String titulo, int n, {int desde = 0}) => (
+SearchGroup _grupo(
+  String titulo,
+  int n, {
+  int desde = 0,
+  bool porPagina = false,
+}) => (
   title: titulo,
+  byPage: porPagina,
   hits: [
     for (var i = 0; i < n; i++)
       (
@@ -158,6 +168,160 @@ void main() {
       expect(c.hasListener, isFalse);
       expect(s.done, isTrue);
     });
+  });
+
+  group('sessão da busca (revisão)', () {
+    testWidgets('espaços nas pontas e maiúsculas não refazem a busca', (
+      tester,
+    ) async {
+      final d = _Doc();
+      final s = BookSearchSession(d);
+      addTearDown(s.dispose);
+      s.type('olhos');
+      await tester.pump(const Duration(milliseconds: 250));
+      s.type('olhos ');
+      s.type('OLHOS ');
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(d.buscas, hasLength(1));
+    });
+
+    testWidgets(
+      'a lista anterior fica até chegar o 1º grupo da busca nova (não pisca)',
+      (tester) async {
+        final d = _Doc();
+        final s = BookSearchSession(d);
+        addTearDown(s.dispose);
+        s.type('olhos');
+        await tester.pump(const Duration(milliseconds: 250));
+        d.buscas.last.$2.add(_grupo('I', 3));
+        await d.buscas.last.$2.close();
+        await tester.pump();
+        s.type('olho');
+        await tester.pump(const Duration(milliseconds: 250));
+        expect(s.total, 3, reason: 'ainda os de antes');
+        expect(s.running, isTrue);
+        d.buscas.last.$2.add(_grupo('II', 1, desde: 50));
+        await tester.pump();
+        expect(s.total, 1);
+        expect(s.groups.map((g) => g.title), ['II']);
+        await d.buscas.last.$2.close();
+        await tester.pump();
+        expect(s.running, isFalse);
+      },
+    );
+
+    testWidgets(
+      'busca que falha: relata e diz que não deu (não "Nada encontrado")',
+      (tester) async {
+        final d = _Doc();
+        final erros = <Object>[];
+        final s = BookSearchSession(d, onError: (e, _) => erros.add(e));
+        addTearDown(s.dispose);
+        s.type('olhos');
+        await tester.pump(const Duration(milliseconds: 250));
+        d.buscas.last.$2.addError(StateError('arquivo ilegível'));
+        await tester.pump();
+        expect((s.failed, s.done, s.running), (true, true, false));
+        expect(erros, [isA<StateError>()]);
+        expect(searchCountText(s), searchFailedText);
+        expect(searchFailedText, 'Não deu para buscar no livro agora.');
+        // a próxima busca começa limpa
+        s.type('olho');
+        await tester.pump(const Duration(milliseconds: 250));
+        expect(s.failed, isFalse);
+        await d.buscas.last.$2.close();
+        await tester.pump();
+      },
+    );
+
+    testWidgets(
+      'PDF: o grupo já é a página — o resultado não repete o "pág. N"',
+      (tester) async {
+        tester.view
+          ..devicePixelRatio = 1
+          ..physicalSize = const Size(390, 844);
+        addTearDown(tester.view.reset);
+        final d = _Doc();
+        final s = BookSearchSession(d);
+        addTearDown(s.dispose);
+        await tester.pumpWidget(
+          MaterialApp(
+            home: BookSearchPanel(
+              session: s,
+              paper: ReaderPalette.of(ReaderPaper.creme),
+              palette: ReaderChromePalette.of(ReaderPaper.creme),
+              brand: AppColors.lavender,
+              onClose: () {},
+              onPick: (_) {},
+            ),
+          ),
+        );
+        s.type('conto');
+        await tester.pump(const Duration(milliseconds: 250));
+        d.buscas.last.$2.add(_grupo('Pág. 1', 1, porPagina: true));
+        await d.buscas.last.$2.close();
+        await tester.pump();
+        expect(findAppText('PÁG. 1'), findsOneWidget);
+        expect(findAppText('pág. 1'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'palavra achada no trecho: escura na marca em todo papel (no Noite, a cor do papel — D-127)',
+      (tester) async {
+        tester.view
+          ..devicePixelRatio = 1
+          ..physicalSize = const Size(390, 844);
+        addTearDown(tester.view.reset);
+        Future<TextSpan> achada(ReaderPaper papel) async {
+          final d = _Doc();
+          final s = BookSearchSession(d);
+          addTearDown(s.dispose);
+          await tester.pumpWidget(
+            MaterialApp(
+              key: ValueKey(papel),
+              home: BookSearchPanel(
+                session: s,
+                paper: ReaderPalette.of(papel),
+                palette: ReaderChromePalette.of(papel),
+                brand: AppColors.lavender,
+                onClose: () {},
+                onPick: (_) {},
+              ),
+            ),
+          );
+          s.type('abc');
+          await tester.pump(const Duration(milliseconds: 250));
+          d.buscas.last.$2.add(_grupo('Um', 1));
+          await d.buscas.last.$2.close();
+          await tester.pump();
+          final trecho = tester
+              .widgetList<AppText>(
+                find.descendant(
+                  of: _key('leitor.busca.resultado.1.0'),
+                  matching: find.byType(AppText),
+                ),
+              )
+              .last;
+          return (trecho.span as TextSpan).children!.cast<TextSpan>()[1];
+        }
+
+        for (final papel in ReaderPaper.values) {
+          final p = ReaderPalette.of(papel);
+          final palavra = await achada(papel);
+          expect(
+            palavra.style!.background!.color.toARGB32(),
+            AppColors.lavender.toARGB32(),
+            reason: papel.name,
+          );
+          expect(
+            palavra.style!.color,
+            papel == ReaderPaper.noite ? p.paper : p.text,
+            reason: papel.name,
+          );
+        }
+      },
+    );
   });
 
   group('painel', () {

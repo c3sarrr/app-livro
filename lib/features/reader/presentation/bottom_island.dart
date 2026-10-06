@@ -3,10 +3,9 @@
 // alterna o papel (D-121); Fonte, Grifos, Anotar e Sumário chegam em fases próximas (D-118) — a tela decide o que
 // cada uma faz. No PDF a Fonte fica cinza e desabilitada (D-122). O contador de Grifos some com 0 e mostra "99+"
 // acima de 99 (D-124); o leitor de tela ouve o número junto do rótulo.
-import 'dart:math' as math;
-
 import 'package:flutter/widgets.dart';
 
+import '../../../core/design_system/painters/chromium_dash.dart';
 import '../../../core/design_system/text/app_text.dart';
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_icons_leitor.dart';
@@ -24,36 +23,6 @@ import 'scrubber.dart';
 
 /// As ferramentas da ilha de baixo, na ordem do arquivo.
 enum ReaderTool { font, theme, notes, annotate, toc }
-
-/// Borda de cima tracejada como o `border-top: dashed` do Chromium: traço = 2 × espessura, vão ≈ espessura,
-/// ajustado para começar e terminar com traço (1,5 px → 3/1,5 numa largura de 327 — medido na prancha @3x).
-class DashedTopBorderPainter extends CustomPainter {
-  const DashedTopBorderPainter({required this.color, this.width = 1.5});
-
-  final Color color;
-  final double width;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final dash = 2 * width;
-    final length = size.width;
-    if (length <= 0) return;
-    final n = math.max(1, ((length + width) / (dash + width)).round());
-    final gap = n == 1 ? 0.0 : (length - n * dash) / (n - 1);
-    final paint = Paint()..color = color;
-    for (var i = 0; i < n; i++) {
-      final x = i * (dash + gap);
-      canvas.drawRect(
-        Rect.fromLTWH(x, 0, math.min(dash, length - x), width),
-        paint,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(DashedTopBorderPainter oldDelegate) =>
-      oldDelegate.color != color || oldDelegate.width != width;
-}
 
 class BottomIsland extends StatelessWidget {
   const BottomIsland({
@@ -178,7 +147,8 @@ class _ToolsRow extends StatelessWidget {
     final p = ReaderChromeScope.of(context).palette;
     return CustomPaint(
       key: const ValueKey('r20.bottomIsland.tools'),
-      painter: DashedTopBorderPainter(color: p.dash),
+      // tracejado 1,5 do Chromium (traço 3, vão ≈ 1,5 — medido na prancha @3x)
+      painter: ChromiumDashPainter(axis: Axis.horizontal, color: p.dash),
       child: Padding(
         padding: const EdgeInsets.only(top: AppStrokes.regular + 12),
         child: Row(

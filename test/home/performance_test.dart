@@ -21,6 +21,8 @@ import 'package:app_leitura/features/home/presentation/sections/reading_day_card
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
+import 'package:app_leitura/features/reader/presentation/scrubber.dart'
+    show FillWavePainter;
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/material.dart';
@@ -173,6 +175,23 @@ void main() {
       );
     });
 
+    test('FillWavePainter (preenchimento, traço) — G12', () {
+      _expectRepaintsOnlyOnChange(
+        () => const FillWavePainter(
+          fill: AppColors.lavender,
+          stroke: AppColors.ink,
+        ),
+        {
+          'fill': () =>
+              const FillWavePainter(fill: AppColors.sun, stroke: AppColors.ink),
+          'stroke': () => const FillWavePainter(
+            fill: AppColors.lavender,
+            stroke: AppColors.inkMuted,
+          ),
+        },
+      );
+    });
+
     test(
       'ReaderPagesPainter (documento, deslocamento, sentido, vizinha) — G11',
       () {
@@ -184,17 +203,20 @@ void main() {
           double dx = -40,
           PageDirection? dir = PageDirection.forward,
           DisplayPage? neighbor,
+          Color? foundColor = AppColors.lavender,
         }) => ReaderPagesPainter(
           document: document ?? doc,
           dx: dx,
           dir: dir,
           neighbor: neighbor ?? vizinha,
+          foundColor: foundColor,
         );
         _expectRepaintsOnlyOnChange(pintor, {
           'document': () => pintor(document: outro),
           'dx': () => pintor(dx: -41),
           'dir': () => pintor(dir: PageDirection.backward),
           'neighbor': () => pintor(neighbor: _Pagina()),
+          'foundColor': () => pintor(foundColor: AppColors.sun),
         });
         // a página atual que muda por dentro (sem trocar de pintor) repinta pelo aviso do documento
         var avisos = 0;
@@ -222,6 +244,7 @@ void main() {
         'TopBorderCrescentPainter',
         'ArchBorderPainter',
         'ReaderPagesPainter',
+        'FillWavePainter',
       });
     });
   });

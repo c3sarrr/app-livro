@@ -15,15 +15,27 @@ import 'package:flutter_test/flutter_test.dart';
 
 /// Página n: anota onde foi pintada (x da translação do canvas) e tem um link no canto de cima.
 final class _Pagina implements DisplayPage {
-  _Pagina(this.n);
+  _Pagina(this.n, {this.opaque = false, this.letra});
 
   final int n;
+
+  /// Uma "letra" (um quadrado cheio) dentro da marca da busca, para ler os pixels.
+  final Color? letra;
+  static const Rect caixaDaLetra = Rect.fromLTWH(45, 124, 8, 12);
+
+  /// A imagem do PDF (fundo branco) cobre o que fica embaixo.
+  @override
+  final bool opaque;
   final pintadaEm = <double>[];
 
   static const Rect link = Rect.fromLTWH(150, 100, 90, 30);
 
   @override
-  void paint(ui.Canvas canvas) => pintadaEm.add(canvas.getTransform()[12]);
+  void paint(ui.Canvas canvas) {
+    pintadaEm.add(canvas.getTransform()[12]);
+    final l = letra;
+    if (l != null) canvas.drawRect(caixaDaLetra, Paint()..color = l);
+  }
 
   @override
   String get spokenText => 'página $n';
@@ -160,11 +172,13 @@ final class _Livro implements ReaderDocument {
 final class _Tela implements ui.Canvas {
   final chamadas = <String>[];
   final marcas = <(RRect, Color)>[];
+  final modos = <BlendMode>[];
 
   @override
   void drawRRect(RRect rrect, Paint paint) {
     chamadas.add('marca');
     marcas.add((rrect, paint.color));
+    modos.add(paint.blendMode);
   }
 
   @override
@@ -647,6 +661,129 @@ void main() {
       expect(cor.toARGB32(), brand.toARGB32());
     });
 
+    test('página opaca (a imagem do PDF): a marca vai por cima, multiplicada (senão a imagem a cobriria)', () {
+      final l = _Livro()..found = (unit: 2, from: 10, to: 50);
+      l.paginas[2] = _Pagina(2, opaque: true);
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: const Color(0xFFB6ACE4),
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['texto', 'marca']);
+      expect(tela.modos, [BlendMode.multiply]);
+      final texto = _Tela();
+      ReaderPagesPainter(
+        document: _Livro()..found = (unit: 2, from: 10, to: 50),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: const Color(0xFFB6ACE4),
+      ).paint(texto, const Size(390, 844));
+      expect(texto.modos, [
+        BlendMode.srcOver,
+      ], reason: 'texto do EPUB: por trás das letras');
+    });
+
+    test('Noite (D-127): por trás vai D − marca; por cima, D em diferença (D = o maior canal de letra e marca)', () {
+      const brand = Color(0xFFB6ACE4);
+      const letra = Color(0xFFE3D9C6);
+      final l = _Livro()..found = (unit: 2, from: 10, to: 50);
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: brand,
+        foundLightText: letra,
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['marca', 'texto', 'marca']);
+      expect(tela.modos, [BlendMode.srcOver, BlendMode.difference]);
+      expect(tela.marcas.map((m) => m.$2.toARGB32()), [0xFF2D2D00, 0xFFE3D9E4]);
+      expect(tela.marcas[0].$1, tela.marcas[1].$1, reason: 'a mesma caixa');
+      // a imagem do PDF não tem letras claras: continua multiplicada
+      l.paginas[2] = _Pagina(2, opaque: true);
+      final pdf = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: brand,
+        foundLightText: letra,
+      ).paint(pdf, const Size(390, 844));
+      expect(pdf.modos, [BlendMode.multiply]);
+    });
+
+    test('Noite (D-127), nos pixels: o fundo da marca é a cor exata, a palavra fica escura, fora nada muda', () async {
+      const papel = Color(0xFF1F1B17);
+      const letra = Color(0xFFE3D9C6);
+      for (final brand in const [Color(0xFFB6ACE4), Color(0xFFE85D3A)]) {
+        final l = _Livro()..found = (unit: 2, from: 10, to: 50);
+        l.paginas[2] = _Pagina(2, letra: letra);
+        final gravador = ui.PictureRecorder();
+        final canvas = Canvas(gravador)
+          ..drawRect(
+            const Rect.fromLTWH(0, 0, 120, 160),
+            Paint()..color = papel,
+          );
+        ReaderPagesPainter(
+          document: l,
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          foundColor: brand,
+          foundLightText: letra,
+        ).paint(canvas, const Size(120, 160));
+        final img = await gravador.endRecording().toImage(120, 160);
+        final bytes = (await img.toByteData())!;
+        img.dispose();
+        Color px(int x, int y) {
+          final i = (y * 120 + x) * 4;
+          return Color.fromARGB(
+            bytes.getUint8(i + 3),
+            bytes.getUint8(i),
+            bytes.getUint8(i + 1),
+            bytes.getUint8(i + 2),
+          );
+        }
+
+        void quase(Color a, Color b, String r) {
+          for (final (x, y) in [(a.r, b.r), (a.g, b.g), (a.b, b.b)]) {
+            expect((x - y).abs() * 255, lessThanOrEqualTo(1), reason: r);
+          }
+        }
+
+        quase(px(70, 130), brand, 'o fundo da marca');
+        quase(px(10, 10), papel, 'fora da marca');
+        final palavra = px(48, 130);
+        final contraste =
+            (brand.computeLuminance() + 0.05) /
+            (palavra.computeLuminance() + 0.05);
+        expect(contraste, greaterThan(4.5), reason: 'a palavra escura');
+        // sem a cor clara (papéis claros): a marca por trás e a letra por cima, como antes
+        final claro = ui.PictureRecorder();
+        ReaderPagesPainter(
+          document: l,
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          foundColor: brand,
+        ).paint(Canvas(claro), const Size(120, 160));
+        final img2 = await claro.endRecording().toImage(120, 160);
+        final b2 = (await img2.toByteData())!;
+        img2.dispose();
+        final i = (130 * 120 + 48) * 4;
+        expect(
+          [b2.getUint8(i), b2.getUint8(i + 1), b2.getUint8(i + 2)],
+          [0xE3, 0xD9, 0xC6],
+        );
+      }
+    });
+
     test('sem cor, ou a marca noutro capítulo: só o texto', () {
       final l = _Livro()..found = (unit: 2, from: 10, to: 50);
       final semCor = _Tela();
@@ -687,6 +824,20 @@ void main() {
         pintor(null).shouldRepaint(pintor(const Color(0xFFE85D3A))),
         isTrue,
       );
+      ReaderPagesPainter noite(Color? luz) => ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: const Color(0xFFE85D3A),
+        foundLightText: luz,
+      );
+      expect(
+        noite(const Color(0xFFE3D9C6))
+            .shouldRepaint(noite(const Color(0xFFE3D9C6))),
+        isFalse,
+      );
+      expect(noite(null).shouldRepaint(noite(const Color(0xFFE3D9C6))), isTrue);
     });
   });
 }

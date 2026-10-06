@@ -258,10 +258,11 @@ final class EpubReaderDocument implements ReaderDocument {
         final c = searchChapterAt(
           index,
           index.globalOffset(u.unit, h.start) ?? 0,
+          withoutToc: _deps.book.title,
         );
         // resultados seguidos no mesmo capítulo vão no mesmo grupo
         if (chapter != null && c.leaf != chapter.leaf) {
-          yield (title: chapter.title, hits: hits);
+          yield (title: chapter.title, hits: hits, byPage: false);
           hits = [];
         }
         chapter = c;
@@ -276,7 +277,7 @@ final class EpubReaderDocument implements ReaderDocument {
       }
     }
     if (chapter != null && hits.isNotEmpty) {
-      yield (title: chapter.title, hits: hits);
+      yield (title: chapter.title, hits: hits, byPage: false);
     }
   }
 

@@ -62,6 +62,12 @@ Color _papel(WidgetTester tester) => tester
     )
     .color;
 
+ReaderPagesPainter _pintor(WidgetTester tester) => tester
+    .widgetList<CustomPaint>(find.byType(CustomPaint))
+    .map((c) => c.painter)
+    .whereType<ReaderPagesPainter>()
+    .single;
+
 SystemUiOverlayStyle _barra(WidgetTester tester) => tester
     .widget<AnnotatedRegion<SystemUiOverlayStyle>>(_key('leitor.barraDeStatus'))
     .value;
@@ -236,6 +242,7 @@ void main() {
       final noite = ReaderPalette.of(ReaderPaper.noite);
       expect(_papel(tester), creme.paper);
       expect(_barra(tester), MainShell.overlayStyle);
+      expect(_pintor(tester).foundLightText, isNull, reason: 'letras escuras');
       await _abrirControles(tester);
       await tester.tap(_key('r20.bottomIsland.tools.theme'));
       for (
@@ -246,6 +253,12 @@ void main() {
         await tester.pump(const Duration(milliseconds: 16));
       }
       expect(_barra(tester), readerNightOverlayStyle);
+      // ícones claros em cima e, no Android, na barra de navegação (transparente, sem véu)
+      expect(_barra(tester).statusBarIconBrightness, Brightness.light);
+      expect(
+        _barra(tester).systemNavigationBarIconBrightness,
+        Brightness.light,
+      );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 110));
       final meio = _papel(tester);
@@ -375,6 +388,99 @@ void main() {
       await tester.tap(findAppText('Voltar à pág. $pag'));
       await _quadros(tester, 20);
       expect(_doc(tester).mark, origem);
+    },
+  );
+
+  testWidgets(
+    'barra com os controles abertos (D-125): a pílula espera escondida; os 6 s só contam depois de fechar',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro);
+      final pag = _doc(tester).numbers.refPage;
+      await _abrirControles(tester);
+      final trilho = tester.getRect(_key('r20.bottomIsland.scrubber.track'));
+      await tester.tapAt(
+        Offset(trilho.left + trilho.width * 0.25, trilho.center.dy),
+      );
+      await _quadros(tester, 20);
+      await tester.pump(const Duration(seconds: 20));
+      expect(_key('r20.topIsland'), findsOneWidget);
+      expect(findAppText('Voltar à pág. $pag'), findsOneWidget);
+      await _fecharControles(tester);
+      await tester.pump(const Duration(milliseconds: 5700));
+      expect(
+        findAppText('Voltar à pág. $pag'),
+        findsOneWidget,
+        reason: 'o prazo começou ao fechar',
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+      await _quadros(tester, 20);
+      expect(findAppText('Voltar à pág. $pag'), findsNothing, reason: '6 s');
+    },
+  );
+
+  testWidgets(
+    'abrir já no Noite: o papel não passa pelo Creme (o Tema só anima depois da 1ª página)',
+    (tester) async {
+      await tester.runAsync(
+        () => ReaderSettingsDao(livro.db).upsert(
+          ReaderSettings(
+            id: usuarioTeste,
+            meta: metaTeste(),
+            paper: ReaderPaper.noite,
+          ),
+        ),
+      );
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro, esperar: false);
+      final creme = ReaderPalette.of(ReaderPaper.creme).paper;
+      final noite = ReaderPalette.of(ReaderPaper.noite).paper;
+      final vistos = <Color>{};
+      for (var i = 0; i < 400 && _key('r19.footer').evaluate().isEmpty; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+        if (find.byType(ReaderScreen).evaluate().isNotEmpty) {
+          vistos.add(_papel(tester));
+        }
+      }
+      await tester.pumpAndSettle();
+      expect(_papel(tester), noite);
+      // a palavra achada pela busca fica escura na marca (D-127): o pintor recebe a cor clara das letras
+      expect(
+        _pintor(tester).foundLightText,
+        ReaderPalette.of(ReaderPaper.noite).text,
+      );
+      expect(
+        vistos.where((c) => c != creme && c != noite),
+        isEmpty,
+        reason: 'nenhuma cor do meio do caminho (sem a animação de 220 ms)',
+      );
+    },
+  );
+
+  testWidgets(
+    'leitor de tela com os controles abertos: "Esconder os controles"; a pílula coberta sai da árvore',
+    (tester) async {
+      final h = tester.ensureSemantics();
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro);
+      final pag = _doc(tester).numbers.refPage;
+      await _abrirControles(tester);
+      final trilho = tester.getRect(_key('r20.bottomIsland.scrubber.track'));
+      await tester.tapAt(
+        Offset(trilho.left + trilho.width * 0.25, trilho.center.dy),
+      );
+      await _quadros(tester, 20);
+      expect(findAppText('Voltar à pág. $pag'), findsOneWidget);
+      expect(find.bySemanticsLabel('Voltar à pág. $pag'), findsNothing);
+      tester.semantics.customAction(
+        find.semantics.byLabel(RegExp(r'^Dom Casmurro, página')),
+        const CustomSemanticsAction(label: 'Esconder os controles'),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 150));
+      expect(_key('r20.topIsland'), findsNothing);
+      expect(find.bySemanticsLabel('Voltar à pág. $pag'), findsOneWidget);
+      h.dispose();
     },
   );
 

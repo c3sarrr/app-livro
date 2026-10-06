@@ -6,6 +6,7 @@
 
 import 'dart:io';
 
+import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
@@ -14,6 +15,7 @@ import 'package:app_leitura/core/data/model/record_meta.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
+import 'package:app_leitura/features/reader/application/reading_speed_source.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart';
 import 'package:app_leitura/features/reader/content/content_blocks.dart';
@@ -60,13 +62,18 @@ final class _Sessao {
   /// Como preparar o PDFium (livro em PDF).
   Future<void> Function()? pdfInitialize;
 
+  /// G12: a conta que abre (falha quando [donoFalha]) e a velocidade da conta.
+  bool donoFalha = false;
+  Future<double> Function(AppDatabase db, String userId)? velocidade;
+
   ReaderSessionController controller() {
     final c = ReaderSessionController(
       userBookId: livro.userBookId,
       deps: ReaderDeps(
         db: livro.db,
         versioning: livro.versioning,
-        owner: () async => usuarioTeste,
+        owner: () async =>
+            donoFalha ? throw StateError('banco ocupado') : usuarioTeste,
         booksDir: () async => livro.dir,
         indexBook: (id) async {
           indexados.add(id);
@@ -88,6 +95,7 @@ final class _Sessao {
         },
         startTimer: prazos.start,
         pdfInitialize: pdfInitialize,
+        speedOf: velocidade ?? readingSpeedOf,
         onError: (e, _) => erros.add(e),
       ),
     );
@@ -110,13 +118,13 @@ void main() {
   setUp(() async => h = _Sessao(await LivroNaEstante.domCasmurro()));
   tearDown(() async => h.livro.close());
 
-  Future<ReaderSessionController> aberto() async {
+  Future<ReaderSessionController> aberto({ReaderViewport tela = _tela}) async {
     final c = h.controller();
     addTearDown(() async {
       await c.close();
       c.dispose();
     });
-    await c.open(_tela);
+    await c.open(tela);
     return c;
   }
 
@@ -723,6 +731,178 @@ void main() {
       expect(c.timeLeft(), isNull);
       expect(await doc(c).turn(PageDirection.backward), isTrue);
       expect(c.timeLeft(), isNotNull);
+    });
+
+    test('Tema: falha do banco não derruba a leitura; o papel e o último claro ficam como estavam', () async {
+      final c = await aberto();
+      h.donoFalha = true;
+      await c.toggleTheme();
+      expect(c.state, isA<ReaderReady>());
+      expect(c.paper, ReaderPaper.creme);
+      expect(h.erros, [isA<StateError>()]);
+      expect(await KvDao(h.livro.db).get(lastLightPaperKey), isNull);
+      h.donoFalha = false;
+      await c.toggleTheme();
+      expect(c.paper, ReaderPaper.noite);
+    });
+
+    test('abrir: o papel da conta chega à tela antes da página (sem passar pelo Creme)', () async {
+      await ReaderSettingsDao(h.livro.db).upsert(
+        ReaderSettings(
+          id: usuarioTeste,
+          meta: metaTeste(),
+          paper: ReaderPaper.noite,
+        ),
+      );
+      final c = h.controller();
+      addTearDown(() async {
+        await c.close();
+        c.dispose();
+      });
+      final papeis = <(ReaderPaper, bool)>[];
+      c.addListener(() => papeis.add((c.paper, c.state is ReaderReady)));
+      await c.open(_tela);
+      final pronto = papeis.indexWhere((p) => p.$2);
+      final noite = papeis.indexWhere((p) => p.$1 == ReaderPaper.noite);
+      expect(
+        noite,
+        inInclusiveRange(0, pronto - 1),
+        reason: 'o Noite avisado antes da página',
+      );
+      expect(
+        papeis.skip(noite).every((p) => p.$1 == ReaderPaper.noite),
+        isTrue,
+      );
+    });
+
+    test('velocidade que falha: abre com a padrão e relata', () async {
+      h.velocidade = (_, _) async => throw StateError('sessões ilegíveis');
+      final c = await aberto();
+      expect(c.state, isA<ReaderReady>());
+      expect(h.erros, [isA<StateError>()]);
+      final n = doc(c).numbers;
+      expect(
+        c.timeLeft(),
+        timeLeftFor(
+          ((1 - n.progression) * h.livro.index.totalChars).round(),
+          defaultCharsPerMinute,
+        ),
+      );
+    });
+
+    test('barra numa tela grande (página da tela > 1.500 caracteres): pedir a próxima sempre anda', () async {
+      final c = await aberto(
+        tela: (
+          size: const Size(1400, 2000),
+          padding: EdgeInsets.zero,
+          devicePixelRatio: 2.0,
+        ),
+      );
+      await c.jumpToPage(100);
+      for (var i = 0; i < 5; i++) {
+        final antes = doc(c).numbers.refPage;
+        final marca = doc(c).mark;
+        await c.jumpToPage(antes + 1);
+        expect(doc(c).mark, isNot(marca), reason: 'pág. $antes → ${antes + 1}');
+        expect(doc(c).numbers.refPage, greaterThan(antes));
+      }
+    });
+    test('prazo só ao fechar (D-125): com os controles ou a busca por cima, a volta não conta os 6 s nem as viradas; ao fechar, conta do zero', () async {
+      final c = await aberto();
+      BackLink? volta() => (c.state as ReaderReady).back;
+      c.holdBack(true); // os controles abertos: a barra de posição salta
+      expect(await c.jumpToPage(200), isTrue);
+      expect(volta(), isNotNull);
+      expect(h.prazos.pendentes, 0, reason: 'a pílula escondida não tem prazo');
+      h.prazos.avancar(const Duration(seconds: 60));
+      await c.turn(PageDirection.forward);
+      await c.turn(PageDirection.forward);
+      expect(volta(), isNotNull, reason: 'nem as viradas contam');
+      c.holdBack(false); // fecharam: a pílula aparece e o prazo começa
+      expect(h.prazos.pendentes, 1);
+      h.prazos.avancar(const Duration(seconds: 5));
+      await c.turn(PageDirection.forward);
+      expect(volta(), isNotNull, reason: '5 s e 1 virada depois de fechar');
+      // abrir de novo para tudo; fechar recomeça do zero (6 s e 2 viradas)
+      c.holdBack(true);
+      expect(h.prazos.pendentes, 0);
+      h.prazos.avancar(const Duration(seconds: 30));
+      c.holdBack(false);
+      h.prazos.avancar(const Duration(seconds: 5));
+      await c.turn(PageDirection.forward);
+      expect(volta(), isNotNull, reason: 'as viradas também recomeçam');
+      h.prazos.avancar(const Duration(seconds: 1));
+      expect(volta(), isNull, reason: '6 s depois de fechar');
+      // sem volta, segurar e soltar não cria prazo
+      c
+        ..holdBack(true)
+        ..holdBack(false);
+      expect(h.prazos.pendentes, 0);
+      // leitor de tela (sem prazo, D-116): soltar não cria prazo; só as 2 viradas, depois de fechar
+      c.holdBack(true);
+      await c.jumpToPage(10, timed: false);
+      await c.turn(PageDirection.forward);
+      await c.turn(PageDirection.forward);
+      c.holdBack(false);
+      expect(h.prazos.pendentes, 0);
+      await c.turn(PageDirection.forward);
+      expect(volta(), isNotNull);
+      await c.turn(PageDirection.forward);
+      expect(volta(), isNull);
+    });
+
+    test('saltos seguidos (D-126): a volta fica para antes do 1º salto; o prazo e as viradas recomeçam a cada salto', () async {
+      final c = await aberto();
+      final origem = doc(c).mark;
+      final pagOrigem = doc(c).numbers.refPage;
+      BackLink? volta() => (c.state as ReaderReady).back;
+      await c.jumpToPage(200);
+      h.prazos.avancar(const Duration(seconds: 5));
+      await c.turn(PageDirection.forward);
+      // a busca depois da barra
+      final destino = doc(c).markOfRefPage(300);
+      await c.jumpTo(
+        destino,
+        found: (
+          unit: destino.spine,
+          from: destino.offset,
+          to: destino.offset + 3,
+        ),
+      );
+      expect(volta(), (mark: origem, refPage: pagOrigem));
+      h.prazos.avancar(const Duration(seconds: 5));
+      await c.turn(PageDirection.forward);
+      expect(
+        volta(),
+        isNotNull,
+        reason: 'o 2º salto recomeçou os 6 s e as viradas',
+      );
+      expect(h.prazos.pendentes, 1, reason: 'um prazo só');
+      await c.jumpToPage(100);
+      expect(volta(), (mark: origem, refPage: pagOrigem));
+      await doc(c).flush();
+      final pos = await ReadingPositionsDao(h.livro.db)
+          .forBook(h.livro.userBookId);
+      expect(
+        (pos!.locator as EpubLocator).spine,
+        origem.spine,
+        reason: 'o alfinete continua na origem (D-115)',
+      );
+      await c.back();
+      expect(doc(c).mark, origem);
+      expect(volta(), isNull);
+    });
+
+    test('saltos seguidos: voltar pela barra à página de onde se saiu tira a pílula (D-119)', () async {
+      final c = await aberto();
+      final pagOrigem = doc(c).numbers.refPage;
+      BackLink? volta() => (c.state as ReaderReady).back;
+      await c.jumpToPage(200);
+      expect(volta(), isNotNull);
+      await c.jumpToPage(pagOrigem);
+      expect(doc(c).numbers.refPage, pagOrigem);
+      expect(volta(), isNull);
+      expect(h.prazos.pendentes, 0);
     });
   });
 }

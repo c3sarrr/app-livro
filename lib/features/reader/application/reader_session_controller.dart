@@ -197,6 +197,12 @@ class ReaderSessionController extends ChangeNotifier {
   BackLink? _back;
   Timer? _backTimer;
   int _backTurns = 0;
+
+  /// A volta tem o prazo de 6 s (sem o leitor de tela — D-116).
+  bool _backTimed = true;
+
+  /// Os controles ou a busca por cima da página: a pílula está escondida (D-125).
+  bool _backHeld = false;
   bool _closed = false;
   bool _disposed = false;
   int _opening = 0;
@@ -253,8 +259,16 @@ class ReaderSessionController extends ChangeNotifier {
     final settings = await ReaderSettingsDao(deps.db).forUser(owner);
     _paper = settings?.paper ?? ReaderPaper.creme;
     _palette = ReaderPalette.of(_paper);
+    // a tela já pinta o "abrindo" no papel da conta (no Noite, sem passar pelo Creme)
+    if (!_disposed) notifyListeners();
     final t = _typography = _typographyFor(settings, v);
-    _speed = await deps.speedOf(deps.db, owner);
+    try {
+      _speed = await deps.speedOf(deps.db, owner);
+    } on Object catch (e, st) {
+      // o tempo restante é acessório: fica a velocidade padrão (D-97)
+      deps.onError(e, st);
+      _speed = defaultCharsPerMinute;
+    }
     if (book.format == BookFileFormat.pdf) {
       return _openPdf(book, path, file.sha256, v);
     }
@@ -454,7 +468,12 @@ class ReaderSessionController extends ChangeNotifier {
       if (_closed || !identical(_doc, doc)) return false;
       try {
         final ok = await doc.turn(d);
-        if (ok && _back != null && ++_backTurns >= backLinkTurns) _clearBack();
+        if (ok &&
+            _back != null &&
+            !_backHeld &&
+            ++_backTurns >= backLinkTurns) {
+          _clearBack();
+        }
         return ok;
       } on Object catch (e, st) {
         return _navFailed(e, st);
@@ -463,9 +482,29 @@ class ReaderSessionController extends ChangeNotifier {
   }
 
   /// Segue um link interno e guarda a volta (D-108). [timed] = a volta some em 6 s; com o leitor de tela ela
-  /// fica até as 2 viradas (D-116). Enquanto a volta vale, a posição gravada é a de onde se saiu (D-115).
+  /// fica até as 2 viradas (D-116). Enquanto a volta vale, a posição gravada é a de onde se saiu (D-115); outro
+  /// salto (link, barra, busca) mantém a volta para antes do 1º e recomeça o prazo (D-126).
   Future<bool> follow(LinkHit link, {bool timed = true}) =>
       _jump((doc) => doc.follow(link), timed: timed);
+
+  /// Os controles ou a busca abriram ([held]) ou fecharam por cima da página (D-125): a pílula da volta fica
+  /// escondida e o prazo dela (os 6 s e as 2 viradas) só conta com ela à vista — ao fechar, começa do zero.
+  void holdBack(bool held) {
+    if (_backHeld == held) return;
+    _backHeld = held;
+    if (_back == null) return;
+    _startBackDeadline();
+  }
+
+  /// Zera as viradas e (re)começa os 6 s da volta, se ela está à vista e tem prazo.
+  void _startBackDeadline() {
+    _backTimer?.cancel();
+    _backTimer = null;
+    _backTurns = 0;
+    if (_backTimed && !_backHeld) {
+      _backTimer = deps.startTimer(backLinkLife, _clearBack);
+    }
+  }
 
   /// Salta para [to] (barra de posição, resultado da busca) e guarda a volta como o link (D-119). [found] = a
   /// ocorrência da busca a marcar na página (D-120). Para a mesma página de referência não guarda volta.
@@ -482,7 +521,13 @@ class ReaderSessionController extends ChangeNotifier {
   /// A barra de posição (D-22, D-119): salta para a página de referência [refPage] e guarda a volta.
   Future<bool> jumpToPage(int refPage, {bool timed = true}) =>
       _jump((doc) async {
+        final before = doc.numbers.refPage;
         await doc.goToRefPage(refPage);
+        // página da tela maior que a de referência (tablet, letra pequena): nenhuma começa na pág. pedida e o
+        // salto pode ficar onde estava — para a frente, anda uma página da tela (o "aumentar" do leitor de tela)
+        if (refPage > before && doc.numbers.refPage <= before) {
+          await doc.turn(PageDirection.forward);
+        }
         return true;
       }, timed: timed);
 
@@ -498,19 +543,26 @@ class ReaderSessionController extends ChangeNotifier {
     interaction();
     return _serial(() async {
       if (_closed || !identical(_doc, doc)) return false;
-      final from = doc.mark;
-      final refPage = doc.numbers.refPage;
+      // saltos seguidos (D-126): enquanto a volta vale, ela continua para antes do 1º salto
+      final kept = _back;
+      final origin = kept ?? (mark: doc.mark, refPage: doc.numbers.refPage);
+      final before = doc.numbers.refPage;
       try {
         final ok = await go(doc);
         if (!ok || _disposed || _closed) return ok;
         if (found != null) doc.showFound(found);
-        if (doc.numbers.refPage == refPage) return true;
-        _back = (mark: from, refPage: refPage);
-        _backTurns = 0;
-        _backTimer?.cancel();
-        _backTimer = timed ? deps.startTimer(backLinkLife, _clearBack) : null;
-        await doc.pin(from);
-        _set(ReaderReady(doc, back: _back));
+        final now = doc.numbers.refPage;
+        if (now == before) return true;
+        if (now == origin.refPage) {
+          // de volta à página de onde se saiu: não há para onde voltar (D-119)
+          _clearBack();
+          return true;
+        }
+        _back = origin;
+        _backTimed = timed;
+        _startBackDeadline();
+        if (kept == null) await doc.pin(origin.mark);
+        _set(ReaderReady(doc, back: origin));
         return true;
       } on Object catch (e, st) {
         return _navFailed(e, st);
@@ -579,15 +631,15 @@ class ReaderSessionController extends ChangeNotifier {
       if (_closed || !identical(_doc, doc)) return;
       try {
         final kv = KvDao(deps.db);
+        final from = _paper;
         final ReaderPaper next;
-        if (_paper == ReaderPaper.noite) {
+        if (from == ReaderPaper.noite) {
           final light = await kv.get(lastLightPaperKey);
           next = ReaderPaper.values.firstWhere(
             (p) => p.code == light && p != ReaderPaper.noite,
             orElse: () => ReaderPaper.creme,
           );
         } else {
-          await kv.set(lastLightPaperKey, _paper.code);
           next = ReaderPaper.noite;
         }
         final owner = await deps.owner();
@@ -610,14 +662,22 @@ class ReaderSessionController extends ChangeNotifier {
                 : old.copyWith(paper: next, meta: old.meta.edited(at, v)),
           );
         });
+        // o último claro só depois do ajuste gravado
+        if (from != ReaderPaper.noite) {
+          await kv.set(lastLightPaperKey, from.code);
+        }
+        if (_closed || _disposed) return;
+        final palette = ReaderPalette.of(next);
+        // o texto troca de cor antes (as mesmas quebras, sem repaginar); o papel e as ilhas animam em seguida
+        await doc.recolor(palette.text);
         if (_closed || _disposed) return;
         _paper = next;
-        _palette = ReaderPalette.of(next);
-        _typography = _typography?.withInk(_palette.text);
+        _palette = palette;
+        _typography = _typography?.withInk(palette.text);
         notifyListeners();
-        await doc.recolor(_palette.text);
       } on Object catch (e, st) {
-        _navFailed(e, st);
+        // o Tema é conforto: uma falha do banco não derruba a leitura (o papel fica como estava)
+        deps.onError(e, st);
       }
     });
   }

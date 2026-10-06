@@ -11,6 +11,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter/services.dart' show TextInputAction;
 import 'package:flutter/widgets.dart';
 
+import '../../../core/design_system/painters/chromium_dash.dart';
 import '../../../core/design_system/text/app_text.dart';
 import '../../../core/design_system/tokens/app_icons_leitor.dart';
 import '../../../core/design_system/tokens/app_shadows.dart';
@@ -22,7 +23,6 @@ import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
 import '../application/book_search.dart';
 import '../application/reader_document.dart';
-import 'bottom_island.dart' show DashedTopBorderPainter;
 import 'reader_chrome_palette.dart';
 import 'reader_controls.dart' show readerControlsLayout;
 import 'reader_palette.dart';
@@ -36,10 +36,13 @@ const Duration searchSlow = Duration(milliseconds: 300);
 /// A busca do livro aberto: o texto, os resultados e o andamento. Fica com a tela enquanto o livro está aberto
 /// (reabrir o painel mostra a última busca).
 class BookSearchSession extends ChangeNotifier {
-  BookSearchSession(this.document, {this.startTimer = Timer.new});
+  BookSearchSession(this.document, {this.startTimer = Timer.new, this.onError});
 
   final ReaderDocument document;
   final Timer Function(Duration, void Function()) startTimer;
+
+  /// Onde relatar uma busca que falhou (o arquivo não abriu, a página não leu).
+  final void Function(Object error, StackTrace stack)? onError;
 
   String _query = '';
   String get query => _query;
@@ -71,6 +74,17 @@ class BookSearchSession extends ChangeNotifier {
   /// A busca terminou (com ou sem resultado).
   bool get done => _done;
 
+  bool _failed = false;
+
+  /// A busca falhou (relatada em [onError]).
+  bool get failed => _failed;
+
+  /// Os resultados da busca anterior ficam na tela até chegar o 1º da nova (a lista não pisca).
+  bool _stale = false;
+
+  /// O texto dobrado da busca pedida (espaços nas pontas e maiúsculas não refazem a busca).
+  String _folded = '';
+
   Timer? _debounce;
   Timer? _slowTimer;
   StreamSubscription<SearchGroup>? _sub;
@@ -80,8 +94,11 @@ class BookSearchSession extends ChangeNotifier {
   void type(String q) {
     if (q == _query) return;
     _query = q;
+    final folded = foldForSearch(q.trim()).text;
+    if (folded == _folded) return;
+    _folded = folded;
     _debounce?.cancel();
-    if (foldForSearch(q.trim()).text.length < searchMinChars) {
+    if (folded.length < searchMinChars) {
       _stop();
       _reset();
       _searched = '';
@@ -93,7 +110,11 @@ class BookSearchSession extends ChangeNotifier {
 
   void _run(String q) {
     _stop();
-    _reset();
+    _stale = _groups.isNotEmpty;
+    if (!_stale) _reset();
+    _done = false;
+    _failed = false;
+    _slow = false;
     _searched = q.trim();
     _running = true;
     _slowTimer = startTimer(searchSlow, () {
@@ -106,13 +127,22 @@ class BookSearchSession extends ChangeNotifier {
         .search(q)
         .listen(
           (g) {
+            _dropStale();
             _groups.add(g);
             _total += g.hits.length;
             if (_total > searchLimit) _finish();
             _changed();
           },
-          onError: (Object _, StackTrace _) => _finish(),
-          onDone: _finish,
+          onError: (Object e, StackTrace st) {
+            _dropStale();
+            _failed = true;
+            onError?.call(e, st);
+            _finish();
+          },
+          onDone: () {
+            _dropStale();
+            _finish();
+          },
         );
     _changed();
   }
@@ -133,7 +163,16 @@ class BookSearchSession extends ChangeNotifier {
     if (s != null) unawaited(s.cancel());
   }
 
+  void _dropStale() {
+    if (!_stale) return;
+    _stale = false;
+    _groups.clear();
+    _total = 0;
+  }
+
   void _reset() {
+    _stale = false;
+    _failed = false;
     _groups.clear();
     _total = 0;
     _running = false;
@@ -154,11 +193,15 @@ class BookSearchSession extends ChangeNotifier {
   }
 }
 
+/// A busca falhou antes de achar alguma coisa.
+const String searchFailedText = 'Não deu para buscar no livro agora.';
+
 /// "7 resultados", "1 resultado", "Mais de 500…", "Nada encontrado…", "Buscando…" ou nada.
 String? searchCountText(BookSearchSession s) {
   if (s.overflow) return 'Mais de $searchLimit resultados. Refine a busca.';
   if (s.total == 1) return '1 resultado';
   if (s.total > 1) return '${s.total} resultados';
+  if (s.failed) return searchFailedText;
   if (s.done && s.searched.isNotEmpty) {
     return 'Nada encontrado para “${s.searched}”.';
   }
@@ -343,6 +386,8 @@ class _Results extends StatelessWidget {
             header: true,
             child: AppText(
               g.title.toUpperCase(),
+              // o leitor de tela lê o título como está no sumário (em maiúsculas, soletraria palavras curtas)
+              semanticsLabel: g.title,
               style: AppTextStyles.readerSearchGroup.copyWith(
                 color: palette.muted,
               ),
@@ -356,7 +401,10 @@ class _Results extends StatelessWidget {
             SizedBox(
               height: AppStrokes.regular,
               child: CustomPaint(
-                painter: DashedTopBorderPainter(color: palette.dash),
+                painter: ChromiumDashPainter(
+                  axis: Axis.horizontal,
+                  color: palette.dash,
+                ),
               ),
             ),
           );
@@ -364,6 +412,7 @@ class _Results extends StatelessWidget {
         rows.add(
           _Hit(
             hit: g.hits[i],
+            showPage: !g.byPage,
             paper: paper,
             brand: brand,
             onTap: () => onPick(g.hits[i]),
@@ -373,11 +422,18 @@ class _Results extends StatelessWidget {
     }
     return ListView(
       key: const ValueKey('leitor.busca.lista'),
-      padding: const EdgeInsets.fromLTRB(28, 0, 28, 40),
+      // o teclado aberto não cobre o fim da lista
+      padding: EdgeInsets.fromLTRB(
+        28,
+        0,
+        28,
+        40 + MediaQuery.viewInsetsOf(context).bottom,
+      ),
       children: [
         if (count != null)
           Semantics(
-            liveRegion: true,
+            // anuncia o resultado final, não cada grupo que chega
+            liveRegion: !session.running,
             child: AppText(
               count,
               key: const ValueKey('leitor.busca.contagem'),
@@ -395,12 +451,16 @@ class _Results extends StatelessWidget {
 class _Hit extends StatelessWidget {
   const _Hit({
     required this.hit,
+    required this.showPage,
     required this.paper,
     required this.brand,
     required this.onTap,
   });
 
   final SearchHit hit;
+
+  /// No PDF o grupo já é a página: o resultado não repete o "pág. N".
+  final bool showPage;
   final ReaderPalette paper;
   final Color brand;
   final VoidCallback onTap;
@@ -421,12 +481,13 @@ class _Hit extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           spacing: 2,
           children: [
-            AppText(
-              'pág. ${hit.refPage}',
-              style: AppTextStyles.readerSearchPage.copyWith(
-                color: paper.footer,
+            if (showPage)
+              AppText(
+                'pág. ${hit.refPage}',
+                style: AppTextStyles.readerSearchPage.copyWith(
+                  color: paper.footer,
+                ),
               ),
-            ),
             AppText.rich(
               TextSpan(
                 style: style,
@@ -434,7 +495,10 @@ class _Hit extends StatelessWidget {
                   TextSpan(text: e.substring(0, hit.matchStart)),
                   TextSpan(
                     text: e.substring(hit.matchStart, hit.matchEnd),
-                    style: style.copyWith(background: Paint()..color = brand),
+                    style: style.copyWith(
+                      color: paper.foundInk,
+                      background: Paint()..color = brand,
+                    ),
                   ),
                   TextSpan(text: e.substring(hit.matchEnd)),
                 ],

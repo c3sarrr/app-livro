@@ -81,6 +81,10 @@ final class PdfDisplayPage implements DisplayPage {
   @override
   bool get alive => !_disposed;
 
+  /// A imagem da página tem fundo branco: a marca da busca vai por cima, multiplicada.
+  @override
+  bool get opaque => true;
+
   @override
   void paint(ui.Canvas canvas) {
     final img = image;
@@ -321,11 +325,18 @@ final class PdfReaderDocument implements ReaderDocument {
     var left = searchLimit + 1;
     for (var i = 0; i < pageCount && left > 0; i++) {
       if (_disposed) return;
-      final text = (await _doc.pages[i].loadStructuredText()).fullText;
+      String text;
+      try {
+        text = (await _doc.pages[i].loadStructuredText()).fullText;
+      } on Object {
+        // página sem texto legível (escaneada, danificada): segue para a próxima, como a página na tela
+        continue;
+      }
       for (final u in searchTexts([i], (_) => text, query, limit: left)) {
         left -= u.hits.length;
         yield (
           title: 'Pág. ${i + 1}',
+          byPage: true,
           hits: [
             for (final h in u.hits)
               (

@@ -25,4 +25,8 @@ abstract interface class DisplayPage {
   /// Os retângulos (coordenadas da tela) das letras do trecho [from]…[to] do texto de [unit] — o item do spine
   /// (EPUB) ou a página (PDF) —, só a parte que está nesta página. A marca da busca (D-120).
   List<ui.Rect> rectsOf(int unit, int from, int to);
+
+  /// A página cobre o que fica embaixo dela (a imagem do PDF, com fundo branco): a marca da busca vai por cima,
+  /// multiplicada; no texto do EPUB ela vai por trás das letras.
+  bool get opaque;
 }

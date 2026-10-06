@@ -4,6 +4,7 @@
 // (D-118), a Fonte desabilitada no PDF (D-122), o Noite (26b) e o tracejado de cima.
 import 'dart:ui' as ui;
 
+import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
@@ -222,7 +223,7 @@ void main() {
       );
       final tracejado =
           tester.widget<CustomPaint>(_key('r20.bottomIsland.tools')).painter!
-              as DashedTopBorderPainter;
+              as ChromiumDashPainter;
       expect(tracejado.color, const Color(0xFFCFC3AE));
     },
   );
@@ -375,36 +376,20 @@ void main() {
       );
       final tracejado =
           tester.widget<CustomPaint>(_key('r20.bottomIsland.tools')).painter!
-              as DashedTopBorderPainter;
+              as ChromiumDashPainter;
       expect(tracejado.color, AppColors.dashNight);
     },
   );
 
-  test('tracejado: traço 3 e vão 1,5 em 327 (73 traços, das duas pontas); outras larguras fecham nas pontas', () {
+  test('tracejado do Chromium: traço 3 e vão 1,5 em 327 (73 traços, das duas pontas) — o da prancha @3x', () {
     final tela = _Tela();
-    const DashedTopBorderPainter(color: AppColors.ink)
-        .paint(tela, const Size(327, 1.5));
+    const ChromiumDashPainter(
+      axis: Axis.horizontal,
+      color: AppColors.ink,
+    ).paint(tela, const Size(327, 1.5));
     expect(tela.rects, hasLength(73));
     expect(tela.rects.first, const Rect.fromLTWH(0, 0, 3, 1.5));
     expect(tela.rects[1].left, moreOrLessEquals(4.5, epsilon: 1e-9));
     expect(tela.rects.last.right, moreOrLessEquals(327, epsilon: 1e-9));
-    final outra = _Tela();
-    const DashedTopBorderPainter(color: AppColors.ink)
-        .paint(outra, const Size(200, 1.5));
-    expect(outra.rects.first.left, 0);
-    expect(outra.rects.last.right, moreOrLessEquals(200, epsilon: 1e-9));
-    final gaps = [
-      for (var i = 1; i < outra.rects.length; i++)
-        outra.rects[i].left - outra.rects[i - 1].right,
-    ];
-    for (final g in gaps) {
-      expect(g, closeTo(1.5, 0.1));
-    }
-    expect(
-      const DashedTopBorderPainter(
-        color: AppColors.ink,
-      ).shouldRepaint(const DashedTopBorderPainter(color: AppColors.dashNight)),
-      isTrue,
-    );
   });
 }

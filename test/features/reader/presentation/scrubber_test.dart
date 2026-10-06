@@ -257,6 +257,20 @@ void main() {
     expect(saltos, [65]); // 1 + round(0,25 × 255)
   });
 
+  testWidgets(
+    'o botão fica na página (não na % de caracteres): tocar nele não salta',
+    (tester) async {
+      // 1º caractere visível em 62,25 % do livro: pela fração seria a pág. 160; o botão fica na 159
+      await montar(tester, progression: 0.6225);
+      final botao = tester.getCenter(_key('r20.bottomIsland.scrubber.knob'));
+      expect(botao.dx, moreOrLessEquals(31.5 + 158 / 255 * 327, epsilon: 0.01));
+      await tester.tapAt(botao);
+      await tester.pump();
+      expect(saltos, isEmpty);
+      expect(balao(tester), 'pág. 159');
+    },
+  );
+
   testWidgets('arrastar e voltar à mesma página não salta', (tester) async {
     await montar(tester);
     final g = await tester.startGesture(const Offset(234.24, 671.36));

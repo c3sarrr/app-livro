@@ -34,6 +34,15 @@ void main() {
     },
   );
 
+  test('a palavra achada pela busca fica escura na marca (D-127): letras claras só no Noite', () {
+    for (final p in ReaderPaper.values) {
+      final c = ReaderPalette.of(p);
+      final noite = p == ReaderPaper.noite;
+      expect(c.lightText, noite ? c.text : null, reason: p.name);
+      expect(c.foundInk, noite ? c.paper : c.text, reason: p.name);
+    }
+  });
+
   test(
     'rodapé dos papéis claros com o mesmo contraste do Creme (2,4:1 — D-110)',
     () {

@@ -11,6 +11,9 @@ import 'paginator.dart';
 import 'reader_typography.dart';
 
 final class PageSnapshot implements DisplayPage {
+  @override
+  bool get opaque => false;
+
   PageSnapshot({
     required this.spine,
     required this.page,

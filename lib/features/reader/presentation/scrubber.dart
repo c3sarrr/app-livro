@@ -72,7 +72,8 @@ class Scrubber extends StatefulWidget {
   /// A página de referência mostrada e o total.
   final int page, total;
 
-  /// Fração lida (0–1) — onde o preenchimento termina e o botão fica.
+  /// Fração lida (0–1): só num livro de 1 página; nos outros o botão fica na página (`(pág. − 1) ÷ (total − 1)`),
+  /// a mesma conta do dedo — tocar no botão ou arrastar e voltar nunca salta.
   final double progression;
 
   /// A página de referência escolhida ao soltar ou tocar (só quando é outra).
@@ -94,6 +95,11 @@ class _ScrubberState extends State<Scrubber> {
   int _pageAt(double f) =>
       widget.total <= 1 ? 1 : 1 + (f * (widget.total - 1)).round();
 
+  /// Onde o botão fica sem o dedo: a página mostrada.
+  double get _rest => widget.total <= 1
+      ? widget.progression
+      : (widget.page - 1) / (widget.total - 1);
+
   void _release(double f) {
     final n = _pageAt(f);
     setState(() => _drag = null);
@@ -106,7 +112,7 @@ class _ScrubberState extends State<Scrubber> {
     final p = s.palette;
     final brand = s.tint(s.brand);
     final drag = _drag;
-    final f = (drag ?? widget.progression).clamp(0.0, 1.0);
+    final f = (drag ?? _rest).clamp(0.0, 1.0);
     final shown = drag == null ? widget.page : _pageAt(drag);
     final total = widget.total;
     final step = scrubberStep(total);
@@ -128,7 +134,7 @@ class _ScrubberState extends State<Scrubber> {
             setState(() => _drag = _fractionAt(d.localPosition.dx)),
         onHorizontalDragUpdate: (d) =>
             setState(() => _drag = _fractionAt(d.localPosition.dx)),
-        onHorizontalDragEnd: (_) => _release(_drag ?? widget.progression),
+        onHorizontalDragEnd: (_) => _release(_drag ?? _rest),
         onHorizontalDragCancel: () => setState(() => _drag = null),
         onTapUp: (d) => _release(_fractionAt(d.localPosition.dx)),
         child: SizedBox(

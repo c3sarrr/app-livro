@@ -39,6 +39,7 @@ void main() {
     final d = await abrir();
     final grupos = await d.search('ressaca').toList();
     expect(grupos, isNotEmpty);
+    expect(grupos.any((g) => g.byPage), isFalse);
     final hits = todos(grupos);
     expect(hits.length, greaterThan(3));
     var antes = -1;

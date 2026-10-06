@@ -41,12 +41,14 @@ import 'time_chip.dart';
 import 'top_island.dart';
 
 /// No Noite a barra de status tem ícones claros (D-124); nos claros, o padrão do app (D-13).
+/// A região vale para a tela toda: no Android, a barra de navegação (transparente, sem véu) também ganha ícones
+/// claros, senão os botões somem no papel escuro.
 const SystemUiOverlayStyle readerNightOverlayStyle = SystemUiOverlayStyle(
   statusBarColor: Color(0x00000000),
   statusBarIconBrightness: Brightness.light,
   statusBarBrightness: Brightness.dark,
   systemNavigationBarColor: Color(0x00000000),
-  systemNavigationBarIconBrightness: Brightness.dark,
+  systemNavigationBarIconBrightness: Brightness.light,
   systemNavigationBarContrastEnforced: false,
 );
 
@@ -82,6 +84,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   String? _toast;
   Timer? _toastTimer;
 
+  /// O Tema anima (D-121) só depois que a primeira página apareceu: abrir já no Noite não passa pelo Creme.
+  bool _themeAnimates = false;
+
   /// O painel da busca está aberto (D-120) e a busca do documento aberto (a última fica guardada).
   bool _search = false;
   BookSearchSession? _searchSession;
@@ -95,11 +100,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _started = true;
     _ui = ref.read(readerSystemUiProvider);
     _armOpening();
-    final mq = MediaQuery.of(context);
+    // só o que a página usa (MediaQuery.of inteira refaria a tela a cada quadro do teclado da busca)
     final v = _viewport = (
-      size: mq.size,
-      padding: mq.viewPadding,
-      devicePixelRatio: mq.devicePixelRatio,
+      size: MediaQuery.sizeOf(context),
+      padding: MediaQuery.viewPaddingOf(context),
+      devicePixelRatio: MediaQuery.devicePixelRatioOf(context),
     );
     unawaited(_start(v));
   }
@@ -158,6 +163,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       _chrome?.ticking = false;
       _clearToast();
     }
+    if (ready && !_themeAnimates) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => _themeAnimates = true,
+      );
+    }
     if (ready && before is! ReaderReady) {
       // a página apareceu: conta como leitura e liga a tela acesa (depois, só toques e o ciclo de vida)
       _openingTimer?.cancel();
@@ -172,6 +182,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       _announceBack(state.back!.refPage);
     }
     _systemUi(immersive: ready && !_controls && !_search);
+    _holdBack();
     setState(() {});
   }
 
@@ -181,7 +192,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     if (c == null || identical(_chromeDoc, doc)) return;
     _chrome?.dispose();
     _searchSession?.dispose();
-    _searchSession = BookSearchSession(doc, startTimer: c.deps.startTimer);
+    _searchSession = BookSearchSession(
+      doc,
+      startTimer: c.deps.startTimer,
+      onError: c.deps.onError,
+    );
     _chromeDoc = doc;
     _chrome = ReaderChrome(
       db: c.deps.db,
@@ -225,7 +240,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _chrome?.ticking = open;
     if (!open) _clearToast();
     _systemUi(immersive: _c?.state is ReaderReady && !open && !_search);
+    _holdBack();
   }
+
+  /// A pílula da volta fica escondida com os controles ou a busca por cima: o prazo dela só conta à vista
+  /// (D-125).
+  void _holdBack() => _c?.holdBack(_controls || _search);
 
   void _tool(ReaderTool t) {
     final c = _c;
@@ -273,6 +293,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _clearToast();
     setState(() => _search = true);
     _systemUi(immersive: false);
+    _holdBack();
   }
 
   /// ← do painel ou o Voltar: volta aos controles, que continuam abertos.
@@ -280,6 +301,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     if (!_search) return;
     setState(() => _search = false);
     _systemUi(immersive: _c?.state is ReaderReady && !_controls);
+    _holdBack();
   }
 
   /// Tocar num resultado: fecha o painel e os controles, salta para a ocorrência, marca a palavra e guarda a
@@ -289,7 +311,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     if (c == null) return;
     setState(() => _search = false);
     _setControls(false);
-    _systemUi(immersive: c.state is ReaderReady);
+    _systemUi(immersive: c.state is ReaderReady && !_controls);
+    _holdBack();
     unawaited(
       c.jumpTo(
         hit.at,
@@ -362,7 +385,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         // papel e ilhas trocam em 220 ms no Tema (D-121)
         child: TweenAnimationBuilder<ReaderPalette>(
           tween: ReaderPaletteTween(end: target),
-          duration: readerThemeDuration,
+          duration: _themeAnimates ? readerThemeDuration : Duration.zero,
           builder: (context, palette, _) => ColoredBox(
             color: palette.paper,
             child: switch (state) {
@@ -409,7 +432,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final timed = !MediaQuery.accessibleNavigationOf(context);
     return TweenAnimationBuilder<ReaderChromePalette>(
       tween: ReaderChromePaletteTween(end: ReaderChromePalette.of(c.paper)),
-      duration: readerThemeDuration,
+      duration: _themeAnimates ? readerThemeDuration : Duration.zero,
       builder: (context, islands, _) => Stack(
         children: [
           Positioned.fill(
@@ -422,6 +445,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               controlsOpen: _controls,
               onDragStarted: () => _setControls(false),
               foundColor: brand,
+              foundLightText: c.palette.lightText,
             ),
           ),
           // a caixa da página (r19.page): o nó do leitor de tela (sem filho que pegue toque: os toques passam
@@ -442,10 +466,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 const CustomSemanticsAction(label: 'Página anterior'): () =>
                     unawaited(c.turn(PageDirection.backward)),
                 // o centro não é tocável pelo leitor de tela (D-116, D-117)
-                const CustomSemanticsAction(
-                  label: 'Mostrar os controles',
+                CustomSemanticsAction(
+                  label: _controls
+                      ? 'Esconder os controles'
+                      : 'Mostrar os controles',
                 ): () =>
-                    _setControls(true),
+                    _setControls(!_controls),
                 const CustomSemanticsAction(label: 'Fechar o livro'): _leave,
               },
               child: const SizedBox.expand(),
@@ -460,10 +486,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             ReaderFooterGap(
               numbers: n,
               bottom: insets.footerBottom,
-              child: BackToPagePill(
-                refPage: back.refPage,
-                onTap: () => unawaited(c.back()),
-                palette: islands,
+              // com os controles abertos a pílula fica sob a ilha de baixo: fora do leitor de tela também
+              child: ExcludeSemantics(
+                excluding: _controls,
+                child: BackToPagePill(
+                  refPage: back.refPage,
+                  onTap: () => unawaited(c.back()),
+                  palette: islands,
+                ),
               ),
             ),
           if (chrome != null)

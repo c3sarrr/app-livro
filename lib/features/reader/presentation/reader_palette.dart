@@ -18,6 +18,13 @@ final class ReaderPalette {
   final Color text;
   final Color footer;
 
+  /// As letras, quando são mais claras que o papel (o Noite): a marca da busca as escurece (D-127).
+  Color? get lightText =>
+      text.computeLuminance() > paper.computeLuminance() ? text : null;
+
+  /// A palavra achada sobre a marca da busca, escura em todo papel: as letras ou, no Noite, o papel (D-127).
+  Color get foundInk => lightText == null ? text : paper;
+
   static ReaderPalette of(ReaderPaper p) => switch (p) {
     ReaderPaper.creme => const ReaderPalette(
       paper: AppColors.paperCream,

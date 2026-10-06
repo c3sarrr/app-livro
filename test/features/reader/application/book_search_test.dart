@@ -18,6 +18,14 @@ void main() {
     expect(findAll('Œuvre Straße ŁÓDŹ', 'lodz'), [(13, 17)]);
   });
 
+  test('hífen discreto, largura zero e espaços especiais não atrapalham', () {
+    const t = 'olhos\u00A0de res\u00ADsaca e Ca\u200Bpitu';
+    final (a, b) = findAll(t, 'olhos de ressaca').single;
+    expect((a, b), (0, 17));
+    expect(findAll(t, 'capitu'), [(20, 27)]);
+    expect(foldForSearch('a\u2009b\u3000c\uFEFF').text, 'a b c');
+  });
+
   test('acento decomposto: o intervalo cobre a marca', () {
     const t = 'café e cafe';
     expect(findAll(t, 'café'), [(0, 5), (8, 12)]);
@@ -112,5 +120,31 @@ void main() {
     expect(searchChapterAt(index, 100), (leaf: 0, title: 'I'));
     expect(searchChapterAt(index, 249), (leaf: 0, title: 'I'));
     expect(searchChapterAt(index, 250), (leaf: 1, title: 'II'));
+    // sumário fora da ordem do texto: vale a folha que começa mais perto antes da posição
+    final foraDeOrdem = BookIndex(
+      contentSha256: 'x',
+      layout: 'reflowable',
+      spine: spine,
+      toc: const [
+        TocPoint(title: 'II', depth: 0, leaf: true, spine: 2, offset: 50),
+        TocPoint(title: 'I', depth: 0, leaf: true, spine: 1, offset: 0),
+      ],
+      refPages: RefPageMap.synthetic(const [0]),
+    );
+    expect(searchChapterAt(foraDeOrdem, 260).title, 'II');
+    expect(searchChapterAt(foraDeOrdem, 150).title, 'I');
+    // sem sumário: um grupo só, com o título do livro
+    final semSumario = BookIndex(
+      contentSha256: 'x',
+      layout: 'reflowable',
+      spine: spine,
+      toc: const [],
+      refPages: RefPageMap.synthetic(const [0]),
+    );
+    expect(searchChapterAt(semSumario, 10, withoutToc: 'Dom Casmurro'), (
+      leaf: -1,
+      title: 'Dom Casmurro',
+    ));
+    expect(searchChapterAt(semSumario, 10).title, 'Começo do livro');
   });
 }

@@ -12,6 +12,7 @@
 //   das letras na cor [foundColor].
 // A página atual é lida do documento na hora de pintar (ele avisa quando ela muda por dentro).
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/widgets.dart';
@@ -46,6 +47,7 @@ class ReaderPageView extends StatefulWidget {
     this.controlsOpen = false,
     this.onDragStarted,
     this.foundColor,
+    this.foundLightText,
   });
 
   final ReaderDocument document;
@@ -58,6 +60,9 @@ class ReaderPageView extends StatefulWidget {
 
   /// Cor da marca da busca (a `brand` — D-120); `null` = não pinta.
   final Color? foundColor;
+
+  /// A cor das letras quando são mais claras que o papel (o Noite): a palavra marcada fica escura (D-127).
+  final Color? foundLightText;
 
   /// Vira de verdade (a sessão conta a virada); `false` = começo/fim do livro, ou não deu (a sessão mostra o
   /// aviso).
@@ -321,6 +326,7 @@ class _ReaderPageViewState extends State<ReaderPageView>
         dir: _dir,
         neighbor: _neighbor,
         foundColor: widget.foundColor,
+        foundLightText: widget.foundLightText,
       ),
     ),
   );
@@ -328,7 +334,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
 
 /// A página atual deslocada por [dx] e a vizinha encostada nela, do lado de [dir]. Repinta quando o documento
 /// avisa que a página atual mudou por dentro ([ReaderDocument.changes]) ou quando um dos campos muda. A marca da
-/// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor].
+/// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor]; com letras
+/// claras ([foundLightText], o Noite) a palavra marcada fica escura (D-127).
 class ReaderPagesPainter extends CustomPainter {
   ReaderPagesPainter({
     required this.document,
@@ -336,6 +343,7 @@ class ReaderPagesPainter extends CustomPainter {
     required this.dir,
     required this.neighbor,
     this.foundColor,
+    this.foundLightText,
   }) : super(repaint: document.changes);
 
   final ReaderDocument document;
@@ -343,6 +351,7 @@ class ReaderPagesPainter extends CustomPainter {
   final PageDirection? dir;
   final DisplayPage? neighbor;
   final Color? foundColor;
+  final Color? foundLightText;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -353,16 +362,41 @@ class ReaderPagesPainter extends CustomPainter {
     final page = document.current;
     final f = document.found;
     final color = foundColor;
-    if (f != null && color != null) {
-      final paint = Paint()..color = color;
-      for (final r in page.rectsOf(f.unit, f.from, f.to)) {
+    final marks = f == null || color == null
+        ? const <Rect>[]
+        : page.rectsOf(f.unit, f.from, f.to);
+    void mark(Color c, BlendMode mode) {
+      final paint = Paint()
+        ..color = c
+        ..blendMode = mode;
+      for (final r in marks) {
         canvas.drawRRect(
           RRect.fromRectAndRadius(r.inflate(1), const Radius.circular(3)),
           paint,
         );
       }
     }
-    page.paint(canvas);
+
+    final light = foundLightText;
+    if (marks.isEmpty) {
+      page.paint(canvas);
+    } else if (page.opaque) {
+      // a imagem do PDF cobriria a marca: ela vai por cima, multiplicada
+      page.paint(canvas);
+      mark(color!, BlendMode.multiply);
+    } else if (light == null) {
+      // letras escuras: a marca vai por trás delas
+      mark(color!, BlendMode.srcOver);
+      page.paint(canvas);
+    } else {
+      // letras claras (o Noite — D-127): a palavra fica escura na marca sem refazer a página e sem camada. Com
+      // D = o maior de letra e marca em cada canal, por trás vai D − marca e, por cima, D em diferença: o fundo
+      // volta a ser a marca exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
+      final d = _channelMax(light, color!);
+      mark(_channelMinus(d, color), BlendMode.srcOver);
+      page.paint(canvas);
+      mark(d, BlendMode.difference);
+    }
     canvas.restore();
     final n = neighbor;
     if (n == null || dir == null || dx == 0) return;
@@ -377,11 +411,22 @@ class ReaderPagesPainter extends CustomPainter {
     canvas.restore();
   }
 
+  static Color _channelMax(Color a, Color b) => Color.from(
+    alpha: 1,
+    red: math.max(a.r, b.r),
+    green: math.max(a.g, b.g),
+    blue: math.max(a.b, b.b),
+  );
+
+  static Color _channelMinus(Color a, Color b) =>
+      Color.from(alpha: 1, red: a.r - b.r, green: a.g - b.g, blue: a.b - b.b);
+
   @override
   bool shouldRepaint(ReaderPagesPainter old) =>
       old.dx != dx ||
       old.dir != dir ||
       old.foundColor != foundColor ||
+      old.foundLightText != foundLightText ||
       !identical(old.neighbor, neighbor) ||
       !identical(old.document, document);
 }
