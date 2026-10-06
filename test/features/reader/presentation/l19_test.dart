@@ -81,7 +81,8 @@ void main() {
   testWidgets('geometria: os 5 ids da kRef19', (tester) async {
     await tela19(tester);
     final (b, s) = paragrafo(tester);
-    const t = ReaderTypography();
+    // a tipografia com que a tela montou a página (margem e topo de verdade, não os padrões)
+    final t = pagina(tester).typography;
     final medido = <String, Rect>{
       'r19.page': tester.getRect(_key('r19.page')),
       // o parágrafo inteiro (22 linhas), cortado pela página
@@ -123,7 +124,7 @@ void main() {
       expect(ref.where((l) => !l.hidden), hasLength(19));
       expect(ref.skip(19).every((l) => l.hidden), isTrue);
       expect(b.lines, hasLength(22));
-      const t = ReaderTypography();
+      final t = p.typography;
       var maxBase = 0.0;
       var maxRight = 0.0;
       for (var l = s.firstLine; l <= s.lastLine; l++) {

@@ -154,6 +154,7 @@ final class LivroNaEstante {
     DateTime Function()? now,
     Timer Function(Duration, void Function())? startTimer,
     Set<int> quebrados = const {},
+    Future<void> Function()? pdfInitialize,
   }) => ReaderDeps(
     db: db,
     versioning: versioning,
@@ -183,6 +184,7 @@ final class LivroNaEstante {
     imageLoader: (path) =>
         (href) async => readImageOf(epub, href),
     startTimer: startTimer ?? Timer.new,
+    pdfInitialize: pdfInitialize,
     onError: onError ?? reportReaderError,
   );
 

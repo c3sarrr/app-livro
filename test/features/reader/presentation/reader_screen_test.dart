@@ -362,13 +362,12 @@ void main() {
       );
       expect(findAppText('Não deu para abrir o livro agora.'), findsOneWidget);
       expect(t.erros.single, isA<StateError>());
+      // passa dos 300 ms da 1ª abertura: o "abrindo" dela já teria aparecido
+      await tester.pump(const Duration(milliseconds: 400));
       await tester.tap(findAppText('Tentar de novo'));
       await tester.pump();
-      expect(
-        findAppText('Abrindo o livro…'),
-        findsNothing,
-        reason: 'de novo só depois de 300 ms (D-113)',
-      );
+      // nem "Abrindo" nem "Preparando" (esta reabertura indexa de novo): de novo só depois de 300 ms (D-113)
+      expect(find.byKey(const ValueKey('leitor.abrindo')), findsNothing);
       await esperarLeitor(tester);
       expect(_key('r19.footer'), findsOneWidget);
     });
