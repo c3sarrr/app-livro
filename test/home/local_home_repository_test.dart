@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
+import 'package:app_leitura/core/data/database/daos/content_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
@@ -14,6 +15,8 @@ import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/library/domain/reading_goals.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
+import 'package:app_leitura/features/reader/content/book_index.dart';
+import 'package:app_leitura/features/reader/content/ref_pages.dart';
 import 'package:app_leitura/features/reader/domain/reading_position.dart';
 import 'package:app_leitura/features/reader/domain/reading_session.dart';
 import 'package:drift/native.dart';
@@ -288,46 +291,123 @@ void main() {
       ]);
     });
 
+    test('sem capítulos (PDF): capítulo nulo; sem sessões, o tempo restante usa 1.000 car./min (D-97)', () async {
+      await gravar([
+        _livro(
+          1,
+          formato: BookFileFormat.pdf,
+          status: ShelfStatus.reading,
+          aberto: _local(10, 5, 8),
+          paginas: 100,
+        ),
+      ]);
+      final h = (await repo.read(_agora)).continueReading!;
+      expect(h.chapter, isNull);
+      expect(h.totalChapters, isNull);
+      // sem índice: 100 páginas × 1.500 caracteres ÷ 1.000 por minuto = 150 min
+      expect(h.timeLeft, const Duration(minutes: 150));
+    });
+
     test(
-      'sem capítulos (PDF) e sem sessões: capítulo e tempo restante nulos',
+      'sem índice e sem páginas de referência: tempo restante some',
       () async {
         await gravar([
-          _livro(
-            1,
-            formato: BookFileFormat.pdf,
-            status: ShelfStatus.reading,
-            aberto: _local(10, 5, 8),
-            paginas: 100,
-          ),
+          _livro(1, status: ShelfStatus.reading, aberto: _local(10, 5, 8)),
         ]);
-        final h = (await repo.read(_agora)).continueReading!;
-        expect(h.chapter, isNull);
-        expect(h.totalChapters, isNull);
-        expect(h.timeLeft, isNull);
+        expect((await repo.read(_agora)).continueReading!.timeLeft, isNull);
       },
     );
 
-    test('tempo restante ≈ páginas que faltam × segundos por página das sessões dos últimos 30 dias', () async {
+    test('tempo restante = caracteres que faltam ÷ velocidade pessoal das sessões de 3 min ou mais (D-97)', () async {
       final a = _livro(
         1,
         status: ShelfStatus.reading,
         aberto: _local(10, 5, 8),
         paginas: 200,
       );
-      await gravar([a]);
+      final b = _livro(
+        2,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 1, 8),
+        paginas: 50,
+      );
+      await gravar([a, b]);
+      // índice do livro a: 300.000 caracteres nos itens lineares (a nota fora da leitura não conta)
+      await BookContentIndexDao(db).upsert(
+        a.id,
+        BookIndex(
+          contentSha256: shaDoLivroTeste(1),
+          layout: 'reflowable',
+          spine: const [
+            SpineInfo(path: 'a.xhtml', linear: true, chars: 100000),
+            SpineInfo(path: 'n.xhtml', linear: false, chars: 5000),
+            SpineInfo(path: 'b.xhtml', linear: true, chars: 200000),
+          ],
+          toc: const [],
+          refPages: RefPageMap.synthetic(const [0]),
+          refPageVersion: refPageVersion,
+        ),
+        builtAt: t0Teste,
+      );
       await ReadingPositionsDao(db).upsert(_posicao(a, progresso: 0.5));
       await sessoes([
-        _sessao(a, _local(10, 4, 10), segundos: 1200, paginas: 20),
-        _sessao(a, _local(10, 5, 10), segundos: 600, paginas: 10),
-        // fora da janela de 30 dias: não entra na velocidade
-        _sessao(a, _local(8, 20, 10), segundos: 9000, paginas: 1),
+        // fora de ordem de propósito: vale a ordem de início
+        _sessao(a, _local(10, 3, 10), segundos: 300, paginas: 3), // 900/min
+        _sessao(
+          a,
+          _local(10, 1, 10),
+          segundos: 600,
+          paginas: 10,
+        ), // 1.500/min — começa a média
+        _sessao(
+          a,
+          _local(10, 2, 10),
+          segundos: 179,
+          paginas: 9,
+        ), // curta: não entra
+        _sessao(
+          b,
+          _local(10, 4, 10),
+          segundos: 600,
+          paginas: 4,
+        ), // livro b (1.500 por página): 600/min
+        _sessao(
+          a,
+          _local(10, 4, 12),
+          segundos: 900,
+        ), // sem página lida: não entra
       ]);
-      // 1800 s / 30 páginas = 60 s/página × 100 páginas = 100 min
+      // 1.500 → 0,2 × 900 + 0,8 × 1.500 = 1.380 → 0,2 × 600 + 0,8 × 1.380 = 1.224 car./min
+      // 150.000 caracteres ÷ 1.224 = 122,5 min → 120 min (a 10 min acima de 1 h)
       expect(
         (await repo.read(_agora)).continueReading!.timeLeft,
-        const Duration(minutes: 100),
+        const Duration(minutes: 120),
       );
     });
+
+    test(
+      'índice ilegível: o livro conta pelas páginas de referência',
+      () async {
+        final a = _livro(
+          1,
+          status: ShelfStatus.reading,
+          aberto: _local(10, 5, 8),
+          paginas: 40,
+        );
+        await gravar([a]);
+        await db.customStatement(
+          "INSERT INTO book_content_index (user_book_id, content_sha256, ref_page_version, spine_json, "
+          "char_counts_json, toc_json, ref_pages_json, built_at) VALUES (?, 'x', 1, '{\"items\": 3}', '[]', "
+          "'[]', '{}', '2026-10-01T00:00:00.000Z')",
+          [a.id],
+        );
+        // 40 × 1.500 ÷ 1.000 = 60 min
+        expect(
+          (await repo.read(_agora)).continueReading!.timeLeft,
+          const Duration(minutes: 60),
+        );
+      },
+    );
 
     test('só o dono ativo e só linhas não apagadas', () async {
       const outro = 'a1b2c3d4-0000-4000-8000-000000000001';
@@ -858,10 +938,8 @@ void main() {
             prancha.continueReading!.progress,
           ),
         if (h.timeLeft != prancha.continueReading!.timeLeft)
-          'tempo restante (o arquivo escreve; a regra pessoal é da G10)': (
-            h.timeLeft,
-            prancha.continueReading!.timeLeft,
-          ),
+          'tempo restante (o arquivo escreve; a regra é a velocidade pessoal — D-97)':
+              (h.timeLeft, prancha.continueReading!.timeLeft),
         if (!_iguais(
           s.readingDay.week.map((d) => d.barHeightPx),
           prancha.readingDay.week.map((d) => d.barHeightPx),
@@ -883,7 +961,7 @@ void main() {
         'destaques',
         'grifos hoje',
         'progresso (a prancha arredonda a 2 casas)',
-        'tempo restante (o arquivo escreve; a regra pessoal é da G10)',
+        'tempo restante (o arquivo escreve; a regra é a velocidade pessoal — D-97)',
         'alturas das barras (D-10: arquivo × regra)',
         'pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista',
       ]);
@@ -899,6 +977,11 @@ void main() {
       expect(diferencas['capítulo'], (32, 92));
       expect(diferencas['destaques'], (12, 14));
       expect(diferencas['grifos hoje'], (1, 2));
+      // 256 × 1.500 × (1 − 0,62113) ≈ 145 mil caracteres ÷ ≈ 2.000 car./min das sessões do mundo ≈ 70 min
+      expect(
+        diferencas['tempo restante (o arquivo escreve; a regra é a velocidade pessoal — D-97)'],
+        (const Duration(minutes: 70), const Duration(hours: 2, minutes: 10)),
+      );
     });
   });
 }

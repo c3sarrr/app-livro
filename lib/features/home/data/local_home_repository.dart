@@ -1,7 +1,8 @@
-// Fonte real da Início (G08 — D-78, D-81…D-85, D-10): tudo lido do banco do aparelho, só as linhas do dono
-// ativo (D-68) e sem linhas apagadas, com os dias no fuso do aparelho. Nada sai do aparelho; "Para você" e o
-// Clube vêm das fontes injetadas.
+// Fonte real da Início (G08 — D-78, D-81…D-85, D-10; tempo restante da G10 — D-97): tudo lido do banco do
+// aparelho, só as linhas do dono ativo (D-68) e sem linhas apagadas, com os dias no fuso do aparelho. Nada sai
+// do aparelho; "Para você" e o Clube vêm das fontes injetadas.
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math' as math;
 
 import 'package:drift/drift.dart';
@@ -9,6 +10,8 @@ import 'package:flutter/foundation.dart' show FlutterError, FlutterErrorDetails;
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/codecs.dart';
+import '../../reader/content/ref_pages.dart' show refPageChars;
+import '../../reader/domain/reading_speed.dart';
 import '../../scanner/application/scanned_shelf.dart' show unknownAuthor;
 import '../domain/models.dart';
 import 'home_repository.dart';
@@ -62,9 +65,6 @@ final class LocalHomeRepository implements HomeRepository {
   static const double barPxPerMinute = 4 / 3;
   static const double barMaxPx = 77.6;
   static const double barMaxTodayPx = 77.0;
-
-  /// Janela das sessões que dão a velocidade pessoal do tempo restante (D-85).
-  static const Duration speedWindow = Duration(days: 30);
 
   /// Um dia entra na sequência com pelo menos 1 minuto lido (D-85).
   static const int streakMinSeconds = 60;
@@ -124,6 +124,7 @@ final class LocalHomeRepository implements HomeRepository {
                   db.userBooks,
                   db.readingPositions,
                   db.readingSessions,
+                  db.bookContentIndex,
                   db.annotations,
                   db.readingGoalsRows,
                   db.kv,
@@ -218,7 +219,7 @@ final class LocalHomeRepository implements HomeRepository {
                   ? null
                   : hero.chaptersTotal,
               progress: hero.progress,
-              timeLeft: _timeLeft(hero, data.secondsPerPage),
+              timeLeft: _timeLeft(hero, data),
               highlightsCount: data.heroAnnotations,
             ),
       alsoReading: List.unmodifiable([
@@ -271,12 +272,13 @@ final class LocalHomeRepository implements HomeRepository {
     return c != 0 ? c : b.id.compareTo(a.id);
   }
 
-  /// Páginas de referência que faltam × segundos por página (D-85); sem dado → `null`.
-  static Duration? _timeLeft(_ShelfBook b, double? secondsPerPage) {
-    final pages = b.refPagesTotal;
-    if (pages == null || secondsPerPage == null) return null;
-    final remaining = pages * (1 - b.progress);
-    return Duration(seconds: (remaining * secondsPerPage).round());
+  /// Caracteres que faltam ÷ velocidade pessoal, arredondado (D-97); livro sem índice e sem páginas de
+  /// referência → `null`.
+  static Duration? _timeLeft(_ShelfBook b, _Data data) {
+    final total = data.totalChars(b);
+    if (total == null) return null;
+    final remaining = (total * (1 - b.progress)).round();
+    return timeLeftFor(remaining, data.charsPerMinute);
   }
 
   ReadingDay _readingDay(_Data data, DateTime today) {
@@ -414,7 +416,8 @@ final class _Data {
     required this.days,
     required this.heroAnnotations,
     required this.highlightsToday,
-    required this.secondsPerPage,
+    required this.indexedChars,
+    required this.charsPerMinute,
     required this.goalMinutes,
     required this.badgeTargetDays,
   });
@@ -425,9 +428,19 @@ final class _Data {
   final Map<String, _Day> days;
   final int heroAnnotations;
   final int highlightsToday;
-  final double? secondsPerPage;
+
+  /// Caracteres dos itens lineares de cada livro com índice (id → total).
+  final Map<String, int> indexedChars;
+
+  /// Velocidade pessoal (D-97).
+  final double charsPerMinute;
   final int? goalMinutes;
   final int? badgeTargetDays;
+
+  /// Caracteres do livro: os do índice; sem índice, as páginas de referência × 1.500; sem os dois, `null`.
+  int? totalChars(_ShelfBook b) =>
+      indexedChars[b.id] ??
+      (b.refPagesTotal == null ? null : b.refPagesTotal! * refPageChars);
 }
 
 /// As consultas de um instantâneo (todas dentro da mesma transação).
@@ -458,6 +471,22 @@ final class _Reader {
     }
   }
 
+  /// Caracteres dos itens lineares do `spine_json`; ilegível → `null` (o livro fica sem índice aqui).
+  static int? _linearChars(String spineJson) {
+    try {
+      final items =
+          (jsonDecode(spineJson) as Map<String, Object?>)['items']! as List;
+      var total = 0;
+      for (final i in items) {
+        final m = i as Map<String, Object?>;
+        if (m['linear']! as bool) total += m['chars']! as int;
+      }
+      return total;
+    } on Object {
+      return null;
+    }
+  }
+
   Future<List<QueryRow>> _all(String sql, List<Object> args) => _db
       .customSelect(sql, variables: [for (final a in args) _variable(a)])
       .get();
@@ -483,14 +512,32 @@ final class _Reader {
         _ShelfBook(r),
     ];
 
+    // Caracteres de cada livro com índice (a régua do tempo restante e da velocidade — D-97).
+    final indexed = <String, int>{};
+    for (final r in await _all(
+      'SELECT i.user_book_id, i.spine_json FROM book_content_index i '
+      'JOIN user_books b ON b.id = i.user_book_id '
+      'WHERE b.user_id = ?1 AND b.deleted_at IS NULL',
+      [_owner],
+    )) {
+      final chars = _linearChars(r.read<String>('spine_json'));
+      if (chars != null) indexed[r.read<String>('user_book_id')] = chars;
+    }
+    final byId = {for (final b in books) b.id: b};
+    double perRefPage(String userBookId) {
+      final b = byId[userBookId];
+      return charsPerRefPage(
+        totalChars: indexed[userBookId],
+        refPagesTotal: b?.refPagesTotal,
+      );
+    }
+
     // Sessões somadas por dia local aqui, não no SQL: o `date()` do SQLite não lê todos os formatos que o
     // servidor manda e usaria um fuso só para todas (revisão da G08).
     final days = <String, _Day>{};
-    final speedFrom = nowUtc.subtract(LocalHomeRepository.speedWindow);
-    var speedSeconds = 0;
-    var speedPages = 0;
+    final samples = <(DateTime, SpeedSample)>[];
     for (final r in await _all(
-      'SELECT started_at, active_seconds, pages_viewed FROM reading_sessions '
+      'SELECT started_at, active_seconds, pages_viewed, user_book_id FROM reading_sessions '
       'WHERE user_id = ?1 AND deleted_at IS NULL',
       [_owner],
     )) {
@@ -504,11 +551,17 @@ final class _Reader {
         seconds: (d?.seconds ?? 0) + seconds,
         pages: (d?.pages ?? 0) + pages,
       );
-      if (pages > 0 && !start.isBefore(speedFrom)) {
-        speedSeconds += seconds;
-        speedPages += pages;
-      }
+      samples.add((
+        start,
+        (
+          activeSeconds: seconds,
+          pagesViewed: pages,
+          charsPerRefPage: perRefPage(r.read<String>('user_book_id')),
+        ),
+      ));
     }
+    // em ordem de início (o texto gravado pode vir em formatos diferentes: ordena pelo instante)
+    samples.sort((a, b) => a.$1.compareTo(b.$1));
 
     final reading = books.where((b) => b.status == 'reading').toList()
       ..sort(LocalHomeRepository._byLastOpened);
@@ -544,7 +597,8 @@ final class _Reader {
       days: days,
       heroAnnotations: heroAnnotations,
       highlightsToday: highlightsToday,
-      secondsPerPage: speedPages == 0 ? null : speedSeconds / speedPages,
+      indexedChars: indexed,
+      charsPerMinute: personalSpeed([for (final s in samples) s.$2]),
       goalMinutes: goals.isEmpty
           ? null
           : goals.single.read<int>('daily_minutes'),
