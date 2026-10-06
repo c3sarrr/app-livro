@@ -697,6 +697,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// status fica (D-105). No PDF a Fonte está desabilitada e a folha não abre (D-122).
   void _openSettings() {
     if (_leaving || _doc is PdfReaderDocument) return;
+    // só pela ferramenta Fonte: os controles continuam abertos por baixo (a pílula e a barra de status já seguem
+    // por eles; o `_settings` ali é só a garantia)
+    assert(_controls, 'a folha abre pela ferramenta Fonte, com os controles');
     _clearToast();
     _dismissUndo();
     setState(() => _settings = true);
