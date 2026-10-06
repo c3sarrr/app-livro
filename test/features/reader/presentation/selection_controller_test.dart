@@ -173,6 +173,21 @@ void main() {
     expect(avisos, 1);
   });
 
+  test('D-47 mesmo numa página que não prende o ponto: a borda fica no que ela mostra', () {
+    final parte = PaginaDeTexto(
+      'aa bb, cc dd ee',
+      mostrado: (unit: 0, from: 3, to: 12),
+    );
+    expect(
+      moveEdge(parte, r(3, 5), SelectionHandle.end, em(14), byChar: false),
+      r(3, 12),
+    );
+    expect(
+      moveEdge(parte, r(7, 9), SelectionHandle.start, em(0), byChar: false),
+      r(3, 9),
+    );
+  });
+
   test('D-137: o fundo da seleção — na seleção nova, o trecho; no grifo existente, nenhum', () {
     final c = SelectionController();
     addTearDown(c.dispose);

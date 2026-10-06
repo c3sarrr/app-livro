@@ -7,12 +7,21 @@ import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:flutter/painting.dart';
 
 final class PaginaDeTexto implements DisplayPage {
-  PaginaDeTexto(this.texto, {this.x0 = 0, this.topo = 0, this.unit = 0});
+  PaginaDeTexto(
+    this.texto, {
+    this.x0 = 0,
+    this.topo = 0,
+    this.unit = 0,
+    this.mostrado,
+  });
 
   final String texto;
   final double x0;
   final double topo;
   final int unit;
+
+  /// Só uma parte do texto na página (o ponto e a palavra sob o dedo não se prendem a ela).
+  final ReaderRange? mostrado;
 
   static const double letra = 10;
   static const double alturaDaLinha = 35.26;
@@ -46,7 +55,7 @@ final class PaginaDeTexto implements DisplayPage {
   ];
 
   @override
-  ReaderRange? get shown => (unit: unit, from: 0, to: texto.length);
+  ReaderRange? get shown => mostrado ?? (unit: unit, from: 0, to: texto.length);
 
   @override
   ReaderSpot? spotAt(Offset p) => (

@@ -259,6 +259,24 @@ void main() {
   );
 
   testWidgets(
+    'com a seleção, um arrasto curto que volta também fecha a seleção (D-136)',
+    (tester) async {
+      await abrir(tester);
+      await selecionar(tester);
+      final antes = _doc(tester).mark;
+      await tester.timedDragFrom(
+        const Offset(300, 700),
+        const Offset(-40, 0),
+        const Duration(milliseconds: 800),
+      );
+      await tester.pumpAndSettle();
+      expect(_doc(tester).mark, antes, reason: 'curto e lento: volta');
+      expect(_key('r21.toolbar'), findsNothing);
+      expect(_pintor(tester).selection!.value, isNull);
+    },
+  );
+
+  testWidgets(
     'grifo existente: tocar abre a barra com a cor marcada (D-132); fora do grifo, os terços',
     (tester) async {
       await abrir(tester);
@@ -574,8 +592,11 @@ void main() {
         await abrirGrifo();
         await tocar(tester, 'r21.toolbar.colors.underline');
         expect(_key('leitor.desfazer'), findsOneWidget);
-        await tester.pump(readerUndoLife);
+        await tester.pump(const Duration(milliseconds: 3700));
+        expect(_key('leitor.desfazer'), findsOneWidget, reason: 'são 4 s');
+        await tester.pump(const Duration(milliseconds: 300));
         expect(_key('leitor.desfazer'), findsNothing);
+        expect(readerUndoLife, const Duration(seconds: 4));
         expect(await vivos(tester), isEmpty);
       },
     );

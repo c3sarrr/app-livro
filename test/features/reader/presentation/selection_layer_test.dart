@@ -266,7 +266,11 @@ void main() {
         expect(c.selection!.dragging, SelectionHandle.end);
         expect(find.byKey(const ValueKey('barra')), findsNothing);
         expect(find.byKey(const ValueKey('leitor.lupa')), findsNothing);
-        await tester.pump(const Duration(milliseconds: 310));
+        // parado: só depois de 300 ms
+        await tester.pump(const Duration(milliseconds: 290));
+        expect(c.selection!.byChar, isFalse);
+        expect(find.byKey(const ValueKey('leitor.lupa')), findsNothing);
+        await tester.pump(const Duration(milliseconds: 20));
         expect(c.selection!.byChar, isTrue);
         expect(find.byKey(const ValueKey('leitor.lupa')), findsOneWidget);
         // a lupa: 132 × 48 (mais a sombra), o centro 60 acima do meio da linha da alça
@@ -441,6 +445,9 @@ void main() {
         expect(px(71, 27), PaginaDeTexto.tinta);
         expect(px(63, 27), AppColors.paperCream);
         expect(px(74, 27), AppColors.paperCream);
+        // na altura também: 308…328 vira 14,5…39,5 (sem ampliar seria 17…37)
+        expect(px(69, 15), PaginaDeTexto.tinta);
+        expect(px(69, 38), PaginaDeTexto.tinta);
         expect(px(30, 10), AppColors.paperCream, reason: 'o papel');
         expect(px(3, 27), AppColors.ink, reason: 'a borda de 1,5');
         expect(px(136, 27), AppColors.ink, reason: 'a sombra 3/3');
@@ -450,6 +457,43 @@ void main() {
           reason: 'a sombra começa 3 abaixo',
         );
         expect(px(1, 1), const Color(0xFF00FF00), reason: 'fora da caixa');
+        img.dispose();
+      },
+    );
+
+    test(
+      'a página ampliada fica dentro da caixa (recorte arredondado)',
+      () async {
+        // a 6ª letra (82…88), ampliada em volta de x = 31, cairia em 132,75…140,25: passa da caixa (até 135)
+        final pagina = PaginaDeTexto('a' * 40, x0: 30, topo: 300);
+        const azul = Color(0xFF0000FF);
+        final img = await pintar(
+          MagnifierPainter(
+            pages: ReaderPagesPainter(
+              document: _Doc(pagina),
+              dx: 0,
+              dir: null,
+              neighbor: null,
+            ),
+            focus: const Offset(31, 318),
+            paper: AppColors.paperCream,
+            border: AppColors.ink,
+            shadow: azul,
+            screen: const Size(390, 844),
+          ),
+        );
+        final bytes = (await img.toByteData())!;
+        final i = (27 * 138 + 137) * 4;
+        expect(
+          Color.fromARGB(
+            bytes.getUint8(i + 3),
+            bytes.getUint8(i),
+            bytes.getUint8(i + 1),
+            bytes.getUint8(i + 2),
+          ),
+          azul,
+          reason: 'fora da caixa só a sombra, sem a letra',
+        );
         img.dispose();
       },
     );
