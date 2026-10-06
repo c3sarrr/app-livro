@@ -125,6 +125,22 @@ void main() {
     );
   });
 
+  test('a página do grifo e da âncora é a da 1ª letra, mesmo passando para a página de referência seguinte', () async {
+    final unit = doc.current.shown!.unit;
+    final texto = doc.anchors.textOf(unit)!;
+    var b = doc.current.shown!.from;
+    final antes = doc.anchors.placeOf(unit, b).refPage;
+    while (b < texto.length && doc.anchors.placeOf(unit, b).refPage == antes) {
+      b++;
+    }
+    expect(b, lessThan(texto.length), reason: 'o item passa de uma página');
+    final r = (unit: unit, from: b - 10, to: b + 10);
+    await g.addHighlight(r, color: '#FED170', style: HighlightStyle.fill);
+    final a = (await vivos()).single;
+    expect((a.refPage, (a.anchor as EpubAnchor).refPage), (antes, antes));
+    expect(doc.anchors.placeOf(unit, r.to - 1).refPage, isNot(antes));
+  });
+
   test('trecho vazio ou item que não está aberto: nada', () async {
     final r = palavras(1);
     expect(
@@ -545,6 +561,16 @@ void main() {
     await pumpEventQueue();
     expect(g.highlightsIn(doc.current.shown!), isEmpty);
     expect(g.highlightAt((unit: r.unit, offset: r.from)), isNull);
+    // e não entra na sobreposição de um grifo deste item nos mesmos números (D-32 é por item)
+    final novo = await g.addHighlight(
+      r,
+      color: '#FED170',
+      style: HighlightStyle.fill,
+    );
+    expect(novo, isNot(idTeste(5)));
+    final outro = (await vivos()).singleWhere((a) => a.id == idTeste(5));
+    expect((outro.anchor as EpubAnchor).spine, r.unit + 1);
+    expect((outro.anchor as EpubAnchor).start, r.from);
   });
 
   test('grifos que se cruzam (de outro aparelho): o pintor recebe na ordem de criação; o toque pega o mais novo', () async {
@@ -583,6 +609,45 @@ void main() {
     ]);
     expect(g.highlightAt((unit: r.unit, offset: r.from + 3))?.id, idTeste(4));
     expect(g.highlightAt((unit: r.unit, offset: r.from))?.id, idTeste(1));
+  });
+
+  test('D-140: o grifo que veio da tinta fica para a G17 — não pinta, não abre e não entra na D-32', () async {
+    final r = palavras(3);
+    final tinta = Annotation(
+      id: idTeste(7),
+      meta: metaTeste(),
+      userBookId: livro.userBookId,
+      kind: AnnotationKind.highlight,
+      source: AnnotationSource.ink,
+      groupId: idTeste(7),
+      anchor: EpubAnchor(
+        sha: livro.index.contentSha256,
+        spine: r.unit,
+        start: r.from,
+        end: r.to,
+        quote: const TextQuote(exact: 'x'),
+        refPage: 1,
+      ),
+      refPage: 1,
+      chapterIndex: 0,
+      color: '#FED170',
+      style: HighlightStyle.fill,
+      fillHeight: FillHeight.medium,
+    );
+    await AnnotationsDao(livro.db).upsert(tinta);
+    await pumpEventQueue();
+    expect(g.highlightsIn(doc.current.shown!), isEmpty);
+    expect(g.highlightAt((unit: r.unit, offset: r.from)), isNull);
+    // um grifo de seleção da mesma cor por cima: não une com o da tinta nem o corta
+    final novo = await g.addHighlight(
+      palavras(5),
+      color: '#FED170',
+      style: HighlightStyle.fill,
+    );
+    expect(novo, isNot(tinta.id));
+    final linhas = await vivos();
+    expect(linhas.singleWhere((a) => a.id == tinta.id).anchor, tinta.anchor);
+    expect(g.highlightsIn(doc.current.shown!).map((h) => h.id), [novo]);
   });
 
   test('só avisa o pintor quando as linhas mudam; os grifos do trecho ficam guardados até lá', () async {

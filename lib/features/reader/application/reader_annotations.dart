@@ -6,6 +6,7 @@
 // mudaram, e guarda os grifos de cada trecho pintado até a próxima mudança. As escritas vão uma de cada vez e leem
 // as linhas do banco, não as da memória. Trocar a cor ou o estilo também passa pela D-32. A última cor fica no
 // aparelho (`kv`). D-138: a nota que vai ficar num grifo novo é a mais antiga dos grifos que ele une ou cobre.
+// D-140: só os grifos de seleção; os que vieram da tinta ficam para a G16/G17.
 import 'dart:async';
 import 'dart:ui' show Color;
 
@@ -108,8 +109,13 @@ final class ReaderAnnotations extends ChangeNotifier
   /// Uma leitura depois das escritas já pedidas.
   Future<T> _after<T>(Future<T> Function() f) => _queue.then((_) => f());
 
-  Iterable<Annotation> get _highlights =>
-      _rows.where((a) => a.kind == AnnotationKind.highlight);
+  /// Os grifos da G13: os de seleção. Os que vieram da tinta (o marca-texto à mão livre) ficam para a G16/G17
+  /// (D-140): não pintam, não abrem a barra e não entram na sobreposição.
+  static bool _ofSelection(Annotation a) =>
+      a.kind == AnnotationKind.highlight &&
+      a.source == AnnotationSource.selection;
+
+  Iterable<Annotation> get _highlights => _rows.where(_ofSelection);
 
   /// Onde o grifo [a] está agora; `null` = sem lugar (ou o item ainda não está aberto: tenta de novo depois).
   ReaderRange? placeOf(Annotation a) {
@@ -273,7 +279,7 @@ final class ReaderAnnotations extends ChangeNotifier
     HighlightStyle? style,
   }) => [
     for (final a in rows)
-      if (a.kind == AnnotationKind.highlight)
+      if (_ofSelection(a))
         if (placeOf(a) case final p? when p.unit == unit)
           (
             id: a.id,
