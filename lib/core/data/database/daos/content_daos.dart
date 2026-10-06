@@ -1,5 +1,8 @@
 // G09.2 — tabelas só do aparelho do conteúdo dos livros (Anexo 02 §3.3): o índice (`book_content_index`) e o
-// arquivo (`local_files`). Nunca sincronizam; somem com o livro ("apagar deste aparelho", troca de conta).
+// arquivo (`local_files`). G10.2: o cache das páginas (`page_layout_cache`). Nunca sincronizam; somem com o
+// livro ("apagar deste aparelho", troca de conta).
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 
 import '../../../../features/reader/content/book_index.dart';
@@ -86,5 +89,89 @@ final class LocalFilesDao {
 
   Future<void> delete(String userBookId) => (_db.delete(
     _db.localFiles,
+  )..where((t) => t.userBookId.equals(userBookId))).go();
+}
+
+/// Onde cada página começa (posição no texto canônico), por item do spine, para um arquivo ([sha]).
+final class PageBreaks {
+  const PageBreaks({required this.sha, required this.chapters});
+
+  final String sha;
+
+  /// Item do spine → início de cada página.
+  final Map<int, List<int>> chapters;
+
+  List<int> encode() => utf8.encode(
+    jsonEncode({
+      'sha': sha,
+      'c': {for (final e in chapters.entries) '${e.key}': e.value},
+    }),
+  );
+
+  /// `null` quando o conteúdo não é deste formato (cache de outra versão ou corrompido).
+  static PageBreaks? decode(List<int> bytes) {
+    try {
+      final j = jsonDecode(utf8.decode(bytes)) as Map<String, Object?>;
+      final c = j['c']! as Map<String, Object?>;
+      return PageBreaks(
+        sha: j['sha']! as String,
+        chapters: {
+          for (final e in c.entries)
+            int.parse(e.key): [for (final x in e.value! as List) x as int],
+        },
+      );
+    } on Object {
+      return null;
+    }
+  }
+}
+
+/// Cache das páginas (Anexo 03 §7.2): chave = livro, ajustes que mudam o layout, viewport e versão das fontes.
+final class PageLayoutCacheDao {
+  PageLayoutCacheDao(this._db);
+
+  final AppDatabase _db;
+
+  Future<PageBreaks?> get({
+    required String userBookId,
+    required String settingsHash,
+    required String viewport,
+    required int fontsVersion,
+  }) async {
+    final r =
+        await (_db.select(_db.pageLayoutCache)..where(
+              (t) =>
+                  t.userBookId.equals(userBookId) &
+                  t.settingsHash.equals(settingsHash) &
+                  t.viewport.equals(viewport) &
+                  t.fontsVersion.equals(fontsVersion),
+            ))
+            .getSingleOrNull();
+    return r == null ? null : PageBreaks.decode(r.breaks);
+  }
+
+  Future<void> put({
+    required String userBookId,
+    required String settingsHash,
+    required String viewport,
+    required int fontsVersion,
+    required PageBreaks breaks,
+    required DateTime now,
+  }) => _db
+      .into(_db.pageLayoutCache)
+      .insertOnConflictUpdate(
+        PageLayoutCacheCompanion(
+          userBookId: Value(userBookId),
+          settingsHash: Value(settingsHash),
+          viewport: Value(viewport),
+          fontsVersion: Value(fontsVersion),
+          breaks: Value(Uint8List.fromList(breaks.encode())),
+          createdAt: Value(now.toUtc()),
+        ),
+      );
+
+  /// Tudo do livro (o arquivo mudou).
+  Future<void> deleteBook(String userBookId) => (_db.delete(
+    _db.pageLayoutCache,
   )..where((t) => t.userBookId.equals(userBookId))).go();
 }

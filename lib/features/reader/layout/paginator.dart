@@ -37,11 +37,13 @@ final class ReaderPage {
 }
 
 /// Paginação incremental: [add] recebe os blocos em ordem (como as fatias de tempo os entregam) e [finish]
-/// fecha a última página. As páginas fechadas ficam em [pages].
+/// fecha a última página. As páginas fechadas ficam em [pages]. Com [firstBlock], o 1º bloco recebido é esse
+/// índice do capítulo ([addFrom] começa nele por uma linha do meio — página guardada no cache).
 final class ChapterPaginator {
-  ChapterPaginator(this.contentHeight);
+  ChapterPaginator(this.contentHeight, {this.firstBlock = 0});
 
   final double contentHeight;
+  final int firstBlock;
   final List<ReaderPage> pages = [];
   final List<LaidBlock> _blocks = [];
   List<PageSlice> _current = [];
@@ -52,8 +54,20 @@ final class ChapterPaginator {
 
   double get _limit => contentHeight + ReaderTypography.fitTolerance;
 
+  LaidBlock _block(int i) => _blocks[i - firstBlock];
+
+  /// O 1º bloco a partir da linha [firstLine] (as anteriores ficaram em páginas que não são montadas aqui).
+  void addFrom(LaidBlock b, int firstLine) {
+    assert(_blocks.isEmpty);
+    _blocks.add(b);
+    _place(firstBlock, from: firstLine);
+    if (b is LaidText && b.keepTogether && b.lines.isNotEmpty) {
+      _pendingHeading = firstBlock;
+    }
+  }
+
   void add(LaidBlock b) {
-    final i = _blocks.length;
+    final i = firstBlock + _blocks.length;
     _blocks.add(b);
     if (b.pageBreakBefore && _current.isNotEmpty) _close();
     final waiting = _pendingHeading;
@@ -72,7 +86,7 @@ final class ChapterPaginator {
         final removed = <PageSlice>[];
         while (_current.isNotEmpty) {
           final last = _current.last;
-          final blk = _blocks[last.block];
+          final blk = _block(last.block);
           if (last is! TextSlice || blk is! LaidText || !blk.keepTogether) {
             break;
           }
@@ -101,8 +115,8 @@ final class ChapterPaginator {
     return pages;
   }
 
-  void _place(int i) {
-    final b = _blocks[i];
+  void _place(int i, {int from = 0}) {
+    final b = _block(i);
     switch (b) {
       case LaidText(:final lines) when lines.isEmpty:
         return;
@@ -111,7 +125,7 @@ final class ChapterPaginator {
         _current.add(TextSlice(i, 0, b.lines.length - 1, _y));
         _y += b.height;
       case LaidText():
-        var l = 0;
+        var l = from;
         while (l < b.lines.length) {
           final first = l;
           final top = b.lines[l].top;
@@ -159,14 +173,14 @@ final class ChapterPaginator {
 
   int _startOf(PageSlice s) => switch (s) {
     TextSlice(:final block, :final firstLine) =>
-      (_blocks[block] as LaidText).lines[firstLine].start,
-    ObjectSlice(:final block) => _blocks[block].start,
+      (_block(block) as LaidText).lines[firstLine].start,
+    ObjectSlice(:final block) => _block(block).start,
   };
 
   int _endOf(PageSlice s) => switch (s) {
     TextSlice(:final block, :final lastLine) =>
-      (_blocks[block] as LaidText).lines[lastLine].end,
-    ObjectSlice(:final block) => _blocks[block].start + 1,
+      (_block(block) as LaidText).lines[lastLine].end,
+    ObjectSlice(:final block) => _block(block).start + 1,
   };
 }
 
