@@ -20,11 +20,13 @@ import 'package:app_leitura/features/home/presentation/sections/headline_section
 import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/scrubber.dart'
     show FillWavePainter;
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -198,18 +200,28 @@ void main() {
         final doc = _Documento();
         final outro = _Documento();
         final vizinha = _Pagina();
+        final grifos = _GrifosVazios();
+        final selecao = ValueNotifier<ReaderRange?>(null);
         ReaderPagesPainter pintor({
           ReaderDocument? document,
           double dx = -40,
           PageDirection? dir = PageDirection.forward,
           DisplayPage? neighbor,
           Color? foundColor = AppColors.lavender,
+          Color? foundLightText,
+          HighlightSource? highlights,
+          ValueListenable<ReaderRange?>? selection,
+          Color? selectionColor = AppColors.lavender,
         }) => ReaderPagesPainter(
           document: document ?? doc,
           dx: dx,
           dir: dir,
           neighbor: neighbor ?? vizinha,
           foundColor: foundColor,
+          foundLightText: foundLightText,
+          highlights: highlights ?? grifos,
+          selection: selection ?? selecao,
+          selectionColor: selectionColor,
         );
         _expectRepaintsOnlyOnChange(pintor, {
           'document': () => pintor(document: outro),
@@ -217,12 +229,22 @@ void main() {
           'dir': () => pintor(dir: PageDirection.backward),
           'neighbor': () => pintor(neighbor: _Pagina()),
           'foundColor': () => pintor(foundColor: AppColors.sun),
+          'foundLightText': () =>
+              pintor(foundLightText: AppColors.bookTextNight),
+          'highlights': () => pintor(highlights: _GrifosVazios()),
+          'selection': () =>
+              pintor(selection: ValueNotifier<ReaderRange?>(null)),
+          'selectionColor': () => pintor(selectionColor: AppColors.sun),
         });
-        // a página atual que muda por dentro (sem trocar de pintor) repinta pelo aviso do documento
+        // a página atual que muda por dentro (sem trocar de pintor) repinta pelo aviso do documento, e também
+        // os grifos do livro e a seleção (G13)
         var avisos = 0;
         pintor().addListener(() => avisos++);
         doc.changes.value++;
         expect(avisos, 1);
+        grifos.avisar();
+        selecao.value = (unit: 0, from: 0, to: 1);
+        expect(avisos, 3);
       },
     );
 
@@ -517,4 +539,12 @@ class _Documento implements ReaderDocument {
 class _Pagina implements DisplayPage {
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+/// Grifos do livro sem nenhum grifo (G13): só o aviso de mudança.
+class _GrifosVazios extends ChangeNotifier implements HighlightSource {
+  void avisar() => notifyListeners();
+
+  @override
+  List<PaintedHighlight> highlightsIn(ReaderRange shown) => const [];
 }

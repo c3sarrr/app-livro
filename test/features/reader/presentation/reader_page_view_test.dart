@@ -8,8 +8,12 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
+    show HighlightStyle;
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -50,12 +54,28 @@ final class _Pagina implements DisplayPage {
 
   /// Marca da busca (G12): um retângulo por trecho, na página dele.
   @override
-  List<Rect> rectsOf(int unit, int from, int to) => unit == n
-      ? [Rect.fromLTWH(30.0 + from, 120, (to - from).toDouble(), 20)]
+  List<Rect> rectsOf(int unit, int from, int to) => [
+    for (final b in boxesOf(unit, from, to)) b.rect,
+  ];
+
+  /// G13: o texto todo numa linha só; cada caractere i ocupa 1 px a partir de x = 30 (as letras de 120 a 140), com
+  /// a linha de base em 149,6 e a área do texto de 122,41 a 152,85 (em 20,5).
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) =>
+      unit == n && from < to
+      ? [
+          (
+            rect: Rect.fromLTWH(30.0 + from, 120, (to - from).toDouble(), 20),
+            baseline: 149.6,
+            textTop: 122.41,
+            textBottom: 152.85,
+            em: 20.5,
+          ),
+        ]
       : const [];
 
   @override
-  ReaderRange? get shown => null;
+  ReaderRange? get shown => (unit: n, from: 0, to: 400);
 
   @override
   ReaderSpot? spotAt(ui.Offset p) => null;
@@ -65,9 +85,6 @@ final class _Pagina implements DisplayPage {
 
   @override
   ReaderRange? wordAt(ui.Offset p) => null;
-
-  @override
-  List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
 
   @override
   String textOf(int unit, int from, int to) => '';
@@ -205,9 +222,57 @@ final class _Tela implements ui.Canvas {
     return Float64List(16);
   }
 
+  /// O corte da faixa do grifo (o da tela inteira, do pintor, não conta).
+  final cortes = <Rect>[];
+  @override
+  void clipRect(
+    Rect rect, {
+    ui.ClipOp clipOp = ui.ClipOp.intersect,
+    bool doAntiAlias = true,
+  }) {
+    if (rect.size == const Size(390, 844)) return;
+    chamadas.add('corte');
+    cortes.add(rect);
+  }
+
+  /// O sublinhado.
+  final retangulos = <(Rect, Color)>[];
+  @override
+  void drawRect(Rect rect, Paint paint) {
+    chamadas.add('traço');
+    retangulos.add((rect, paint.color));
+  }
+
   @override
   Object? noSuchMethod(Invocation invocation) => null;
 }
+
+/// Os grifos do livro de mentira (G13).
+final class _Grifos extends ChangeNotifier implements HighlightSource {
+  _Grifos(this.lista);
+  List<PaintedHighlight> lista;
+
+  void avisar() => notifyListeners();
+
+  @override
+  List<PaintedHighlight> highlightsIn(ReaderRange shown) => [
+    for (final h in lista)
+      if (h.range.unit == shown.unit) h,
+  ];
+}
+
+PaintedHighlight _grifo(
+  String id,
+  int from,
+  int to, {
+  Color color = const Color(0xFFFED170),
+  HighlightStyle style = HighlightStyle.fill,
+}) => PaintedHighlight(
+  id: id,
+  range: (unit: 2, from: from, to: to),
+  color: color,
+  style: style,
+);
 
 void main() {
   late _Livro livro;
@@ -856,6 +921,245 @@ void main() {
         isFalse,
       );
       expect(noite(null).shouldRepaint(noite(const Color(0xFFE3D9C6))), isTrue);
+    });
+  });
+
+  group('G13 — grifos e seleção na página (D-133)', () {
+    test('fundo do grifo: faixa de 12–92 % da área do texto (corte), raio 3, cor a 85 %, por trás do texto', () {
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: _Livro(),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: _Grifos([_grifo('g', 10, 50)]),
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['corte', 'marca', 'texto']);
+      final (rr, cor) = tela.marcas.single;
+      expect(rr.outerRect, const Rect.fromLTRB(40, 122.41, 80, 152.85));
+      expect(rr.tlRadius, const Radius.circular(3));
+      expect(rr.brRadius, const Radius.circular(3));
+      const area = 152.85 - 122.41;
+      expect(
+        tela.cortes.single.top,
+        moreOrLessEquals(122.41 + .12 * area, epsilon: 1e-9),
+      );
+      expect(
+        tela.cortes.single.bottom,
+        moreOrLessEquals(122.41 + .92 * area, epsilon: 1e-9),
+      );
+      expect(tela.cortes.single.left, 40);
+      expect(tela.cortes.single.right, 80);
+      expect(
+        cor.toARGB32(),
+        const Color(0xFFFED170).withValues(alpha: .85).toARGB32(),
+      );
+    });
+
+    test('grifo noutro item da página: só o texto', () {
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: _Livro(),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: _Grifos([
+          const PaintedHighlight(
+            id: 'x',
+            range: (unit: 3, from: 10, to: 50),
+            color: Color(0xFFFED170),
+            style: HighlightStyle.fill,
+          ),
+        ]),
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['texto']);
+    });
+
+    test('seleção: área do texto inteira, raio 2, brand a 62 %, por trás do texto; ganha do grifo onde se cruzam', () {
+      final selecao = ValueNotifier<ReaderRange?>((unit: 2, from: 40, to: 60));
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: _Livro(),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: _Grifos([_grifo('g', 0, 100)]),
+        selection: selecao,
+        selectionColor: const Color(0xFFB6ACE4),
+      ).paint(tela, const Size(390, 844));
+      // o grifo vira 2 pedaços (30–70 e 90–130 na tela) e a seleção fica inteira (70–90)
+      expect(
+        [for (final (r, _) in tela.marcas) r.outerRect],
+        [
+          const Rect.fromLTRB(30, 122.41, 70, 152.85),
+          const Rect.fromLTRB(90, 122.41, 130, 152.85),
+          const Rect.fromLTRB(70, 122.41, 90, 152.85),
+        ],
+      );
+      expect(tela.marcas.last.$1.tlRadius, const Radius.circular(2));
+      expect(
+        tela.marcas.last.$2.toARGB32(),
+        const Color(0xFFB6ACE4).withValues(alpha: .62).toARGB32(),
+      );
+      expect(tela.chamadas.last, 'texto');
+      // sem cor da seleção, nada de seleção
+      final semCor = _Tela();
+      ReaderPagesPainter(
+        document: _Livro(),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        selection: selecao,
+      ).paint(semCor, const Size(390, 844));
+      expect(semCor.chamadas, ['texto']);
+    });
+
+    test('a marca da busca ganha do grifo e perde da seleção', () {
+      final l = _Livro()..found = (unit: 2, from: 20, to: 60);
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        foundColor: const Color(0xFFE85D3A),
+        highlights: _Grifos([_grifo('g', 0, 40)]),
+        selection: ValueNotifier<ReaderRange?>((unit: 2, from: 50, to: 70)),
+        selectionColor: const Color(0xFFB6ACE4),
+      ).paint(tela, const Size(390, 844));
+      expect(
+        [for (final (r, _) in tela.marcas) r.outerRect],
+        [
+          const Rect.fromLTRB(
+            30,
+            122.41,
+            49,
+            152.85,
+          ), // grifo até a marca (inflada 1 px)
+          const Rect.fromLTRB(49, 119, 80, 141), // marca até a seleção
+          const Rect.fromLTRB(80, 122.41, 100, 152.85), // seleção inteira
+        ],
+      );
+    });
+
+    test('sublinhado: retângulo de 4 px a partir de 3 px abaixo da linha de base, na cor viva, por cima do texto', () {
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: _Livro(),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: _Grifos([
+          _grifo(
+            's',
+            10,
+            20,
+            color: const Color(0xFFFFC1C6),
+            style: HighlightStyle.underline,
+          ),
+        ]),
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['texto', 'traço']);
+      final (r, c) = tela.retangulos.single;
+      expect(r, const Rect.fromLTRB(40, 152.6, 50, 156.6));
+      expect(c.toARGB32(), 0xFFFFC1C6);
+    });
+
+    test('Noite (D-133): grifo na cor viva, por trás D − cor e por cima D em diferença', () {
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: _Livro(),
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: _Grifos([_grifo('g', 10, 30)]),
+        foundLightText: const Color(0xFFE3D9C6),
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, ['corte', 'marca', 'texto', 'corte', 'marca']);
+      expect(tela.modos, [BlendMode.srcOver, BlendMode.difference]);
+      // D = (máx(E3, FE), máx(D9, D1), máx(C6, 70)) = FED9C6; D − cor = 00 08 56
+      expect(tela.marcas.map((m) => m.$2.toARGB32()), [0xFF000856, 0xFFFED9C6]);
+    });
+
+    test('Noite (D-133), nos pixels: o fundo do grifo é a cor exata, a palavra fica escura, fora da faixa nada muda', () async {
+      const papel = Color(0xFF1F1B17);
+      const letra = Color(0xFFE3D9C6);
+      const amarelo = Color(0xFFFED170);
+      final l = _Livro();
+      l.paginas[2] = _Pagina(2, letra: letra);
+      final gravador = ui.PictureRecorder();
+      final canvas = Canvas(gravador)
+        ..drawRect(const Rect.fromLTWH(0, 0, 120, 160), Paint()..color = papel);
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: _Grifos([_grifo('g', 10, 50)]),
+        foundLightText: letra,
+      ).paint(canvas, const Size(120, 160));
+      final img = await gravador.endRecording().toImage(120, 160);
+      final bytes = (await img.toByteData())!;
+      img.dispose();
+      Color px(int x, int y) {
+        final i = (y * 120 + x) * 4;
+        return Color.fromARGB(
+          bytes.getUint8(i + 3),
+          bytes.getUint8(i),
+          bytes.getUint8(i + 1),
+          bytes.getUint8(i + 2),
+        );
+      }
+
+      void quase(Color a, Color b, String r) {
+        for (final (x, y) in [(a.r, b.r), (a.g, b.g), (a.b, b.b)]) {
+          expect((x - y).abs() * 255, lessThanOrEqualTo(1), reason: r);
+        }
+      }
+
+      quase(px(70, 130), amarelo, 'o fundo do grifo');
+      quase(px(70, 124), papel, 'acima da faixa (12 %)');
+      quase(px(70, 151), papel, 'abaixo da faixa (92 %)');
+      quase(px(10, 10), papel, 'fora do grifo');
+      final palavra = px(48, 130);
+      final contraste =
+          (amarelo.computeLuminance() + 0.05) /
+          (palavra.computeLuminance() + 0.05);
+      expect(contraste, greaterThan(4.5), reason: 'a palavra escura');
+    });
+
+    test('grifos e seleção que mudam por dentro repintam; trocar fonte ou cor repinta', () {
+      final l = _Livro();
+      final grifos = _Grifos([]);
+      final selecao = ValueNotifier<ReaderRange?>(null);
+      ReaderPagesPainter pintor({
+        HighlightSource? h,
+        ValueListenable<ReaderRange?>? s,
+        Color? c,
+      }) => ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        highlights: h ?? grifos,
+        selection: s ?? selecao,
+        selectionColor: c ?? const Color(0xFFB6ACE4),
+      );
+      var avisos = 0;
+      pintor().addListener(() => avisos++);
+      grifos.avisar();
+      selecao.value = (unit: 2, from: 1, to: 3);
+      expect(avisos, 2);
+      expect(pintor().shouldRepaint(pintor()), isFalse);
+      expect(pintor(h: _Grifos([])).shouldRepaint(pintor()), isTrue);
+      expect(
+        pintor(s: ValueNotifier<ReaderRange?>(null)).shouldRepaint(pintor()),
+        isTrue,
+      );
+      expect(
+        pintor(c: const Color(0xFFE85D3A)).shouldRepaint(pintor()),
+        isTrue,
+      );
     });
   });
 }

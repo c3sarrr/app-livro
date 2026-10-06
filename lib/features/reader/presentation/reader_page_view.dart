@@ -12,13 +12,14 @@
 //   das letras na cor [foundColor].
 // A página atual é lida do documento na hora de pintar (ele avisa quando ela muda por dentro).
 import 'dart:async';
-import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/widgets.dart';
 
 import '../application/reader_document.dart';
 import '../application/reader_errors.dart';
+import 'page_marks.dart';
 
 /// D-22 / D-107.
 const Duration readerTurnDuration = Duration(milliseconds: 220);
@@ -48,6 +49,9 @@ class ReaderPageView extends StatefulWidget {
     this.onDragStarted,
     this.foundColor,
     this.foundLightText,
+    this.highlights,
+    this.selection,
+    this.selectionColor,
   });
 
   final ReaderDocument document;
@@ -61,8 +65,16 @@ class ReaderPageView extends StatefulWidget {
   /// Cor da marca da busca (a `brand` — D-120); `null` = não pinta.
   final Color? foundColor;
 
-  /// A cor das letras quando são mais claras que o papel (o Noite): a palavra marcada fica escura (D-127).
+  /// A cor das letras quando são mais claras que o papel (o Noite): a palavra marcada fica escura (D-127), e o
+  /// mesmo nos grifos e na seleção (D-133).
   final Color? foundLightText;
+
+  /// Os grifos do livro, pintados por trás das letras (G13).
+  final HighlightSource? highlights;
+
+  /// A seleção (G13), pintada na cor [selectionColor] (a `brand`).
+  final ValueListenable<ReaderRange?>? selection;
+  final Color? selectionColor;
 
   /// Vira de verdade (a sessão conta a virada); `false` = começo/fim do livro, ou não deu (a sessão mostra o
   /// aviso).
@@ -327,6 +339,9 @@ class _ReaderPageViewState extends State<ReaderPageView>
         neighbor: _neighbor,
         foundColor: widget.foundColor,
         foundLightText: widget.foundLightText,
+        highlights: widget.highlights,
+        selection: widget.selection,
+        selectionColor: widget.selectionColor,
       ),
     ),
   );
@@ -335,7 +350,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
 /// A página atual deslocada por [dx] e a vizinha encostada nela, do lado de [dir]. Repinta quando o documento
 /// avisa que a página atual mudou por dentro ([ReaderDocument.changes]) ou quando um dos campos muda. A marca da
 /// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor]; com letras
-/// claras ([foundLightText], o Noite) a palavra marcada fica escura (D-127).
+/// claras ([foundLightText], o Noite) a palavra marcada fica escura (D-127). G13: os grifos ([highlights]) e a
+/// seleção ([selection]) também, com recorte por prioridade (`page_marks.dart`); o sublinhado vai por cima.
 class ReaderPagesPainter extends CustomPainter {
   ReaderPagesPainter({
     required this.document,
@@ -344,7 +360,16 @@ class ReaderPagesPainter extends CustomPainter {
     required this.neighbor,
     this.foundColor,
     this.foundLightText,
-  }) : super(repaint: document.changes);
+    this.highlights,
+    this.selection,
+    this.selectionColor,
+  }) : super(
+         repaint: Listenable.merge(<Listenable?>[
+           document.changes,
+           highlights,
+           selection,
+         ]),
+       );
 
   final ReaderDocument document;
   final double dx;
@@ -352,6 +377,9 @@ class ReaderPagesPainter extends CustomPainter {
   final DisplayPage? neighbor;
   final Color? foundColor;
   final Color? foundLightText;
+  final HighlightSource? highlights;
+  final ValueListenable<ReaderRange?>? selection;
+  final Color? selectionColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -360,42 +388,68 @@ class ReaderPagesPainter extends CustomPainter {
       ..clipRect(Offset.zero & size)
       ..translate(dx, 0);
     final page = document.current;
-    final f = document.found;
-    final color = foundColor;
-    final marks = f == null || color == null
-        ? const <Rect>[]
-        : page.rectsOf(f.unit, f.from, f.to);
-    void mark(Color c, BlendMode mode) {
-      final paint = Paint()
-        ..color = c
-        ..blendMode = mode;
-      for (final r in marks) {
-        canvas.drawRRect(
-          RRect.fromRectAndRadius(r.inflate(1), const Radius.circular(3)),
-          paint,
-        );
-      }
-    }
-
     final light = foundLightText;
-    if (marks.isEmpty) {
+    if (page.opaque) {
+      // a imagem do PDF cobriria a marca: ela vai por cima, multiplicada (G12)
       page.paint(canvas);
-    } else if (page.opaque) {
-      // a imagem do PDF cobriria a marca: ela vai por cima, multiplicada
-      page.paint(canvas);
-      mark(color!, BlendMode.multiply);
-    } else if (light == null) {
-      // letras escuras: a marca vai por trás delas
-      mark(color!, BlendMode.srcOver);
-      page.paint(canvas);
+      final f = document.found;
+      final color = foundColor;
+      if (f != null && color != null) {
+        final paint = Paint()
+          ..color = color
+          ..blendMode = BlendMode.multiply;
+        for (final r in page.rectsOf(f.unit, f.from, f.to)) {
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(
+              r.inflate(foundInflate),
+              const Radius.circular(foundRadius),
+            ),
+            paint,
+          );
+        }
+      }
     } else {
-      // letras claras (o Noite — D-127): a palavra fica escura na marca sem refazer a página e sem camada. Com
-      // D = o maior de letra e marca em cada canal, por trás vai D − marca e, por cima, D em diferença: o fundo
-      // volta a ser a marca exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
-      final d = _channelMax(light, color!);
-      mark(_channelMinus(d, color), BlendMode.srcOver);
-      page.paint(canvas);
-      mark(d, BlendMode.difference);
+      final shown = page.shown;
+      final hs = shown == null
+          ? const <PaintedHighlight>[]
+          : highlights?.highlightsIn(shown) ?? const <PaintedHighlight>[];
+      final bands = backgroundBands(
+        page,
+        highlights: hs,
+        found: document.found,
+        foundColor: foundColor,
+        selection: selection?.value,
+        selectionColor: selectionColor,
+        night: light != null,
+      );
+      if (light == null) {
+        // letras escuras: os fundos vão por trás delas
+        for (final b in bands) {
+          paintBand(canvas, b, b.color);
+        }
+        page.paint(canvas);
+      } else {
+        // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem
+        // camada. Com D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença:
+        // o fundo volta a ser a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
+        for (final b in bands) {
+          paintBand(
+            canvas,
+            b,
+            channelMinus(channelMax(light, b.color), b.color),
+          );
+        }
+        page.paint(canvas);
+        for (final b in bands) {
+          paintBand(
+            canvas,
+            b,
+            channelMax(light, b.color),
+            BlendMode.difference,
+          );
+        }
+      }
+      paintUnderlines(canvas, page, hs);
     }
     canvas.restore();
     final n = neighbor;
@@ -411,22 +465,15 @@ class ReaderPagesPainter extends CustomPainter {
     canvas.restore();
   }
 
-  static Color _channelMax(Color a, Color b) => Color.from(
-    alpha: 1,
-    red: math.max(a.r, b.r),
-    green: math.max(a.g, b.g),
-    blue: math.max(a.b, b.b),
-  );
-
-  static Color _channelMinus(Color a, Color b) =>
-      Color.from(alpha: 1, red: a.r - b.r, green: a.g - b.g, blue: a.b - b.b);
-
   @override
   bool shouldRepaint(ReaderPagesPainter old) =>
       old.dx != dx ||
       old.dir != dir ||
       old.foundColor != foundColor ||
       old.foundLightText != foundLightText ||
+      !identical(old.highlights, highlights) ||
+      !identical(old.selection, selection) ||
+      old.selectionColor != selectionColor ||
       !identical(old.neighbor, neighbor) ||
       !identical(old.document, document);
 }
