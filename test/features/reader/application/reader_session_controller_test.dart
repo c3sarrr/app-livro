@@ -3,7 +3,10 @@
 // fixas, falha inesperada com "Tentar de novo"), indexa ao abrir quando falta o índice ("Preparando o livro…"),
 // liga tempo (D-95), posição (G10) e tela acesa (D-111) à página e ao ciclo de vida, e guarda a volta de um
 // link por 6 s ou 2 viradas (D-108). Relógio monotônico falso no tempo; o prazo da volta anda à mão.
+// G14: os ajustes da folha (D-144) — revisão: falhas da cor e do último claro, a sessão reaberta no meio da gravação
+// e o papel trocado no meio de uma repaginação (as fatias de layout seguradas à mão).
 
+import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
 
@@ -31,6 +34,8 @@ import 'package:app_leitura/features/reader/presentation/reader_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_states.dart'
     show readerFailureText;
 import 'package:drift/drift.dart' show Variable;
+import 'package:flutter/scheduler.dart'
+    show Priority, SchedulerBinding, defaultSchedulingStrategy;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdfrx/pdfrx.dart' show pdfrxInitialize;
@@ -66,6 +71,9 @@ final class _Sessao {
 
   /// G12: a conta que abre (falha quando [donoFalha]) e a velocidade da conta.
   bool donoFalha = false;
+
+  /// G14: a próxima pergunta pela conta espera por este sinal (uma vez) — a gravação parada no meio.
+  Completer<void>? donoEspera;
   Future<double> Function(AppDatabase db, String userId)? velocidade;
 
   ReaderSessionController controller() {
@@ -74,8 +82,15 @@ final class _Sessao {
       deps: ReaderDeps(
         db: livro.db,
         versioning: livro.versioning,
-        owner: () async =>
-            donoFalha ? throw StateError('banco ocupado') : usuarioTeste,
+        owner: () async {
+          final espera = donoEspera;
+          if (espera != null) {
+            donoEspera = null;
+            await espera.future;
+          }
+          if (donoFalha) throw StateError('banco ocupado');
+          return usuarioTeste;
+        },
         booksDir: () async => livro.dir,
         indexBook: (id) async {
           indexados.add(id);
@@ -912,6 +927,34 @@ void main() {
     Future<ReaderSettings?> linha() =>
         ReaderSettingsDao(h.livro.db).forUser(usuarioTeste);
 
+    /// Segura as fatias de layout (as tarefas do `SchedulerBinding`) até soltar: a repaginação fica em curso.
+    void Function() seguraLayout() {
+      final b = SchedulerBinding.instance;
+      b.schedulingStrategy = ({
+        required int priority,
+        required SchedulerBinding scheduler,
+      }) => false;
+      var solto = false;
+      void solta() {
+        if (solto) return;
+        solto = true;
+        b.schedulingStrategy = defaultSchedulingStrategy;
+        // acorda a fila parada
+        unawaited(b.scheduleTask<void>(() {}, Priority.animation));
+      }
+
+      addTearDown(solta);
+      return solta;
+    }
+
+    /// Espera [pronto] em tempo de verdade (o banco e o layout andam sozinhos), até 2 s.
+    Future<void> ate(FutureOr<bool> Function() pronto) async {
+      for (var i = 0; i < 200 && !await pronto(); i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+      }
+      expect(await pronto(), isTrue, reason: 'não chegou a tempo');
+    }
+
     test('applySettings: grava com versão, repagina mantendo o caractere e avisa a tela', () async {
       final c = await aberto();
       for (var i = 0; i < 3; i++) {
@@ -1025,6 +1068,96 @@ void main() {
       expect(agora.page, same(antes.page));
       expect(h.erros, [isA<StateError>()]);
       expect(c.state, isA<ReaderReady>());
+    });
+
+    test('falha ao guardar o último claro: relatada; o papel vale (o ajuste já está gravado)', () async {
+      final c = await aberto();
+      await h.livro.db.customStatement(
+        "CREATE TRIGGER kv_falha BEFORE INSERT ON kv WHEN NEW.key = '$lastLightPaperKey' "
+        "BEGIN SELECT RAISE(ABORT, 'disco cheio'); END",
+      );
+      await c.applySettings((l) => l.copyWith(paper: ReaderPaper.branco));
+      final branco = ReaderPalette.of(ReaderPaper.branco).text;
+      expect(c.paper, ReaderPaper.branco);
+      expect((await linha())!.paper, ReaderPaper.branco);
+      expect(c.typography!.ink, branco);
+      expect((doc(c).current as PageSnapshot).typography.ink, branco);
+      expect(await KvDao(h.livro.db).get(lastLightPaperKey), isNull);
+      expect(h.erros, hasLength(1));
+      expect(c.state, isA<ReaderReady>());
+    });
+
+    test('a sessão reabre enquanto grava ("Tentar de novo"): o ajuste gravado vai para o livro de agora', () async {
+      final c = await aberto();
+      final antigo = doc(c);
+      final espera = h.donoEspera = Completer<void>();
+      final f = c.applySettings((l) => l.copyWith(paper: ReaderPaper.branco));
+      await Future<void>.delayed(Duration.zero);
+      expect(h.donoEspera, isNull, reason: 'a gravação espera pela conta');
+      await c
+          .retry(); // lê os ajustes de antes (a gravação ainda não aconteceu)
+      expect(doc(c), isNot(same(antigo)));
+      expect(c.paper, ReaderPaper.creme);
+      espera.complete();
+      await f;
+      final branco = ReaderPalette.of(ReaderPaper.branco).text;
+      expect(c.paper, ReaderPaper.branco);
+      expect(c.typography!.ink, branco);
+      expect((doc(c).current as PageSnapshot).typography.ink, branco);
+      expect((await linha())!.paper, ReaderPaper.branco);
+      expect(h.erros, isEmpty);
+      expect(c.state, isA<ReaderReady>());
+    });
+
+    test('o livro sai no meio da troca de cor ("Tentar de novo"): a falha da cor não escapa; vale o livro novo', () async {
+      // sem o atalho do cache: a página na cor nova espera pelo layout (que fica seguro)
+      await h.livro.db.customStatement('DROP TABLE page_layout_cache');
+      final c = await aberto();
+      final antigo = doc(c);
+      final solta = seguraLayout();
+      final f = c.applySettings((l) => l.copyWith(paper: ReaderPaper.branco));
+      // o último claro é o fim da gravação: depois dele, a troca de cor fica parada no layout
+      await ate(
+        () async => await KvDao(h.livro.db).get(lastLightPaperKey) == 'branco',
+      );
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      final reabrir = c.retry(); // solta o livro de antes no meio da troca
+      Object? escapou;
+      await f.catchError((Object e) {
+        escapou = e;
+      });
+      expect(escapou, isNull);
+      solta();
+      await reabrir;
+      expect(doc(c), isNot(same(antigo)));
+      expect(c.state, isA<ReaderReady>());
+      expect(c.paper, ReaderPaper.branco, reason: 'a reabertura leu o gravado');
+      expect(
+        (doc(c).current as PageSnapshot).typography.ink,
+        ReaderPalette.of(ReaderPaper.branco).text,
+      );
+      expect(h.erros, isEmpty);
+    });
+
+    test('trocar o papel no meio de uma repaginação não segura a fila: o papel vai junto com ela', () async {
+      final c = await aberto();
+      final solta = seguraLayout();
+      final a = c.applySettings((l) => l.copyWith(fontStep: 7));
+      final b = c.applySettings((l) => l.copyWith(paper: ReaderPaper.noite));
+      await ate(() => c.paper == ReaderPaper.noite);
+      expect(c.look, const ReaderLook(fontStep: 7, paper: ReaderPaper.noite));
+      expect(
+        (doc(c).current as PageSnapshot).typography.fontSize,
+        20.5,
+        reason: 'a página nova ainda não chegou',
+      );
+      solta();
+      await Future.wait([a, b]);
+      final noite = ReaderPalette.of(ReaderPaper.noite).text;
+      final p = doc(c).current as PageSnapshot;
+      expect((p.typography.fontSize, p.typography.ink), (26.0, noite));
+      expect(c.typography!.ink, noite);
+      expect(h.erros, isEmpty);
     });
 
     test('reabrir: a sessão monta pela linha gravada', () async {

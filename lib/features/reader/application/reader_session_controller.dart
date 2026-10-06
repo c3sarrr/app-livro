@@ -186,6 +186,9 @@ class ReaderSessionController extends ChangeNotifier {
   /// Repaginações pedidas: só a mais nova relata falha (as anteriores terminam com ela).
   int _retypes = 0;
 
+  /// A mais nova ainda está em curso: trocar só o papel no meio dela vai junto com ela (sem segurar a fila).
+  bool _retyping = false;
+
   /// Velocidade pessoal da conta (D-97), lida ao abrir.
   double _speed = defaultCharsPerMinute;
 
@@ -619,8 +622,10 @@ class ReaderSessionController extends ChangeNotifier {
   /// A folha de ajustes (tela 26, D-144): aplica [change] sobre os ajustes de agora, na fila (toques rápidos
   /// somam), e grava a linha da conta com versão. Se o papel mudou, guarda o último claro (D-121). Tamanho, fonte,
   /// entrelinha e margens repaginam na página do caractere que a pessoa lia; a repaginação mais nova passa na
-  /// frente, sem segurar a fila. Só o papel troca a cor do texto sem repaginar. Falha ao gravar: relatada, e tudo
-  /// fica como estava. Termina quando a página nova chega.
+  /// frente, sem segurar a fila. Só o papel troca a cor do texto sem repaginar (no meio de uma repaginação, vai
+  /// junto com ela). Falha ao gravar: relatada, e tudo fica como estava; falha ao guardar o último claro: relatada,
+  /// e o ajuste vale. Se a sessão reabriu enquanto gravava, o ajuste vai para o livro de agora. Termina quando a
+  /// página nova chega.
   Future<void> applySettings(ReaderLookChange change) async {
     final doc = _doc;
     if (doc == null || _closed || _state is ReaderFailed) return;
@@ -674,20 +679,30 @@ class ReaderSessionController extends ChangeNotifier {
       deps.onError(e, st);
       return null;
     }
-    if (_closed || _disposed) return null;
+    // enquanto gravava, a sessão pode ter reaberto ("Tentar de novo"): o ajuste gravado vai para o livro de agora
+    final now = _doc;
+    if (_closed || _disposed || now == null || _state is ReaderFailed) {
+      return null;
+    }
+    final was = _look;
+    if (next == was) return null; // a reabertura já leu o ajuste gravado
     final palette = ReaderPalette.of(next.paper);
     Future<void>? relayout;
-    if (next.sameLayout(from)) {
+    if (next.sameLayout(was) && !_retyping) {
       // só o papel: o texto troca de cor antes (as mesmas quebras); o papel e as ilhas animam em seguida
-      await doc.recolor(palette.text);
-      if (_closed || _disposed) return null;
+      try {
+        await now.recolor(palette.text);
+      } on Object catch (e, st) {
+        _navFailed(e, st);
+        return null;
+      }
+      if (_closed || _disposed || !identical(_doc, now)) return null;
       _typography = _typography?.withInk(palette.text);
     } else {
-      final t = _typography = _typographyFor(next, _viewport!, palette.text);
-      final gen = ++_retypes;
-      relayout = doc.retypeset(t).catchError((Object e, StackTrace st) {
-        if (gen == _retypes) _navFailed(e, st);
-      });
+      relayout = _retype(
+        now,
+        _typography = _typographyFor(next, _viewport!, palette.text),
+      );
     }
     _look = next;
     _palette = palette;
@@ -695,8 +710,26 @@ class ReaderSessionController extends ChangeNotifier {
     return relayout == null ? null : (relayout: relayout);
   }
 
+  /// Repagina [doc] com [t] fora da fila: a mais nova passa na frente e só ela relata falha.
+  Future<void> _retype(ReaderDocument doc, ReaderTypography t) {
+    final gen = ++_retypes;
+    _retyping = true;
+    return doc
+        .retypeset(t)
+        .then<void>(
+          (_) {},
+          onError: (Object e, StackTrace st) {
+            if (gen == _retypes) _navFailed(e, st);
+          },
+        )
+        .whenComplete(() {
+          if (gen == _retypes) _retyping = false;
+        });
+  }
+
   /// Grava os ajustes da conta (versão HLC; sem linha, cria com os padrões da tela 26). O último claro (D-121) vai
-  /// só depois do ajuste gravado: o papel claro escolhido, ou o claro que se deixou pelo Noite.
+  /// só depois do ajuste gravado: o papel claro escolhido, ou o claro que se deixou pelo Noite (a falha dele é
+  /// relatada e não desfaz o ajuste).
   Future<void> _save(ReaderLook from, ReaderLook next) async {
     final owner = await deps.owner();
     final dao = ReaderSettingsDao(deps.db);
@@ -719,8 +752,12 @@ class ReaderSessionController extends ChangeNotifier {
     });
     if (next.paper == from.paper) return;
     final light = next.paper != ReaderPaper.noite ? next.paper : from.paper;
-    if (light != ReaderPaper.noite) {
+    if (light == ReaderPaper.noite) return;
+    try {
       await KvDao(deps.db).set(lastLightPaperKey, light.code);
+    } on Object catch (e, st) {
+      // o ajuste já está gravado: só o Tema perde o último claro (volta ao Creme)
+      deps.onError(e, st);
     }
   }
 
