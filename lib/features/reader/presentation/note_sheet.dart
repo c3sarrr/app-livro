@@ -4,7 +4,8 @@
 // baixo).
 import 'package:flutter/material.dart'
     show InputDecoration, Material, MaterialType, TextField;
-import 'package:flutter/services.dart' show LengthLimitingTextInputFormatter;
+import 'package:flutter/services.dart'
+    show TextEditingValue, TextInputFormatter, TextSelection;
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/text/app_text.dart';
@@ -18,6 +19,32 @@ import 'reader_palette.dart';
 
 /// O tamanho máximo de uma nota (o CHECK do banco — Anexo 02).
 const int noteMaxLength = 10000;
+
+/// Corta o campo em [max] caracteres contados como o banco conta (code points — `Check.text`), não em grafemas.
+final class NoteLengthLimit extends TextInputFormatter {
+  const NoteLengthLimit([this.max = noteMaxLength]);
+  final int max;
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final runes = newValue.text.runes;
+    if (runes.length <= max) return newValue;
+    final text = String.fromCharCodes(runes.take(max));
+    final sel = newValue.selection;
+    return TextEditingValue(
+      text: text,
+      selection: sel.isValid
+          ? TextSelection(
+              baseOffset: sel.baseOffset.clamp(0, text.length),
+              extentOffset: sel.extentOffset.clamp(0, text.length),
+            )
+          : TextSelection.collapsed(offset: text.length),
+    );
+  }
+}
 
 /// A folha fica a 14 das bordas e 14 acima do teclado.
 const double noteSheetMargin = 14;
@@ -162,9 +189,7 @@ class _NoteSheetState extends State<NoteSheet> {
                       autofocus: true,
                       minLines: 3,
                       maxLines: 8,
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(noteMaxLength),
-                      ],
+                      inputFormatters: const [NoteLengthLimit()],
                       onChanged: (_) => setState(() {}),
                       style: AppTextStyles.readerNoteField.copyWith(
                         color: p.title,

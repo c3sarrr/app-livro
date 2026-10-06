@@ -1,5 +1,7 @@
 // G13.4 — o texto de Copiar e Compartilhar (D-39, D-136), o trecho que vai para a busca e o compartilhar do sistema
 // (sobrescrito nos testes).
+import 'dart:ui' show Rect;
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -27,9 +29,12 @@ String searchPrefill(String text) {
 String cleanExcerpt(String s) =>
     s.replaceAll('￼', '').replaceAll(RegExp(r'\s+'), ' ').trim();
 
-/// Abre a folha de compartilhar do sistema com [text].
-final readerShareProvider = Provider<Future<void> Function(String text)>(
-  (ref) => (text) async {
-    await SharePlus.instance.share(ShareParams(text: text));
-  },
-);
+/// Abre a folha de compartilhar do sistema com [text]; no iPad ela sai de [origin] (o botão).
+final readerShareProvider =
+    Provider<Future<void> Function(String text, Rect? origin)>(
+      (ref) => (text, origin) async {
+        await SharePlus.instance.share(
+          ShareParams(text: text, sharePositionOrigin: origin),
+        );
+      },
+    );

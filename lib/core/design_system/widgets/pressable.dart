@@ -12,6 +12,7 @@ class Pressable extends StatefulWidget {
     this.isLink = false,
     this.toggled,
     this.selected,
+    this.hint,
     this.enabled = true,
   });
   final Widget child;
@@ -24,6 +25,9 @@ class Pressable extends StatefulWidget {
 
   /// Escolhido num grupo (a cor do grifo existente na barra de ações — G13).
   final bool? selected;
+
+  /// O que o toque faz, quando não é o óbvio do rótulo (a cor do grifo existente apaga — G13).
+  final String? hint;
 
   /// `false` = desabilitado: sem toque e "indisponível" para o leitor de tela (Fonte no PDF — D-122).
   final bool enabled;
@@ -61,6 +65,7 @@ class _PressableState extends State<Pressable> {
       label: widget.semanticsLabel,
       toggled: widget.toggled,
       selected: widget.selected,
+      hint: widget.hint,
       enabled: widget.enabled ? null : false,
       excludeSemantics: widget.semanticsLabel != null,
       onTap: onTap,

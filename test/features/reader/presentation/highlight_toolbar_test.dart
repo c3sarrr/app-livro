@@ -62,6 +62,7 @@ void main() {
   setUpAll(loadAppFonts);
 
   late List<String> eventos;
+  Rect? origem;
 
   Future<void> montar(
     WidgetTester tester, {
@@ -73,6 +74,7 @@ void main() {
       ..physicalSize = const Size(390, 844);
     addTearDown(tester.view.reset);
     eventos = [];
+    origem = null;
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
@@ -90,7 +92,10 @@ void main() {
                 onUnderline: () => eventos.add('sublinhar'),
                 onNote: () => eventos.add('nota'),
                 onCopy: () => eventos.add('copiar'),
-                onShare: () => eventos.add('compartilhar'),
+                onShare: (r) {
+                  eventos.add('compartilhar');
+                  origem = r;
+                },
                 onSearch: () => eventos.add('buscar'),
               ),
             ),
@@ -350,6 +355,8 @@ void main() {
       'compartilhar',
       'buscar',
     ]);
+    // no iPad a folha do sistema sai do botão: o retângulo dele na tela
+    expect(origem, tester.getRect(_key('r21.toolbar.actions.share')));
   });
 
   testWidgets(
@@ -389,12 +396,23 @@ void main() {
         tester.getSemantics(_key('r21.toolbar.colors.pink')),
         isSemantics(hasSelectedState: true, isSelected: false),
       );
+      // a marcada apaga: o leitor de tela avisa
+      expect(
+        tester.getSemantics(_key('r21.toolbar.colors.yellow')).hint,
+        toolbarRemoveHint,
+      );
+      expect(toolbarRemoveHint, 'Apaga o grifo');
+      expect(tester.getSemantics(_key('r21.toolbar.colors.pink')).hint, '');
       await montar(
         tester,
         marcado: (color: '#FED170', style: HighlightStyle.underline),
       );
       expect(_key('r21.toolbar.colors.underline.marked'), findsOneWidget);
       expect(_key('r21.toolbar.colors.yellow.marked'), findsNothing);
+      expect(
+        tester.getSemantics(_key('r21.toolbar.colors.underline')).hint,
+        toolbarRemoveHint,
+      );
       await montar(
         tester,
         marcado: (color: '#123456', style: HighlightStyle.fill),

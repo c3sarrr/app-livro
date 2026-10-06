@@ -1244,6 +1244,123 @@ void main() {
       expect(contraste, greaterThan(4.5), reason: 'a palavra escura');
     });
 
+    test('a vizinha que chega no arrasto vem com os grifos dela; a seleção e a marca da busca são só da atual', () {
+      final l = _Livro()..found = (unit: 3, from: 0, to: 8);
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: l,
+        dx: -100,
+        dir: PageDirection.forward,
+        neighbor: l.paginas[3],
+        foundColor: const Color(0xFFE85D3A),
+        highlights: _Grifos([
+          _grifo('g', 0, 10),
+          const PaintedHighlight(
+            id: 'v',
+            range: (unit: 3, from: 10, to: 50),
+            color: Color(0xFFABCF82),
+            style: HighlightStyle.fill,
+          ),
+          const PaintedHighlight(
+            id: 's',
+            range: (unit: 3, from: 60, to: 70),
+            color: Color(0xFFFFC1C6),
+            style: HighlightStyle.underline,
+          ),
+        ]),
+        selection: ValueNotifier<ReaderRange?>((unit: 3, from: 0, to: 5)),
+        selectionColor: const Color(0xFFB6ACE4),
+      ).paint(tela, const Size(390, 844));
+      expect(tela.chamadas, [
+        'corte', 'marca', 'texto', // a atual: o grifo dela
+        'corte',
+        'marca',
+        'texto',
+        'traço', // a vizinha: o fundo e o sublinhado dela
+      ]);
+      expect(
+        [for (final (r, c) in tela.marcas) (r.outerRect, c.toARGB32())],
+        [
+          (
+            const Rect.fromLTRB(30, 122.41, 40, 152.85),
+            const Color(0xFFFED170).withValues(alpha: .85).toARGB32(),
+          ),
+          (
+            const Rect.fromLTRB(40, 122.41, 80, 152.85),
+            const Color(0xFFABCF82).withValues(alpha: .85).toARGB32(),
+          ),
+        ],
+      );
+      expect(l.paginas[3].pintadaEm, hasLength(1));
+      // a vizinha opaca (a imagem do PDF): só ela
+      final pdf = _Livro();
+      pdf.paginas[3] = _Pagina(3, opaque: true);
+      final t2 = _Tela();
+      ReaderPagesPainter(
+        document: pdf,
+        dx: -100,
+        dir: PageDirection.forward,
+        neighbor: pdf.paginas[3],
+        highlights: _Grifos([
+          const PaintedHighlight(
+            id: 'v',
+            range: (unit: 3, from: 10, to: 50),
+            color: Color(0xFFABCF82),
+            style: HighlightStyle.fill,
+          ),
+        ]),
+      ).paint(t2, const Size(390, 844));
+      expect(t2.chamadas, ['texto', 'texto']);
+    });
+
+    test('Noite (D-133), nos pixels: o fundo da seleção é a brand exata e a palavra fica escura', () async {
+      const papel = Color(0xFF1F1B17);
+      const letra = Color(0xFFE3D9C6);
+      const brand = Color(0xFFB6ACE4);
+      final l = _Livro();
+      l.paginas[2] = _Pagina(2, letra: letra);
+      final gravador = ui.PictureRecorder();
+      final canvas = Canvas(gravador)
+        ..drawRect(const Rect.fromLTWH(0, 0, 120, 160), Paint()..color = papel);
+      ReaderPagesPainter(
+        document: l,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        selection: ValueNotifier<ReaderRange?>((unit: 2, from: 10, to: 50)),
+        selectionColor: brand,
+        foundLightText: letra,
+      ).paint(canvas, const Size(120, 160));
+      final img = await gravador.endRecording().toImage(120, 160);
+      final bytes = (await img.toByteData())!;
+      img.dispose();
+      Color px(int x, int y) {
+        final i = (y * 120 + x) * 4;
+        return Color.fromARGB(
+          bytes.getUint8(i + 3),
+          bytes.getUint8(i),
+          bytes.getUint8(i + 1),
+          bytes.getUint8(i + 2),
+        );
+      }
+
+      void quase(Color a, Color b, String r) {
+        for (final (x, y) in [(a.r, b.r), (a.g, b.g), (a.b, b.b)]) {
+          expect((x - y).abs() * 255, lessThanOrEqualTo(1), reason: r);
+        }
+      }
+
+      quase(px(70, 124), brand, 'a área do texto inteira');
+      quase(px(70, 150), brand, 'até o fim da área');
+      quase(px(70, 121), papel, 'acima da área');
+      quase(px(10, 130), papel, 'fora da seleção');
+      final palavra = px(48, 130);
+      final contraste =
+          (brand.computeLuminance() + 0.05) /
+          (palavra.computeLuminance() + 0.05);
+      expect(contraste, greaterThan(4.5), reason: 'a palavra escura');
+    });
+
     test('grifos e seleção que mudam por dentro repintam; trocar fonte ou cor repinta', () {
       final l = _Livro();
       final grifos = _Grifos([]);

@@ -39,8 +39,14 @@ void main() {
     return book.parseItem(0);
   }
 
-  ({PageSnapshot snap, List<LaidBlock> blocks}) montar(ParsedItem item) {
-    final blocks = BlockLayouter(t).layoutAll(item.blocks, item.blockStarts);
+  ({PageSnapshot snap, List<LaidBlock> blocks}) montar(
+    ParsedItem item, {
+    int? pieceChars,
+  }) {
+    final layouter = pieceChars == null
+        ? BlockLayouter(t)
+        : BlockLayouter(t, pieceChars: pieceChars);
+    final blocks = layouter.layoutAll(item.blocks, item.blockStarts);
     addTearDown(() {
       for (final b in blocks) {
         b.dispose();
@@ -137,5 +143,49 @@ void main() {
     final rec = ui.PictureRecorder();
     snap.paint(ui.Canvas(rec)); // não pinta (nem quebra)
     rec.endRecording().dispose();
+  });
+
+  test('G13: parágrafo em pedaços — caixas, ponto e palavra sob o dedo iguais aos do parágrafo inteiro', () {
+    final item = parse('<p>${'Capitu olhava a vaga, sem pressa; ' * 40}</p>');
+    final inteiro = montar(item, pieceChars: 1 << 30);
+    final pedacos = montar(item, pieceChars: 120);
+    expect((inteiro.blocks.single as LaidText).pieces, hasLength(1));
+    expect((pedacos.blocks.single as LaidText).pieces.length, greaterThan(3));
+    final a = inteiro.snap;
+    final b = pedacos.snap;
+    final s = a.shown!;
+    expect(b.shown, s);
+    var conferidas = 0;
+    for (final m in RegExp(r'\p{L}+', unicode: true).allMatches(item.text)) {
+      if (m.end > s.to) break;
+      final ca = a.boxesOf(0, m.start, m.end);
+      final cb = b.boxesOf(0, m.start, m.end);
+      expect(cb, hasLength(ca.length), reason: m[0]);
+      for (var i = 0; i < ca.length; i++) {
+        expect(cb[i].rect, rectMoreOrLessEquals(ca[i].rect, epsilon: 0.01));
+        expect(cb[i].baseline, moreOrLessEquals(ca[i].baseline, epsilon: 0.01));
+      }
+      // o ponto sob o dedo no começo da 1ª letra e no fim da última (no meio de uma letra os dois lados valem)
+      final ini = ca.first.rect;
+      final fim = ca.last.rect;
+      for (final snap in [a, b]) {
+        expect(snap.spotAt(ui.Offset(ini.left + 2, ini.center.dy)), (
+          unit: 0,
+          offset: m.start,
+        ));
+        expect(snap.spotAt(ui.Offset(fim.right - 2, fim.center.dy)), (
+          unit: 0,
+          offset: m.end,
+        ));
+      }
+      expect(b.wordAt(ini.center), (unit: 0, from: m.start, to: m.end));
+      expect(b.wordAround((unit: 0, offset: m.start)), (
+        unit: 0,
+        from: m.start,
+        to: m.end,
+      ));
+      conferidas++;
+    }
+    expect(conferidas, greaterThan(100));
   });
 }

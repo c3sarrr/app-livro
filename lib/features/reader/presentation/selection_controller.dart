@@ -1,6 +1,7 @@
 // G13.3 — o trecho selecionado (tela 21). Começa na pressão longa (a palavra), o fim cresce arrastando sem soltar e
 // as alças movem as bordas: por palavra; por letra depois de 300 ms parado, com a lupa (D-45). Fica dentro da página
-// (D-47) e com pelo menos 1 letra. Na barra de um grifo existente, guarda o id dele (D-132).
+// (D-47) e com pelo menos 1 letra. Na barra de um grifo existente, guarda o id dele (D-132) e não tem fundo nem
+// alças, só a barra (D-137).
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
@@ -49,6 +50,9 @@ final class SelectionController extends ChangeNotifier
 
   @override
   ReaderRange? get value => _s?.range;
+
+  /// O fundo da seleção (o pintor e a lupa): no grifo existente, nenhum — só a barra (D-137).
+  late final ValueListenable<ReaderRange?> fill = _Fill(this);
 
   void _set(ReaderSelection? s) {
     _s = s;
@@ -135,6 +139,20 @@ final class SelectionController extends ChangeNotifier
     if (_s == null) return;
     _set(null);
   }
+}
+
+final class _Fill implements ValueListenable<ReaderRange?> {
+  _Fill(this._c);
+  final SelectionController _c;
+
+  @override
+  ReaderRange? get value => _c._s?.highlightId == null ? _c.value : null;
+
+  @override
+  void addListener(VoidCallback listener) => _c.addListener(listener);
+
+  @override
+  void removeListener(VoidCallback listener) => _c.removeListener(listener);
 }
 
 /// A seleção quando a alça [h] vai para [p] (D-45, D-47): por palavra, a borda vai ao fim (alça final) ou ao

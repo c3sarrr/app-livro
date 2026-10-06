@@ -1,6 +1,7 @@
 // G13.3 — a seleção da tela 21: a palavra da pressão longa; arrastar sem soltar estende o fim por palavra (o início
 // fica — D-136); as alças movem as bordas por palavra ou, com a lupa, por letra (D-45); presa à página (D-47); a inicial
-// nunca passa da final (pelo menos 1 letra); a barra de um grifo existente guarda o id dele (D-132).
+// nunca passa da final (pelo menos 1 letra); a barra de um grifo existente guarda o id dele (D-132) e não pinta fundo
+// de seleção (D-137).
 import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/selection_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -170,5 +171,22 @@ void main() {
       ..endDrag();
     expect(c.value, r(0, 2), reason: 'sem alça arrastada');
     expect(avisos, 1);
+  });
+
+  test('D-137: o fundo da seleção — na seleção nova, o trecho; no grifo existente, nenhum', () {
+    final c = SelectionController();
+    addTearDown(c.dispose);
+    var avisos = 0;
+    void ouvinte() => avisos++;
+    c.fill.addListener(ouvinte);
+    expect(c.fill.value, isNull);
+    c.selectWord(r(1, 3));
+    expect(c.fill.value, r(1, 3));
+    c.showHighlight('g', r(0, 5));
+    expect((c.value, c.fill.value), (r(0, 5), null));
+    expect(avisos, 2);
+    c.fill.removeListener(ouvinte);
+    c.clear();
+    expect(avisos, 2, reason: 'saiu');
   });
 }

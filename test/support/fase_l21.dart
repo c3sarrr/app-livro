@@ -19,6 +19,7 @@ import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_chrome_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
+import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -393,6 +394,27 @@ void faseL21({
       expect(
         rodape,
         'pág. ${instantaneo.pagina} de ${instantaneo.totalDePaginas}',
+      );
+      // Copiar: a citação da D-39, letra por letra
+      String? copiado;
+      final mensageiro =
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            ..setMockMethodCallHandler(SystemChannels.platform, (call) async {
+              if (call.method == 'Clipboard.setData') {
+                copiado = (call.arguments as Map)['text'] as String;
+              }
+              return null;
+            });
+      addTearDown(
+        () =>
+            mensageiro.setMockMethodCallHandler(SystemChannels.platform, null),
+      );
+      await tester.tap(_key('r21.toolbar.actions.copy'));
+      await tester.pump();
+      expect(
+        copiado,
+        '“como a vaga que se retira da praia, nos dias de ressaca.”\n'
+        '— Machado de Assis, Dom Casmurro (pág. 159)',
       );
     },
   );

@@ -11,8 +11,11 @@
 // primeiro o painel, depois os controles.
 // G13.3 — tela 21: a pressão longa seleciona a palavra (com um toque de vibração) e mostra as alças e a barra de
 // ações; com a seleção na tela, o toque fora fecha, o arrasto fecha e vira, o Voltar fecha (D-136). O toque num
-// grifo abre a barra dele com a cor marcada (D-132). Os grifos do livro são pintados por trás das letras.
+// grifo abre a barra dele com a cor marcada (D-132), sem alças nem fundo (D-137). Os grifos do livro são pintados
+// por trás das letras. As ações da barra vão uma de cada vez; "Grifo apagado · Desfazer" some na próxima ação (com o
+// leitor de tela, só nela — D-139).
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/semantics.dart'
     show CustomSemanticsAction, SemanticsService;
@@ -98,9 +101,15 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   Timer? _toastTimer;
   bool _toastWithControls = false;
 
-  /// "Grifo apagado · Desfazer" (D-132): o que o apagar levou, por 4 s.
+  /// "Grifo apagado · Desfazer" (D-132): o que o apagar levou, por 4 s ou até a próxima ação (D-139).
   RemovedHighlight? _undo;
   Timer? _undoTimer;
+
+  /// Uma ação da barra em curso: as outras esperam (dois toques rápidos não gravam duas vezes).
+  bool _busy = false;
+
+  /// A pressão longa em curso criou a seleção: só então arrastar sem soltar cresce o trecho.
+  bool _pressSelected = false;
 
   /// A folha da nota aberta (D-131): o trecho, o grifo existente (se houver) e o texto da nota dele.
   ({ReaderRange range, String? highlightId, String initial})? _note;
@@ -259,17 +268,20 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     )..ticking = _controls;
   }
 
-  /// A seleção fica presa à página (D-47): a página mudou e ela não está mais nela → some.
+  /// A seleção fica presa à página (D-47): a página mudou e ela não está mais nela → some. O grifo existente pode
+  /// passar da página: basta tocá-la.
   void _keepSelectionOn(DisplayPage page) {
-    final r = _selection.value;
-    if (r == null) return;
+    final s = _selection.selection;
+    if (s == null) return;
+    final r = s.range;
     final shown = page.shown;
-    if (shown == null ||
-        r.unit != shown.unit ||
-        r.from < shown.from ||
-        r.to > shown.to) {
-      _selection.clear();
-    }
+    final keep =
+        shown != null &&
+        r.unit == shown.unit &&
+        (s.highlightId == null
+            ? r.from >= shown.from && r.to <= shown.to
+            : r.from < shown.to && r.to > shown.from);
+    if (!keep) _selection.clear();
   }
 
   // ---- seleção (G13) ------------------------------------------------------------------------------------
@@ -277,22 +289,25 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// Pressão longa (D-45, D-136): com os controles abertos só os fecha; numa palavra, seleciona com um toque de
   /// vibração; fora das letras, nada.
   void _longPressStart(Offset p) {
+    _pressSelected = false;
     if (_controls) {
       _setControls(false);
       return;
     }
     final w = _doc?.current.wordAt(p);
     if (w == null) return;
+    _dismissUndo();
     unawaited(HapticFeedback.selectionClick());
     _selection.selectWord(w);
+    _pressSelected = true;
   }
 
-  /// Arrastar sem soltar: o fim vai por palavra; o começo fica (D-136).
+  /// Arrastar sem soltar: o fim vai por palavra; o começo fica (D-136). Só quando esta pressão selecionou.
   void _longPressMove(Offset p) {
     final s = _selection.selection;
     final anchor = s?.anchor;
     final doc = _doc;
-    if (s == null || anchor == null || doc == null) return;
+    if (!_pressSelected || s == null || anchor == null || doc == null) return;
     _selection.setRange(extendFrom(doc.current, anchor, p));
   }
 
@@ -320,6 +335,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           .boxesOf(h.range.unit, h.range.from, h.range.to)
           .any((b) => b.rect.contains(p));
       if (!over) continue;
+      _dismissUndo();
       _selection.showHighlight(h.id, h.range);
       return true;
     }
@@ -333,14 +349,25 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     return HighlightToolbar(
       palette: islands,
       marked: a == null ? null : (color: a.color!, style: a.style!),
-      onColor: (hex) => unawaited(_color(hex)),
+      onColor: (hex) => _act(() => _color(hex)),
       // a tela 23 (o seletor de cor) é da G17 (D-129): a seleção fica
       onOtherColor: () => _showToast(readerSoonText),
-      onUnderline: () => unawaited(_underline()),
-      onNote: _openNote,
-      onCopy: () => unawaited(_copy()),
-      onShare: () => unawaited(_share()),
+      onUnderline: () => _act(_underline),
+      onNote: () => _act(_openNote),
+      onCopy: () => _act(_copy),
+      onShare: (origin) => _act(() => _share(origin)),
       onSearch: _searchSelection,
+    );
+  }
+
+  /// Uma ação da barra de cada vez: enquanto uma grava, as outras não fazem nada.
+  void _act(Future<void> Function() f) {
+    if (_busy) return;
+    _busy = true;
+    unawaited(
+      f().whenComplete(() {
+        _busy = false;
+      }),
     );
   }
 
@@ -352,6 +379,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final notes = _annotations;
     final s = _selection.selection;
     if (notes == null || s == null) return;
+    _dismissUndo();
     final id = s.highlightId;
     if (id != null) {
       final a = notes.byId(id);
@@ -365,7 +393,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       await notes.addHighlight(s.range, color: hex, style: HighlightStyle.fill);
     }
     await notes.setLastColor(hex);
-    _selection.clear();
+    if (mounted) _selection.clear();
   }
 
   /// Sublinhar (D-130): na seleção nova, na última cor; no grifo existente, vira sublinhado na cor dele ou, já
@@ -374,6 +402,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final notes = _annotations;
     final s = _selection.selection;
     if (notes == null || s == null) return;
+    _dismissUndo();
     final id = s.highlightId;
     if (id != null) {
       final a = notes.byId(id);
@@ -390,20 +419,27 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         style: HighlightStyle.underline,
       );
     }
-    _selection.clear();
+    if (mounted) _selection.clear();
   }
 
-  /// Nota (D-131): a folha com o trecho; num grifo existente, com o texto da nota dele.
-  void _openNote() {
+  /// Nota (D-131): a folha com o trecho; num grifo existente, com o texto da nota dele; numa seleção nova que vai
+  /// unir ou cobrir um grifo com nota, com a nota que vai ficar (D-138).
+  Future<void> _openNote() async {
     final s = _selection.selection;
-    if (s == null || _annotations == null) return;
+    final notes = _annotations;
+    if (s == null || notes == null) return;
     final id = s.highlightId;
+    final initial = id != null
+        ? notes.noteOf(id)
+        : await notes.notePreview(
+            s.range,
+            color: await notes.lastColor(),
+            style: HighlightStyle.fill,
+          );
+    // a seleção mudou enquanto lia: a folha não abre
+    if (!mounted || !identical(_selection.selection, s)) return;
     setState(
-      () => _note = (
-        range: s.range,
-        highlightId: id,
-        initial: id == null ? '' : _annotations?.noteOf(id) ?? '',
-      ),
+      () => _note = (range: s.range, highlightId: id, initial: initial ?? ''),
     );
   }
 
@@ -412,10 +448,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   /// Salvar (D-131): na seleção nova, o grifo de fundo na última cor + a nota; no grifo existente, a nota dele
   /// (vazia apaga só a nota).
+  /// Se gravar falhar (relatado), a folha fica aberta com o texto.
   Future<void> _saveNote(String text) async {
     final n = _note;
     final notes = _annotations;
     if (n == null || notes == null) return;
+    _dismissUndo();
     var id = n.highlightId;
     if (id == null) {
       id = await notes.addHighlight(
@@ -424,14 +462,18 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         style: HighlightStyle.fill,
       );
       if (id == null) return;
+      // o grifo já existe: tentar de novo só grava a nota
+      if (identical(_note, n)) {
+        _note = (range: n.range, highlightId: id, initial: n.initial);
+      }
     }
-    await notes.saveNote(id, text);
-    if (!mounted) return;
+    if (!await notes.saveNote(id, text) || !mounted) return;
     setState(() => _note = null);
     _selection.clear();
   }
 
-  /// Apaga o grifo e mostra "Grifo apagado · Desfazer" por 4 s (D-132).
+  /// Apaga o grifo e mostra "Grifo apagado · Desfazer" por 4 s (D-132); com o leitor de tela, até a próxima ação
+  /// (D-139). Não apagou (o grifo já não existia, ou falhou): nada a desfazer.
   Future<void> _remove(String id) async {
     final notes = _annotations;
     final c = _c;
@@ -439,12 +481,24 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final token = await notes.remove(id);
     if (!mounted) return;
     _selection.clear();
+    if (token == null) return;
     _undoTimer?.cancel();
+    _undoTimer = null;
     setState(() => _undo = token);
-    _undoTimer = c.deps.startTimer(readerUndoLife, () {
-      if (mounted) setState(() => _undo = null);
-    });
+    if (!MediaQuery.accessibleNavigationOf(context)) {
+      _undoTimer = c.deps.startTimer(readerUndoLife, () {
+        if (mounted) setState(() => _undo = null);
+      });
+    }
     _announce(readerRemovedText);
+  }
+
+  /// A próxima ação tira o "Desfazer" (D-139): ele não volta um grifo por cima do que veio depois.
+  void _dismissUndo() {
+    if (_undo == null) return;
+    _undoTimer?.cancel();
+    _undoTimer = null;
+    setState(() => _undo = null);
   }
 
   /// "Desfazer": o grifo volta com as notas.
@@ -456,12 +510,21 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     await _annotations?.restore(token);
   }
 
-  /// O texto da seleção, só a parte da página.
+  /// O texto da seleção: do item inteiro (o grifo existente pode passar da página).
   String _selectedText() {
     final r = _selection.value;
+    return r == null ? '' : _textOf(r);
+  }
+
+  String _textOf(ReaderRange r) {
     final doc = _doc;
-    if (r == null || doc == null) return '';
-    return doc.current.textOf(r.unit, r.from, r.to);
+    if (doc == null) return '';
+    final full = doc.anchors?.textOf(r.unit);
+    if (full == null) return doc.current.textOf(r.unit, r.from, r.to);
+    return full.substring(
+      math.min(r.from, full.length),
+      math.min(r.to, full.length),
+    );
   }
 
   /// A citação da D-39, com a página de referência da 1ª letra.
@@ -478,22 +541,27 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     );
   }
 
-  /// Copiar (D-39): a citação no teclado do sistema e "Trecho copiado" por 2 s.
+  /// Copiar (D-39): a citação no teclado do sistema e "Trecho copiado" por 2 s; se falhar, relata e não avisa.
   Future<void> _copy() async {
     final text = _quote();
     if (text == null) return;
     _selection.clear();
-    await Clipboard.setData(ClipboardData(text: text));
+    try {
+      await Clipboard.setData(ClipboardData(text: text));
+    } on Object catch (e, st) {
+      _c?.deps.onError(e, st);
+      return;
+    }
     if (mounted) _showToast(readerCopiedText);
   }
 
-  /// Compartilhar (D-39): a mesma citação na folha do sistema.
-  Future<void> _share() async {
+  /// Compartilhar (D-39): a mesma citação na folha do sistema (no iPad, saindo do botão).
+  Future<void> _share(Rect? origin) async {
     final text = _quote();
     if (text == null) return;
     _selection.clear();
     try {
-      await ref.read(readerShareProvider)(text);
+      await ref.read(readerShareProvider)(text, origin);
     } on Object catch (e, st) {
       _c?.deps.onError(e, st);
     }
@@ -534,7 +602,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// enquanto estão abertos (D-124).
   void _setControls(bool open) {
     if (_controls == open || _leaving) return;
-    if (open) _selection.clear();
+    if (open) {
+      _selection.clear();
+      _dismissUndo();
+    }
     setState(() => _controls = open);
     _chrome?.ticking = open;
     if (!open && _toastWithControls) _clearToast();
@@ -597,6 +668,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   void _openSearch() {
     if (_searchSession == null || _leaving) return;
     _clearToast();
+    _dismissUndo();
     setState(() => _search = true);
     _systemUi(immersive: false);
     _holdBack();
@@ -626,6 +698,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         timed: !MediaQuery.accessibleNavigationOf(context),
       ),
     );
+  }
+
+  /// Virar a página (toque, arrasto ou o leitor de tela) também é a próxima ação (D-139).
+  Future<bool> _turn(PageDirection d) {
+    _dismissUndo();
+    return _c!.turn(d);
   }
 
   /// Fecha o livro: grava, devolve a barra de status já na saída (não no fim da animação) e volta.
@@ -753,7 +831,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               listenable: _selection,
               builder: (context, _) => ReaderPageView(
                 document: doc,
-                onTurn: c.turn,
+                onTurn: _turn,
                 onCenter: () => _setControls(!_controls),
                 onLink: (hit) => c.follow(hit, timed: timed),
                 onInteraction: c.interaction,
@@ -761,18 +839,20 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 onDragStarted: () {
                   _setControls(false);
                   _selection.clear();
+                  _dismissUndo();
                 },
                 foundColor: brand,
                 foundLightText: c.palette.lightText,
                 highlights: _annotations,
-                selection: _selection,
+                // no grifo existente, sem fundo de seleção (D-137)
+                selection: _selection.fill,
                 selectionColor: brand,
                 selecting: _selection.active,
                 onTapSelecting: _tapSelecting,
                 onTapHighlight: _tapHighlight,
                 onLongPressStart: _longPressStart,
                 onLongPressMove: _longPressMove,
-                onLongPressEnd: () {},
+                onLongPressEnd: () => _pressSelected = false,
               ),
             ),
           ),
@@ -790,9 +870,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               value: doc.current.spokenText,
               customSemanticsActions: {
                 const CustomSemanticsAction(label: 'Próxima página'): () =>
-                    unawaited(c.turn(PageDirection.forward)),
+                    unawaited(_turn(PageDirection.forward)),
                 const CustomSemanticsAction(label: 'Página anterior'): () =>
-                    unawaited(c.turn(PageDirection.backward)),
+                    unawaited(_turn(PageDirection.backward)),
                 // o centro não é tocável pelo leitor de tela (D-116, D-117)
                 CustomSemanticsAction(
                   label: _controls
@@ -846,7 +926,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   foundColor: brand,
                   foundLightText: c.palette.lightText,
                   highlights: _annotations,
-                  selection: _selection,
+                  selection: _selection.fill,
                   selectionColor: brand,
                 ),
                 toolbar: _toolbar(islands),
@@ -913,15 +993,13 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               // a folha cobre a página: o leitor de tela fica nela
               child: BlockSemantics(
                 child: NoteSheet(
-                  excerpt: cleanExcerpt(
-                    doc.current.textOf(n.range.unit, n.range.from, n.range.to),
-                  ),
+                  excerpt: cleanExcerpt(_textOf(n.range)),
                   initial: n.initial,
                   palette: islands,
                   paper: palette,
                   brand: brand,
                   onCancel: _closeNote,
-                  onSave: (text) => unawaited(_saveNote(text)),
+                  onSave: (text) => _act(() => _saveNote(text)),
                 ),
               ),
             ),

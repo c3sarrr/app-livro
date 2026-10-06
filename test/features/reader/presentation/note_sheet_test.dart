@@ -9,7 +9,7 @@ import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/presentation/note_sheet.dart';
 import 'package:app_leitura/features/reader/presentation/reader_chrome_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_palette.dart';
-import 'package:flutter/material.dart' show MaterialApp;
+import 'package:flutter/material.dart' show MaterialApp, TextField;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -192,6 +192,43 @@ void main() {
       expect(eventos, ['salvar ']);
     },
   );
+
+  test('o limite conta como o banco (code points), não em grafemas', () {
+    // "é" com o acento combinado: 1 grafema, 2 code points
+    const e = 'e\u0301';
+    const corte = NoteLengthLimit(3);
+    final v = corte.formatEditUpdate(
+      TextEditingValue.empty,
+      const TextEditingValue(
+        text: '$e$e',
+        selection: TextSelection.collapsed(offset: 4),
+      ),
+    );
+    expect((v.text, v.text.runes.length), ('${e}e', 3));
+    expect(v.selection, const TextSelection.collapsed(offset: 3));
+    const cabe = TextEditingValue(text: 'abc');
+    expect(
+      identical(corte.formatEditUpdate(TextEditingValue.empty, cabe), cabe),
+      isTrue,
+    );
+    expect(const NoteLengthLimit().max, noteMaxLength);
+    expect(noteMaxLength, 10000);
+  });
+
+  testWidgets('o campo usa o limite do banco', (tester) async {
+    await montar(tester);
+    final campo = tester.widget<TextField>(
+      find.descendant(
+        of: _key('leitor.nota.campo'),
+        matching: find.byType(TextField),
+        matchRoot: true,
+      ),
+    );
+    expect(
+      campo.inputFormatters!.whereType<NoteLengthLimit>().single.max,
+      noteMaxLength,
+    );
+  });
 
   testWidgets('o véu segura os toques (a página embaixo não recebe)', (
     tester,

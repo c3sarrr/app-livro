@@ -28,6 +28,9 @@ const List<({String key, String hex, String label})> highlightPalette = [
   (key: 'lavender', hex: '#B6ACE4', label: 'Grifar em lavanda'),
 ];
 
+/// A dica do leitor de tela na cor marcada (ou no Sublinhar marcado): tocar de novo apaga (D-132).
+const String toolbarRemoveHint = 'Apaga o grifo';
+
 /// O grifo existente (D-132): a cor e o estilo dele.
 typedef ToolbarMark = ({String color, HighlightStyle style});
 
@@ -58,7 +61,9 @@ class HighlightToolbar extends StatelessWidget {
   final VoidCallback onUnderline;
   final VoidCallback onNote;
   final VoidCallback onCopy;
-  final VoidCallback onShare;
+
+  /// Compartilhar, com o retângulo do botão na tela (no iPad a folha do sistema sai dele).
+  final ValueChanged<Rect?> onShare;
   final VoidCallback onSearch;
 
   @override
@@ -80,6 +85,7 @@ class HighlightToolbar extends StatelessWidget {
         semanticsLabel: label,
         // só com um grifo existente a barra diz qual cor é a dele (D-132)
         selected: m == null ? null : on,
+        hint: on ? toolbarRemoveHint : null,
         onTap: onTap,
         child: Stack(
           clipBehavior: Clip.none,
@@ -159,36 +165,42 @@ class HighlightToolbar extends StatelessWidget {
         ),
       ),
     ];
-    Widget action(String key, String icon, String label, VoidCallback onTap) =>
-        Expanded(
-          child: Pressable(
-            key: ValueKey('r21.toolbar.actions.$key'),
-            semanticsLabel: label,
-            onTap: onTap,
-            child: SizedBox(
-              height: 50,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 4,
-                children: [
-                  AppSvg(
-                    icon,
-                    key: ValueKey('r21.toolbar.actions.$key.icon'),
-                    size: 20,
-                    color: p.night ? p.border : null,
+    Widget action(
+      String key,
+      String icon,
+      String label,
+      ValueChanged<Rect?> onTap,
+    ) => Expanded(
+      child: Builder(
+        builder: (context) => Pressable(
+          key: ValueKey('r21.toolbar.actions.$key'),
+          semanticsLabel: label,
+          onTap: () => onTap(_globalRect(context)),
+          child: SizedBox(
+            height: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 4,
+              children: [
+                AppSvg(
+                  icon,
+                  key: ValueKey('r21.toolbar.actions.$key.icon'),
+                  size: 20,
+                  color: p.night ? p.border : null,
+                ),
+                AppText(
+                  label,
+                  style: AppTextStyles.readerToolbarAction.copyWith(
+                    color: p.title,
                   ),
-                  AppText(
-                    label,
-                    style: AppTextStyles.readerToolbarAction.copyWith(
-                      color: p.title,
-                    ),
-                    maxLines: 1,
-                  ),
-                ],
-              ),
+                  maxLines: 1,
+                ),
+              ],
             ),
           ),
-        );
+        ),
+      ),
+    );
     return Semantics(
       container: true,
       explicitChildNodes: true,
@@ -249,10 +261,15 @@ class HighlightToolbar extends StatelessWidget {
             Row(
               key: const ValueKey('r21.toolbar.actions'),
               children: [
-                action('note', AppIconsLeitor.note, 'Nota', onNote),
-                action('copy', AppIconsLeitor.copy, 'Copiar', onCopy),
+                action('note', AppIconsLeitor.note, 'Nota', (_) => onNote()),
+                action('copy', AppIconsLeitor.copy, 'Copiar', (_) => onCopy()),
                 action('share', AppIconsLeitor.share, 'Compartilhar', onShare),
-                action('search', AppIconsLeitor.search, 'Buscar', onSearch),
+                action(
+                  'search',
+                  AppIconsLeitor.search,
+                  'Buscar',
+                  (_) => onSearch(),
+                ),
               ],
             ),
           ],
@@ -264,6 +281,14 @@ class HighlightToolbar extends StatelessWidget {
 
 Color _hex(String hex) =>
     Color(0xFF000000 | int.parse(hex.substring(1), radix: 16));
+
+/// Onde o botão está na tela.
+Rect? _globalRect(BuildContext context) {
+  final box = context.findRenderObject();
+  return box is RenderBox && box.hasSize
+      ? box.localToGlobal(Offset.zero) & box.size
+      : null;
+}
 
 /// "Escolher outra cor" (L21b nº 9 e 10): o anel cônico arco-íris (começa no topo e gira no sentido horário, como o
 /// CSS), a borda 1,5 e o miolo de 14 com borda 1,5.

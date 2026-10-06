@@ -94,6 +94,7 @@ void main() {
   group('camada', () {
     late SelectionController c;
     late PaginaDeTexto pagina;
+    var toquesNaBarra = 0;
 
     Future<void> montar(
       WidgetTester tester, {
@@ -106,6 +107,7 @@ void main() {
       addTearDown(tester.view.reset);
       c = SelectionController();
       addTearDown(c.dispose);
+      toquesNaBarra = 0;
       pagina = PaginaDeTexto('aa bb, cc dd ee ff', x0: 30, topo: topo);
       c.selectWord(selecao ?? (unit: 0, from: 3, to: 5));
       final doc = _Doc(pagina);
@@ -135,9 +137,13 @@ void main() {
                       dir: null,
                       neighbor: null,
                     ),
-                    toolbar: const SizedBox(
-                      key: ValueKey('barra'),
-                      height: 116.5,
+                    toolbar: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () => toquesNaBarra++,
+                      child: const SizedBox(
+                        key: ValueKey('barra'),
+                        height: 116.5,
+                      ),
                     ),
                     startTimer: Timer.new,
                   ),
@@ -315,6 +321,61 @@ void main() {
       await tester.pump(const Duration(milliseconds: 310));
       final lupa = retangulo(tester, 'leitor.lupa').deflate(3);
       expect(lupa.left, greaterThanOrEqualTo(8));
+      await g.up();
+    });
+
+    testWidgets(
+      'D-137: no grifo existente, só a barra — sem alças; embaixo, a 7,4 do fim da última linha',
+      (tester) async {
+        await montar(tester, topo: 120);
+        c.showHighlight('g', (unit: 0, from: 3, to: 9));
+        await tester.pump();
+        for (final k in const [
+          'r21.page.text.handleStart',
+          'r21.page.text.handleEnd.knob',
+          'r21.page.text.handleStart.stem',
+          'leitor.selecao.area.start',
+          'leitor.selecao.area.end',
+        ]) {
+          expect(find.byKey(ValueKey(k)), findsNothing, reason: k);
+        }
+        // a linha vai de 120 a 155,26; em cima não cabe (155,26 − 162 < 55)
+        expect(
+          retangulo(tester, 'barra').top,
+          moreOrLessEquals(120 + 35.26 + 7.4, epsilon: 1e-6),
+        );
+        expect(
+          find.byKey(const ValueKey('r21.page.text.selection')),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets('a barra fica por cima da área da alça: o toque é dela', (
+      tester,
+    ) async {
+      await montar(tester, topo: 120);
+      final bolinha = retangulo(tester, 'r21.page.text.handleEnd.knob');
+      final barra = retangulo(tester, 'barra');
+      // a área da alça (44 × 44 em volta da bolinha) entra 8,6 na barra
+      expect(barra.top, lessThan(bolinha.center.dy + handleTouch / 2));
+      await tester.tapAt(Offset(bolinha.center.dx, barra.top + 4));
+      await tester.pump();
+      expect(toquesNaBarra, 1);
+      expect(c.selection!.dragging, isNull);
+    });
+
+    testWidgets('a lupa não entra na barra de status', (tester) async {
+      await montar(tester, topo: 60, selecao: (unit: 0, from: 3, to: 5));
+      final bolinha = retangulo(tester, 'r21.page.text.handleEnd.knob').center;
+      final g = await tester.startGesture(bolinha);
+      await g.moveBy(const Offset(2, 0));
+      await tester.pump();
+      await g.moveBy(const Offset(2, 0));
+      await tester.pump(const Duration(milliseconds: 310));
+      final lupa = retangulo(tester, 'leitor.lupa').deflate(3);
+      // o meio da linha (77,63) − 60 ficaria em 17,63: sobe até 47 + 24 + 8
+      expect(lupa.center.dy, moreOrLessEquals(47 + 24 + 8, epsilon: 1e-6));
       await g.up();
     });
 

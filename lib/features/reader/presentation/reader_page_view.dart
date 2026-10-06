@@ -384,7 +384,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
 /// avisa que a página atual mudou por dentro ([ReaderDocument.changes]) ou quando um dos campos muda. A marca da
 /// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor]; com letras
 /// claras ([foundLightText], o Noite) a palavra marcada fica escura (D-127). G13: os grifos ([highlights]) e a
-/// seleção ([selection]) também, com recorte por prioridade (`page_marks.dart`); o sublinhado vai por cima.
+/// seleção ([selection]) também, com recorte por prioridade (`page_marks.dart`); o sublinhado vai por cima. A
+/// vizinha que chega no arrasto vem com os grifos dela.
 class ReaderPagesPainter extends CustomPainter {
   ReaderPagesPainter({
     required this.document,
@@ -421,7 +422,6 @@ class ReaderPagesPainter extends CustomPainter {
       ..clipRect(Offset.zero & size)
       ..translate(dx, 0);
     final page = document.current;
-    final light = foundLightText;
     if (page.opaque) {
       // a imagem do PDF cobriria a marca: ela vai por cima, multiplicada (G12)
       page.paint(canvas);
@@ -442,47 +442,12 @@ class ReaderPagesPainter extends CustomPainter {
         }
       }
     } else {
-      final shown = page.shown;
-      final hs = shown == null
-          ? const <PaintedHighlight>[]
-          : highlights?.highlightsIn(shown) ?? const <PaintedHighlight>[];
-      final bands = backgroundBands(
+      _paintText(
+        canvas,
         page,
-        highlights: hs,
         found: document.found,
-        foundColor: foundColor,
         selection: selection?.value,
-        selectionColor: selectionColor,
-        night: light != null,
       );
-      if (light == null) {
-        // letras escuras: os fundos vão por trás delas
-        for (final b in bands) {
-          paintBand(canvas, b, b.color);
-        }
-        page.paint(canvas);
-      } else {
-        // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem
-        // camada. Com D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença:
-        // o fundo volta a ser a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
-        for (final b in bands) {
-          paintBand(
-            canvas,
-            b,
-            channelMinus(channelMax(light, b.color), b.color),
-          );
-        }
-        page.paint(canvas);
-        for (final b in bands) {
-          paintBand(
-            canvas,
-            b,
-            channelMax(light, b.color),
-            BlendMode.difference,
-          );
-        }
-      }
-      paintUnderlines(canvas, page, hs);
     }
     canvas.restore();
     final n = neighbor;
@@ -494,8 +459,56 @@ class ReaderPagesPainter extends CustomPainter {
       ..save()
       ..clipRect(Offset.zero & size)
       ..translate(offset, 0);
-    n.paint(canvas);
+    // a vizinha chega com os grifos dela; a seleção e a marca da busca são só da atual
+    if (n.opaque) {
+      n.paint(canvas);
+    } else {
+      _paintText(canvas, n);
+    }
     canvas.restore();
+  }
+
+  /// Uma página de texto: os fundos (grifos, marca da busca, seleção) por trás das letras — no Noite, pela técnica
+  /// da D-127 — e os sublinhados por cima.
+  void _paintText(
+    Canvas canvas,
+    DisplayPage page, {
+    FoundRange? found,
+    ReaderRange? selection,
+  }) {
+    final light = foundLightText;
+    final shown = page.shown;
+    final hs = shown == null
+        ? const <PaintedHighlight>[]
+        : highlights?.highlightsIn(shown) ?? const <PaintedHighlight>[];
+    final bands = backgroundBands(
+      page,
+      highlights: hs,
+      found: found,
+      foundColor: foundColor,
+      selection: selection,
+      selectionColor: selectionColor,
+      night: light != null,
+    );
+    if (light == null) {
+      // letras escuras: os fundos vão por trás delas
+      for (final b in bands) {
+        paintBand(canvas, b, b.color);
+      }
+      page.paint(canvas);
+    } else {
+      // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem
+      // camada. Com D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença:
+      // o fundo volta a ser a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
+      for (final b in bands) {
+        paintBand(canvas, b, channelMinus(channelMax(light, b.color), b.color));
+      }
+      page.paint(canvas);
+      for (final b in bands) {
+        paintBand(canvas, b, channelMax(light, b.color), BlendMode.difference);
+      }
+    }
+    paintUnderlines(canvas, page, hs);
   }
 
   @override

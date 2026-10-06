@@ -2,7 +2,8 @@
 // barra, o nó "Trecho selecionado" (D-57), a lupa do app (D-135: sem camada, a página pintada de novo 1,25×) e a
 // barra no lugar da D-136 (em cima, embaixo ou presa). A barra some enquanto uma alça é arrastada; parada 300 ms, a
 // alça passa a andar por letra e a lupa aparece (D-45). O dedo pega a bolinha, mas quem anda é o ponto da alça na
-// linha (a diferença entre os dois fica a mesma durante o arrasto).
+// linha (a diferença entre os dois fica a mesma durante o arrasto). No grifo existente, só a barra (D-137): sem
+// alças; embaixo, ela fica a 7,4 do fim da última linha. A barra fica por cima das áreas das alças.
 import 'dart:async';
 
 import 'package:flutter/gestures.dart' show DragStartBehavior;
@@ -12,6 +13,7 @@ import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_shadows.dart';
 import '../../../core/design_system/tokens/app_strokes.dart';
 import '../layout/display_page.dart';
+import 'reader_actions.dart' show cleanExcerpt;
 import 'reader_chrome_palette.dart';
 import 'reader_page_view.dart' show ReaderPagesPainter;
 import 'selection_controller.dart';
@@ -39,7 +41,8 @@ const double handleTouch = 44;
 
 enum ToolbarPlace { above, below, pinned }
 
-/// Onde a barra fica (D-136): em cima (como o arquivo); senão embaixo; senão presa em [minTop].
+/// Onde a barra fica (D-136): em cima (como o arquivo); senão embaixo; senão presa em [minTop]. [endKnobBottom] =
+/// o fim da bolinha final (no grifo existente, sem alças, o fim da última linha — D-137).
 ({double top, ToolbarPlace place}) toolbarPlacement({
   required double firstLineBottom,
   required double endKnobBottom,
@@ -159,9 +162,11 @@ class _SelectionLayerState extends State<SelectionLayer> {
         last.em,
       );
       final size = MediaQuery.sizeOf(context);
+      // no grifo existente, só a barra (D-137)
+      final bare = s.highlightId != null;
       final at = toolbarPlacement(
         firstLineBottom: first.rect.bottom,
-        endKnobBottom: end.knob.bottom,
+        endKnobBottom: bare ? last.rect.bottom : end.knob.bottom,
         minTop: widget.safeTop + 8,
         maxBottom: size.height - widget.safeBottom - 8,
       );
@@ -169,8 +174,10 @@ class _SelectionLayerState extends State<SelectionLayer> {
           .map((b) => b.rect)
           .reduce((a, b) => a.expandToInclude(b));
       final handles = [
-        (SelectionHandle.start, start, first, 'r21.page.text.handleStart'),
-        (SelectionHandle.end, end, last, 'r21.page.text.handleEnd'),
+        if (!bare) ...[
+          (SelectionHandle.start, start, first, 'r21.page.text.handleStart'),
+          (SelectionHandle.end, end, last, 'r21.page.text.handleEnd'),
+        ],
       ];
       return Stack(
         clipBehavior: Clip.none,
@@ -181,7 +188,7 @@ class _SelectionLayerState extends State<SelectionLayer> {
               key: const ValueKey('r21.page.text.selection'),
               container: true,
               label: 'Trecho selecionado',
-              value: widget.page.textOf(r.unit, r.from, r.to),
+              value: cleanExcerpt(widget.page.textOf(r.unit, r.from, r.to)),
               child: const SizedBox.expand(),
             ),
           ),
@@ -225,15 +232,6 @@ class _SelectionLayerState extends State<SelectionLayer> {
               ),
             ),
           ],
-          if (s.dragging == null)
-            Positioned(
-              key: const ValueKey('leitor.selecao.barra'),
-              left: widget.sideMargin - 6,
-              top: at.top,
-              width: widget.contentWidth + 12,
-              child: widget.toolbar,
-            ),
-          if (s.byChar && s.finger != null) _magnifier(s, boxes, size),
           // com chave: a barra e a lupa entram e saem no meio do arrasto, e a área da alça não pode ser trocada
           // por outra (o gesto em curso seria cancelado)
           for (final (h, g, line, _) in handles)
@@ -267,6 +265,16 @@ class _SelectionLayerState extends State<SelectionLayer> {
                 onPanCancel: _end,
               ),
             ),
+          // a barra por cima das áreas das alças: o toque num botão perto de uma alça é do botão
+          if (s.dragging == null)
+            Positioned(
+              key: const ValueKey('leitor.selecao.barra'),
+              left: widget.sideMargin - 6,
+              top: at.top,
+              width: widget.contentWidth + 12,
+              child: widget.toolbar,
+            ),
+          if (s.byChar && s.finger != null) _magnifier(s, boxes, size),
         ],
       );
     },
@@ -284,9 +292,10 @@ class _SelectionLayerState extends State<SelectionLayer> {
     final half = magnifierSize / 2;
     final center = Offset(
       focus.dx.clamp(half.width + 8, screen.width - half.width - 8),
+      // fora da barra de status e da de navegação
       (focus.dy - magnifierLift).clamp(
-        half.height + 8,
-        screen.height - half.height - 8,
+        widget.safeTop + half.height + 8,
+        screen.height - widget.safeBottom - half.height - 8,
       ),
     );
     return Positioned.fromRect(
