@@ -1699,9 +1699,10 @@ void main() {
     expect(moveEdge(p, r(0, 2), SelectionHandle.end, const Offset(900, 900), byChar: false), r(0, 15));
   });
 
-  test('arrastar sem soltar cresce a partir da palavra, para os dois lados', () {
+  // corrigido na execução: o desenho (D-136) diz que o começo fica — só o fim anda
+  test('arrastar sem soltar: o fim vai por palavra; o começo fica', () {
     expect(extendFrom(p, r(7, 9), em(13)), r(7, 15));
-    expect(extendFrom(p, r(7, 9), em(0)), r(0, 9));
+    expect(extendFrom(p, r(7, 9), em(0)), r(7, 9));
   });
 
   test('controlador: escolher, crescer, alça com lupa, grifo existente e limpar avisam', () {
@@ -1839,12 +1840,11 @@ ReaderRange moveEdge(DisplayPage page, ReaderRange r, SelectionHandle h, Offset 
       : (unit: r.unit, from: math.min(at, r.to - 1), to: r.to);
 }
 
-/// Arrastar sem soltar depois da pressão longa: da palavra [anchor] até a palavra sob [p], para qualquer lado.
+/// Arrastar sem soltar depois da pressão longa (D-136): o fim vai ao fim da palavra sob [p]; o início fica no da
+/// palavra [anchor] (para trás dela, fica só ela). Corrigido na execução (o plano crescia para os dois lados).
 ReaderRange extendFrom(DisplayPage page, ReaderRange anchor, Offset p) {
-  final s = page.spotAt(p);
-  if (s == null || s.unit != anchor.unit) return anchor;
-  final w = page.wordAround(s) ?? (unit: s.unit, from: s.offset, to: s.offset);
-  return (unit: anchor.unit, from: math.min(anchor.from, w.from), to: math.max(anchor.to, w.to));
+  final end = moveEdge(page, anchor, SelectionHandle.end, p, byChar: false);
+  return (unit: anchor.unit, from: anchor.from, to: math.max(anchor.to, end.to));
 }
 ```
 
