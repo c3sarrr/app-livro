@@ -293,7 +293,7 @@ void main() {
   );
 
   testWidgets(
-    'Fonte, Grifos, Anotar e Sumário: "Chega numa próxima fase" por 2 s, 12 acima da ilha; anunciado',
+    'Grifos, Anotar e Sumário: "Chega numa próxima fase" por 2 s, 12 acima da ilha; anunciado (a Fonte abre a folha — G14)',
     (tester) async {
       tester.platformDispatcher.accessibilityFeaturesTestValue =
           const FakeAccessibilityFeatures(accessibleNavigation: true);
@@ -304,7 +304,7 @@ void main() {
       await abrirLeitor(tester, livro);
       await _abrirControles(tester);
       tester.takeAnnouncements();
-      for (final t in const ['font', 'notes', 'annotate', 'toc']) {
+      for (final t in const ['notes', 'annotate', 'toc']) {
         await tester.tap(_key('r20.bottomIsland.tools.$t'));
         await tester.pump();
         expect(findAppText(readerSoonText), findsOneWidget, reason: t);
@@ -579,6 +579,11 @@ void main() {
       await tester.tap(_key('r20.bottomIsland.tools.font'));
       await tester.pump();
       expect(findAppText(readerSoonText), findsNothing);
+      expect(
+        _key('rs.sheet'),
+        findsNothing,
+        reason: 'a folha não abre no PDF (D-122)',
+      );
       await tester.tap(_key('r20.bottomIsland.tools.theme'));
       await esperar(
         () => _papel(tester) == ReaderPalette.of(ReaderPaper.noite).paper,

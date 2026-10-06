@@ -14,6 +14,9 @@
 // grifo abre a barra dele com a cor marcada (D-132), sem alças nem fundo (D-137). Os grifos do livro são pintados
 // por trás das letras. As ações da barra vão uma de cada vez; "Grifo apagado · Desfazer" some na próxima ação (com o
 // leitor de tela, só nela — D-139).
+// G14.4 — tela 26: "Aa Fonte" abre a folha de ajustes por cima (os controles somem e voltam ao fechar — D-142);
+// fecha pelo ×, pelo Voltar, pelo toque na página de cima ou puxando a alça (D-141); cada toque grava e repagina
+// (D-144). No PDF a Fonte segue desabilitada (D-122).
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -49,6 +52,7 @@ import 'reader_footer.dart';
 import 'reader_overlays.dart';
 import 'reader_page_view.dart';
 import 'reader_palette.dart';
+import 'reader_settings_sheet.dart';
 import 'reader_states.dart';
 import 'selection_controller.dart';
 import 'selection_layer.dart';
@@ -120,6 +124,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// O painel da busca está aberto (D-120) e a busca do documento aberto (a última fica guardada).
   bool _search = false;
   BookSearchSession? _searchSession;
+
+  /// A folha de ajustes da tela 26 está aberta (G14): os controles ficam por baixo, escondidos (D-142).
+  bool _settings = false;
   bool _leaving = false;
   ReaderState? _lastState;
 
@@ -201,10 +208,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       _selection.clear();
       _note = null;
     }
-    if (state is! ReaderReady && (_controls || _search)) {
-      // o livro deixou de estar na tela (erro, reabertura): os controles e a busca fecham
+    if (state is! ReaderReady && (_controls || _search || _settings)) {
+      // o livro deixou de estar na tela (erro, reabertura): os controles, a busca e a folha fecham
       _controls = false;
       _search = false;
+      _settings = false;
       _chrome?.ticking = false;
       _clearToast();
     }
@@ -226,7 +234,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         (before is! ReaderReady || before.back == null)) {
       _announceBack(state.back!.refPage);
     }
-    _systemUi(immersive: ready && !_controls && !_search);
+    _systemUi(immersive: ready && !_controls && !_search && !_settings);
     _holdBack();
     setState(() {});
   }
@@ -609,13 +617,15 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     setState(() => _controls = open);
     _chrome?.ticking = open;
     if (!open && _toastWithControls) _clearToast();
-    _systemUi(immersive: _c?.state is ReaderReady && !open && !_search);
+    _systemUi(
+      immersive: _c?.state is ReaderReady && !open && !_search && !_settings,
+    );
     _holdBack();
   }
 
-  /// A pílula da volta fica escondida com os controles ou a busca por cima: o prazo dela só conta à vista
-  /// (D-125).
-  void _holdBack() => _c?.holdBack(_controls || _search);
+  /// A pílula da volta fica escondida com os controles, a busca ou a folha de ajustes por cima: o prazo dela só
+  /// conta à vista (D-125).
+  void _holdBack() => _c?.holdBack(_controls || _search || _settings);
 
   void _tool(ReaderTool t) {
     final c = _c;
@@ -624,10 +634,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       case ReaderTool.theme:
         unawaited(c.toggleTheme());
       case ReaderTool.font:
+        _openSettings();
       case ReaderTool.notes:
       case ReaderTool.annotate:
       case ReaderTool.toc:
-        // Fonte → G14, Grifos → G19, Anotar → G16, Sumário → G15 (D-118)
+        // Grifos → G19, Anotar → G16, Sumário → G15 (D-118)
         _showToast(readerSoonText);
     }
   }
@@ -678,7 +689,27 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   void _closeSearch() {
     if (!_search) return;
     setState(() => _search = false);
-    _systemUi(immersive: _c?.state is ReaderReady && !_controls);
+    _systemUi(immersive: _c?.state is ReaderReady && !_controls && !_settings);
+    _holdBack();
+  }
+
+  /// "Aa Fonte" (G14): a folha de ajustes por cima; os controles somem e voltam ao fechar (D-142); a barra de
+  /// status fica (D-105). No PDF a Fonte está desabilitada e a folha não abre (D-122).
+  void _openSettings() {
+    if (_leaving || _doc is PdfReaderDocument) return;
+    _clearToast();
+    _dismissUndo();
+    setState(() => _settings = true);
+    _systemUi(immersive: false);
+    _holdBack();
+  }
+
+  /// ×, Voltar, o toque na página de cima ou puxar a folha (D-141): cada toque já aplicou e gravou o ajuste;
+  /// fechar só volta aos controles.
+  void _closeSettings() {
+    if (!_settings) return;
+    setState(() => _settings = false);
+    _systemUi(immersive: _c?.state is ReaderReady && !_controls && !_search);
     _holdBack();
   }
 
@@ -765,6 +796,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             _closeNote();
           } else if (_search) {
             _closeSearch();
+          } else if (_settings) {
+            _closeSettings();
           } else if (_controls) {
             _setControls(false);
           } else if (_selection.active) {
@@ -960,7 +993,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 builder: (context, _) {
                   final toast = _toast;
                   return ReaderControls(
-                    open: _controls,
+                    open: _controls && !_settings,
                     palette: islands,
                     brand: brand,
                     top: TopIsland(
@@ -986,6 +1019,25 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                         : ReaderToastPill(text: toast),
                   );
                 },
+              ),
+            ),
+          // a folha de ajustes (tela 26): por cima dos controles; a página de cima é a prévia (sem véu)
+          if (doc is! PdfReaderDocument)
+            Positioned.fill(
+              child: ReaderSettingsSheet(
+                open: _settings,
+                look: c.look,
+                palette: islands,
+                paper: palette.paper,
+                brand: brand,
+                page: (
+                  left: t.sideMargin,
+                  top: insets.top,
+                  width: t.contentWidth,
+                ),
+                pageText: doc.current.spokenText,
+                onChange: (change) => unawaited(c.applySettings(change)),
+                onClose: _closeSettings,
               ),
             ),
           if (_note case final n?)
