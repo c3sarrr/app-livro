@@ -107,4 +107,12 @@ Nenhuma decisão mudou. Mudou a forma, registrada em `G10.md` (seção "Desvios"
   - medir os orçamentos num aparelho intermediário;
   - se a 1ª vez de um tamanho de letra pesar, preparar as fontes ao abrir o livro.
 
+## Ajuste depois da entrega (06/10/2026)
+
+Depois das capturas, você pediu para trocar o "* * *":
+- **D-102:** a troca de cena passa a ser um fio curto e grosso, centralizado, na cor do texto (substitui a D-99);
+- **D-103:** as linhas decorativas do livro, coladas num título ou no começo/fim do capítulo (como as da folha de rosto do Dom Casmurro), viram só 1 linha de espaço.
+
+O "Indice" da folha de rosto é um link do próprio livro para o índice no fim; vira link de verdade na G11. Posições, âncoras e páginas de referência não mudam (a altura e o texto canônico são os mesmos).
+
 ✅ FASE G10 concluída — aguardando sua aprovação para iniciar a FASE G11.

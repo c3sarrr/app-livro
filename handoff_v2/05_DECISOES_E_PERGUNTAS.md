@@ -90,9 +90,11 @@
 | D-96 | **Estilo BookNest nos livros importados:** recuo 1,3 em, sem espaço entre parágrafos, à esquerda e sem hifenização (como a tela 19); sem recuo no 1º parágrafo do capítulo, depois de título, imagem ou quebra de cena, e nos centralizados/à direita; do CSS do livro ficam só centralizado/à direita, `page-break-before`, níveis de citação e de lista ("•" pendurado) e os estilos de trecho (itálico, negrito, versalete, sobrescrito, subscrito); margens, recuos e fontes do editor são ignorados; título, imagem e quebra de cena ocupam um número inteiro de linhas (a grade da tela 19 vale em toda página) | Pergunta da G10 | **APROVADA 05/10/2026** |
 | D-97 | **Tempo restante** = caracteres que faltam ÷ velocidade pessoal (Anexo 03 §8: média móvel exponencial α = 0,2 dos caracteres por minuto das sessões ≥ 3 min, começando em 1.000 car./min), arredondado a 10 min acima de 1 h e a 5 min abaixo; vale no leitor e na **Início** (substitui o trecho de tempo restante da D-85) | Pergunta da G10 | **APROVADA 05/10/2026** |
 | D-98 | **Títulos dentro do livro:** Literata seminegrito, h1 1,3×, h2 1,15×, os outros 1×; alinhamento do livro; uma linha de espaço depois; nunca sozinhos no pé da página | Pergunta da G10 | **APROVADA 05/10/2026** |
-| D-99 | **Quebra de cena** (`<hr>`): uma linha com "* * *" centralizado (no texto canônico continua 1 caractere, U+FFFC) | Pergunta da G10 | **APROVADA 05/10/2026** |
+| D-99 | **Quebra de cena** (`<hr>`): uma linha com "* * *" centralizado (no texto canônico continua 1 caractere, U+FFFC) — **substituída pela D-102 em 06/10/2026** | Pergunta da G10 | **APROVADA 05/10/2026** |
 | D-100 | **Cada capítulo** (item do spine) começa numa página nova | Pergunta da G10 | **APROVADA 05/10/2026** |
 | D-101 | Na G10 o motor é mostrado por **capturas** de páginas reais geradas nos testes (tela 19, Dom Casmurro, página com título/cena/imagem); nada provisório entra no app — a tela do leitor é da G11 | Pergunta da G10 | **APROVADA 05/10/2026** |
+| D-102 | **Troca de cena** (`<hr>` entre parágrafos): um **fio curto e grosso**, centralizado na linha dele, na cor do texto — 2 em de largura (acompanha a letra) e 3 px de espessura, no estilo das bordas do BookNest; substitui o "* * *" da D-99 (no texto canônico continua 1 caractere, U+FFFC) | Revisão das capturas da G10 | **APROVADA 06/10/2026** |
+| D-103 | **Linha decorativa do livro:** `<hr>` colado num título (logo antes ou logo depois) ou no começo/fim de um capítulo (item do spine) não é troca de cena — vira só **1 linha de espaço**, sem fio (a altura e o texto canônico são os mesmos) | Revisão das capturas da G10 | **APROVADA 06/10/2026** |
 
 ## 2. ADRs técnicos a escrever (com prova) — `docs/adr/`
 
@@ -132,6 +134,8 @@ Respostas em 05/10/2026 (antes da G08): Início vazia = seções que se adaptam 
 Respostas em 05/10/2026 (antes da G09): **Q11** = agora não → D-86 · entrada = Biblioteca mínima + "Abrir com" → D-87 · "Novo" nos 7 primeiros dias → D-88 · **Q23** = 1.500 → D-89 · capa do arquivo primeiro → D-90 · catálogo só aparelho + Worker → D-91 · páginas fixas: guarda e avisa → D-92 · desenho da fase aprovado → D-93.
 
 Respostas em 05/10/2026 (antes da G10): **Q21** = altura exata + pintura por linha → D-94 · D-27 confirmada (120 s) → D-95 · estilo BookNest nos livros → D-96 · tempo restante pela velocidade pessoal, no leitor e na Início → D-97 · títulos em Literata maior → D-98 · quebra de cena "* * *" → D-99 · capítulo em página nova → D-100 · capturas em vez de tela provisória → D-101 · desenho da fase aprovado.
+
+Respostas em 06/10/2026 (revisão das capturas da G10): troca de cena = fio curto e grosso → D-102 (substitui a D-99) · linha decorativa colada em título ou no começo/fim do capítulo vira só espaço → D-103. "Indice" na folha de rosto do Dom Casmurro = link do próprio livro para o índice no fim (vira link na G11).
 
 
 | # | Pergunta | Bloqueia |
