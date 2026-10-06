@@ -47,6 +47,7 @@ void main() {
       bubbleText: creme.bubbleText,
       dash: creme.dash,
       disabled: creme.disabled,
+      caption: creme.caption,
     );
     expect(outra == creme, isFalse);
     expect(outra.hashCode == creme.hashCode, isFalse);

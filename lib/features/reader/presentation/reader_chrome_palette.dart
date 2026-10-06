@@ -27,6 +27,7 @@ final class ReaderChromePalette {
     required this.bubbleText,
     required this.dash,
     required this.disabled,
+    required this.caption,
   });
 
   factory ReaderChromePalette.of(ReaderPaper p) {
@@ -47,6 +48,7 @@ final class ReaderChromePalette {
         bubbleText: AppColors.paperNight,
         dash: AppColors.dashNight,
         disabled: AppColors.readerFooterNight,
+        caption: AppColors.mutedNight,
       );
     }
     final paper = ReaderPalette.of(p);
@@ -66,6 +68,7 @@ final class ReaderChromePalette {
       bubbleText: AppColors.paper,
       dash: AppColors.dashReader,
       disabled: paper.footer,
+      caption: AppColors.inkSoft,
     );
   }
 
@@ -93,6 +96,9 @@ final class ReaderChromePalette {
   /// Ferramenta desabilitada (Fonte no PDF — D-122): a cor do rodapé do papel (D-110).
   final Color disabled;
 
+  /// Legenda dos cartões de fonte da folha de ajustes (G14 — L26; no Noite, a cor do autor).
+  final Color caption;
+
   /// Todas as cores com o alfa multiplicado por [a] (abrir/fechar sem `Opacity`).
   ReaderChromePalette faded(double a) {
     if (a >= 1) return this;
@@ -113,6 +119,7 @@ final class ReaderChromePalette {
       bubbleText: f(bubbleText),
       dash: f(dash),
       disabled: f(disabled),
+      caption: f(caption),
     );
   }
 
@@ -140,6 +147,7 @@ final class ReaderChromePalette {
       bubbleText: l(a.bubbleText, b.bubbleText),
       dash: l(a.dash, b.dash),
       disabled: l(a.disabled, b.disabled),
+      caption: l(a.caption, b.caption),
     );
   }
 
@@ -160,7 +168,8 @@ final class ReaderChromePalette {
       other.bubble == bubble &&
       other.bubbleText == bubbleText &&
       other.dash == dash &&
-      other.disabled == disabled;
+      other.disabled == disabled &&
+      other.caption == caption;
 
   @override
   int get hashCode => Object.hash(
@@ -179,5 +188,6 @@ final class ReaderChromePalette {
     bubbleText,
     dash,
     disabled,
+    caption,
   );
 }

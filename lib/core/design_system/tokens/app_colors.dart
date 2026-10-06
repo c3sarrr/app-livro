@@ -63,6 +63,17 @@ abstract final class AppColors {
   static const Color hatchNight = Color(0xFF3A332B);
   static const Color dashNight = Color(0xFF4A433A);
 
+  /// Legendas dos cartões de fonte fora da escolhida (L26 `rs.sheet.fonts.*.caption`; "inkSoft" da L00).
+  static const Color inkSoft = Color(0xFF8A8073);
+
+  /// Legenda do cartão de fonte escolhido, sobre a `brand` (L26).
+  static const Color captionOnBrand = Color(0xFF3B3466);
+
+  /// As duas linhas dos cartões de papel (L26 `rs.sheet.papers.*.line*`); as do Noite são o [dashNight].
+  static const Color paperLineCream = Color(0xFFD9CCB4);
+  static const Color paperLineWhite = Color(0xFFE3DCCD);
+  static const Color paperLineSepia = Color(0xFFCDB48C);
+
   /// Noite: véu da página (a 55 %).
   static const Color veilNight = Color(0xFF14110E);
 

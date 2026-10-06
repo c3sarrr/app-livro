@@ -49,6 +49,20 @@ abstract final class AppIconsLeitor {
   /// (8) "+" do miolo de "Escolher outra cor" (`r21.toolbar.colors.other.icon`).
   static const plusTiny = '$_d/ic_plus_tiny.svg';
 
+  /// (18) fechar a folha de ajustes (`rs.sheet.close.icon`); (12) o ✓ do papel escolhido
+  /// (`rs.sheet.papers.*.check.icon`, sobre a `brand`).
+  static const closeRound = '$_d/ic_close_round.svg';
+  static const checkSmall = '$_d/ic_check_small.svg';
+
+  /// (18) Entrelinha e Margens da folha (`rs.sheet.spacing.*.icon`, `rs.sheet.margins.*.icon`). Sem versão do Noite:
+  /// lá são tingidos com a cor do título, menos no escolhido (sobre a `brand`) — G14.
+  static const spacingTight = '$_d/ic_spacing_tight.svg';
+  static const spacingMedium = '$_d/ic_spacing_medium.svg';
+  static const spacingLoose = '$_d/ic_spacing_loose.svg';
+  static const marginsNarrow = '$_d/ic_margins_narrow.svg';
+  static const marginsMedium = '$_d/ic_margins_medium.svg';
+  static const marginsWide = '$_d/ic_margins_wide.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -72,5 +86,13 @@ abstract final class AppIconsLeitor {
     copy,
     share,
     plusTiny,
+    closeRound,
+    checkSmall,
+    spacingTight,
+    spacingMedium,
+    spacingLoose,
+    marginsNarrow,
+    marginsMedium,
+    marginsWide,
   ];
 }

@@ -137,4 +137,40 @@ void main() {
       isNot(ReaderPalette.of(ReaderPaper.noite).hashCode),
     );
   });
+
+  test('G14: a legenda dos cartões de fonte — #8A8073 nos claros, #B5AA98 no Noite; anima e esmaece', () {
+    final c = ReaderChromePalette.of(ReaderPaper.creme);
+    final n = ReaderChromePalette.of(ReaderPaper.noite);
+    expect((hex(c.caption), hex(n.caption)), ('FF8A8073', 'FFB5AA98'));
+    expect(hex(ReaderChromePalette.of(ReaderPaper.sepia).caption), 'FF8A8073');
+    expect(
+      ReaderChromePalette.lerp(c, n, 0.5).caption,
+      Color.lerp(c.caption, n.caption, 0.5),
+    );
+    expect(c.faded(0.5).caption.a, closeTo(0.5, 1e-6));
+    expect(c, ReaderChromePalette.of(ReaderPaper.creme));
+    expect(c.hashCode, ReaderChromePalette.of(ReaderPaper.creme).hashCode);
+    expect(c == n, isFalse);
+    // só a legenda diferente já é outra paleta (igualdade e hash)
+    final outra = ReaderChromePalette(
+      night: c.night,
+      veil: c.veil,
+      island: c.island,
+      border: c.border,
+      shadow: c.shadow,
+      well: c.well,
+      title: c.title,
+      muted: c.muted,
+      label: c.label,
+      hatch: c.hatch,
+      hatchBase: c.hatchBase,
+      bubble: c.bubble,
+      bubbleText: c.bubbleText,
+      dash: c.dash,
+      disabled: c.disabled,
+      caption: n.caption,
+    );
+    expect(outra == c, isFalse);
+    expect(outra.hashCode == c.hashCode, isFalse);
+  });
 }
