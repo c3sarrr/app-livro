@@ -5,7 +5,18 @@ import 'reader_fonts.dart';
 
 abstract final class AppFonts {
   /// Instâncias estáticas existentes da Bricolage (optical size = tamanho em px; 11 px usa 12).
-  static const Set<int> bricolageOpsz = {12, 17, 18, 20, 22, 24, 26, 34, 42};
+  static const Set<int> bricolageOpsz = {
+    12,
+    17,
+    18,
+    20,
+    22,
+    23,
+    24,
+    26,
+    34,
+    42,
+  };
 
   static TextStyle bricolage(
     double size, {
@@ -82,8 +93,12 @@ abstract final class AppFonts {
   /// Literata ESTÁTICA da interface do leitor (D-104: a variável fica só no texto do livro). Uma família por
   /// tamanho (opsz), registrada só com os pesos que existem.
   static final Map<double, Set<int>> literataStatic = {
+    15: {500},
     17: {400, 500},
+    18: {400},
     19: {500},
+    25: {500},
+    26: {400},
   };
 
   static TextStyle literata(
@@ -555,5 +570,113 @@ abstract final class AppTextStyles {
     FontWeight.w400,
     height: 1.45,
     color: AppColors.bookText,
+  );
+
+  // Leitor — folha de ajustes (tela 26, G14). Cores da Creme; a folha troca pela paleta das ilhas.
+
+  /// rs.sheet.title: "Ajustes" Bricolage 23/800 (ls −0,5) + "de leitura" Instrument Serif itálico 28 (ls −0,2), nas
+  /// alturas normais das fontes (1,2 e 1,3: a linha tem 36,4).
+  static final TextStyle readerSheetTitle = AppFonts.bricolage(
+    23,
+    height: 1.2,
+    letterSpacing: -0.5,
+  );
+  static final TextStyle readerSheetTitleSerif = AppFonts.serif(
+    28,
+    height: 1.3,
+    italic: true,
+    letterSpacing: -0.2,
+  );
+
+  /// rs.sheet.size.smaller/larger: Literata estática 15/500 e 25/500 (D-104), altura normal.
+  static final TextStyle readerSheetSmallA = AppFonts.literata(
+    15,
+    FontWeight.w500,
+  );
+  static final TextStyle readerSheetLargeA = AppFonts.literata(
+    25,
+    FontWeight.w500,
+  );
+
+  /// "FONTE", "PAPEL", "ENTRELINHA", "MARGENS": Figtree 11/800, ls 1,2, altura normal.
+  static final TextStyle readerSheetLabel = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+    letterSpacing: 1.2,
+    color: AppColors.labelReader,
+  );
+
+  /// O "Aa" de cada cartão de fonte, na própria fonte, 26 com `line-height: 1.1`: a Literata estática (D-104); Lora
+  /// e Atkinson as do livro (D-18); a Figtree a da interface (é a mesma letra).
+  static final TextStyle readerSheetSampleLiterata = AppFonts.literata(
+    26,
+    FontWeight.w400,
+    height: 1.1,
+  );
+  static const TextStyle readerSheetSampleLora = TextStyle(
+    fontFamily: readerLoraFamily,
+    fontSize: 26,
+    fontWeight: FontWeight.w400,
+    fontVariations: [FontVariation('wght', 400)],
+    height: 1.1,
+    color: AppColors.ink,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+  static final TextStyle readerSheetSampleFigtree = AppFonts.figtreeReader(
+    26,
+    FontWeight.w400,
+    height: 1.1,
+  );
+  static const TextStyle readerSheetSampleAtkinson = TextStyle(
+    fontFamily: readerAtkinsonFamily,
+    fontSize: 26,
+    fontWeight: FontWeight.w400,
+    height: 1.1,
+    color: AppColors.ink,
+    leadingDistribution: TextLeadingDistribution.even,
+  );
+
+  /// rs.sheet.fonts.*.name (12/800) e .caption (10,5/600).
+  static final TextStyle readerSheetFontName = AppFonts.figtreeReader(
+    12,
+    FontWeight.w800,
+  );
+  static final TextStyle readerSheetCaption = AppFonts.figtreeReader(
+    10.5,
+    FontWeight.w600,
+    color: AppColors.inkSoft,
+  );
+
+  /// O "Aa" do cartão de papel: Literata estática 18, `line-height: 1`.
+  static final TextStyle readerSheetPaperSample = AppFonts.literata(
+    18,
+    FontWeight.w400,
+    height: 1,
+  );
+
+  /// Nome do papel: 12/700; o escolhido, 12/800.
+  static final TextStyle readerSheetPaperName = AppFonts.figtreeReader(
+    12,
+    FontWeight.w700,
+  );
+  static final TextStyle readerSheetPaperNameOn = AppFonts.figtreeReader(
+    12,
+    FontWeight.w800,
+  );
+
+  /// Opção da Entrelinha e das Margens: 13/700; a escolhida, 13/800.
+  static final TextStyle readerSheetOption = AppFonts.figtreeReader(
+    13,
+    FontWeight.w700,
+  );
+  static final TextStyle readerSheetOptionOn = AppFonts.figtreeReader(
+    13,
+    FontWeight.w800,
+  );
+
+  /// A pílula "prévia ao vivo": Figtree 11,5/800.
+  static final TextStyle readerSheetPill = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w800,
   );
 }

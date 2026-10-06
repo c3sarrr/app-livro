@@ -319,6 +319,68 @@ flutter:
       fonts:
         - asset: assets/fonts/BookNestApprox-Bold.ttf
           weight: 700
+    # G14 (L26): instâncias da G01 para a folha de ajustes — a Bricolage 23 do título e a Literata estática dos "A"
+    # (15 e 25/500) e do "Aa" dos cartões (18 e 26), D-104.
+    - family: Bricolage23
+      fonts:
+        - asset: assets/fonts/Bricolage23-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23Ext
+      fonts:
+        - asset: assets/fonts/Bricolage23Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23Vi
+      fonts:
+        - asset: assets/fonts/Bricolage23Vi-ExtraBold.ttf
+          weight: 800
+    - family: Literata15
+      fonts:
+        - asset: assets/fonts/Literata15-Medium.ttf
+          weight: 500
+    - family: Literata15Ext
+      fonts:
+        - asset: assets/fonts/Literata15Ext-Medium.ttf
+          weight: 500
+    - family: Literata15Vi
+      fonts:
+        - asset: assets/fonts/Literata15Vi-Medium.ttf
+          weight: 500
+    - family: Literata18
+      fonts:
+        - asset: assets/fonts/Literata18-Regular.ttf
+          weight: 400
+    - family: Literata18Ext
+      fonts:
+        - asset: assets/fonts/Literata18Ext-Regular.ttf
+          weight: 400
+    - family: Literata18Vi
+      fonts:
+        - asset: assets/fonts/Literata18Vi-Regular.ttf
+          weight: 400
+    - family: Literata25
+      fonts:
+        - asset: assets/fonts/Literata25-Medium.ttf
+          weight: 500
+    - family: Literata25Ext
+      fonts:
+        - asset: assets/fonts/Literata25Ext-Medium.ttf
+          weight: 500
+    - family: Literata25Vi
+      fonts:
+        - asset: assets/fonts/Literata25Vi-Medium.ttf
+          weight: 500
+    - family: Literata26
+      fonts:
+        - asset: assets/fonts/Literata26-Regular.ttf
+          weight: 400
+    - family: Literata26Ext
+      fonts:
+        - asset: assets/fonts/Literata26Ext-Regular.ttf
+          weight: 400
+    - family: Literata26Vi
+      fonts:
+        - asset: assets/fonts/Literata26Vi-Regular.ttf
+          weight: 400
     # G14 (D-18): o texto do livro nas 4 fontes da tela 26 — arquivos completos do google/fonts, SEM modificação
     # (a Lora tem Reserved Font Name). Lora e Figtree variáveis (eixo wght) com itálico; Atkinson em 4 estáticas.
     - family: LoraBook
