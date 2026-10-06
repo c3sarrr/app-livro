@@ -8,9 +8,12 @@
 // - estilo: folha, alça, pontos, cartões, segmentados, rótulos, título e a pílula;
 // - semântica: o diálogo, a prévia, os botões, o controle deslizante e os grupos com as opções marcadas;
 // - dados: os ajustes mostrados são os da linha do mundo, lidos do banco, e a página é a do instantâneo.
+// Desvio (D-147): a legenda da Atkinson é "baixa visão" (a prancha diz "dislexia"): o mesmo centro e a mesma linha
+// de base da prancha, com a largura do texto novo.
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/laid_block.dart';
@@ -61,6 +64,36 @@ Future<LeitorNaTela> abrirTela26(
   return t;
 }
 
+/// D-147: a legenda da Atkinson ("baixa visão" no lugar do "dislexia" da prancha).
+const String legendaAtkinsonL26 = 'rs.sheet.fonts.atkinson.caption';
+const String textoLegendaAtkinson = 'baixa visão';
+
+/// O elemento esperado: o da prancha, menos a legenda da Atkinson (D-147), que fica no mesmo centro e na mesma
+/// linha de base, com a largura de "baixa visão" no estilo da legenda.
+LeitorRefElement esperadoL26(LeitorRefPrancha ref, String id) {
+  final e = ref.elements[id]!;
+  if (id != legendaAtkinsonL26) return e;
+  final tp = TextPainter(
+    text: TextSpan(
+      text: textoLegendaAtkinson,
+      style: AppTextStyles.readerSheetCaption,
+    ),
+    textDirection: TextDirection.ltr,
+  )..layout();
+  final w = tp.width;
+  tp.dispose();
+  final cx = e.rect.center.dx;
+  final l = e.lines.single;
+  return LeitorRefElement(
+    e.section,
+    Rect.fromLTWH(cx - w / 2, e.rect.top, w, e.rect.height),
+    e.kind,
+    lines: [
+      LeitorRefLine(textoLegendaAtkinson, cx - w / 2, cx + w / 2, l.baseline),
+    ],
+  );
+}
+
 PageSnapshot _pagina(WidgetTester tester) =>
     tester.widget<ReaderPageView>(find.byType(ReaderPageView)).document.current
         as PageSnapshot;
@@ -104,7 +137,7 @@ void faseL26({
     final falhas = <String>[];
     for (final id in ids) {
       final m = medido(tester, id);
-      final e = ref.elements[id]!;
+      final e = esperadoL26(ref, id);
       final r = e.visual ?? e.rect;
       final tolX = ref.textDependentX.contains(id) ? 1.0 : 0.5;
       void confere(String o, double g, double x, double tol) {
@@ -164,7 +197,7 @@ void faseL26({
         }
       }
       void textos(String id, {bool composto = false}) {
-        final e = ref.elements[id]!;
+        final e = esperadoL26(ref, id);
         final esperadas = composto ? e.linesAll : e.lines;
         final dx = (e.visual?.left ?? e.rect.left) - e.rect.left;
         final r = tester.renderObject<RenderAppText>(
@@ -317,7 +350,7 @@ void faseL26({
         ('rs.sheet.fonts.literata', 'Literata, tela', true),
         ('rs.sheet.fonts.lora', 'Lora, clássica', false),
         ('rs.sheet.fonts.figtree', 'Figtree, sem serifa', false),
-        ('rs.sheet.fonts.atkinson', 'Atkinson, dislexia', false),
+        ('rs.sheet.fonts.atkinson', 'Atkinson, baixa visão', false),
         ('rs.sheet.papers.cream', 'Tema Creme', true),
         ('rs.sheet.papers.white', 'Tema Branco', false),
         ('rs.sheet.papers.sepia', 'Tema Sépia', false),

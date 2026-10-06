@@ -3,7 +3,8 @@
 // e puxando pela alça (D-141); o tamanho (A, pontos, arrasto, leitor de tela), a fonte, o papel, a entrelinha e as
 // margens pedindo a mudança (D-144); a semântica; e o Noite nas cores das ilhas (D-143). Revisão: toques seguidos
 // antes de a sessão avisar valem o último (e somam no leitor de tela); a pílula deixa o toque passar; o empurrão para
-// cima não fecha; o título é cabeçalho e os rótulos visíveis ficam com os grupos.
+// cima não fecha; o título é cabeçalho e os rótulos visíveis ficam com os grupos. Decisões da revisão: numa tela baixa
+// a folha para abaixo da pílula e rola por dentro (D-145); a legenda da Atkinson é "baixa visão" (D-147).
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
@@ -60,17 +61,14 @@ Future<_Mesa> _montar(
   ReaderLook look = const ReaderLook(),
   ReaderPaper papel = ReaderPaper.creme,
   EdgeInsets area = EdgeInsets.zero,
+  Size tela = const Size(390, 844),
 }) async {
   final m = _Mesa(look);
-  setCanvasView(tester, logical: const Size(390, 844));
+  setCanvasView(tester, logical: tela);
   await precacheSvgs(tester, AppIconsLeitor.all);
   await tester.pumpWidget(
     MediaQuery(
-      data: MediaQueryData(
-        size: const Size(390, 844),
-        viewPadding: area,
-        padding: area,
-      ),
+      data: MediaQueryData(size: tela, viewPadding: area, padding: area),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: _folha(open: open, look: look, papel: papel, mesa: m),
@@ -156,6 +154,42 @@ void main() {
     );
 
     testWidgets(
+      'tela baixa (D-145): a folha para 8 abaixo da pílula e o que vem depois do título rola; a prévia encolhe',
+      (tester) async {
+        final m = await _montar(tester, tela: const Size(390, 600));
+        final folha = tester.getRect(_key('rs.sheet'));
+        final pilula = tester.getRect(_key('rs.livePill'));
+        expect(folha.top, moreOrLessEquals(pilula.bottom + 8, epsilon: 1e-6));
+        expect(folha.bottom, 590);
+        expect(
+          tester.getRect(_key('rs.page')).bottom,
+          moreOrLessEquals(folha.top + 15.2, epsilon: 1e-6),
+        );
+        final titulo = tester.getRect(_key('rs.sheet.title')).top - folha.top;
+        expect(
+          tester.getRect(_key('rs.sheet.margins')).bottom,
+          greaterThan(folha.bottom),
+          reason: 'as margens ficam abaixo, para rolar',
+        );
+        await tester.drag(_key('rs.sheet.papers'), const Offset(0, -300));
+        await tester.pumpAndSettle();
+        expect(
+          tester.getRect(_key('rs.sheet.margins')).bottom,
+          moreOrLessEquals(folha.bottom - 1.5 - 20, epsilon: 1e-6),
+          reason: 'no fim da rolagem, as margens com os 20 de baixo',
+        );
+        expect(
+          tester.getRect(_key('rs.sheet.title')).top - folha.top,
+          titulo,
+          reason: 'o título fica parado',
+        );
+        expect(m.pedidos, isEmpty, reason: 'rolar não escolhe papel');
+        await tester.tap(_key('rs.sheet.margins.wide'));
+        expect(m.pedidos.single.margins, ReaderMargins.larga);
+      },
+    );
+
+    testWidgets(
       'abre e fecha em 150 ms subindo e descendo; fechada não monta nada; fechando não pega toque',
       (tester) async {
         final m = _Mesa(const ReaderLook());
@@ -229,10 +263,15 @@ void main() {
       final topo = tester.getRect(_key('rs.sheet')).top;
       final alca = tester.getCenter(_key('rs.sheet.grabber'));
       final pouco = await tester.startGesture(alca);
-      for (var i = 0; i < 6; i++) {
+      for (var i = 0; i < 10; i++) {
         await pouco.moveBy(const Offset(0, 5));
         await tester.pump(const Duration(milliseconds: 100));
       }
+      expect(
+        tester.getRect(_key('rs.sheet')).top - topo,
+        inExclusiveRange(40, 64),
+        reason: 'a folha acompanha o dedo, sem chegar aos 64',
+      );
       await pouco.up();
       await tester.pump();
       expect(m.fechou, 0);
@@ -602,6 +641,17 @@ void main() {
           _estilo(tester, 'rs.sheet.fonts.lora.caption').color,
           AppColors.inkSoft,
         );
+        expect(
+          [
+            for (final id in ['literata', 'lora', 'figtree', 'atkinson'])
+              tester
+                  .widget<AppText>(_key('rs.sheet.fonts.$id.caption'))
+                  .span
+                  .toPlainText(),
+          ],
+          ['tela', 'clássica', 'sem serifa', 'baixa visão'],
+          reason: 'D-147: a Atkinson é para baixa visão',
+        );
         await tester.tap(_key('rs.sheet.fonts.atkinson'));
         expect(m.pedidos.single.fontFamily, ReaderFontFamily.atkinson);
       },
@@ -701,6 +751,7 @@ void main() {
       }
       for (final (id, rotulo, marcado) in const [
         ('rs.sheet.fonts.literata', 'Literata, tela', true),
+        ('rs.sheet.fonts.atkinson', 'Atkinson, baixa visão', false),
         ('rs.sheet.papers.white', 'Tema Branco', false),
         ('rs.sheet.spacing.medium', 'Médio', true),
         ('rs.sheet.margins.wide', 'Larga', false),

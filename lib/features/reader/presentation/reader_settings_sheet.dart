@@ -2,7 +2,8 @@
 // não um `Text` à parte) e a folha embaixo. Ela tem tamanho (7 passos), fonte, papel, entrelinha e margens; cada
 // toque pede a mudança à sessão, que grava e repagina (D-144). Abre e fecha em 150 ms subindo e descendo. Fecha pelo
 // ×, tocando na página de cima ou puxando pela alça (D-141). No Noite, as cores das ilhas (D-143). Abaixo de 15,2
-// do topo da folha, o papel cobre a página (L26: a prévia tem 210 e a folha começa em 286,8).
+// do topo da folha, o papel cobre a página (L26: a prévia tem 210 e a folha começa em 286,8). Numa tela baixa, a folha
+// para logo abaixo da pílula e o que vem depois do título rola por dentro (D-145).
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -28,6 +29,10 @@ const double readerSheetSide = 10;
 
 /// A página aparece até 15,2 abaixo do topo da folha (L26).
 const double readerSheetPagePeek = 15.2;
+
+/// A pílula "prévia ao vivo" tem 26 de altura; numa tela baixa, a folha para 8 abaixo dela (D-145).
+const double readerLivePillHeight = 26;
+const double readerSheetPillGap = 8;
 
 /// Puxar pela alça fecha a partir de 64 para baixo, ou com o dedo a 700/s; empurrar de volta para cima a 700/s
 /// devolve a folha ao lugar, mesmo depois dos 64.
@@ -120,7 +125,7 @@ final List<(ReaderFontFamily, String, String, String, TextStyle)> _fonts = [
     ReaderFontFamily.atkinson,
     'atkinson',
     'Atkinson',
-    'dislexia',
+    'baixa visão', // D-147 (a prancha diz "dislexia"; a fonte é do Braille Institute, para baixa visão)
     AppTextStyles.readerSheetSampleAtkinson,
   ),
 ];
@@ -320,9 +325,18 @@ final class _SheetLayout extends MultiChildLayoutDelegate {
 
   @override
   void performLayout(Size size) {
+    // a folha cabe entre a base e logo abaixo da pílula (D-145): numa tela baixa, ela rola por dentro
+    final room =
+        size.height -
+        bottom -
+        (pillTop + readerLivePillHeight + readerSheetPillGap);
     final s = layoutChild(
       _Part.sheet,
-      BoxConstraints.tightFor(width: size.width - 2 * readerSheetSide),
+      BoxConstraints(
+        minWidth: size.width - 2 * readerSheetSide,
+        maxWidth: size.width - 2 * readerSheetSide,
+        maxHeight: math.max(0, room),
+      ),
     );
     final rest = size.height - bottom - s.height;
     // fechada: toda abaixo da tela, com a sombra
@@ -370,7 +384,7 @@ class _LivePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) => NeoBox(
     key: const ValueKey('rs.livePill'),
-    height: 26,
+    height: readerLivePillHeight,
     color: palette.island,
     border: BorderSide(width: AppStrokes.regular, color: palette.border),
     radius: BorderRadius.circular(13),
@@ -436,122 +450,146 @@ class _Sheet extends StatelessWidget {
       ),
       shadow: AppShadows.drop4,
       shadowColor: p.shadow,
-      padding: const EdgeInsets.fromLTRB(18, 10, 18, 20),
+      padding: const EdgeInsets.only(top: 10),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // a alça e o título: puxar para baixo fecha (D-141)
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            excludeFromSemantics: true,
-            onVerticalDragUpdate: onDrag,
-            onVerticalDragEnd: onRelease,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: SizedBox(
-                    key: const ValueKey('rs.sheet.grabber'),
-                    width: 40,
-                    height: 5,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: p.dash,
-                        borderRadius: BorderRadius.circular(3),
+          // a alça e o título: puxar para baixo fecha (D-141); ficam parados quando o resto rola (D-145)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              excludeFromSemantics: true,
+              onVerticalDragUpdate: onDrag,
+              onVerticalDragEnd: onRelease,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(
+                    child: SizedBox(
+                      key: const ValueKey('rs.sheet.grabber'),
+                      width: 40,
+                      height: 5,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: p.dash,
+                          borderRadius: BorderRadius.circular(3),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                SizedBox(
-                  key: const ValueKey('rs.sheet.header'),
-                  height: 44,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Semantics(
-                        container: true,
-                        header: true,
-                        child: AppText.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Ajustes ',
-                                style: AppTextStyles.readerSheetTitle.copyWith(
-                                  color: p.title,
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    key: const ValueKey('rs.sheet.header'),
+                    height: 44,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Semantics(
+                          container: true,
+                          header: true,
+                          child: AppText.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Ajustes ',
+                                  style: AppTextStyles.readerSheetTitle
+                                      .copyWith(color: p.title),
                                 ),
-                              ),
-                              TextSpan(
-                                text: 'de leitura',
-                                style: AppTextStyles.readerSheetTitleSerif
-                                    .copyWith(color: p.title),
-                              ),
-                            ],
+                                TextSpan(
+                                  text: 'de leitura',
+                                  style: AppTextStyles.readerSheetTitleSerif
+                                      .copyWith(color: p.title),
+                                ),
+                              ],
+                            ),
+                            key: const ValueKey('rs.sheet.title'),
+                            maxLines: 1,
                           ),
-                          key: const ValueKey('rs.sheet.title'),
-                          maxLines: 1,
                         ),
-                      ),
-                      CircleIconButton(
-                        key: const ValueKey('rs.sheet.close'),
-                        size: 44,
-                        color: p.well,
-                        border: line,
-                        icon: AppSvg(
-                          AppIconsLeitor.closeRound,
-                          key: const ValueKey('rs.sheet.close.icon'),
-                          size: 18,
-                          color: p.night ? p.title : null,
+                        CircleIconButton(
+                          key: const ValueKey('rs.sheet.close'),
+                          size: 44,
+                          color: p.well,
+                          border: line,
+                          icon: AppSvg(
+                            AppIconsLeitor.closeRound,
+                            key: const ValueKey('rs.sheet.close.icon'),
+                            size: 18,
+                            color: p.night ? p.title : null,
+                          ),
+                          semanticsLabel: 'Fechar',
+                          onTap: onClose,
                         ),
-                        semanticsLabel: 'Fechar',
-                        onTap: onClose,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          const SizedBox(height: 12),
-          _SizeRow(
-            step: look.fontStep,
-            palette: p,
-            brand: brand,
-            onChange: onChange,
-          ),
-          const SizedBox(height: 16),
-          _Label('FONTE', id: 'rs.sheet.fontLabel', palette: p),
-          const SizedBox(height: 7),
-          _Fonts(look: look, palette: p, brand: brand, onChange: onChange),
-          const SizedBox(height: 16),
-          _Label('PAPEL', id: 'rs.sheet.paperLabel', palette: p),
-          const SizedBox(height: 9),
-          _Papers(look: look, palette: p, brand: brand, onChange: onChange),
-          const SizedBox(height: 14),
-          _Label('ENTRELINHA', id: 'rs.sheet.spacingLabel', palette: p),
-          const SizedBox(height: 7),
-          _Segmented<ReaderLineSpacing>(
-            id: 'rs.sheet.spacing',
-            label: 'Entrelinha',
-            value: look.lineSpacing,
-            options: _spacings,
-            palette: p,
-            brand: brand,
-            onPick: (v) => onChange((l) => l.copyWith(lineSpacing: v)),
-          ),
-          const SizedBox(height: 12),
-          _Label('MARGENS', id: 'rs.sheet.marginsLabel', palette: p),
-          const SizedBox(height: 7),
-          _Segmented<ReaderMargins>(
-            id: 'rs.sheet.margins',
-            label: 'Margens',
-            value: look.margins,
-            options: _margins,
-            palette: p,
-            brand: brand,
-            onPick: (v) => onChange((l) => l.copyWith(margins: v)),
+          // o resto rola quando a tela é baixa (D-145); as margens de 18 e 20 ficam dentro, com as sombras dos cartões
+          Flexible(
+            child: SingleChildScrollView(
+              key: const ValueKey('rs.sheet.scroll'),
+              padding: const EdgeInsets.fromLTRB(18, 12, 18, 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _SizeRow(
+                    step: look.fontStep,
+                    palette: p,
+                    brand: brand,
+                    onChange: onChange,
+                  ),
+                  const SizedBox(height: 16),
+                  _Label('FONTE', id: 'rs.sheet.fontLabel', palette: p),
+                  const SizedBox(height: 7),
+                  _Fonts(
+                    look: look,
+                    palette: p,
+                    brand: brand,
+                    onChange: onChange,
+                  ),
+                  const SizedBox(height: 16),
+                  _Label('PAPEL', id: 'rs.sheet.paperLabel', palette: p),
+                  const SizedBox(height: 9),
+                  _Papers(
+                    look: look,
+                    palette: p,
+                    brand: brand,
+                    onChange: onChange,
+                  ),
+                  const SizedBox(height: 14),
+                  _Label('ENTRELINHA', id: 'rs.sheet.spacingLabel', palette: p),
+                  const SizedBox(height: 7),
+                  _Segmented<ReaderLineSpacing>(
+                    id: 'rs.sheet.spacing',
+                    label: 'Entrelinha',
+                    value: look.lineSpacing,
+                    options: _spacings,
+                    palette: p,
+                    brand: brand,
+                    onPick: (v) => onChange((l) => l.copyWith(lineSpacing: v)),
+                  ),
+                  const SizedBox(height: 12),
+                  _Label('MARGENS', id: 'rs.sheet.marginsLabel', palette: p),
+                  const SizedBox(height: 7),
+                  _Segmented<ReaderMargins>(
+                    id: 'rs.sheet.margins',
+                    label: 'Margens',
+                    value: look.margins,
+                    options: _margins,
+                    palette: p,
+                    brand: brand,
+                    onPick: (v) => onChange((l) => l.copyWith(margins: v)),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
