@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:vector_graphics/vector_graphics_compat.dart'
+    show RenderingStrategy;
 
 import '../tokens/app_icons.dart';
 
@@ -61,6 +63,11 @@ class AppSvg extends StatelessWidget {
           width: size,
           height: h,
           colorFilter: filter,
+          // com filtro, o caminho por picture pinta numa camada (`saveLayer`, proibida no app — F12 12.4); o
+          // rasterizado aplica o filtro direto na imagem do ícone
+          renderingStrategy: filter == null
+              ? RenderingStrategy.picture
+              : RenderingStrategy.raster,
         ),
       ),
     );

@@ -8,6 +8,8 @@ import 'package:app_leitura/core/design_system/widgets/pressable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:vector_graphics/vector_graphics_compat.dart'
+    show RenderingStrategy;
 
 void main() {
   testWidgets('sombra dura com cor própria; o padrão continua a tinta', (
@@ -133,6 +135,9 @@ void main() {
           BlendMode.modulate,
         ),
       );
+      // com filtro, o ícone vira imagem e o filtro vai nela: o caminho por picture pintaria numa camada
+      // (`saveLayer`, proibida no app — F12 12.4)
+      expect(svg.renderingStrategy, RenderingStrategy.raster);
       expect(tester.getSize(find.byType(AppSvg)), const Size(22, 24));
       await tester.pumpWidget(
         const Directionality(
@@ -149,6 +154,11 @@ void main() {
       expect(
         tester.widget<SvgPicture>(find.byType(SvgPicture)).colorFilter,
         isNull,
+      );
+      expect(
+        tester.widget<SvgPicture>(find.byType(SvgPicture)).renderingStrategy,
+        RenderingStrategy.picture,
+        reason: 'sem filtro, o desenho vetorial de sempre',
       );
     },
   );
