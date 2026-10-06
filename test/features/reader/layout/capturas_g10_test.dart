@@ -92,37 +92,35 @@ void main() {
   setUpAll(() => livro = EpubBook.open(_domCasmurro));
   tearDownAll(() => livro.close());
 
-  test(
-    'Dom Casmurro: começo do cap. I ("Do titulo."), no padrão e em 26',
-    () async {
-      // os capítulos do Gutenberg ficam no meio dos itens: a página é a que contém o começo do capítulo
-      final index = indexEpubFile(_domCasmurro, 'e' * 64);
-      final cap = index.toc.firstWhere(
-        (t) => t.title.trim().toLowerCase().startsWith('do titulo'),
-      );
-      for (final (t, nome) in const [
-        (ReaderTypography(), 'g10_dom_casmurro_capitulo_I_20.5'),
-        (ReaderTypography(fontSize: 26), 'g10_dom_casmurro_capitulo_I_26'),
-      ]) {
-        final layout = ChapterLayoutJob(
-          chapterOf(livro, cap.spine!),
-          t,
-        ).runAll();
-        addTearDown(layout.dispose);
-        final page = layout.pages[layout.pageAt(cap.offset ?? 0)];
-        // o título do capítulo está na página e o parágrafo logo depois dele não tem recuo (D-96)
-        final blocos = [for (final s in page.slices) layout.blocks[s.block]];
-        final titulo = blocos.indexWhere((b) => b is LaidText && b.isHeading);
-        expect(titulo, greaterThanOrEqualTo(0));
-        final depois = blocos
-            .skip(titulo + 1)
-            .whereType<LaidText>()
-            .firstWhere((b) => !b.isHeading);
-        expect(depois.pieces.first.placeholder, isFalse);
-        expect(await _capturar(nome, layout, page, t), greaterThan(10000));
+  test('Dom Casmurro: começo do cap. I ("Do titulo."), no padrão e em 26', () async {
+    // os capítulos do Gutenberg ficam no meio dos itens: a página é a que contém o começo do capítulo
+    final index = indexEpubFile(_domCasmurro, 'e' * 64);
+    final cap = index.toc.firstWhere(
+      (t) => t.title.trim().toLowerCase().startsWith('do titulo'),
+    );
+    for (final (t, nome) in const [
+      (ReaderTypography(), 'g10_dom_casmurro_capitulo_I_20.5'),
+      (ReaderTypography(fontSize: 26), 'g10_dom_casmurro_capitulo_I_26'),
+    ]) {
+      final layout = ChapterLayoutJob(chapterOf(livro, cap.spine!), t).runAll();
+      addTearDown(layout.dispose);
+      final page = layout.pages[layout.pageAt(cap.offset ?? 0)];
+      // o título do capítulo está na página e o parágrafo logo depois dele não tem recuo (D-96)
+      final blocos = [for (final s in page.slices) layout.blocks[s.block]];
+      final titulo = blocos.indexWhere((b) => b is LaidText && b.isHeading);
+      expect(titulo, greaterThanOrEqualTo(0));
+      final depois = blocos
+          .skip(titulo + 1)
+          .whereType<LaidText>()
+          .firstWhere((b) => !b.isHeading);
+      expect(depois.pieces.first.placeholder, isFalse);
+      // as linhas da folha de rosto, coladas nos títulos, são só espaço (D-103)
+      for (final b in blocos.whereType<LaidSceneBreak>()) {
+        expect(b.rule, isFalse);
       }
-    },
-  );
+      expect(await _capturar(nome, layout, page, t), greaterThan(10000));
+    }
+  });
 
   test('título, subtítulo, citação, lista, imagem e quebra de cena', () async {
     final dir = Directory.systemTemp.createTempSync('booknest_g10_cap_');
@@ -173,7 +171,8 @@ void main() {
           LaidText(left: final l) when l > 0 => 'citação',
           LaidText() => 'parágrafo',
           LaidImage() => 'imagem',
-          LaidSceneBreak() => 'cena',
+          LaidSceneBreak(rule: true) => 'cena',
+          LaidSceneBreak() => 'espaço',
         });
       }
     }

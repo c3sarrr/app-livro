@@ -357,13 +357,45 @@ void main() {
       expect(h3.height, closeTo(2 * t.lineHeight, 1e-4));
     });
 
-    test('quebra de cena: uma linha, "* * *" centralizado, 1 caractere no texto (D-99)', () {
+    test('troca de cena entre parágrafos: um fio curto e grosso, centralizado, numa linha da grade (D-102)', () {
       final b = montar([_p('a'), const SceneBreakBlock(), _p('b')]);
       final s = b[1] as LaidSceneBreak;
       expect(s.height, closeTo(t.lineHeight, 1e-4));
-      expect(s.length, 1);
-      expect(s.start, 2);
-      expect(s.mark.maxIntrinsicWidth, greaterThan(10));
+      expect(
+        (s.length, s.start),
+        (1, 2),
+      ); // continua 1 caractere no texto canônico (D-93)
+      expect(s.rule, isTrue);
+      expect(s.ruleWidth, closeTo(sceneRuleEms * t.fontSize, 1e-9));
+      expect(s.ruleThickness, sceneRuleThickness);
+      // escala com a letra
+      final grande = BlockLayouter(const ReaderTypography(fontSize: 26))
+          .layoutAll([_p('a'), const SceneBreakBlock(), _p('b')], [0, 2, 4]);
+      laid.addAll(grande);
+      expect(
+        (grande[1] as LaidSceneBreak).ruleWidth,
+        closeTo(sceneRuleEms * 26, 1e-9),
+      );
+    });
+
+    test('linha decorativa colada num título ou no começo/fim do capítulo: só 1 linha de espaço (D-103)', () {
+      bool fio(List<ContentBlock> bs, int i) =>
+          (montar(bs)[i] as LaidSceneBreak).rule;
+      expect(
+        fio([_h(5, 'PARIZ'), const SceneBreakBlock(), _p('Indice')], 1),
+        isFalse,
+      );
+      expect(
+        fio([_p('Indice'), const SceneBreakBlock(), _h(5, 'I')], 1),
+        isFalse,
+      );
+      expect(fio([const SceneBreakBlock(), _p('a')], 0), isFalse);
+      expect(fio([_p('a'), const SceneBreakBlock()], 1), isFalse);
+      expect(fio([_p('a'), const SceneBreakBlock(), _p('b')], 1), isTrue);
+      // a altura é a mesma (a página não muda de tamanho) e o texto canônico também
+      final d = montar([_h(5, 'X'), const SceneBreakBlock(), _p('b')])[1];
+      expect(d.height, closeTo(t.lineHeight, 1e-4));
+      expect(d.length, 1);
     });
 
     test('imagem: cabe na largura e na altura, nunca amplia, centralizada, faixa na grade', () {

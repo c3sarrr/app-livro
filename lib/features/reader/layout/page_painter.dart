@@ -1,5 +1,5 @@
-// G10.2 — pintura de uma página (ADR-005): texto linha a linha na posição exata, quebra de cena centralizada
-// na linha dela e imagem escalada dentro da faixa. O fundo (papel) e o rodapé são da tela (G11).
+// G10.2 — pintura de uma página (ADR-005): texto linha a linha na posição exata, troca de cena como um fio
+// centralizado na linha dela (D-102) e imagem escalada dentro da faixa. O fundo (papel) e o rodapé são da tela (G11).
 import 'dart:ui' as ui;
 
 import 'laid_block.dart';
@@ -25,11 +25,19 @@ void paintReaderPage(
     switch ((s, b)) {
       case (TextSlice(:final firstLine, :final lastLine), final LaidText text):
         paintTextLines(c, text, firstLine, lastLine, left: left, top: top);
-      case (ObjectSlice(), LaidSceneBreak(:final mark, :final lineHeight)):
-        final m = mark.computeLineMetrics().first;
-        final baseline =
-            top + (lineHeight - (m.ascent + m.descent)) / 2 + m.ascent;
-        c.drawParagraph(mark, ui.Offset(left, baseline - m.baseline));
+      case (ObjectSlice(), final LaidSceneBreak scene):
+        if (!scene.rule) break; // linha decorativa: só o espaço (D-103)
+        c.drawRect(
+          ui.Rect.fromCenter(
+            center: ui.Offset(
+              left + t.contentWidth / 2,
+              top + scene.lineHeight / 2,
+            ),
+            width: scene.ruleWidth,
+            height: scene.ruleThickness,
+          ),
+          ui.Paint()..color = t.ink,
+        );
       case (ObjectSlice(), final LaidImage image):
         final img = imageOf?.call(image.path);
         if (img == null || image.drawWidth <= 0) break;

@@ -12,8 +12,10 @@ import 'reader_typography.dart';
 /// Parágrafo acima disto (caracteres) tem layout em pedaços (ADR-005; ajustar no aparelho na G26).
 const int layoutPieceChars = 1200;
 
-/// Marcador da quebra de cena (D-99).
-const String sceneBreakMark = '* * *';
+/// Troca de cena (D-102, no lugar do "* * *" da D-99): um fio curto e grosso, centralizado na linha dele, na
+/// cor do texto — largura em em (acompanha a letra) e espessura fixa, no estilo das bordas do BookNest.
+const double sceneRuleEms = 2;
+const double sceneRuleThickness = 3;
 
 /// Marcador de item de lista, pendurado na margem (D-96).
 const String listBullet = '•';
@@ -187,22 +189,25 @@ final class LaidImage extends LaidBlock {
 }
 
 /// Quebra de cena: uma linha com "* * *" centralizado (D-99).
+/// Troca de cena: uma linha da grade; com o fio ([rule]) entre parágrafos, só o espaço quando a linha do livro é
+/// decorativa — colada num título ou no começo/fim do capítulo (D-103). No texto canônico, 1 caractere (D-93).
 final class LaidSceneBreak extends LaidBlock {
   LaidSceneBreak({
     required super.start,
     required super.source,
-    required this.mark,
+    required this.rule,
+    required this.ruleWidth,
     required this.lineHeight,
   }) : super(length: 1);
 
-  final ui.Paragraph mark;
+  final bool rule;
+  final double ruleWidth;
   final double lineHeight;
+
+  double get ruleThickness => sceneRuleThickness;
 
   @override
   double get height => lineHeight;
-
-  @override
-  void dispose() => mark.dispose();
 }
 
 /// Tamanho natural de uma imagem (px), quando conhecido.
@@ -259,7 +264,7 @@ final class BlockLayouter {
   }) => switch (b) {
     TextBlock() => _TextTask(this, b, start, previous, next),
     ImageBlock() => _DoneTask(_image(b, start)),
-    SceneBreakBlock() => _DoneTask(_scene(b, start)),
+    SceneBreakBlock() => _DoneTask(_scene(b, start, previous, next)),
   };
 
   /// Recuo do parágrafo (D-96): só parágrafo comum alinhado à esquerda; nunca logo depois de título, imagem
@@ -320,25 +325,23 @@ final class BlockLayouter {
     );
   }
 
-  LaidSceneBreak _scene(SceneBreakBlock b, int start) {
-    final pb =
-        ui.ParagraphBuilder(
-            ui.ParagraphStyle(
-              textAlign: ui.TextAlign.center,
-              textDirection: ui.TextDirection.ltr,
-            ),
-          )
-          ..pushStyle(t.runStyle(RunStyle.plain))
-          ..addText(sceneBreakMark);
-    final p = pb.build()
-      ..layout(ui.ParagraphConstraints(width: t.contentWidth));
-    return LaidSceneBreak(
-      start: start,
-      source: b,
-      mark: p,
-      lineHeight: t.lineHeight,
-    );
-  }
+  LaidSceneBreak _scene(
+    SceneBreakBlock b,
+    int start,
+    ContentBlock? previous,
+    ContentBlock? next,
+  ) => LaidSceneBreak(
+    start: start,
+    source: b,
+    // linha do livro colada num título ou no começo/fim do capítulo é decorativa, não troca de cena (D-103)
+    rule:
+        previous != null &&
+        next != null &&
+        previous is! HeadingBlock &&
+        next is! HeadingBlock,
+    ruleWidth: sceneRuleEms * t.fontSize,
+    lineHeight: t.lineHeight,
+  );
 
   ui.Paragraph _bullet(double size) {
     final pb =
