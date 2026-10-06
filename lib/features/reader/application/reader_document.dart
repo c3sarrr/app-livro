@@ -61,6 +61,20 @@ typedef BookmarkDraft = ({
 /// Um trecho achado pela busca: [unit] = item do spine (EPUB) ou página (PDF); [from]…[to] no texto dele.
 typedef FoundRange = ({int unit, int from, int to});
 
+/// Um resultado da busca no livro pronto para a lista e para o salto (D-120): onde saltar, o que marcar na página,
+/// a página de referência e o trecho com a palavra em [matchStart, matchEnd).
+typedef SearchHit = ({
+  ReaderMark at,
+  FoundRange found,
+  int refPage,
+  String excerpt,
+  int matchStart,
+  int matchEnd,
+});
+
+/// Os resultados seguidos de um capítulo (EPUB) ou de uma página (PDF).
+typedef SearchGroup = ({String title, List<SearchHit> hits});
+
 /// D-49: o começo da página para o marcador — até 90 caracteres, cortado em palavra, com "…" quando cortado.
 String bookmarkExcerpt(String pageText) {
   final t = pageText.replaceAll(RegExp(r'\s+'), ' ').trim();
@@ -81,6 +95,10 @@ abstract interface class ReaderDocument {
 
   /// O começo da página de referência [refPage] (limitada a 1…total): a barra de posição (D-119).
   ReaderMark markOfRefPage(int refPage);
+
+  /// Os resultados de [query] por capítulo (EPUB) ou por página (PDF), à medida que saem, até 501 (a tela mostra
+  /// 500 e o aviso); cancelar a assinatura para a busca (D-120).
+  Stream<SearchGroup> search(String query);
 
   /// A página mostrada é a última do livro: o tempo restante some (D-124). Não dá para usar a última página de
   /// referência: quando ela é curta, nenhuma página da tela começa nela.

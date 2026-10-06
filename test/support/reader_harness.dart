@@ -11,10 +11,12 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
+import 'package:app_leitura/features/reader/application/book_search.dart';
 import 'package:app_leitura/features/reader/application/epub_images.dart';
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_errors.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
+import 'package:app_leitura/features/reader/application/reading_speed_source.dart';
 import 'package:app_leitura/features/reader/application/reading_position_keeper.dart';
 import 'package:app_leitura/features/reader/application/screen_awake.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
@@ -37,6 +39,7 @@ const String domCasmurroEpub = 'test/fixtures/livros/pg55752.epub';
 
 final class LivroNaEstante {
   LivroNaEstante._({
+    this.leitor = usuarioTeste,
     required this.dir,
     required this.db,
     required this.versioning,
@@ -46,13 +49,16 @@ final class LivroNaEstante {
     required this.epub,
   });
 
-  /// Grava o EPUB [bytes] como o livro [n] da estante de [usuarioTeste] (com índice, se [indexar]).
+  /// Grava o EPUB [bytes] como o livro [n] da estante de [usuarioTeste] (com índice, se [indexar]). [livro] troca
+  /// a linha do livro (o Dom Casmurro do mundo — tela 20) e [leitor], a conta que abre o leitor.
   static Future<LivroNaEstante> epubDe(
     List<int> bytes, {
     int n = 7,
     String title = 'Dom Casmurro',
     bool indexar = true,
     String dono = usuarioTeste,
+    UserBook? livro,
+    String leitor = usuarioTeste,
   }) async {
     final dir = Directory.systemTemp.createTempSync('booknest_g11_livro_');
     final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
@@ -60,11 +66,10 @@ final class LivroNaEstante {
     final path = writeTemp(dir, '${idTeste(n)}.epub', bytes);
     final sha = shaDoLivroTeste(n);
     final index = indexEpubFile(path, sha);
-    final book = livroTeste(
-      n,
-      title: title,
-      dono: dono,
-    ).copyWith(refPagesTotal: Nullable(index.refPagesTotal));
+    final book = (livro ?? livroTeste(n, title: title, dono: dono)).copyWith(
+      refPagesTotal: Nullable(index.refPagesTotal),
+      contentSha256: Nullable(sha),
+    );
     await UserBooksDao(db).upsert(book);
     await LocalFilesDao(db).upsert(
       userBookId: book.id,
@@ -77,6 +82,7 @@ final class LivroNaEstante {
       await BookContentIndexDao(db).upsert(book.id, index, builtAt: t0Teste);
     }
     return LivroNaEstante._(
+      leitor: leitor,
       dir: dir,
       db: db,
       versioning: versioning,
@@ -91,6 +97,8 @@ final class LivroNaEstante {
   static Future<LivroNaEstante> domCasmurro({bool indexar = true}) =>
       epubDe(File(domCasmurroEpub).readAsBytesSync(), indexar: indexar);
 
+  /// A conta que abre o leitor (a dona da estante).
+  final String leitor;
   final Directory dir;
   final AppDatabase db;
   final LocalVersioning versioning;
@@ -129,10 +137,17 @@ final class LivroNaEstante {
     k.dispose();
   }
 
+  /// A busca do EPUB sem isolate (os capítulos lidos na hora, como o `loader`).
+  Stream<UnitHits> buscaNaHora(String path, List<int> spines, String query) =>
+      Stream.fromIterable(
+        searchTexts(spines, (s) => chapterOf(epub, s).item.text, query),
+      );
+
   EpubDocumentDeps deps({
     ReaderTypography t = const ReaderTypography(),
     LayoutScheduler? scheduler,
     ReadingPositionKeeper? keeper,
+    EpubSearchRunner? busca,
   }) => EpubDocumentDeps(
     book: book,
     index: index,
@@ -142,6 +157,7 @@ final class LivroNaEstante {
     keeper: keeper ?? this.keeper(),
     loader: (s) async => chapterOf(epub, s),
     images: (href) async => readImageOf(epub, href),
+    search: busca ?? buscaNaHora,
   );
 
   /// O que a sessão de leitura usa, sobre este livro: capítulos lidos na hora (sem isolate), o tempo sem o
@@ -155,10 +171,11 @@ final class LivroNaEstante {
     Timer Function(Duration, void Function())? startTimer,
     Set<int> quebrados = const {},
     Future<void> Function()? pdfInitialize,
+    Future<double> Function(AppDatabase db, String userId)? speedOf,
   }) => ReaderDeps(
     db: db,
     versioning: versioning,
-    owner: () async => usuarioTeste,
+    owner: () async => leitor,
     booksDir: () async => dir,
     indexBook:
         indexar ??
@@ -183,6 +200,8 @@ final class LivroNaEstante {
         : chapterOf(epub, s),
     imageLoader: (path) =>
         (href) async => readImageOf(epub, href),
+    searchRunner: buscaNaHora,
+    speedOf: speedOf ?? readingSpeedOf,
     startTimer: startTimer ?? Timer.new,
     pdfInitialize: pdfInitialize,
     onError: onError ?? reportReaderError,

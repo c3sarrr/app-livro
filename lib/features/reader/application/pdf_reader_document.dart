@@ -14,6 +14,7 @@ import 'package:pdfrx/pdfrx.dart';
 import '../../library/domain/user_book.dart';
 import '../content/content_failure.dart';
 import '../content/ref_pages.dart' show refPageChars;
+import 'book_search.dart';
 import 'pdf_position_keeper.dart';
 import 'reader_document.dart';
 
@@ -313,6 +314,34 @@ final class PdfReaderDocument implements ReaderDocument {
 
   @override
   bool get atEnd => pageCount > 0 && _at == pageCount - 1;
+
+  /// O texto de cada página pelo PDFium, uma página por vez (D-122); grupo "Pág. N".
+  @override
+  Stream<SearchGroup> search(String query) async* {
+    var left = searchLimit + 1;
+    for (var i = 0; i < pageCount && left > 0; i++) {
+      if (_disposed) return;
+      final text = (await _doc.pages[i].loadStructuredText()).fullText;
+      for (final u in searchTexts([i], (_) => text, query, limit: left)) {
+        left -= u.hits.length;
+        yield (
+          title: 'Pág. ${i + 1}',
+          hits: [
+            for (final h in u.hits)
+              (
+                at: (spine: 0, offset: i),
+                found: (unit: i, from: h.start, to: h.end),
+                refPage: i + 1,
+                excerpt: h.excerpt,
+                matchStart: h.matchStart,
+                matchEnd: h.matchEnd,
+              ),
+          ],
+        );
+      }
+      await Future<void>.delayed(Duration.zero);
+    }
+  }
 
   /// No PDF a página de referência é a do arquivo (D-122).
   @override

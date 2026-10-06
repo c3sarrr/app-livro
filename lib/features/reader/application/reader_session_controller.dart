@@ -30,6 +30,7 @@ import '../layout/reader_typography.dart';
 import '../presentation/reader_insets.dart';
 import '../presentation/reader_palette.dart';
 import 'book_pager.dart';
+import 'book_search.dart' show EpubSearchRunner;
 import 'epub_images.dart' show EpubImageLoader;
 import 'epub_reader_document.dart';
 import 'pdf_position_keeper.dart';
@@ -112,6 +113,8 @@ final class ReaderDeps {
     this.autoTick = true,
     this.chapterLoader,
     this.imageLoader,
+    this.searchRunner,
+    this.speedOf = readingSpeedOf,
     this.startTimer = Timer.new,
     this.pdfInitialize,
     this.onError = reportReaderError,
@@ -142,6 +145,13 @@ final class ReaderDeps {
 
   /// Como ler as imagens do livro (padrão: num isolate — D-114).
   final EpubImageLoader Function(String path)? imageLoader;
+
+  /// Como buscar no EPUB (padrão: num isolate — D-120); os testes buscam na hora.
+  final EpubSearchRunner? searchRunner;
+
+  /// A velocidade pessoal da conta (D-97). As fases L20/L26b trocam pela que dá o "≈ 2 h 10 min" que a prancha
+  /// escreve à mão (desvio registrado na G12).
+  final Future<double> Function(AppDatabase db, String userId) speedOf;
 
   /// Relógio dos prazos da tela (a volta do link — 6 s). Os testes andam com ele à mão.
   final Timer Function(Duration duration, void Function() callback) startTimer;
@@ -244,7 +254,7 @@ class ReaderSessionController extends ChangeNotifier {
     _paper = settings?.paper ?? ReaderPaper.creme;
     _palette = ReaderPalette.of(_paper);
     final t = _typography = _typographyFor(settings, v);
-    _speed = await readingSpeedOf(deps.db, owner);
+    _speed = await deps.speedOf(deps.db, owner);
     if (book.format == BookFileFormat.pdf) {
       return _openPdf(book, path, file.sha256, v);
     }
@@ -330,6 +340,7 @@ class ReaderSessionController extends ChangeNotifier {
           ),
           loader: deps.chapterLoader?.call(path),
           images: deps.imageLoader?.call(path),
+          search: deps.searchRunner,
           devicePixelRatio: v.devicePixelRatio,
         ),
       );

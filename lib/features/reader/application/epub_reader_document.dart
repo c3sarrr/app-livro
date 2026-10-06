@@ -13,6 +13,7 @@ import '../domain/reader_numbers.dart';
 import '../layout/layout_scheduler.dart';
 import '../layout/reader_typography.dart';
 import 'book_pager.dart';
+import 'book_search.dart';
 import 'epub_images.dart';
 import 'reader_document.dart';
 import 'reading_position_keeper.dart';
@@ -28,6 +29,7 @@ final class EpubDocumentDeps {
     this.cache,
     this.loader,
     this.images,
+    this.search,
     this.devicePixelRatio = 1,
   });
 
@@ -46,6 +48,9 @@ final class EpubDocumentDeps {
 
   /// Como ler as imagens do livro (padrão: num isolate — D-114).
   final EpubImageLoader? images;
+
+  /// Como buscar no livro (padrão: num isolate — D-120). Os testes buscam na hora.
+  final EpubSearchRunner? search;
 
   /// Densidade da tela: as imagens são decodificadas na largura da caixa do texto × ela.
   final double devicePixelRatio;
@@ -236,6 +241,43 @@ final class EpubReaderDocument implements ReaderDocument {
       await _pager.previous();
     }
     _announce();
+  }
+
+  @override
+  Stream<SearchGroup> search(String query) async* {
+    final index = _deps.index;
+    final spines = [
+      for (var i = 0; i < index.spine.length; i++)
+        if (index.spine[i].linear) i,
+    ];
+    final run = _deps.search ?? isolateEpubSearch;
+    ({int leaf, String title})? chapter;
+    var hits = <SearchHit>[];
+    await for (final u in run(_deps.path, spines, query)) {
+      for (final h in u.hits) {
+        final c = searchChapterAt(
+          index,
+          index.globalOffset(u.unit, h.start) ?? 0,
+        );
+        // resultados seguidos no mesmo capítulo vão no mesmo grupo
+        if (chapter != null && c.leaf != chapter.leaf) {
+          yield (title: chapter.title, hits: hits);
+          hits = [];
+        }
+        chapter = c;
+        hits.add((
+          at: (spine: u.unit, offset: h.start),
+          found: (unit: u.unit, from: h.start, to: h.end),
+          refPage: numbersAt(index, u.unit, h.start).refPage,
+          excerpt: h.excerpt,
+          matchStart: h.matchStart,
+          matchEnd: h.matchEnd,
+        ));
+      }
+    }
+    if (chapter != null && hits.isNotEmpty) {
+      yield (title: chapter.title, hits: hits);
+    }
   }
 
   @override

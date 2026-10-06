@@ -135,6 +135,9 @@ final class _Livro implements ReaderDocument {
   bool get atEnd => at == total - 1;
 
   @override
+  Stream<SearchGroup> search(String query) => const Stream.empty();
+
+  @override
   ReaderMark markOfRefPage(int refPage) => (spine: 0, offset: refPage - 1);
 
   @override

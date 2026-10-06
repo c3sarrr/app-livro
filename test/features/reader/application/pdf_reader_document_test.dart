@@ -364,6 +364,19 @@ void main() {
         expect(d.found, isNull);
       });
 
+      test('busca no texto das páginas (D-120, D-122): grupo "Pág. N", salto e marca na página', () async {
+        final d = await abrir();
+        final grupos = await d.search('CONTO').toList();
+        expect(grupos.map((g) => g.title), ['Pág. 1', 'Pág. 3']);
+        final h = grupos.last.hits.single;
+        expect(h.at, (spine: 0, offset: 2));
+        expect((h.found.unit, h.refPage), (2, 3));
+        expect(h.excerpt, 'Segundo conto');
+        expect(h.excerpt.substring(h.matchStart, h.matchEnd), 'conto');
+        expect(await d.search('x').toList(), isEmpty);
+        expect(await d.search('nada disso').toList(), isEmpty);
+      });
+
       test('goToRefPage = a página do arquivo; atEnd só na última', () async {
         final d = await abrir();
         expect(d.atEnd, isFalse);
