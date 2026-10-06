@@ -22,6 +22,29 @@ abstract final class AppColors {
   /// Legenda "de 30 min", texto do selo "Novo".
   static const Color inkWarm = Color(0xFF4A4238);
 
+  // Leitor (telas 19–27b): papéis e texto do livro (Anexo 01 §0, Anexo 03 §7.1) e rodapé (D-110)
+
+  /// Papel Creme (tela 19) e o texto do livro nele.
+  static const Color paperCream = Color(0xFFF8F1E4);
+  static const Color bookText = Color(0xFF2A2520);
+
+  /// Papel Branco (o texto do livro nele é [ink]).
+  static const Color paperWhite = Color(0xFFFFFDF8);
+
+  /// Papel Sépia (D-51 b) e o texto do livro nele.
+  static const Color paperSepia = Color(0xFFEEDDBF);
+  static const Color bookTextSepia = Color(0xFF4A3622);
+
+  /// Papel Noite (tela 26b) e o texto do livro nele.
+  static const Color paperNight = Color(0xFF1F1B17);
+  static const Color bookTextNight = Color(0xFFE3D9C6);
+
+  /// "pág. X de Y · %": Creme (tela 19) e Noite (26b) medidos; Branco e Sépia com o contraste do Creme (D-110).
+  static const Color readerFooter = Color(0xFFA89D8B);
+  static const Color readerFooterWhite = Color(0xFFA9A6A2);
+  static const Color readerFooterSepia = Color(0xFFA08E74);
+  static const Color readerFooterNight = Color(0xFF8A8073);
+
   // Paleta
 
   /// Brand padrão e weekColor padrão; capa O Alienista; lua do Frankenstein.

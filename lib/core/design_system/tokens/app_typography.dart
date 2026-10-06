@@ -53,6 +53,31 @@ abstract final class AppFonts {
     );
   }
 
+  /// Figtree das telas do leitor (19–27b): ali o 800 é real (D-16, L00 — `Figtree-ExtraBold`). A Início continua
+  /// com [figtree], até 700 (D-14).
+  static TextStyle figtreeReader(
+    double size,
+    FontWeight weight, {
+    double height = 1.2,
+    double letterSpacing = 0,
+    Color color = AppColors.ink,
+  }) {
+    assert(
+      weight.value >= 400 && weight.value <= 800,
+      'Figtree do leitor só existe de 400 a 800',
+    );
+    return TextStyle(
+      fontFamily: 'Figtree',
+      fontFamilyFallback: const ['FigtreeExt'],
+      fontSize: size,
+      fontWeight: weight,
+      height: height,
+      letterSpacing: letterSpacing,
+      color: color,
+      leadingDistribution: TextLeadingDistribution.even,
+    );
+  }
+
   static TextStyle serif(
     double size, {
     required double height,
@@ -355,4 +380,12 @@ abstract final class AppTextStyles {
     FontWeight.w700,
     color: AppColors.paper,
   );
+
+  /// r19.footer.pageLabel / r19.footer.percent (L19): `tabular-nums`; a cor muda com o papel
+  /// (`ReaderPalette.footer` — D-110).
+  static final TextStyle readerFooter = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w600,
+    color: AppColors.readerFooter,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 }
