@@ -22,22 +22,47 @@ Future<Object?> _precache(String asset) {
 /// O traço escala com o tamanho, como no navegador (1,8 × 22/24 = 1,65 px). Ícones são
 /// `aria-hidden`/decorativos: ficam fora da árvore semântica.
 class AppSvg extends StatelessWidget {
-  const AppSvg(this.asset, {super.key, required this.size, this.color});
+  const AppSvg(
+    this.asset, {
+    super.key,
+    required this.size,
+    this.height,
+    this.color,
+    this.opacity,
+  });
   final String asset;
+
+  /// Largura (e altura, se [height] for nulo).
   final double size;
+
+  /// Altura de um ícone não quadrado (a fita do marcador, 22×24 — G12).
+  final double? height;
   final Color? color;
+
+  /// Esmaece o ícone sem trocar as cores dele (abrir/fechar os controles do leitor sem `Opacity` — G12):
+  /// `modulate` com branco a este alfa.
+  final double? opacity;
+
   @override
-  Widget build(BuildContext context) => ExcludeSemantics(
-    child: SizedBox.square(
-      dimension: size,
-      child: SvgPicture.asset(
-        asset,
+  Widget build(BuildContext context) {
+    final h = height ?? size;
+    final a = opacity;
+    final ColorFilter? filter = color != null
+        ? ColorFilter.mode(color!, BlendMode.srcIn)
+        : a != null && a < 1
+        ? ColorFilter.mode(Color.fromRGBO(255, 255, 255, a), BlendMode.modulate)
+        : null;
+    return ExcludeSemantics(
+      child: SizedBox(
         width: size,
-        height: size,
-        colorFilter: color == null
-            ? null
-            : ColorFilter.mode(color!, BlendMode.srcIn),
+        height: h,
+        child: SvgPicture.asset(
+          asset,
+          width: size,
+          height: h,
+          colorFilter: filter,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

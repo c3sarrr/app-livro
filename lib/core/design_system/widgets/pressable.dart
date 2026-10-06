@@ -10,11 +10,19 @@ class Pressable extends StatefulWidget {
     this.onTap,
     this.semanticsLabel,
     this.isLink = false,
+    this.toggled,
+    this.enabled = true,
   });
   final Widget child;
   final VoidCallback? onTap;
   final String? semanticsLabel;
   final bool isLink;
+
+  /// Botão de alternar (`aria-pressed`): o estado vai para a semântica (a fita do marcador — G12).
+  final bool? toggled;
+
+  /// `false` = desabilitado: sem toque e "indisponível" para o leitor de tela (Fonte no PDF — D-122).
+  final bool enabled;
 
   /// Liga/desliga o feedback de escala (D-04: "desligável por flag"). O repouso não muda.
   static bool feedbackEnabled = true;
@@ -40,26 +48,32 @@ class _PressableState extends State<Pressable> {
   // mas dentro de um nó sem explicitChildNodes (um link, um cabeçalho, um Semantics(container) qualquer)
   // o flag/rótulo do botão se fundiria nesse pai.
   @override
-  Widget build(BuildContext context) => Semantics(
-    container: true,
-    button: !widget.isLink,
-    link: widget.isLink,
-    label: widget.semanticsLabel,
-    excludeSemantics: widget.semanticsLabel != null,
-    onTap: widget.onTap,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      excludeFromSemantics: true,
-      onTap: widget.onTap,
-      onTapDown: (_) => _setDown(true),
-      onTapUp: (_) => _setDown(false),
-      onTapCancel: () => _setDown(false),
-      child: AnimatedScale(
-        scale: Pressable.feedbackEnabled && _down ? _pressedScale : 1.0,
-        duration: _down ? _pressDuration : _releaseDuration,
-        curve: Curves.easeOut,
-        child: widget.child,
+  Widget build(BuildContext context) {
+    final onTap = widget.enabled ? widget.onTap : null;
+    return Semantics(
+      container: true,
+      button: !widget.isLink,
+      link: widget.isLink,
+      label: widget.semanticsLabel,
+      toggled: widget.toggled,
+      enabled: widget.enabled ? null : false,
+      excludeSemantics: widget.semanticsLabel != null,
+      onTap: onTap,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        excludeFromSemantics: true,
+        onTap: onTap,
+        // desabilitado: sem o "afundar" do toque (o resto continua como sempre foi)
+        onTapDown: widget.enabled ? (_) => _setDown(true) : null,
+        onTapUp: widget.enabled ? (_) => _setDown(false) : null,
+        onTapCancel: widget.enabled ? () => _setDown(false) : null,
+        child: AnimatedScale(
+          scale: Pressable.feedbackEnabled && _down ? _pressedScale : 1.0,
+          duration: _down ? _pressDuration : _releaseDuration,
+          curve: Curves.easeOut,
+          child: widget.child,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
