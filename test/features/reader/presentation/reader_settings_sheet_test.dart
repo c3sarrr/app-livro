@@ -1,7 +1,9 @@
 // G14.3 — a folha da tela 26 (L26) sozinha: o lugar da folha, da pílula, do papel que cobre a página abaixo do corte
 // e do nó "Prévia da página" (com as áreas do aparelho); abrir e fechar em 150 ms; fechar pelo ×, pela página de cima
 // e puxando pela alça (D-141); o tamanho (A, pontos, arrasto, leitor de tela), a fonte, o papel, a entrelinha e as
-// margens pedindo a mudança (D-144); a semântica; e o Noite nas cores das ilhas (D-143).
+// margens pedindo a mudança (D-144); a semântica; e o Noite nas cores das ilhas (D-143). Revisão: toques seguidos
+// antes de a sessão avisar valem o último (e somam no leitor de tela); a pílula deixa o toque passar; o empurrão para
+// cima não fecha; o título é cabeçalho e os rótulos visíveis ficam com os grupos.
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
@@ -23,7 +25,12 @@ Finder _key(String k) => find.byKey(ValueKey<String>(k));
 
 /// O que a folha pediu (cada pedido aplicado aos ajustes mostrados) e quantas vezes fechou.
 final class _Mesa {
+  _Mesa(this.atual);
+
   final pedidos = <ReaderLook>[];
+
+  /// Os ajustes da sessão com cada pedido aplicado em ordem (a folha mostra os de antes até a sessão avisar).
+  ReaderLook atual;
   var fechou = 0;
 }
 
@@ -40,7 +47,10 @@ Widget _folha({
   brand: AppColors.lavender,
   page: (left: 28, top: 92, width: 334),
   pageText: 'Retórica dos namorados, dá-me uma comparação exata e poética…',
-  onChange: (c) => mesa.pedidos.add(c(look)),
+  onChange: (c) {
+    mesa.pedidos.add(c(look));
+    mesa.atual = c(mesa.atual);
+  },
   onClose: () => mesa.fechou++,
 );
 
@@ -51,7 +61,7 @@ Future<_Mesa> _montar(
   ReaderPaper papel = ReaderPaper.creme,
   EdgeInsets area = EdgeInsets.zero,
 }) async {
-  final m = _Mesa();
+  final m = _Mesa(look);
   setCanvasView(tester, logical: const Size(390, 844));
   await precacheSvgs(tester, AppIconsLeitor.all);
   await tester.pumpWidget(
@@ -148,7 +158,7 @@ void main() {
     testWidgets(
       'abre e fecha em 150 ms subindo e descendo; fechada não monta nada; fechando não pega toque',
       (tester) async {
-        final m = _Mesa();
+        final m = _Mesa(const ReaderLook());
         final aberta = ValueNotifier(false);
         addTearDown(aberta.dispose);
         setCanvasView(tester, logical: const Size(390, 844));
@@ -175,7 +185,13 @@ void main() {
         await tester.pump();
         await tester.pump(const Duration(milliseconds: 75));
         final meio = tester.getRect(_key('rs.sheet')).top;
-        await tester.pump(const Duration(milliseconds: 75));
+        await tester.pump(const Duration(milliseconds: 65));
+        expect(
+          tester.getRect(_key('rs.sheet')).top,
+          greaterThan(844 - 10 - 547.2 + 30),
+          reason: 'aos 140 ms ainda sobe',
+        );
+        await tester.pump(const Duration(milliseconds: 10));
         final topo = tester.getRect(_key('rs.sheet')).top;
         expect(topo, moreOrLessEquals(844 - 10 - 547.2, epsilon: 0.5));
         expect(meio, greaterThan(topo + 100), reason: 'no meio da subida');
@@ -191,16 +207,18 @@ void main() {
     );
 
     testWidgets(
-      'fecha pelo × e pelo toque na página de cima (D-141); tocar na folha não fecha',
+      'fecha pelo × e pelo toque na página de cima (D-141), também sobre a pílula; tocar na folha não fecha',
       (tester) async {
         final m = await _montar(tester);
         await tester.tap(_key('rs.sheet.close'));
         expect(m.fechou, 1);
         await tester.tapAt(const Offset(195, 200));
         expect(m.fechou, 2);
+        await tester.tapAt(tester.getCenter(_key('rs.livePill')));
+        expect(m.fechou, 3, reason: 'a pílula é só aviso: o toque é da página');
         await tester.tapAt(const Offset(60, 330)); // o título
         await tester.tapAt(const Offset(195, 840)); // o papel abaixo da folha
-        expect(m.fechou, 3, reason: 'o título não fecha; abaixo da folha, sim');
+        expect(m.fechou, 4, reason: 'o título não fecha; abaixo da folha, sim');
       },
     );
 
@@ -237,6 +255,37 @@ void main() {
       await tester.pump();
       expect(m.fechou, 1);
     });
+
+    testWidgets(
+      'puxar mais de 64 e devolver com força para cima não fecha: a folha volta ao lugar',
+      (tester) async {
+        final m = await _montar(tester);
+        final topo = tester.getRect(_key('rs.sheet')).top;
+        final g = await tester.startGesture(
+          tester.getCenter(_key('rs.sheet.grabber')),
+        );
+        var t = Duration.zero;
+        for (var i = 0; i < 12; i++) {
+          t += const Duration(milliseconds: 100);
+          await g.moveBy(const Offset(0, 10), timeStamp: t);
+          await tester.pump();
+        }
+        expect(
+          tester.getRect(_key('rs.sheet')).top,
+          greaterThan(topo + readerSheetDismissDrag + 25),
+          reason: 'devagar, passou dos 64',
+        );
+        // e o empurrão para cima: 25 em 25 ms (1.000/s)
+        for (var i = 0; i < 5; i++) {
+          t += const Duration(milliseconds: 5);
+          await g.moveBy(const Offset(0, -5), timeStamp: t);
+        }
+        await g.up(timeStamp: t);
+        await tester.pump();
+        expect(m.fechou, 0);
+        expect(tester.getRect(_key('rs.sheet')).top, topo);
+      },
+    );
 
     testWidgets(
       'título "Ajustes de leitura", o × de 44 com o ícone de 18 e a caixa da folha',
@@ -307,6 +356,14 @@ void main() {
         );
         expect(find.bySemanticsLabel('Fechar'), findsOneWidget);
         expect(find.bySemanticsLabel(RegExp('prévia ao vivo')), findsNothing);
+        // o título é o cabeçalho da folha; "FONTE", "PAPEL"… ficam com os grupos ("Fonte", "Tema do papel"…)
+        expect(
+          tester.getSemantics(_key('rs.sheet.title')),
+          isSemantics(label: 'Ajustes de leitura', isHeader: true),
+        );
+        for (final r in ['FONTE', 'PAPEL', 'ENTRELINHA', 'MARGENS']) {
+          expect(find.bySemanticsLabel(r), findsNothing, reason: r);
+        }
         h.dispose();
       },
     );
@@ -412,8 +469,10 @@ void main() {
         final m = await _montar(tester);
         await tester.tapAt(tester.getCenter(_key('rs.sheet.size.step6')));
         expect(m.pedidos.map((l) => l.fontStep), [6]);
+        // a sessão ainda aplica o 6 (a folha mostra o 4): tocar no 4 pede o 4 — vale o último toque
         await tester.tapAt(tester.getCenter(_key('rs.sheet.size.step4')));
-        expect(m.pedidos, hasLength(1), reason: 'o mostrado não pede de novo');
+        expect(m.pedidos.map((l) => l.fontStep), [6, 4]);
+        expect(m.atual.fontStep, 4);
         m.pedidos.clear();
         final de = tester.getCenter(_key('rs.sheet.size.step2'));
         final ate = tester.getCenter(_key('rs.sheet.size.step6'));
@@ -422,10 +481,10 @@ void main() {
           await g.moveTo(Offset.lerp(de, ate, i / 20)!);
         }
         await g.up();
-        // o 2 pode não sair (o arrasto começa depois do limiar); o 4 é o mostrado
+        // o 2 pode não sair (o arrasto começa depois do limiar)
         final passos = m.pedidos.map((l) => l.fontStep).toList();
         expect(passos.last, 6);
-        expect(passos, isNot(contains(4)));
+        expect(passos, containsAllInOrder([3, 4, 5, 6]));
         expect(passos.toSet(), hasLength(passos.length), reason: 'sem repetir');
       },
     );
@@ -495,6 +554,10 @@ void main() {
         tester.semantics.performAction(deslizante, SemanticsAction.increase);
         tester.semantics.performAction(deslizante, SemanticsAction.decrease);
         expect(m.pedidos.map((l) => l.fontStep), [5, 3]);
+        // dois "aumentar" antes de a sessão avisar somam: um passo sobre os ajustes da sessão, não sobre o mostrado
+        tester.semantics.performAction(deslizante, SemanticsAction.increase);
+        tester.semantics.performAction(deslizante, SemanticsAction.increase);
+        expect(m.atual.fontStep, 6);
         await _montar(tester, look: const ReaderLook(fontStep: 7));
         expect(
           tester.getSemantics(find.bySemanticsLabel('Tamanho da letra')),

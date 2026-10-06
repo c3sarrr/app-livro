@@ -29,7 +29,8 @@ const double readerSheetSide = 10;
 /// A página aparece até 15,2 abaixo do topo da folha (L26).
 const double readerSheetPagePeek = 15.2;
 
-/// Puxar pela alça fecha a partir de 64 para baixo, ou com o dedo a 700/s.
+/// Puxar pela alça fecha a partir de 64 para baixo, ou com o dedo a 700/s; empurrar de volta para cima a 700/s
+/// devolve a folha ao lugar, mesmo depois dos 64.
 const double readerSheetDismissDrag = 64;
 const double readerSheetDismissVelocity = 700;
 
@@ -60,6 +61,12 @@ int readerStepAt(double dx, double width, int active) {
   }
   return best;
 }
+
+/// Um passo a mais e um a menos no tamanho, sobre os ajustes da sessão (toques seguidos somam).
+ReaderLook _larger(ReaderLook l) =>
+    l.copyWith(fontStep: math.min(7, l.fontStep + 1));
+ReaderLook _smaller(ReaderLook l) =>
+    l.copyWith(fontStep: math.max(1, l.fontStep - 1));
 
 /// As cores do cartão de cada papel (L26, PAPEL): fundo, "Aa" e as duas linhas — as mesmas em todo tema (D-143).
 ({Color card, Color ink, Color line}) readerPaperCard(ReaderPaper p) =>
@@ -189,8 +196,9 @@ class _ReaderSettingsSheetState extends State<ReaderSettingsSheet> {
       setState(() => _drag = math.max(0, _drag + d.delta.dy));
 
   void _released(DragEndDetails d) {
-    if (_drag >= readerSheetDismissDrag ||
-        d.velocity.pixelsPerSecond.dy >= readerSheetDismissVelocity) {
+    final v = d.velocity.pixelsPerSecond.dy;
+    if (v >= readerSheetDismissVelocity ||
+        (_drag >= readerSheetDismissDrag && v > -readerSheetDismissVelocity)) {
       widget.onClose();
     } else {
       setState(() => _drag = 0);
@@ -253,10 +261,13 @@ class _ReaderSettingsSheetState extends State<ReaderSettingsSheet> {
                       ),
                       LayoutId(
                         id: _Part.pill,
-                        child: ExcludeSemantics(
-                          child: _LivePill(
-                            palette: widget.palette.faded(a),
-                            a: a,
+                        // só aviso: o toque nela é da página de cima (fecha)
+                        child: IgnorePointer(
+                          child: ExcludeSemantics(
+                            child: _LivePill(
+                              palette: widget.palette.faded(a),
+                              a: a,
+                            ),
                           ),
                         ),
                       ),
@@ -460,24 +471,28 @@ class _Sheet extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AppText.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Ajustes ',
-                              style: AppTextStyles.readerSheetTitle.copyWith(
-                                color: p.title,
+                      Semantics(
+                        container: true,
+                        header: true,
+                        child: AppText.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Ajustes ',
+                                style: AppTextStyles.readerSheetTitle.copyWith(
+                                  color: p.title,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'de leitura',
-                              style: AppTextStyles.readerSheetTitleSerif
-                                  .copyWith(color: p.title),
-                            ),
-                          ],
+                              TextSpan(
+                                text: 'de leitura',
+                                style: AppTextStyles.readerSheetTitleSerif
+                                    .copyWith(color: p.title),
+                              ),
+                            ],
+                          ),
+                          key: const ValueKey('rs.sheet.title'),
+                          maxLines: 1,
                         ),
-                        key: const ValueKey('rs.sheet.title'),
-                        maxLines: 1,
                       ),
                       CircleIconButton(
                         key: const ValueKey('rs.sheet.close'),
@@ -571,16 +586,14 @@ class _SizeRow extends StatelessWidget {
           style: AppTextStyles.readerSheetSmallA,
           palette: palette,
           enabled: step > 1,
-          onTap: () => onChange(
-            (l) => l.copyWith(fontStep: math.max(1, l.fontStep - 1)),
-          ),
+          onTap: () => onChange(_smaller),
         ),
         Expanded(
           child: _Steps(
             step: step,
             palette: palette,
             brand: brand,
-            onPick: (n) => onChange((l) => l.copyWith(fontStep: n)),
+            onChange: onChange,
           ),
         ),
         _StepButton(
@@ -589,9 +602,7 @@ class _SizeRow extends StatelessWidget {
           style: AppTextStyles.readerSheetLargeA,
           palette: palette,
           enabled: step < 7,
-          onTap: () => onChange(
-            (l) => l.copyWith(fontStep: math.min(7, l.fontStep + 1)),
-          ),
+          onTap: () => onChange(_larger),
         ),
       ],
     ),
@@ -638,33 +649,35 @@ class _StepButton extends StatelessWidget {
 }
 
 /// O trilho tracejado com os 7 pontos (`rs.sheet.size.steps`): tocar num ponto ou arrastar escolhe o passo mais
-/// perto; para o leitor de tela é um controle deslizante (D-144).
+/// perto; para o leitor de tela é um controle deslizante (D-144). Os toques seguem o dedo mesmo antes de a sessão
+/// avisar o passo novo (vale o último); aumentar e diminuir andam um passo sobre os ajustes da sessão.
 class _Steps extends StatefulWidget {
   const _Steps({
     required this.step,
     required this.palette,
     required this.brand,
-    required this.onPick,
+    required this.onChange,
   });
 
+  /// O passo mostrado (o da sessão quando ela avisou).
   final int step;
   final ReaderChromePalette palette;
   final Color brand;
-  final ValueChanged<int> onPick;
+  final ValueChanged<ReaderLookChange> onChange;
 
   @override
   State<_Steps> createState() => _StepsState();
 }
 
 class _StepsState extends State<_Steps> {
-  /// O último passo pedido por este toque ou arrasto (não pede o mesmo de novo enquanto a sessão aplica).
+  /// O último passo pedido por este toque ou arrasto (o arrasto não pede o mesmo de novo a cada movimento).
   int? _picked;
 
   void _pick(double dx, double width) {
     final n = readerStepAt(dx, width, widget.step);
-    if (n == widget.step || n == _picked) return;
+    if (n == _picked) return;
     _picked = n;
-    widget.onPick(n);
+    widget.onChange((l) => l.copyWith(fontStep: n));
   }
 
   @override
@@ -678,8 +691,8 @@ class _StepsState extends State<_Steps> {
       value: '$step de 7',
       increasedValue: step < 7 ? '${step + 1} de 7' : null,
       decreasedValue: step > 1 ? '${step - 1} de 7' : null,
-      onIncrease: step < 7 ? () => widget.onPick(step + 1) : null,
-      onDecrease: step > 1 ? () => widget.onPick(step - 1) : null,
+      onIncrease: step < 7 ? () => widget.onChange(_larger) : null,
+      onDecrease: step > 1 ? () => widget.onChange(_smaller) : null,
       child: LayoutBuilder(
         builder: (context, c) => GestureDetector(
           behavior: HitTestBehavior.opaque,
@@ -739,7 +752,7 @@ class _StepsState extends State<_Steps> {
   }
 }
 
-/// "FONTE", "PAPEL", "ENTRELINHA", "MARGENS".
+/// "FONTE", "PAPEL", "ENTRELINHA", "MARGENS": fora do leitor de tela (o grupo logo abaixo já tem o nome).
 class _Label extends StatelessWidget {
   const _Label(this.text, {required this.id, required this.palette});
 
@@ -747,11 +760,13 @@ class _Label extends StatelessWidget {
   final ReaderChromePalette palette;
 
   @override
-  Widget build(BuildContext context) => AppText(
-    text,
-    key: ValueKey(id),
-    style: AppTextStyles.readerSheetLabel.copyWith(color: palette.label),
-    maxLines: 1,
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: AppText(
+      text,
+      key: ValueKey(id),
+      style: AppTextStyles.readerSheetLabel.copyWith(color: palette.label),
+      maxLines: 1,
+    ),
   );
 }
 
