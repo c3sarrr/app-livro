@@ -20,6 +20,7 @@ final class ReaderChromePalette {
     required this.well,
     required this.title,
     required this.muted,
+    required this.label,
     required this.hatch,
     required this.hatchBase,
     required this.bubble,
@@ -39,6 +40,7 @@ final class ReaderChromePalette {
         well: AppColors.paperNight,
         title: AppColors.inkNight,
         muted: AppColors.mutedNight,
+        label: AppColors.mutedNight,
         hatch: AppColors.hatchNight,
         hatchBase: AppColors.islandNight,
         bubble: AppColors.inkNight,
@@ -57,6 +59,7 @@ final class ReaderChromePalette {
       well: AppColors.paper,
       title: AppColors.ink,
       muted: AppColors.inkMuted,
+      label: AppColors.labelReader,
       hatch: AppColors.hatchReader,
       hatchBase: AppColors.surface,
       bubble: AppColors.ink,
@@ -81,6 +84,9 @@ final class ReaderChromePalette {
   /// Título, rótulos das ferramentas e o "62%"; [muted] = autor e linha de progresso.
   final Color title, muted;
 
+  /// Rótulos pequenos da barra de ações e da folha da nota ("GRIFAR", "NOTA" — G13).
+  final Color label;
+
   /// Hachura do trilho (listra e base), balão (fundo e texto) e o tracejado acima das ferramentas.
   final Color hatch, hatchBase, bubble, bubbleText, dash;
 
@@ -100,6 +106,7 @@ final class ReaderChromePalette {
       well: f(well),
       title: f(title),
       muted: f(muted),
+      label: f(label),
       hatch: f(hatch),
       hatchBase: f(hatchBase),
       bubble: f(bubble),
@@ -126,6 +133,7 @@ final class ReaderChromePalette {
       well: l(a.well, b.well),
       title: l(a.title, b.title),
       muted: l(a.muted, b.muted),
+      label: l(a.label, b.label),
       hatch: l(a.hatch, b.hatch),
       hatchBase: l(a.hatchBase, b.hatchBase),
       bubble: l(a.bubble, b.bubble),
@@ -146,6 +154,7 @@ final class ReaderChromePalette {
       other.well == well &&
       other.title == title &&
       other.muted == muted &&
+      other.label == label &&
       other.hatch == hatch &&
       other.hatchBase == hatchBase &&
       other.bubble == bubble &&
@@ -163,6 +172,7 @@ final class ReaderChromePalette {
     well,
     title,
     muted,
+    label,
     hatch,
     hatchBase,
     bubble,

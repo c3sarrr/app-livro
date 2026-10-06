@@ -1,6 +1,7 @@
 import 'package:flutter/painting.dart';
 
 import 'app_colors.dart';
+import 'reader_fonts.dart';
 
 abstract final class AppFonts {
   /// Instâncias estáticas existentes da Bricolage (optical size = tamanho em px; 11 px usa 12).
@@ -108,6 +109,25 @@ abstract final class AppFonts {
       leadingDistribution: TextLeadingDistribution.even,
     );
   }
+
+  /// A Literata variável do livro num tamanho de interface (G13: o "a" do Sublinhar — 13 do SVG em 20/24, L21b):
+  /// `opsz` = [opsz] e `wght` 400 explícitos, como no texto do livro.
+  static TextStyle literataBook(
+    double opsz, {
+    double? size,
+    Color color = AppColors.ink,
+  }) => TextStyle(
+    fontFamily: readerFontFamily,
+    fontFamilyFallback: readerFontFallback,
+    fontSize: size ?? opsz,
+    fontWeight: FontWeight.w400,
+    fontVariations: [
+      FontVariation('opsz', opsz),
+      const FontVariation('wght', 400),
+    ],
+    color: color,
+    height: 1,
+  );
 
   static TextStyle serif(
     double size, {
@@ -503,6 +523,33 @@ abstract final class AppTextStyles {
     FontWeight.w700,
     color: AppColors.readerFooter,
   ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  /// r21.toolbar.colors.label "GRIFAR" e o título da folha da nota: Figtree 11/800, ls 1,2, `line-height: 1`.
+  static final TextStyle readerToolbarLabel = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+    height: 1,
+    letterSpacing: 1.2,
+    color: AppColors.labelReader,
+  );
+
+  /// r21.toolbar.actions.*: Figtree 11,5/800 (altura normal do botão — 13,81).
+  static final TextStyle readerToolbarAction = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w800,
+  );
+
+  /// Folha da nota (D-131, extrapolada): o campo e os botões.
+  static final TextStyle readerNoteField = AppFonts.figtreeReader(
+    15,
+    FontWeight.w500,
+    height: 1.35,
+  );
+  static final TextStyle readerNoteButton = AppFonts.figtreeReader(
+    14,
+    FontWeight.w800,
+  );
+
   static final TextStyle readerSearchExcerpt = AppFonts.literata(
     17,
     FontWeight.w400,

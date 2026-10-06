@@ -39,6 +39,16 @@ abstract final class AppIconsLeitor {
   /// (×) limpar a busca (D-120).
   static const close = '$_d/ic_close.svg';
 
+  /// (20) Nota, Copiar e Compartilhar da barra de ações (`r21.toolbar.actions.*`); a Busca usa [search]. Sem versão
+  /// do Noite: lá são tingidos com a cor da borda (G13). O `ic_underline` do arquivo tem um `<text>`: o ícone do
+  /// Sublinhar é pintado (`UnderlineIconPainter`).
+  static const note = '$_d/ic_note.svg';
+  static const copy = '$_d/ic_copy.svg';
+  static const share = '$_d/ic_share.svg';
+
+  /// (8) "+" do miolo de "Escolher outra cor" (`r21.toolbar.colors.other.icon`).
+  static const plusTiny = '$_d/ic_plus_tiny.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -58,5 +68,9 @@ abstract final class AppIconsLeitor {
     tocNight,
     timer,
     close,
+    note,
+    copy,
+    share,
+    plusTiny,
   ];
 }

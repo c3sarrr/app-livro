@@ -57,6 +57,9 @@ abstract final class AppColors {
   static const Color inkNight = Color(0xFFEDE3D1);
   static const Color shadowNight = Color(0xFF0B0A08);
   static const Color mutedNight = Color(0xFFB5AA98);
+
+  /// Rótulos pequenos do leitor nos papéis claros ("GRIFAR", "NOTA" — L21b nº 3).
+  static const Color labelReader = Color(0xFF6F665B);
   static const Color hatchNight = Color(0xFF3A332B);
   static const Color dashNight = Color(0xFF4A433A);
 

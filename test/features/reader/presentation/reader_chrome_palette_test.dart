@@ -104,6 +104,7 @@ void main() {
     expect(a.faded(0.5).island.a, closeTo(0.5, 1e-6));
     expect(a.faded(0.5).veil.a, closeTo(0.31, 1e-6));
     expect(a.faded(1), a);
+    expect(a.faded(0.5).label.a, closeTo(0.5, 1e-6), reason: 'G13: rótulos');
   });
 
   test('ReaderPalette.lerp (papel, texto e rodapé do Tema)', () {

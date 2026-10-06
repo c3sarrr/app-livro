@@ -4,21 +4,11 @@
 // fazer negrito sintético por cima do eixo `wght`.
 import 'dart:ui' as ui;
 
+import '../../../core/design_system/tokens/reader_fonts.dart';
 import '../content/content_blocks.dart';
 import '../domain/reader_settings.dart';
 
-/// Família do texto do livro (G10 registra a Literata; Lora, Figtree e Atkinson entram na G14).
-const String readerFontFamily = 'LiterataVF';
-
-/// Subconjuntos da Literata, na ordem do `unicode-range` do arquivo de design.
-const List<String> readerFontFallback = [
-  'LiterataVFExt',
-  'LiterataVFVi',
-  'LiterataVFCyr',
-  'LiterataVFCyrExt',
-  'LiterataVFGr',
-  'LiterataVFGrExt',
-];
+export '../../../core/design_system/tokens/reader_fonts.dart';
 
 /// Versão das fontes do leitor (entra na chave do cache de páginas): mudou arquivo de fonte → sobe.
 const int readerFontsVersion = 1;
