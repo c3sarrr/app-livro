@@ -1,75 +1,16 @@
 // G13.3 — a seleção da tela 21: a palavra da pressão longa; arrastar sem soltar estende o fim por palavra (o início
 // fica — D-136); as alças movem as bordas por palavra ou, com a lupa, por letra (D-45); presa à página (D-47); a inicial
 // nunca passa da final (pelo menos 1 letra); a barra de um grifo existente guarda o id dele (D-132).
-import 'dart:ui' as ui;
-
 import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/selection_controller.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// Uma página de uma linha: a letra i ocupa x = 10·i…10·i + 10, de y = 0 a 40.
-final class _PaginaDeTexto implements DisplayPage {
-  _PaginaDeTexto(this.texto);
-
-  final String texto;
-  static final RegExp _palavra = RegExp(r'\w+|[^\w\s]');
-
-  @override
-  ReaderRange? get shown => (unit: 0, from: 0, to: texto.length);
-
-  @override
-  ReaderSpot? spotAt(Offset p) =>
-      (unit: 0, offset: (p.dx / 10).round().clamp(0, texto.length));
-
-  @override
-  ReaderRange? wordAround(ReaderSpot s) {
-    for (final m in _palavra.allMatches(texto)) {
-      if (m.start <= s.offset && s.offset < m.end) {
-        return (unit: 0, from: m.start, to: m.end);
-      }
-    }
-    return null;
-  }
-
-  @override
-  ReaderRange? wordAt(Offset p) => wordAround(spotAt(p)!);
-
-  @override
-  List<TextLineBox> boxesOf(int unit, int from, int to) => [
-    (
-      rect: Rect.fromLTRB(10.0 * from, 0, 10.0 * to, 40),
-      baseline: 30,
-      textTop: 4,
-      textBottom: 36,
-      em: 20,
-    ),
-  ];
-
-  @override
-  String textOf(int unit, int from, int to) => texto.substring(from, to);
-
-  @override
-  bool get alive => true;
-
-  @override
-  bool get opaque => false;
-
-  @override
-  String get spokenText => texto;
-
-  @override
-  LinkHit? linkAt(Offset p) => null;
-
-  @override
-  void paint(ui.Canvas canvas) {}
-
-  @override
-  List<Rect> rectsOf(int unit, int from, int to) => const [];
-}
+import '../../../support/pagina_de_texto.dart';
 
 void main() {
-  final p = _PaginaDeTexto('aa bb, cc dd ee');
+  final p = PaginaDeTexto(
+    'aa bb, cc dd ee',
+  ); // letra i em x = 10·i…10·i + 10, uma linha só
   ReaderRange r(int a, int z) => (unit: 0, from: a, to: z);
   // o dedo um pouco depois do começo da letra i (o ponto do texto mais perto é antes dela)
   Offset em(int i) => Offset(10.0 * i + 3, 20);

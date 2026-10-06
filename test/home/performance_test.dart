@@ -22,6 +22,7 @@ import 'package:app_leitura/features/home/presentation/sections/recently_added_s
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
+import 'package:app_leitura/features/reader/presentation/selection_layer.dart';
 import 'package:app_leitura/features/reader/presentation/scrubber.dart'
     show FillWavePainter;
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
@@ -248,6 +249,46 @@ void main() {
       },
     );
 
+    test('MagnifierPainter (pintor da página, foco, papel, borda, sombra, tela) — G13', () {
+      final doc = _Documento();
+      final paginas = ReaderPagesPainter(
+        document: doc,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+      );
+      MagnifierPainter lupa({
+        ReaderPagesPainter? pages,
+        Offset focus = const Offset(100, 300),
+        Color paper = AppColors.paperCream,
+        Color border = AppColors.ink,
+        Color shadow = AppColors.ink,
+        Size screen = const Size(390, 844),
+      }) => MagnifierPainter(
+        pages: pages ?? paginas,
+        focus: focus,
+        paper: paper,
+        border: border,
+        shadow: shadow,
+        screen: screen,
+      );
+      _expectRepaintsOnlyOnChange(lupa, {
+        'pages': () => lupa(
+          pages: ReaderPagesPainter(
+            document: doc,
+            dx: 0,
+            dir: null,
+            neighbor: null,
+          ),
+        ),
+        'focus': () => lupa(focus: const Offset(101, 300)),
+        'paper': () => lupa(paper: AppColors.paperNight),
+        'border': () => lupa(border: AppColors.inkNight),
+        'shadow': () => lupa(shadow: AppColors.shadowNight),
+        'screen': () => lupa(screen: const Size(430, 932)),
+      });
+    });
+
     test('todo pintor do app está coberto aqui (nenhum CustomPainter novo sem teste)', () {
       final painters = <String>{};
       for (final file in Directory('lib').listSync(recursive: true)) {
@@ -267,6 +308,7 @@ void main() {
         'ArchBorderPainter',
         'ReaderPagesPainter',
         'FillWavePainter',
+        'MagnifierPainter',
       });
     });
   });
