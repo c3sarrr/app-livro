@@ -220,3 +220,41 @@ flutter:
         - asset: assets/fonts/InstrumentSerifExt-Italic.ttf
           weight: 400
           style: italic
+    # G10 (D-17/ADR-004): Literata VARIÁVEL (opsz + wght) para o texto do livro, normal e itálica, com os
+    # subconjuntos como fallback na ordem do unicode-range. O estilo é montado só em ReaderTypography
+    # (opsz = tamanho e wght sempre explícitos; fontWeight fica 400 para não haver negrito sintético).
+    - family: LiterataVF
+      fonts:
+        - asset: assets/fonts/Literata-VF.ttf
+        - asset: assets/fonts/LiterataItalic-VF.ttf
+          style: italic
+    - family: LiterataVFExt
+      fonts:
+        - asset: assets/fonts/Literata-VFExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFExt.ttf
+          style: italic
+    - family: LiterataVFVi
+      fonts:
+        - asset: assets/fonts/Literata-VFVi.ttf
+        - asset: assets/fonts/LiterataItalic-VFVi.ttf
+          style: italic
+    - family: LiterataVFCyr
+      fonts:
+        - asset: assets/fonts/Literata-VFCyr.ttf
+        - asset: assets/fonts/LiterataItalic-VFCyr.ttf
+          style: italic
+    - family: LiterataVFCyrExt
+      fonts:
+        - asset: assets/fonts/Literata-VFCyrExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFCyrExt.ttf
+          style: italic
+    - family: LiterataVFGr
+      fonts:
+        - asset: assets/fonts/Literata-VFGr.ttf
+        - asset: assets/fonts/LiterataItalic-VFGr.ttf
+          style: italic
+    - family: LiterataVFGrExt
+      fonts:
+        - asset: assets/fonts/Literata-VFGrExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFGrExt.ttf
+          style: italic
