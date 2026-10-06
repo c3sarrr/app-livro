@@ -19,6 +19,8 @@ import 'package:app_leitura/features/home/presentation/sections/header_section.d
 import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
+import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/material.dart';
@@ -171,6 +173,37 @@ void main() {
       );
     });
 
+    test(
+      'ReaderPagesPainter (documento, deslocamento, sentido, vizinha) — G11',
+      () {
+        final doc = _Documento();
+        final outro = _Documento();
+        final vizinha = _Pagina();
+        ReaderPagesPainter pintor({
+          ReaderDocument? document,
+          double dx = -40,
+          PageDirection? dir = PageDirection.forward,
+          DisplayPage? neighbor,
+        }) => ReaderPagesPainter(
+          document: document ?? doc,
+          dx: dx,
+          dir: dir,
+          neighbor: neighbor ?? vizinha,
+        );
+        _expectRepaintsOnlyOnChange(pintor, {
+          'document': () => pintor(document: outro),
+          'dx': () => pintor(dx: -41),
+          'dir': () => pintor(dir: PageDirection.backward),
+          'neighbor': () => pintor(neighbor: _Pagina()),
+        });
+        // a página atual que muda por dentro (sem trocar de pintor) repinta pelo aviso do documento
+        var avisos = 0;
+        pintor().addListener(() => avisos++);
+        doc.changes.value++;
+        expect(avisos, 1);
+      },
+    );
+
     test('todo pintor do app está coberto aqui (nenhum CustomPainter novo sem teste)', () {
       final painters = <String>{};
       for (final file in Directory('lib').listSync(recursive: true)) {
@@ -188,6 +221,7 @@ void main() {
         'RingProgressPainter',
         'TopBorderCrescentPainter',
         'ArchBorderPainter',
+        'ReaderPagesPainter',
       });
     });
   });
@@ -447,3 +481,17 @@ void main() {
 }
 
 int _byName(Type a, Type b) => '$a'.compareTo('$b');
+
+/// Documento e página mínimos para o pintor do leitor: só o aviso de mudança é usado na construção.
+class _Documento implements ReaderDocument {
+  @override
+  final ValueNotifier<int> changes = ValueNotifier<int>(0);
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _Pagina implements DisplayPage {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
