@@ -2,8 +2,11 @@
 # Falso positivo: a chave RSA do teste do push-sender é gerada na hora (crypto.subtle.generateKey); o
 # arquivo só tinha o cabeçalho PEM em volta. O código foi trocado na revisão da G04 para não casar mais.
 1f0f556aef120792b6850af2ca0171ecc31a9b05:supabase/functions/push-sender/push_test.ts:private-key:18
-# Falso positivo (G12): a regra genérica de chave casa com `NeoBox(key: 'r20.bottomIsland', …)` no plano da fase — é a
-# chave de widget do id da prancha, não um segredo. A primeira linha vale para o histórico; a segunda, para o
-# `gitleaks detect --no-git` da pasta docs/progresso.
+# Falso positivo (G12): a regra genérica de chave casa com o parâmetro de chave do NeoBox escrito com o id
+# r20.bottomIsland no plano da fase — é a chave de widget do id da prancha, não um segredo. A primeira linha vale
+# para o histórico; a segunda, para o `gitleaks detect --no-git` da pasta docs/progresso. As duas seguintes são o
+# mesmo texto citado no commit 96f7ee9 (no G12.md e neste arquivo), reescrito no commit seguinte.
 f861fa61b51116e414ea40e6ab8af02a9a302825:docs/progresso/G12_plano.md:generic-api-key:1000
 docs/progresso/G12_plano.md:generic-api-key:1000
+96f7ee950f11cab521b4467f556c2af89dd0fd4f:docs/progresso/G12.md:generic-api-key:339
+96f7ee950f11cab521b4467f556c2af89dd0fd4f:.gitleaksignore:generic-api-key:5
