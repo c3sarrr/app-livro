@@ -9,11 +9,15 @@ import 'epub_builder.dart';
 String _escape(String s) =>
     s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 
-/// EPUB do livro [slug] do mundo de referência.
-Uint8List mundoEpub(String slug) {
+/// EPUB do livro [slug] do mundo de referência. [completo] = com todos os capítulos do livro
+/// (`chaptersTotal`), vazios depois do último que tem texto de fixture — para as contagens do índice
+/// injetado da tela 19 terem onde ficar depois do cap. XXXII (G11, D-34).
+Uint8List mundoEpub(String slug, {bool completo = false}) {
   final textos = mundoReferencia.textosDosCapitulos[slug]!;
   final livro = mundoReferencia.livro(slug);
-  final ultimo = textos.keys.reduce((a, b) => a > b ? a : b);
+  final ultimo = completo
+      ? livro.chaptersTotal! - 1
+      : textos.keys.reduce((a, b) => a > b ? a : b);
   return simpleEpub(
     title: livro.title,
     authors: [livro.authorDisplay],

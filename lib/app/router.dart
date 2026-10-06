@@ -9,6 +9,7 @@ import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/library/presentation/library_import_block.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
+import '../features/reader/presentation/reader_screen.dart';
 import '../features/scanner/presentation/scanner_screen.dart';
 import '../features/shell/presentation/main_shell.dart';
 import 'routes.dart';
@@ -73,7 +74,13 @@ GoRouter createRouter({
             _page(state, const ScannerScreen(), fullscreenDialog: true),
       ),
       fullScreen(AppRoutes.notificacoes, 'Notificações'),
-      fullScreen('/leitor/:bookId', 'Leitor'),
+      // G11: a tela 19 de verdade (o leitor limpo), aberta pelo id do livro na estante
+      GoRoute(
+        path: '/leitor/:bookId',
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) =>
+            _page(state, ReaderScreen(bookId: state.pathParameters['bookId']!)),
+      ),
       fullScreen('/livro/:bookId', 'Livro'),
       fullScreen('/livro/:bookId/destaques', 'Destaques e notas'),
       fullScreen(AppRoutes.paraVoce, 'Para você'),

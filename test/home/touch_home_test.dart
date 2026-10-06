@@ -5,6 +5,7 @@ import 'package:app_leitura/core/design_system/widgets/pressable.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
+import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/gestures.dart' show kPressTimeout;
 import 'package:flutter/material.dart';
@@ -25,6 +26,10 @@ Finder _key(String id) => find.byKey(ValueKey<String>(id));
 
 Finder _placeholder(String title) =>
     find.byWidgetPredicate((w) => w is PlaceholderScreen && w.title == title);
+
+/// O destino de cada toque: o placeholder da rota; o "Continuar lendo" abre o leitor de verdade (G11).
+Finder _destino(String title) =>
+    title == 'Leitor' ? find.byType(ReaderScreen) : _placeholder(title);
 
 /// Aparelho 390×844 com as áreas seguras do iPhone (47/34): a Início rola de verdade.
 Future<void> _device(WidgetTester tester) async {
@@ -101,14 +106,14 @@ void main() {
         await _tap(tester, _key(id));
         await tester.pumpAndSettle();
         expect(_router(tester).state.uri.path, path, reason: id);
-        expect(_placeholder(title), findsOneWidget, reason: id);
+        expect(_destino(title), findsOneWidget, reason: id);
         // Empilhou no navigator raiz, por cima do shell: a aba ativa não mudou.
         expect(_shell(tester).currentIndex, 0, reason: id);
         expect(find.byKey(const ValueKey('nav')), findsNothing, reason: id);
 
         await _back(tester);
         expect(_router(tester).state.uri.path, AppRoutes.inicio, reason: id);
-        expect(_placeholder(title), findsNothing, reason: id);
+        expect(_destino(title), findsNothing, reason: id);
         expect(find.byType(HomeScreen), findsOneWidget, reason: id);
         expect(find.byKey(const ValueKey('nav')), findsOneWidget, reason: id);
         expect(

@@ -1,6 +1,8 @@
 // G11 — dublês do leitor: tela acesa e barra de status que só anotam o que foi pedido.
 import 'dart:async';
 
+import 'package:app_leitura/features/reader/application/reader_providers.dart'
+    show ReaderSystemUi;
 import 'package:app_leitura/features/reader/application/screen_awake.dart';
 
 final class RecordingScreenAwake implements ScreenAwake {
@@ -70,4 +72,15 @@ final class _Prazo implements Timer {
 
   @override
   int get tick => _ativo ? 0 : 1;
+}
+
+/// Barra de status do leitor (D-105): anota o que foi pedido.
+final class RecordingSystemUi implements ReaderSystemUi {
+  final List<String> log = [];
+
+  @override
+  Future<void> immersive() async => log.add('imersivo');
+
+  @override
+  Future<void> edgeToEdge() async => log.add('padrão');
 }

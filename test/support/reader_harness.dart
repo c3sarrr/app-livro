@@ -1,6 +1,7 @@
 // G11 — um livro na estante de um banco em memória, pronto para o leitor: a linha do `user_books`, o arquivo no
 // disco (`local_files`), o índice (`book_content_index`) e, se pedido, a posição guardada. Serve aos testes do
 // documento, da sessão e da tela.
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_leitura/core/data/clock/hlc.dart';
@@ -12,15 +13,21 @@ import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_errors.dart';
+import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
 import 'package:app_leitura/features/reader/application/reading_position_keeper.dart';
+import 'package:app_leitura/features/reader/application/screen_awake.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
 import 'package:drift/native.dart';
+import 'package:flutter/scheduler.dart' show Priority;
 
+import '../fixtures/mundo_2026_09_20.dart' show Slugs;
+import '../fixtures/telas/indice_t19.dart';
 import 'epub_builder.dart';
+import 'mundo_epub.dart';
 import 'personal_builders.dart';
 
 /// O Dom Casmurro do Projeto Gutenberg (domínio público) — o livro real dos testes do leitor.
@@ -87,8 +94,14 @@ final class LivroNaEstante {
   final LocalVersioning versioning;
   final UserBook book;
   final String path;
-  final BookIndex index;
+  BookIndex index;
   final EpubBook epub;
+
+  /// Troca o índice guardado (ex.: o mapa injetado da tela 19 — D-34).
+  Future<void> usarIndice(BookIndex novo) async {
+    index = novo;
+    await BookContentIndexDao(db).upsert(book.id, novo, builtAt: t0Teste);
+  }
 
   String get userBookId => book.id;
 
@@ -128,9 +141,56 @@ final class LivroNaEstante {
     loader: (s) async => chapterOf(epub, s),
   );
 
+  /// O que a sessão de leitura usa, sobre este livro: capítulos lidos na hora (sem isolate), o tempo sem o
+  /// tique de 1 s, a indexação da G09 trocada por gravar o índice já calculado (ou [indexar]).
+  ReaderDeps readerDeps({
+    required ScreenAwake awake,
+    ReaderErrorReporter? onError,
+    Future<bool> Function(String id)? indexar,
+    Duration Function()? elapsed,
+    DateTime Function()? now,
+    Timer Function(Duration, void Function())? startTimer,
+  }) => ReaderDeps(
+    db: db,
+    versioning: versioning,
+    owner: () async => usuarioTeste,
+    booksDir: () async => dir,
+    indexBook:
+        indexar ??
+        (id) async {
+          await BookContentIndexDao(db).upsert(id, index, builtAt: t0Teste);
+          return true;
+        },
+    // Nos testes de tela o tempo é falso (`testWidgets`): uma fatia de layout com prioridade ociosa, pedida
+    // enquanto uma animação roda (a entrada da rota, a virada), é adiada pelo `SchedulerBinding` com
+    // `Timer.run` de novo a cada volta — no aparelho isso só espera a animação acabar; no tempo falso o
+    // `pump` nunca termina. Aqui as fatias têm a prioridade de animação (a ordem entre capítulos é a mesma).
+    scheduler: LayoutScheduler(priority: Priority.animation),
+    screenAwake: awake,
+    deviceId: 'aparelhoA',
+    now: now,
+    elapsed: elapsed,
+    autoTick: false,
+    chapterLoader: (path) =>
+        (s) async => chapterOf(epub, s),
+    startTimer: startTimer ?? Timer.new,
+    onError: onError ?? reportReaderError,
+  );
+
   Future<void> close() async {
     epub.close();
     await db.close();
     if (dir.existsSync()) dir.deleteSync(recursive: true);
   }
+}
+
+/// A tela 19 do mundo de referência (D-34): o Dom Casmurro do mundo, com o índice injetado da tela 19, aberto no
+/// começo do cap. XXXII — a pág. 159 de 256, 62 %.
+Future<LivroNaEstante> livroDaTela19() async {
+  final livro = await LivroNaEstante.epubDe(
+    mundoEpub(Slugs.domCasmurro, completo: true),
+  );
+  await livro.usarIndice(indiceDaTela19(livro.index));
+  await livro.guardarPosicao(itemDaPagina159, 0);
+  return livro;
 }

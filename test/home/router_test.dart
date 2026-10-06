@@ -8,6 +8,7 @@ import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/features/account/presentation/account_block.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
+import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
 import 'package:app_leitura/features/scanner/presentation/scanner_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/foundation.dart';
@@ -121,33 +122,42 @@ void main() {
   );
 
   testWidgets(
-    '2.6 destinos placeholder (usados na F12): cada um abre por push no navigator raiz',
+    '2.6 destinos (placeholders da F12 e o leitor de verdade da G11): cada um abre por push no navigator raiz',
     (tester) async {
       _device(tester);
       await pumpApp(tester);
-      for (final (location, title, params) in [
-        (AppRoutes.notificacoes, 'Notificações', <String, String>{}),
+      for (final (location, page, params) in [
+        (
+          AppRoutes.notificacoes,
+          _placeholder('Notificações'),
+          <String, String>{},
+        ),
         (
           AppRoutes.leitor('dom-casmurro'),
-          'Leitor',
+          find.byWidgetPredicate(
+            (w) => w is ReaderScreen && w.bookId == 'dom-casmurro',
+          ),
           {'bookId': 'dom-casmurro'},
         ),
-        (AppRoutes.livro('dom-casmurro'), 'Livro', {'bookId': 'dom-casmurro'}),
+        (
+          AppRoutes.livro('dom-casmurro'),
+          _placeholder('Livro'),
+          {'bookId': 'dom-casmurro'},
+        ),
         (
           AppRoutes.destaques('dom-casmurro'),
-          'Destaques e notas',
+          _placeholder('Destaques e notas'),
           {'bookId': 'dom-casmurro'},
         ),
-        (AppRoutes.paraVoce, 'Para você', <String, String>{}),
+        (AppRoutes.paraVoce, _placeholder('Para você'), <String, String>{}),
         (
           AppRoutes.discussao('leitoras-de-capitu'),
-          'Discussão',
+          _placeholder('Discussão'),
           {'clubId': 'leitoras-de-capitu'},
         ),
       ]) {
         unawaited(_router(tester).push<void>(location));
         await tester.pumpAndSettle();
-        final page = _placeholder(title);
         expect(page, findsOneWidget, reason: location);
         final route = ModalRoute.of(tester.element(page))! as PageRoute<void>;
         expect(route.fullscreenDialog, isFalse, reason: location);

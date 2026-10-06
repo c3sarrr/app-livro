@@ -83,9 +83,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Ícones SVG oficiais do arquivo (design_handoff/assets/icons) e licença OFL das fontes.
+  # Ícones SVG oficiais do arquivo (design_handoff/assets/icons), os do leitor (telas 19–27b, G01.8) e
+  # licença OFL das fontes.
   assets:
     - assets/icons/
+    - assets/icons/leitor/
     - assets/fonts/LICENCAS_FONTES_OFL.txt
 
   # Bloco copiado literalmente de design_handoff/ferramentas/pubspec_fonts.yaml.
