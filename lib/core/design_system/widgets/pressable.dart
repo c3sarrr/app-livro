@@ -14,6 +14,7 @@ class Pressable extends StatefulWidget {
     this.selected,
     this.hint,
     this.enabled = true,
+    this.checked,
   });
   final Widget child;
   final VoidCallback? onTap;
@@ -31,6 +32,10 @@ class Pressable extends StatefulWidget {
 
   /// `false` = desabilitado: sem toque e "indisponível" para o leitor de tela (Fonte no PDF — D-122).
   final bool enabled;
+
+  /// Opção de um grupo (radio — a fonte, o papel, a entrelinha e as margens da folha de ajustes, G14): marcada ou
+  /// não; o nó vira uma opção num grupo exclusivo, não um botão.
+  final bool? checked;
 
   /// Liga/desliga o feedback de escala (D-04: "desligável por flag"). O repouso não muda.
   static bool feedbackEnabled = true;
@@ -60,8 +65,10 @@ class _PressableState extends State<Pressable> {
     final onTap = widget.enabled ? widget.onTap : null;
     return Semantics(
       container: true,
-      button: !widget.isLink,
+      button: !widget.isLink && widget.checked == null,
       link: widget.isLink,
+      checked: widget.checked,
+      inMutuallyExclusiveGroup: widget.checked == null ? null : true,
       label: widget.semanticsLabel,
       toggled: widget.toggled,
       selected: widget.selected,

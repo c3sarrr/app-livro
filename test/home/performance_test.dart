@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
+import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.dart';
 import 'package:app_leitura/core/design_system/painters/goal_dial_painter.dart';
 import 'package:app_leitura/core/design_system/painters/hatch_painter.dart';
 import 'package:app_leitura/core/design_system/painters/ring_progress_painter.dart';
@@ -82,6 +83,13 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('12.4 shouldRepaint compara todos os campos de cada pintor', () {
+    test('DashedStadiumPainter (espessura, cor) — G14', () {
+      _expectRepaintsOnlyOnChange(() => const DashedStadiumPainter(), {
+        'thickness': () => const DashedStadiumPainter(thickness: 1.2),
+        'color': () => const DashedStadiumPainter(color: AppColors.ink),
+      });
+    });
+
     test('ChromiumDashPainter (eixo, espessura, cor)', () {
       _expectRepaintsOnlyOnChange(
         () => const ChromiumDashPainter(
@@ -331,6 +339,7 @@ void main() {
       }
       expect(painters, {
         'ChromiumDashPainter',
+        'DashedStadiumPainter',
         'GoalDialPainter',
         'HatchPainter',
         'RingProgressPainter',
