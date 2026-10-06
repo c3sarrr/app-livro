@@ -98,36 +98,41 @@ void main() {
     await _quadros(tester);
   });
 
-  testWidgets(
-    'busca: painel com resultados; tocar marca a palavra e mostra a pílula',
-    (tester) async {
-      final livro = (await tester.runAsync(livroDaTela20))!;
-      addTearDown(() => tester.runAsync(livro.close));
-      await abrirTela20(tester, livro, golden: true);
-      await tester.tap(_key('r20.topIsland.search'));
-      await tester.pump();
-      await tester.enterText(_key('leitor.busca.campo'), 'olhos');
-      await tester.pump(const Duration(milliseconds: 250));
-      await _quadros(tester, 20);
-      expect(_key('leitor.busca.contagem'), findsOneWidget);
-      await _gravar(tester, 'g12_busca_resultados_390x844@3x.png');
-      final resultado = find.byWidgetPredicate(
-        (w) =>
-            w.key is ValueKey<String> &&
-            (w.key! as ValueKey<String>).value.startsWith(
-              'leitor.busca.resultado.',
-            ),
-      );
-      // o último resultado na tela (em geral noutra página: a pílula de voltar aparece)
-      await tester.tap(resultado.last);
-      await _quadros(tester, 40);
-      expect(_doc(tester).found, isNotNull);
-      if (_doc(tester).numbers.refPage != 159) {
-        expect(findAppText('Voltar à pág. 159'), findsOneWidget);
-      }
-      await _gravar(tester, 'g12_palavra_marcada_390x844@3x.png');
-    },
-  );
+  for (final papel in const [ReaderPaper.creme, ReaderPaper.noite]) {
+    final fim = papel == ReaderPaper.creme ? '' : '_noite';
+    testWidgets(
+      'busca em ${papel.code}: painel com resultados; tocar marca a palavra e mostra a pílula',
+      (tester) async {
+        final livro = (await tester.runAsync(
+          () => livroDaTela20(papel: papel),
+        ))!;
+        addTearDown(() => tester.runAsync(livro.close));
+        await abrirTela20(tester, livro, golden: true);
+        await tester.tap(_key('r20.topIsland.search'));
+        await tester.pump();
+        await tester.enterText(_key('leitor.busca.campo'), 'olhos');
+        await tester.pump(const Duration(milliseconds: 250));
+        await _quadros(tester, 20);
+        expect(_key('leitor.busca.contagem'), findsOneWidget);
+        await _gravar(tester, 'g12_busca_resultados${fim}_390x844@3x.png');
+        final resultado = find.byWidgetPredicate(
+          (w) =>
+              w.key is ValueKey<String> &&
+              (w.key! as ValueKey<String>).value.startsWith(
+                'leitor.busca.resultado.',
+              ),
+        );
+        // o último resultado na tela (em geral noutra página: a pílula de voltar aparece)
+        await tester.tap(resultado.last);
+        await _quadros(tester, 40);
+        expect(_doc(tester).found, isNotNull);
+        if (_doc(tester).numbers.refPage != 159) {
+          expect(findAppText('Voltar à pág. 159'), findsOneWidget);
+        }
+        await _gravar(tester, 'g12_palavra_marcada${fim}_390x844@3x.png');
+      },
+    );
+  }
 
   testWidgets('PDF com os controles: Fonte cinza (D-122)', (tester) async {
     final livro = (await tester.runAsync(LivroNaEstante.domCasmurro))!;
