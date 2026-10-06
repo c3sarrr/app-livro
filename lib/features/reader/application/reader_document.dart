@@ -1,7 +1,8 @@
 // G11.2 — o que a tela precisa de um livro aberto, igual para EPUB e PDF (desenho G11 §2): a página atual e a
 // vizinha prontas para pintar, virar, os números do rodapé, seguir um link, voltar a um lugar e gravar a
 // posição. A tela não sabe se o livro é EPUB ou PDF. G12: autor, salto por página (barra de posição — D-119),
-// rascunho do marcador (D-49), cor do texto (Tema — D-121) e a marca da busca (D-120).
+// rascunho do marcador (D-49), cor do texto (Tema — D-121) e a marca da busca (D-120). G14: repaginar com os
+// ajustes novos (`retypeset`).
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show Listenable;
@@ -9,6 +10,7 @@ import 'package:flutter/foundation.dart' show Listenable;
 import '../domain/locator.dart';
 import '../domain/reader_numbers.dart';
 import '../layout/display_page.dart';
+import '../layout/reader_typography.dart' show ReaderTypography;
 import 'annotation_anchors.dart';
 
 export '../layout/display_page.dart';
@@ -111,6 +113,11 @@ abstract interface class ReaderDocument {
 
   /// Troca a cor do texto sem mudar as quebras (Tema — D-121). PDF: a página não muda de cor (D-43).
   Future<void> recolor(ui.Color ink);
+
+  /// Os ajustes que mudam as quebras mudaram (tamanho, fonte, entrelinha, margens — G14): repagina e volta à
+  /// página do caractere que a pessoa lia; a página de agora continua pintável até a nova chegar, e uma
+  /// repaginação mais nova passa na frente. PDF: nada (a página é uma imagem — D-43).
+  Future<void> retypeset(ReaderTypography t);
 
   /// A ocorrência da busca marcada na página (D-120), até a próxima virada ou salto.
   FoundRange? get found;

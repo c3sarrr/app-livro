@@ -14,6 +14,7 @@ import 'package:pdfrx/pdfrx.dart';
 import '../../library/domain/user_book.dart';
 import '../content/content_failure.dart';
 import '../content/ref_pages.dart' show refPageChars;
+import '../layout/reader_typography.dart' show ReaderTypography;
 import 'annotation_anchors.dart';
 import 'book_search.dart';
 import 'pdf_position_keeper.dart';
@@ -273,6 +274,10 @@ final class PdfReaderDocument implements ReaderDocument {
   /// A página do PDF não muda de cor (D-43): só o fundo e as ilhas mudam com o Tema (D-122).
   @override
   Future<void> recolor(ui.Color ink) async {}
+
+  /// O PDF não tem layout de texto (D-43): a folha de ajustes nem abre nele (D-122).
+  @override
+  Future<void> retypeset(ReaderTypography t) async {}
 
   FoundRange? _found;
 

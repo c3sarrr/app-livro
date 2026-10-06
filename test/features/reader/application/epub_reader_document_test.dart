@@ -10,6 +10,9 @@ import 'package:app_leitura/features/reader/content/content_blocks.dart';
 import 'package:app_leitura/features/reader/content/ref_pages.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reader_numbers.dart';
+import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
+import 'package:app_leitura/features/reader/layout/reader_typography.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/load_fonts.dart';
@@ -204,5 +207,45 @@ void main() {
       ),
     );
     expect(n.toString(), 'pág. 159 de 256 · 62%');
+  });
+
+  group('G14 — retypeset', () {
+    test('repagina na página do caractere que a pessoa lia; voltar aos ajustes de antes volta à mesma página', () async {
+      await livro.guardarPosicao(2, 0);
+      final doc = await EpubReaderDocument.open(livro.deps());
+      addTearDown(doc.dispose);
+      for (var i = 0; i < 3; i++) {
+        expect(await doc.turn(PageDirection.forward), isTrue);
+      }
+      final lendo = doc.mark;
+      final avisos = <ReaderMark>[];
+      doc.changes.addListener(() => avisos.add(doc.mark));
+      await doc.retypeset(
+        const ReaderTypography(
+          fontSize: 26,
+          font: ReaderFontFamily.atkinson,
+          sideMargin: 40,
+        ),
+      );
+      final p = doc.current as PageSnapshot;
+      expect(
+        (p.typography.font, p.typography.fontSize),
+        (ReaderFontFamily.atkinson, 26.0),
+      );
+      final s = p.shown!;
+      expect(s.unit, lendo.spine);
+      expect(
+        lendo.offset,
+        inInclusiveRange(s.from, s.to - 1),
+        reason: 'o caractere que a pessoa lia está na página',
+      );
+      expect(avisos, isNotEmpty, reason: 'a tela é avisada');
+      await doc.retypeset(const ReaderTypography());
+      expect(
+        doc.mark,
+        lendo,
+        reason: 'de volta aos ajustes de antes, a mesma página',
+      );
+    });
   });
 }

@@ -157,6 +157,14 @@ final class EpubReaderDocument implements ReaderDocument {
     _announce();
   }
 
+  @override
+  Future<void> retypeset(ReaderTypography t) async {
+    // o paginador da G10 guarda o caractere que a pessoa lia (o da última virada ou abertura): mudar várias vezes
+    // seguidas volta sempre a ele
+    await _pager.relayout(t);
+    _announce();
+  }
+
   FoundRange? _found;
 
   @override
