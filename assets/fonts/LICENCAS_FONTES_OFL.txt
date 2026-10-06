@@ -22,6 +22,11 @@ e "Redesign mobile — App de leitura (1).html"):
 - Inter — Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
   Arquivo: BookNestApprox-Bold.ttf — só o glifo "≈" (U+2248) da Inter Bold 4.0 (D-54), com a família renomeada
   para "BookNestApprox" (tools/fontes/gerar_aprox_inter.py). A Inter não declara Reserved Font Name.
+- Texto do livro (G14, D-18) — arquivos completos do google/fonts (https://github.com/google/fonts), SEM
+  modificação (só os nomes dos arquivos, sem colchetes):
+  livro/Lora{,-Italic}-Wght.ttf (Lora, Reserved Font Name "Lora"),
+  livro/Figtree{,-Italic}-Wght.ttf (Figtree) e
+  livro/AtkinsonHyperlegible-{Regular,Italic,Bold,BoldItalic}.ttf (Atkinson Hyperlegible).
 
 Modificações (versões modificadas conforme a licença) — só em Bricolage Grotesque, Figtree, Instrument Serif e
 Literata: conversão WOFF2 -> TTF, instanciação de eixos variáveis (opsz/wght) com UPM 10000 (nas instâncias geradas na G01, avanços

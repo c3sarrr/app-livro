@@ -319,3 +319,27 @@ flutter:
       fonts:
         - asset: assets/fonts/BookNestApprox-Bold.ttf
           weight: 700
+    # G14 (D-18): o texto do livro nas 4 fontes da tela 26 — arquivos completos do google/fonts, SEM modificação
+    # (a Lora tem Reserved Font Name). Lora e Figtree variáveis (eixo wght) com itálico; Atkinson em 4 estáticas.
+    - family: LoraBook
+      fonts:
+        - asset: assets/fonts/livro/Lora-Wght.ttf
+        - asset: assets/fonts/livro/Lora-Italic-Wght.ttf
+          style: italic
+    - family: FigtreeBook
+      fonts:
+        - asset: assets/fonts/livro/Figtree-Wght.ttf
+        - asset: assets/fonts/livro/Figtree-Italic-Wght.ttf
+          style: italic
+    - family: AtkinsonBook
+      fonts:
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-BoldItalic.ttf
+          weight: 700
+          style: italic
