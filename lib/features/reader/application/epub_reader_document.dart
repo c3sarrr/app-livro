@@ -2,8 +2,9 @@
 // letra visível (`numbersAt`), a posição gravada pelo `ReadingPositionKeeper` a cada página mostrada, e os
 // links internos do livro (`caminho#fragmento` → item do spine + caractere do `id` — D-108).
 import 'dart:async';
+import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart' show Listenable;
+import 'package:flutter/foundation.dart' show Listenable, ValueNotifier;
 
 import '../../library/domain/user_book.dart';
 import '../content/book_index.dart';
@@ -53,8 +54,7 @@ final class EpubDocumentDeps {
 final class EpubReaderDocument implements ReaderDocument {
   EpubReaderDocument._(this._deps, BookPager pager, EpubImageCache images)
     : _pager = pager,
-      _images = images,
-      _changes = Listenable.merge([pager.changes, images.changes]);
+      _images = images;
 
   /// Abre o livro onde a pessoa parou (a posição guardada, reencontrada no arquivo de agora — G10).
   static Future<EpubReaderDocument> open(EpubDocumentDeps d) async {
@@ -83,10 +83,87 @@ final class EpubReaderDocument implements ReaderDocument {
   final EpubDocumentDeps _deps;
   final BookPager _pager;
   final EpubImageCache _images;
-  final Listenable _changes;
+
+  /// A marca da busca entrou ou saiu (a página repinta).
+  final _marks = ValueNotifier<int>(0);
+  late final Listenable _changes = Listenable.merge([
+    _pager.changes,
+    _images.changes,
+    _marks,
+  ]);
 
   @override
   String get title => _deps.book.title;
+
+  @override
+  String get author => _deps.book.authorDisplay;
+
+  @override
+  int get totalChars => _deps.index.totalChars;
+
+  @override
+  ReaderMark markOfRefPage(int refPage) {
+    final index = _deps.index;
+    final starts = index.refPages.starts;
+    if (starts.isEmpty) return (spine: _pager.firstSpine, offset: 0);
+    final page = refPage.clamp(1, starts.length);
+    final at = index.spineAt(starts[page - 1]);
+    return at == null
+        ? (spine: _pager.firstSpine, offset: 0)
+        : (spine: at.$1, offset: at.$2);
+  }
+
+  @override
+  bool get atEnd {
+    final p = _pager.position;
+    if (p == null) return false;
+    final text = _pager.contentOf(p.spine)?.item.text;
+    if (text == null || p.page.end < text.length) return false;
+    final spine = _deps.index.spine;
+    for (var i = p.spine + 1; i < spine.length; i++) {
+      if (spine[i].linear && spine[i].chars > 0) return false;
+    }
+    return true;
+  }
+
+  @override
+  BookmarkDraft bookmarkHere() {
+    final p = _pager.position!;
+    final text = _pager.contentOf(p.spine)?.item.text ?? '';
+    final n = numbersAt(_deps.index, p.spine, p.firstVisible);
+    return (
+      locator: _deps.keeper.locatorAt(p.spine, p.firstVisible, text),
+      refPage: n.refPage,
+      chapterIndex: n.chapterIndex,
+      excerpt: bookmarkExcerpt(current.spokenText),
+    );
+  }
+
+  @override
+  Future<void> recolor(ui.Color ink) async {
+    if (ink == _pager.typography.ink) return;
+    // a cor fica fora da chave de paginação: as quebras vêm do cache e a página de agora continua pintável até
+    // a nova chegar (G10)
+    await _pager.relayout(_pager.typography.withInk(ink));
+    _announce();
+  }
+
+  FoundRange? _found;
+
+  @override
+  FoundRange? get found => _found;
+
+  @override
+  void showFound(FoundRange f) {
+    _found = f;
+    _marks.value++;
+  }
+
+  void _clearFound() {
+    if (_found == null) return;
+    _found = null;
+    _marks.value++;
+  }
 
   @override
   DisplayPage get current => _pager.current!;
@@ -130,13 +207,34 @@ final class EpubReaderDocument implements ReaderDocument {
     final ok = d == PageDirection.forward
         ? await _pager.next()
         : await _pager.previous();
-    if (ok) _announce();
+    if (ok) {
+      _clearFound();
+      _announce();
+    }
     return ok;
   }
 
   @override
   Future<void> goTo(ReaderMark m) async {
+    _clearFound();
     await _pager.openAt(m.spine, m.offset);
+    _announce();
+  }
+
+  @override
+  Future<void> goToRefPage(int refPage) async {
+    final total = _deps.index.refPages.starts.length;
+    final want = total == 0 ? 1 : refPage.clamp(1, total);
+    final m = markOfRefPage(want);
+    _clearFound();
+    await _pager.openAt(m.spine, m.offset);
+    // as páginas da tela não batem com as de 1.500 caracteres: a que contém o começo da pág. N quase sempre começa
+    // na N − 1; a seguinte já começa na N (se a página da tela for maior que a de referência, fica a primeira)
+    if (numbers.refPage < want &&
+        await _pager.next() &&
+        numbers.refPage > want) {
+      await _pager.previous();
+    }
     _announce();
   }
 
@@ -171,6 +269,7 @@ final class EpubReaderDocument implements ReaderDocument {
     _deps.keeper.dispose();
     _pager.dispose();
     _images.dispose();
+    _marks.dispose();
   }
 
   /// Uma página apareceu: a posição grava depois de 1 s nela (G10) — a não ser que haja um alfinete (D-115).

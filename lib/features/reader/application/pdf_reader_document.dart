@@ -7,11 +7,13 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:flutter/foundation.dart' show Listenable, ValueNotifier;
+import 'package:flutter/foundation.dart'
+    show Listenable, ValueNotifier, visibleForTesting;
 import 'package:pdfrx/pdfrx.dart';
 
 import '../../library/domain/user_book.dart';
 import '../content/content_failure.dart';
+import '../content/ref_pages.dart' show refPageChars;
 import 'pdf_position_keeper.dart';
 import 'reader_document.dart';
 
@@ -45,14 +47,34 @@ ui.Rect pdfPageRect({
   return ui.Rect.fromLTWH((viewport.width - w) / 2, top + (maxH - h) / 2, w, h);
 }
 
-/// A página [index] do PDF pronta para a tela.
+/// A página [index] do PDF pronta para a tela. [text] é o texto da página como o PDFium dá (a busca conta as
+/// posições nele) e [charRects] o retângulo de cada caractere em pontos do PDF (origem embaixo, à esquerda).
 final class PdfDisplayPage implements DisplayPage {
-  PdfDisplayPage(this.index, this.image, this.rect, this.text);
+  PdfDisplayPage(
+    this.index,
+    this.image,
+    this.rect,
+    this.text, {
+    this.pageSize = ui.Size.zero,
+    this.charRects = const [],
+  });
+
+  /// Sem imagem: só o texto e as medidas (teste das conversões).
+  @visibleForTesting
+  PdfDisplayPage.forTest({
+    required this.index,
+    required this.rect,
+    required this.pageSize,
+    required this.text,
+    required this.charRects,
+  }) : image = null;
 
   final int index;
-  final ui.Image image;
+  final ui.Image? image;
   final ui.Rect rect;
   final String text;
+  final ui.Size pageSize;
+  final List<PdfRect> charRects;
   bool _disposed = false;
 
   @override
@@ -60,26 +82,73 @@ final class PdfDisplayPage implements DisplayPage {
 
   @override
   void paint(ui.Canvas canvas) {
-    if (_disposed) return;
+    final img = image;
+    if (_disposed || img == null) return;
     canvas.drawImageRect(
-      image,
-      ui.Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+      img,
+      ui.Rect.fromLTWH(0, 0, img.width.toDouble(), img.height.toDouble()),
       rect,
       ui.Paint()..filterQuality = ui.FilterQuality.medium,
     );
   }
 
   @override
-  String get spokenText => text;
+  String get spokenText => text.trim();
 
   /// Links do PDF ficam para depois (D-109).
   @override
   LinkHit? linkAt(ui.Offset p) => null;
 
+  /// Os caracteres [from]…[to] da página [unit], unidos por linha (mesma altura) e levados para a tela.
+  @override
+  List<ui.Rect> rectsOf(int unit, int from, int to) {
+    if (_disposed || unit != index || pageSize.isEmpty) return const [];
+    final a = from.clamp(0, charRects.length);
+    final z = to.clamp(a, charRects.length);
+    final sx = rect.width / pageSize.width;
+    final sy = rect.height / pageSize.height;
+    final out = <ui.Rect>[];
+    PdfRect? run;
+    void flush() {
+      final r = run;
+      if (r == null) return;
+      out.add(
+        ui.Rect.fromLTRB(
+          rect.left + r.left * sx,
+          rect.top + (pageSize.height - r.top) * sy,
+          rect.left + r.right * sx,
+          rect.top + (pageSize.height - r.bottom) * sy,
+        ),
+      );
+      run = null;
+    }
+
+    for (var i = a; i < z; i++) {
+      final c = charRects[i];
+      if (c.right <= c.left) continue; // espaço sem largura, quebra de linha
+      final r = run;
+      if (r != null &&
+          (r.top - c.top).abs() < 0.5 &&
+          (r.bottom - c.bottom).abs() < 0.5) {
+        run = PdfRect(
+          math.min(r.left, c.left),
+          math.max(r.top, c.top),
+          math.max(r.right, c.right),
+          math.min(r.bottom, c.bottom),
+        );
+      } else {
+        flush();
+        run = c;
+      }
+    }
+    flush();
+    return out;
+  }
+
   void dispose() {
     if (_disposed) return;
     _disposed = true;
-    image.dispose();
+    image?.dispose();
   }
 }
 
@@ -154,6 +223,40 @@ final class PdfReaderDocument implements ReaderDocument {
   String get title => _book.title;
 
   @override
+  String get author => _book.authorDisplay;
+
+  /// D-122: as páginas do PDF × os 1.500 caracteres da página de referência (a mesma régua do EPUB).
+  @override
+  int get totalChars => pageCount * refPageChars;
+
+  @override
+  ReaderMark markOfRefPage(int refPage) =>
+      (spine: 0, offset: (refPage - 1).clamp(0, math.max(0, pageCount - 1)));
+
+  @override
+  BookmarkDraft bookmarkHere() => (
+    locator: _keeper.locatorAt(_at, pageCount),
+    refPage: _at + 1,
+    chapterIndex: 0,
+    excerpt: bookmarkExcerpt(_pages[_at]?.text ?? ''),
+  );
+
+  /// A página do PDF não muda de cor (D-43): só o fundo e as ilhas mudam com o Tema (D-122).
+  @override
+  Future<void> recolor(ui.Color ink) async {}
+
+  FoundRange? _found;
+
+  @override
+  FoundRange? get found => _found;
+
+  @override
+  void showFound(FoundRange f) {
+    _found = f;
+    _changes.value++;
+  }
+
+  @override
   DisplayPage get current => _pages[_at]!;
 
   @override
@@ -208,6 +311,13 @@ final class PdfReaderDocument implements ReaderDocument {
     await _show(m.offset.clamp(0, pageCount - 1));
   });
 
+  @override
+  bool get atEnd => pageCount > 0 && _at == pageCount - 1;
+
+  /// No PDF a página de referência é a do arquivo (D-122).
+  @override
+  Future<void> goToRefPage(int refPage) => goTo(markOfRefPage(refPage));
+
   int? _pinned;
 
   @override
@@ -251,6 +361,8 @@ final class PdfReaderDocument implements ReaderDocument {
     }
     if (_disposed) return;
     _at = page;
+    _found =
+        null; // a marca da busca vale até a próxima virada ou salto (D-120)
     _evict();
     _announce();
     _changes.value++;
@@ -322,11 +434,21 @@ final class PdfReaderDocument implements ReaderDocument {
       img.dispose();
     }
     var text = '';
+    var chars = const <PdfRect>[];
     try {
-      text = (await page.loadStructuredText()).fullText.trim();
+      final t = await page.loadStructuredText();
+      text = t.fullText;
+      chars = t.charRects;
     } on Object {
       // sem texto (página escaneada): o leitor de tela fica só com o rótulo
     }
-    return PdfDisplayPage(index, image, rect, text);
+    return PdfDisplayPage(
+      index,
+      image,
+      rect,
+      text,
+      pageSize: ui.Size(page.width, page.height),
+      charRects: chars,
+    );
   }
 }

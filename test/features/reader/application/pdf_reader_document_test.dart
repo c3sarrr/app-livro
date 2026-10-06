@@ -240,7 +240,7 @@ void main() {
           reason: textos[i],
         );
         expect(
-          (pagina.image.width, pagina.image.height),
+          (pagina.image!.width, pagina.image!.height),
           (esperado.width.round(), esperado.height.round()),
           reason: 'imagem na largura da tela − 16 (dpr 1)',
         );
@@ -326,5 +326,54 @@ void main() {
         );
       },
     );
+
+    group('G12', () {
+      test('autor; régua = páginas × 1.500 (D-122); salto por página; Tema não mexe na página (D-43)', () async {
+        final d = await abrir();
+        expect(d.author, 'Machado de Assis');
+        expect(d.totalChars, 3 * 1500);
+        expect(d.markOfRefPage(2), (spine: 0, offset: 1));
+        expect(d.markOfRefPage(0), (spine: 0, offset: 0));
+        expect(d.markOfRefPage(99), (spine: 0, offset: 2));
+        final antes = d.current;
+        await d.recolor(const ui.Color(0xFFE3D9C6));
+        expect(identical(d.current, antes), isTrue);
+      });
+
+      test('marcador da página: PdfLocator, pág. = página + 1, capítulo 0, o começo do texto (D-49)', () async {
+        final d = await abrir();
+        await d.goTo(d.markOfRefPage(3));
+        final m = d.bookmarkHere();
+        expect(m.locator, isA<PdfLocator>());
+        expect((m.locator as PdfLocator).page, 2);
+        expect((m.refPage, m.chapterIndex), (3, 0));
+        expect(m.excerpt, 'Segundo conto');
+      });
+
+      test('a marca da busca vale até a próxima virada ou salto', () async {
+        final d = await abrir();
+        var avisos = 0;
+        d.changes.addListener(() => avisos++);
+        d.showFound((unit: 0, from: 0, to: 8));
+        expect(d.found, (unit: 0, from: 0, to: 8));
+        expect(avisos, 1);
+        await d.turn(PageDirection.forward);
+        expect(d.found, isNull);
+        d.showFound((unit: 1, from: 0, to: 3));
+        await d.goTo((spine: 0, offset: 0));
+        expect(d.found, isNull);
+      });
+
+      test('goToRefPage = a página do arquivo; atEnd só na última', () async {
+        final d = await abrir();
+        expect(d.atEnd, isFalse);
+        await d.goToRefPage(2);
+        expect((d.numbers.refPage, d.atEnd), (2, false));
+        await d.goToRefPage(3);
+        expect((d.numbers.refPage, d.atEnd), (3, true));
+        await d.goToRefPage(99);
+        expect(d.numbers.refPage, 3);
+      });
+    });
   });
 }

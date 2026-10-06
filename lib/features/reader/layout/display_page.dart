@@ -21,4 +21,8 @@ abstract interface class DisplayPage {
 
   /// `false` quando o que a página usa já foi descartado (outros ajustes, capítulo que saiu): não pintar.
   bool get alive;
+
+  /// Os retângulos (coordenadas da tela) das letras do trecho [from]…[to] do texto de [unit] — o item do spine
+  /// (EPUB) ou a página (PDF) —, só a parte que está nesta página. A marca da busca (D-120).
+  List<ui.Rect> rectsOf(int unit, int from, int to);
 }

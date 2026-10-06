@@ -1,5 +1,6 @@
 // G11.2 — página do EPUB pronta para a tela: pinta pelo motor da G10 (linha a linha — D-94), dá o texto da
 // página e acha o link sob o dedo no desenho das letras (`getBoxesForRange`), não só na palavra mais próxima.
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import '../content/content_blocks.dart';
@@ -55,38 +56,74 @@ final class PageSnapshot implements DisplayPage {
   @override
   LinkHit? linkAt(ui.Offset p) {
     if (!alive) return null;
-    final t = typography;
     for (final s in page.slices) {
       if (s is! TextSlice) continue;
       final b = _blockOf(s.block);
       if (b is! LaidText || b.source is! TextBlock) continue;
-      final links = _links(b).toList();
-      if (links.isEmpty) continue;
-      final base = t.topInset + s.y - b.lines[s.firstLine].top;
-      final x0 = t.sideMargin + b.left;
-      for (var i = s.firstLine; i <= s.lastLine; i++) {
-        final line = b.lines[i];
-        final top = base + line.top;
-        if (p.dy < top || p.dy >= top + line.height) continue;
-        for (final (a, z, target) in links) {
-          final from = a < line.start ? line.start : a;
-          final to = z > line.end ? line.end : z;
-          if (from >= to) continue;
-          final (pa, pi) = b.toParagraph(from);
-          final (pz, pj) = b.toParagraph(to);
-          // cada linha está num pedaço só; o fim pode cair no começo do pedaço seguinte
-          final end = pz == pa
-              ? pj
-              : b.pieces[pa].paragraph
-                    .getLineBoundary(ui.TextPosition(offset: pi))
-                    .end;
-          for (final box in b.pieces[pa].paragraph.getBoxesForRange(pi, end)) {
-            if (p.dx >= x0 + box.left && p.dx < x0 + box.right) {
-              return (target: target, spine: spine, offset: from);
-            }
+      for (final (a, z, target) in _links(b)) {
+        for (final box in _boxes(b, s, a, z)) {
+          if (box.contains(p)) {
+            return (
+              target: target,
+              spine: spine,
+              offset: math.max(a, _lineStartAt(b, s, p.dy) ?? a),
+            );
           }
         }
       }
+    }
+    return null;
+  }
+
+  @override
+  List<ui.Rect> rectsOf(int unit, int from, int to) {
+    if (!alive || unit != spine || from >= to) return const [];
+    return [
+      for (final s in page.slices)
+        if (s is TextSlice)
+          if (_blockOf(s.block) case final LaidText b)
+            ..._boxes(b, s, from, to),
+    ];
+  }
+
+  /// As caixas das letras de [from]…[to] (texto canônico) nas linhas da fatia [s] do bloco [b], na tela. A
+  /// altura de cada caixa é a da linha (o toque num link vale na linha inteira dele).
+  Iterable<ui.Rect> _boxes(LaidText b, TextSlice s, int from, int to) sync* {
+    final t = typography;
+    final base = t.topInset + s.y - b.lines[s.firstLine].top;
+    final x0 = t.sideMargin + b.left;
+    for (var i = s.firstLine; i <= s.lastLine; i++) {
+      final line = b.lines[i];
+      final a = from < line.start ? line.start : from;
+      final z = to > line.end ? line.end : to;
+      if (a >= z) continue;
+      final (pa, pi) = b.toParagraph(a);
+      final (pz, pj) = b.toParagraph(z);
+      // cada linha está num pedaço só; o fim pode cair no começo do pedaço seguinte
+      final end = pz == pa
+          ? pj
+          : b.pieces[pa].paragraph
+                .getLineBoundary(ui.TextPosition(offset: pi))
+                .end;
+      final top = base + line.top;
+      for (final box in b.pieces[pa].paragraph.getBoxesForRange(pi, end)) {
+        yield ui.Rect.fromLTRB(
+          x0 + box.left,
+          top,
+          x0 + box.right,
+          top + line.height,
+        );
+      }
+    }
+  }
+
+  /// O começo (texto canônico) da linha da fatia [s] que está na altura [dy] da tela.
+  int? _lineStartAt(LaidText b, TextSlice s, double dy) {
+    final base = typography.topInset + s.y - b.lines[s.firstLine].top;
+    for (var i = s.firstLine; i <= s.lastLine; i++) {
+      final line = b.lines[i];
+      final top = base + line.top;
+      if (dy >= top && dy < top + line.height) return line.start;
     }
     return null;
   }

@@ -100,6 +100,19 @@ final class ReaderTypography {
   /// Cor do texto (não muda o layout; fica fora de [layoutKey]).
   final ui.Color ink;
 
+  /// Os mesmos ajustes com outra cor de texto (Tema — D-121): a [layoutKey] não muda, então as quebras
+  /// guardadas no cache continuam valendo.
+  ReaderTypography withInk(ui.Color ink) => ReaderTypography(
+    fontSize: fontSize,
+    lineSpacing: lineSpacing,
+    sideMargin: sideMargin,
+    viewportWidth: viewportWidth,
+    viewportHeight: viewportHeight,
+    topInset: topInset,
+    bottomInset: bottomInset,
+    ink: ink,
+  );
+
   /// Altura de linha exata do texto corrido (D-94): 20,5 × 1,72 = 35,26.
   double get lineHeight => fontSize * lineSpacing;
 
