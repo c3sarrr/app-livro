@@ -14,9 +14,12 @@ import '../../../core/design_system/widgets/pressable.dart';
 
 /// Texto corrido (Figtree 15/400).
 class AccountText extends StatelessWidget {
-  const AccountText(this.text, {super.key, this.muted = false});
+  const AccountText(this.text, {super.key, this.muted = false, this.color});
   final String text;
   final bool muted;
+
+  /// Outra cor (os estados do leitor no tema Noite — G12, D-124).
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => AppText(
@@ -25,7 +28,7 @@ class AccountText extends StatelessWidget {
       15,
       FontWeight.w400,
       height: 1.4,
-      color: muted ? AppColors.inkMuted : AppColors.ink,
+      color: color ?? (muted ? AppColors.inkMuted : AppColors.ink),
     ),
   );
 }
@@ -54,22 +57,29 @@ class AccountButton extends StatelessWidget {
     super.key,
     required this.onTap,
     this.tone = AccountButtonTone.secondary,
+    this.fill,
+    this.ink,
   });
 
   final String label;
   final VoidCallback? onTap;
   final AccountButtonTone tone;
 
+  /// Outras cores de fundo e de tinta (os estados do leitor no tema Noite — G12, D-124).
+  final Color? fill, ink;
+
   @override
   Widget build(BuildContext context) {
     // Desabilitado: cores esmaecidas (sem `Opacity` — F12 12.4, nada de saveLayer).
     final enabled = onTap != null;
-    final fill = switch (tone) {
-      AccountButtonTone.primary => AppColors.sun,
-      AccountButtonTone.secondary => AppColors.surface,
-      AccountButtonTone.danger => AppColors.blush,
-    };
-    final ink = enabled ? AppColors.ink : AppColors.inkMuted;
+    final fill =
+        this.fill ??
+        switch (tone) {
+          AccountButtonTone.primary => AppColors.sun,
+          AccountButtonTone.secondary => AppColors.surface,
+          AccountButtonTone.danger => AppColors.blush,
+        };
+    final ink = enabled ? (this.ink ?? AppColors.ink) : AppColors.inkMuted;
     return Pressable(
       onTap: onTap,
       semanticsLabel: label,

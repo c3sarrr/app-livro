@@ -75,7 +75,8 @@ class TopIsland extends StatelessWidget {
             child: Column(
               key: const ValueKey('r20.topIsland.titleBlock'),
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // como os blocos do arquivo: título e autor ocupam a largura toda (o "…" corta nela)
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 AppText(
                   title,

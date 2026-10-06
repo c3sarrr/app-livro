@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../account/presentation/account_widgets.dart';
 import '../application/reader_session_controller.dart';
+import 'reader_chrome_palette.dart';
 
 /// Antes disso, só o papel (abrir costuma ser mais rápido que isso).
 const Duration readerOpeningDelay = Duration(milliseconds: 300);
@@ -27,10 +28,14 @@ class ReaderOpeningView extends StatelessWidget {
     super.key,
     required this.visible,
     this.preparing = false,
+    this.palette,
   });
 
   final bool visible;
   final bool preparing;
+
+  /// As cores do tema: no Noite, as das ilhas do Noite (D-124).
+  final ReaderChromePalette? palette;
 
   @override
   Widget build(BuildContext context) => Center(
@@ -42,6 +47,7 @@ class ReaderOpeningView extends StatelessWidget {
               preparing ? 'Preparando o livro…' : 'Abrindo o livro…',
               key: const ValueKey('leitor.abrindo'),
               muted: true,
+              color: palette?.night ?? false ? palette!.muted : null,
             ),
           )
         : const SizedBox.shrink(),
@@ -54,6 +60,7 @@ class ReaderFailureView extends StatelessWidget {
     required this.failure,
     required this.onBack,
     this.onRetry,
+    this.palette,
   });
 
   final ReaderFailure failure;
@@ -62,8 +69,16 @@ class ReaderFailureView extends StatelessWidget {
   /// Só na falha inesperada.
   final VoidCallback? onRetry;
 
+  /// As cores do tema: no Noite, "Voltar" com as cores da ilha do Noite (D-124).
+  final ReaderChromePalette? palette;
+
   @override
-  Widget build(BuildContext context) => SafeArea(
+  Widget build(BuildContext context) {
+    final night = palette?.night ?? false;
+    return _body(night ? palette : null);
+  }
+
+  Widget _body(ReaderChromePalette? night) => SafeArea(
     child: Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -80,7 +95,12 @@ class ReaderFailureView extends StatelessWidget {
                 tone: AccountButtonTone.primary,
                 onTap: onRetry,
               ),
-            AccountButton('Voltar', onTap: onBack),
+            AccountButton(
+              'Voltar',
+              onTap: onBack,
+              fill: night?.island,
+              ink: night?.title,
+            ),
           ],
         ),
       ),

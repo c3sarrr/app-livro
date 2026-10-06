@@ -1,17 +1,17 @@
 // G11.3 — a tela 19 pela rota real `/leitor/:bookId`, com o Dom Casmurro de verdade num banco em memória: a
 // página e o rodapé nos lugares do arquivo (e com as áreas do aparelho — D-112), virar pelo toque grava a
-// posição ao sair, o "Fechar o livro" provisório (D-106), o Voltar do Android, a barra de status (D-105), o
-// ciclo de vida com a tela acesa (D-111), o "abrindo" depois de 300 ms e os erros (D-21), o link do "Indice"
-// com a pílula de voltar (D-108) e o leitor de tela (Anexo 03 §11).
+// posição ao sair, o Voltar do Android, a barra de status (D-105), o ciclo de vida com a tela acesa (D-111), o
+// "abrindo" depois de 300 ms e os erros (D-21), o link do "Indice" com a pílula de voltar (D-108) e o leitor de
+// tela (Anexo 03 §11).
+// G12.3 — os controles das telas 20/26b (D-117…D-124): abrir e fechar (centro, fora das ilhas, arrasto, Voltar)
+// em 150 ms, a barra de status, as ilhas com o aparelho, o Tema em 220 ms, a fita, a barra de posição com a
+// pílula, os avisos das próximas fases e o PDF.
 import 'dart:async';
 
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
-import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
-import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
-import 'package:app_leitura/core/design_system/widgets/circle_icon_button.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart';
@@ -146,71 +146,6 @@ void main() {
       await tester.pumpAndSettle(); // a saída da rota
       expect(find.byType(ReaderScreen), findsNothing);
       expect(t.awake.log.last, 'off');
-    },
-  );
-
-  testWidgets(
-    'centro: "Fechar o livro" no lugar da tela 20; some com outro toque ou em 4 s; fecha gravando',
-    (tester) async {
-      setCanvasView(tester, logical: const Size(390, 844));
-      final t = await abrirLeitor(tester, livro);
-      // a transparência é a cor do papel do botão (o app não usa camada de opacidade — F12 12.4)
-      double opacidade() => _key('leitor.fechar').evaluate().isEmpty
-          ? 0
-          : tester.widget<CircleIconButton>(_key('leitor.fechar')).color!.a;
-      expect(opacidade(), 0);
-      // cada mudança começa a animar no quadro seguinte ao toque (ou ao fim dos 4 s)
-      await tester.tapAt(const Offset(195, 420));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 75));
-      expect(
-        opacidade(),
-        allOf(greaterThan(0.3), lessThan(0.7)),
-        reason: 'na metade dos 150 ms',
-      );
-      await tester.pump(const Duration(milliseconds: 75));
-      expect(opacidade(), 1);
-      final botao = tester.widget<CircleIconButton>(_key('leitor.fechar'));
-      expect(botao.border!.color, AppColors.ink);
-      expect(
-        (botao.icon as AppSvg).color,
-        isNull,
-        reason: 'inteiro: as cores do arquivo',
-      );
-      expect(
-        tester.getRect(_key('leitor.fechar')),
-        const Rect.fromLTWH(23.5, 63, 44, 44),
-      );
-      await tester.tapAt(const Offset(195, 420));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 150));
-      expect(opacidade(), 0);
-      await tester.tapAt(const Offset(195, 420));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 3900));
-      expect(opacidade(), 1);
-      await tester.pump(
-        const Duration(milliseconds: 100),
-      ); // 4 s depois do toque: começa a sumir
-      await tester.pump(const Duration(milliseconds: 150));
-      expect(opacidade(), 0, reason: '4 s');
-      // vira e fecha em menos de 1 s: a página nova só fica gravada se o fechar gravar
-      await tester.tapAt(const Offset(360, 420));
-      await _quadros(tester, 20);
-      final nova = _doc(tester).mark;
-      await tester.tapAt(const Offset(195, 420));
-      await tester.pump();
-      await tester.pump(const Duration(milliseconds: 150));
-      await tester.tap(_key('leitor.fechar'));
-      await tester.pump();
-      expect(t.ui.log, [
-        'imersivo',
-        'padrão',
-      ], reason: 'a barra volta já na saída');
-      final p = (await posicao(tester))!;
-      expect((p.spine, p.offset), (nova.spine, nova.offset));
-      await tester.pumpAndSettle(); // a saída da rota
-      expect(find.byType(ReaderScreen), findsNothing);
     },
   );
 
@@ -388,7 +323,12 @@ void main() {
         for (final id in data.customSemanticsActionIds ?? <int>[])
           CustomSemanticsAction.getAction(id)!.label,
       };
-      expect(acoes, {'Próxima página', 'Página anterior', 'Fechar o livro'});
+      expect(acoes, {
+        'Próxima página',
+        'Página anterior',
+        'Mostrar os controles',
+        'Fechar o livro',
+      });
       // o rodapé não repete a página
       expect(find.semantics.byLabel(RegExp(r'^pág\.')), findsNothing);
       // as ações fazem o que dizem

@@ -118,6 +118,8 @@ void main() {
       'r20.topIsland.close',
       'r20.topIsland.close.icon',
       'r20.topIsland.titleBlock',
+      'r20.topIsland.title',
+      'r20.topIsland.author',
       'r20.topIsland.search',
       'r20.topIsland.search.icon',
       'r20.topIsland.bookmark',
