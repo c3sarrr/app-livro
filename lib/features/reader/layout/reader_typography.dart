@@ -2,6 +2,8 @@
 // livro. Literata variável com `opsz` = tamanho e `wght` sempre explícitos (sem o `opsz` a linha sai até 2 px
 // mais larga); altura de linha EXATA (`tamanho × entrelinha`, D-94); `fontWeight` fica 400 para o Skia não
 // fazer negrito sintético por cima do eixo `wght`.
+// G14.1 — a fonte escolhida (D-18): Literata, Lora e Figtree pelos eixos; Atkinson pelos arquivos de 400 e 700. As
+// letras que a fonte não tem (o grego, e o cirílico na Figtree e na Atkinson) vêm dos subconjuntos da Literata.
 import 'dart:ui' as ui;
 
 import '../../../core/design_system/tokens/reader_fonts.dart';
@@ -10,8 +12,9 @@ import '../domain/reader_settings.dart';
 
 export '../../../core/design_system/tokens/reader_fonts.dart';
 
-/// Versão das fontes do leitor (entra na chave do cache de páginas): mudou arquivo de fonte → sobe.
-const int readerFontsVersion = 1;
+/// Versão das fontes do leitor (entra na chave do cache de páginas): mudou arquivo de fonte → sobe (2 = G14: Lora,
+/// Figtree e Atkinson).
+const int readerFontsVersion = 2;
 
 /// Versão das regras de layout (D-94, D-96, D-98…D-100): mudou regra → sobe (o cache antigo é ignorado).
 const int readerLayoutVersion = 1;
@@ -32,6 +35,14 @@ double sideMarginOf(ReaderMargins m) => switch (m) {
   ReaderMargins.estreita => 20,
   ReaderMargins.media => 28,
   ReaderMargins.larga => 40,
+};
+
+/// A família registrada no pubspec para a fonte escolhida (D-18).
+String readerFamilyOf(ReaderFontFamily f) => switch (f) {
+  ReaderFontFamily.literata => readerFontFamily,
+  ReaderFontFamily.lora => readerLoraFamily,
+  ReaderFontFamily.figtree => readerFigtreeFamily,
+  ReaderFontFamily.atkinson => readerAtkinsonFamily,
 };
 
 /// Peso do texto corrido, do negrito e dos títulos (eixo `wght`).
@@ -57,10 +68,31 @@ final class ReaderTypography {
     this.topInset = 92,
     this.bottomInset = 82,
     this.ink = readerInkCreme,
+    this.font = ReaderFontFamily.literata,
   });
 
-  /// Os ajustes da pessoa (D-20) num viewport. As áreas seguras do aparelho entram em [topInset] e
+  /// Os ajustes da folha (D-20, D-18) num viewport. As áreas seguras do aparelho entram em [topInset] e
   /// [bottomInset] (quem monta a tela decide — G11).
+  factory ReaderTypography.fromLook(
+    ReaderLook l, {
+    required double viewportWidth,
+    required double viewportHeight,
+    double topInset = 92,
+    double bottomInset = 82,
+    ui.Color ink = readerInkCreme,
+  }) => ReaderTypography(
+    fontSize: readerFontSizes[l.fontStep - 1],
+    lineSpacing: lineSpacingOf(l.lineSpacing),
+    sideMargin: sideMarginOf(l.margins),
+    font: l.fontFamily,
+    viewportWidth: viewportWidth,
+    viewportHeight: viewportHeight,
+    topInset: topInset,
+    bottomInset: bottomInset,
+    ink: ink,
+  );
+
+  /// Os ajustes da pessoa (a linha do banco) num viewport — o mesmo que [ReaderTypography.fromLook].
   factory ReaderTypography.fromSettings(
     ReaderSettings s, {
     required double viewportWidth,
@@ -68,10 +100,8 @@ final class ReaderTypography {
     double topInset = 92,
     double bottomInset = 82,
     ui.Color ink = readerInkCreme,
-  }) => ReaderTypography(
-    fontSize: readerFontSizes[s.fontStep - 1],
-    lineSpacing: lineSpacingOf(s.lineSpacing),
-    sideMargin: sideMarginOf(s.margins),
+  }) => ReaderTypography.fromLook(
+    s.look,
     viewportWidth: viewportWidth,
     viewportHeight: viewportHeight,
     topInset: topInset,
@@ -90,6 +120,9 @@ final class ReaderTypography {
   /// Cor do texto (não muda o layout; fica fora de [layoutKey]).
   final ui.Color ink;
 
+  /// A fonte do texto (D-18).
+  final ReaderFontFamily font;
+
   /// Os mesmos ajustes com outra cor de texto (Tema — D-121): a [layoutKey] não muda, então as quebras
   /// guardadas no cache continuam valendo.
   ReaderTypography withInk(ui.Color ink) => ReaderTypography(
@@ -101,6 +134,7 @@ final class ReaderTypography {
     topInset: topInset,
     bottomInset: bottomInset,
     ink: ink,
+    font: font,
   );
 
   /// Altura de linha exata do texto corrido (D-94): 20,5 × 1,72 = 35,26.
@@ -117,7 +151,7 @@ final class ReaderTypography {
 
   /// Tudo o que muda onde as linhas quebram e onde as páginas viram (chave do cache de páginas).
   String get layoutKey =>
-      'v$readerLayoutVersion|$readerFontFamily|$fontSize|$lineSpacing|$sideMargin|'
+      'v$readerLayoutVersion|${readerFamilyOf(font)}|$fontSize|$lineSpacing|$sideMargin|'
       '$topInset|$bottomInset';
 
   /// Estilo de um trecho, em dados (o teste confere `opsz` = tamanho, `wght` explícito e peso 400 no Skia).
@@ -128,8 +162,13 @@ final class ReaderTypography {
     double weight = readerTextWeight,
     bool link = false,
   }) {
-    final w = s.bold && weight < readerBoldWeight ? readerBoldWeight : weight;
+    var w = s.bold && weight < readerBoldWeight ? readerBoldWeight : weight;
+    // a Atkinson só tem 400 e 700 (sem eixo): o seminegrito dos títulos vira 700
+    if (font == ReaderFontFamily.atkinson) {
+      w = w >= 600 ? readerBoldWeight : readerTextWeight;
+    }
     return ReaderTextSpec(
+      font: font,
       size: size ?? fontSize,
       lineSpacing: lineSpacing,
       wght: w,
@@ -153,10 +192,11 @@ final class ReaderTypography {
   }) => spec(s, size: size, weight: weight, link: link).toUi();
 }
 
-/// Estilo de um trecho do livro em dados: Literata variável com `opsz` = [size] e `wght` = [wght] sempre
-/// explícitos; o peso do Skia fica 400 (o negrito vem só do eixo).
+/// Estilo de um trecho do livro em dados: a fonte escolhida (D-18) com `opsz` = [size] e `wght` = [wght] sempre
+/// explícitos; nas variáveis o peso do Skia fica 400 (o negrito vem só do eixo).
 final class ReaderTextSpec {
   const ReaderTextSpec({
+    this.font = ReaderFontFamily.literata,
     required this.size,
     required this.lineSpacing,
     required this.wght,
@@ -166,6 +206,7 @@ final class ReaderTextSpec {
     required this.ink,
   });
 
+  final ReaderFontFamily font;
   final double size;
   final double lineSpacing;
   final double wght;
@@ -174,11 +215,18 @@ final class ReaderTextSpec {
   final bool link;
   final ui.Color ink;
 
-  String get family => readerFontFamily;
+  String get family => readerFamilyOf(font);
   List<String> get fallback => readerFontFallback;
-  ui.FontWeight get skiaWeight => ui.FontWeight.w400;
 
-  /// Eixos da fonte variável: `opsz` igual ao tamanho (ADR-004) e `wght`.
+  /// Literata, Lora e Figtree: o peso vem do eixo e o Skia fica em 400 (sem negrito sintético por cima). A Atkinson
+  /// não tem eixo: o peso escolhe o arquivo (400 ou 700).
+  ui.FontWeight get skiaWeight =>
+      font == ReaderFontFamily.atkinson && wght >= readerBoldWeight
+      ? ui.FontWeight.w700
+      : ui.FontWeight.w400;
+
+  /// Eixos: `opsz` igual ao tamanho (ADR-004) e `wght`, em todas — a fonte sem o eixo o ignora, e as letras que
+  /// vêm da Literata (o grego) saem no tamanho óptico e no peso certos.
   List<ui.FontVariation> get variations => [
     ui.FontVariation('opsz', size),
     ui.FontVariation('wght', wght),
