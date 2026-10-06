@@ -85,6 +85,12 @@ fatias de ≤ 4 ms (Anexo 03 §12).
   medir no aparelho na G26.
 - Cache `page_layout_cache` por (sha, ajustes, tela, versão das fontes) continua (Anexo 03 §7.2).
 
+## Dependências
+
+- `wakelock_plus` 1.8.1 (G11, D-111): mantém a tela acesa enquanto se lê — liga a cada interação e desliga
+  120 s depois da última (a regra do tempo automático, D-95), em segundo plano e ao sair do leitor. Sem
+  permissão especial (só a tela, não a CPU); Android, iOS e desktop.
+
 ## Alternativas consideradas
 
 - **`StrutStyle` com `forceStrutHeight`**: testado — também sai com passo 35,00 (o arredondamento é da linha).
