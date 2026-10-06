@@ -11,6 +11,7 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
+import 'package:app_leitura/features/reader/application/epub_images.dart';
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_errors.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
@@ -140,6 +141,7 @@ final class LivroNaEstante {
     scheduler: scheduler ?? LayoutScheduler(),
     keeper: keeper ?? this.keeper(),
     loader: (s) async => chapterOf(epub, s),
+    images: (href) async => readImageOf(epub, href),
   );
 
   /// O que a sessão de leitura usa, sobre este livro: capítulos lidos na hora (sem isolate), o tempo sem o
@@ -178,6 +180,8 @@ final class LivroNaEstante {
         (s) async => quebrados.contains(s)
         ? throw const ContentDamaged('capitulo_quebrado')
         : chapterOf(epub, s),
+    imageLoader: (path) =>
+        (href) async => readImageOf(epub, href),
     startTimer: startTimer ?? Timer.new,
     onError: onError ?? reportReaderError,
   );

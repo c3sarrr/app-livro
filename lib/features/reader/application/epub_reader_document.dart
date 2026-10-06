@@ -12,6 +12,7 @@ import '../domain/reader_numbers.dart';
 import '../layout/layout_scheduler.dart';
 import '../layout/reader_typography.dart';
 import 'book_pager.dart';
+import 'epub_images.dart';
 import 'reader_document.dart';
 import 'reading_position_keeper.dart';
 
@@ -25,6 +26,8 @@ final class EpubDocumentDeps {
     required this.keeper,
     this.cache,
     this.loader,
+    this.images,
+    this.devicePixelRatio = 1,
   });
 
   final UserBook book;
@@ -39,31 +42,48 @@ final class EpubDocumentDeps {
 
   /// Como ler os capítulos (padrão: num isolate). Os testes leem na hora.
   final ChapterLoader? loader;
+
+  /// Como ler as imagens do livro (padrão: num isolate — D-114).
+  final EpubImageLoader? images;
+
+  /// Densidade da tela: as imagens são decodificadas na largura da caixa do texto × ela.
+  final double devicePixelRatio;
 }
 
 final class EpubReaderDocument implements ReaderDocument {
-  EpubReaderDocument._(this._deps, this._pager);
+  EpubReaderDocument._(this._deps, BookPager pager, EpubImageCache images)
+    : _pager = pager,
+      _images = images,
+      _changes = Listenable.merge([pager.changes, images.changes]);
 
   /// Abre o livro onde a pessoa parou (a posição guardada, reencontrada no arquivo de agora — G10).
   static Future<EpubReaderDocument> open(EpubDocumentDeps d) async {
+    final images = EpubImageCache(
+      load: d.images ?? isolateImageLoader(d.path),
+      maxWidth: (d.typography.contentWidth * d.devicePixelRatio).ceil(),
+    );
     final pager = BookPager(
       index: d.index,
       load: d.loader ?? isolateChapterLoader(d.path),
       typography: d.typography,
       scheduler: d.scheduler,
       cache: d.cache,
+      imageOf: images.imageOf,
     );
     try {
       await reopen(pager, d.keeper);
     } on Object {
       pager.dispose();
+      images.dispose();
       rethrow;
     }
-    return EpubReaderDocument._(d, pager).._announce();
+    return EpubReaderDocument._(d, pager, images).._announce();
   }
 
   final EpubDocumentDeps _deps;
   final BookPager _pager;
+  final EpubImageCache _images;
+  final Listenable _changes;
 
   @override
   String get title => _deps.book.title;
@@ -71,8 +91,9 @@ final class EpubReaderDocument implements ReaderDocument {
   @override
   DisplayPage get current => _pager.current!;
 
+  /// A página mudou, ou uma imagem dela chegou (D-114).
   @override
-  Listenable get changes => _pager.changes;
+  Listenable get changes => _changes;
 
   @override
   ReaderNumbersView get numbers {
@@ -149,6 +170,7 @@ final class EpubReaderDocument implements ReaderDocument {
   void dispose() {
     _deps.keeper.dispose();
     _pager.dispose();
+    _images.dispose();
   }
 
   /// Uma página apareceu: a posição grava depois de 1 s nela (G10) — a não ser que haja um alfinete (D-115).

@@ -23,6 +23,7 @@ import '../layout/chapter_layout.dart';
 import '../layout/display_page.dart';
 import '../layout/laid_block.dart';
 import '../layout/layout_scheduler.dart';
+import '../layout/page_painter.dart' show ReaderImageOf;
 import '../layout/page_snapshot.dart';
 import '../layout/paginator.dart';
 import '../layout/reader_typography.dart';
@@ -144,6 +145,7 @@ final class BookPager {
     required this._scheduler,
     this._cache,
     DateTime Function()? now,
+    this._imageOf,
   }) : _t = typography,
        _now = now ?? DateTime.now,
        _linear = [
@@ -156,6 +158,9 @@ final class BookPager {
   final LayoutScheduler _scheduler;
   final PagerCacheKey? _cache;
   final DateTime Function() _now;
+
+  /// As imagens do livro para pintar (D-114); sem isto, o lugar delas fica vazio.
+  final ReaderImageOf? _imageOf;
   final List<int> _linear;
   ReaderTypography _t;
 
@@ -376,6 +381,7 @@ final class BookPager {
       alive: () =>
           !_disposed &&
           (fromQuick ? identical(ch.quick, q) : identical(ch.job, job)),
+      imageOf: _imageOf,
     );
   }
 

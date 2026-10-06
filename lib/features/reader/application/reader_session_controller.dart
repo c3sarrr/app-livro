@@ -23,6 +23,7 @@ import '../layout/reader_typography.dart';
 import '../presentation/reader_insets.dart';
 import '../presentation/reader_palette.dart';
 import 'book_pager.dart';
+import 'epub_images.dart' show EpubImageLoader;
 import 'epub_reader_document.dart';
 import 'pdf_position_keeper.dart';
 import 'pdf_reader_document.dart';
@@ -90,6 +91,7 @@ final class ReaderDeps {
     this.elapsed,
     this.autoTick = true,
     this.chapterLoader,
+    this.imageLoader,
     this.startTimer = Timer.new,
     this.pdfInitialize,
     this.onError = reportReaderError,
@@ -117,6 +119,9 @@ final class ReaderDeps {
 
   /// Como ler os capítulos do arquivo (padrão: num isolate).
   final ChapterLoader Function(String path)? chapterLoader;
+
+  /// Como ler as imagens do livro (padrão: num isolate — D-114).
+  final EpubImageLoader Function(String path)? imageLoader;
 
   /// Relógio dos prazos da tela (a volta do link — 6 s). Os testes andam com ele à mão.
   final Timer Function(Duration duration, void Function() callback) startTimer;
@@ -295,6 +300,8 @@ class ReaderSessionController extends ChangeNotifier {
             dao: PageLayoutCacheDao(deps.db),
           ),
           loader: deps.chapterLoader?.call(path),
+          images: deps.imageLoader?.call(path),
+          devicePixelRatio: v.devicePixelRatio,
         ),
       );
     } on Object {
