@@ -153,8 +153,14 @@ class _HomeSections extends ConsumerWidget {
         2,
         _gutter(
           ContinueReadingHero(
-            onContinueTap: () =>
-                withReading((r) => push(AppRoutes.leitor(r.book.id))),
+            // o exemplar físico não tem arquivo: vai à página do livro, não ao leitor (D-123)
+            onContinueTap: () => withReading(
+              (r) => push(
+                r.format == BookFormat.physical
+                    ? AppRoutes.livro(r.book.id)
+                    : AppRoutes.leitor(r.book.id),
+              ),
+            ),
             onHighlightsTap: () =>
                 withReading((r) => push(AppRoutes.destaques(r.book.id))),
             onScanTap: () => push(AppRoutes.scanner),

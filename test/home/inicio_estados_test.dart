@@ -227,6 +227,45 @@ void main() {
   );
 
   testWidgets(
+    'livro físico em leitura (D-123): "Continuar lendo" leva à página do livro, não ao leitor',
+    (tester) async {
+      const fisico = Book(
+        id: 'fisico',
+        title: 'Vidas secas',
+        author: 'Graciliano Ramos',
+        cover: PhotoCover(),
+      );
+      await _abrir(tester, [
+        homeRepositoryProvider.overrideWithValue(
+          _Pronta(
+            _vazia(
+              estanteVazia: false,
+              lendo: const ContinueReading(
+                book: fisico,
+                progress: 0.3,
+                highlightsCount: 0,
+                format: BookFormat.physical,
+              ),
+            ),
+          ),
+        ),
+      ]);
+      await tester.tap(_key('hero.cta'));
+      await tester.pumpAndSettle();
+      final router = GoRouter.of(
+        tester.element(find.byType(MainShell, skipOffstage: false)),
+      );
+      expect(router.state.uri.path, AppRoutes.livro('fisico'));
+      expect(
+        find.byWidgetPredicate(
+          (w) => w is PlaceholderScreen && w.title == 'Livro',
+        ),
+        findsOneWidget,
+      );
+    },
+  );
+
+  testWidgets(
     'convidado (D-84): "Boa noite" sem vírgula, sem nome, ícone de pessoa, sininho sem ponto',
     (tester) async {
       await _abrir(tester, [

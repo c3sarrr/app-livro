@@ -110,9 +110,13 @@ class ContinueReading {
     required this.progress,
     this.timeLeft,
     required this.highlightsCount,
+    this.format = BookFormat.epub,
   });
 
   final Book book;
+
+  /// Formato do exemplar: o físico não abre o leitor — "Continuar lendo" leva à página do livro (D-123).
+  final BookFormat format;
 
   /// Capítulo atual e total; `null` quando o livro não tem capítulos (a pílula some).
   final int? chapter;

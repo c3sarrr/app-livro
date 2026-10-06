@@ -221,6 +221,7 @@ final class LocalHomeRepository implements HomeRepository {
               progress: hero.progress,
               timeLeft: _timeLeft(hero, data),
               highlightsCount: data.heroAnnotations,
+              format: _formatOf(hero.format),
             ),
       alsoReading: List.unmodifiable([
         for (final b in reading.skip(1))
@@ -233,11 +234,7 @@ final class LocalHomeRepository implements HomeRepository {
         for (final b in recent.take(3))
           RecentItem(
             book: b.book,
-            format: switch (b.format) {
-              'pdf' => BookFormat.pdf,
-              'physical' => BookFormat.physical,
-              _ => BookFormat.epub,
-            },
+            format: _formatOf(b.format),
             // D-88: "Novo" para quem chegou hoje ou nos 6 dias anteriores (a janela da D-82); depois "Quero ler"
             status: today.difference(_localDay(b.addedAt)).inDays < newDays
                 ? RecentStatus.isNew
@@ -274,6 +271,12 @@ final class LocalHomeRepository implements HomeRepository {
 
   /// Caracteres que faltam ÷ velocidade pessoal, arredondado (D-97); livro sem índice e sem páginas de
   /// referência → `null`.
+  static BookFormat _formatOf(String format) => switch (format) {
+    'pdf' => BookFormat.pdf,
+    'physical' => BookFormat.physical,
+    _ => BookFormat.epub,
+  };
+
   static Duration? _timeLeft(_ShelfBook b, _Data data) {
     final total = data.totalChars(b);
     if (total == null) return null;
