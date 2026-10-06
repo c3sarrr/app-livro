@@ -24,6 +24,8 @@ import '../presentation/reader_insets.dart';
 import '../presentation/reader_palette.dart';
 import 'book_pager.dart';
 import 'epub_reader_document.dart';
+import 'pdf_position_keeper.dart';
+import 'pdf_reader_document.dart';
 import 'reader_document.dart';
 import 'reader_errors.dart';
 import 'reading_position_keeper.dart';
@@ -89,6 +91,7 @@ final class ReaderDeps {
     this.autoTick = true,
     this.chapterLoader,
     this.startTimer = Timer.new,
+    this.pdfInitialize,
     this.onError = reportReaderError,
   });
 
@@ -117,6 +120,9 @@ final class ReaderDeps {
 
   /// Relógio dos prazos da tela (a volta do link — 6 s). Os testes andam com ele à mão.
   final Timer Function(Duration duration, void Function() callback) startTimer;
+
+  /// Prepara o PDFium (padrão: o do `pdfrx` para Flutter).
+  final Future<void> Function()? pdfInitialize;
   final ReaderErrorReporter onError;
 }
 
@@ -136,6 +142,10 @@ class ReaderSessionController extends ChangeNotifier {
   /// Áreas da tela (D-112) para a última abertura.
   ReaderInsets get insets => _insets;
   ReaderInsets _insets = ReaderInsets.of(EdgeInsets.zero);
+
+  /// Medidas da página (margens, caixa do texto) da última abertura.
+  ReaderTypography? get typography => _typography;
+  ReaderTypography? _typography;
 
   ReaderViewport? _viewport;
   ReaderDocument? _doc;
@@ -199,11 +209,44 @@ class ReaderSessionController extends ChangeNotifier {
     if (file == null || path == null) return ReaderFailure.fileMissing;
     final settings = await ReaderSettingsDao(deps.db).forUser(owner);
     _palette = ReaderPalette.of(settings?.paper ?? ReaderPaper.creme);
-    final t = _typography(settings, v);
-    if (book.format == BookFileFormat.epub) {
-      return _openEpub(book, path, file.sha256, t, v, gen);
+    final t = _typography = _typographyFor(settings, v);
+    if (book.format == BookFileFormat.pdf) {
+      return _openPdf(book, path, file.sha256, v);
     }
-    return ReaderFailure.unexpected; // G11.4: o PDF básico (D-109)
+    return _openEpub(book, path, file.sha256, t, v, gen);
+  }
+
+  /// O PDF básico (D-109): página inteira, sem o motor de texto.
+  Future<Object> _openPdf(
+    UserBook book,
+    String path,
+    String sha,
+    ReaderViewport v,
+  ) async {
+    final keeper = PdfPositionKeeper(
+      db: deps.db,
+      versioning: deps.versioning,
+      owner: deps.owner,
+      userBookId: userBookId,
+      sha: sha,
+      deviceId: deps.deviceId,
+      onError: deps.onError,
+    );
+    try {
+      return await PdfReaderDocument.open(
+        book: book,
+        path: path,
+        keeper: keeper,
+        viewport: v.size,
+        top: v.padding.top,
+        footerBottom: _insets.footerBottom,
+        devicePixelRatio: v.devicePixelRatio,
+        initialize: deps.pdfInitialize,
+      );
+    } on Object {
+      keeper.dispose();
+      rethrow;
+    }
   }
 
   Future<Object> _openEpub(
@@ -259,7 +302,7 @@ class ReaderSessionController extends ChangeNotifier {
     }
   }
 
-  ReaderTypography _typography(ReaderSettings? s, ReaderViewport v) {
+  ReaderTypography _typographyFor(ReaderSettings? s, ReaderViewport v) {
     final w = v.size.width;
     final h = v.size.height;
     if (s != null) {
@@ -338,9 +381,11 @@ class ReaderSessionController extends ChangeNotifier {
     _awake?.touch();
   }
 
-  /// Ciclo de vida do app: em segundo plano pausa o tempo, grava a posição e solta a tela.
+  /// Ciclo de vida do app: em segundo plano (escondido, pausado) pausa o tempo, grava a posição e solta a
+  /// tela. "Inativo" (a central de controle por cima, uma ligação chegando) ainda é a leitura na tela.
   Future<void> lifecycle(AppLifecycleState s) async {
-    final foreground = s == AppLifecycleState.resumed;
+    final foreground =
+        s == AppLifecycleState.resumed || s == AppLifecycleState.inactive;
     await _tracker?.setForeground(foreground);
     if (foreground) {
       _awake?.touch();
