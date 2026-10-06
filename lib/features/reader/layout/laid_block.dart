@@ -188,7 +188,6 @@ final class LaidImage extends LaidBlock {
   double get height => slotHeight;
 }
 
-/// Quebra de cena: uma linha com "* * *" centralizado (D-99).
 /// Troca de cena: uma linha da grade; com o fio ([rule]) entre parágrafos, só o espaço quando a linha do livro é
 /// decorativa — colada num título ou no começo/fim do capítulo (D-103). No texto canônico, 1 caractere (D-93).
 final class LaidSceneBreak extends LaidBlock {
