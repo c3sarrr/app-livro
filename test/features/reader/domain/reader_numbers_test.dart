@@ -123,6 +123,46 @@ void main() {
       },
     );
 
+    test('sumário com partes: o capítulo conta só as folhas (como o total — "Cap. 4 de 4")', () {
+      final partes = BookIndex(
+        contentSha256: 'e' * 64,
+        layout: 'reflowable',
+        spine: [
+          for (var i = 0; i < 4; i++)
+            SpineInfo(path: 'c$i.xhtml', linear: true, chars: 1000),
+        ],
+        toc: const [
+          TocPoint(
+            title: 'Parte I',
+            spine: 0,
+            offset: 0,
+            depth: 0,
+            leaf: false,
+          ),
+          TocPoint(title: 'c1', spine: 0, offset: 0, depth: 1, leaf: true),
+          TocPoint(title: 'c2', spine: 1, offset: 0, depth: 1, leaf: true),
+          TocPoint(
+            title: 'Parte II',
+            spine: 2,
+            offset: 0,
+            depth: 0,
+            leaf: false,
+          ),
+          TocPoint(title: 'c3', spine: 2, offset: 0, depth: 1, leaf: true),
+          TocPoint(title: 'c4', spine: 3, offset: 0, depth: 1, leaf: true),
+        ],
+        refPages: RefPageMap.synthetic(const [0, 1500, 3000]),
+        refPageVersion: refPageVersion,
+      );
+      expect(partes.chaptersTotal, 4);
+      expect(numbersAt(partes, 3, 10).chapterIndex, 3);
+      expect(numbersAt(partes, 2, 0).chapterIndex, 2);
+      expect(numbersAt(partes, 0, 0).chapterIndex, 0);
+      // a régua global é a mesma de antes (O(1) por consulta)
+      expect(partes.globalOffset(3, 10), 3010);
+      expect(partes.totalChars, 4000);
+    });
+
     test('livro sem sumário: capítulo 0; sem texto: 0 %', () {
       final vazio = BookIndex(
         contentSha256: 'e' * 64,

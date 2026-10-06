@@ -7,6 +7,7 @@ import 'dart:ui' as ui;
 import 'package:app_leitura/features/reader/content/content_blocks.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/laid_block.dart';
+import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -176,13 +177,67 @@ void main() {
       expect(padrao.pieces.length, greaterThan(1));
     });
 
-    test('palavra maior que o pedaço: vai inteira num pedaço só', () {
-      final b =
-          montar([_p('x' * 900)], com: BlockLayouter(t, pieceChars: 100)).single
-              as LaidText;
-      expect(b.pieces, hasLength(1));
-      expect(b.lines.last.end, 900);
+    test('texto sem espaço (palavra enorme, chinês): parte assim mesmo, com as mesmas linhas do inteiro', () {
+      for (final texto in [
+        'x' * 900,
+        'abcdefghij' * 300,
+        'Antes ${'y' * 700} depois de uma palavra enorme, e o texto segue ${'normal ' * 80}',
+        'abc\u{1F600}' * 250, // pares substitutos no meio: o corte não parte um
+      ]) {
+        final inteiro =
+            montar([
+                  _p(texto),
+                ], com: BlockLayouter(t, pieceChars: 1 << 30)).single
+                as LaidText;
+        final emPedacos =
+            montar([_p(texto)], com: BlockLayouter(t, pieceChars: 100)).single
+                as LaidText;
+        expect(
+          emPedacos.pieces.length,
+          greaterThan(1),
+          reason: texto.substring(0, 12),
+        );
+        expect(
+          emPedacos.lines.map((l) => (l.start, l.end)),
+          inteiro.lines.map((l) => (l.start, l.end)),
+          reason: texto.substring(0, 12),
+        );
+        expect(emPedacos.lines.last.end, texto.length);
+      }
     });
+
+    test(
+      'título maior que a página é partido como texto (não passa do pé)',
+      () {
+        final h = HeadingBlock(3, [
+          TextRun('título enorme ' * 300),
+        ], BlockStyle.none);
+        final blocks = [h, _p('Depois.')];
+        final l = montar(blocks);
+        final paginas = paginateChapter(l, t.contentHeight);
+        expect(paginas.length, greaterThan(1));
+        for (final p in paginas) {
+          for (final s in p.slices.whereType<TextSlice>()) {
+            final b = l[s.block] as LaidText;
+            final altura =
+                b.lines[s.lastLine].bottom - b.lines[s.firstLine].top;
+            expect(s.y + altura, lessThanOrEqualTo(t.contentHeight + 0.02));
+          }
+        }
+        // as páginas cobrem o título sem repetir nem pular linha
+        final linhas = [
+          for (final p in paginas)
+            for (final s in p.slices.whereType<TextSlice>().where(
+              (s) => s.block == 0,
+            ))
+              for (var i = s.firstLine; i <= s.lastLine; i++) i,
+        ];
+        expect(
+          linhas,
+          List.generate((l[0] as LaidText).lines.length, (i) => i),
+        );
+      },
+    );
 
     test('<br> (U+2028) quebra a linha dentro do bloco', () {
       final b =

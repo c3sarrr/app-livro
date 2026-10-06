@@ -131,38 +131,38 @@ final class ReadingPositionKeeper {
   }
 }
 
-/// Onde reabrir a partir da posição guardada [l]: (capítulo, caractere) no texto de agora ([text] = texto
-/// canônico do capítulo dela; [currentSha] = arquivo de agora).
-(int, int) whereToReopen(
-  EpubLocator l,
-  String text, {
-  required String currentSha,
-}) {
-  final (offset, _) = relocate(l, text, currentSha: currentSha);
-  return (l.spine, offset);
-}
-
 /// Abre [pager] onde a pessoa parou (a posição guardada em [keeper], reencontrada no arquivo de agora); sem
-/// posição, no começo do livro.
+/// posição, no começo do livro. Noutra edição, a citação é procurada no item de mesmo número; se ela não está
+/// lá (a edição nova tem itens a mais ou a menos), vale a % guardada.
 Future<PagerPosition> reopen(
   BookPager pager,
   ReadingPositionKeeper keeper,
 ) async {
   final saved = await keeper.saved();
   final l = saved?.locator;
-  if (l is! EpubLocator ||
-      saved!.meta.isDeleted ||
-      l.spine >= pager.index.spine.length) {
+  if (l is! EpubLocator || saved!.meta.isDeleted) {
     return pager.openAt(pager.firstSpine, 0);
   }
-  if (l.sha == pager.index.contentSha256) {
+  final index = pager.index;
+  final byProgression = index.spineAt(
+    (l.progression * index.totalChars).round(),
+  );
+  if (l.spine >= index.spine.length) {
+    return byProgression == null
+        ? pager.openAt(pager.firstSpine, 0)
+        : pager.openAt(byProgression.$1, byProgression.$2);
+  }
+  if (l.sha == index.contentSha256) {
     return pager.openAt(l.spine, l.offset);
   }
   final content = await pager.content(l.spine);
-  final (spine, offset) = whereToReopen(
+  final (offset, method) = relocate(
     l,
     content.item.text,
-    currentSha: pager.index.contentSha256,
+    currentSha: index.contentSha256,
   );
-  return pager.openAt(spine, offset);
+  if (method == AnchorMethod.clamped && byProgression != null) {
+    return pager.openAt(byProgression.$1, byProgression.$2);
+  }
+  return pager.openAt(l.spine, offset);
 }

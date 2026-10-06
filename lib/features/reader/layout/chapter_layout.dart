@@ -14,6 +14,9 @@ import 'reader_typography.dart';
 /// Orçamento de cada fatia de trabalho por quadro (Anexo 03 §7.2).
 const Duration layoutSliceBudget = Duration(milliseconds: 4);
 
+/// Folga dentro do orçamento para o que a previsão não vê (glifo novo no cache da fonte, coleta de lixo).
+const int _sliceMarginMicros = 400;
+
 /// Um capítulo pronto: os blocos com layout e as páginas.
 final class ChapterLayout {
   ChapterLayout({
@@ -72,9 +75,11 @@ final class ChapterLayoutJob {
   /// Maior tempo gasto num passo (µs) — para medir as fatias.
   int maxStepMicros = 0;
 
-  /// Quanto o próximo passo deve levar (µs): o maior dos últimos, esquecendo devagar (1/8 por passo) — um
-  /// pedaço de parágrafo longo depois de vários parágrafos curtos não estoura a fatia.
-  int _expectedStep = 0;
+  /// Custo de um passo ≈ fixo + por caractere (médias móveis dos passos já feitos, no aparelho que roda):
+  /// o próximo é previsto pelo tamanho dele, e um pedaço de parágrafo longo depois de vários parágrafos
+  /// curtos não estoura a fatia.
+  double _fixedMicros = 0;
+  double _microsPerChar = 0;
 
   bool get done => _result != null;
 
@@ -100,6 +105,7 @@ final class ChapterLayoutJob {
       );
       return true;
     }
+    final chars = _nextChars();
     final sw = Stopwatch()..start();
     var task = _task;
     if (task == null) {
@@ -119,18 +125,52 @@ final class ChapterLayoutJob {
     }
     final us = sw.elapsedMicroseconds;
     if (us > maxStepMicros) maxStepMicros = us;
-    _expectedStep = math.max(us, _expectedStep - (_expectedStep >> 3));
+    _learn(chars, us);
     return false;
   }
 
-  /// Trabalha até terminar ou até o próximo passo (pelo que os últimos levaram) não caber em [budget]: a
-  /// fatia passa do orçamento só se um passo sozinho passar dele. `true` = terminou.
+  /// Caracteres que o próximo passo monta: o próximo pedaço do parágrafo em andamento ou o próximo bloco
+  /// (até o tamanho de um pedaço); imagem e quebra de cena ≈ 0.
+  int _nextChars() {
+    final task = _task;
+    if (task != null) return task.nextChars;
+    final item = content.item;
+    if (_next >= item.blocks.length || item.blocks[_next] is! TextBlock) {
+      return 0;
+    }
+    final end = _next + 1 < item.blockStarts.length
+        ? item.blockStarts[_next + 1]
+        : item.text.length;
+    return math.min(end - item.blockStarts[_next], _layouter.pieceChars);
+  }
+
+  void _learn(int chars, int us) {
+    const a = 0.25;
+    if (chars < 64) {
+      _fixedMicros = _fixedMicros == 0
+          ? us.toDouble()
+          : a * us + (1 - a) * _fixedMicros;
+    } else {
+      final per = math.max(0, us - _fixedMicros) / chars;
+      _microsPerChar = _microsPerChar == 0
+          ? per
+          : a * per + (1 - a) * _microsPerChar;
+    }
+  }
+
+  /// Quanto o próximo passo deve levar (µs), com 25 % de folga.
+  double get _expectedMicros =>
+      1.25 * (_fixedMicros + _microsPerChar * _nextChars());
+
+  /// Trabalha até terminar ou até o próximo passo (pela previsão) não caber em [budget]: a fatia passa do
+  /// orçamento só quando um passo demora mais do que o tamanho dele prevê. `true` = terminou.
   bool runFor(Duration budget) {
     final sw = Stopwatch()..start();
     final limit = budget.inMicroseconds;
     while (true) {
       if (step()) return true;
-      if (sw.elapsedMicroseconds + _expectedStep > limit) return false;
+      final next = sw.elapsedMicroseconds + _expectedMicros;
+      if (next + _sliceMarginMicros > limit) return false;
     }
   }
 
@@ -149,9 +189,9 @@ final class ChapterLayoutJob {
       for (final b in _blocks) {
         b.dispose();
       }
-      if (_task case final t?) {
-        if (t.step()) t.result.dispose();
-      }
+      // o bloco no meio: descarta os pedaços já montados, sem montar mais nenhum
+      _task?.dispose();
+      _task = null;
     }
   }
 }

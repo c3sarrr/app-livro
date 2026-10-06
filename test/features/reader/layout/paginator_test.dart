@@ -102,14 +102,40 @@ void main() {
     expect(pages[1].slices.map((s) => s.block), [1, 2, 3]);
   });
 
-  test('página só de títulos que não cabem com o texto: os títulos ficam (não há página vazia)', () {
-    final (_, pages) = paginar([
+  test('título mais alto que a página: partido como texto, sem passar do pé nem deixar página vazia', () {
+    final (l, pages) = paginar([
       _h(1, List.filled(80, 'CAPÍTULO').join(' ')), // mais alto que a página
       _p(linhas(19)),
     ]);
+    expect((l[0] as LaidText).height, greaterThan(t.contentHeight));
     expect(pages.first.slices.single.block, 0);
-    expect(pages[1].slices.first.block, 1);
+    for (final p in pages) {
+      expect(p.slices, isNotEmpty);
+      for (final s in p.slices.whereType<TextSlice>()) {
+        final b = l[s.block] as LaidText;
+        final altura = b.lines[s.lastLine].bottom - b.lines[s.firstLine].top;
+        expect(s.y + altura, lessThanOrEqualTo(t.contentHeight + 0.02));
+      }
+    }
+    // o texto vem logo depois do fim do título
+    final fimDoTitulo = pages.lastIndexWhere(
+      (p) => p.slices.any((s) => s.block == 0),
+    );
+    expect(
+      pages.indexWhere((p) => p.slices.any((s) => s.block == 1)),
+      anyOf(fimDoTitulo, fimDoTitulo + 1),
+    );
+  });
+
+  test('título + subtítulo que cabem só numa página vazia: ficam juntos no topo (não há página vazia)', () {
+    final (_, pages) = paginar([
+      _p(linhas(15)),
+      _h(1, List.filled(12, 'CAPÍTULO').join(' ')),
+      _h(2, 'Subtítulo'),
+      _p(linhas(19)),
+    ]);
     expect(pages.every((p) => p.slices.isNotEmpty), isTrue);
+    expect(pages[1].slices.map((s) => s.block).take(2), [1, 2]);
   });
 
   test(

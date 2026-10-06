@@ -359,6 +359,12 @@ sealed class BlockLayoutTask {
   /// Faz mais um pedaço; `true` = terminou.
   bool step();
 
+  /// Caracteres que o próximo [step] monta (o tamanho do trabalho dele; 0 = quase nada).
+  int get nextChars;
+
+  /// Descarta o que já foi montado, sem montar mais nada (o job foi descartado no meio do bloco).
+  void dispose();
+
   LaidBlock get result;
 }
 
@@ -369,7 +375,13 @@ final class _DoneTask extends BlockLayoutTask {
   final LaidBlock result;
 
   @override
+  int get nextChars => 0;
+
+  @override
   bool step() => true;
+
+  @override
+  void dispose() => result.dispose();
 }
 
 final class _TextTask extends BlockLayoutTask {
@@ -414,14 +426,42 @@ final class _TextTask extends BlockLayoutTask {
   LaidText get result => _result!;
 
   @override
+  int get nextChars =>
+      _result != null ? 0 : math.min(_pieceChars, text.length - _pos);
+
+  @override
+  void dispose() {
+    final r = _result;
+    if (r != null) {
+      r.dispose();
+      return;
+    }
+    for (final p in _pieces) {
+      p.paragraph.dispose();
+    }
+    _pieces.clear();
+  }
+
+  static bool _isHighSurrogate(int c) => c >= 0xD800 && c <= 0xDBFF;
+
+  @override
   bool step() {
     if (_result != null) return true;
     var end = _pos + _pieceChars;
+    // o pedaço termina num espaço (até 1/4 de pedaço adiante); sem espaço por perto (palavra enorme, texto
+    // sem espaços como o chinês), corta onde estiver — sem partir um par substituto
     if (end >= text.length) {
       end = text.length;
     } else {
-      while (end < text.length && text.codeUnitAt(end) != 0x20) {
-        end++;
+      final limit = math.min(text.length, end + (_pieceChars >> 2));
+      var e = end;
+      while (e < limit && text.codeUnitAt(e) != 0x20) {
+        e++;
+      }
+      if (e < limit || e == text.length) {
+        end = e;
+      } else if (_isHighSurrogate(text.codeUnitAt(end - 1))) {
+        end--;
       }
     }
     final last = end >= text.length;
@@ -429,6 +469,8 @@ final class _TextTask extends BlockLayoutTask {
     final placeholder = first && indent;
     final p = _build(_pos, end, placeholder: placeholder);
     final metrics = p.computeLineMetrics();
+    // descarta a última linha do pedaço (o seguinte recomeça nela): com a quebra gulosa, só ela depende do
+    // que vem depois do corte — o pedaço de uma palavra cortada sempre fica nela, coubesse onde coubesse
     final keep = last ? metrics.length : metrics.length - 1;
     if (!last && keep < 1) {
       // uma "palavra" maior que o pedaço: o resto vai inteiro neste
@@ -468,8 +510,8 @@ final class _TextTask extends BlockLayoutTask {
       _finish();
       return true;
     }
-    // o próximo pedaço recomeça no início da última linha (descartada aqui)
-    _pos += starts[metrics.length - 1] - (placeholder ? 1 : 0);
+    // o próximo pedaço recomeça no início da 1ª linha descartada aqui
+    _pos += starts[keep] - (placeholder ? 1 : 0);
     return false;
   }
 

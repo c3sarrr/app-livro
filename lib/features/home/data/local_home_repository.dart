@@ -471,7 +471,8 @@ final class _Reader {
     }
   }
 
-  /// Caracteres dos itens lineares do `spine_json`; ilegível → `null` (o livro fica sem índice aqui).
+  /// Caracteres dos itens lineares do `spine_json`; ilegível ou sem texto → `null` (o livro fica sem índice
+  /// aqui).
   static int? _linearChars(String spineJson) {
     try {
       final items =
@@ -481,7 +482,9 @@ final class _Reader {
         final m = i as Map<String, Object?>;
         if (m['linear']! as bool) total += m['chars']! as int;
       }
-      return total;
+      // PDF (o índice dele não tem itens) e livro só de imagens: sem caracteres para medir — o livro conta
+      // pelas páginas de referência
+      return total > 0 ? total : null;
     } on Object {
       return null;
     }

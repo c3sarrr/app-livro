@@ -1,6 +1,7 @@
 // G10.3 — os números do leitor (Anexo 03 §6, D-19/D-89): "pág. X de Y" = página de referência do 1º caractere
 // visível / total; "%" = posição global ÷ total de caracteres (5 casas guardadas, mostrado inteiro); capítulo
-// atual = a entrada do sumário que contém a posição; sumário com a página de início de cada entrada.
+// atual = a folha do sumário que contém a posição (contada como em `chaptersTotal`); sumário com a página de
+// início de cada entrada.
 import 'dart:math' as math;
 
 import '../content/book_index.dart';
@@ -21,7 +22,7 @@ final class ReaderNumbers {
   /// 0…1 com 5 casas (`numeric(6,5)` no servidor).
   final double progression;
 
-  /// Entrada do sumário (0 = a primeira) — 0 quando o livro não tem sumário.
+  /// Capítulo entre as folhas do sumário (0 = o primeiro) — 0 quando o livro não tem sumário.
   final int chapterIndex;
 
   /// "62%".
@@ -60,14 +61,18 @@ ReaderNumbers numbersAt(BookIndex index, int spine, int offset) {
   );
 }
 
-/// Entrada do sumário que contém a posição global [global]: a última que começa nela ou antes.
+/// Capítulo da posição global [global], contado entre as folhas do sumário (as mesmas de
+/// [BookIndex.chaptersTotal] — "Cap. X de Y" não passa do total quando o sumário tem partes): a última folha
+/// que começa nela ou antes; 0 antes da primeira.
 int chapterIndexAt(BookIndex index, int global) {
   var c = 0;
-  for (var i = 0; i < index.toc.length; i++) {
-    final t = index.toc[i];
+  var leaf = -1;
+  for (final t in index.toc) {
+    if (!t.leaf) continue;
+    leaf++;
     if (t.spine == null) continue;
     final g = index.globalOffset(t.spine!, t.offset ?? 0);
-    if (g != null && g <= global) c = i;
+    if (g != null && g <= global) c = leaf;
   }
   return c;
 }

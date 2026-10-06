@@ -301,10 +301,23 @@ void main() {
           paginas: 100,
         ),
       ]);
+      // o índice do PDF como a importação grava (sem itens: o PDF não tem texto canônico)
+      await BookContentIndexDao(db).upsert(
+        idTeste(1),
+        BookIndex(
+          contentSha256: shaDoLivroTeste(1),
+          layout: 'pdf',
+          spine: const [],
+          toc: const [],
+          refPages: RefPageMap.pdf(100),
+          refPageVersion: refPageVersion,
+        ),
+        builtAt: t0Teste,
+      );
       final h = (await repo.read(_agora)).continueReading!;
       expect(h.chapter, isNull);
       expect(h.totalChapters, isNull);
-      // sem índice: 100 páginas × 1.500 caracteres ÷ 1.000 por minuto = 150 min
+      // sem texto no índice: 100 páginas × 1.500 caracteres ÷ 1.000 por minuto = 150 min
       expect(h.timeLeft, const Duration(minutes: 150));
     });
 
@@ -332,7 +345,8 @@ void main() {
         paginas: 50,
       );
       await gravar([a, b]);
-      // índice do livro a: 300.000 caracteres nos itens lineares (a nota fora da leitura não conta)
+      // índice do livro a: 300.000 caracteres nos itens lineares (as notas fora da leitura, 150.000, não
+      // contam — nem no total nem nos caracteres por página)
       await BookContentIndexDao(db).upsert(
         a.id,
         BookIndex(
@@ -340,7 +354,7 @@ void main() {
           layout: 'reflowable',
           spine: const [
             SpineInfo(path: 'a.xhtml', linear: true, chars: 100000),
-            SpineInfo(path: 'n.xhtml', linear: false, chars: 5000),
+            SpineInfo(path: 'n.xhtml', linear: false, chars: 150000),
             SpineInfo(path: 'b.xhtml', linear: true, chars: 200000),
           ],
           toc: const [],

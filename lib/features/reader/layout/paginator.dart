@@ -61,9 +61,7 @@ final class ChapterPaginator {
     assert(_blocks.isEmpty);
     _blocks.add(b);
     _place(firstBlock, from: firstLine);
-    if (b is LaidText && b.keepTogether && b.lines.isNotEmpty) {
-      _pendingHeading = firstBlock;
-    }
+    if (_keeps(b)) _pendingHeading = firstBlock;
   }
 
   void add(LaidBlock b) {
@@ -76,7 +74,7 @@ final class ChapterPaginator {
       // o título só fica nesta página se a 1ª linha do seguinte (ou ele inteiro, se for outro título ou um
       // objeto) também couber
       final need = switch (b) {
-        LaidText(keepTogether: true) => b.height,
+        LaidText(keepTogether: true) when _keeps(b) => b.height,
         LaidText(:final lines) when lines.isNotEmpty => lines.first.height,
         _ => b.height,
       };
@@ -87,7 +85,7 @@ final class ChapterPaginator {
         while (_current.isNotEmpty) {
           final last = _current.last;
           final blk = _block(last.block);
-          if (last is! TextSlice || blk is! LaidText || !blk.keepTogether) {
+          if (last is! TextSlice || !_keeps(blk)) {
             break;
           }
           removed.insert(0, _current.removeLast());
@@ -103,10 +101,16 @@ final class ChapterPaginator {
       }
     }
     _place(i);
-    if (b is LaidText && b.keepTogether && b.lines.isNotEmpty) {
-      _pendingHeading = i;
-    }
+    if (_keeps(b)) _pendingHeading = i;
   }
+
+  /// Título que espera a 1ª linha do bloco seguinte: o que cabe numa página (o maior que ela é partido como
+  /// texto comum).
+  bool _keeps(LaidBlock b) =>
+      b is LaidText &&
+      b.keepTogether &&
+      b.lines.isNotEmpty &&
+      b.height <= _limit;
 
   /// Fecha a última página. Devolve todas.
   List<ReaderPage> finish() {
@@ -120,7 +124,8 @@ final class ChapterPaginator {
     switch (b) {
       case LaidText(:final lines) when lines.isEmpty:
         return;
-      case LaidText(keepTogether: true):
+      // título maior que a página inteira (livro mal marcado): vai como texto comum, partido
+      case LaidText(keepTogether: true) when b.height <= _limit:
         if (_y > 0 && _y + b.height > _limit) _close();
         _current.add(TextSlice(i, 0, b.lines.length - 1, _y));
         _y += b.height;

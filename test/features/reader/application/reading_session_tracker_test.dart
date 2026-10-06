@@ -1,7 +1,9 @@
 // G10.4 — tempo que "conta sozinho" (Anexo 03 §8, D-27/D-95), com relógio de mentira: conta com o leitor
 // visível, o app em primeiro plano e uma página na tela; parado 120 s, pausa (o tempo conta até os 120 s);
 // segundo plano pausa e grava; voltar retoma a mesma sessão; < 10 s não grava; página lida = ≥ 3 s ativa;
-// a linha é regravada a cada 60 s ativos; "N min hoje" soma as de hoje e a aberta.
+// a linha é regravada a cada 60 s ativos; "N min hoje" soma as de hoje e a aberta. Revisão da G10: acertar o
+// relógio do aparelho não apaga nem inventa tempo (intervalos pelo relógio monotônico); voltar a ler noutro dia
+// abre outra sessão; falha ao gravar é relatada uma vez por tipo.
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
@@ -18,9 +20,11 @@ import '../../../support/personal_builders.dart';
 void main() {
   late AppDatabase db;
   late DateTime agora;
+  late Duration mono;
   setUp(() {
     db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
     agora = DateTime(2026, 10, 5, 15); // hora local do aparelho
+    mono = Duration.zero;
   });
   tearDown(() => db.close());
 
@@ -38,13 +42,30 @@ void main() {
       userBookId: livro,
       deviceId: 'aparelhoA',
       now: () => agora,
+      elapsed: () => mono,
       autoTick: false,
     );
     addTearDown(t.dispose);
     return t;
   }
 
-  void passa(int segundos) => agora = agora.add(Duration(seconds: segundos));
+  /// O tempo passa nos dois relógios.
+  void passa(int segundos, {int ms = 0}) {
+    final d = Duration(seconds: segundos, milliseconds: ms);
+    agora = agora.add(d);
+    mono += d;
+  }
+
+  /// Lê por [segundos], mexendo a cada 100 s (não pausa por parado).
+  Future<void> le(ReadingSessionTracker t, int segundos) async {
+    var falta = segundos;
+    while (falta > 0) {
+      final d = falta < 100 ? falta : 100;
+      passa(d);
+      falta -= d;
+      await t.interaction();
+    }
+  }
 
   Future<List<ReadingSession>> gravadas() =>
       ReadingSessionsDao(db).forBook(livro);
@@ -147,8 +168,7 @@ void main() {
     await t.pageShown(4, 4); // 2 s
     passa(2);
     await t.pageShown(5, 5); // 2,9 s
-    passa(2);
-    agora = agora.add(const Duration(milliseconds: 900));
+    passa(2, ms: 900);
     await t.close();
     final s = (await gravadas()).single;
     expect(s.pagesViewed, 3); // 1, 2 e 3
@@ -188,7 +208,7 @@ void main() {
     },
   );
 
-  test('falha ao gravar não para a contagem: vai para o relatório e a próxima gravação tenta de novo', () async {
+  test('falha ao gravar não para a contagem: vai para o relatório e o próximo ponto de gravação tenta de novo', () async {
     var falhas = 1;
     final erros = <Object>[];
     final t = contador(
@@ -206,9 +226,79 @@ void main() {
     expect(await gravadas(), isEmpty);
     expect(t.counting, isTrue);
     passa(1);
-    await t.tick(); // tenta de novo no segundo seguinte
-    expect((await gravadas()).single.activeSeconds, 62);
+    await t.tick(); // não insiste a cada segundo
+    expect(await gravadas(), isEmpty);
+    passa(38);
+    await t.interaction();
+    passa(21);
+    await t.tick(); // 121 s: o ponto de gravação seguinte
+    expect((await gravadas()).single.activeSeconds, 121);
     expect(erros, hasLength(1));
+  });
+
+  test('relógio do aparelho antes de 2024: a falha é relatada uma vez, não a cada gravação', () async {
+    agora = DateTime(2019, 3, 1, 10);
+    final erros = <Object>[];
+    final t = contador(erro: (e, _) => erros.add(e));
+    await t.setVisible(true);
+    await t.pageShown(1, 1);
+    await le(t, 61);
+    await t.tick();
+    await le(t, 120);
+    await t.tick();
+    await t.close();
+    expect(erros, [isA<ArgumentError>()]);
+    expect(await gravadas(), isEmpty);
+  });
+
+  test(
+    'acertar o relógio no meio da leitura não apaga nem inventa tempo',
+    () async {
+      final t = contador();
+      await t.setVisible(true);
+      await t.pageShown(2, 2);
+      await le(t, 30);
+      agora = agora.subtract(
+        const Duration(hours: 1),
+      ); // o relógio de parede volta 1 h
+      await le(t, 30);
+      expect(t.activeSeconds, 60);
+      agora = agora.add(
+        const Duration(hours: 3),
+      ); // e depois pula 3 h para a frente
+      await le(t, 20);
+      await t.close();
+      final s = (await gravadas()).single;
+      expect(s.activeSeconds, 80);
+      expect(s.startedAt, DateTime(2026, 10, 5, 15).toUtc());
+      // fim = início + o que passou de verdade
+      expect(s.endedAt.difference(s.startedAt), const Duration(seconds: 80));
+    },
+  );
+
+  test('voltar a ler noutro dia abre outra sessão (os minutos contam no dia em que se leu)', () async {
+    agora = DateTime(2026, 10, 5, 23, 50);
+    final t = contador();
+    await t.setVisible(true);
+    await t.pageShown(3, 3);
+    await le(t, 300); // até 23:55
+    await t.setForeground(false);
+    passa(8 * 3600 + 5 * 60); // dorme; volta às 08:00 do dia 6
+    await t.setForeground(true);
+    await t.pageShown(4, 4);
+    await le(t, 1200);
+    await t.close();
+    final s = await gravadas();
+    expect(s.map((x) => (x.startedAt.toLocal(), x.activeSeconds)), [
+      (DateTime(2026, 10, 5, 23, 50), 300),
+      (DateTime(2026, 10, 6, 8), 1200),
+    ]);
+    expect(s[0].id, isNot(s[1].id));
+    expect(
+      (s[1].refPageFrom, s[1].refPageTo),
+      (3, 4),
+    ); // a 3 estava na tela quando voltou
+    expect(await minutesToday(db, userId: usuarioTeste, now: agora), 20);
   });
 
   test('"N min hoje": sessões que começaram hoje + a aberta, sem contar a aberta duas vezes', () async {

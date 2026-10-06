@@ -205,6 +205,50 @@ void main() {
     },
   );
 
+  test('noutra edição com um item a mais antes: a citação não está no item de mesmo número — vale a %', () async {
+    // capítulos com textos diferentes (a citação de um não aparece no outro)
+    List<int> livro({required bool comNota}) => simpleEpub(
+      chapters: [
+        if (comNota)
+          (
+            file: 'nota.xhtml',
+            title: 'Nota',
+            body: '<p>Nota da edição nova.</p>',
+          ),
+        (
+          file: 'c1.xhtml',
+          title: 'I',
+          body: '<p>${'Primeiro capítulo, outra história. ' * 60}</p>',
+        ),
+        (
+          file: 'c2.xhtml',
+          title: 'II',
+          body: '<p>${_esc(paragrafoDaPagina159)}</p>' * 3,
+        ),
+      ],
+    );
+    final (index, book) = abrir('a.epub', livro(comNota: false), 'a' * 64);
+    final k = guardiao(index);
+    final texto = book.parseItem(1).text;
+    final at = texto.indexOf(
+      'Retórica',
+      texto.length ~/ 2,
+    ); // longe das bordas do capítulo
+    k.pageShown(1, at, texto);
+    await k.flush();
+
+    final (index2, book2) = abrir('b.epub', livro(comNota: true), 'b' * 64);
+    final p = paginador(index2, book2);
+    final pos = await reopen(p, guardiao(index2));
+    // pela % guardada: no c2 da edição nova (item 2), perto do mesmo ponto
+    expect(pos.spine, 2);
+    final g = index2.globalOffset(2, pos.firstVisible)!;
+    final esperado =
+        ((await k.saved())!.locator as EpubLocator).progression *
+        index2.totalChars;
+    expect((g - esperado).abs(), lessThan(index2.totalChars * 0.05));
+  });
+
   test('sem posição guardada: abre no começo do livro', () async {
     final (index, book) = abrir('a.epub', _livro(), 'a' * 64);
     final pos = await reopen(paginador(index, book), guardiao(index));

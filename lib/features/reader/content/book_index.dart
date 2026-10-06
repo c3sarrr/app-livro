@@ -2,6 +2,7 @@
 // sumário com (item, posição no texto canônico), mapa das páginas de referência (D-89) e capítulos (= entradas
 // do sumário sem subentradas, D-93). Construído no isolate da importação; guardado em colunas JSON.
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'content_failure.dart';
 import 'epub_book.dart';
@@ -46,6 +47,19 @@ final class TocPoint {
   final bool leaf;
 }
 
+/// Início global de cada item do spine (só os lineares contam) e, no fim, o total — um por [BookIndex].
+final Expando<List<int>> _rulers = Expando('régua do índice');
+
+List<int> _ruler(BookIndex b) => _rulers[b] ??= () {
+  final out = <int>[];
+  var g = 0;
+  for (final s in b.spine) {
+    out.add(g);
+    if (s.linear) g += s.chars;
+  }
+  return out..add(g);
+}();
+
 final class BookIndex {
   const BookIndex({
     required this.contentSha256,
@@ -72,21 +86,32 @@ final class BookIndex {
       toc.isEmpty ? null : toc.where((t) => t.leaf).length;
 
   /// Caracteres dos itens lineares (a régua global).
-  int get totalChars =>
-      spine.where((s) => s.linear).fold(0, (a, s) => a + s.chars);
+  int get totalChars => _ruler(this).last;
 
-  /// Posição global de ([spineIndex], [offset]); item não linear → `null`.
+  /// Posição global de ([spineIndex], [offset]); item não linear → `null`. O(1): a régua (início global de
+  /// cada item) é calculada uma vez por índice — o leitor pergunta a cada página virada.
   int? globalOffset(int spineIndex, int offset) {
     if (spineIndex < 0 ||
         spineIndex >= spine.length ||
         !spine[spineIndex].linear) {
       return null;
     }
-    var g = 0;
-    for (var i = 0; i < spineIndex; i++) {
-      if (spine[i].linear) g += spine[i].chars;
+    return _ruler(this)[spineIndex] + offset;
+  }
+
+  /// O contrário de [globalOffset]: (item linear, caractere) da posição global [global] (limitada ao livro);
+  /// `null` sem itens lineares.
+  (int, int)? spineAt(int global) {
+    final r = _ruler(this);
+    final g = math.min(math.max(0, global), r.last);
+    int? at;
+    for (var i = 0; i < spine.length; i++) {
+      if (!spine[i].linear) continue;
+      if (at != null && r[i] > g) break;
+      at = i;
     }
-    return g + offset;
+    if (at == null) return null;
+    return (at, math.min(g - r[at], spine[at].chars));
   }
 
   String get spineJson => jsonEncode({
