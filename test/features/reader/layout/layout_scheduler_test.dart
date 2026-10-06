@@ -55,12 +55,11 @@ void main() {
     );
     expect(s.maxSliceMicros, lessThanOrEqualTo(4000 + passo + 1000));
     // o maior passo é a 1ª vez de um tamanho/peso de letra (o Skia cria a instância da fonte variável): uma
-    // vez por sessão; os passos comuns ficam em 1–3 ms no PC
-    expect(
-      passo,
-      lessThan(orcamento(8000, folga: 20000)),
-      reason: 'pedaços de 1.200 caracteres',
-    );
+    // vez por sessão; os passos comuns ficam em 1–3 ms no PC. Só na rodada de medida: com a suíte inteira em
+    // paralelo, um passo pode esperar a CPU por dezenas de ms (já se viu 92 ms)
+    if (medindo) {
+      expect(passo, lessThan(8000), reason: 'pedaços de 1.200 caracteres');
+    }
     // rodar de novo um job pronto devolve o mesmo resultado
     expect(identical(await s.run(alta), alta.result), isTrue);
   });
