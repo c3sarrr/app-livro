@@ -278,4 +278,72 @@ void main() {
       );
     });
   });
+
+  group('ReaderLook (G14)', () {
+    test('padrões = tela 26; copyWith; igualdade por valor', () {
+      const l = ReaderLook();
+      expect(
+        (l.fontStep, l.fontFamily, l.paper, l.lineSpacing, l.margins),
+        (
+          4,
+          ReaderFontFamily.literata,
+          ReaderPaper.creme,
+          ReaderLineSpacing.medio,
+          ReaderMargins.media,
+        ),
+      );
+      expect(l.copyWith(fontStep: 7), const ReaderLook(fontStep: 7));
+      expect(l.copyWith(fontStep: 7), isNot(l));
+      expect(
+        l.copyWith(paper: ReaderPaper.noite).hashCode,
+        const ReaderLook(paper: ReaderPaper.noite).hashCode,
+      );
+      expect(
+        l.copyWith(fontFamily: ReaderFontFamily.atkinson).toString(),
+        'ReaderLook(4, atkinson, creme, medio, media)',
+      );
+    });
+
+    test('sameLayout: o papel não muda as quebras; tamanho, fonte, entrelinha e margens mudam', () {
+      const l = ReaderLook();
+      expect(l.sameLayout(l), isTrue);
+      expect(l.sameLayout(l.copyWith(paper: ReaderPaper.sepia)), isTrue);
+      for (final o in [
+        l.copyWith(fontStep: 5),
+        l.copyWith(fontFamily: ReaderFontFamily.lora),
+        l.copyWith(lineSpacing: ReaderLineSpacing.solto),
+        l.copyWith(margins: ReaderMargins.larga),
+      ]) {
+        expect(l.sameLayout(o), isFalse, reason: '$o');
+      }
+    });
+
+    test('ReaderSettings.look e withLook: os 5 ajustes vão e voltam; id e meta ficam', () {
+      final s = ReaderSettings(
+        id: usuario,
+        meta: meta,
+        fontStep: 2,
+        paper: ReaderPaper.sepia,
+      );
+      expect(s.look, const ReaderLook(fontStep: 2, paper: ReaderPaper.sepia));
+      const outro = ReaderLook(
+        fontStep: 6,
+        fontFamily: ReaderFontFamily.atkinson,
+        paper: ReaderPaper.noite,
+        lineSpacing: ReaderLineSpacing.justo,
+        margins: ReaderMargins.estreita,
+      );
+      final t = s.withLook(outro);
+      expect((t.id, t.meta, t.look), (s.id, s.meta, outro));
+      final m2 = meta.edited(
+        meta.updatedAt.add(const Duration(seconds: 1)),
+        meta.version,
+      );
+      expect(s.withLook(outro, meta: m2).meta, m2);
+      expect(
+        () => s.withLook(const ReaderLook().copyWith(fontStep: 9)),
+        throwsArgumentError,
+      );
+    });
+  });
 }
