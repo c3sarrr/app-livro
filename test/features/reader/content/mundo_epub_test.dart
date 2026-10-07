@@ -4,12 +4,15 @@
 // sintético: a reancoragem passa pelo passo 2 (trecho exato perto) e precisa dar as mesmas posições.
 import 'dart:io';
 
+import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
+import 'package:app_leitura/features/reader/content/toc_labels.dart';
 import 'package:app_leitura/features/reader/domain/anchoring.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../fixtures/mundo_2026_09_20.dart';
+import '../../../fixtures/sumario_dom_casmurro.dart';
 import '../../../support/epub_builder.dart';
 import '../../../support/mundo_epub.dart';
 
@@ -93,4 +96,28 @@ void main() {
       }
     },
   );
+
+  test('G15: o sumário do mundo completo são os 148 capítulos com "numeral. título" do livro, sem a folha de rosto', () {
+    final completo = EpubBook.open(
+      writeTemp(
+        dir,
+        'completo.epub',
+        mundoEpub(Slugs.domCasmurro, completo: true),
+      ),
+    );
+    addTearDown(completo.close);
+    final idx = buildEpubIndex(completo, 'a' * 64);
+    expect(idx.toc, hasLength(148));
+    expect(idx.chaptersTotal, 148);
+    final labels = tocLabels([
+      for (final t in idx.toc)
+        (title: t.title, textNumeral: t.textNumeral, leaf: t.leaf),
+    ]);
+    for (var c = 0; c < 148; c++) {
+      final s = sumarioDomCasmurro[c];
+      expect(idx.toc[c].title, '${s.numeral}. ${s.titulo}');
+      expect((idx.toc[c].spine, idx.toc[c].offset), (c + 1, 0));
+      expect(labels[c], (numeral: s.numeral, title: s.titulo));
+    }
+  });
 }
