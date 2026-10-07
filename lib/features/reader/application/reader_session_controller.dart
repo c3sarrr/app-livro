@@ -329,9 +329,11 @@ class ReaderSessionController extends ChangeNotifier {
   ) async {
     final dao = BookContentIndexDao(deps.db);
     var index = await dao.byBook(userBookId);
+    // índice de antes da G15 (sem os numerais do texto): refeito uma vez (D-154)
     if (index == null ||
         index.contentSha256 != sha ||
-        index.refPageVersion != refPageVersion) {
+        index.refPageVersion != refPageVersion ||
+        !index.tocUpToDate) {
       if (gen == _opening) _set(const ReaderOpening(preparing: true));
       await deps.indexBook(userBookId);
       index = await dao.byBook(userBookId);

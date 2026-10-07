@@ -337,6 +337,42 @@ void main() {
     expect(c.state, isA<ReaderReady>());
   });
 
+  test('G15 (D-154): índice de antes da G15 (sem os numerais) é refeito uma vez ao abrir', () async {
+    await h.livro.db.customStatement(
+      'UPDATE book_content_index SET toc_json = ? WHERE user_book_id = ?',
+      [
+        '[{"title":"I","spine":1,"offset":0,"depth":0,"leaf":true}]',
+        h.livro.userBookId,
+      ],
+    );
+    final c = h.controller();
+    addTearDown(() async {
+      await c.close();
+      c.dispose();
+    });
+    final preparando = <bool>[];
+    c.addListener(() {
+      if (c.state case ReaderOpening(:final preparing)) {
+        preparando.add(preparing);
+      }
+    });
+    await c.open(_tela);
+    expect(preparando, contains(true));
+    expect(h.indexados, [h.livro.userBookId]);
+    expect(c.state, isA<ReaderReady>());
+    await c.close();
+    final d = h.controller();
+    addTearDown(() async {
+      await d.close();
+      d.dispose();
+    });
+    await d.open(_tela);
+    expect(d.state, isA<ReaderReady>());
+    expect(h.indexados, [
+      h.livro.userBookId,
+    ], reason: 'o índice refeito já está em dia');
+  });
+
   test('arquivo que mudou de pasta (atualização do iOS): acha pelo nome na pasta de agora', () async {
     final f = await LocalFilesDao(h.livro.db).byBook(h.livro.userBookId);
     await LocalFilesDao(h.livro.db).upsert(

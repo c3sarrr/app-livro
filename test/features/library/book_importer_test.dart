@@ -472,6 +472,37 @@ void main() {
     expect(await importador.indexPending(), 1);
   });
 
+  test('G15 (D-154): índice de antes da G15 (sem os numerais do texto) é refeito uma vez', () async {
+    final ids = <String>[];
+    for (final t in ['Um', 'Dois']) {
+      final r = await importador.importStream(
+        Stream.value(simpleEpub(title: t, chapters: const [_cap])),
+        fileName: '$t.epub',
+      );
+      ids.add((r as Imported).userBookId);
+    }
+    expect(await importador.indexPending(), 2);
+    Future<void> envelhecer(String id) => db.customStatement(
+      'UPDATE book_content_index SET toc_json = ? WHERE user_book_id = ?',
+      ['[{"title":"I","spine":0,"offset":0,"depth":0,"leaf":true}]', id],
+    );
+    await envelhecer(ids.first);
+    expect(
+      (await BookContentIndexDao(db).byBook(ids.first))!.tocUpToDate,
+      isFalse,
+    );
+    expect(await importador.indexPending(), 1);
+    expect(
+      (await BookContentIndexDao(db).byBook(ids.first))!.tocUpToDate,
+      isTrue,
+    );
+    expect(await importador.indexPending(), 0);
+    await envelhecer(ids.last);
+    expect(await importador.indexBook(ids.last), isTrue);
+    expect(await importador.indexBook(ids.last), isFalse);
+    expect(erros, isEmpty);
+  });
+
   test('2º tempo: um livro que falha não segura os outros; o que não abre não é tentado de novo', () async {
     final ids = <String>[];
     for (final t in ['A', 'B', 'C']) {

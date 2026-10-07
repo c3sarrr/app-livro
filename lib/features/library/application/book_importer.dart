@@ -259,7 +259,8 @@ final class BookImporter {
     final current = await BookContentIndexDao(_db).byBook(userBookId);
     if (current != null &&
         current.contentSha256 == lf.sha256 &&
-        current.refPageVersion == refPageVersion) {
+        current.refPageVersion == refPageVersion &&
+        current.tocUpToDate) {
       return false;
     }
     final sha = lf.sha256;
@@ -318,7 +319,9 @@ final class BookImporter {
           'JOIN user_books b ON b.id = f.user_book_id '
           'LEFT JOIN book_content_index i ON i.user_book_id = f.user_book_id '
           "WHERE b.user_id = ? AND b.deleted_at IS NULL AND b.format = 'epub' "
-          'AND (i.user_book_id IS NULL OR i.content_sha256 <> f.sha256 OR i.ref_page_version <> ?)',
+          'AND (i.user_book_id IS NULL OR i.content_sha256 <> f.sha256 OR i.ref_page_version <> ? '
+          // índice de antes da G15 (sem os numerais do texto — D-154)
+          "OR (i.toc_json LIKE '[{%' AND instr(i.toc_json, '\"text_numeral\"') = 0))",
           variables: [
             Variable.withString(owner),
             Variable.withInt(refPageVersion),
