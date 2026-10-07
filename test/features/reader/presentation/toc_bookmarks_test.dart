@@ -204,13 +204,17 @@ void main() {
           tester.getRect(chave('bm.sheet.bookmarks.list')).bottom,
       moreOrLessEquals(18, epsilon: 0.01),
     );
+    expect(
+      tester.widget<AppSvg>(chave('bm.sheet.hint.icon')).asset,
+      AppIconsLeitor.ribbonHint,
+    );
     await _marcadas(tester, cartoes: const []);
     expect(chave('bm.sheet.bookmarks.item1'), findsNothing);
     expect(chave('bm.sheet.hint'), findsOneWidget);
   });
 
   testWidgets(
-    'Noite: os cartões nas cores das ilhas; a fita tirada é a do Noite',
+    'Noite: os cartões nas cores das ilhas; a fita tirada e a da dica são as do Noite',
     (tester) async {
       await _marcadas(
         tester,
@@ -224,6 +228,11 @@ void main() {
         tester
             .widget<AppSvg>(chave('bm.sheet.bookmarks.item2.ribbon.icon'))
             .asset,
+        AppIconsLeitor.ribbonEmptyNight,
+      );
+      // a fita da dica: o contorno claro do Noite, não a fita clara com traço escuro
+      expect(
+        tester.widget<AppSvg>(chave('bm.sheet.hint.icon')).asset,
         AppIconsLeitor.ribbonEmptyNight,
       );
     },

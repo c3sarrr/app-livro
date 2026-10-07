@@ -262,10 +262,13 @@ class _Hint extends StatelessWidget {
           height: 30,
           child: CustomPaint(
             painter: DashedStadiumPainter(color: p.border),
-            child: const Center(
+            child: Center(
+              // no Noite, a fita só no contorno claro (D-154), como a fita vazia do alto do leitor
               child: AppSvg(
-                AppIconsLeitor.ribbonHint,
-                key: ValueKey('bm.sheet.hint.icon'),
+                p.night
+                    ? AppIconsLeitor.ribbonEmptyNight
+                    : AppIconsLeitor.ribbonHint,
+                key: const ValueKey('bm.sheet.hint.icon'),
                 size: 11,
                 height: 13,
               ),

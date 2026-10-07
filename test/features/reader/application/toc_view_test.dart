@@ -196,6 +196,11 @@ void main() {
       final fim = _view(at: (spine: 2, offset: 3000));
       expect(fim.currentRow, 4);
       expect(fim.rows[4].progress, 1.0);
+      expect(
+        fim.rows[4].read,
+        isFalse,
+        reason: 'o atual tem o anel, não "lido"',
+      );
       expect(fim.rows[2].read, isTrue);
     });
 

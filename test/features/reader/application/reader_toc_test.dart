@@ -186,7 +186,10 @@ void main() {
         ),
       ),
     );
+    // as releituras dessas escritas terminam antes da gravação acabar: a fita continua a pedida
+    await Future<void>.delayed(const Duration(milliseconds: 100));
     expect(t.view!.cards.single.marked, isFalse, reason: 'ainda a pedida');
+    // a gravação termina: a releitura que começa agora mostra o banco
     t.settle(m.id, ok: true);
     await _ate(() => t.view!.bookmarks == 1);
     expect(t.view!.cards.single.marked, isTrue);
