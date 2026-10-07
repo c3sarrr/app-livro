@@ -175,9 +175,16 @@ void main() {
       await tester.tap(chave('bm.sheet.bookmarks.item1.ribbon'));
       await tester.tap(chave('bm.sheet.bookmarks.item2.ribbon'));
       expect(m.fitas.map((c) => c.page), [3, 6]);
+      // D-158: o cartão inteiro para o leitor de tela, e a ação é abrir
       expect(
         tester.getSemantics(chave('bm.sheet.bookmarks.item2.link')),
-        isSemantics(label: 'Abrir na página 6', isButton: true),
+        isSemantics(
+          label:
+              'Página 6, cap. I, Do título, Uma noite destas, vindo da cidade para o Engenho Novo, encontrei no '
+              'trem da Central…, marcada em 2 set',
+          hint: 'Abrir na página 6',
+          isButton: true,
+        ),
       );
       await tester.tap(chave('bm.sheet.bookmarks.item2.link'));
       expect(m.abertos.single.page, 6);

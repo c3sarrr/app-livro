@@ -117,9 +117,11 @@ TocView vista({
   TocClubStrip? clube = (
     kicker: 'LEITORAS DE CAPITU · QUI 24/9',
     goal: 'Até o cap. L · faltam 18',
+    spoken: 'Leitoras de Capitu, quinta 24/9, Até o cap. L, faltam 18',
   ),
   List<TocBookmarkCard> cartoes = const [],
   int? capitulos = 148,
+  bool tocFalhou = false,
 }) {
   final rows =
       linhas ??
@@ -142,6 +144,7 @@ TocView vista({
     refPage: 159,
     club: clube,
     cards: cartoes,
+    tocFailed: tocFalhou,
   );
 }
 

@@ -3,9 +3,12 @@
 // as linhas (numeral do livro — D-150 —, título, marcas — Anexo 02 §4.2 —, página e "lido"), o capítulo atual num
 // cartão com o anel e "você está na pág. N", as partes como título pequeno (D-153) e a lista sem sumário (D-21). A lista
 // abre com o cartão atual a 378,4 do topo dela (L27: sete linhas acima); numa lista baixa, o cartão fica inteiro acima
-// do esmaecido de baixo (D-154). Sem numeral em nenhuma linha, a coluna do numeral some.
+// do esmaecido de baixo (D-154); uma vez por abertura: trocar de aba e voltar deixa a lista onde estava. Sem numeral
+// em nenhuma linha, a coluna do numeral some. Numeral ou página mais largos que a coluna transbordam no espaço ao lado,
+// inteiros, como no HTML da prancha (D-157). O índice que não se leu deixa só a moldura.
 import 'dart:math' as math;
 
+import 'package:flutter/rendering.dart' show OverflowBoxFit;
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/painters/chromium_dash.dart';
@@ -44,6 +47,8 @@ class TocChapters extends StatefulWidget {
     required this.palette,
     required this.onChapter,
     this.onClub,
+    this.offset,
+    this.onOffset,
   });
 
   final TocView view;
@@ -51,21 +56,32 @@ class TocChapters extends StatefulWidget {
   final ValueChanged<TocRow> onChapter;
   final VoidCallback? onClub;
 
+  /// Onde a lista estava nesta abertura (voltando da aba Marcadas); `null` = abre no capítulo atual.
+  final double? offset;
+
+  /// A lista rolou: a folha guarda onde, para a volta da outra aba.
+  final ValueChanged<double>? onOffset;
+
   @override
   State<TocChapters> createState() => _TocChaptersState();
 }
 
 class _TocChaptersState extends State<TocChapters> {
-  final ScrollController _scroll = ScrollController();
+  late final ScrollController _scroll = ScrollController(
+    initialScrollOffset: widget.offset ?? 0,
+  );
   final GlobalKey _list = GlobalKey();
   final GlobalKey _current = GlobalKey();
-  bool _placed = false;
+  late bool _placed = widget.offset != null;
 
   @override
   void initState() {
     super.initState();
-    _later();
+    _scroll.addListener(_scrolled);
+    if (!_placed) _later();
   }
+
+  void _scrolled() => widget.onOffset?.call(_scroll.offset);
 
   @override
   void didUpdateWidget(TocChapters old) {
@@ -122,7 +138,7 @@ class _TocChaptersState extends State<TocChapters> {
             child: SizedBox(
               key: const ValueKey('toc.sheet.chapters'),
               child: v.rows.isEmpty
-                  ? _Empty(palette: p)
+                  ? (v.tocFailed ? null : _Empty(palette: p))
                   : Stack(
                       clipBehavior: Clip.hardEdge,
                       children: [
@@ -266,16 +282,11 @@ class _ChapterRow extends StatelessWidget {
               child: Row(
                 children: [
                   if (numerals) ...[
-                    SizedBox(
+                    _Column(
+                      key: row.numeral == null ? null : ValueKey('$id.numeral'),
                       width: 52,
-                      child: row.numeral == null
-                          ? null
-                          : AppText(
-                              row.numeral!,
-                              key: ValueKey('$id.numeral'),
-                              style: _numeralStyle(p),
-                              maxLines: 1,
-                            ),
+                      text: row.numeral,
+                      style: _numeralStyle(p),
                     ),
                     const SizedBox(width: 10),
                   ],
@@ -298,19 +309,14 @@ class _ChapterRow extends StatelessWidget {
                     _Marks(id: '$id.marks', marks: row.marks, palette: p),
                   ],
                   const SizedBox(width: 10),
-                  SizedBox(
+                  _Column(
+                    key: row.page == null ? null : ValueKey('$id.page'),
                     width: 30,
-                    child: row.page == null
-                        ? null
-                        : AppText(
-                            '${row.page}',
-                            key: ValueKey('$id.page'),
-                            style: AppTextStyles.readerTocPage.copyWith(
-                              color: p.night ? p.label : AppColors.labelReader,
-                            ),
-                            textAlign: TextAlign.right,
-                            maxLines: 1,
-                          ),
+                    text: row.page?.toString(),
+                    style: AppTextStyles.readerTocPage.copyWith(
+                      color: p.night ? p.label : AppColors.labelReader,
+                    ),
+                    end: true,
                   ),
                   const SizedBox(width: 10),
                   if (row.read)
@@ -400,16 +406,13 @@ class _CurrentCard extends StatelessWidget {
                     key: ValueKey('$id.row'),
                     children: [
                       if (numerals) ...[
-                        SizedBox(
-                          width: 52,
-                          child: row.numeral == null
+                        _Column(
+                          key: row.numeral == null
                               ? null
-                              : AppText(
-                                  row.numeral!,
-                                  key: ValueKey('$id.numeral'),
-                                  style: _numeralStyle(p, current: true),
-                                  maxLines: 1,
-                                ),
+                              : ValueKey('$id.numeral'),
+                          width: 52,
+                          text: row.numeral,
+                          style: _numeralStyle(p, current: true),
                         ),
                         const SizedBox(width: 10),
                       ],
@@ -423,18 +426,14 @@ class _CurrentCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      SizedBox(
+                      _Column(
+                        key: row.page == null ? null : ValueKey('$id.page'),
                         width: 30,
-                        child: row.page == null
-                            ? null
-                            : AppText(
-                                '${row.page}',
-                                key: ValueKey('$id.page'),
-                                style: AppTextStyles.readerTocPageCurrent
-                                    .copyWith(color: p.title),
-                                textAlign: TextAlign.right,
-                                maxLines: 1,
-                              ),
+                        text: row.page?.toString(),
+                        style: AppTextStyles.readerTocPageCurrent.copyWith(
+                          color: p.title,
+                        ),
+                        end: true,
                       ),
                       const SizedBox(width: 10),
                       CustomPaint(
@@ -655,6 +654,48 @@ class _ReadCheck extends StatelessWidget {
   );
 }
 
+/// Uma coluna de largura fixa (o numeral, 52; a página, 30) cujo texto mais largo transborda no espaço ao lado,
+/// inteiro e numa linha, como no HTML da prancha (D-157): o numeral para a direita, a página (alinhada à direita) para
+/// a esquerda.
+class _Column extends StatelessWidget {
+  const _Column({
+    super.key,
+    required this.width,
+    required this.text,
+    required this.style,
+    this.end = false,
+  });
+
+  final double width;
+  final String? text;
+  final TextStyle style;
+
+  /// Alinhada à direita (a página).
+  final bool end;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = text;
+    return SizedBox(
+      width: width,
+      child: t == null
+          ? null
+          : OverflowBox(
+              alignment: end ? Alignment.centerRight : Alignment.centerLeft,
+              minWidth: 0,
+              maxWidth: double.infinity,
+              fit: OverflowBoxFit.deferToChild,
+              child: AppText(
+                t,
+                style: style,
+                textAlign: end ? TextAlign.right : TextAlign.left,
+                maxLines: 1,
+              ),
+            ),
+    );
+  }
+}
+
 /// A parte (D-153, versão mínima — D-21): um título pequeno em maiúsculas acima dos capítulos dela.
 class _PartRow extends StatelessWidget {
   const _PartRow({
@@ -675,8 +716,10 @@ class _PartRow extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 14, 10, 6),
         child: AppText(
-          row.title,
+          row.title.toUpperCase(),
           key: ValueKey('$id.title'),
+          // o leitor de tela lê como no livro, não letra por letra
+          semanticsLabel: row.title,
           style: AppTextStyles.readerTocPart.copyWith(
             color: palette.night ? palette.caption : AppColors.inkSoft,
           ),
@@ -729,6 +772,7 @@ class _ClubStrip extends StatelessWidget {
     return Pressable(
       onTap: onTap,
       isLink: true,
+      semanticsLabel: club.spoken,
       child: NeoBox(
         key: const ValueKey('toc.sheet.club'),
         color: AppColors.blush,

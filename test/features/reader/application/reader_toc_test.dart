@@ -110,7 +110,7 @@ void main() {
     await BookmarksDao(db).upsert(m);
     final t = toc();
     await _ate(() => t.view != null);
-    t.keep(m);
+    t.want(m, on: false);
     final at = DateTime.utc(2026, 9, 21);
     await BookmarksDao(db).upsert(
       m.copyWith(
@@ -120,6 +120,7 @@ void main() {
         ),
       ),
     );
+    t.settle(m.id, ok: true);
     await _ate(() => t.view!.bookmarks == 0);
     expect(t.view!.cards.single.marked, isFalse);
     final depois = DateTime.utc(2026, 9, 22);
@@ -134,6 +135,78 @@ void main() {
     await _ate(() => t.view!.bookmarks == 1);
     expect(t.view!.cards.single.marked, isTrue);
     expect(t.view!.cards, hasLength(1));
+  });
+
+  test('a fita pedida vale na hora (dois toques seguidos); a falha volta ao banco; depois de gravar, a releitura mostra o banco', () async {
+    await BookContentIndexDao(db)
+        .upsert(livro, _indice(), builtAt: DateTime.utc(2026, 9, 20));
+    final m = marcadorTeste(1, livro: livro, pagina: 1);
+    await BookmarksDao(db).upsert(m);
+    final t = toc();
+    await _ate(() => t.view != null);
+    var avisos = 0;
+    t.addListener(() => avisos++);
+    // 1º toque: tira na hora, sem esperar o banco
+    t.want(m, on: false);
+    expect(avisos, 1);
+    expect(t.view!.cards.single.marked, isFalse);
+    expect(t.view!.bookmarks, 0);
+    // 2º toque antes do banco responder: devolve na hora
+    t.want(m, on: true);
+    expect(t.view!.cards.single.marked, isTrue);
+    expect(t.view!.bookmarks, 1);
+    // a 1ª gravação termina com a 2ª em curso: nada muda; a 2ª falha: volta ao banco (viva)
+    t.settle(m.id, ok: true);
+    expect(t.view!.cards.single.marked, isTrue);
+    t.settle(m.id, ok: false);
+    expect(t.view!.cards.single.marked, isTrue);
+    // tirar e a gravação falhar: volta na hora ao que o banco diz (viva), e o cartão fica
+    t.want(m, on: false);
+    expect(t.view!.cards.single.marked, isFalse);
+    t.settle(m.id, ok: false);
+    expect(t.view!.cards.single.marked, isTrue);
+    expect(t.view!.cards, hasLength(1));
+    // tirar e gravar; outro aparelho devolve antes da releitura: a releitura depois da gravação mostra o banco
+    t.want(m, on: false);
+    final at = DateTime.utc(2026, 9, 21);
+    await BookmarksDao(db).upsert(
+      m.copyWith(
+        meta: m.meta.deleted(
+          at,
+          Hlc(at.millisecondsSinceEpoch, 0, 'aparelhoA'),
+        ),
+      ),
+    );
+    final depois = DateTime.utc(2026, 9, 22);
+    await BookmarksDao(db).upsert(
+      m.copyWith(
+        meta: m.meta.restored(
+          depois,
+          Hlc(depois.millisecondsSinceEpoch, 0, 'aparelhoB'),
+        ),
+      ),
+    );
+    expect(t.view!.cards.single.marked, isFalse, reason: 'ainda a pedida');
+    t.settle(m.id, ok: true);
+    await _ate(() => t.view!.bookmarks == 1);
+    expect(t.view!.cards.single.marked, isTrue);
+  });
+
+  test('o índice que não se lê: relatado, e a folha não diz que o livro não tem sumário', () async {
+    await BookContentIndexDao(db)
+        .upsert(livro, _indice(), builtAt: DateTime.utc(2026, 9, 20));
+    await db.customStatement(
+      "UPDATE book_content_index SET toc_json = 'x' WHERE user_book_id = ?",
+      [livro],
+    );
+    await BookmarksDao(db).upsert(marcadorTeste(1, livro: livro, pagina: 1));
+    final erros = <Object>[];
+    final t = toc(erros: erros);
+    await _ate(() => t.view != null);
+    expect(erros, isNotEmpty);
+    expect(t.view!.tocFailed, isTrue);
+    expect(t.view!.rows, isEmpty);
+    expect(t.view!.cards, hasLength(1), reason: 'as Marcadas continuam');
   });
 
   test('o clube da conta e do livro vai para a faixa; a fonte que falha some com a faixa e relata', () async {

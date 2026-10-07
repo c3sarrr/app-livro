@@ -1,6 +1,8 @@
-// G15.1 (D-150) — o numeral do capítulo como no livro: do rótulo do sumário ("XXXII. Olhos de ressaca") ou, quando o
-// rótulo não tem, do título do capítulo no texto quando ele é só um número (o Gutenberg põe "XXXII" num bloco logo
-// antes de "Olhos de ressaca."); romano só válido e em maiúsculas; o título perde um ponto final.
+// G15.1 (D-150, D-155, D-156) — o numeral do capítulo como no livro: do rótulo do sumário ("XXXII. Olhos de ressaca")
+// quando pelo menos metade dos capítulos tem número no rótulo; senão (ou quando o rótulo não tem), do título do
+// capítulo no texto quando ele é só um número (o Gutenberg põe "XXXII" num bloco logo antes de "Olhos de ressaca.");
+// o rótulo que é só o número fica como título, sem numeral; romano só válido e em maiúsculas; o título perde um ponto
+// final.
 import 'package:app_leitura/features/reader/content/toc_labels.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -37,6 +39,19 @@ void main() {
         expect(tocLabel('XXXII'), (numeral: null, title: 'XXXII'));
         expect(tocLabel('Capítulo 1'), (numeral: null, title: 'Capítulo 1'));
         expect(tocLabel('XXXII.'), (numeral: null, title: 'XXXII'));
+        // D-156: nem com o numeral do texto (não sai "XXXII │ XXXII")
+        expect(tocLabel('XXXII', textNumeral: 'XXXII'), (
+          numeral: null,
+          title: 'XXXII',
+        ));
+        expect(tocLabel('Capítulo 1', textNumeral: '1'), (
+          numeral: null,
+          title: 'Capítulo 1',
+        ));
+        expect(
+          tocLabel('CAPÍTULO XXXII', textNumeral: 'XXXII', fromLabel: false),
+          (numeral: null, title: 'CAPÍTULO XXXII'),
+        );
       },
     );
 
@@ -76,12 +91,32 @@ void main() {
           numeral: 'V',
           title: 'O agregado',
         ));
-        // o do texto vale primeiro: "D. Gloria." é Dona Glória, o cap. VII
-        expect(tocLabel('D. Gloria.', textNumeral: 'VII'), (
+      },
+    );
+
+    test(
+      'D-155: o número do rótulo vale antes do texto (num sumário numerado)',
+      () {
+        // "Capítulo 1 — X" com "CAPÍTULO I" no texto: não vira "I │ Capítulo 1 — X"
+        expect(tocLabel('Capítulo 1 — Um começo', textNumeral: 'I'), (
+          numeral: '1',
+          title: 'Um começo',
+        ));
+        // um número de página que sobrou no texto não passa por cima do rótulo
+        expect(tocLabel('V. O agregado', textNumeral: '57'), (
+          numeral: 'V',
+          title: 'O agregado',
+        ));
+        // num sumário sem números (fromLabel: false), o do texto: "D. Gloria." é Dona Glória, o cap. VII
+        expect(tocLabel('D. Gloria.', textNumeral: 'VII', fromLabel: false), (
           numeral: 'VII',
           title: 'D. Gloria',
         ));
-        expect(tocLabel('V. O agregado', textNumeral: 'X'), (
+        expect(tocLabel('V. O agregado', textNumeral: 'V', fromLabel: false), (
+          numeral: 'V',
+          title: 'O agregado',
+        ));
+        expect(tocLabel('V. O agregado', textNumeral: 'X', fromLabel: false), (
           numeral: 'X',
           title: 'V. O agregado',
         ));
@@ -139,13 +174,29 @@ void main() {
           ]),
           [null, null, null],
         );
-        // o do texto vale sempre
+        // o do texto vale quando o rótulo não tem
         expect(
           numerais([
             (title: 'Um', textNumeral: 'I', leaf: true),
             (title: 'Dois', textNumeral: null, leaf: true),
           ]),
           ['I', null],
+        );
+        // D-155: num sumário numerado, o do rótulo vale; num sem números, o do texto
+        expect(
+          numerais([
+            (title: 'I. Um', textNumeral: '7', leaf: true),
+            (title: 'II. Dois', textNumeral: 'II', leaf: true),
+          ]),
+          ['I', 'II'],
+        );
+        expect(
+          numerais([
+            (title: 'Do titulo.', textNumeral: 'I', leaf: true),
+            (title: 'D. Gloria.', textNumeral: 'VII', leaf: true),
+            (title: 'Outro.', textNumeral: 'VIII', leaf: true),
+          ]),
+          ['I', 'VII', 'VIII'],
         );
         expect(tocLabels(const []), isEmpty);
       },

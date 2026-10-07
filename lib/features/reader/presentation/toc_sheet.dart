@@ -1,10 +1,12 @@
 // G15.3 — telas 27 e 27b, a folha do sumário (L27/L27b): véu sobre a página, folha a 10 das bordas com o topo em 112,
 // alça, "Sumário" com o título do livro e o número de capítulos, × e as abas Capítulos e Marcadas. Abre sempre na aba
-// Capítulos (D-154); os ids da prancha viram `bm.*` na aba Marcadas. Abre e fecha em 150 ms subindo e descendo; fecha
-// pelo ×, tocando no véu ou puxando pela alça (como a D-141). No Noite, as cores das ilhas (como a D-143). Sem dados
-// ainda, só a moldura e as abas.
+// Capítulos (D-154); os ids da prancha viram `bm.*` na aba Marcadas; trocar de aba e voltar deixa a lista onde estava.
+// Abre e fecha em 150 ms subindo e descendo; fecha pelo ×, tocando no véu ou puxando pela alça (como a D-141): subir e
+// puxar só movem a folha, sem refazer a lista. No Noite, as cores das ilhas (como a D-143). Sem dados ainda, só a
+// moldura e as abas.
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/rendering.dart' show SemanticsRole;
 import 'package:flutter/widgets.dart';
 
@@ -78,9 +80,12 @@ class TocSheet extends StatefulWidget {
 }
 
 class _TocSheetState extends State<TocSheet> {
-  /// Quanto o dedo puxou a folha para baixo pela alça.
-  double _drag = 0;
+  /// Quanto o dedo puxou a folha para baixo pela alça (só a posição muda: a folha não é refeita).
+  final ValueNotifier<double> _drag = ValueNotifier(0);
   TocTab _tab = TocTab.chapters;
+
+  /// Onde a lista de Capítulos estava nesta abertura (a volta da aba Marcadas).
+  double? _chaptersAt;
 
   /// A última vista: a folha desce com ela depois que a tela solta os dados.
   TocView? _last;
@@ -96,99 +101,119 @@ class _TocSheetState extends State<TocSheet> {
     super.didUpdateWidget(old);
     if (widget.view != null) _last = widget.view;
     if (widget.open && !old.open) {
-      _drag = 0;
+      _drag.value = 0;
       _tab = TocTab.chapters;
+      _chaptersAt = null;
       _last = widget.view;
     }
   }
 
+  @override
+  void dispose() {
+    _drag.dispose();
+    super.dispose();
+  }
+
   void _dragged(DragUpdateDetails d) =>
-      setState(() => _drag = math.max(0, _drag + d.delta.dy));
+      _drag.value = math.max(0, _drag.value + d.delta.dy);
 
   void _released(DragEndDetails d) {
     final v = d.velocity.pixelsPerSecond.dy;
     if (v >= readerSheetDismissVelocity ||
-        (_drag >= readerSheetDismissDrag && v > -readerSheetDismissVelocity)) {
+        (_drag.value >= readerSheetDismissDrag &&
+            v > -readerSheetDismissVelocity)) {
       widget.onClose();
     } else {
-      setState(() => _drag = 0);
+      _drag.value = 0;
     }
   }
 
   @override
-  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
-    tween: Tween<double>(end: widget.open ? 1 : 0),
-    duration: readerFade,
-    builder: (context, a, _) {
-      if (a == 0) return const SizedBox.shrink();
-      final pad = MediaQuery.viewPaddingOf(context);
-      final pre = _tab == TocTab.chapters ? 'toc' : 'bm';
-      return IgnorePointer(
-        // fechando: os toques já vão para os controles que voltam
-        ignoring: !widget.open,
-        child: ExcludeSemantics(
-          excluding: !widget.open,
-          child: BlockSemantics(
-            blocking: widget.open,
-            child: Stack(
-              children: [
-                // o véu: o toque fecha; a página não vira nem seleciona por baixo
-                Positioned.fill(
-                  child: GestureDetector(
-                    key: ValueKey('$pre.fade'),
-                    behavior: HitTestBehavior.opaque,
-                    excludeFromSemantics: true,
-                    onTap: widget.onClose,
-                    child: ColoredBox(
-                      color: AppColors.ink.withValues(alpha: tocVeilAlpha * a),
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: CustomSingleChildLayout(
-                    delegate: _SheetPlace(
-                      shown: a,
-                      drag: _drag,
-                      bottom: readerSheetBottom(pad),
-                    ),
-                    child: Semantics(
-                      container: true,
-                      scopesRoute: true,
-                      namesRoute: true,
-                      explicitChildNodes: true,
-                      label: 'Sumário',
-                      child: _Sheet(
-                        pre: pre,
-                        tab: _tab,
-                        view: _last,
-                        palette: widget.palette,
-                        brand: widget.brand,
-                        onTab: (t) => setState(() => _tab = t),
-                        onClose: widget.onClose,
-                        onDrag: _dragged,
-                        onRelease: _released,
-                        onChapter: widget.onChapter,
-                        onBookmark: widget.onBookmark,
-                        onRibbon: widget.onRibbon,
-                        onClub: widget.onClub,
+  Widget build(BuildContext context) {
+    final pad = MediaQuery.viewPaddingOf(context);
+    final pre = _tab == TocTab.chapters ? 'toc' : 'bm';
+    // a folha é montada aqui, fora da animação: subir, descer e puxar só a movem
+    final sheet = Semantics(
+      container: true,
+      scopesRoute: true,
+      namesRoute: true,
+      explicitChildNodes: true,
+      label: 'Sumário',
+      child: _Sheet(
+        pre: pre,
+        tab: _tab,
+        view: _last,
+        palette: widget.palette,
+        brand: widget.brand,
+        onTab: (t) => setState(() => _tab = t),
+        onClose: widget.onClose,
+        onDrag: _dragged,
+        onRelease: _released,
+        onChapter: widget.onChapter,
+        onBookmark: widget.onBookmark,
+        onRibbon: widget.onRibbon,
+        onClub: widget.onClub,
+        chaptersAt: _chaptersAt,
+        onChaptersAt: (o) => _chaptersAt = o,
+      ),
+    );
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(end: widget.open ? 1 : 0),
+      duration: readerFade,
+      child: sheet,
+      builder: (context, a, child) {
+        if (a == 0) return const SizedBox.shrink();
+        return IgnorePointer(
+          // fechando: os toques já vão para os controles que voltam
+          ignoring: !widget.open,
+          child: ExcludeSemantics(
+            excluding: !widget.open,
+            child: BlockSemantics(
+              blocking: widget.open,
+              child: Stack(
+                children: [
+                  // o véu: o toque fecha; a página não vira nem seleciona por baixo
+                  Positioned.fill(
+                    child: GestureDetector(
+                      key: ValueKey('$pre.fade'),
+                      behavior: HitTestBehavior.opaque,
+                      excludeFromSemantics: true,
+                      onTap: widget.onClose,
+                      child: ColoredBox(
+                        color: AppColors.ink.withValues(
+                          alpha: tocVeilAlpha * a,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  Positioned.fill(
+                    child: CustomSingleChildLayout(
+                      delegate: _SheetPlace(
+                        shown: a,
+                        drag: _drag,
+                        bottom: readerSheetBottom(pad),
+                      ),
+                      child: child,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
-  );
+        );
+      },
+    );
+  }
 }
 
-/// A folha entre o topo (112) e a base (como a da G14), subindo com [shown] e descendo com o [drag].
+/// A folha entre o topo (112) e a base (como a da G14), subindo com [shown] e descendo com o [drag] (que reposiciona
+/// sem refazer nada).
 final class _SheetPlace extends SingleChildLayoutDelegate {
-  _SheetPlace({required this.shown, required this.drag, required this.bottom});
+  _SheetPlace({required this.shown, required this.drag, required this.bottom})
+    : super(relayout: drag);
 
-  final double shown, drag, bottom;
+  final double shown, bottom;
+  final ValueListenable<double> drag;
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints c) {
@@ -203,7 +228,7 @@ final class _SheetPlace extends SingleChildLayoutDelegate {
     final away = size.height + AppShadows.drop4.dy;
     return Offset(
       readerSheetSide,
-      tocSheetTop + (away - tocSheetTop) * (1 - shown) + drag,
+      tocSheetTop + (away - tocSheetTop) * (1 - shown) + drag.value,
     );
   }
 
@@ -228,6 +253,8 @@ class _Sheet extends StatelessWidget {
     required this.onBookmark,
     required this.onRibbon,
     required this.onClub,
+    required this.chaptersAt,
+    required this.onChaptersAt,
   });
 
   final String pre;
@@ -243,6 +270,8 @@ class _Sheet extends StatelessWidget {
   final ValueChanged<TocBookmarkCard> onBookmark;
   final ValueChanged<TocBookmarkCard> onRibbon;
   final VoidCallback? onClub;
+  final double? chaptersAt;
+  final ValueChanged<double> onChaptersAt;
 
   @override
   Widget build(BuildContext context) {
@@ -322,6 +351,8 @@ class _Sheet extends StatelessWidget {
                     palette: p,
                     onChapter: onChapter,
                     onClub: onClub,
+                    offset: chaptersAt,
+                    onOffset: onChaptersAt,
                   )
                 : TocBookmarks(
                     view: v,

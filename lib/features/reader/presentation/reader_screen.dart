@@ -791,12 +791,21 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     if (to != null) unawaited(c.jumpTo(to, timed: timed));
   }
 
-  /// A fita do cartão (D-152): tira (o cartão fica com a fita vazia até a folha fechar) ou devolve a mesma marca.
+  /// A fita do cartão (D-152): tira (o cartão fica com a fita vazia até a folha fechar) ou devolve a mesma marca. A
+  /// fita muda na hora (o 2º toque seguido vale o que ela mostra); quando a gravação termina, a folha volta a seguir o
+  /// banco (na hora, se falhou).
   void _tocRibbon(TocBookmarkCard card) {
     final c = _c;
     if (c == null) return;
-    if (card.marked) _tocData?.keep(card.bookmark);
-    unawaited(c.setBookmark(card.bookmark, on: !card.marked));
+    final on = !card.marked;
+    final toc = _tocData;
+    final id = card.bookmark.id;
+    toc?.want(card.bookmark, on: on);
+    unawaited(
+      c.setBookmark(card.bookmark, on: on).then((ok) {
+        toc?.settle(id, ok: ok);
+      }),
+    );
   }
 
   /// Tocar num resultado: fecha o painel e os controles, salta para a ocorrência, marca a palavra e guarda a

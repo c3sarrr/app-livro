@@ -8,8 +8,24 @@ void main() {
     expect(await const NoReaderClub().goalFor('dona', 'livro'), isNull);
   });
 
-  test('readerUtcOffset: o deslocamento do fuso do aparelho no instante', () {
-    final t = DateTime.utc(2026, 9, 20, 23);
-    expect(readerUtcOffset(t), t.toLocal().timeZoneOffset);
+  test('readerUtcOffset: somado ao instante em UTC, dá o relógio do aparelho naquele instante', () {
+    for (final t in [
+      DateTime.utc(2026, 9, 20, 23),
+      DateTime.utc(2026, 1, 15, 2, 30),
+      DateTime.utc(2026, 7, 1, 12),
+    ]) {
+      final relogio = t.add(readerUtcOffset(t));
+      final local = t.toLocal();
+      expect(
+        (
+          relogio.year,
+          relogio.month,
+          relogio.day,
+          relogio.hour,
+          relogio.minute,
+        ),
+        (local.year, local.month, local.day, local.hour, local.minute),
+      );
+    }
   });
 }

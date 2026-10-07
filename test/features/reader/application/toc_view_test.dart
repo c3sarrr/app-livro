@@ -105,18 +105,35 @@ TocView _view({
   List<Annotation> notas = const [],
   List<Bookmark> marcas = const [],
   List<Bookmark> tiradas = const [],
+  Map<String, bool> querer = const {},
+  bool indiceFalhou = false,
   ReaderClubGoal? clube,
 }) => buildTocView(
   bookTitle: 'Livro',
   index: semIndice ? null : index ?? _indice(),
+  indexFailed: indiceFalhou,
   at: at,
   refPage: refPage,
   annotations: notas,
   bookmarks: marcas,
   removed: tiradas,
+  wanted: querer,
   club: clube,
   now: _agora,
   utcOffsetAt: _fuso,
+);
+
+/// O PDF de 10 páginas com estrutura: "1. Capa" na pág. 1, "Cap. 2: Meio" na 5, "Fora" fora do PDF.
+BookIndex _pdf() => BookIndex(
+  contentSha256: 'a' * 64,
+  layout: 'pdf',
+  spine: const [],
+  toc: const [
+    TocPoint(title: '1. Capa', spine: 0, offset: 0, depth: 0, leaf: true),
+    TocPoint(title: 'Cap. 2: Meio', spine: 0, offset: 4, depth: 0, leaf: true),
+    TocPoint(title: 'Fora', spine: 0, offset: 99, depth: 0, leaf: true),
+  ],
+  refPages: RefPageMap.pdf(10),
 );
 
 void main() {
@@ -133,7 +150,8 @@ void main() {
         TocRowKind.chapter,
       ]);
       final [parte, um, dois, semLugar, tres] = v.rows;
-      expect(parte.title, 'PARTE I');
+      // a folha mostra em maiúsculas; o leitor de tela lê como no livro
+      expect(parte.title, 'Parte I');
       expect(parte.page, isNull);
       expect(parte.chapter, isNull);
       expect(parte.read, isFalse);
@@ -181,6 +199,102 @@ void main() {
       expect(fim.rows[2].read, isTrue);
     });
 
+    test('o capítulo que começa exatamente na posição é o atual; no empate, o último do sumário', () {
+      expect(_view(at: (spine: 1, offset: 0)).currentRow, 2);
+      final empate = _view(
+        index: _indice(
+          toc: const [
+            TocPoint(
+              title: 'Prefácio',
+              spine: 1,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+            TocPoint(title: 'I. Um', spine: 1, offset: 0, depth: 0, leaf: true),
+            TocPoint(
+              title: 'II. Dois',
+              spine: 2,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+          ],
+        ),
+        at: (spine: 1, offset: 10),
+      );
+      expect(empate.currentRow, 1);
+    });
+
+    test('o atual é o capítulo que começa mais perto antes da posição, mesmo com uma entrada fora de ordem', () {
+      // "Créditos" no fim do sumário aponta para o começo do livro: não vira o atual para sempre
+      final v = _view(
+        index: _indice(
+          toc: const [
+            TocPoint(title: 'I. Um', spine: 0, offset: 0, depth: 0, leaf: true),
+            TocPoint(
+              title: 'II. Dois',
+              spine: 1,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+            TocPoint(
+              title: 'III. Três',
+              spine: 2,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+            TocPoint(
+              title: 'Créditos',
+              spine: 0,
+              offset: 100,
+              depth: 0,
+              leaf: true,
+            ),
+          ],
+        ),
+        at: (spine: 1, offset: 750),
+      );
+      final [um, dois, tres, creditos] = v.rows;
+      expect(v.currentRow, 1);
+      expect(dois.current, isTrue);
+      expect(dois.progress, closeTo(0.25, 1e-9));
+      expect(creditos.current, isFalse);
+      // o fim de cada capítulo é o próximo começo na ordem do livro
+      expect(um.read, isTrue);
+      expect(creditos.read, isTrue);
+      expect(tres.read, isFalse);
+      // na posição dos créditos (entre o I e o II), o atual são os créditos
+      final c = _view(
+        index: _indice(
+          toc: const [
+            TocPoint(title: 'I. Um', spine: 0, offset: 0, depth: 0, leaf: true),
+            TocPoint(
+              title: 'II. Dois',
+              spine: 1,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+            TocPoint(
+              title: 'Créditos',
+              spine: 0,
+              offset: 100,
+              depth: 0,
+              leaf: true,
+            ),
+          ],
+        ),
+        at: (spine: 0, offset: 400),
+      );
+      expect(c.currentRow, 2);
+      expect(c.rows[2].progress, closeTo(300 / 2900, 1e-9));
+      expect(c.rows[0].read, isTrue);
+      expect(c.rows[1].read, isFalse);
+    });
+
     test('marcas por capítulo (Anexo 02 §4.2): "1 marca", "3 marcas"; apagada não conta', () {
       final notas = [
         _nota(1, 0, AnnotationKind.highlight, cor: '#FED170'),
@@ -221,33 +335,19 @@ void main() {
       }
     });
 
+    test('falha ao ler o índice: não diz que o livro não tem sumário', () {
+      expect(_view().tocFailed, isFalse);
+      expect(_view(semIndice: true).tocFailed, isFalse);
+      final v = _view(semIndice: true, indiceFalhou: true);
+      expect(v.tocFailed, isTrue);
+      expect(v.rows, isEmpty);
+      expect(v.subtitle, 'Livro');
+    });
+
     test(
       'PDF: a estrutura do PDF, páginas do PDF, "lido" e o anel em páginas',
       () {
-        final pdf = BookIndex(
-          contentSha256: 'a' * 64,
-          layout: 'pdf',
-          spine: const [],
-          toc: const [
-            TocPoint(
-              title: '1. Capa',
-              spine: 0,
-              offset: 0,
-              depth: 0,
-              leaf: true,
-            ),
-            TocPoint(
-              title: 'Cap. 2: Meio',
-              spine: 0,
-              offset: 4,
-              depth: 0,
-              leaf: true,
-            ),
-            TocPoint(title: 'Fora', spine: 0, offset: 99, depth: 0, leaf: true),
-          ],
-          refPages: RefPageMap.pdf(10),
-        );
-        final v = _view(index: pdf, at: (spine: 0, offset: 6), refPage: 7);
+        final v = _view(index: _pdf(), at: (spine: 0, offset: 6), refPage: 7);
         expect(v.rows.map((r) => r.page), [1, 5, null]);
         expect(v.rows[0].read, isTrue);
         expect(v.rows[1].current, isTrue);
@@ -268,6 +368,15 @@ void main() {
       // 25/09 01:00 UTC = quinta 24/09 22:00 em São Paulo
       expect(v.club!.kicker, 'LEITORAS DE CAPITU · QUI 24/9');
       expect(v.club!.goal, 'Até o cap. III · faltam 2');
+      // o leitor de tela: o nome como é, o dia por extenso, sem os pontos do meio
+      expect(
+        v.club!.spoken,
+        'Leitoras de Capitu, quinta 24/9, Até o cap. III, faltam 2',
+      );
+      expect(
+        _view(clube: clube(2)).club!.spoken,
+        'Leitoras de Capitu, Até o cap. II',
+      );
       expect(
         _view(clube: clube(3)).club!.goal,
         'Até o cap. 3 · falta 1',
@@ -314,6 +423,13 @@ void main() {
         pagina: 1,
         capitulo: 0,
         em: DateTime.utc(2026, 9, 2, 15),
+        onde: EpubLocator(
+          sha: shaTeste,
+          spine: 0,
+          offset: 2,
+          refPage: 1,
+          progression: 0.01,
+        ),
       );
       final anoPassado = _marca(
         3,
@@ -354,7 +470,7 @@ void main() {
         (null, 'marcada em 19 set', null),
       );
       expect(c1.excerpt, 'Uma noite destas…');
-      expect(c1.target, (spine: 1, offset: 2));
+      expect(c1.target, (spine: 0, offset: 2));
       expect(c3.target, (spine: 0, offset: 4));
       expect(c4.target, isNull);
       expect(v.cards.every((c) => c.marked), isTrue);
@@ -369,6 +485,128 @@ void main() {
         (tirada.id, false),
         (viva.id, true),
       ]);
+    });
+
+    test('o capítulo do cartão vem do lugar da marca: no PDF como no EPUB; antes do 1º capítulo, nenhum', () {
+      final pdf = _view(
+        index: _pdf(),
+        at: (spine: 0, offset: 0),
+        refPage: 1,
+        marcas: [
+          // o PDF grava o capítulo 0 em toda marca: o cartão olha a página
+          _marca(
+            1,
+            pagina: 7,
+            em: DateTime.utc(2026, 9, 2, 15),
+            onde: PdfLocator(
+              sha: shaTeste,
+              page: 6,
+              refPage: 7,
+              progression: 0.6,
+            ),
+          ),
+          _marca(
+            2,
+            pagina: 2,
+            em: DateTime.utc(2026, 9, 2, 15),
+            onde: PdfLocator(
+              sha: shaTeste,
+              page: 1,
+              refPage: 2,
+              progression: 0.1,
+            ),
+          ),
+        ],
+      );
+      expect(pdf.cards.map((c) => c.chapter), [
+        'cap. 1 · Capa',
+        'cap. 2 · Meio',
+      ]);
+      final epub = _view(
+        index: _indice(
+          toc: const [
+            TocPoint(title: 'I. Um', spine: 1, offset: 0, depth: 0, leaf: true),
+            TocPoint(
+              title: 'II. Dois',
+              spine: 2,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+          ],
+        ),
+        marcas: [
+          // na capa, antes do 1º capítulo (o banco diz capítulo 0)
+          _marca(
+            1,
+            pagina: 1,
+            em: DateTime.utc(2026, 9, 2, 15),
+            onde: EpubLocator(
+              sha: shaTeste,
+              spine: 0,
+              offset: 10,
+              refPage: 1,
+              progression: 0,
+            ),
+          ),
+          // o banco diz capítulo 0, mas a marca está no II
+          _marca(
+            2,
+            pagina: 5,
+            em: DateTime.utc(2026, 9, 2, 15),
+            onde: EpubLocator(
+              sha: shaTeste,
+              spine: 2,
+              offset: 10,
+              refPage: 5,
+              progression: 0.7,
+            ),
+          ),
+        ],
+      );
+      expect(epub.cards.map((c) => c.chapter), [null, 'cap. II · Dois']);
+    });
+
+    test('o leitor de tela lê o cartão inteiro (D-158)', () {
+      final v = _view(
+        marcas: [
+          _marca(1, pagina: 3, em: DateTime.utc(2026, 9, 20, 4)),
+          _marca(
+            2,
+            pagina: 5,
+            em: DateTime.utc(2026, 9, 2, 15),
+            excerto: null,
+            onde: RawLocator(const {'v': 9}),
+            capitulo: 9,
+          ),
+        ],
+      );
+      expect(
+        v.cards[0].spoken,
+        'Página 3, cap. II, Dois, você está aqui, Uma noite destas…, marcada hoje',
+      );
+      expect(v.cards[1].spoken, 'Página 5, marcada em 2 set');
+    });
+
+    test('a fita pedida vale na hora, antes do banco responder (dois toques seguidos)', () {
+      final viva = _marca(1, pagina: 3, em: DateTime.utc(2026, 9, 2, 15));
+      final tirada = _marca(2, pagina: 1, em: DateTime.utc(2026, 9, 3, 15));
+      // tirar a viva: a fita esvazia e o contador cai já
+      final tirar = _view(
+        marcas: [viva],
+        tiradas: [viva],
+        querer: {viva.id: false},
+      );
+      expect(tirar.cards.single.marked, isFalse);
+      expect(tirar.bookmarks, 0);
+      // devolver a tirada: a fita enche e o contador sobe já
+      final devolver = _view(
+        marcas: [viva],
+        tiradas: [tirada],
+        querer: {tirada.id: true},
+      );
+      expect(devolver.cards.map((c) => c.marked), [true, true]);
+      expect(devolver.bookmarks, 2);
     });
 
     test('sem marcadores: nenhum cartão', () {

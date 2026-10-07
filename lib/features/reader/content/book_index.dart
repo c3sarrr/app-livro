@@ -241,7 +241,7 @@ BookIndex buildEpubIndex(
         offset: at?.$2,
         depth: e.depth,
         leaf: !e.hasChildren,
-        // o numeral do título do capítulo no texto (D-150): vale antes do número do rótulo
+        // o numeral do título do capítulo no texto (D-150): vale quando o rótulo não tem número (D-155)
         textNumeral: at == null
             ? null
             : headingNumeral(items[at.$1].text, at.$2),

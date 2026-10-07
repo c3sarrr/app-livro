@@ -457,10 +457,34 @@ void faseL27({
       );
     } else {
       expect(find.bySemanticsLabel('Páginas marcadas'), findsOneWidget);
+      String visto(String id) => tester
+          .widget<AppText>(
+            find
+                .descendant(
+                  of: _key(id),
+                  matching: find.byType(AppText),
+                  matchRoot: true,
+                )
+                .first,
+          )
+          .span
+          .toPlainText();
       for (final (i, m) in instantaneo.marcadas.indexed) {
+        final it = 'bm.sheet.bookmarks.item${i + 1}';
+        // D-158: o cartão inteiro para o leitor de tela, e a ação é abrir
         expect(
-          tester.getSemantics(_key('bm.sheet.bookmarks.item${i + 1}.link')),
-          isSemantics(label: 'Abrir na página ${m.refPage}', isButton: true),
+          tester.getSemantics(_key('$it.link')),
+          isSemantics(
+            label: [
+              'Página ${m.refPage}',
+              visto('$it.head.chapter').replaceAll(' · ', ', '),
+              if (m.refPage == instantaneo.pagina) 'você está aqui',
+              if (m.excerpt != null) m.excerpt!,
+              visto('$it.date'),
+            ].join(', '),
+            hint: 'Abrir na página ${m.refPage}',
+            isButton: true,
+          ),
         );
         expect(
           tester.getSemantics(_key('bm.sheet.bookmarks.item${i + 1}.ribbon')),

@@ -966,13 +966,13 @@ void main() {
       final dao = BookmarksDao(h.livro.db);
       await c.toggleBookmark();
       final m = (await dao.forBook(h.livro.userBookId)).single;
-      await c.setBookmark(m, on: false);
+      expect(await c.setBookmark(m, on: false), isTrue);
       expect(await dao.forBook(h.livro.userBookId), isEmpty);
       final tirada = (await dao.byId(m.id))!;
       expect(tirada.meta.isDeleted, isTrue);
       expect(tirada.meta.version.compareTo(m.meta.version), greaterThan(0));
-      // tirar de novo: nada muda
-      await c.setBookmark(m, on: false);
+      // tirar de novo: nada muda (e deu certo: a marca está como pedida)
+      expect(await c.setBookmark(m, on: false), isTrue);
       expect((await dao.byId(m.id))!.meta, tirada.meta);
       // devolve: a mesma linha, viva, com versão maior
       await c.setBookmark(m, on: true);
@@ -1005,10 +1005,24 @@ void main() {
         'CREATE TRIGGER g15_falha BEFORE UPDATE ON bookmarks '
         "BEGIN SELECT RAISE(ABORT, 'disco cheio'); END",
       );
-      await c.setBookmark(m, on: true);
+      expect(await c.setBookmark(m, on: true), isFalse);
       expect(h.erros, hasLength(1));
       expect((await dao.byId(m.id))!.meta.isDeleted, isTrue);
     });
+
+    test(
+      'setBookmark com a sessão fechada: não grava e diz que não deu',
+      () async {
+        final c = await aberto();
+        await c.jumpToPage(10);
+        final dao = BookmarksDao(h.livro.db);
+        await c.toggleBookmark();
+        final m = (await dao.forBook(h.livro.userBookId)).single;
+        await c.close();
+        expect(await c.setBookmark(m, on: false), isFalse);
+        expect((await dao.byId(m.id))!.meta.isDeleted, isFalse);
+      },
+    );
   });
 
   group('G14', () {

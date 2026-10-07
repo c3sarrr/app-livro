@@ -54,6 +54,16 @@ void main() {
     );
     await tester.tap(chave('toc.sheet.club'));
     expect(m.clube, 1);
+    // o leitor de tela: o nome como é e o dia por extenso, num link só
+    final h = tester.ensureSemantics();
+    expect(
+      tester.getSemantics(chave('toc.sheet.club')),
+      isSemantics(
+        label: 'Leitoras de Capitu, quinta 24/9, Até o cap. L, faltam 18',
+        isLink: true,
+      ),
+    );
+    h.dispose();
     await montarSumario(tester, view: vista(clube: null));
     expect(chave('toc.sheet.club'), findsNothing);
     // sem a faixa, a lista começa 8 abaixo das abas
@@ -155,6 +165,69 @@ void main() {
     },
   );
 
+  testWidgets(
+    'numeral e página largos transbordam no espaço ao lado, inteiros (D-157): o título não anda',
+    (tester) async {
+      await montarSumario(
+        tester,
+        view: vista(
+          atual: null,
+          clube: null,
+          linhas: [
+            linha(137, numeral: 'CXXXVIII', titulo: 'Fim', pagina: 1234),
+            linha(
+              87,
+              numeral: 'LXXXVIII',
+              titulo: 'Um pretexto honesto',
+              pagina: 9999,
+              atual: true,
+              progresso: 0.5,
+            ),
+          ],
+        ),
+      );
+      Rect texto(String id) => tester.getRect(
+        find.descendant(
+          of: chave(id),
+          matching: find.byType(AppText),
+          matchRoot: true,
+        ),
+      );
+      for (final (ch, titulo) in [(138, 72.0), (88, 72.0)]) {
+        final id = 'toc.sheet.chapters.ch$ch';
+        final caixa = tester.getRect(chave('$id.numeral'));
+        expect(caixa.width, moreOrLessEquals(52, epsilon: 0.01));
+        final n = texto('$id.numeral');
+        expect(n.left, moreOrLessEquals(caixa.left, epsilon: 0.01));
+        expect(
+          n.width,
+          greaterThan(52),
+          reason: 'o numeral inteiro, numa linha',
+        );
+        expect(
+          n.right,
+          lessThan(caixa.right + 10),
+          reason: 'só no espaço de 10',
+        );
+        final pag = tester.getRect(chave('$id.page'));
+        expect(pag.width, moreOrLessEquals(30, epsilon: 0.01));
+        final p = texto('$id.page');
+        expect(p.right, moreOrLessEquals(pag.right, epsilon: 0.01));
+        expect(
+          p.width,
+          greaterThan(30),
+          reason: 'a página inteira, alinhada à direita',
+        );
+        expect(p.left, greaterThan(pag.left - 10));
+        final linhaRect = tester.getRect(chave(ch == 138 ? id : '$id.row'));
+        expect(
+          tester.getRect(chave('$id.title')).left - linhaRect.left,
+          moreOrLessEquals(ch == 138 ? titulo : titulo - 10, epsilon: 0.01),
+        );
+      }
+    },
+  );
+
   testWidgets('sem numeral em nenhuma linha: a coluna do numeral some', (
     tester,
   ) async {
@@ -238,7 +311,7 @@ void main() {
             const TocRow(
               kind: TocRowKind.part,
               entry: 0,
-              title: 'PARTE I',
+              title: 'Parte I',
               target: (spine: 0, offset: 0),
             ),
             linha(0),
@@ -246,6 +319,13 @@ void main() {
         ),
       );
       expect(_texto(tester, 'toc.sheet.chapters.part0.title'), 'PARTE I');
+      // o leitor de tela lê como no livro, não letra por letra
+      final h = tester.ensureSemantics();
+      expect(
+        tester.getSemantics(chave('toc.sheet.chapters.part0')),
+        isSemantics(label: 'Parte I', isHeader: true, isButton: true),
+      );
+      h.dispose();
       await tester.tap(chave('toc.sheet.chapters.part0'));
       expect(m.capitulos.single.kind, TocRowKind.part);
     },
@@ -259,6 +339,18 @@ void main() {
       view: vista(linhas: const [], capitulos: null, clube: null),
     );
     expect(_texto(tester, 'toc.sheet.empty'), 'Este livro não tem sumário.');
+    // o índice que não se leu: não diz que o livro não tem sumário (só a moldura)
+    await montarSumario(
+      tester,
+      view: vista(
+        linhas: const [],
+        capitulos: null,
+        clube: null,
+        tocFalhou: true,
+      ),
+    );
+    expect(chave('toc.sheet.empty'), findsNothing);
+    expect(chave('toc.sheet.chapters'), findsOneWidget);
   });
 
   testWidgets('tocar numa linha pede o capítulo; a linha sem lugar não pede', (

@@ -1,8 +1,8 @@
 // G15.4 — a aba Marcadas da folha do sumário (tela 27b, L27b): as páginas marcadas na ordem do livro, cada uma num
 // cartão com "pág. N", "cap. I · Do título", "você está aqui" na página de agora (com a sombra), o excerto em até 3
 // linhas (D-49) e "marcada em 2 set"/"marcada hoje"; a fita no canto tira e devolve a marca (D-152: tirada, fica só o
-// contorno até a folha fechar); o toque no cartão abre a página (D-151); a dica no fim (sozinha, sem marcas). A lista
-// rola por dentro. No Noite, as cores das ilhas (D-154).
+// contorno até a folha fechar); o toque no cartão abre a página (D-151), e o leitor de tela lê o cartão inteiro
+// (D-158); a dica no fim (sozinha, sem marcas). A lista rola por dentro. No Noite, as cores das ilhas (D-154).
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/painters/dashed_stadium_painter.dart';
@@ -203,7 +203,8 @@ class _Card extends StatelessWidget {
                 ? link
                 : Pressable(
                     onTap: () => onOpen(c),
-                    semanticsLabel: 'Abrir na página ${c.page}',
+                    semanticsLabel: c.spoken,
+                    hint: 'Abrir na página ${c.page}',
                     child: link,
                   ),
           ),

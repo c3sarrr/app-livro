@@ -633,8 +633,10 @@ class ReaderSessionController extends ChangeNotifier {
   /// A fita da aba Marcadas (tela 27b, D-152): tira ([on] falso) ou devolve a marca [b] — a mesma linha, com o mesmo
   /// excerto e a mesma data —, na fila e com versão. Vale a linha do banco, lida na hora de gravar (pode ter vindo de
   /// outro aparelho): tirar a que já está tirada, ou devolver a que já está viva, não grava nada. Falha: relatada.
-  Future<void> setBookmark(Bookmark b, {required bool on}) {
-    if (_closed) return Future.value();
+  /// Termina com `true` quando a marca ficou como pedida; `false` quando a gravação falhou ou a sessão fechou (a folha
+  /// volta a mostrar o que o banco diz).
+  Future<bool> setBookmark(Bookmark b, {required bool on}) {
+    if (_closed) return Future.value(false);
     interaction();
     return _serial(() async {
       try {
@@ -649,8 +651,10 @@ class ReaderSessionController extends ChangeNotifier {
             ),
           );
         });
+        return true;
       } on Object catch (e, st) {
         deps.onError(e, st);
+        return false;
       }
     });
   }

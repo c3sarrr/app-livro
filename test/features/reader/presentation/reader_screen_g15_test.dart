@@ -1,8 +1,9 @@
 // G15.4 — o sumário pela rota real, com o Dom Casmurro do Gutenberg num banco em memória: "Sumário" abre a folha na aba
 // Capítulos (sai o aviso da D-118), com os numerais do livro (D-150) e sem a faixa do clube no app (D-149); ×, Voltar,
 // véu e alça fecham e devolvem os controles; tocar num capítulo salta, fecha tudo e mostra "← Voltar à pág. N"
-// (D-151); o atual só fecha; na aba Marcadas a fita tira e devolve a mesma marca, o cartão fica até fechar e a fita da
-// ilha de cima acompanha (D-152); o cartão abre a página; PDF com e sem estrutura (D-154); Noite.
+// (D-151); o atual só fecha; na aba Marcadas a fita tira e devolve a mesma marca (na hora, mesmo com dois toques
+// seguidos), o cartão fica até fechar e a fita da ilha de cima acompanha (D-152); o cartão abre a página; PDF com e
+// sem estrutura (D-154); Noite.
 import 'dart:io';
 
 import 'package:app_leitura/core/data/database/daos/content_daos.dart';
@@ -260,6 +261,25 @@ void main() {
         (m.id, m.meta.createdAt, m.excerpt),
       );
       expect(_texto(tester, 'bm.sheet.tabs.bookmarks.count'), '1');
+      // dois toques seguidos, sem esperar o banco: tira e devolve (o 2º toque vale o que a fita mostra)
+      await tester.tap(_key('bm.sheet.bookmarks.item1.ribbon'));
+      await tester.pump();
+      expect(_texto(tester, 'bm.sheet.tabs.bookmarks.count'), '0');
+      await tester.tap(_key('bm.sheet.bookmarks.item1.ribbon'));
+      await tester.pump();
+      expect(_texto(tester, 'bm.sheet.tabs.bookmarks.count'), '1');
+      await _banco(tester);
+      expect(
+        (await tester.runAsync(() => dao.byId(m.id)))!.meta.isDeleted,
+        isFalse,
+      );
+      expect(_texto(tester, 'bm.sheet.tabs.bookmarks.count'), '1');
+      expect(
+        tester
+            .widget<AppSvg>(_key('bm.sheet.bookmarks.item1.ribbon.icon'))
+            .asset,
+        AppIconsLeitor.ribbonCoral,
+      );
       // tira, fecha e reabre: o cartão some
       await tester.tap(_key('bm.sheet.bookmarks.item1.ribbon'));
       await _banco(tester);

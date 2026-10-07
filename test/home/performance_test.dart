@@ -27,6 +27,8 @@ import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/selection_layer.dart';
 import 'package:app_leitura/features/reader/presentation/scrubber.dart'
     show FillWavePainter;
+import 'package:app_leitura/features/reader/presentation/toc_chapters.dart'
+    show TocProgressRingPainter;
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/foundation.dart' show ValueListenable;
@@ -327,6 +329,13 @@ void main() {
       },
     );
 
+    test('TocProgressRingPainter (progresso) — G15', () {
+      _expectRepaintsOnlyOnChange(
+        () => const TocProgressRingPainter(progress: 0.4),
+        {'progress': () => const TocProgressRingPainter(progress: 0.7)},
+      );
+    });
+
     test('todo pintor do app está coberto aqui (nenhum CustomPainter novo sem teste)', () {
       final painters = <String>{};
       for (final file in Directory('lib').listSync(recursive: true)) {
@@ -350,6 +359,7 @@ void main() {
         'MagnifierPainter',
         'RainbowRingPainter',
         'UnderlineIconPainter',
+        'TocProgressRingPainter',
       });
     });
   });

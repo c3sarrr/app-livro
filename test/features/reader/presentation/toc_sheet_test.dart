@@ -5,6 +5,7 @@ import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/presentation/toc_chapters.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -111,6 +112,79 @@ void main() {
       );
       await tester.pump(const Duration(milliseconds: 160));
       expect(chave('toc.sheet.chapters'), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'trocar de aba e voltar: a lista fica onde estava; reabrir volta ao capítulo atual',
+    (tester) async {
+      final m = await montarSumario(tester, view: vista(n: 40, atual: 20));
+      ScrollPosition rolagem() => tester
+          .state<ScrollableState>(
+            find.descendant(
+              of: chave('toc.sheet.chapters'),
+              matching: find.byType(Scrollable),
+            ),
+          )
+          .position;
+      final posta = rolagem().pixels;
+      expect(posta, greaterThan(0));
+      await tester.dragFrom(
+        tester.getCenter(chave('toc.sheet.chapters')),
+        const Offset(0, 300),
+      );
+      await tester.pumpAndSettle();
+      final rolada = rolagem().pixels;
+      expect(rolada, lessThan(posta - 100));
+      await tester.tap(chave('toc.sheet.tabs.bookmarks'));
+      await tester.pump();
+      await tester.tap(chave('bm.sheet.tabs.chapters'));
+      await tester.pump();
+      await tester.pump();
+      expect(rolagem().pixels, moreOrLessEquals(rolada, epsilon: 0.01));
+      await tester.pumpWidget(
+        folhaDoSumario(m, open: false, view: vista(n: 40, atual: 20)),
+      );
+      await tester.pump(const Duration(milliseconds: 160));
+      await tester.pumpWidget(
+        folhaDoSumario(m, open: true, view: vista(n: 40, atual: 20)),
+      );
+      await tester.pump(const Duration(milliseconds: 160));
+      await tester.pump();
+      expect(rolagem().pixels, moreOrLessEquals(posta, epsilon: 0.01));
+    },
+  );
+
+  testWidgets(
+    'subir e puxar pela alça só movem a folha: a lista de capítulos não é refeita a cada quadro',
+    (tester) async {
+      final m = MesaDoSumario();
+      await montarSumario(tester, open: false);
+      await tester.pumpWidget(folhaDoSumario(m, open: true, view: vista()));
+      await tester.pump(const Duration(milliseconds: 40));
+      final subindo = tester.widget<TocChapters>(find.byType(TocChapters));
+      await tester.pump(const Duration(milliseconds: 40));
+      expect(
+        tester.widget<TocChapters>(find.byType(TocChapters)),
+        same(subindo),
+      );
+      await tester.pump(const Duration(milliseconds: 100));
+      final g = await tester.startGesture(
+        tester.getCenter(chave('toc.sheet.grabber')),
+      );
+      await g.moveBy(const Offset(0, 30));
+      await tester.pump();
+      final topo = tester.getRect(chave('toc.sheet')).top;
+      final puxando = tester.widget<TocChapters>(find.byType(TocChapters));
+      await g.moveBy(const Offset(0, 20));
+      await tester.pump();
+      expect(tester.getRect(chave('toc.sheet')).top, greaterThan(topo));
+      expect(
+        tester.widget<TocChapters>(find.byType(TocChapters)),
+        same(puxando),
+      );
+      await g.up();
+      await tester.pumpAndSettle();
     },
   );
 

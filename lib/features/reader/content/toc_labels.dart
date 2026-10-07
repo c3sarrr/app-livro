@@ -1,7 +1,8 @@
-// G15.1 (D-150) — o numeral do capítulo como no livro: do título do capítulo no texto quando ele é só um número (o
-// Gutenberg põe "XXXII" num bloco logo antes de "Olhos de ressaca.") ou, sem ele, do rótulo do sumário ("XXXII. Olhos
-// de ressaca", "Capítulo 32 — Olhos de ressaca"). O número do rótulo só vale quando pelo menos metade dos capítulos tem
-// número no rótulo: num sumário sem números, "D. Gloria." (Dona Glória, cap. VII) não é o capítulo D. Romano só em
+// G15.1 (D-150, D-155, D-156) — o numeral do capítulo como no livro: do rótulo do sumário ("XXXII. Olhos de ressaca",
+// "Capítulo 32 — Olhos de ressaca") quando pelo menos metade dos capítulos tem número no rótulo (num sumário sem
+// números, "D. Gloria." — Dona Glória, cap. VII — não é o capítulo D); senão, ou quando o rótulo não tem número, do
+// título do capítulo no texto quando ele é só um número (o Gutenberg põe "XXXII" num bloco logo antes de "Olhos de
+// ressaca."). O rótulo que é só o número ("XXXII", "Capítulo 1") fica como título, sem numeral. Romano só em
 // maiúsculas e válido ("CIVIL" não é número). O título perde um ponto final. Puro: roda no isolate da importação.
 
 /// O numeral (ou nada) e o título de uma entrada do sumário, como a tela 27 mostra.
@@ -25,12 +26,17 @@ final RegExp _alone = RegExp('^(?:$_prefix\\s+)?($_number)\\.?\$');
 
 final RegExp _spaces = RegExp(r'\s+');
 
-/// O numeral e o título da entrada de rótulo [label]. [textNumeral] = o numeral lido no texto na importação, que vale
-/// primeiro; o rótulo que começa por ele não o repete no título. [fromLabel] = o número do rótulo vale neste livro
-/// (ver [tocLabels]).
+/// O numeral e o título da entrada de rótulo [label]. [fromLabel] = o número do rótulo vale neste livro (ver
+/// [tocLabels]) e vem primeiro (D-155); [textNumeral] = o numeral lido no texto na importação, que vale quando o rótulo
+/// não tem (ou não vale); o rótulo que começa por ele não o repete no título. O rótulo que é só o número fica como
+/// título, sem numeral (D-156).
 TocLabel tocLabel(String label, {String? textNumeral, bool fromLabel = true}) {
   final t = label.replaceAll(_spaces, ' ').trim();
+  if (_alone.hasMatch(t)) return (numeral: null, title: tocTitle(t));
   final m = _labelMatch(t);
+  if (m != null && fromLabel) {
+    return (numeral: m.group(1), title: tocTitle(m.group(2)!));
+  }
   if (textNumeral != null) {
     if (m != null && m.group(1) == textNumeral) {
       return (numeral: textNumeral, title: tocTitle(m.group(2)!));
@@ -39,9 +45,6 @@ TocLabel tocLabel(String label, {String? textNumeral, bool fromLabel = true}) {
         ? t.substring(textNumeral.length + 1)
         : t;
     return (numeral: textNumeral, title: tocTitle(rest));
-  }
-  if (m != null && fromLabel) {
-    return (numeral: m.group(1), title: tocTitle(m.group(2)!));
   }
   return (numeral: null, title: tocTitle(t));
 }
