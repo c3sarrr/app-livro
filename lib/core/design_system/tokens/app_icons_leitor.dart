@@ -63,6 +63,17 @@ abstract final class AppIconsLeitor {
   static const marginsMedium = '$_d/ic_margins_medium.svg';
   static const marginsWide = '$_d/ic_margins_wide.svg';
 
+  /// G15 — folha do sumário (telas 27/27b): (18) bandeira e (16) seta da faixa do clube; (11×13 nas abas, 20×22 nos
+  /// cartões) a fita coral; (9×11) a fita da pílula "você está na pág. N"; (11×13) a fita da dica; (11) o ✓ do "lido";
+  /// (9) a caneta coral da nota à mão nas marcas. Sem versão do Noite: os de traço são tingidos com a cor da borda.
+  static const flag = '$_d/ic_flag.svg';
+  static const chevronRight = '$_d/ic_chevron_right.svg';
+  static const ribbonCoral = '$_d/ic_ribbon_coral.svg';
+  static const ribbonTiny = '$_d/ic_ribbon_tiny.svg';
+  static const ribbonHint = '$_d/ic_ribbon.svg';
+  static const checkRead = '$_d/ic_check_read.svg';
+  static const pencilCoral = '$_d/ic_pencil_coral.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -94,5 +105,12 @@ abstract final class AppIconsLeitor {
     marginsNarrow,
     marginsMedium,
     marginsWide,
+    flag,
+    chevronRight,
+    ribbonCoral,
+    ribbonTiny,
+    ribbonHint,
+    checkRead,
+    pencilCoral,
   ];
 }

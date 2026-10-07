@@ -94,6 +94,8 @@ abstract final class AppFonts {
   /// tamanho (opsz), registrada só com os pesos que existem.
   static final Map<double, Set<int>> literataStatic = {
     15: {500},
+    15.5: {400},
+    16: {400},
     17: {400, 500},
     18: {400},
     19: {500},
@@ -678,5 +680,145 @@ abstract final class AppTextStyles {
   static final TextStyle readerSheetPill = AppFonts.figtreeReader(
     11.5,
     FontWeight.w800,
+  );
+
+  // ---- G15 · telas 27 e 27b (folha do sumário) -------------------------------------------------------------------
+
+  /// "Sumário": Bricolage 26/800, ls −0,6, `line-height: 1`.
+  static final TextStyle readerTocTitle = AppFonts.bricolage(
+    26,
+    height: 1,
+    letterSpacing: -0.6,
+  );
+
+  /// "Dom Casmurro · 148 capítulos": Figtree 13/600 `#5B544B`.
+  static final TextStyle readerTocSubtitle = AppFonts.figtreeReader(
+    13,
+    FontWeight.w600,
+    color: AppColors.inkMuted,
+  );
+
+  /// As abas: a ativa 14/800, a outra 14/700; a contagem 14/700 (`#3B3466` na ativa, `#8A8073` na outra).
+  static final TextStyle readerTocTab = AppFonts.figtreeReader(
+    14,
+    FontWeight.w700,
+  );
+  static final TextStyle readerTocTabOn = AppFonts.figtreeReader(
+    14,
+    FontWeight.w800,
+  );
+  static final TextStyle readerTocTabCount = AppFonts.figtreeReader(
+    14,
+    FontWeight.w700,
+    color: AppColors.captionOnBrand,
+  );
+
+  /// A faixa do clube: "LEITORAS DE CAPITU · QUI 24/9" 11/800 ls 0,8 `#5B3A3E`; a meta 15/800.
+  static final TextStyle readerTocClubKicker = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+    letterSpacing: 0.8,
+    color: AppColors.clubKicker,
+  );
+  static final TextStyle readerTocClubGoal = AppFonts.figtreeReader(
+    15,
+    FontWeight.w800,
+  );
+
+  /// O numeral: 12/800 ls 0,5 `#8A8073` (no atual, `#1A1714`).
+  static final TextStyle readerTocNumeral = AppFonts.figtreeReader(
+    12,
+    FontWeight.w800,
+    letterSpacing: 0.5,
+    color: AppColors.inkSoft,
+  );
+
+  /// O título do capítulo: Literata estática 16, `line-height: 1.25` (D-104); o atual, 17/500.
+  static final TextStyle readerTocChapter = AppFonts.literata(
+    16,
+    FontWeight.w400,
+    height: 1.25,
+  );
+  static final TextStyle readerTocChapterCurrent = AppFonts.literata(
+    17,
+    FontWeight.w500,
+    height: 1.25,
+  );
+
+  /// A página de início: 13/700 `#6F665B`, `tabular-nums`; no atual, 13/800 na tinta.
+  static final TextStyle readerTocPage = AppFonts.figtreeReader(
+    13,
+    FontWeight.w700,
+    color: AppColors.labelReader,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  static final TextStyle readerTocPageCurrent = AppFonts.figtreeReader(
+    13,
+    FontWeight.w800,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  /// O número das marcas: 11,5/800 `#6F665B`.
+  static final TextStyle readerTocMarks = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w800,
+    color: AppColors.labelReader,
+  );
+
+  /// "você está na pág. 159": 11,5/800.
+  static final TextStyle readerTocHere = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w800,
+  );
+
+  /// A parte (D-153, versão mínima — D-21): 11/800 em maiúsculas, ls 0,8, `#8A8073`.
+  static final TextStyle readerTocPart = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+    letterSpacing: 0.8,
+    color: AppColors.inkSoft,
+  );
+
+  /// "Este livro não tem sumário." (D-21): 14/600 `#6F665B`.
+  static final TextStyle readerTocEmpty = AppFonts.figtreeReader(
+    14,
+    FontWeight.w600,
+    color: AppColors.labelReader,
+  );
+
+  /// Marcadas: "pág. 3" 12,5/800 `tabular-nums`; "cap. I · Do título" 12/700 `#6F665B`; "você está aqui" 11/800.
+  static final TextStyle readerBmPage = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  static final TextStyle readerBmChapter = AppFonts.figtreeReader(
+    12,
+    FontWeight.w700,
+    color: AppColors.labelReader,
+  );
+  static final TextStyle readerBmHere = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+  );
+
+  /// O excerto (D-49): Literata estática 15,5, `line-height: 1.5`, `#4A4238`.
+  static final TextStyle readerBmExcerpt = AppFonts.literata(
+    15.5,
+    FontWeight.w400,
+    height: 1.5,
+    color: AppColors.inkWarm,
+  );
+
+  /// "marcada em 2 set": 11,5/700 `#8A8073`.
+  static final TextStyle readerBmDate = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w700,
+    color: AppColors.inkSoft,
+  );
+
+  /// A dica no fim: 13/600, `line-height: 1.45`, `#6F665B`.
+  static final TextStyle readerBmHint = AppFonts.figtreeReader(
+    13,
+    FontWeight.w600,
+    height: 1.45,
+    color: AppColors.labelReader,
   );
 }

@@ -69,6 +69,10 @@ abstract final class AppColors {
   /// Legenda do cartão de fonte escolhido, sobre a `brand` (L26).
   static const Color captionOnBrand = Color(0xFF3B3466);
 
+  /// G15 — a linha de cima da faixa do clube (`toc.sheet.club.kicker`) e o tracejado entre as linhas do sumário.
+  static const Color clubKicker = Color(0xFF5B3A3E);
+  static const Color tocRule = Color(0xFFE3D8C4);
+
   /// As duas linhas dos cartões de papel (L26 `rs.sheet.papers.*.line*`); as do Noite são o [dashNight].
   static const Color paperLineCream = Color(0xFFD9CCB4);
   static const Color paperLineWhite = Color(0xFFE3DCCD);
