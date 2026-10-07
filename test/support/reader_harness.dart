@@ -14,6 +14,7 @@ import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/application/book_search.dart';
 import 'package:app_leitura/features/reader/application/epub_images.dart';
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
+import 'package:app_leitura/features/reader/application/reader_club_source.dart';
 import 'package:app_leitura/features/reader/application/reader_errors.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
 import 'package:app_leitura/features/reader/application/reading_speed_source.dart';
@@ -172,6 +173,8 @@ final class LivroNaEstante {
     Set<int> quebrados = const {},
     Future<void> Function()? pdfInitialize,
     Future<double> Function(AppDatabase db, String userId)? speedOf,
+    ReaderClubSource club = const NoReaderClub(),
+    Duration Function(DateTime utc)? utcOffsetAt,
   }) => ReaderDeps(
     db: db,
     versioning: versioning,
@@ -204,6 +207,8 @@ final class LivroNaEstante {
     speedOf: speedOf ?? readingSpeedOf,
     startTimer: startTimer ?? Timer.new,
     pdfInitialize: pdfInitialize,
+    club: club,
+    utcOffsetAt: utcOffsetAt ?? readerUtcOffset,
     onError: onError ?? reportReaderError,
   );
 

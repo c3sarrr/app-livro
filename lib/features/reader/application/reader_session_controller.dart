@@ -37,6 +37,7 @@ import 'epub_images.dart' show EpubImageLoader;
 import 'epub_reader_document.dart';
 import 'pdf_position_keeper.dart';
 import 'pdf_reader_document.dart';
+import 'reader_club_source.dart';
 import 'reader_document.dart';
 import 'reader_errors.dart';
 import 'reading_position_keeper.dart';
@@ -119,6 +120,8 @@ final class ReaderDeps {
     this.speedOf = readingSpeedOf,
     this.startTimer = Timer.new,
     this.pdfInitialize,
+    this.club = const NoReaderClub(),
+    this.utcOffsetAt = readerUtcOffset,
     this.onError = reportReaderError,
   });
 
@@ -160,6 +163,12 @@ final class ReaderDeps {
 
   /// Prepara o PDFium (padrão: o do `pdfrx` para Flutter).
   final Future<void> Function()? pdfInitialize;
+
+  /// O clube que lê o livro, para a faixa do sumário (D-149): nenhum até a G21.
+  final ReaderClubSource club;
+
+  /// O fuso nas datas da folha do sumário ("marcada hoje", "QUI 24/9").
+  final Duration Function(DateTime utc) utcOffsetAt;
   final ReaderErrorReporter onError;
 }
 
