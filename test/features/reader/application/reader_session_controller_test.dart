@@ -959,6 +959,58 @@ void main() {
     });
   });
 
+  group('G15', () {
+    test('setBookmark (D-152): tira com versão; devolve a mesma linha (id, criação, excerto, página); repetido não grava', () async {
+      final c = await aberto();
+      await c.jumpToPage(10);
+      final dao = BookmarksDao(h.livro.db);
+      await c.toggleBookmark();
+      final m = (await dao.forBook(h.livro.userBookId)).single;
+      await c.setBookmark(m, on: false);
+      expect(await dao.forBook(h.livro.userBookId), isEmpty);
+      final tirada = (await dao.byId(m.id))!;
+      expect(tirada.meta.isDeleted, isTrue);
+      expect(tirada.meta.version.compareTo(m.meta.version), greaterThan(0));
+      // tirar de novo: nada muda
+      await c.setBookmark(m, on: false);
+      expect((await dao.byId(m.id))!.meta, tirada.meta);
+      // devolve: a mesma linha, viva, com versão maior
+      await c.setBookmark(m, on: true);
+      final volta = (await dao.forBook(h.livro.userBookId)).single;
+      expect(volta.id, m.id);
+      expect(volta.meta.createdAt, m.meta.createdAt);
+      expect(volta.excerpt, m.excerpt);
+      expect(volta.refPage, m.refPage);
+      expect(volta.locator, m.locator);
+      expect(volta.meta.version.compareTo(tirada.meta.version), greaterThan(0));
+      // devolver a que já está viva: nada muda
+      await c.setBookmark(m, on: true);
+      expect((await dao.byId(m.id))!.meta, volta.meta);
+      expect(h.erros, isEmpty);
+    });
+
+    test('setBookmark: a linha mais nova do banco vale (outro aparelho tirou); falha vai para onError', () async {
+      final c = await aberto();
+      await c.jumpToPage(10);
+      final dao = BookmarksDao(h.livro.db);
+      await c.toggleBookmark();
+      final m = (await dao.forBook(h.livro.userBookId)).single;
+      // outro aparelho tirou: tirar daqui com a cópia velha não grava de novo
+      await c.toggleBookmark();
+      final tirada = (await dao.byId(m.id))!;
+      await c.setBookmark(m, on: false);
+      expect((await dao.byId(m.id))!.meta, tirada.meta);
+      // o banco recusa a gravação: o erro é relatado, nada lança e a marca continua tirada
+      await h.livro.db.customStatement(
+        'CREATE TRIGGER g15_falha BEFORE UPDATE ON bookmarks '
+        "BEGIN SELECT RAISE(ABORT, 'disco cheio'); END",
+      );
+      await c.setBookmark(m, on: true);
+      expect(h.erros, hasLength(1));
+      expect((await dao.byId(m.id))!.meta.isDeleted, isTrue);
+    });
+  });
+
   group('G14', () {
     Future<ReaderSettings?> linha() =>
         ReaderSettingsDao(h.livro.db).forUser(usuarioTeste);

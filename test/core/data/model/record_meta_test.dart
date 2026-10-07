@@ -65,6 +65,24 @@ void main() {
     expect(m.isDeleted, isTrue);
   });
 
+  test(
+    'G15 restored: volta da exclusão com versão nova; created_at igual (D-152)',
+    () {
+      final t1 = t0.add(const Duration(days: 1));
+      final t2 = t1.add(const Duration(minutes: 2));
+      final v2 = Hlc(t2.millisecondsSinceEpoch, 1, 'aparelhoA');
+      final m = meta0()
+          .deleted(t1, Hlc(t1.millisecondsSinceEpoch, 0, 'aparelhoA'))
+          .restored(t2, v2);
+      expect(m.deletedAt, isNull);
+      expect(m.isDeleted, isFalse);
+      expect(m.updatedAt, t2);
+      expect(m.version, v2);
+      expect(m.createdAt, t0);
+      expect(m.userId, usuario);
+    },
+  );
+
   test('copyWith: Nullable(null) limpa, ausente mantém', () {
     final apagado = meta0().deleted(t0, v0);
     expect(apagado.copyWith().deletedAt, t0);

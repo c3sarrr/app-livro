@@ -158,6 +158,12 @@ void main() {
       );
       expect((await dao.forBook(livro)).map((b) => b.refPage), [3, 6, 159]);
       expect(await dao.watchForBook(livro).first, [m3, m6, m159]);
+      // G15 (D-152): pelo id, também a apagada (a fita da aba Marcadas devolve a mesma linha)
+      expect(await dao.byId(m3.id), m3);
+      final apagada = await dao.byId(idTeste(23));
+      expect(apagada!.meta.isDeleted, isTrue);
+      expect(apagada.refPage, 40);
+      expect(await dao.byId(idTeste(99)), isNull);
     });
 
     test('ajustes de leitura e metas: 1 linha por usuário', () async {

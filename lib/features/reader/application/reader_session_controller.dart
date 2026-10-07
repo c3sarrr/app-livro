@@ -621,6 +621,31 @@ class ReaderSessionController extends ChangeNotifier {
     });
   }
 
+  /// A fita da aba Marcadas (tela 27b, D-152): tira ([on] falso) ou devolve a marca [b] — a mesma linha, com o mesmo
+  /// excerto e a mesma data —, na fila e com versão. Vale a linha do banco, lida na hora de gravar (pode ter vindo de
+  /// outro aparelho): tirar a que já está tirada, ou devolver a que já está viva, não grava nada. Falha: relatada.
+  Future<void> setBookmark(Bookmark b, {required bool on}) {
+    if (_closed) return Future.value();
+    interaction();
+    return _serial(() async {
+      try {
+        final dao = BookmarksDao(deps.db);
+        await deps.versioning.write('bookmarks', b.id, (v) async {
+          final cur = await dao.byId(b.id) ?? b;
+          if (cur.meta.isDeleted != on) return;
+          final at = DateTime.fromMillisecondsSinceEpoch(v.ms, isUtc: true);
+          await dao.upsert(
+            cur.copyWith(
+              meta: on ? cur.meta.restored(at, v) : cur.meta.deleted(at, v),
+            ),
+          );
+        });
+      } on Object catch (e, st) {
+        deps.onError(e, st);
+      }
+    });
+  }
+
   /// A folha de ajustes (tela 26, D-144): aplica [change] sobre os ajustes mais novos da conta (os da linha do
   /// banco, que podem ter vindo de outro aparelho — D-148), na fila (toques rápidos somam), e grava a linha com
   /// versão; a tela passa a mostrar a linha inteira. Se o papel mudou, guarda o último claro (D-121). Tamanho, fonte,

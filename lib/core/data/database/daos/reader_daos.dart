@@ -163,6 +163,11 @@ final class BookmarksDao {
   Stream<List<Bookmark>> watchForBook(String userBookId) =>
       _forBook(userBookId).watch();
 
+  /// A linha pelo id, também a apagada (G15 — a fita da aba Marcadas devolve a mesma linha, D-152).
+  Future<Bookmark?> byId(String id) => (_db.select(
+    _db.bookmarks,
+  )..where((t) => t.id.equals(id))).map(_fromRow).getSingleOrNull();
+
   Selectable<Bookmark> _forBook(String userBookId) =>
       (_db.select(_db.bookmarks)
             ..where(
@@ -172,23 +177,23 @@ final class BookmarksDao {
               (t) => OrderingTerm(expression: t.refPage),
               (t) => OrderingTerm(expression: t.createdAt),
             ]))
-          .map(
-            (r) => Bookmark(
-              id: r.id,
-              meta: metaFromRow(
-                userId: r.userId,
-                createdAt: r.createdAt,
-                updatedAt: r.updatedAt,
-                deletedAt: r.deletedAt,
-                versionHlc: r.versionHlc,
-              ),
-              userBookId: r.userBookId,
-              locator: r.locator,
-              refPage: r.refPage,
-              chapterIndex: r.chapterIndex,
-              excerpt: r.excerpt,
-            ),
-          );
+          .map(_fromRow);
+
+  static Bookmark _fromRow(BookmarkRow r) => Bookmark(
+    id: r.id,
+    meta: metaFromRow(
+      userId: r.userId,
+      createdAt: r.createdAt,
+      updatedAt: r.updatedAt,
+      deletedAt: r.deletedAt,
+      versionHlc: r.versionHlc,
+    ),
+    userBookId: r.userBookId,
+    locator: r.locator,
+    refPage: r.refPage,
+    chapterIndex: r.chapterIndex,
+    excerpt: r.excerpt,
+  );
 }
 
 final class ReaderSettingsDao {

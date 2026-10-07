@@ -35,6 +35,13 @@ final class RecordMeta {
   RecordMeta deleted(DateTime at, Hlc version) =>
       copyWith(updatedAt: at, deletedAt: Nullable(at), version: version);
 
+  /// Volta da exclusão lógica (G15 — a marca devolvida na aba Marcadas, D-152): a mesma linha, viva, com versão nova.
+  RecordMeta restored(DateTime at, Hlc version) => copyWith(
+    updatedAt: at,
+    deletedAt: const Nullable(null),
+    version: version,
+  );
+
   RecordMeta copyWith({
     String? userId,
     DateTime? createdAt,
