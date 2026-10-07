@@ -39,6 +39,8 @@ import '../application/reader_document.dart';
 import '../application/reader_errors.dart';
 import '../application/reader_providers.dart';
 import '../application/reader_session_controller.dart';
+import '../application/reader_toc.dart';
+import '../application/toc_view.dart';
 import '../domain/reader_settings.dart';
 import 'book_search_panel.dart';
 import 'bottom_island.dart';
@@ -57,6 +59,7 @@ import 'reader_states.dart';
 import 'selection_controller.dart';
 import 'selection_layer.dart';
 import 'time_chip.dart';
+import 'toc_sheet.dart';
 import 'top_island.dart';
 
 /// No Noite a barra de status tem ícones claros (D-124); nos claros, o padrão do app (D-13).
@@ -127,6 +130,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   /// A folha de ajustes da tela 26 está aberta (G14): os controles ficam por baixo, escondidos (D-142).
   bool _settings = false;
+
+  /// A folha do sumário (telas 27/27b — G15) está aberta, e os dados dela (um por abertura; os controles ficam por
+  /// baixo, escondidos, como com a folha de ajustes).
+  bool _toc = false;
+  ReaderToc? _tocData;
+
+  /// O que a folha do sumário ouve quando não há dados (fechada).
+  final ChangeNotifier _noToc = ChangeNotifier();
   bool _leaving = false;
   ReaderState? _lastState;
 
@@ -208,11 +219,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       _selection.clear();
       _note = null;
     }
-    if (state is! ReaderReady && (_controls || _search || _settings)) {
-      // o livro deixou de estar na tela (erro, reabertura): os controles, a busca e a folha fecham
+    if (state is! ReaderReady && (_controls || _search || _settings || _toc)) {
+      // o livro deixou de estar na tela (erro, reabertura): os controles, a busca e as folhas fecham
       _controls = false;
       _search = false;
       _settings = false;
+      _toc = false;
+      _tocData?.dispose();
+      _tocData = null;
       _chrome?.ticking = false;
       _clearToast();
     }
@@ -234,7 +248,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         (before is! ReaderReady || before.back == null)) {
       _announceBack(state.back!.refPage);
     }
-    _systemUi(immersive: ready && !_controls && !_search && !_settings);
+    _systemUi(
+      immersive: ready && !_controls && !_search && !_settings && !_toc,
+    );
     _holdBack();
     setState(() {});
   }
@@ -618,14 +634,15 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _chrome?.ticking = open;
     if (!open && _toastWithControls) _clearToast();
     _systemUi(
-      immersive: _c?.state is ReaderReady && !open && !_search && !_settings,
+      immersive:
+          _c?.state is ReaderReady && !open && !_search && !_settings && !_toc,
     );
     _holdBack();
   }
 
   /// A pílula da volta fica escondida com os controles, a busca ou a folha de ajustes por cima: o prazo dela só
   /// conta à vista (D-125).
-  void _holdBack() => _c?.holdBack(_controls || _search || _settings);
+  void _holdBack() => _c?.holdBack(_controls || _search || _settings || _toc);
 
   void _tool(ReaderTool t) {
     final c = _c;
@@ -635,10 +652,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         unawaited(c.toggleTheme());
       case ReaderTool.font:
         _openSettings();
+      case ReaderTool.toc:
+        _openToc();
       case ReaderTool.notes:
       case ReaderTool.annotate:
-      case ReaderTool.toc:
-        // Grifos → G19, Anotar → G16, Sumário → G15 (D-118)
+        // Grifos → G19, Anotar → G16 (D-118)
         _showToast(readerSoonText);
     }
   }
@@ -689,7 +707,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   void _closeSearch() {
     if (!_search) return;
     setState(() => _search = false);
-    _systemUi(immersive: _c?.state is ReaderReady && !_controls && !_settings);
+    _systemUi(
+      immersive: _c?.state is ReaderReady && !_controls && !_settings && !_toc,
+    );
     _holdBack();
   }
 
@@ -712,8 +732,71 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   void _closeSettings() {
     if (!_settings) return;
     setState(() => _settings = false);
-    _systemUi(immersive: _c?.state is ReaderReady && !_controls && !_search);
+    _systemUi(
+      immersive: _c?.state is ReaderReady && !_controls && !_search && !_toc,
+    );
     _holdBack();
+  }
+
+  /// "Sumário" (G15): a folha das telas 27/27b por cima, sempre na aba Capítulos; os controles somem e voltam ao
+  /// fechar (como a folha de ajustes — D-141/D-142); a barra de status fica (D-105).
+  void _openToc() {
+    final c = _c;
+    final doc = _doc;
+    if (_leaving || c == null || doc == null) return;
+    _clearToast();
+    _dismissUndo();
+    _tocData?.dispose();
+    _tocData = ReaderToc(
+      db: c.deps.db,
+      userBookId: widget.bookId,
+      bookTitle: doc.title,
+      place: () {
+        final d = _doc ?? doc;
+        return (mark: d.mark, refPage: d.numbers.refPage);
+      },
+      owner: c.deps.owner,
+      club: c.deps.club,
+      now: () => (c.deps.now ?? DateTime.now)().toUtc(),
+      utcOffsetAt: c.deps.utcOffsetAt,
+      onError: c.deps.onError,
+    );
+    setState(() => _toc = true);
+    _systemUi(immersive: false);
+    _holdBack();
+  }
+
+  /// ×, Voltar, o véu ou a alça: volta aos controles. A marca tirada na aba Marcadas some da lista na próxima
+  /// abertura (D-152).
+  void _closeToc() {
+    if (!_toc) return;
+    _tocData?.dispose();
+    _tocData = null;
+    setState(() => _toc = false);
+    _systemUi(
+      immersive:
+          _c?.state is ReaderReady && !_controls && !_search && !_settings,
+    );
+    _holdBack();
+  }
+
+  /// Tocar num capítulo, numa parte ou num cartão (D-151): fecha a folha e os controles e salta para lá, com a volta
+  /// (D-119, D-126); o capítulo atual só fecha.
+  void _tocGo(ReaderMark? to) {
+    final c = _c;
+    if (c == null) return;
+    final timed = !MediaQuery.accessibleNavigationOf(context);
+    _closeToc();
+    _setControls(false);
+    if (to != null) unawaited(c.jumpTo(to, timed: timed));
+  }
+
+  /// A fita do cartão (D-152): tira (o cartão fica com a fita vazia até a folha fechar) ou devolve a mesma marca.
+  void _tocRibbon(TocBookmarkCard card) {
+    final c = _c;
+    if (c == null) return;
+    if (card.marked) _tocData?.keep(card.bookmark);
+    unawaited(c.setBookmark(card.bookmark, on: !card.marked));
   }
 
   /// Tocar num resultado: fecha o painel e os controles, salta para a ocorrência, marca a palavra e guarda a
@@ -759,6 +842,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _toastTimer?.cancel();
     _undoTimer?.cancel();
     _chrome?.dispose();
+    _tocData?.dispose();
+    _noToc.dispose();
     _searchSession?.dispose();
     _annotations?.dispose();
     _selection.dispose();
@@ -801,6 +886,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             _closeSearch();
           } else if (_settings) {
             _closeSettings();
+          } else if (_toc) {
+            _closeToc();
           } else if (_controls) {
             _setControls(false);
           } else if (_selection.active) {
@@ -996,7 +1083,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 builder: (context, _) {
                   final toast = _toast;
                   return ReaderControls(
-                    open: _controls && !_settings,
+                    open: _controls && !_settings && !_toc,
                     palette: islands,
                     brand: brand,
                     top: TopIsland(
@@ -1041,6 +1128,37 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 pageText: doc.current.spokenText,
                 onChange: (change) => unawaited(c.applySettings(change)),
                 onClose: _closeSettings,
+              ),
+            ),
+          // a folha do sumário (telas 27/27b): por cima dos controles, com o véu sobre a página
+          Positioned.fill(
+            child: ListenableBuilder(
+              listenable: _tocData ?? _noToc,
+              builder: (context, _) => TocSheet(
+                open: _toc,
+                view: _tocData?.view,
+                palette: islands,
+                brand: brand,
+                onClose: _closeToc,
+                onChapter: (r) => _tocGo(r.current ? null : r.target),
+                onBookmark: (card) => _tocGo(card.target),
+                onRibbon: _tocRibbon,
+                // a faixa do clube só existe com clube (a G21 liga); até lá, o aviso da D-118
+                onClub: () => _showToast(readerSoonText),
+              ),
+            ),
+          ),
+          // o aviso por cima da folha do sumário, 12 acima da base dela
+          if (_toc && _toast != null)
+            Positioned(
+              left: 14,
+              right: 14,
+              bottom: readerSheetBottom(MediaQuery.viewPaddingOf(context)) + 12,
+              child: ReaderChromeScope(
+                palette: islands,
+                brand: brand,
+                a: 1,
+                child: Center(child: ReaderToastPill(text: _toast!)),
               ),
             ),
           if (_note case final n?)
