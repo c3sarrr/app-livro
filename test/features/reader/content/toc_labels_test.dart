@@ -72,10 +72,82 @@ void main() {
           numeral: 'XXXII',
           title: 'Olhos de ressaca',
         ));
-        expect(tocLabel('V. O agregado', textNumeral: 'X'), (
+        expect(tocLabel('V. O agregado', textNumeral: 'V'), (
           numeral: 'V',
           title: 'O agregado',
         ));
+        // o do texto vale primeiro: "D. Gloria." é Dona Glória, o cap. VII
+        expect(tocLabel('D. Gloria.', textNumeral: 'VII'), (
+          numeral: 'VII',
+          title: 'D. Gloria',
+        ));
+        expect(tocLabel('V. O agregado', textNumeral: 'X'), (
+          numeral: 'X',
+          title: 'V. O agregado',
+        ));
+      },
+    );
+
+    test('sem número do rótulo neste livro: o rótulo fica inteiro', () {
+      expect(tocLabel('D. Gloria.', fromLabel: false), (
+        numeral: null,
+        title: 'D. Gloria',
+      ));
+      expect(tocLabel('Olhos.', textNumeral: 'XXXII', fromLabel: false), (
+        numeral: 'XXXII',
+        title: 'Olhos',
+      ));
+    });
+
+    test(
+      'o número do rótulo vale quando pelo menos metade dos capítulos tem',
+      () {
+        List<String?> numerais(List<TocLabelEntry> e) => [
+          for (final l in tocLabels(e)) l.numeral,
+        ];
+        // sumário sem números: "D. Gloria." não vira o capítulo D
+        expect(
+          numerais([
+            (title: 'Do titulo.', textNumeral: null, leaf: true),
+            (title: 'O agregado.', textNumeral: null, leaf: true),
+            (title: 'D. Gloria.', textNumeral: null, leaf: true),
+          ]),
+          [null, null, null],
+        );
+        expect(
+          tocLabels([
+            (title: 'D. Gloria.', textNumeral: null, leaf: true),
+            (title: 'Outro', textNumeral: null, leaf: true),
+            (title: 'Mais um', textNumeral: null, leaf: true),
+          ])[0].title,
+          'D. Gloria',
+        );
+        // sumário numerado (a parte não conta): metade ou mais com número
+        expect(
+          numerais([
+            (title: 'Primeira parte', textNumeral: null, leaf: false),
+            (title: 'I. Um', textNumeral: null, leaf: true),
+            (title: 'Prefácio', textNumeral: null, leaf: true),
+          ]),
+          [null, 'I', null],
+        );
+        expect(
+          numerais([
+            (title: 'I. Um', textNumeral: null, leaf: true),
+            (title: 'Prefácio', textNumeral: null, leaf: true),
+            (title: 'Posfácio', textNumeral: null, leaf: true),
+          ]),
+          [null, null, null],
+        );
+        // o do texto vale sempre
+        expect(
+          numerais([
+            (title: 'Um', textNumeral: 'I', leaf: true),
+            (title: 'Dois', textNumeral: null, leaf: true),
+          ]),
+          ['I', null],
+        );
+        expect(tocLabels(const []), isEmpty);
       },
     );
   });

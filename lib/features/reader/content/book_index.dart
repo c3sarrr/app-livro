@@ -8,6 +8,7 @@ import 'content_failure.dart';
 import 'epub_book.dart';
 import 'epub_package.dart';
 import 'ref_pages.dart';
+import 'toc_labels.dart' show headingNumeral;
 
 /// Teto do texto canônico de um livro (unidades UTF-16). Os maiores livros reais têm uns 10 milhões; acima
 /// disto o arquivo é tratado como danificado (protege a memória do *isolate* contra EPUB montado para isso).
@@ -34,9 +35,14 @@ final class TocPoint {
     required this.leaf,
     this.spine,
     this.offset,
+    this.textNumeral,
   });
 
   final String title;
+
+  /// O numeral do capítulo lido no texto na importação (G15, D-150): o Gutenberg põe "XXXII" num bloco logo antes de
+  /// "Olhos de ressaca.". A tela usa `tocLabels` (o do texto vale antes do número do rótulo).
+  final String? textNumeral;
 
   /// Item do spine e posição no texto canônico dele; `null` = a entrada não aponta para o texto.
   final int? spine;
@@ -68,10 +74,15 @@ final class BookIndex {
     required this.toc,
     required this.refPages,
     this.refPageVersion = 1,
+    this.tocUpToDate = true,
   });
 
   final String contentSha256;
   final int refPageVersion;
+
+  /// O sumário gravado já tem os numerais do texto (G15). Índice de EPUB gravado antes não tem a chave
+  /// `text_numeral` e é refeito uma vez ao abrir (D-154); no PDF o numeral vem só do rótulo.
+  final bool tocUpToDate;
 
   /// `reflowable`, `fixed` (EPUB de páginas fixas, D-92) ou `pdf`.
   final String layout;
@@ -132,6 +143,7 @@ final class BookIndex {
         'offset': t.offset,
         'depth': t.depth,
         'leaf': t.leaf,
+        'text_numeral': t.textNumeral,
       },
   ]);
 
@@ -145,10 +157,12 @@ final class BookIndex {
     required String refPagesJson,
   }) {
     final s = jsonDecode(spineJson) as Map<String, Object?>;
+    final toc = jsonDecode(tocJson) as List;
+    final layout = s['layout']! as String;
     return BookIndex(
       contentSha256: contentSha256,
       refPageVersion: refPageVersion,
-      layout: s['layout']! as String,
+      layout: layout,
       spine: [
         for (final i in s['items']! as List)
           SpineInfo(
@@ -158,15 +172,19 @@ final class BookIndex {
           ),
       ],
       toc: [
-        for (final t in jsonDecode(tocJson) as List)
+        for (final t in toc)
           TocPoint(
             title: (t as Map)['title'] as String,
             spine: t['spine'] as int?,
             offset: t['offset'] as int?,
             depth: t['depth'] as int,
             leaf: t['leaf'] as bool,
+            textNumeral: t['text_numeral'] as String?,
           ),
       ],
+      tocUpToDate:
+          layout == 'pdf' ||
+          toc.every((t) => (t as Map).containsKey('text_numeral')),
       refPages: RefPageMap.fromJson(
         jsonDecode(refPagesJson) as Map<String, Object?>,
       ),
@@ -223,6 +241,10 @@ BookIndex buildEpubIndex(
         offset: at?.$2,
         depth: e.depth,
         leaf: !e.hasChildren,
+        // o numeral do título do capítulo no texto (D-150): vale antes do número do rótulo
+        textNumeral: at == null
+            ? null
+            : headingNumeral(items[at.$1].text, at.$2),
       ),
     );
   }

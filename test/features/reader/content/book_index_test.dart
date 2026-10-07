@@ -11,6 +11,7 @@ import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/content/ref_pages.dart';
+import 'package:app_leitura/features/reader/content/toc_labels.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -234,6 +235,94 @@ void main() {
     });
 
     test(
+      'G15 (D-150): o numeral do título do capítulo no texto fica na entrada',
+      () {
+        final idx = indexar(
+          simpleEpub(
+            chapters: const [
+              (
+                file: 'c1.xhtml',
+                title: 'x',
+                body:
+                    '<p>Fim do anterior.</p><h5>XXXII</h5>'
+                    '<h4 id="t">Olhos de ressaca.</h4><p>Tudo.</p>',
+              ),
+              (
+                file: 'c2.xhtml',
+                title: 'x',
+                body: '<h5>V</h5><h4>O agregado</h4><p>Era.</p>',
+              ),
+              (
+                file: 'c3.xhtml',
+                title: 'x',
+                body: '<h4>Prefácio</h4><p>Uma vez.</p>',
+              ),
+            ],
+            navBody:
+                '<nav epub:type="toc"><ol><li><a href="c1.xhtml#t">Olhos de ressaca.</a></li>'
+                '<li><a href="c2.xhtml">V. O agregado</a></li>'
+                '<li><a href="c3.xhtml">Prefácio</a></li>'
+                '<li><a href="perdido.xhtml">Sem item</a></li></ol></nav>',
+          ),
+        );
+        expect(idx.toc.map((t) => t.textNumeral), ['XXXII', 'V', null, null]);
+        expect(idx.tocUpToDate, isTrue);
+        final json = jsonDecode(idx.tocJson) as List;
+        expect(
+          json.every((t) => (t as Map).containsKey('text_numeral')),
+          isTrue,
+        );
+        final back = BookIndex.fromColumns(
+          contentSha256: _sha,
+          refPageVersion: 1,
+          spineJson: idx.spineJson,
+          tocJson: idx.tocJson,
+          refPagesJson: idx.refPagesJson,
+        );
+        expect(back.toc.map((t) => t.textNumeral), ['XXXII', 'V', null, null]);
+        expect(back.tocUpToDate, isTrue);
+      },
+    );
+
+    test('G15 (D-154): sumário gravado antes da G15 (sem text_numeral) não está em dia no EPUB; no PDF e sem sumário, está', () {
+      final idx = indexar(
+        simpleEpub(
+          chapters: const [(file: 'c.xhtml', title: 'I', body: '<p>oi</p>')],
+        ),
+      );
+      const velho =
+          '[{"title":"I","spine":0,"offset":0,"depth":0,"leaf":true}]';
+      BookIndex ler(String spineJson, String toc) => BookIndex.fromColumns(
+        contentSha256: _sha,
+        refPageVersion: 1,
+        spineJson: spineJson,
+        tocJson: toc,
+        refPagesJson: idx.refPagesJson,
+      );
+      final epub = ler(idx.spineJson, velho);
+      expect(epub.tocUpToDate, isFalse);
+      expect(epub.toc.single.textNumeral, isNull);
+      expect(ler(idx.spineJson, '[]').tocUpToDate, isTrue);
+      expect(
+        ler('{"layout":"pdf","items":[]}', velho).tocUpToDate,
+        isTrue,
+        reason: 'no PDF o numeral vem só do rótulo',
+      );
+      expect(idx.tocUpToDate, isTrue);
+      expect(
+        BookIndex(
+          contentSha256: _sha,
+          layout: 'reflowable',
+          spine: const [],
+          toc: const [],
+          refPages: RefPageMap.synthetic(const [0]),
+        ).tocUpToDate,
+        isTrue,
+        reason: 'índice montado agora (importação, fixtures) está em dia',
+      );
+    });
+
+    test(
       'colunas do banco: grava, lê de volta igual, e troca no mesmo livro',
       () async {
         final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
@@ -306,5 +395,56 @@ void main() {
     // ignore: avoid_print
     print('G09.2 títulos do sumário no lugar: $batem de ${idx.toc.length}');
     expect(batem, greaterThanOrEqualTo(152)); // medido: 152 de 153
+  });
+
+  test('G15 (D-150) Dom Casmurro real: os 148 capítulos com I…CXLVIII lidos do texto; rosto, academia, FIM, INDICE e licença sem numeral', () {
+    final b = EpubBook.open(_domCasmurro);
+    addTearDown(b.close);
+    final idx = buildEpubIndex(b, _sha);
+    final labels = tocLabels([
+      for (final t in idx.toc)
+        (title: t.title, textNumeral: t.textNumeral, leaf: t.leaf),
+    ]);
+    expect(labels, hasLength(153));
+    String romano(int n) {
+      const v = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+      const s = [
+        'M',
+        'CM',
+        'D',
+        'CD',
+        'C',
+        'XC',
+        'L',
+        'XL',
+        'X',
+        'IX',
+        'V',
+        'IV',
+        'I',
+      ];
+      final out = StringBuffer();
+      var r = n;
+      for (var i = 0; i < v.length; i++) {
+        while (r >= v[i]) {
+          out.write(s[i]);
+          r -= v[i];
+        }
+      }
+      return out.toString();
+    }
+
+    expect(
+      [for (final l in labels.sublist(2, 150)) l.numeral],
+      [for (var n = 1; n <= 148; n++) romano(n)],
+    );
+    for (final i in [0, 1, 150, 151, 152]) {
+      expect(labels[i].numeral, isNull, reason: idx.toc[i].title);
+    }
+    expect(labels[2].title, 'Do titulo');
+    // "D. Gloria." é Dona Glória, o cap. VII — não o capítulo D
+    expect(labels[8], (numeral: 'VII', title: 'D. Gloria'));
+    expect(labels[33], (numeral: 'XXXII', title: 'Olhos de ressaca'));
+    expect(labels[149].title, 'E bem, e o resto?');
   });
 }

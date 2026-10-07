@@ -1,7 +1,8 @@
-// G15.1 (D-150) — o numeral do capítulo como no livro: do rótulo do sumário ("XXXII. Olhos de ressaca", "Capítulo 32
-// — Olhos de ressaca") ou, quando o rótulo não tem, do título do capítulo no texto quando ele é só um número (o
-// Gutenberg põe "XXXII" num bloco logo antes de "Olhos de ressaca."). Romano só em maiúsculas e válido ("CIVIL" não é
-// número). O título perde um ponto final. Puro: roda no isolate da importação.
+// G15.1 (D-150) — o numeral do capítulo como no livro: do título do capítulo no texto quando ele é só um número (o
+// Gutenberg põe "XXXII" num bloco logo antes de "Olhos de ressaca.") ou, sem ele, do rótulo do sumário ("XXXII. Olhos
+// de ressaca", "Capítulo 32 — Olhos de ressaca"). O número do rótulo só vale quando pelo menos metade dos capítulos tem
+// número no rótulo: num sumário sem números, "D. Gloria." (Dona Glória, cap. VII) não é o capítulo D. Romano só em
+// maiúsculas e válido ("CIVIL" não é número). O título perde um ponto final. Puro: roda no isolate da importação.
 
 /// O numeral (ou nada) e o título de uma entrada do sumário, como a tela 27 mostra.
 typedef TocLabel = ({String? numeral, String title});
@@ -24,19 +25,50 @@ final RegExp _alone = RegExp('^(?:$_prefix\\s+)?($_number)\\.?\$');
 
 final RegExp _spaces = RegExp(r'\s+');
 
-/// O numeral e o título da entrada de rótulo [label]. [textNumeral] = o numeral lido no texto na importação (só existe
-/// quando o rótulo não tem); o rótulo que já começa por ele não o repete no título.
-TocLabel tocLabel(String label, {String? textNumeral}) {
+/// O numeral e o título da entrada de rótulo [label]. [textNumeral] = o numeral lido no texto na importação, que vale
+/// primeiro; o rótulo que começa por ele não o repete no título. [fromLabel] = o número do rótulo vale neste livro
+/// (ver [tocLabels]).
+TocLabel tocLabel(String label, {String? textNumeral, bool fromLabel = true}) {
   final t = label.replaceAll(_spaces, ' ').trim();
-  final m = _prefixed.firstMatch(t) ?? _numbered.firstMatch(t);
-  if (m != null) return (numeral: m.group(1), title: tocTitle(m.group(2)!));
+  final m = _labelMatch(t);
   if (textNumeral != null) {
+    if (m != null && m.group(1) == textNumeral) {
+      return (numeral: textNumeral, title: tocTitle(m.group(2)!));
+    }
     final rest = t.startsWith('$textNumeral ')
         ? t.substring(textNumeral.length + 1)
         : t;
     return (numeral: textNumeral, title: tocTitle(rest));
   }
+  if (m != null && fromLabel) {
+    return (numeral: m.group(1), title: tocTitle(m.group(2)!));
+  }
   return (numeral: null, title: tocTitle(t));
+}
+
+RegExpMatch? _labelMatch(String t) =>
+    _prefixed.firstMatch(t) ?? _numbered.firstMatch(t);
+
+/// Uma entrada do sumário para [tocLabels]: o rótulo, o numeral lido no texto e se é capítulo (folha — D-93).
+typedef TocLabelEntry = ({String title, String? textNumeral, bool leaf});
+
+/// Os numerais e os títulos de um sumário inteiro: o número do rótulo só vale quando pelo menos metade dos capítulos
+/// tem número no rótulo.
+List<TocLabel> tocLabels(List<TocLabelEntry> entries) {
+  var leaves = 0;
+  var numbered = 0;
+  for (final e in entries) {
+    if (!e.leaf) continue;
+    leaves++;
+    if (_labelMatch(e.title.replaceAll(_spaces, ' ').trim()) != null) {
+      numbered++;
+    }
+  }
+  final fromLabel = leaves > 0 && numbered * 2 >= leaves;
+  return [
+    for (final e in entries)
+      tocLabel(e.title, textNumeral: e.textNumeral, fromLabel: fromLabel),
+  ];
 }
 
 /// O título como a folha mostra: espaços juntados e um ponto final a menos ("…", "!" e "?" ficam).
