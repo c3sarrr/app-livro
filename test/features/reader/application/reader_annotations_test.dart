@@ -650,6 +650,91 @@ void main() {
     expect(g.highlightsIn(doc.current.shown!).map((h) => h.id), [novo]);
   });
 
+  test('G17 (D-173): a mesa da sessão — os de seleção e os à mão que tocam o trecho, com altura, grupo e data', () async {
+    final shown = doc.current.shown!;
+    Annotation grifo(
+      int n,
+      ReaderRange r, {
+      required AnnotationSource fonte,
+      required DateTime em,
+      FillHeight? altura,
+      HighlightStyle estilo = HighlightStyle.fill,
+    }) => Annotation(
+      id: idTeste(n),
+      meta: metaTeste(em: em),
+      userBookId: livro.userBookId,
+      kind: AnnotationKind.highlight,
+      source: fonte,
+      groupId: idTeste(n + 50),
+      anchor: EpubAnchor(
+        sha: livro.index.contentSha256,
+        spine: r.unit,
+        start: r.from,
+        end: r.to,
+        quote: const TextQuote(exact: 'x'),
+        refPage: 1,
+      ),
+      refPage: 1,
+      chapterIndex: 0,
+      color: '#FED170',
+      style: estilo,
+      fillHeight: altura,
+    );
+    final t = DateTime.utc(2026, 9, 1);
+    final dao = AnnotationsDao(livro.db);
+    // à mão, Baixa, nas 3 primeiras palavras (o mais novo)
+    await dao.upsert(
+      grifo(
+        1,
+        palavras(3),
+        fonte: AnnotationSource.ink,
+        em: t.add(const Duration(minutes: 2)),
+        altura: FillHeight.low,
+      ),
+    );
+    // de seleção, sublinhado, encostado no começo do trecho (acaba onde ele começa): entra — a D-32 une os que
+    // encostam
+    await dao.upsert(
+      grifo(
+        2,
+        (unit: shown.unit, from: shown.from - 4, to: shown.from),
+        fonte: AnnotationSource.selection,
+        em: t,
+        estilo: HighlightStyle.underline,
+      ),
+    );
+    // longe do trecho: fica fora
+    await dao.upsert(
+      grifo(
+        3,
+        (unit: shown.unit, from: shown.from - 40, to: shown.from - 30),
+        fonte: AnnotationSource.selection,
+        em: t,
+      ),
+    );
+    await pumpEventQueue();
+    final mesa = g.deskIn(shown);
+    expect(mesa.map((h) => h.id), [idTeste(2), idTeste(1)]);
+    final (sel, mao) = (mesa[0], mesa[1]);
+    expect(
+      (sel.unit, sel.start, sel.end, sel.ink, sel.style, sel.height),
+      (
+        shown.unit,
+        shown.from - 4,
+        shown.from,
+        false,
+        HighlightStyle.underline,
+        null,
+      ),
+    );
+    final r = palavras(3);
+    expect(
+      (mao.start, mao.end, mao.ink, mao.height, mao.color, mao.groupId),
+      (r.from, r.to, true, FillHeight.low, '#FED170', idTeste(51)),
+    );
+    expect(mao.createdAt, t.add(const Duration(minutes: 2)));
+  });
+
   test('só avisa o pintor quando as linhas mudam; os grifos do trecho ficam guardados até lá', () async {
     final a = await g.addHighlight(
       palavras(2),

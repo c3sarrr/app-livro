@@ -23,6 +23,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math' as math;
+import 'dart:ui' show Color;
 
 import 'package:flutter/foundation.dart';
 
@@ -34,17 +35,21 @@ import '../annotations/ink/card_groups.dart';
 import '../annotations/ink/drawing_anchor.dart';
 import '../annotations/ink/drawing_clusters.dart';
 import '../annotations/ink/freehand.dart';
+import '../annotations/domain/highlight_band.dart';
 import '../annotations/ink/gesture_arbiter.dart';
+import '../annotations/ink/highlight_desk.dart';
 import '../annotations/ink/ink_changes.dart';
 import '../annotations/ink/ink_commands.dart';
 import '../annotations/ink/ink_geometry.dart';
 import '../annotations/ink/ink_stroke.dart';
 import '../annotations/ink/ink_tools.dart';
 import '../annotations/ink/ink_units.dart';
+import '../annotations/ink/marker_snap.dart';
 import '../annotations/ink_repository.dart';
 import '../domain/anchoring.dart' show quoteAt;
 import '../domain/locator.dart';
 import '../layout/display_page.dart' show ReaderRange;
+import '../presentation/page_marks.dart' show PaintedHighlight;
 import 'annotation_anchors.dart';
 import 'reader_errors.dart';
 
@@ -104,6 +109,14 @@ final class LiveStroke extends LiveInk {
   final InkStroke stroke;
 }
 
+/// O traço do Marca-texto, ao vivo (R20): a linha dos pontos, na largura da faixa da altura e na cor dele a 90 %.
+final class LiveMarker extends LiveInk {
+  const LiveMarker(this.stroke);
+
+  /// Ferramenta 3, a largura em centésimos de mm (D-159) e a cor com o alfa de 90 %.
+  final InkStroke stroke;
+}
+
 /// A prévia da Reta (2 pontos, já grudada).
 final class LiveLine extends LiveInk {
   const LiveLine(this.stroke);
@@ -159,7 +172,7 @@ final class LassoSelection {
       Object.hash(Object.hashAllUnordered(strokes), bounds, dx, dy);
 }
 
-enum _Mode { pen, line, erase, lasso, move }
+enum _Mode { pen, line, erase, lasso, move, marker }
 
 void _nothing() {}
 
@@ -183,7 +196,9 @@ final class AnnotationSession extends ChangeNotifier {
     this.savePresets = _noSave,
     this.textShift = annotationTextShift,
     String? draftId,
+    List<DeskHighlight>? deskHighlights,
   }) : _pen = presets,
+       _hasDesk = deskHighlights != null,
        _now = now ?? DateTime.now,
        _ids = ids ?? UuidV7Generator(),
        _draftId = draftId ?? UuidV7Generator().next(),
@@ -204,7 +219,11 @@ final class AnnotationSession extends ChangeNotifier {
         ),
       );
     }
-    _copy = InkWorkingCopy(initial);
+    _copy = InkWorkingCopy(
+      initial,
+      HighlightDesk(List.unmodifiable(deskHighlights ?? const [])),
+    );
+    _initialDesk = _copy.desk;
     _history = InkHistory(_copy);
     _armDraft();
   }
@@ -233,6 +252,11 @@ final class AnnotationSession extends ChangeNotifier {
   /// Grava o `pen_presets` (a espessura vale para todos os livros).
   final Future<void> Function(PenPresets presets) savePresets;
   final List<PageHighlight> _highlights;
+
+  /// A tela passou os grifos da página (G17): a mesa decide o que se pinta, o que a Borracha alcança e o que o
+  /// Concluir grava (D-173).
+  final bool _hasDesk;
+  late final HighlightDesk _initialDesk;
 
   final InkGestureArbiter _arbiter = InkGestureArbiter();
   late final InkWorkingCopy _copy;
@@ -368,6 +392,41 @@ final class AnnotationSession extends ChangeNotifier {
     ..._pendingHighlights,
   };
 
+  /// A mesa de grifos de agora (D-173).
+  HighlightDesk get desk => _copy.desk;
+
+  /// Os grifos de seleção que a página pinta, pela mesa (sem os que a Borracha está apagando); sem a mesa, `null` (a
+  /// tela pinta os dela).
+  List<PaintedHighlight>? get paintedHighlights => _painted(ink: false);
+
+  /// Os grifos à mão (a mancha da D-161), pela mesa.
+  List<PaintedHighlight>? get paintedInkHighlights => _painted(ink: true);
+
+  List<PaintedHighlight>? _painted({required bool ink}) => !_hasDesk
+      ? null
+      : [
+          for (final h in _copy.desk.items)
+            if (h.ink == ink && !_pendingHighlights.contains(h.id))
+              PaintedHighlight(
+                id: h.id,
+                range: (unit: h.unit, from: h.start, to: h.end),
+                color: Color(argbOfHex(h.color)),
+                style: h.style,
+                height: h.height ?? FillHeight.medium,
+              ),
+        ];
+
+  /// Quantos grifos de cada cor a sessão pôs ou tirou (as contagens da 23b — D-40).
+  Map<String, int> get countDelta {
+    final now = _copy.desk.counts();
+    final before = _initialDesk.counts();
+    return {
+      for (final c in {...now.keys, ...before.keys})
+        if ((now[c] ?? 0) != (before[c] ?? 0))
+          c: (now[c] ?? 0) - (before[c] ?? 0),
+    };
+  }
+
   // ---- entrada --------------------------------------------------------------------------------------------
 
   void pointerDown(InkPointer p) {
@@ -462,6 +521,12 @@ final class AnnotationSession extends ChangeNotifier {
           ..add(at);
         live.value = LiveLasso(UnmodifiableListView(_polygon));
       case AnnotationTool.marker:
+        _mode = _Mode.marker;
+        _size = _markerWidth(at);
+        _points
+          ..clear()
+          ..add(InkPoint(at.x, at.y, 0.5, 0));
+        live.value = LiveMarker(_markerStroke());
       case AnnotationTool.space:
         _mode = null;
     }
@@ -489,6 +554,11 @@ final class AnnotationSession extends ChangeNotifier {
           ),
         );
         live.value = LiveStroke(_liveStroke());
+      case _Mode.marker:
+        final last = _points.last;
+        if (last.x == at.x && last.y == at.y) return;
+        _points.add(InkPoint(at.x, at.y, 0.5, math.max(last.tMs, p.tMs - _t0)));
+        live.value = LiveMarker(_markerStroke());
       case _Mode.line:
         final start = _lineStart!;
         _lineEnd = snapLineEnd(start, at);
@@ -532,6 +602,10 @@ final class AnnotationSession extends ChangeNotifier {
             points: List.unmodifiable(_points),
           ),
         );
+        _points.clear();
+      case _Mode.marker:
+        live.value = null;
+        _markerEnd();
         _points.clear();
       case _Mode.line:
         live.value = null;
@@ -591,6 +665,7 @@ final class AnnotationSession extends ChangeNotifier {
     _mode = null;
     switch (mode) {
       case _Mode.pen:
+      case _Mode.marker:
         _points.clear();
         live.value = null;
       case _Mode.line:
@@ -610,6 +685,60 @@ final class AnnotationSession extends ChangeNotifier {
       case null:
         break;
     }
+  }
+
+  /// R20: a largura do marca-texto = a faixa da altura escolhida na letra da linha mais perto do toque.
+  double _markerWidth(InkOffset at) {
+    final lines = geometry.lines;
+    if (lines.isEmpty) return 0;
+    var best = lines.first;
+    for (final l in lines) {
+      if ((l.refY - at.y).abs() < (best.refY - at.y).abs()) best = l;
+    }
+    final (top, bottom) = fillBand(_pen.highlighterHeight);
+    return (bottom - top) * (best.textBottom - best.textTop);
+  }
+
+  /// O traço do Marca-texto: ferramenta 3, a cor dele a 90 % (como a mancha — D-161), a largura da faixa.
+  InkStroke _markerStroke() => InkStroke(
+    tool: InkTool.marker.code,
+    tip: 0,
+    argb: markerInkArgb(argbOfHex(_pen.highlighterColor)),
+    widthCentiMm: centiMmOfDp(_size),
+    points: List.unmodifiable(_points),
+  );
+
+  /// Ao soltar o Marca-texto (Anexo 03 §9.4): sobre palavras, os trechos grifados pela D-32 num passo só (R21, R23);
+  /// sem palavra, a tinta translúcida num desenho, como a caneta (R22).
+  void _markerEnd() {
+    final runs = markedRuns(
+      [for (final p in _points) (x: p.x, y: p.y)],
+      geometry,
+      textOf: anchors.textOf,
+    );
+    if (runs.isEmpty) {
+      _addStroke(_markerStroke());
+      return;
+    }
+    final before = _copy.desk;
+    var desk = before;
+    final at = _now().toUtc();
+    String? group;
+    for (final r in runs) {
+      final id = _ids.next();
+      group ??= id;
+      desk = desk.mark(
+        r,
+        color: _pen.highlighterColor,
+        style: _pen.highlighterStyle,
+        height: _pen.highlighterHeight,
+        id: id,
+        groupId: group,
+        at: at,
+        newId: _ids.next,
+      );
+    }
+    if (desk != before) _push(MarkHighlights(before: before, after: desk));
   }
 
   InkStroke _liveStroke() => InkStroke(
@@ -698,11 +827,8 @@ final class AnnotationSession extends ChangeNotifier {
       }
     }
     final erased = _copy.erasedHighlights;
-    for (final h in _highlights) {
-      // só tinta (D-168)
-      if (!h.ink ||
-          erased.contains(h.id) ||
-          _pendingHighlights.contains(h.id)) {
+    for (final h in _erasable()) {
+      if (erased.contains(h.id) || _pendingHighlights.contains(h.id)) {
         continue;
       }
       if (h.areas.any((r) => eraserTouchesRect(a, b, r))) {
@@ -711,6 +837,48 @@ final class AnnotationSession extends ChangeNotifier {
       }
     }
     if (changed) _repaint();
+  }
+
+  /// O que a Borracha alcança nos grifos: só os à mão (D-168). Com a mesa, os vivos dela — as caixas da tela para os
+  /// que não mudaram, as das palavras para os novos e os cortados; sem a mesa, os da tela.
+  Iterable<({String id, List<InkRect> areas})> _erasable() sync* {
+    if (!_hasDesk) {
+      for (final h in _highlights) {
+        if (h.ink) yield (id: h.id, areas: h.areas);
+      }
+      return;
+    }
+    final screen = {for (final h in _highlights) h.id: h};
+    for (final h in _copy.desk.items) {
+      if (!h.ink) continue;
+      final first = _initialDesk.byId(h.id);
+      final kept =
+          first != null && first.start == h.start && first.end == h.end;
+      final onScreen = screen[h.id];
+      yield (
+        id: h.id,
+        areas: kept && onScreen != null ? onScreen.areas : _areasOf(h),
+      );
+    }
+  }
+
+  /// As caixas das letras de [h] em cada linha da página.
+  List<InkRect> _areasOf(DeskHighlight h) {
+    final out = <InkRect>[];
+    for (final l in geometry.lines) {
+      if (l.unit != h.unit) continue;
+      double? left;
+      double? right;
+      for (final w in l.words) {
+        if (w.to <= h.start || w.from >= h.end) continue;
+        left = left == null ? w.left : math.min(left, w.left);
+        right = right == null ? w.right : math.max(right, w.right);
+      }
+      if (left != null && right != null) {
+        out.add(InkRect(left, l.textTop, right, l.textBottom));
+      }
+    }
+    return out;
   }
 
   /// O Laço de contorno [polygon] seleciona os traços com ≥ 50 % dos pontos dentro.

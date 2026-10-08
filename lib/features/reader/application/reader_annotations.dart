@@ -24,6 +24,7 @@ import '../../../core/data/model/nullable.dart';
 import '../../../core/data/model/record_meta.dart';
 import '../annotations/domain/annotation.dart';
 import '../annotations/domain/highlight_overlap.dart';
+import '../annotations/ink/highlight_desk.dart' show DeskHighlight;
 import '../domain/anchoring.dart';
 import '../domain/locator.dart';
 import '../layout/display_page.dart';
@@ -159,6 +160,37 @@ final class ReaderAnnotations extends ChangeNotifier
   /// Os grifos feitos à mão que tocam [shown] (D-161).
   List<PaintedHighlight> inkHighlightsIn(ReaderRange shown) =>
       _kept(_shownInk, shown, _rows.where(_ofInk));
+
+  /// A mesa de grifos do modo anotação (G17, D-173): os de seleção e os à mão que tocam ou encostam em [shown] (a
+  /// D-32 une os que encostam), no lugar de agora, na ordem de criação.
+  List<DeskHighlight> deskIn(ReaderRange shown) {
+    final out = <(Annotation, ReaderRange)>[];
+    for (final a in _rows) {
+      if (a.kind != AnnotationKind.highlight) continue;
+      if (a.anchor case EpubAnchor(:final spine) when spine != shown.unit) {
+        continue;
+      }
+      final r = placeOf(a);
+      if (r == null || r.from > shown.to || r.to < shown.from) continue;
+      out.add((a, r));
+    }
+    out.sort((x, y) => _older(x.$1, y.$1));
+    return List.unmodifiable([
+      for (final (a, r) in out)
+        DeskHighlight(
+          id: a.id,
+          unit: r.unit,
+          start: r.from,
+          end: r.to,
+          color: a.color!,
+          style: a.style!,
+          height: a.style == HighlightStyle.fill ? a.fillHeight : null,
+          ink: a.source == AnnotationSource.ink,
+          groupId: a.groupId,
+          createdAt: a.meta.createdAt,
+        ),
+    ]);
+  }
 
   List<PaintedHighlight> _kept(
     Map<ReaderRange, List<PaintedHighlight>> cache,

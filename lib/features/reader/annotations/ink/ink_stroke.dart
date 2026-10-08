@@ -39,6 +39,12 @@ String colorHex(int argb) =>
     '#${(argb & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}';
 
 /// A cor opaca de "#RRGGBB".
+/// O alfa da tinta do Marca-texto (90 %, como a mancha da D-161 — R22).
+const int markerInkAlpha = 0xE6;
+
+/// A cor [argb] com o alfa da tinta do Marca-texto.
+int markerInkArgb(int argb) => markerInkAlpha << 24 | (argb & 0xFFFFFF);
+
 int argbOfHex(String hex) =>
     0xFF000000 | int.parse(hex.substring(1), radix: 16);
 

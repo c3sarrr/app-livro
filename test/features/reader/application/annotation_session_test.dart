@@ -17,8 +17,10 @@ import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart'
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_commands.dart';
+import 'package:app_leitura/features/reader/annotations/ink/highlight_desk.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_units.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -173,11 +175,13 @@ void main() {
     double panLimit = 100,
     AnnotationAnchors? anchors,
     String draftId = 'sessao-1',
+    List<DeskHighlight>? desk,
   }) {
     final s = AnnotationSession(
       geometry: _geometry(),
       anchors: anchors ?? _Anchors(),
       draftId: draftId,
+      deskHighlights: desk,
       drawings: drawings,
       highlights: highlights,
       presets: presets ?? presetsTeste(),
@@ -728,6 +732,146 @@ void main() {
       await Future<void>.delayed(Duration.zero);
       expect(errors.single, isA<StateError>());
     });
+  });
+
+  group('Marca-texto (R20–R23, D-173)', () {
+    // a linha 0 na tela: a página desce 30 (o modo); "de" 89–109 e "ressaca" 115–190
+    const y0 = 100 - 8 + 30.0;
+    DeskHighlight grifo(
+      String id,
+      int start,
+      int end, {
+      bool mao = false,
+      String cor = '#FED170',
+    }) => DeskHighlight(
+      id: id,
+      unit: _unit,
+      start: start,
+      end: end,
+      color: cor,
+      style: HighlightStyle.fill,
+      height: FillHeight.medium,
+      ink: mao,
+      groupId: 'g-$id',
+      createdAt: DateTime.utc(2026, 9, 1),
+    );
+
+    test('ao vivo: ferramenta 3, a cor do marca-texto a 90 %, a largura da faixa Média da linha (R20)', () {
+      final s = open(desk: const [])..setTool(AnnotationTool.marker);
+      s.pointerDown(_touch(1, 90, y0, 0));
+      s.pointerMove(_touch(1, 120, y0, 8));
+      final live = s.live.value! as LiveMarker;
+      expect(live.stroke.tool, InkTool.marker.code);
+      expect(live.stroke.argb, 0xE6FED170);
+      // 80 % da caixa das letras (a linha inteira, 35,25, no teste)
+      expect(dpOfCentiMm(live.stroke.widthCentiMm), closeTo(0.8 * 35.25, 0.02));
+      expect(live.stroke.points.map((p) => (p.x, p.y)), [
+        (90.0, 92.0),
+        (120.0, 92.0),
+      ]);
+      s.pointerUp(_touch(1, 120, y0, 16));
+      expect(s.live.value, isNull);
+    });
+
+    test('ao soltar sobre "de ressaca": um grifo à mão nas palavras, um passo no desfazer, nenhum traço (R21, R23)', () {
+      final s = open(desk: const [])..setTool(AnnotationTool.marker);
+      draw(s, [(90, y0), (140, y0 + 3), (188, y0)]);
+      expect(s.drawings, isEmpty);
+      final h = s.desk.items.single;
+      expect(_text.substring(h.start, h.end), 'de ressaca');
+      expect(
+        (h.color, h.style, h.height, h.ink, h.groupId),
+        ('#FED170', HighlightStyle.fill, FillHeight.medium, true, h.id),
+      );
+      expect(s.paintedInkHighlights!.single.range, (
+        unit: _unit,
+        from: h.start,
+        to: h.end,
+      ));
+      expect(s.paintedHighlights, isEmpty);
+      expect(s.countDelta, {'#FED170': 1});
+      s.undo();
+      expect(s.desk.items, isEmpty);
+      expect(s.countDelta, isEmpty);
+      s.redo();
+      expect(s.desk.items.single, h);
+    });
+
+    test('no estilo e na cor do painel; com Alta, o traço mais largo', () {
+      final s = open(desk: const [])
+        ..setTool(AnnotationTool.marker)
+        ..setHighlighterColor('#FFC1C6')
+        ..setHighlighterStyle(HighlightStyle.wavy)
+        ..setHighlighterHeight(FillHeight.high);
+      s.pointerDown(_touch(1, 90, y0, 0));
+      expect(
+        dpOfCentiMm((s.live.value! as LiveMarker).stroke.widthCentiMm),
+        closeTo(35.25, 0.02),
+      );
+      s.pointerMove(_touch(1, 188, y0, 8));
+      s.pointerUp(_touch(1, 188, y0, 16));
+      final h = s.desk.items.single;
+      expect(
+        (h.color, h.style, h.height),
+        ('#FFC1C6', HighlightStyle.wavy, null),
+      );
+    });
+
+    test('na margem (sem palavra): a tinta translúcida num desenho, como a caneta (R22)', () {
+      final s = open(desk: const [])..setTool(AnnotationTool.marker);
+      draw(s, [(5, y0), (20, y0)]);
+      expect(s.desk.items, isEmpty);
+      final t = s.drawings.single.strokes.single.stroke;
+      expect((t.tool, t.argb), (InkTool.marker.code, 0xE6FED170));
+      expect(dpOfCentiMm(t.widthCentiMm), closeTo(0.8 * 35.25, 0.02));
+    });
+
+    test('a D-32 com um grifo de seleção amarelo: viram um só, o de seleção (D-173)', () {
+      final s = open(desk: [grifo('sel', 9, 16)])
+        ..setTool(AnnotationTool.marker);
+      draw(s, [(90, y0), (188, y0)]);
+      expect(s.desk.items, [grifo('sel', 6, 16)]);
+      expect(s.paintedHighlights!.single.range, (unit: _unit, from: 6, to: 16));
+      expect(s.paintedInkHighlights, isEmpty);
+      expect(s.countDelta, isEmpty);
+    });
+
+    test('a Borracha apaga o grifo novo do marca-texto; o desfazer devolve; o de seleção a Borracha não alcança', () {
+      final s = open(desk: [grifo('sel', 0, 5)])
+        ..setTool(AnnotationTool.marker);
+      draw(s, [(90, y0), (188, y0)]);
+      final novo = s.desk.items.last.id;
+      s.setTool(AnnotationTool.eraser);
+      // passa sobre "Olhos" (de seleção) e "ressaca" (o novo)
+      draw(s, [(40, y0), (150, y0)]);
+      expect(s.desk.items.map((h) => h.id), ['sel']);
+      expect(s.hiddenHighlights, contains(novo));
+      s.undo();
+      expect(s.desk.items.map((h) => h.id), ['sel', novo]);
+    });
+
+    test('a Borracha alcança o grifo à mão salvo pelas caixas da tela enquanto ele não muda', () {
+      final s = open(
+        desk: [grifo('mao', 6, 8, mao: true)],
+        highlights: [
+          (id: 'mao', ink: true, areas: const [InkRect(200, 80, 240, 100)]),
+        ],
+      )..setTool(AnnotationTool.eraser);
+      // nas palavras ("de"), longe da caixa da tela: nada
+      draw(s, [(90, y0), (105, y0)]);
+      expect(s.desk.items, hasLength(1));
+      draw(s, [(210, 90 + 30.0), (230, 90 + 30.0)]);
+      expect(s.desk.items, isEmpty);
+    });
+
+    test(
+      'sem a mesa (a tela não passou os grifos), a pintura fica com a tela',
+      () {
+        final s = open();
+        expect(s.paintedHighlights, isNull);
+        expect(s.paintedInkHighlights, isNull);
+      },
+    );
   });
 
   group('o que o Concluir grava', () {

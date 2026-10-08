@@ -5,8 +5,11 @@
 // - Desfazer e refazer valem para a sessão daquela página (D-165), com no máximo 100 passos: o mais antigo sai. Uma
 //   ação nova limpa o refazer.
 // - Os desenhos mexidos ficam marcados mesmo depois do desfazer: o Concluir compara cada um com o que foi lido.
+// - G17: a cópia guarda também a mesa de grifos (D-173); o traço do Marca-texto é um passo (`MarkHighlights`) e a
+//   Borracha tira da mesa os grifos à mão que apaga.
 import 'package:flutter/foundation.dart' show immutable, listEquals;
 
+import 'highlight_desk.dart';
 import 'ink_stroke.dart';
 
 /// Um traço da sessão: o id dele na sessão e o traço (coordenadas do leitor limpo).
@@ -75,10 +78,16 @@ final class SessionDrawing {
 
 /// A cópia de trabalho da página.
 final class InkWorkingCopy {
-  InkWorkingCopy(Iterable<SessionDrawing> drawings)
-    : _drawings = {for (final d in drawings) d.id: d};
+  InkWorkingCopy(
+    Iterable<SessionDrawing> drawings, [
+    this._desk = HighlightDesk.empty,
+  ]) : _drawings = {for (final d in drawings) d.id: d};
 
   final Map<String, SessionDrawing> _drawings;
+
+  /// Os grifos da página (G17, D-173).
+  HighlightDesk _desk;
+  HighlightDesk get desk => _desk;
   final Set<String> _erasedHighlights = {};
   final Set<String> _changed = {};
 
@@ -184,10 +193,14 @@ final class Erase extends InkCommand {
   final List<SessionDrawing> _before = [];
   final Set<String> _added = {};
 
+  HighlightDesk? _deskBefore;
+
   @override
   void apply(InkWorkingCopy w) {
     _before.clear();
     _added.clear();
+    _deskBefore = w._desk;
+    w._desk = w._desk.erase(highlightIds);
     for (final d in w.drawings) {
       if (!d.strokes.any((s) => strokeIds.contains(s.id))) continue;
       _before.add(d);
@@ -212,7 +225,23 @@ final class Erase extends InkCommand {
       w._put(d);
     }
     w._erasedHighlights.removeAll(_added);
+    w._desk = _deskBefore ?? w._desk;
   }
+}
+
+/// Um traço do Marca-texto que virou grifo (G17, D-173): a mesa de antes e a de depois (o grifo e o que a D-32 cortou
+/// ou uniu voltam juntos no desfazer).
+final class MarkHighlights extends InkCommand {
+  MarkHighlights({required this.before, required this.after});
+
+  final HighlightDesk before;
+  final HighlightDesk after;
+
+  @override
+  void apply(InkWorkingCopy w) => w._desk = after;
+
+  @override
+  void revert(InkWorkingCopy w) => w._desk = before;
 }
 
 /// O Laço moveu os traços [strokeIds] de ([dx], [dy]): eles saem dos desenhos deles e formam o desenho novo

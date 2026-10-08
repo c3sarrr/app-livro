@@ -95,6 +95,8 @@ final class _Line {
       em = b.em,
       top = b.rect.top,
       bottom = b.rect.bottom,
+      textTop = b.textTop,
+      textBottom = b.textBottom,
       left = b.rect.left,
       right = b.rect.right;
 
@@ -102,6 +104,8 @@ final class _Line {
   final double em;
   double top;
   double bottom;
+  double textTop;
+  double textBottom;
   double left;
   double right;
   final List<InkWord> words = [];
@@ -109,6 +113,8 @@ final class _Line {
   void add(TextLineBox b) {
     top = math.min(top, b.rect.top);
     bottom = math.max(bottom, b.rect.bottom);
+    textTop = math.min(textTop, b.textTop);
+    textBottom = math.max(textBottom, b.textBottom);
     left = math.min(left, b.rect.left);
     right = math.max(right, b.rect.right);
   }
@@ -139,5 +145,7 @@ final class _Line {
     left: left,
     right: right,
     words: List.unmodifiable(words),
+    textTop: textTop,
+    textBottom: textBottom,
   );
 }

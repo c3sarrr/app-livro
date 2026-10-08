@@ -68,9 +68,14 @@ ui.Path _smoothPolygon(List<Vec> pts) {
   return path..close();
 }
 
-/// Pinta [strokes] na ordem, cada um na cor e no alpha com que foi feito (D-59).
+/// Pinta [strokes] na ordem, cada um na cor e no alpha com que foi feito (D-59). O Marca-texto (R22): a linha dos
+/// pontos na largura dele, com as pontas redondas, multiplicada (como a mancha da D-161).
 void paintInk(ui.Canvas canvas, List<InkStroke> strokes) {
   for (final s in strokes) {
+    if (InkTool.fromCode(s.tool) == InkTool.marker) {
+      _paintMarker(canvas, s);
+      continue;
+    }
     canvas.drawPath(
       inkPath(s),
       ui.Paint()
@@ -79,6 +84,34 @@ void paintInk(ui.Canvas canvas, List<InkStroke> strokes) {
     );
   }
 }
+
+/// A linha dos pontos de [s].
+ui.Path markerLine(InkStroke s) {
+  final path = ui.Path();
+  final pts = s.points;
+  if (pts.isEmpty) return path;
+  path.moveTo(pts.first.x, pts.first.y);
+  if (pts.length == 1) {
+    // um toque: um ponto na largura do traço
+    path.lineTo(pts.first.x, pts.first.y);
+  }
+  for (final p in pts.skip(1)) {
+    path.lineTo(p.x, p.y);
+  }
+  return path;
+}
+
+void _paintMarker(ui.Canvas canvas, InkStroke s) => canvas.drawPath(
+  markerLine(s),
+  ui.Paint()
+    ..style = ui.PaintingStyle.stroke
+    ..strokeWidth = dpOfCentiMm(s.widthCentiMm)
+    ..strokeCap = ui.StrokeCap.round
+    ..strokeJoin = ui.StrokeJoin.round
+    ..color = ui.Color(s.argb)
+    ..blendMode = ui.BlendMode.multiply
+    ..isAntiAlias = true,
+);
 
 /// Os desenhos de cada página gravados num `ui.Picture`, pela página e pela revisão da tinta.
 final class InkPictureCache {

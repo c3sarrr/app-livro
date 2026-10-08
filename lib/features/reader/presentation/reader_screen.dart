@@ -798,6 +798,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               ],
             ),
         ],
+        // G17 (D-173): a mesa — os grifos que tocam a página, para o Marca-texto passar pela D-32
+        deskHighlights: notes.deskIn(shown),
         presets: presets,
         repository: repo,
         owner: owner,

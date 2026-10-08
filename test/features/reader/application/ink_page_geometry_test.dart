@@ -89,8 +89,9 @@ final class _Estilos implements DisplayPage {
             109,
           ),
           baseline: 100,
-          textTop: 74,
-          textBottom: 109,
+          // a caixa das letras (G17, R21): o itálico mais alto e mais fundo que o normal
+          textTop: a == 5 ? 79 : 81,
+          textBottom: a == 5 ? 106 : 104,
           em: 20.5,
         ),
   ];
@@ -124,6 +125,16 @@ void main() {
       (from: 3, to: 7, left: 58.0, right: 98.0),
       (from: 8, to: 11, left: 108.0, right: 138.0),
     ]);
+    // G17 (R21): a altura das letras da linha junta as caixas (a de cima mais alta, a de baixo mais funda); a da
+    // linha continua a das caixas inteiras
+    expect((l.textTop, l.textBottom), (79.0, 106.0));
+    expect((l.top, l.bottom), (74.0, 109.0));
+  });
+
+  test('G17 (R21): só com caixas normais, a altura das letras é a delas', () {
+    final g = inkGeometryOf(_Quebrada());
+    expect((g.lines[0].textTop, g.lines[0].textBottom), (74.0, 109.0));
+    expect((g.lines[1].textTop, g.lines[1].textBottom), (109.0, 144.0));
   });
 
   test(

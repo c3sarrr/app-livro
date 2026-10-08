@@ -70,7 +70,10 @@ final class InkLine {
     required this.left,
     required this.right,
     required this.words,
-  });
+    double? textTop,
+    double? textBottom,
+  }) : textTop = textTop ?? top,
+       textBottom = textBottom ?? bottom;
 
   final int unit;
   final int from;
@@ -82,6 +85,11 @@ final class InkLine {
   final double left;
   final double right;
   final List<InkWord> words;
+
+  /// A faixa das letras (o topo e a base da caixa do texto, sem o respiro da entrelinha): a altura do marca-texto
+  /// (R20). Sem ela, a linha inteira.
+  final double textTop;
+  final double textBottom;
 
   /// O ponto de referência da linha (§2): 0,25 em acima da linha de base, o meio da letra pequena.
   double get refY => baseline - 0.25 * em;
@@ -98,6 +106,8 @@ final class InkLine {
       other.em == em &&
       other.left == left &&
       other.right == right &&
+      other.textTop == textTop &&
+      other.textBottom == textBottom &&
       listEquals(other.words, words);
 
   @override
@@ -112,6 +122,8 @@ final class InkLine {
     left,
     right,
     Object.hashAll(words),
+    textTop,
+    textBottom,
   );
 }
 

@@ -7,7 +7,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 
-import '../annotations/domain/annotation.dart' show HighlightStyle;
+import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
 import '../layout/display_page.dart';
 
 /// Um grifo pronto para pintar.
@@ -18,6 +18,7 @@ final class PaintedHighlight {
     required this.range,
     required this.color,
     required this.style,
+    this.height = FillHeight.medium,
   });
 
   final String id;
@@ -25,16 +26,20 @@ final class PaintedHighlight {
   final ui.Color color;
   final HighlightStyle style;
 
+  /// A altura do fundo (D-172); no sublinhado e no ondulado, não conta.
+  final FillHeight height;
+
   @override
   bool operator ==(Object other) =>
       other is PaintedHighlight &&
       other.id == id &&
       other.range == range &&
       other.color == color &&
-      other.style == style;
+      other.style == style &&
+      other.height == height;
 
   @override
-  int get hashCode => Object.hash(id, range, color, style);
+  int get hashCode => Object.hash(id, range, color, style, height);
 }
 
 /// Quem sabe os grifos de um trecho mostrado (o `ReaderAnnotations`; nos testes, uma lista).

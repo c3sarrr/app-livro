@@ -325,15 +325,16 @@ class AnnotationPagePainter extends CustomPainter {
       ..save()
       ..clipRect(pageBox)
       ..translate(0, session.textShift * enter.value + pan.value);
+    // com a mesa (G17), os grifos vêm da sessão: o marca-texto e a D-32 aparecem antes do Concluir
     paintTextPage(
       canvas,
       page,
       highlights: [
-        for (final h in highlights)
+        for (final h in session.paintedHighlights ?? highlights)
           if (!hidden.contains(h.id)) h,
       ],
       inkHighlights: [
-        for (final h in inkHighlights)
+        for (final h in session.paintedInkHighlights ?? inkHighlights)
           if (!hidden.contains(h.id)) h,
       ],
       lightText: lightText,
@@ -399,7 +400,9 @@ class AnnotationLivePainter extends CustomPainter {
       ..clipRect(pageBox)
       ..translate(0, session.textShift * enter.value + pan.value);
     switch (live) {
-      case LiveStroke(:final stroke) || LiveLine(:final stroke):
+      case LiveStroke(:final stroke) ||
+          LiveLine(:final stroke) ||
+          LiveMarker(:final stroke):
         paintInk(canvas, [stroke]);
       case LiveLasso(:final polygon):
         if (polygon.length > 1) {
