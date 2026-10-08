@@ -586,6 +586,7 @@ Mundo _construir() {
     DateTime em, {
     int? linhas,
     DesenhoDoMundo? desenho,
+    ({String strokesB64, int strokeCount})? nota,
   }) => InkLayer(
     id: _id('tinta/$nome', em),
     meta: _meta(em),
@@ -593,8 +594,8 @@ Mundo _construir() {
     kind: tipo,
     anchor: desenho == null ? ancora : inkLayerAnchor(ancora, desenho.w),
     spaceLines: linhas,
-    strokesB64: desenho?.strokesB64 ?? '',
-    strokeCount: desenho?.emEm.length ?? 0,
+    strokesB64: desenho?.strokesB64 ?? nota?.strokesB64 ?? '',
+    strokeCount: desenho?.emEm.length ?? nota?.strokeCount ?? 0,
   );
 
   final hoje = _sp(9, 20, 19, 41);
@@ -617,6 +618,8 @@ Mundo _construir() {
     ),
     hoje.add(const Duration(minutes: 4)),
     linhas: 3, // "↕ 3 linhas" (tela 24)
+    // G18 (R15): a tinta da 24b, na unidade da caixa
+    nota: notaAMaoDoMundo,
   );
   final ondulado = camada(
     'ondulado-fluido-misterioso',

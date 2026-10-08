@@ -4,13 +4,15 @@
 // o risco em 34×12, a onda completa (a largura toda do trecho; a prancha mostra 66 %, ainda sendo desenhada) e as 2
 // barras como Reta —; depois vai para a moldura em em do trecho (o início dele na linha de base da prancha, a letra de
 // 20,5 — os 30 px do modo saem dos dois lados) e para o BNK1 (pressão 0,5; larguras pela D-159: 2,3 → 125; 1,8 → 98;
-// 2,2 → 120; 2,4 → 131).
+// 2,2 → 120; 2,4 → 131). G18 (R15): a nota à mão da 24b (`nota_mao_ressaca.svg`) na unidade da caixa.
+import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' show Offset, Rect;
 
 import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_units.dart';
+import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 
 import '../reference/leitor/reference_layout_22_modo_anotacao.dart';
 
@@ -298,6 +300,103 @@ final DesenhoDoMundo desenhoDoDuplo = _desenho(
       ),
   ],
 );
+
+// ---- G18 (R15) — a nota à mão da 24b ---------------------------------------------------------------------------
+
+/// O arquivo da tinta da nota (`handoff_v2/referencia/svg_tinta/nota_mao_ressaca.svg`, o mesmo do HTML da L24b).
+const String arquivoDaNotaAMao =
+    'handoff_v2/referencia/svg_tinta/nota_mao_ressaca.svg';
+
+/// O SVG desenha numa caixa de 334×150 dentro do `<svg width="100%" height="150">` da caixa — 331 de largura por
+/// dentro da borda —; com o `preserveAspectRatio` padrão (meet, no meio), a escala é 331/334 e sobram 0,674 em cima.
+const double larguraDaTintaDaNota = 331;
+const double escalaDaNotaAMao = larguraDaTintaDaNota / 334;
+const double sobraDaNotaAMao = (150 - 150 * escalaDaNotaAMao) / 2;
+
+/// Os caminhos (`d`) dos `<path>` do arquivo, na ordem, e o círculo da íris (centro e raio).
+({List<String> caminhos, Offset centro, double raio}) caminhosDaNotaAMao() {
+  final svg = File(arquivoDaNotaAMao).readAsStringSync();
+  final caminhos = [
+    for (final m in RegExp(r'<path d="([^"]+)"').allMatches(svg)) m.group(1)!,
+  ];
+  final c = RegExp(r'<circle cx="([\d.]+)" cy="([\d.]+)" r="([\d.]+)"')
+      .firstMatch(svg)!;
+  return (
+    caminhos: caminhos,
+    centro: Offset(double.parse(c.group(1)!), double.parse(c.group(2)!)),
+    raio: double.parse(c.group(3)!),
+  );
+}
+
+/// Cada `M` de um caminho começa um traço (as letras escritas sem tirar a caneta).
+List<String> tracosDoCaminho(String d) => [
+  for (final m in RegExp(r'M[^M]+').allMatches(d)) m.group(0)!.trim(),
+];
+
+/// A íris cheia do arquivo (um círculo de 7,5) como a caneta faz: uma espiral de traço 2,2 do contorno de dentro até
+/// o centro, com passo de 2 (cobre o círculo sem falhas). Coordenadas do SVG.
+List<Offset> espiralDaIris(Offset centro, double raio) {
+  const largura = 2.2;
+  const passoDaVolta = 2.0;
+  final r0 = raio - largura / 2;
+  final voltas = r0 / passoDaVolta;
+  final out = <Offset>[];
+  const porVolta = 96;
+  final n = (voltas * porVolta).ceil();
+  for (var k = 0; k <= n; k++) {
+    final a = 2 * math.pi * k / porVolta;
+    final r = math.max(0.0, r0 - passoDaVolta * k / porVolta);
+    out.add(centro + Offset(math.cos(a) * r, math.sin(a) * r));
+  }
+  return out;
+}
+
+/// Um ponto do SVG da nota em px por dentro da borda da caixa (o canto de cima à esquerda da tinta).
+Offset naCaixaDaNota(Offset svg) => Offset(
+  svg.dx * escalaDaNotaAMao,
+  sobraDaNotaAMao + svg.dy * escalaDaNotaAMao,
+);
+
+/// Os traços da nota da 24b na unidade dela (x = fração da largura, y = linhas de 42 — `note_ink.dart`): cada
+/// subcaminho amostrado a cada 0,5 px, a íris como espiral; caneta coral de 2,2 px, pressão 0,5.
+List<InkStroke> tracosDaNotaAMao() {
+  final (:caminhos, :centro, :raio) = caminhosDaNotaAMao();
+  final linhas = <List<Offset>>[
+    for (final d in caminhos)
+      for (final t in tracosDoCaminho(d))
+        amostrarCaminho(
+          t,
+          origem: const Offset(0, sobraDaNotaAMao),
+          sx: escalaDaNotaAMao,
+          sy: escalaDaNotaAMao,
+        ),
+    [for (final p in espiralDaIris(centro, raio)) naCaixaDaNota(p)],
+  ];
+  return [
+    for (final l in linhas)
+      InkStroke(
+        tool: InkTool.pen.code,
+        tip: 0,
+        argb: tintaCoral,
+        widthCentiMm: centiMmOfDp(2.2),
+        points: [
+          for (var i = 0; i < l.length; i++)
+            InkPoint(
+              l[i].dx / larguraDaTintaDaNota,
+              l[i].dy / noteLinePx,
+              0.5,
+              4 * i,
+            ),
+        ],
+      ),
+  ];
+}
+
+/// A nota da 24b em BNK1 (unidade `box`) e quantos traços.
+final ({String strokesB64, int strokeCount}) notaAMaoDoMundo = () {
+  final t = tracosDaNotaAMao();
+  return (strokesB64: encodeStrokesB64(t, Bnk1Unit.box), strokeCount: t.length);
+}();
 
 /// A distância do ponto [p] ao segmento [a]–[b] (os testes conferem a tinta contra o caminho do arquivo).
 double distanciaAoSegmento(Offset p, Offset a, Offset b) {

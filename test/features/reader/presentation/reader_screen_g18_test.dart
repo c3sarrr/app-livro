@@ -18,6 +18,7 @@ import '../../../support/canvas.dart';
 import '../../../support/dados_t20.dart' show depsDaTela20;
 import '../../../support/dados_t22.dart';
 import '../../../support/dados_t23.dart';
+import '../../../support/dados_t24.dart';
 import '../../../support/load_fonts.dart';
 import '../../../support/pump_reader.dart';
 import '../../../support/reader_harness.dart';
@@ -187,4 +188,39 @@ void main() {
     );
     h2.dispose();
   });
+
+  testWidgets(
+    'a tela 24 pelo mundo (R15): o Espaço e o dedo parado 3 linhas abaixo da fresta',
+    (tester) async {
+      final (_, dedo) = await abrirTela24(tester, livro);
+      final s = sessaoNaTela(tester);
+      expect(s.tool, AnnotationTool.space);
+      expect(s.opening.value!.lines, 3);
+      expect(
+        tester.getRect(_key('ann.page.spaceOpener')).top,
+        closeTo(418.08, 0.5),
+      );
+      await dedo.up();
+      await tester.pump();
+      expect(s.notes.single.lines, 3);
+    },
+  );
+
+  testWidgets(
+    'a tela 24b pelo mundo (R15): a nota salva de 3 linhas, com a tinta do arquivo, e a Caneta',
+    (tester) async {
+      final mundo = await livroDaTela24b();
+      addTearDown(mundo.close);
+      await abrirTela24b(tester, mundo);
+      final s = sessaoNaTela(tester);
+      final nota = s.notes.single;
+      expect((nota.lines, nota.collapsed), (3, false));
+      expect(nota.strokes, isNotEmpty);
+      expect(
+        tester.getRect(_key('ann.page.handNote')).top,
+        closeTo(434.08, 0.5),
+      );
+      expect(tester.getRect(_key('ann.page.handNote')).height, 150);
+    },
+  );
 }

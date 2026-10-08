@@ -7,7 +7,13 @@ import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/ids/uuid_v7.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation_stats.dart';
+import 'package:app_leitura/features/reader/annotations/domain/ink_layer.dart';
+import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_units.dart';
+import 'package:app_leitura/features/reader/annotations/space/note_ink.dart';
+import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:drift/native.dart';
@@ -31,6 +37,7 @@ import 'telas/t26.dart';
 import 'telas/t26b.dart';
 import 'telas/t27.dart';
 import 'telas/t27b.dart';
+import 'tinta_do_mundo.dart';
 
 void main() {
   final m = mundoReferencia;
@@ -527,8 +534,63 @@ void main() {
           (espaco.anchor as EpubAnchor).quote.prefix,
           endsWith('Vá, de ressaca.'),
         );
+        // D-187: a prancha já está na Caneta
+        expect(t24b.ferramenta, FerramentaDeAnotacao.caneta);
       },
     );
+
+    test('24b (R15): a tinta da nota é a do arquivo, coral 2,2, na unidade da caixa (±0,5 px)', () {
+      final espaco = t24b.tintaNaPagina.singleWhere(
+        (c) => c.kind == InkLayerKind.space,
+      );
+      final tracos = decodeStrokesB64(espaco.strokesB64, Bnk1Unit.box);
+      expect(espaco.strokeCount, tracos.length);
+      final (:caminhos, :centro, :raio) = caminhosDaNotaAMao();
+      final subcaminhos = [for (final d in caminhos) ...tracosDoCaminho(d)];
+      // um traço por subcaminho e a íris
+      expect(tracos, hasLength(subcaminhos.length + 1));
+      for (final s in tracos) {
+        expect(
+          (s.tool, s.argb, s.widthCentiMm),
+          (InkTool.pen.code, tintaCoral, centiMmOfDp(2.2)),
+        );
+      }
+      // cada ponto do 1º traço ("r" de "ressaca") perto do caminho do arquivo levado à caixa
+      final numeros = RegExp(r'-?\d+\.?\d*')
+          .allMatches(subcaminhos.first)
+          .map((m) => double.parse(m.group(0)!))
+          .toList();
+      final linha = [
+        for (var i = 0; i + 1 < numeros.length; i += 2)
+          naCaixaDaNota(Offset(numeros[i], numeros[i + 1])),
+      ];
+      for (final p in tracos.first.points) {
+        final px = Offset(p.x * larguraDaTintaDaNota, p.y * noteLinePx);
+        expect(distanciaALinha(px, linha), lessThan(0.5));
+      }
+      // a íris enche o círculo: o último ponto no centro, o primeiro no contorno de dentro
+      final iris = tracos.last.points;
+      final c = naCaixaDaNota(centro);
+      expect(
+        (Offset(iris.last.x * larguraDaTintaDaNota, iris.last.y * noteLinePx) -
+                c)
+            .distance,
+        lessThan(0.5),
+      );
+      expect(
+        (Offset(
+                  iris.first.x * larguraDaTintaDaNota,
+                  iris.first.y * noteLinePx,
+                ) -
+                c)
+            .distance,
+        closeTo((raio - 1.1) * escalaDaNotaAMao, 0.5),
+      );
+      // a menor caixa que contém a tinta tem 3 linhas: a 2ª onda desce até 106,3 px, passando da 2ª pauta (106) — a
+      // alça não sobe dali (D-186)
+      expect(inkBottomPx(tracos), closeTo(106.3, 0.1));
+      expect(minLinesFor(tracos), 3);
+    });
 
     test('23: caneta esferográfica · 1,2 mm · coral (padrões); 26/26b: Creme e Noite', () {
       expect(t23.mundo.caneta.penWidthMm, 1.2);

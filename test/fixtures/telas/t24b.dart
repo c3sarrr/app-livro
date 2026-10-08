@@ -8,5 +8,6 @@ final InstantaneoDoLeitor t24b = InstantaneoDoLeitor(
   modo: ModoDoLeitor.anotacao,
   anotacoesNaPagina: anotacoesDaPagina159(mundoReferencia),
   tintaNaPagina: mundoReferencia.camadas,
-  ferramenta: FerramentaDeAnotacao.espaco,
+  // G18 (D-187): depois de soltar o arrasto, a Caneta (a prancha escreve na caixa)
+  ferramenta: FerramentaDeAnotacao.caneta,
 );
