@@ -40,7 +40,7 @@ import '../../../app/routes.dart';
 import '../../../core/preferences/brand_preference.dart';
 import '../../shell/presentation/main_shell.dart';
 import '../annotations/domain/annotation.dart' show HighlightStyle;
-import '../annotations/ink/ink_geometry.dart' show InkRect;
+import '../annotations/ink/ink_commands.dart' show SessionNote, SessionStroke;
 import '../annotations/ink_repository.dart';
 import '../application/annotation_session.dart';
 import '../application/ink_page_geometry.dart';
@@ -62,8 +62,8 @@ import 'annotation_mode.dart';
 import 'book_search_panel.dart';
 import 'bottom_island.dart';
 import 'highlight_toolbar.dart';
-import 'ink_painter.dart' show handHighlightBoxes;
 import 'labels_sheet.dart';
+import 'mode_page_source.dart';
 import 'note_sheet.dart';
 import 'other_color_sheet.dart';
 import 'page_marks.dart' show PaintedHighlight;
@@ -827,51 +827,55 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       }
       final highlights = notes.highlightsIn(shown);
       final inkHighlights = notes.inkHighlightsIn(shown);
+      // G18 (R3): a página do modo refeita com os espaços, do mesmo começo até o pé da tela (só o EPUB)
+      final spaced = switch (doc) {
+        final SpacedDocument d => d,
+        _ => null,
+      };
+      final pageSource = spaced == null
+          ? null
+          : ModePageSource(
+              document: spaced,
+              base: page,
+              contentHeight: modeContentHeight(
+                screenHeight: MediaQuery.sizeOf(context).height,
+                textTop: c.insets.top,
+                lineHeight: spaced.typography.lineHeight,
+              ),
+              highlights: highlights,
+              inkHighlights: inkHighlights,
+            );
       final session = AnnotationSession(
         geometry: geometry,
         anchors: anchors,
         drawings: ink.drawingsOn(page),
-        highlights: [
-          for (final h in highlights)
-            (
-              id: h.id,
-              ink: false,
-              areas: [
-                for (final b in page.boxesOf(
-                  h.range.unit,
-                  h.range.from,
-                  h.range.to,
-                ))
-                  InkRect(b.rect.left, b.textTop, b.rect.right, b.textBottom),
-              ],
-            ),
-          for (final h in inkHighlights)
-            (
-              id: h.id,
-              ink: true,
-              // a mancha (o fundo); o sublinhado e o ondulado à mão, pela caixa das letras (R23)
-              areas: h.style == HighlightStyle.fill
-                  ? [
-                      for (final (:box, color: _) in handHighlightBoxes(page, [
-                        h,
-                      ]))
-                        InkRect(box.left, box.top, box.right, box.bottom),
-                    ]
-                  : [
-                      for (final b in page.boxesOf(
-                        h.range.unit,
-                        h.range.from,
-                        h.range.to,
-                      ))
-                        InkRect(
-                          b.rect.left,
-                          b.textTop,
-                          b.rect.right,
-                          b.textBottom,
-                        ),
-                    ],
-            ),
+        highlights: highlightAreasOn(page, highlights, inkHighlights),
+        pageSource: pageSource,
+        page: page,
+        // as notas à mão da página e os espaços do resto do capítulo (o layout de baixo os leva em conta)
+        notes: [
+          if (pageSource != null)
+            for (final n in ink.notesOn(page))
+              SessionNote(
+                id: n.id,
+                unit: n.unit,
+                at: n.at,
+                lines: n.lines,
+                collapsed: n.collapsed,
+                strokes: [for (final x in n.strokes) SessionStroke(0, x)],
+                createdAt: n.createdAt,
+                saved: (
+                  layerId: n.id,
+                  annotationId: n.annotationId,
+                  createdAt: n.createdAt,
+                  groupId: n.groupId,
+                ),
+              ),
         ],
+        otherCuts: spaced == null
+            ? const []
+            : ink.cutsOf(shown.unit, spaced.typography),
+        lineHeight: spaced?.typography.lineHeight,
         // G17 (D-173): a mesa — os grifos que tocam a página, para o Marca-texto passar pela D-32
         deskHighlights: notes.deskIn(shown),
         presets: presets,
@@ -891,6 +895,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       setState(() {
         _ann = _Annotating(
           session: session,
+          pageSource: pageSource,
           page: page,
           highlights: highlights,
           inkHighlights: inkHighlights,
@@ -951,6 +956,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _labelsOpen = false;
     setState(() => _ann = null);
     a.session.dispose();
+    a.pageSource?.dispose();
     _holdBack();
     _systemUi(
       immersive:
@@ -970,7 +976,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _ann = null;
     _annOpen = false;
     _labelsOpen = false;
-    unawaited(a.session.toBackground().whenComplete(a.session.dispose));
+    unawaited(
+      a.session.toBackground().whenComplete(() {
+        a.session.dispose();
+        a.pageSource?.dispose();
+      }),
+    );
   }
 
   void _showToast(String text) {
@@ -1593,6 +1604,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 final class _Annotating {
   _Annotating({
     required this.session,
+    required this.pageSource,
     required this.page,
     required this.highlights,
     required this.inkHighlights,
@@ -1601,6 +1613,9 @@ final class _Annotating {
   });
 
   final AnnotationSession session;
+
+  /// As páginas do modo com os espaços (G18), descartadas quando o modo acaba; `null` no PDF.
+  final ModePageSource? pageSource;
   final DisplayPage page;
   final List<PaintedHighlight> highlights, inkHighlights;
 

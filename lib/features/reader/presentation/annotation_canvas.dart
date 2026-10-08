@@ -88,7 +88,7 @@ class AnnotationCanvas extends StatefulWidget {
   /// A entrada (0 → 1) e a saída (1 → 0) do modo: o texto desce e sobe os 30 px junto (220 ms — a camada anima).
   final Animation<double> enter;
 
-  /// A página aberta, do leitor limpo (o layout fica travado no modo).
+  /// A página aberta, do leitor limpo (o layout fica travado no modo); com os espaços, a da sessão (`session.page`).
   final DisplayPage page;
 
   /// A caixa `ann.page` na tela: só as linhas que caem nela aparecem.
@@ -351,10 +351,11 @@ class AnnotationPagePainter extends CustomPainter {
       ..save()
       ..clipRect(pageBox)
       ..translate(0, session.textShift * enter.value + pan.value);
-    // com a mesa (G17), os grifos vêm da sessão: o marca-texto e a D-32 aparecem antes do Concluir
+    // com a mesa (G17), os grifos vêm da sessão: o marca-texto e a D-32 aparecem antes do Concluir; G18: a página com
+    // os espaços, quando a sessão a refez (R3)
     paintTextPage(
       canvas,
-      page,
+      session.page ?? page,
       highlights: [
         for (final h in session.paintedHighlights ?? highlights)
           if (!hidden.contains(h.id)) h,

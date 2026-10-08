@@ -10,6 +10,8 @@
 // o painel dela (telas 23 e 23b — R1, R2); o resto vai direto à sessão.
 // G17: com um painel aberto, o véu e o painel ficam entre a página (e o topo) e a prateleira, que continua viva com a
 // ilha por cima (R4); o véu e o painel aparecem e somem em 150 ms (R5).
+// G18: a página pintada é a da sessão (refeita com os espaços — R3); com a fonte dela, o Espaço fica ativo e a pílula
+// diz "Arraste entre as linhas" (R4); no arrasto, o abridor (tela 24) sobre a página, 30 px abaixo como o texto.
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -31,6 +33,7 @@ import 'reader_page_view.dart' show readerTurnCurve, readerTurnDuration;
 import 'reader_palette.dart';
 import 'marker_panel.dart';
 import 'pen_panel.dart';
+import 'space_opener.dart';
 import 'tool_panel_frame.dart';
 import 'tool_shelf.dart';
 
@@ -50,6 +53,9 @@ const double toolShelfAboveIsland = 68;
 
 /// O subtítulo da pílula na Caneta (L22b nº 6).
 const String annotationHint = '2 dedos movem a página';
+
+/// O subtítulo da pílula no Espaço (L24 nº 4 — R4).
+const String annotationSpaceHint = 'Arraste entre as linhas';
 
 /// A pílula da falha ao salvar (D-21).
 const String annotationSaveFailed = 'Não deu para salvar as anotações agora.';
@@ -77,6 +83,8 @@ class AnnotationMode extends StatefulWidget {
   /// `false` = saindo (anima e chama [onExited]).
   final bool open;
   final AnnotationSession session;
+
+  /// A página aberta, do leitor limpo; com os espaços, o modo mostra a da sessão (`session.page`).
   final DisplayPage page;
   final ReaderPaper paper;
   final Color brand;
@@ -304,7 +312,7 @@ class _AnnotationModeState extends State<AnnotationMode>
       ),
     );
     return AnimatedBuilder(
-      animation: Listenable.merge([_text, _frame, _panel, s]),
+      animation: Listenable.merge([_text, _frame, _panel, s, s.opening]),
       child: canvas,
       builder: (context, canvas) {
         final a = _frame.value;
@@ -315,6 +323,8 @@ class _AnnotationModeState extends State<AnnotationMode>
         final shown = _shown;
         final pa = a * _panel.value;
         final message = s.failed ? annotationSaveFailed : widget.toast;
+        final opening = s.opening.value;
+        final openerArea = s.openerArea;
         return IgnorePointer(
           key: const ValueKey('ann.mode'),
           // entrando, saindo ou gravando (o que viesse agora não entraria na gravação)
@@ -328,6 +338,20 @@ class _AnnotationModeState extends State<AnnotationMode>
               child: Stack(
                 children: [
                   Positioned.fill(child: canvas!),
+                  // o abridor (tela 24): sobre a página, onde o texto está (30 px abaixo, com o deslocamento)
+                  if (opening != null && openerArea != null)
+                    Positioned.fill(
+                      child: SpaceOpener(
+                        area: openerArea.shift(
+                          Offset(0, s.textShift * _enter.value + s.panOffset),
+                        ),
+                        lines: opening.lines,
+                        fingerX: opening.finger.x,
+                        colors: widget.paper == ReaderPaper.noite
+                            ? OpenerColors.nightOf(widget.brand)
+                            : OpenerColors.paper,
+                      ),
+                    ),
                   Positioned(
                     left: 0,
                     right: 0,
@@ -341,7 +365,9 @@ class _AnnotationModeState extends State<AnnotationMode>
                     right: 14,
                     top: top,
                     child: AnnotationTopBar(
-                      subtitle: annotationHint,
+                      subtitle: s.tool == AnnotationTool.space
+                          ? annotationSpaceHint
+                          : annotationHint,
                       onDone: widget.onDone,
                     ),
                   ),

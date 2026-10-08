@@ -263,7 +263,8 @@ final class AnnotationSession extends ChangeNotifier {
       HighlightDesk(List.unmodifiable(deskHighlights ?? const [])),
       pageNotes,
     );
-    _cutsSignature = spaceSignature(_cuts());
+    _cutsSignature = _baseSignature = spaceSignature(_cuts());
+    _basePage = _page;
     _initialDesk = _copy.desk;
     _history = InkHistory(_copy);
     live.addListener(() {
@@ -337,6 +338,11 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// A assinatura dos espaços da página de agora (refaz a página quando ela muda).
   String _cutsSignature = '';
+
+  /// A página com que a sessão começou e os espaços dela: sem mudança de espaço, é ela que o modo mostra (a de hoje —
+  /// as telas 22 e 23 não mudam).
+  late final DisplayPage? _basePage;
+  late final String _baseSignature;
 
   /// O arrasto do Espaço: a fresta, onde o dedo começou e se o abridor já apareceu.
   SpaceSeam? _seam;
@@ -624,7 +630,10 @@ final class AnnotationSession extends ChangeNotifier {
     final signature = spaceSignature(cuts);
     if (signature == _cutsSignature) return;
     _cutsSignature = signature;
-    final next = source.pageWith(cuts);
+    final base = _basePage;
+    final next = base != null && signature == _baseSignature
+        ? base
+        : source.pageWith(cuts);
     final old = _geometry;
     final shifts = <String, ({double dx, double dy})?>{};
     ({double dx, double dy})? shift(String id, List<SessionStroke> strokes) =>

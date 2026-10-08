@@ -297,6 +297,7 @@ void main() {
 
     test('ao soltar: a nota aberta com as linhas do arrasto, um passo, e a Caneta volta', () {
       final s = abrir();
+      final inicial = s.page;
       final y = fresta(s);
       final nota = abrirNota(s);
       expect(
@@ -312,13 +313,7 @@ void main() {
       expect(e.rect.top, closeTo(y + noteFlowHeight(3), 1e-3));
       s.undo();
       expect(s.notes, isEmpty);
-      expect(
-        caixas(s.page!, 'É o que').first.rect.top,
-        closeTo(
-          caixas(fonte.pageWith(const []), 'É o que').first.rect.top,
-          1e-6,
-        ),
-      );
+      expect(s.page, same(inicial));
     });
 
     test('um toque sem arrastar, acima da 1ª linha ou dentro de uma nota não abre nada (R2, R5)', () {
@@ -342,15 +337,19 @@ void main() {
 
     test('2 dedos durante o arrasto: o abridor some e a página volta', () {
       final s = abrir();
+      final inicial = s.page;
       s.setTool(AnnotationTool.space);
       final y = fresta(s);
       arrastar(s, [y + 2, y + 80], soltar: false);
       expect(s.opening.value, isNotNull);
+      expect(s.page, isNot(same(inicial)));
       s.pointerDown(_touch(2, 100, y + 200, 50));
       s.pointerMove(_touch(2, 100, y + 220, 58));
       s.pointerMove(_touch(1, 200, y + 130, 58));
       expect(s.opening.value, isNull);
-      expect(fonte.pedidos.last, isEmpty);
+      // sem espaço, a página de começo (a de hoje — as telas 22 e 23 não mudam), sem pedir outra à fonte
+      expect(s.page, same(inicial));
+      expect(fonte.pedidos.where((c) => c.isEmpty), hasLength(1));
       s.pointerUp(_touch(1, 200, y + 130, 70));
       s.pointerUp(_touch(2, 100, y + 220, 70));
       expect(s.notes, isEmpty);

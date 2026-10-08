@@ -4,6 +4,8 @@
 // prateleira; as ferramentas (o Espaço avisa); a semântica.
 // G17: o 2º toque e o poço abrem os painéis (R1, R2), o véu só fecha (R3), a prateleira e a ilha vivas (R4), 150 ms
 // (R5) e o marca-texto na cor dele (R28).
+// G18: com a fonte da página, o Espaço fica ativo sem o aviso, com o subtítulo "Arraste entre as linhas" (R4); o
+// abridor aparece sobre a página no arrasto (30 px abaixo, com o deslocamento); a página pintada é a da sessão (R3).
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -13,12 +15,15 @@ import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
+import 'package:app_leitura/features/reader/application/annotation_page_source.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/display_page.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_mode.dart';
 import 'package:app_leitura/features/reader/presentation/ink_latency_meter.dart';
+import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:app_leitura/features/reader/presentation/tool_shelf.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -75,8 +80,13 @@ final class _Anchors implements AnnotationAnchors {
       (refPage: 159, chapterIndex: 31);
 }
 
-final class _Pagina implements DisplayPage {
+final class _Pagina implements DisplayPage, PageWithSpaces {
+  _Pagina([this.spaces = const []]);
+
   final ty = <double>[];
+
+  @override
+  final List<PageSpace> spaces;
 
   @override
   void paint(ui.Canvas canvas) => ty.add(canvas.getTransform()[13]);
@@ -103,6 +113,28 @@ final class _Pagina implements DisplayPage {
   List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
   @override
   String textOf(int unit, int from, int to) => '';
+}
+
+/// A fonte da página do modo: cada espaço vira um bloco logo abaixo da 1ª linha (109,25), da altura dele.
+final class _Fonte implements AnnotationPageSource {
+  final paginas = <_Pagina>[];
+  var descartada = false;
+
+  @override
+  DisplayPage pageWith(List<SpaceCut> cuts) {
+    final p = _Pagina([
+      for (final c in cuts)
+        (id: c.id, rect: Rect.fromLTWH(28, 109.25, 334, c.height)),
+    ]);
+    paginas.add(p);
+    return p;
+  }
+
+  @override
+  List<PageHighlight> highlightsOn(DisplayPage page) => const [];
+
+  @override
+  void dispose() => descartada = true;
 }
 
 final class _Parado implements Timer {
@@ -158,6 +190,7 @@ void main() {
     String? aviso,
     bool assentar = true,
     InkLatencyMeter? medidor,
+    AnnotationPageSource? fonte,
   }) async {
     tester.view
       ..devicePixelRatio = 3
@@ -184,9 +217,11 @@ void main() {
       startTimer: (_, _) => _Parado(),
       // a falha ao salvar vai ao relatório (aqui, uma lista)
       onError: (e, _) => erros.add(e),
+      pageSource: fonte,
+      page: fonte == null ? null : pagina = _Pagina(),
     );
     vivas.add(sessao);
-    pagina = _Pagina();
+    if (fonte == null) pagina = _Pagina();
     eventos = [];
     await tester.pumpWidget(
       MediaQuery.fromView(
@@ -607,4 +642,106 @@ void main() {
       h.dispose();
     },
   );
+
+  group('G18: o Espaço (R3, R4)', () {
+    InkPointer dedo(double y, int t) => (
+      id: 1,
+      kind: InkPointerKind.touch,
+      x: 221.72,
+      y: y,
+      pressure: 1,
+      tMs: t,
+    );
+
+    // a fresta abaixo da 1ª linha (109,25) e o topo da área (14 abaixo); a tela soma os 30 px do modo
+    const fresta = 109.25 + 30;
+    const topo = 109.25 + 14;
+
+    testWidgets(
+      'com a fonte, o Espaço fica ativo sem o aviso e a pílula diz "Arraste entre as linhas"; as outras, "2 dedos…"',
+      (tester) async {
+        await montar(tester, fonte: _Fonte());
+        String subtitulo() => tester
+            .widgetList<AppText>(
+              find.descendant(
+                of: chave('ann.modePill'),
+                matching: find.byType(AppText),
+              ),
+            )
+            .map((t) => t.span.toPlainText())
+            .last;
+        expect(subtitulo(), annotationHint);
+        await tester.tap(chave('ann.toolShelf.space'));
+        await tester.pump();
+        expect(sessao.tool, AnnotationTool.space);
+        expect(eventos, isEmpty, reason: 'sem o aviso da D-163');
+        expect(subtitulo(), annotationSpaceHint);
+        expect(annotationSpaceHint, 'Arraste entre as linhas');
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pump();
+        expect(subtitulo(), annotationHint);
+      },
+    );
+
+    testWidgets(
+      'o arrasto mostra o abridor sobre a página (30 abaixo, com as linhas); ao soltar, a nota e a Caneta',
+      (tester) async {
+        final fonte = _Fonte();
+        await montar(tester, fonte: fonte);
+        await tester.tap(chave('ann.toolShelf.space'));
+        await tester.pump();
+        expect(find.byType(SpaceOpener), findsNothing);
+        sessao
+          ..pointerDown(dedo(fresta + 2, 0))
+          ..pointerMove(dedo(fresta + 20, 8))
+          ..pointerMove(dedo(topo + 3 * 35.25 - 2 + 30, 16));
+        await tester.pump();
+        final abridor = tester.widget<SpaceOpener>(find.byType(SpaceOpener));
+        expect(abridor.lines, 3);
+        expect(abridor.fingerX, 221.72);
+        expect(abridor.colors, OpenerColors.paper);
+        final area = r(tester, 'ann.page.spaceOpener');
+        expect(area.left, 28);
+        expect(area.top, closeTo(topo + 30, 1e-9));
+        expect(area.height, closeTo(3 * 35.25 - 2, 1e-9));
+        // a página pintada é a da sessão (com o abridor)
+        expect(fonte.paginas.last.ty, isNotEmpty);
+        // o dedo andou sem mudar as linhas: o abridor segue o x, a página não é refeita
+        final feitas = fonte.paginas.length;
+        sessao.pointerMove((
+          id: 1,
+          kind: InkPointerKind.touch,
+          x: 120,
+          y: topo + 3 * 35.25 + 30,
+          pressure: 1,
+          tMs: 24,
+        ));
+        await tester.pump();
+        expect(
+          tester.widget<SpaceOpener>(find.byType(SpaceOpener)).fingerX,
+          120,
+        );
+        expect(fonte.paginas, hasLength(feitas));
+        sessao.pointerUp(dedo(topo + 3 * 35.25 + 30, 32));
+        await tester.pump();
+        expect(find.byType(SpaceOpener), findsNothing);
+        expect(sessao.notes.single.lines, 3);
+        expect(sessao.tool, AnnotationTool.pen);
+      },
+    );
+
+    testWidgets('Noite (R14): o abridor com as cores do Noite', (tester) async {
+      await montar(tester, fonte: _Fonte(), papel: ReaderPaper.noite);
+      await tester.tap(chave('ann.toolShelf.space'));
+      await tester.pump();
+      sessao
+        ..pointerDown(dedo(fresta + 2, 0))
+        ..pointerMove(dedo(fresta + 40, 8));
+      await tester.pump();
+      expect(
+        tester.widget<SpaceOpener>(find.byType(SpaceOpener)).colors,
+        OpenerColors.night,
+      );
+    });
+  });
 }

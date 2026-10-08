@@ -252,18 +252,18 @@ void main() {
   });
 
   testWidgets(
-    'G17: o Espaço avisa e a ferramenta continua (D-163); o poço e o 2º toque abrem o painel; o Voltar fecha o painel antes de concluir; o Marca-texto e a Borracha trocam',
+    'G17: o Espaço fica ativo no EPUB (G18; o aviso da D-163 era até a G17); o poço e o 2º toque abrem o painel; o Voltar fecha o painel antes de concluir; o Marca-texto e a Borracha trocam',
     (tester) async {
       setCanvasView(tester, logical: const Size(390, 844));
       await abrirLeitor(tester, livro);
       await _anotar(tester);
       await tester.tap(_key('ann.toolShelf.space'));
       await tester.pump();
-      expect(_aviso(tester), readerSoonText);
-      expect(_sessao(tester).tool, AnnotationTool.pen);
-      await tester.pump(const Duration(seconds: 2));
-      await tester.pump();
       expect(_aviso(tester), isNull);
+      expect(_sessao(tester).tool, AnnotationTool.space);
+      await tester.tap(_key('ann.toolShelf.pen'));
+      await tester.pump();
+      expect(_sessao(tester).tool, AnnotationTool.pen);
       // o poço abre o painel da caneta (R2); o Voltar fecha só o painel (R3, D-42 por camadas)
       await tester.tap(_key('ann.island.colorWell'));
       await _quadros(tester, 20);

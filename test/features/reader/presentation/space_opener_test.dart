@@ -221,6 +221,23 @@ void main() {
     expect(p.fingerDash, AppColors.ink);
     const n = OpenerColors.night;
     expect(n.line, AppColors.lavender);
+    // R14: a costura, as bolinhas, o rastro e o tracejado na `brand` de quem lê
+    final outra = OpenerColors.nightOf(const Color(0xFF7FB8A4));
+    expect(outra.line, const Color(0xFF7FB8A4));
+    expect(
+      (
+        outra.hatch,
+        outra.hatchGap,
+        outra.finger,
+        outra.fingerDash,
+        outra.chip,
+        outra.chipText,
+      ),
+      (n.hatch, n.hatchGap, n.finger, n.fingerDash, n.chip, n.chipText),
+    );
+    expect(OpenerColors.nightOf(AppColors.lavender), n);
+    expect(OpenerColors.nightOf(AppColors.lavender).hashCode, n.hashCode);
+    expect(outra, isNot(n));
     expect(n.hatchGap, const Color(0xE61F1B17));
     expect(n.fingerDash, AppColors.inkNight);
     expect(linesLabel(1), '1 linha');

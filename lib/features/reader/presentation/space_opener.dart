@@ -47,7 +47,7 @@ final class OpenerColors {
     chipText: AppColors.paper,
   );
 
-  /// R14: a hachura lavanda sobre o papel do Noite; a costura e o rastro na `brand`; o chip claro.
+  /// R14: a hachura lavanda sobre o papel do Noite; a costura e o rastro na `brand` (aqui, a de fábrica); o chip claro.
   static const OpenerColors night = OpenerColors(
     line: AppColors.lavender,
     hatch: Color(0x52B6ACE4),
@@ -57,6 +57,32 @@ final class OpenerColors {
     chip: AppColors.inkNight,
     chipText: AppColors.ink,
   );
+
+  /// R14 com a `brand` [brand] de quem lê na costura, nas bolinhas, no rastro e no tracejado.
+  static OpenerColors nightOf(Color brand) => OpenerColors(
+    line: brand,
+    hatch: night.hatch,
+    hatchGap: night.hatchGap,
+    finger: night.finger,
+    fingerDash: night.fingerDash,
+    chip: night.chip,
+    chipText: night.chipText,
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      other is OpenerColors &&
+      other.line == line &&
+      other.hatch == hatch &&
+      other.hatchGap == hatchGap &&
+      other.finger == finger &&
+      other.fingerDash == fingerDash &&
+      other.chip == chip &&
+      other.chipText == chipText;
+
+  @override
+  int get hashCode =>
+      Object.hash(line, hatch, hatchGap, finger, fingerDash, chip, chipText);
 }
 
 /// "1 linha", "3 linhas".
