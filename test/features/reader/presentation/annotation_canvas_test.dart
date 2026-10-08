@@ -2,7 +2,8 @@
 // coordenadas do leitor limpo); a página é pintada 30 px abaixo e recortada na caixa `ann.page`; 2 dedos movem a
 // página até o limite e, soltando além dele, ela volta em 220 ms (D-165); o indicador de toque só com o dedo, centrado
 // nele, e só o anel na Borracha e no Laço (D-167 6); o Laço e a seleção tracejados; a borda de mesa no pé da tela,
-// sem receber toque; o rótulo da página para o leitor de tela.
+// sem receber toque; o rótulo da página para o leitor de tela. G17 (R26): no Noite, o marca-texto ao vivo vai na
+// folha, por trás e por cima do texto (D-133), e a caneta ao vivo pela D-174.
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -127,6 +128,18 @@ final class _Tela implements ui.Canvas {
 
   @override
   Object? noSuchMethod(Invocation invocation) => null;
+}
+
+/// Uma página que não pinta nada (para o registro de caminhos).
+final class _PaginaMuda implements DisplayPage {
+  @override
+  void paint(ui.Canvas canvas) {}
+  @override
+  ReaderRange? get shown => (unit: 4, from: 0, to: 27);
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
+  @override
+  Object? noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 AnnotationSession _sessao() => AnnotationSession(
@@ -414,6 +427,81 @@ void main() {
       tracos.computeMetrics().length,
       greaterThan(20),
       reason: 'tracejado',
+    );
+  });
+
+  group('G17 — o Noite ao vivo (R26, D-174)', () {
+    const letra = AppColors.bookTextNight;
+    InkPointer p(double x, double y, int t) =>
+        (id: 1, kind: InkPointerKind.touch, x: x, y: y, pressure: 1, tMs: t);
+
+    test('o marca-texto ao vivo: no Creme, a camada viva multiplica; no Noite, vai na folha, por trás e por cima do texto', () {
+      final s = _sessao()..setTool(AnnotationTool.marker);
+      addTearDown(s.dispose);
+      final pan = ValueNotifier<double>(0);
+      // sobre "de ressaca" (a linha de cima, 30 abaixo no modo)
+      s
+        ..pointerDown(p(90, 152, 0))
+        ..pointerMove(p(180, 152, 16));
+      expect(s.live.value, isA<LiveMarker>());
+      final creme = _Tela();
+      AnnotationLivePainter(
+        session: s,
+        pageBox: _caixa,
+        pan: pan,
+      ).paint(creme, const Size(390, 844));
+      expect(creme.caminhos.single.$2.blendMode, BlendMode.multiply);
+      final viva = _Tela();
+      AnnotationLivePainter(
+        session: s,
+        pageBox: _caixa,
+        pan: pan,
+        lightText: letra,
+      ).paint(viva, const Size(390, 844));
+      expect(viva.caminhos, isEmpty);
+      final fotos = InkPictureCache();
+      addTearDown(fotos.dispose);
+      AnnotationPagePainter folha() => AnnotationPagePainter(
+        session: s,
+        page: _PaginaMuda(),
+        pageBox: _caixa,
+        paper: AppColors.paperNight,
+        pan: pan,
+        pictures: fotos,
+        lightText: letra,
+      );
+      final tela = _Tela();
+      folha().paint(tela, const Size(390, 844));
+      expect(
+        [for (final (_, paint) in tela.caminhos) paint.blendMode],
+        [BlendMode.srcOver, BlendMode.difference],
+      );
+      // a folha do Noite repinta com o traço ao vivo
+      var avisos = 0;
+      folha().addListener(() => avisos++);
+      s.pointerMove(p(200, 152, 32));
+      expect(avisos, 1);
+      s.pointerUp(p(200, 152, 48));
+    });
+
+    test(
+      'D-174: a caneta quase preta ao vivo sai na cor das letras do Noite',
+      () {
+        final s = _sessao()..setPenColor('#1A1714');
+        addTearDown(s.dispose);
+        s
+          ..pointerDown(p(60, 300, 0))
+          ..pointerMove(p(120, 302, 16));
+        final noite = _Tela();
+        AnnotationLivePainter(
+          session: s,
+          pageBox: _caixa,
+          pan: ValueNotifier<double>(0),
+          lightText: letra,
+        ).paint(noite, const Size(390, 844));
+        expect(noite.caminhos.single.$2.color.toARGB32(), 0xFFE3D9C6);
+        s.pointerUp(p(120, 302, 32));
+      },
     );
   });
 

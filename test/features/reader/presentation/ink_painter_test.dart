@@ -365,4 +365,126 @@ void main() {
       expect(contraste, greaterThan(4.5), reason: 'a letra escura');
     });
   });
+
+  group('G17 — o Noite da tinta (D-174, R26)', () {
+    const letra = Color(0xFFE3D9C6);
+    InkStroke marca() => _traco(
+      [(30, 130), (110, 130)],
+      tool: InkTool.marker,
+      argb: 0xE6FED170,
+      largura: 870,
+    );
+
+    test('D-174: a tinta quase preta sai na cor das letras do Noite (o alpha fica); o roxo fica; no Creme, nada muda', () {
+      final noite = _Tela();
+      paintInk(noite, [
+        _traco(_reta, argb: 0xFF1A1714),
+        _traco(_reta, argb: 0xFF552CB7),
+        _traco(_reta, argb: 0x801A1714),
+      ], lightText: letra);
+      expect(
+        [for (final c in noite.caminhos) c.$2.toARGB32()],
+        [0xFFE3D9C6, 0xFF552CB7, 0x80E3D9C6],
+      );
+      final creme = _Tela();
+      paintInk(creme, [_traco(_reta, argb: 0xFF1A1714)]);
+      expect(creme.caminhos.single.$2.toARGB32(), 0xFF1A1714);
+      expect(inkArgbOn(0xFF1A1714, letra), 0xFFE3D9C6);
+      expect(inkArgbOn(0xFF1A1714, null), 0xFF1A1714);
+      expect(inkArgbOn(0xFFFF552E, letra), 0xFFFF552E);
+    });
+
+    test('Marca-texto: no Creme, multiplicado na cor a 90 %; no Noite (D-133), D em diferença por cima e D − cor por trás; a caneta não vai por trás', () {
+      final creme = _Tela();
+      paintInk(creme, [marca()]);
+      expect(creme.caminhos.single.$3, BlendMode.multiply);
+      expect(creme.caminhos.single.$2.toARGB32(), 0xE6FED170);
+      final frente = _Tela();
+      paintInk(frente, [marca()], lightText: letra);
+      expect(frente.caminhos.single.$3, BlendMode.difference);
+      expect(
+        frente.caminhos.single.$2.toARGB32(),
+        channelMax(letra, _amarelo).toARGB32(),
+      );
+      final atras = _Tela();
+      paintInkBehind(atras, [_traco(_reta), marca()], lightText: letra);
+      expect(atras.caminhos.single.$3, BlendMode.srcOver);
+      expect(
+        atras.caminhos.single.$2.toARGB32(),
+        channelMinus(channelMax(letra, _amarelo), _amarelo).toARGB32(),
+      );
+    });
+
+    test('Marca-texto no Noite, nos pixels: o fundo é a cor dele e a letra fica escura', () async {
+      const papel = Color(0xFF1F1B17);
+      final pagina = _Pagina(letra: letra);
+      final gravador = ui.PictureRecorder();
+      final canvas = Canvas(gravador)
+        ..drawRect(const Rect.fromLTWH(0, 0, 120, 160), Paint()..color = papel);
+      paintInkBehind(canvas, [marca()], lightText: letra);
+      pagina.paint(canvas);
+      paintInk(canvas, [marca()], lightText: letra);
+      final img = await gravador.endRecording().toImage(120, 160);
+      final bytes = (await img.toByteData())!;
+      img.dispose();
+      Color px(int x, int y) {
+        final i = (y * 120 + x) * 4;
+        return Color.fromARGB(
+          bytes.getUint8(i + 3),
+          bytes.getUint8(i),
+          bytes.getUint8(i + 1),
+          bytes.getUint8(i + 2),
+        );
+      }
+
+      final fundo = px(70, 130);
+      for (final (x, y) in [
+        (fundo.r, _amarelo.r),
+        (fundo.g, _amarelo.g),
+        (fundo.b, _amarelo.b),
+      ]) {
+        expect((x - y).abs() * 255, lessThanOrEqualTo(1), reason: 'o fundo');
+      }
+      expect(px(10, 10), papel);
+      final palavra = px(48, 130);
+      final contraste =
+          (_amarelo.computeLuminance() + 0.05) /
+          (palavra.computeLuminance() + 0.05);
+      expect(contraste, greaterThan(4.5), reason: 'a letra escura');
+    });
+
+    test('o cache separa o Creme, o Noite e a passada de trás; sem marca-texto, nada por trás', () {
+      final cache = InkPictureCache();
+      addTearDown(cache.dispose);
+      final p = _Pagina();
+      List<InkStroke> tinta() => [_traco(_reta), marca()];
+      final creme = cache.pictureOf(p, 1, tinta)!;
+      final noite = cache.pictureOf(p, 1, tinta, lightText: letra)!;
+      final atras = cache.pictureOf(
+        p,
+        1,
+        tinta,
+        lightText: letra,
+        behind: true,
+      )!;
+      expect({creme, noite, atras}, hasLength(3));
+      expect(cache.pictureOf(p, 1, tinta), same(creme));
+      expect(cache.pictureOf(p, 1, tinta, lightText: letra), same(noite));
+      expect(
+        cache.pictureOf(p, 1, tinta, lightText: letra, behind: true),
+        same(atras),
+      );
+      expect(creme.debugDisposed, isFalse);
+      expect(
+        cache.pictureOf(
+          _Pagina(),
+          1,
+          () => [_traco(_reta)],
+          lightText: letra,
+          behind: true,
+        ),
+        isNull,
+      );
+    });
+  });
 }

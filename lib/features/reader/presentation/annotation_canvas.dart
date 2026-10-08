@@ -258,6 +258,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
                     pan: _pan,
                     enter: widget.enter,
                     dragged: _dragged,
+                    lightText: widget.lightText,
                   ),
                 ),
               ),
@@ -303,7 +304,15 @@ class AnnotationPagePainter extends CustomPainter {
     this.lightText,
     this.highlights = const [],
     this.inkHighlights = const [],
-  }) : super(repaint: Listenable.merge([session, pan, enter]));
+  }) : super(
+         // no Noite, o Marca-texto ao vivo vai na folha (R26): ela repinta com o traço
+         repaint: Listenable.merge([
+           session,
+           pan,
+           enter,
+           if (lightText != null) session.live,
+         ]),
+       );
 
   final AnnotationSession session;
   final DisplayPage page;
@@ -321,6 +330,14 @@ class AnnotationPagePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.drawRect(Offset.zero & size, Paint()..color = paper);
     final hidden = session.hiddenHighlights;
+    final light = lightText;
+    // no Noite, o Marca-texto ao vivo é pintado aqui, por trás e por cima das letras (D-133 — R26)
+    final live = light == null
+        ? null
+        : switch (session.live.value) {
+            LiveMarker(:final stroke) => stroke,
+            _ => null,
+          };
     canvas
       ..save()
       ..clipRect(pageBox)
@@ -337,14 +354,29 @@ class AnnotationPagePainter extends CustomPainter {
         for (final h in session.paintedInkHighlights ?? inkHighlights)
           if (!hidden.contains(h.id)) h,
       ],
-      lightText: lightText,
+      lightText: light,
+      paintInkBehind: light == null
+          ? null
+          : (c) {
+              final picture = pictures.pictureOf(
+                session,
+                session.revision,
+                () => session.visibleStrokes,
+                lightText: light,
+                behind: true,
+              );
+              if (picture != null) c.drawPicture(picture);
+              if (live != null) paintInkBehind(c, [live], lightText: light);
+            },
       paintInkLayer: (c) {
         final picture = pictures.pictureOf(
           session,
           session.revision,
           () => session.visibleStrokes,
+          lightText: light,
         );
         if (picture != null) c.drawPicture(picture);
+        if (live != null) paintInk(c, [live], lightText: light);
       },
     );
     canvas.restore();
@@ -372,6 +404,7 @@ class AnnotationLivePainter extends CustomPainter {
     required this.pan,
     this.enter = kAlwaysCompleteAnimation,
     this.dragged,
+    this.lightText,
   }) : super(
          repaint: Listenable.merge([
            session.live,
@@ -390,6 +423,9 @@ class AnnotationLivePainter extends CustomPainter {
   /// contorno é refeito a cada quadro.
   final InkPictureCache? dragged;
 
+  /// As letras do Noite (R26): a tinta pela D-174; o Marca-texto ao vivo fica com a folha (D-133).
+  final Color? lightText;
+
   @override
   void paint(Canvas canvas, Size size) {
     final live = session.live.value;
@@ -399,11 +435,12 @@ class AnnotationLivePainter extends CustomPainter {
       ..save()
       ..clipRect(pageBox)
       ..translate(0, session.textShift * enter.value + pan.value);
+    final light = lightText;
     switch (live) {
-      case LiveStroke(:final stroke) ||
-          LiveLine(:final stroke) ||
-          LiveMarker(:final stroke):
-        paintInk(canvas, [stroke]);
+      case LiveStroke(:final stroke) || LiveLine(:final stroke):
+        paintInk(canvas, [stroke], lightText: light);
+      case LiveMarker(:final stroke):
+        if (light == null) paintInk(canvas, [stroke]);
       case LiveLasso(:final polygon):
         if (polygon.length > 1) {
           paintLassoShape(
@@ -422,6 +459,7 @@ class AnnotationLivePainter extends CustomPainter {
           sel.strokes,
           session.revision,
           () => session.selectedStrokes,
+          lightText: light,
         );
         if (picture != null) {
           canvas
@@ -433,7 +471,7 @@ class AnnotationLivePainter extends CustomPainter {
           paintInk(canvas, [
             for (final s in session.selectedStrokes)
               s.translated(sel.dx, sel.dy),
-          ]);
+          ], lightText: light);
         }
       }
       final f = sel.frame;
@@ -459,7 +497,8 @@ class AnnotationLivePainter extends CustomPainter {
       old.pageBox != pageBox ||
       !identical(old.pan, pan) ||
       !identical(old.enter, enter) ||
-      !identical(old.dragged, dragged);
+      !identical(old.dragged, dragged) ||
+      old.lightText != lightText;
 }
 
 /// O contorno do Laço e a seleção: lavanda a 35 % e o traço `#1A1714` de 1,7 tracejado 4/3.

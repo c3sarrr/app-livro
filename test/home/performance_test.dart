@@ -409,7 +409,7 @@ void main() {
       );
     });
 
-    test('AnnotationPagePainter e AnnotationLivePainter (sessão, página, caixa, papel, letras, grifos, deslocamento) — G16', () {
+    test('AnnotationPagePainter e AnnotationLivePainter (sessão, página, caixa, papel, letras, grifos, deslocamento) — G16, G17', () {
       AnnotationSession sessao() => AnnotationSession(
         geometry: InkPageGeometry.empty,
         anchors: _AncorasVazias(),
@@ -472,17 +472,20 @@ void main() {
         Rect pageBox = caixa,
         ValueListenable<double>? panOffset,
         ValueListenable<double>? entrada,
+        Color? lightText,
       }) => AnnotationLivePainter(
         session: session ?? s,
         pageBox: pageBox,
         pan: panOffset ?? pan,
         enter: entrada ?? kAlwaysCompleteAnimation,
+        lightText: lightText,
       );
       _expectRepaintsOnlyOnChange(vivo, {
         'session': () => vivo(session: outra),
         'pageBox': () => vivo(pageBox: const Rect.fromLTRB(28, 120, 362, 844)),
         'pan': () => vivo(panOffset: ValueNotifier<double>(0)),
         'enter': () => vivo(entrada: ValueNotifier<double>(1)),
+        'lightText': () => vivo(lightText: AppColors.bookTextNight),
       });
       // a sessão que muda por dentro e o deslocamento repintam a folha; o traço ao vivo e a seleção, a camada viva
       var folhas = 0;
@@ -494,6 +497,11 @@ void main() {
       s.live.value = const LiveLasso([]);
       expect(folhas, 2);
       expect(vivos, 2);
+      // G17 (R26): no Noite, a folha também repinta com o traço ao vivo (o marca-texto vai nela)
+      var noites = 0;
+      folha(lightText: AppColors.bookTextNight).addListener(() => noites++);
+      s.live.value = null;
+      expect(noites, 1);
     });
 
     test('TocProgressRingPainter (progresso) — G15', () {

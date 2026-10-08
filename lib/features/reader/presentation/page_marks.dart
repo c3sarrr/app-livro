@@ -1,7 +1,9 @@
 // G13.1 — o que a página pinta além do texto do livro (Anexo 03 §9.2, prancha 21): por trás das letras, o fundo
 // dos grifos, a seleção e a marca da busca; por cima, o sublinhado. Onde dois fundos se cruzam vale o de prioridade
 // maior (seleção > busca > grifo): o outro é recortado naquela linha. Com letras claras (o Noite), todo fundo usa a
-// técnica da D-127 (D-133). Nada de camada. G17: o fundo na altura de cada grifo (D-172) e o ondulado (R25).
+// técnica da D-127 (D-133). Nada de camada. G17: o fundo na altura de cada grifo (D-172), o ondulado (R25) e, no
+// Noite, as manchas dos grifos à mão recortam os fundos dos grifos na mesma linha (achado 17: a conta da D-133 uma
+// vez só onde eles se cruzam).
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -82,7 +84,8 @@ typedef MarkBand = ({
 });
 
 /// Os fundos da página: grifos de fundo, marca da busca e seleção, já recortados por prioridade. Com letras
-/// claras ([night]) as cores ficam opacas (a técnica da D-127 precisa da cor viva — D-133).
+/// claras ([night]) as cores ficam opacas (a técnica da D-127 precisa da cor viva — D-133). Os fundos dos grifos
+/// saem dos retângulos [cuts] que cruzam a linha deles (as manchas à mão no Noite — achado 17).
 List<MarkBand> backgroundBands(
   DisplayPage page, {
   List<PaintedHighlight> highlights = const [],
@@ -91,6 +94,7 @@ List<MarkBand> backgroundBands(
   ReaderRange? selection,
   ui.Color? selectionColor,
   bool night = false,
+  List<ui.Rect> cuts = const [],
 }) {
   ui.Color tone(ui.Color c, double a) => c.withValues(alpha: night ? 1 : a);
   final out = <MarkBand>[];
@@ -99,18 +103,28 @@ List<MarkBand> backgroundBands(
     final (top, bottom) = fillBand(h.height);
     for (final b in page.boxesOf(h.range.unit, h.range.from, h.range.to)) {
       final area = b.textBottom - b.textTop;
-      out.add((
-        left: b.rect.left,
-        right: b.rect.right,
-        top: b.textTop,
-        bottom: b.textBottom,
-        radius: highlightRadius,
-        clipTop: b.textTop + top * area,
-        clipBottom: b.textTop + bottom * area,
-        color: tone(h.color, highlightAlpha),
-        priority: 0,
-        line: b.rect.top,
-      ));
+      var pieces = [(b.rect.left, b.rect.right)];
+      for (final c in cuts) {
+        if (c.bottom <= b.textTop || c.top >= b.textBottom) continue;
+        pieces = [
+          for (final (l, r) in pieces) ...cutInterval(l, r, c.left, c.right),
+        ];
+      }
+      for (final (l, r) in pieces) {
+        if (r - l <= 0.01) continue;
+        out.add((
+          left: l,
+          right: r,
+          top: b.textTop,
+          bottom: b.textBottom,
+          radius: highlightRadius,
+          clipTop: b.textTop + top * area,
+          clipBottom: b.textTop + bottom * area,
+          color: tone(h.color, highlightAlpha),
+          priority: 0,
+          line: b.rect.top,
+        ));
+      }
     }
   }
   if (found != null && foundColor != null) {

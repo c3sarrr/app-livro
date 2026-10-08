@@ -8,11 +8,16 @@
 //   trecho — 5 px para os lados, de 3 px abaixo do topo da letra até 1 px acima da base —, a 90 % e multiplicada por
 //   cima do texto. Com letras claras (o Noite), a técnica da D-133: por trás vai D − cor e, por cima, D em diferença.
 //   G17 (R25): na altura do grifo (Baixa do meio da letra, Alta da letra toda) e só no fundo; o sublinhado e o
-//   ondulado à mão pintam como os da tela 21 (`paintUnderlines`).
+//   ondulado à mão pintam como os da tela 21 (`paintUnderlines`);
+// - G17 (R26): no Noite, a tinta translúcida do marca-texto pela D-133 (por trás D − cor, por cima D em diferença) e a
+//   tinta com contraste < 1,5 : 1 contra o papel do Noite na cor das letras (D-174); o cache separa o Creme, o Noite e
+//   a passada de trás.
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import '../../../core/design_system/color/hsv.dart' show contrastRatio;
+import '../../../core/design_system/tokens/app_colors.dart';
 import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
 import '../annotations/ink/freehand.dart';
 import '../annotations/ink/ink_stroke.dart';
@@ -71,20 +76,70 @@ ui.Path _smoothPolygon(List<Vec> pts) {
   return path..close();
 }
 
+/// D-174: abaixo deste contraste contra o papel do Noite, a tinta sai na cor das letras.
+const double nightInkMinContrast = 1.5;
+
+/// A cor com que a tinta [argb] é pintada: no Noite ([lightText] = a cor das letras), a que some no papel do Noite
+/// (contraste < 1,5 : 1 contra `#1F1B17`) sai na cor das letras, com o alpha dela (D-174); senão, a dela.
+int inkArgbOn(int argb, ui.Color? lightText) {
+  final light = lightText;
+  if (light == null ||
+      contrastRatio(argb | 0xFF000000, AppColors.paperNight.toARGB32()) >=
+          nightInkMinContrast) {
+    return argb;
+  }
+  return (argb & 0xFF000000) | (light.toARGB32() & 0x00FFFFFF);
+}
+
+bool _isMarker(InkStroke s) => InkTool.fromCode(s.tool) == InkTool.marker;
+
 /// Pinta [strokes] na ordem, cada um na cor e no alpha com que foi feito (D-59). O Marca-texto (R22): a linha dos
-/// pontos na largura dele, com as pontas redondas, multiplicada (como a mancha da D-161).
-void paintInk(ui.Canvas canvas, List<InkStroke> strokes) {
+/// pontos na largura dele, com as pontas redondas, multiplicada (como a mancha da D-161); com letras claras
+/// ([lightText], o Noite), a parte de cima da D-133 (D em diferença). A cor passa pela D-174.
+void paintInk(
+  ui.Canvas canvas,
+  List<InkStroke> strokes, {
+  ui.Color? lightText,
+}) {
   for (final s in strokes) {
-    if (InkTool.fromCode(s.tool) == InkTool.marker) {
-      _paintMarker(canvas, s);
+    final argb = inkArgbOn(s.argb, lightText);
+    if (_isMarker(s)) {
+      final light = lightText;
+      _paintMarker(
+        canvas,
+        s,
+        light == null
+            ? (ui.Color(argb), ui.BlendMode.multiply)
+            : (
+                channelMax(light, ui.Color(argb | 0xFF000000)),
+                ui.BlendMode.difference,
+              ),
+      );
       continue;
     }
     canvas.drawPath(
       inkPath(s),
       ui.Paint()
-        ..color = ui.Color(s.argb)
+        ..color = ui.Color(argb)
         ..isAntiAlias = true,
     );
+  }
+}
+
+/// Com letras claras ([lightText], o Noite — D-133): a parte do Marca-texto que vai por trás das letras (D − cor). A
+/// caneta e a Reta vão só por cima.
+void paintInkBehind(
+  ui.Canvas canvas,
+  List<InkStroke> strokes, {
+  required ui.Color lightText,
+}) {
+  for (final s in strokes) {
+    if (!_isMarker(s)) continue;
+    final c = ui.Color(inkArgbOn(s.argb, lightText) | 0xFF000000);
+    _paintMarker(canvas, s, (
+      channelMinus(channelMax(lightText, c), c),
+      ui.BlendMode.srcOver,
+    ));
   }
 }
 
@@ -104,38 +159,59 @@ ui.Path markerLine(InkStroke s) {
   return path;
 }
 
-void _paintMarker(ui.Canvas canvas, InkStroke s) => canvas.drawPath(
+void _paintMarker(
+  ui.Canvas canvas,
+  InkStroke s,
+  (ui.Color, ui.BlendMode) look,
+) => canvas.drawPath(
   markerLine(s),
   ui.Paint()
     ..style = ui.PaintingStyle.stroke
     ..strokeWidth = dpOfCentiMm(s.widthCentiMm)
     ..strokeCap = ui.StrokeCap.round
     ..strokeJoin = ui.StrokeJoin.round
-    ..color = ui.Color(s.argb)
-    ..blendMode = ui.BlendMode.multiply
+    ..color = look.$1
+    ..blendMode = look.$2
     ..isAntiAlias = true,
 );
 
-/// Os desenhos de cada página gravados num `ui.Picture`, pela página e pela revisão da tinta.
+/// Os desenhos de cada página gravados num `ui.Picture`, pela página e pela revisão da tinta (e, no Noite, pela cor
+/// das letras e pela passada: a de trás e a de cima — R26).
 final class InkPictureCache {
   InkPictureCache({this.capacity = 4});
 
-  /// Quantas páginas ficam guardadas (a atual, as vizinhas e a que acabou de sair).
+  /// Quantas `Picture` ficam guardadas (a página atual, as vizinhas e a que acabou de sair).
   final int capacity;
 
   /// Da usada há mais tempo para a mais recente.
-  final List<({Object page, int revision, ui.Picture picture})> _entries = [];
+  final List<
+    ({
+      Object page,
+      ui.Color? light,
+      bool behind,
+      int revision,
+      ui.Picture picture,
+    })
+  >
+  _entries = [];
 
-  /// A `Picture` dos traços de [page] na [revision]; `strokes` só é chamado quando ela ainda não existe. Sem traços,
-  /// `null`.
+  /// A `Picture` dos traços de [page] na [revision], com as letras [lightText] (o Noite) e só a passada de trás
+  /// ([behind], o Marca-texto pela D-133); `strokes` só é chamado quando ela ainda não existe. Sem traços (ou, por trás,
+  /// sem Marca-texto), `null`.
   ui.Picture? pictureOf(
     Object page,
     int revision,
-    List<InkStroke> Function() strokes,
-  ) {
+    List<InkStroke> Function() strokes, {
+    ui.Color? lightText,
+    bool behind = false,
+  }) {
     for (var i = 0; i < _entries.length; i++) {
       final e = _entries[i];
-      if (!identical(e.page, page)) continue;
+      if (!identical(e.page, page) ||
+          e.light != lightText ||
+          e.behind != behind) {
+        continue;
+      }
       _entries.removeAt(i);
       if (e.revision == revision) {
         _entries.add(e);
@@ -144,12 +220,28 @@ final class InkPictureCache {
       e.picture.dispose();
       break;
     }
-    final list = strokes();
+    final light = lightText;
+    if (behind && light == null) return null;
+    final list = [
+      for (final s in strokes())
+        if (!behind || _isMarker(s)) s,
+    ];
     if (list.isEmpty) return null;
     final recorder = ui.PictureRecorder();
-    paintInk(ui.Canvas(recorder), list);
+    final canvas = ui.Canvas(recorder);
+    if (behind) {
+      paintInkBehind(canvas, list, lightText: light!);
+    } else {
+      paintInk(canvas, list, lightText: light);
+    }
     final picture = recorder.endRecording();
-    _entries.add((page: page, revision: revision, picture: picture));
+    _entries.add((
+      page: page,
+      light: light,
+      behind: behind,
+      revision: revision,
+      picture: picture,
+    ));
     while (_entries.length > capacity) {
       _entries.removeAt(0).picture.dispose();
     }

@@ -515,23 +515,43 @@ class ReaderPagesPainter extends CustomPainter {
       selection: selection,
       selectionColor: selectionColor,
       lightText: foundLightText,
+      paintInkBehind: shown == null || ink == null
+          ? null
+          : (c) => _paintInkOf(c, page, ink, behind: true),
       paintInkLayer: shown == null || ink == null
           ? null
           : (c) => _paintInkOf(c, page, ink),
     );
   }
 
-  /// Os desenhos de [page]: a `Picture` guardada (pela página e pela revisão) ou, sem o cache, traço a traço.
-  void _paintInkOf(Canvas canvas, DisplayPage page, InkSource ink) {
+  /// Os desenhos de [page] (no Noite, com a cor das letras; [behind] = só a passada de trás do Marca-texto — R26): a
+  /// `Picture` guardada (pela página e pela revisão) ou, sem o cache, traço a traço.
+  void _paintInkOf(
+    Canvas canvas,
+    DisplayPage page,
+    InkSource ink, {
+    bool behind = false,
+  }) {
+    final light = foundLightText;
     List<InkStroke> strokes() => [
       for (final d in ink.drawingsOn(page)) ...d.strokes,
     ];
     final cache = inkPictures;
     if (cache == null) {
-      paintInk(canvas, strokes());
+      if (!behind) {
+        paintInk(canvas, strokes(), lightText: light);
+      } else if (light != null) {
+        paintInkBehind(canvas, strokes(), lightText: light);
+      }
       return;
     }
-    final picture = cache.pictureOf(page, ink.revision, strokes);
+    final picture = cache.pictureOf(
+      page,
+      ink.revision,
+      strokes,
+      lightText: light,
+      behind: behind,
+    );
     if (picture != null) canvas.drawPicture(picture);
   }
 
@@ -553,7 +573,8 @@ class ReaderPagesPainter extends CustomPainter {
 /// Uma página de texto (G13, G16): os fundos ([highlights] de fundo, a marca da busca [found], a seleção) por trás
 /// das letras — com letras claras ([lightText], o Noite), pela técnica da D-127/D-133 —, os sublinhados, a mancha dos
 /// grifos feitos à mão ([inkHighlights], D-161) e, por último, a tinta ([paintInkLayer], D-59). O modo anotação
-/// pinta a página por aqui também.
+/// pinta a página por aqui também. G17 (R26): no Noite, a passada de trás do Marca-texto ([paintInkBehind]) vai antes
+/// das letras, e as manchas recortam os fundos dos grifos da linha delas (achado 17).
 void paintTextPage(
   Canvas canvas,
   DisplayPage page, {
@@ -564,6 +585,7 @@ void paintTextPage(
   ReaderRange? selection,
   Color? selectionColor,
   Color? lightText,
+  void Function(Canvas canvas)? paintInkBehind,
   void Function(Canvas canvas)? paintInkLayer,
 }) {
   final bands = backgroundBands(
@@ -574,6 +596,15 @@ void paintTextPage(
     selection: selection,
     selectionColor: selectionColor,
     night: lightText != null,
+    cuts: lightText == null
+        ? const []
+        : [
+            for (final (:box, color: _) in handHighlightBoxes(
+              page,
+              inkHighlights,
+            ))
+              box,
+          ],
   );
   if (lightText == null) {
     // letras escuras: os fundos vão por trás delas
@@ -598,6 +629,7 @@ void paintTextPage(
       inkHighlights,
       lightText: lightText,
     );
+    paintInkBehind?.call(canvas);
     page.paint(canvas);
     for (final b in bands) {
       paintBand(

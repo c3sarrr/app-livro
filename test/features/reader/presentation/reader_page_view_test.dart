@@ -294,9 +294,12 @@ final class _Grifos extends ChangeNotifier implements HighlightSource {
 
 /// A tinta do livro de mentira (G16): um traço em cada página pedida e os grifos feitos à mão.
 final class _Tinta extends ChangeNotifier implements InkSource {
-  _Tinta({this.aMao = const []});
+  _Tinta({this.aMao = const [], this.marcador = false});
 
   List<PaintedHighlight> aMao;
+
+  /// G17: um traço do marca-texto (a tinta translúcida — R22) junto do da caneta.
+  final bool marcador;
   final pedidas = <int>[];
   int _revisao = 0;
 
@@ -327,14 +330,22 @@ final class _Tinta extends ChangeNotifier implements InkSource {
           groupId: 'desenho-$n',
         ),
         range: (unit: n, from: 0, to: 10),
-        strokes: const [
-          InkStroke(
+        strokes: [
+          const InkStroke(
             tool: 1,
             tip: 0,
             argb: 0xFFFF552E,
             widthCentiMm: 120,
             points: [InkPoint(30, 140, 0.5, 0), InkPoint(60, 140, 0.5, 8)],
           ),
+          if (marcador)
+            const InkStroke(
+              tool: 3,
+              tip: 0,
+              argb: 0xE6FED170,
+              widthCentiMm: 870,
+              points: [InkPoint(30, 160, 0.5, 0), InkPoint(90, 160, 0.5, 8)],
+            ),
         ],
       ),
     ];
@@ -1557,6 +1568,89 @@ void main() {
         ).paint(tela, const Size(390, 844));
         expect(tela.chamadas, ['mancha', 'texto', 'mancha', 'tinta']);
         expect(tela.manchas, [BlendMode.srcOver, BlendMode.difference]);
+      });
+
+      test('G17 (R26): no Noite, o marca-texto também vai por trás do texto (D-133); sem ele, ou no Creme, só por cima', () {
+        ReaderPagesPainter pintor({Color? letras, bool marcador = true}) =>
+            ReaderPagesPainter(
+              document: _Livro(),
+              dx: 0,
+              dir: null,
+              neighbor: null,
+              foundLightText: letras,
+              ink: _Tinta(marcador: marcador),
+              inkPictures: cache,
+            );
+        final noite = _Tela();
+        pintor(letras: const Color(0xFFE3D9C6))
+            .paint(noite, const Size(390, 844));
+        expect(noite.chamadas, ['tinta', 'texto', 'tinta']);
+        expect(noite.tintas.first, isNot(same(noite.tintas.last)));
+        final semMarcador = _Tela();
+        pintor(
+          letras: const Color(0xFFE3D9C6),
+          marcador: false,
+        ).paint(semMarcador, const Size(390, 844));
+        expect(semMarcador.chamadas, ['texto', 'tinta']);
+        final creme = _Tela();
+        pintor().paint(creme, const Size(390, 844));
+        expect(creme.chamadas, ['texto', 'tinta']);
+      });
+
+      test('achado 17 (Noite): a mancha à mão recorta o fundo do grifo de seleção na mesma linha — a conta da D-133 uma vez só', () async {
+        const papel = Color(0xFF1F1B17);
+        const letra = Color(0xFFE3D9C6);
+        const amarelo = Color(0xFFFED170);
+        const rosa = Color(0xFFFFC1C6);
+        final l = _Livro();
+        l.paginas[2] = _Pagina(2, letra: letra);
+        final gravador = ui.PictureRecorder();
+        final canvas = Canvas(gravador)
+          ..drawRect(
+            const Rect.fromLTWH(0, 0, 120, 160),
+            Paint()..color = papel,
+          );
+        ReaderPagesPainter(
+          document: l,
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          highlights: _Grifos([_grifo('g', 0, 60)]),
+          foundLightText: letra,
+          ink: _Tinta(
+            aMao: const [
+              PaintedHighlight(
+                id: 'rosa',
+                range: (unit: 2, from: 20, to: 40),
+                color: rosa,
+                style: HighlightStyle.fill,
+              ),
+            ],
+          ),
+          inkPictures: cache,
+        ).paint(canvas, const Size(120, 160));
+        final img = await gravador.endRecording().toImage(120, 160);
+        final bytes = (await img.toByteData())!;
+        img.dispose();
+        Color px(int x, int y) {
+          final i = (y * 120 + x) * 4;
+          return Color.fromARGB(
+            bytes.getUint8(i + 3),
+            bytes.getUint8(i),
+            bytes.getUint8(i + 1),
+            bytes.getUint8(i + 2),
+          );
+        }
+
+        void quase(Color a, Color b, String r) {
+          for (final (x, y) in [(a.r, b.r), (a.g, b.g), (a.b, b.b)]) {
+            expect((x - y).abs() * 255, lessThanOrEqualTo(1), reason: r);
+          }
+        }
+
+        quase(px(62, 134), rosa, 'onde os dois se cruzam: a mancha');
+        quase(px(35, 134), amarelo, 'o grifo de seleção fora da mancha');
+        quase(px(85, 134), amarelo, 'depois da mancha');
       });
 
       test('a vizinha que chega no arrasto vem com a tinta dela; a imagem do PDF não pede tinta', () {
