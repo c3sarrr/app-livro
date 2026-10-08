@@ -409,6 +409,17 @@ void main() {
       final sel = s.selection.value!;
       expect(sel.strokes, hasLength(1));
       expect(s.live.value, isNull);
+      // o retângulo da seleção: 6 de folga em volta dos traços (D-21)
+      final (f, b) = (sel.frame, sel.bounds);
+      expect(
+        (
+          b.left - f.left,
+          f.right - b.right,
+          b.top - f.top,
+          f.bottom - b.bottom,
+        ),
+        (6.0, 6.0, 6.0, 6.0),
+      );
       // arrastar dentro do retângulo move os traços, ao vivo e depois de soltar
       s.pointerDown(_touch(4, 50, 130, 100));
       s.pointerMove(_touch(4, 50, 190, 108));

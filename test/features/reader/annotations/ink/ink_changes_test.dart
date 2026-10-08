@@ -120,4 +120,25 @@ void main() {
       );
     }
   });
+
+  test('as linhas e as mudanças são valores: iguais pelo conteúdo e com o mesmo hash', () {
+    expect(_row(), _row());
+    expect(_row().hashCode, _row().hashCode);
+    expect(_row(), isNot(_row(layer: 'outra')));
+    final iguais = InkChanges(
+      layers: [
+        _row(),
+        _row(layer: '33333333-3333-4333-8333-333333333333'),
+      ],
+      deletedLayers: const {'44444444-4444-4444-8444-444444444444'},
+      erasedHighlights: const {'55555555-5555-4555-8555-555555555555'},
+    );
+    expect(iguais, _changes);
+    expect(iguais.hashCode, _changes.hashCode);
+    expect(
+      const InkChanges(deletedLayers: {'a', 'b'}).hashCode,
+      const InkChanges(deletedLayers: {'b', 'a'}).hashCode,
+    );
+    expect(_changes, isNot(const InkChanges()));
+  });
 }

@@ -68,7 +68,64 @@ final class _Quebrada implements DisplayPage {
   Object? noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
+/// 'um meio fim' numa linha só, com "meio" em itálico pela metade ("me" normal, "io" itálico): o trecho mostrado vem
+/// em 3 caixas (estilos), e a palavra "meio", em 2.
+final class _Estilos implements DisplayPage {
+  static const _texto = 'um meio fim';
+
+  @override
+  ReaderRange? get shown => (unit: 1, from: 0, to: _texto.length);
+
+  /// As caixas de cada estilo: [0, 5) normal, [5, 7) itálico, [7, 11) normal.
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) => [
+    for (final (a, z) in const [(0, 5), (5, 7), (7, 11)])
+      if (from < z && to > a)
+        (
+          rect: Rect.fromLTRB(
+            28 + 10.0 * (from > a ? from : a),
+            74,
+            28 + 10.0 * (to < z ? to : z),
+            109,
+          ),
+          baseline: 100,
+          textTop: 74,
+          textBottom: 109,
+          em: 20.5,
+        ),
+  ];
+
+  @override
+  ReaderRange? wordAround(ReaderSpot s) {
+    if (_texto[s.offset] == ' ') return null;
+    var a = s.offset;
+    var z = s.offset;
+    while (a > 0 && _texto[a - 1] != ' ') {
+      a--;
+    }
+    while (z < _texto.length && _texto[z] != ' ') {
+      z++;
+    }
+    return (unit: 1, from: a, to: z);
+  }
+
+  @override
+  Object? noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 void main() {
+  test('a linha em várias caixas (estilos) é uma; a palavra em 2 caixas, uma palavra', () {
+    final g = inkGeometryOf(_Estilos());
+    expect(g.lines, hasLength(1));
+    final l = g.lines.single;
+    expect((l.left, l.right), (28.0, 138.0));
+    expect(l.words, [
+      (from: 0, to: 2, left: 28.0, right: 48.0),
+      (from: 3, to: 7, left: 58.0, right: 98.0),
+      (from: 8, to: 11, left: 108.0, right: 138.0),
+    ]);
+  });
+
   test(
     'a palavra quebrada entre linhas: cada linha fica só com o pedaço dela',
     () {
@@ -95,6 +152,13 @@ void main() {
         to: 7,
         left: 78.0,
         right: 98.0,
+      ));
+      // numa linha só: "abc" começou antes de 1
+      expect(inkGeometryOf(_Quebrada(de: 1)).lines.first.words.first, (
+        from: 1,
+        to: 3,
+        left: 38.0,
+        right: 58.0,
       ));
     },
   );

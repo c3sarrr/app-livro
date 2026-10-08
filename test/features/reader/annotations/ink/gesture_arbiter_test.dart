@@ -171,4 +171,38 @@ void main() {
   test('a janela do descarte é de 150 ms', () {
     expect(InkGestureArbiter.discardWindowMs, 150);
   });
+
+  test(
+    'uma 2ª ponta de caneta durante o traço da caneta é ignorada até sair',
+    () {
+      final p = _pen(1, 100, 0);
+      a.down(p);
+      expect(a.down(_pen(2, 300, 20)), isEmpty);
+      expect(a.move(_pen(2, 320, 28)), isEmpty);
+      expect(a.up(_pen(2, 320, 36)), isEmpty);
+      final q = _pen(1, 120, 40);
+      expect(a.move(q), [DrawMove(q)]);
+    },
+  );
+
+  test('os gestos são valores: iguais pelo conteúdo, com o hash e o texto de cada um', () {
+    final p = _touch(1, 100, 0);
+    final pares = <(InkGesture, InkGesture, InkGesture?)>[
+      (DrawStart(p), DrawStart(p), DrawStart(_touch(1, 101, 0))),
+      (DrawMove(p), DrawMove(p), DrawMove(_touch(2, 100, 0))),
+      (const DrawEnd(), const DrawEnd(), null),
+      (const DrawDiscard(), const DrawDiscard(), null),
+      (const PanStart(), const PanStart(), null),
+      (const PanMove(4), const PanMove(4), const PanMove(5)),
+      (const PanEnd(), const PanEnd(), null),
+    ];
+    for (final (x, y, outro) in pares) {
+      expect(x, y);
+      expect(x.hashCode, y.hashCode);
+      expect('$x', '$y');
+      expect('$x', isNot(contains('Instance of')));
+      if (outro != null) expect(x, isNot(outro));
+    }
+    expect(const DrawEnd(), isNot(const PanEnd()));
+  });
 }

@@ -192,6 +192,20 @@ void main() {
       );
       expect(caixa(tester, 'ann.island.width.thick').color, _brand);
       expect(caixa(tester, 'ann.island.width.medium').color, isNull);
+      // "Borracha" na pílula passa dos 52 do lugar dela e fica inteira, centrada (como no HTML, que transborda)
+      final pilula = tester.getRect(chaveL22('ann.island.labels.eraser.pill'));
+      expect(pilula.width, greaterThan(52));
+      final texto = tester
+          .renderObject<RenderAppText>(
+            find.descendant(
+              of: chaveL22('ann.island.labels.eraser.pill'),
+              matching: find.byType(AppText),
+            ),
+          )
+          .debugLines()
+          .single;
+      expect(texto.text, 'Borracha');
+      expect(pilula.width, closeTo(texto.right - texto.left + 2 * 7 + 3, 0.5));
     },
   );
 

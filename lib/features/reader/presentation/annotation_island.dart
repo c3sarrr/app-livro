@@ -108,26 +108,33 @@ class AnnotationIsland extends StatelessWidget {
                           height: 19,
                           child: Center(
                             child: t == tool
-                                ? NeoBox(
-                                    key: ValueKey(
-                                      'ann.island.labels.$name.pill',
-                                    ),
-                                    height: 19,
-                                    color: scope.tint(scope.brand),
-                                    border: side,
-                                    radius: BorderRadius.circular(999),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 7,
-                                    ),
-                                    child: Center(
-                                      widthFactor: 1,
-                                      child: AppText(
-                                        label,
-                                        style: AppTextStyles.annLabelActive
-                                            .copyWith(
-                                              color: scope.tint(AppColors.ink),
-                                            ),
-                                        maxLines: 1,
+                                // a pílula do ativo pode passar dos 52 do lugar ("Borracha", "Marcador"):
+                                // transborda centrada, como no HTML, sem cortar o texto
+                                ? OverflowBox(
+                                    maxWidth: double.infinity,
+                                    child: NeoBox(
+                                      key: ValueKey(
+                                        'ann.island.labels.$name.pill',
+                                      ),
+                                      height: 19,
+                                      color: scope.tint(scope.brand),
+                                      border: side,
+                                      radius: BorderRadius.circular(999),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 7,
+                                      ),
+                                      child: Center(
+                                        widthFactor: 1,
+                                        child: AppText(
+                                          label,
+                                          style: AppTextStyles.annLabelActive
+                                              .copyWith(
+                                                color: scope.tint(
+                                                  AppColors.ink,
+                                                ),
+                                              ),
+                                          maxLines: 1,
+                                        ),
                                       ),
                                     ),
                                   )

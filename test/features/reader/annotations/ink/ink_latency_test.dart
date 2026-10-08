@@ -160,6 +160,17 @@ void main() {
     },
   );
 
+  testWidgets(
+    'sem nada trocado, o medidor ouve os quadros do app e sai ao descartar',
+    (tester) async {
+      final m = InkLatencyMeter()..start();
+      m.event(const Duration(milliseconds: 1));
+      await tester.pump();
+      m.dispose();
+      expect(m.eventsUs, [1000]);
+    },
+  );
+
   test('o medidor só liga com --dart-define=BOOKNEST_MEDIR_TINTA=true', () {
     expect(inkLatencyMeterOn, isFalse);
   });

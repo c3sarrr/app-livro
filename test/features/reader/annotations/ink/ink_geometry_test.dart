@@ -46,4 +46,31 @@ void main() {
     expect(r.overlaps(const InkRect(0, -10, 10, -0.01)), isFalse);
     expect(r.overlaps(const InkRect(2, 2, 3, 3)), isTrue, reason: 'dentro');
   });
+
+  test(
+    'retângulo e linha são valores: iguais pelo conteúdo, com o hash e o texto',
+    () {
+      const r = InkRect(1, 2, 3, 4);
+      expect(r, const InkRect(1, 2, 3, 4));
+      expect(r.hashCode, const InkRect(1, 2, 3, 4).hashCode);
+      expect(r, isNot(const InkRect(1, 2, 3, 5)));
+      expect('$r', 'InkRect(1.0, 2.0, 3.0, 4.0)');
+      InkLine linha({double em = 20.5, int to = 5}) => InkLine(
+        unit: 4,
+        from: 0,
+        to: to,
+        top: 74,
+        bottom: 109.25,
+        baseline: 100,
+        em: em,
+        left: 28,
+        right: 83,
+        words: [(from: 0, to: to, left: 28, right: 83)],
+      );
+      expect(linha(), linha());
+      expect(linha().hashCode, linha().hashCode);
+      expect(linha(), isNot(linha(em: 20)));
+      expect(linha(), isNot(linha(to: 4)));
+    },
+  );
 }
