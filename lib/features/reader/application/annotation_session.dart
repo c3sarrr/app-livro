@@ -28,7 +28,8 @@ import 'dart:ui' show Color;
 import 'package:flutter/foundation.dart';
 
 import '../../../core/data/ids/uuid_v7.dart';
-import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
+import '../annotations/domain/annotation.dart'
+    show AnnotationSource, FillHeight, HighlightStyle;
 import '../annotations/domain/pen_presets.dart';
 import '../annotations/ink/bnk1_codec.dart';
 import '../annotations/ink/card_groups.dart';
@@ -1165,13 +1166,101 @@ final class AnnotationSession extends ChangeNotifier {
         ),
       );
     }
+    final marks = _highlightChanges();
     return InkChanges(
       layers: rows,
       deletedLayers: {
         for (final id in _saved.keys)
           if (!present.containsKey(id)) id,
       },
-      erasedHighlights: _copy.erasedHighlights,
+      erasedHighlights: marks.erased,
+      highlights: marks.highlights,
+      moved: marks.moved,
+      removed: marks.removed,
+    );
+  }
+
+  /// Os grifos da mesa (G17, R24): os novos (o traço do marca-texto e os pedaços cortados), os salvos que a D-32
+  /// moveu, os salvos que ela tirou com o destino final das notas (`null` se a Borracha apagou o destino) e os salvos
+  /// apagados pela Borracha. O que nunca foi gravado e saiu na sessão não vai. Sem a mesa, só os apagados.
+  ({
+    List<HighlightRow> highlights,
+    List<MovedHighlight> moved,
+    Map<String, String?> removed,
+    Set<String> erased,
+  })
+  _highlightChanges() {
+    if (!_hasDesk) {
+      return (
+        highlights: const [],
+        moved: const [],
+        removed: const {},
+        erased: _copy.erasedHighlights,
+      );
+    }
+    final desk = _copy.desk;
+    bool saved(String id) => _initialDesk.byId(id) != null;
+    final highlights = <HighlightRow>[];
+    final moved = <MovedHighlight>[];
+    for (final h in desk.items) {
+      final first = _initialDesk.byId(h.id);
+      if (first != null && first.start == h.start && first.end == h.end) {
+        continue;
+      }
+      final text = anchors.textOf(h.unit);
+      if (text == null) continue;
+      final where = anchors.placeOf(h.unit, h.start);
+      final range = EpubAnchor(
+        sha: anchors.sha,
+        spine: h.unit,
+        start: h.start,
+        end: h.end,
+        quote: quoteAt(text, h.start, h.end),
+        refPage: where.refPage,
+      );
+      if (first != null) {
+        moved.add(
+          MovedHighlight(
+            id: h.id,
+            range: range,
+            refPage: where.refPage,
+            chapterIndex: where.chapterIndex,
+          ),
+        );
+        continue;
+      }
+      highlights.add(
+        HighlightRow(
+          id: h.id,
+          createdAt: h.createdAt,
+          range: range,
+          refPage: where.refPage,
+          chapterIndex: where.chapterIndex,
+          groupId: h.groupId,
+          color: h.color,
+          style: h.style,
+          fillHeight: h.style == HighlightStyle.fill
+              ? (h.height ?? FillHeight.medium)
+              : null,
+          source: h.ink ? AnnotationSource.ink : AnnotationSource.selection,
+        ),
+      );
+    }
+    return (
+      highlights: highlights,
+      moved: moved,
+      removed: {
+        for (final id in desk.removed.keys)
+          if (saved(id))
+            id: switch (desk.targetOf(id)) {
+              final t when desk.erased.contains(t) => null,
+              final t => t,
+            },
+      },
+      erased: {
+        for (final id in desk.erased)
+          if (saved(id)) id,
+      },
     );
   }
 

@@ -5,12 +5,12 @@
 // que o Concluir grava (âncora, moldura em em, página, capítulo, cartões, apagados), o rascunho a cada 5 s e no
 // segundo plano (D-166), o Concluir e a falha ao salvar, e a interação a cada toque (D-95).
 // G17: os ajustes da caneta e do marca-texto no pen_presets (R6, D-175), a cor de cada ferramenta e o painel aberto
-// (R1, R2, R4).
+// (R1, R2, R4); o marca-texto (R20–R23, D-173) e o que o Concluir grava dele (R24).
 import 'dart:async';
 
 import 'package:app_leitura/core/data/ids/uuid_v7.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
-    show FillHeight, HighlightStyle;
+    show AnnotationSource, FillHeight, HighlightStyle;
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
 import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
@@ -862,6 +862,115 @@ void main() {
       expect(s.desk.items, hasLength(1));
       draw(s, [(210, 90 + 30.0), (230, 90 + 30.0)]);
       expect(s.desk.items, isEmpty);
+    });
+
+    test('o Concluir grava o grifo novo: âncora de 7 chaves, página, capítulo, grupo do traço, cor, estilo, altura e origem (R24)', () async {
+      final s = open(desk: const [])..setTool(AnnotationTool.marker);
+      draw(s, [(90, y0), (188, y0)]);
+      final h = s.desk.items.single;
+      final c = s.changes();
+      expect(c.layers, isEmpty);
+      final r = c.highlights.single;
+      expect(r.id, h.id);
+      expect(
+        (r.range.sha, r.range.spine, r.range.start, r.range.end),
+        (shaTeste, _unit, 6, 16),
+      );
+      expect((r.range.quote.exact, r.range.refPage), ('de ressaca', 159));
+      expect(
+        (r.refPage, r.chapterIndex, r.groupId, r.color, r.style),
+        (159, 31, h.id, '#FED170', HighlightStyle.fill),
+      );
+      expect(
+        (r.fillHeight, r.source, r.createdAt),
+        (FillHeight.medium, AnnotationSource.ink, now),
+      );
+      expect(c.moved, isEmpty);
+      expect(c.removed, isEmpty);
+      expect(c.erasedHighlights, isEmpty);
+      // o rascunho a cada 5 s leva o grifo; o Concluir grava e apaga o rascunho
+      timers.fire();
+      await pumpEventQueue();
+      expect(repo.drafts.values.single.highlights.single.id, h.id);
+      expect(await s.conclude(), isTrue);
+      expect(repo.commits.single.highlights.single, r);
+      expect(repo.drafts, isEmpty);
+    });
+
+    test('rosa no meio de um amarelo de seleção: o amarelo encolhe (movido) e o pedaço da direita é novo, com a origem e o grupo dele', () {
+      final s = open(desk: [grifo('sel', 0, 16)])
+        ..setTool(AnnotationTool.marker)
+        ..setHighlighterColor('#FFC1C6');
+      // sobre "de"
+      draw(s, [(91, y0), (107, y0)]);
+      final c = s.changes();
+      final m = c.moved.single;
+      expect(m.id, 'sel');
+      expect((m.range.start, m.range.end), (0, 6));
+      expect(m.range.quote.exact, _text.substring(0, 6));
+      expect((m.refPage, m.chapterIndex), (159, 31));
+      final novos = {for (final r in c.highlights) r.color: r};
+      expect(novos.keys, unorderedEquals(['#FFC1C6', '#FED170']));
+      final rosa = novos['#FFC1C6']!;
+      expect((rosa.range.start, rosa.range.end), (6, 8));
+      final direita = novos['#FED170']!;
+      expect(
+        (direita.range.start, direita.range.end, direita.source),
+        (8, 16, AnnotationSource.selection),
+      );
+      expect(
+        (direita.groupId, direita.fillHeight),
+        ('g-sel', FillHeight.medium),
+      );
+      expect(c.removed, isEmpty);
+    });
+
+    test('tirados: o à mão salvo coberto vai com o destino; em cadeia, o último; se a Borracha apaga o destino, sem destino', () {
+      final s = open(desk: [grifo('a', 6, 8, mao: true)])
+        ..setTool(AnnotationTool.marker)
+        ..setHighlighterColor('#FFC1C6');
+      draw(s, [(30, y0), (188, y0)]);
+      final rosa = s.desk.items.single.id;
+      var c = s.changes();
+      expect(c.removed, {'a': rosa});
+      expect(c.highlights.single.id, rosa);
+      // o amarelo por cima do rosa (novo): o rosa sai e a nota de "a" segue para o amarelo
+      s.setHighlighterColor('#FED170');
+      draw(s, [(30, y0), (188, y0)]);
+      final amarelo = s.desk.items.single.id;
+      c = s.changes();
+      expect(c.removed, {
+        'a': amarelo,
+      }, reason: 'só os salvos; o rosa nunca foi gravado');
+      expect(c.highlights.single.id, amarelo);
+      // a Borracha apaga o amarelo (novo): as notas de "a" vão junto
+      s.setTool(AnnotationTool.eraser);
+      draw(s, [(40, y0), (150, y0)]);
+      c = s.changes();
+      expect(c.removed, {'a': null});
+      expect(c.highlights, isEmpty);
+      expect(
+        c.erasedHighlights,
+        isEmpty,
+        reason: 'o amarelo nunca foi gravado',
+      );
+      s.undo();
+      expect(s.changes().removed, {'a': amarelo});
+    });
+
+    test('a Borracha num grifo à mão salvo: só nos apagados', () {
+      final s = open(
+        desk: [grifo('mao', 6, 8, mao: true)],
+        highlights: [
+          (id: 'mao', ink: true, areas: const [InkRect(200, 80, 240, 100)]),
+        ],
+      )..setTool(AnnotationTool.eraser);
+      draw(s, [(210, 90 + 30.0), (230, 90 + 30.0)]);
+      final c = s.changes();
+      expect(c.erasedHighlights, {'mao'});
+      expect(c.highlights, isEmpty);
+      expect(c.moved, isEmpty);
+      expect(c.removed, isEmpty);
     });
 
     test(

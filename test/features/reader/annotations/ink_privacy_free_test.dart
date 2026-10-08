@@ -1,7 +1,8 @@
 // G16.4 — lista branca do Grátis (§4.3.7) na tinta: uma sessão inteira do modo anotação pelo repositório de verdade
 // (banco em memória, sem a fila do Pro) — abrir o livro com o rascunho de uma sessão que morreu (D-166), o
-// `pen_presets` lido e a espessura gravada, desenhar, apagar, mover com o Laço, o rascunho a cada 5 s e no segundo
-// plano, e o Concluir — não abre nenhuma conexão: qualquer `HttpClient` criado na zona é gravado e falha.
+// `pen_presets` lido e a espessura gravada, desenhar, apagar, mover com o Laço, grifar com o marca-texto (G17), o
+// rascunho a cada 5 s e no segundo plano, e o Concluir — não abre nenhuma conexão: qualquer `HttpClient` criado na
+// zona é gravado e falha.
 import 'dart:async';
 import 'dart:io';
 
@@ -9,6 +10,7 @@ import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart';
@@ -19,6 +21,7 @@ import 'package:app_leitura/features/reader/application/annotation_session.dart'
 import 'package:app_leitura/features/reader/application/pen_presets_store.dart';
 import 'package:app_leitura/features/reader/application/reader_annotations.dart';
 import 'package:app_leitura/features/reader/application/reader_ink.dart';
+import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -139,6 +142,7 @@ void main() {
         anchors: _Anchors(),
         drawings: const [],
         highlights: const [],
+        deskHighlights: notes.deskIn((unit: 4, from: 0, to: 27)),
         presets: await store.load(usuarioTeste),
         savePresets: store.save,
         repository: repo,
@@ -177,11 +181,22 @@ void main() {
       s.setTool(AnnotationTool.lasso);
       draw([(80, 90), (200, 90), (200, 170), (80, 170)], 4);
       draw([(150, 130), (150, 190)], 5);
+      // o marca-texto sobre "de ressaca" (a linha 1, 30 abaixo no modo)
+      s.setTool(AnnotationTool.marker);
+      draw([(90, 122), (188, 122)], 6);
       await s.toBackground();
       expect(await s.conclude(), isTrue);
       expect(
         await InkLayersDao(db).liveOverTextForBook(idTeste(1)),
         hasLength(1),
+      );
+      final grifos = [
+        for (final a in await AnnotationsDao(db).forBook(idTeste(1)))
+          if (a.kind == AnnotationKind.highlight) a,
+      ];
+      expect(
+        (grifos.single.source, (grifos.single.anchor as EpubAnchor).start),
+        (AnnotationSource.ink, 6),
       );
     }, createHttpClient: net.createHttpClient);
     expect(net.created, isEmpty);

@@ -5,6 +5,10 @@
 //   delas; grifos à mão apagados pela Borracha, com as notas filhas (o de seleção fica — D-168). A linha que já não
 //   existe ou já está apagada, pula; a que ficaria igual, não é regravada: aplicar duas vezes dá as mesmas linhas (o
 //   rascunho é idempotente) e a fila do Pro só recebe o que mudou.
+// - G17 (R24): os grifos do marca-texto — os novos (`source` do traço ou do grifo cortado), os salvos que a D-32
+//   moveu (a âncora, a página e o capítulo novos; o grupo e a criação ficam) e os que ela tirou: somem e as notas vão
+//   para o destino, com o grupo, a âncora, a página e o capítulo dele (como na tela 21); sem destino (a Borracha
+//   apagou o destino), as notas vão junto (D-168). Destino que não existe mais: as notas ficam onde estavam.
 // - Rascunho: o JSON de `ink_changes.dart` na chave `ink_draft:<dono>:<user_book_id>:<sessão>` do `kv` (só do
 //   aparelho, nunca sincroniza), uma por sessão do modo: a sessão só apaga e sobrescreve o dela. Ao abrir o livro
 //   (D-166), cada um é gravado como um Concluir, na ordem das chaves, e a chave some; o que falhar fica, e a falha vai
@@ -140,6 +144,7 @@ final class DriftInkRepository implements InkRepository {
           await _delete(a);
         }
       }
+      await _writeHighlights(owner, userBookId, c);
       if (c.erasedHighlights.isNotEmpty) {
         final book = await _annotations.forBook(userBookId);
         // a Borracha só apaga tinta (D-168): o grifo de seleção (e a nota dele) fica, mesmo que venha na lista
@@ -158,6 +163,140 @@ final class DriftInkRepository implements InkRepository {
         }
       }
     });
+  }
+
+  /// Os grifos do marca-texto (G17): os novos, os movidos e os tirados, nessa ordem — o destino das notas já tem o
+  /// lugar novo quando elas chegam.
+  Future<void> _writeHighlights(
+    String owner,
+    String userBookId,
+    InkChanges c,
+  ) async {
+    if (c.highlights.isEmpty && c.moved.isEmpty && c.removed.isEmpty) return;
+    final old = {
+      for (final a in await _annotations.byIds([
+        for (final h in c.highlights) h.id,
+        for (final m in c.moved) m.id,
+        ...c.removed.keys,
+      ]))
+        a.id: a,
+    };
+    for (final h in c.highlights) {
+      await _writeHighlight(owner, userBookId, h, old[h.id]);
+    }
+    for (final m in c.moved) {
+      final a = old[m.id];
+      if (!_live(a) ||
+          (a!.anchor == m.range &&
+              a.refPage == m.refPage &&
+              a.chapterIndex == m.chapterIndex)) {
+        continue;
+      }
+      await _write(
+        'annotations',
+        a.id,
+        (v, at) => _annotations.upsert(
+          a.copyWith(
+            meta: a.meta.edited(at, v),
+            anchor: m.range,
+            refPage: m.refPage,
+            chapterIndex: m.chapterIndex,
+          ),
+        ),
+      );
+    }
+    if (c.removed.isEmpty) return;
+    final book = await _annotations.forBook(userBookId);
+    for (final MapEntry(key: id, value: to) in c.removed.entries) {
+      final a = old[id];
+      if (!_live(a)) continue;
+      await _delete(a!);
+      final notes = [
+        for (final n in book)
+          if (n.kind == AnnotationKind.note && n.parentId == id) n,
+      ];
+      if (to == null) {
+        for (final n in notes) {
+          await _delete(n);
+        }
+        continue;
+      }
+      final parent = await _annotations.byId(to);
+      if (parent == null || parent.meta.isDeleted) continue;
+      for (final n in notes) {
+        await _write(
+          'annotations',
+          n.id,
+          (v, at) => _annotations.upsert(
+            n.copyWith(
+              parentId: Nullable(to),
+              groupId: parent.groupId,
+              anchor: parent.anchor,
+              refPage: parent.refPage,
+              chapterIndex: parent.chapterIndex,
+              meta: n.meta.edited(at, v),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  /// Um grifo vivo.
+  static bool _live(Annotation? a) =>
+      a != null && !a.meta.isDeleted && a.kind == AnnotationKind.highlight;
+
+  Future<void> _writeHighlight(
+    String owner,
+    String userBookId,
+    HighlightRow r,
+    Annotation? old,
+  ) async {
+    if (_live(old) &&
+        old!.anchor == r.range &&
+        old.refPage == r.refPage &&
+        old.chapterIndex == r.chapterIndex &&
+        old.color == r.color &&
+        old.style == r.style &&
+        old.fillHeight == r.fillHeight &&
+        old.source == r.source) {
+      return;
+    }
+    await _write(
+      'annotations',
+      r.id,
+      (v, at) => _annotations.upsert(
+        old == null
+            ? Annotation(
+                id: r.id,
+                meta: RecordMeta(
+                  userId: owner,
+                  createdAt: at,
+                  updatedAt: at,
+                  version: v,
+                ),
+                userBookId: userBookId,
+                kind: AnnotationKind.highlight,
+                groupId: r.groupId,
+                source: r.source,
+                anchor: r.range,
+                refPage: r.refPage,
+                chapterIndex: r.chapterIndex,
+                color: r.color,
+                style: r.style,
+                fillHeight: r.fillHeight,
+              )
+            : old.copyWith(
+                meta: _touched(old.meta, at, v),
+                anchor: r.range,
+                refPage: r.refPage,
+                chapterIndex: r.chapterIndex,
+                color: Nullable(r.color),
+                style: Nullable(r.style),
+                fillHeight: Nullable(r.fillHeight),
+              ),
+      ),
+    );
   }
 
   Future<void> _writeLayer(
