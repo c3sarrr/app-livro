@@ -952,6 +952,28 @@ abstract final class AppTextStyles {
     height: 1.35,
   );
 
+  // Leitor — o Espaço e a nota à mão (telas 24 e 24b, G18).
+
+  /// ann.page.spaceOpener.sizeChip ("3 linhas"): Figtree 12,5/800 `#F7F0E3`.
+  static final TextStyle annOpenerChip = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+    color: AppColors.paper,
+  );
+
+  /// ann.page.handNote.tag ("Nota à mão"): Figtree 11,5/800 na tinta.
+  static final TextStyle annNoteTag = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w800,
+  );
+
+  /// ann.page.handNote.hint ("puxe a alça para aumentar"): Figtree 11/700 `#A89D8B`.
+  static final TextStyle annNoteHint = AppFonts.figtreeReader(
+    11,
+    FontWeight.w700,
+    color: AppColors.readerFooter,
+  );
+
   /// ann.penPanel.picker.hex.value ("#FF552E"): Figtree 15/800, 0,6, algarismos de largura fixa.
   static final TextStyle annHexValue = AppFonts.figtreeReader(
     15,

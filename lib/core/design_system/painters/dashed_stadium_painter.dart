@@ -22,31 +22,46 @@ class DashedStadiumPainter extends CustomPainter {
   final double? radius;
 
   @override
-  void paint(Canvas canvas, Size size) {
-    final h = thickness / 2;
-    final box = (Offset.zero & size).deflate(h);
-    final r = radius;
-    final path = Path()
-      ..addRRect(
-        RRect.fromRectAndRadius(
-          box,
-          Radius.circular(r == null ? box.shortestSide / 2 : r - h),
-        ),
-      );
-    final metric = path.computeMetrics().first;
-    final dash = 2 * thickness;
-    final n = math.max(1, (metric.length / (dash + thickness)).round());
-    final step = metric.length / n;
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = thickness;
-    for (var i = 0; i < n; i++) {
-      canvas.drawPath(metric.extractPath(i * step, i * step + dash), paint);
-    }
-  }
+  void paint(Canvas canvas, Size size) => drawDashedRRect(
+    canvas,
+    Offset.zero & size,
+    radius: radius,
+    thickness: thickness,
+    color: color,
+  );
 
   @override
   bool shouldRepaint(DashedStadiumPainter old) =>
       old.thickness != thickness || old.color != color || old.radius != radius;
+}
+
+/// G18: o mesmo tracejado num retângulo [rect] qualquer do canvas (a borda de fora; [radius] `null` = a pílula) — a
+/// caixa da nota à mão, a área do abridor e o dedo da tela 24.
+void drawDashedRRect(
+  Canvas canvas,
+  Rect rect, {
+  double? radius,
+  double thickness = AppStrokes.regular,
+  Color color = AppColors.dashReader,
+}) {
+  final h = thickness / 2;
+  final box = rect.deflate(h);
+  final path = Path()
+    ..addRRect(
+      RRect.fromRectAndRadius(
+        box,
+        Radius.circular(radius == null ? box.shortestSide / 2 : radius - h),
+      ),
+    );
+  final metric = path.computeMetrics().first;
+  final dash = 2 * thickness;
+  final n = math.max(1, (metric.length / (dash + thickness)).round());
+  final step = metric.length / n;
+  final paint = Paint()
+    ..color = color
+    ..style = PaintingStyle.stroke
+    ..strokeWidth = thickness;
+  for (var i = 0; i < n; i++) {
+    canvas.drawPath(metric.extractPath(i * step, i * step + dash), paint);
+  }
 }

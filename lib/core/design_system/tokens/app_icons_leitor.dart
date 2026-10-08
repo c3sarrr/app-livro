@@ -87,6 +87,15 @@ abstract final class AppIconsLeitor {
   /// lá são tingidos com a cor das letras da ilha.
   static const plus = '$_d/ic_plus.svg';
 
+  /// G18 — o Espaço e a nota à mão (telas 24 e 24b): (14) a seta dupla do chip "↕ N linhas"
+  /// (`ann.page.spaceOpener.sizeChip.icon`, traço 2,6 `#F7F0E3`); (13) o lápis da etiqueta "Nota à mão"
+  /// (`ann.page.handNote.tag.icon`, traço 2,4); (18) Recolher (o chevron; virado, Abrir) e Apagar a nota
+  /// (`ann.page.handNote.actions.*.icon`). Sem versão do Noite: lá são tingidos.
+  static const arrowsVertical = '$_d/ic_arrows_vertical.svg';
+  static const pencilBold = '$_d/ic_pencil_bold.svg';
+  static const chevronUp = '$_d/ic_chevron_up.svg';
+  static const trash = '$_d/ic_trash.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -130,5 +139,9 @@ abstract final class AppIconsLeitor {
     undo,
     redo,
     plus,
+    arrowsVertical,
+    pencilBold,
+    chevronUp,
+    trash,
   ];
 }

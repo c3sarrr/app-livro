@@ -86,6 +86,9 @@ abstract final class AppColors {
   static const Color paperLineWhite = Color(0xFFE3DCCD);
   static const Color paperLineSepia = Color(0xFFCDB48C);
 
+  /// G18 — as pautas da caixa da nota à mão (24b): `#EFE5D3`; no Noite, o tracejado do Noite ([dashNight]).
+  static const Color noteRule = Color(0xFFEFE5D3);
+
   /// Noite: véu da página (a 55 %).
   static const Color veilNight = Color(0xFF14110E);
 
