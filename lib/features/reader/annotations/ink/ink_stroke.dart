@@ -6,10 +6,13 @@ import 'package:flutter/foundation.dart' show immutable, listEquals;
 
 import '../domain/pen_presets.dart';
 
-/// Ferramenta gravada no traço (BNK1): 1 Caneta, 2 Reta. O 3 (Marca-texto) fica reservado para a G17.
+/// Ferramenta gravada no traço (BNK1): 1 Caneta, 2 Reta, 3 Marca-texto (G17).
 enum InkTool {
   pen(1),
-  line(2);
+  line(2),
+
+  /// O Marca-texto fora das palavras: a tinta translúcida (R22, G17).
+  marker(3);
 
   const InkTool(this.code);
 

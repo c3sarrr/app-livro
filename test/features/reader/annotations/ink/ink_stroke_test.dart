@@ -38,12 +38,15 @@ void main() {
     expect((t.tool, t.tip, t.argb, t.widthCentiMm), (1, 0, 0xFFFF552E, 120));
   });
 
-  test('códigos fixos da ferramenta; o 3 (marca-texto) fica para a G17', () {
+  test('códigos fixos da ferramenta; o 3 é o marca-texto (G17)', () {
     expect(InkTool.pen.code, 1);
     expect(InkTool.line.code, 2);
+    expect(InkTool.marker.code, 3);
     expect(InkTool.fromCode(1), InkTool.pen);
     expect(InkTool.fromCode(2), InkTool.line);
-    expect(InkTool.fromCode(3), isNull);
+    // G17: o 3 é o Marca-texto (a tinta translúcida — R22)
+    expect(InkTool.fromCode(3), InkTool.marker);
+    expect(InkTool.fromCode(4), isNull);
     expect(InkTool.fromCode(0), isNull);
   });
 
