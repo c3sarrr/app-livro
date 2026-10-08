@@ -33,7 +33,8 @@ enum Bnk1Unit {
   /// `over_text`: 1/100 do em da linha da âncora.
   em(100),
 
-  /// `space`: 1/10000 da caixa do espaço.
+  /// `space`: x em 1/10000 da largura da caixa do espaço; y em 1/10000 de linha da nota (42 px), a partir do topo
+  /// da caixa (Anexo 03 §9.5, G18 — `note_ink.dart`).
   box(10000);
 
   const Bnk1Unit(this.scale);
