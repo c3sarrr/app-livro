@@ -16,7 +16,9 @@ import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/layout/chapter_layout.dart';
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
+import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -536,6 +538,94 @@ void main() {
       final rec = ui.PictureRecorder();
       c.paint(ui.Canvas(rec));
       rec.endRecording().dispose();
+    });
+  });
+
+  group('espaço aberto (G18)', () {
+    late EpubBook livro;
+    setUp(() {
+      livro = EpubBook.open(_arquivo);
+      addTearDown(livro.close);
+    });
+
+    /// A âncora do fim da 1ª frase depois de 1/3 do capítulo 3.
+    int ancora() {
+      final texto = chapterOf(livro, 3).item.text;
+      return texto.indexOf('. ', texto.length ~/ 3) + 1;
+    }
+
+    Future<PageBreaks?> lerCache(PagerCacheKey chave, BookPager p) =>
+        chave.dao.get(
+          userBookId: idTeste(1),
+          settingsHash: p.settingsHash,
+          viewport: viewportKey(const ReaderTypography(), 3),
+          fontsVersion: readerFontsVersion,
+        );
+
+    test('os espaços entram nas páginas; o cache guarda a assinatura e só vale com a mesma', () async {
+      final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
+      addTearDown(db.close);
+      final chave = PagerCacheKey(
+        userBookId: idTeste(1),
+        devicePixelRatio: 3,
+        dao: PageLayoutCacheDao(db),
+      );
+      final at = ancora();
+      var altura = 206.0;
+      List<SpaceCut> espacos(int spine, ReaderTypography t) =>
+          spine == 3 ? [SpaceCut(at: at, height: altura, id: 'n')] : const [];
+
+      final primeiro = novo(cache: chave)..spaces = espacos;
+      await primeiro.openAt(3, at);
+      final layout = (await primeiro.settle())!;
+      expect(
+        layout.pages.expand((p) => p.slices).whereType<SpaceSlice>(),
+        hasLength(1),
+      );
+      expect(primeiro.position!.page.start, lessThanOrEqualTo(at));
+      PageBreaks? gravado;
+      for (var i = 0; i < 50 && gravado?.chapters[3] == null; i++) {
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+        gravado = await lerCache(chave, primeiro);
+      }
+      expect(gravado!.chapters[3], layout.pageStarts);
+      expect(
+        gravado.spaces[3],
+        spaceSignature(espacos(3, primeiro.typography)),
+      );
+      expect(gravado.spaces.containsKey(2), isFalse);
+
+      // os mesmos espaços: a página da posição sai do cache
+      final segundo = novo(cache: chave)..spaces = espacos;
+      expect((await segundo.openAt(3, at)).pageIndex, isNull);
+
+      // outra altura: o cache do capítulo 3 não vale
+      altura = 290;
+      final terceiro = novo(cache: chave)..spaces = espacos;
+      expect((await terceiro.openAt(3, at)).pageIndex, isNotNull);
+    });
+
+    test('respace: repagina com os espaços novos e volta à página do caractere lido', () async {
+      final at = ancora();
+      var com = false;
+      final p = novo()
+        ..spaces = (spine, t) => com && spine == 3
+            ? [SpaceCut(at: at, height: 206, id: 'n')]
+            : const [];
+      await p.openAt(3, at);
+      final antes = (await p.settle())!;
+      expect(
+        antes.pages.expand((x) => x.slices).whereType<SpaceSlice>(),
+        isEmpty,
+      );
+      com = true;
+      await p.respace();
+      final depois = (await p.settle())!;
+      expect(
+        depois.pages.expand((x) => x.slices).whereType<SpaceSlice>(),
+        hasLength(1),
+      );
+      await contem(p, at);
     });
   });
 }

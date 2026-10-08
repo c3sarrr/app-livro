@@ -94,17 +94,26 @@ final class LocalFilesDao {
 
 /// Onde cada página começa (posição no texto canônico), por item do spine, para um arquivo ([sha]).
 final class PageBreaks {
-  const PageBreaks({required this.sha, required this.chapters});
+  const PageBreaks({
+    required this.sha,
+    required this.chapters,
+    this.spaces = const {},
+  });
 
   final String sha;
 
   /// Item do spine → início de cada página.
   final Map<int, List<int>> chapters;
 
+  /// G18: item do spine → a assinatura dos espaços abertos com que ele foi paginado (sem entrada = sem espaços).
+  final Map<int, String> spaces;
+
   List<int> encode() => utf8.encode(
     jsonEncode({
       'sha': sha,
       'c': {for (final e in chapters.entries) '${e.key}': e.value},
+      if (spaces.isNotEmpty)
+        's': {for (final e in spaces.entries) '${e.key}': e.value},
     }),
   );
 
@@ -113,11 +122,15 @@ final class PageBreaks {
     try {
       final j = jsonDecode(utf8.decode(bytes)) as Map<String, Object?>;
       final c = j['c']! as Map<String, Object?>;
+      final s = (j['s'] as Map<String, Object?>?) ?? const {};
       return PageBreaks(
         sha: j['sha']! as String,
         chapters: {
           for (final e in c.entries)
             int.parse(e.key): [for (final x in e.value! as List) x as int],
+        },
+        spaces: {
+          for (final e in s.entries) int.parse(e.key): e.value! as String,
         },
       );
     } on Object {

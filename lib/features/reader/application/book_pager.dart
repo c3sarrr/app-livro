@@ -27,6 +27,7 @@ import '../layout/page_painter.dart' show ReaderImageOf;
 import '../layout/page_snapshot.dart';
 import '../layout/paginator.dart';
 import '../layout/reader_typography.dart';
+import '../layout/space_cut.dart';
 
 export '../layout/display_page.dart' show PageDirection;
 export '../layout/page_snapshot.dart' show PageSnapshot;
@@ -146,6 +147,7 @@ final class BookPager {
     this._cache,
     DateTime Function()? now,
     this._imageOf,
+    this.spaces,
   }) : _t = typography,
        _now = now ?? DateTime.now,
        _linear = [
@@ -163,6 +165,11 @@ final class BookPager {
   final ReaderImageOf? _imageOf;
   final List<int> _linear;
   ReaderTypography _t;
+
+  /// G18: os espaços abertos de cada capítulo (as notas à mão). Mudou? [respace].
+  SpaceCutsOf? spaces;
+
+  List<SpaceCut> _cutsOf(int spine) => spaces?.call(spine, _t) ?? const [];
 
   /// Capítulos montados com os ajustes de agora.
   Map<int, _Chapter> _chapters = {};
@@ -242,6 +249,10 @@ final class BookPager {
       gen,
     );
   }
+
+  /// G18: os espaços abertos mudaram (uma nota nova, mudada ou apagada): repagina como numa mudança de ajustes —
+  /// o cache dos capítulos cujos espaços não mudaram continua valendo (a assinatura de cada um).
+  Future<PagerPosition> respace() => relayout(_t);
 
   /// Próxima página (atravessa capítulos). `false` = fim do livro, ou a virada perdeu a vez para uma
   /// abertura mais nova.
@@ -489,7 +500,12 @@ final class BookPager {
     for (var i = 0; i < starts.length; i++) {
       if (starts[i] <= offset) k = i;
     }
-    final q = layoutPageFrom(ch.content, _t, starts[k]);
+    final q = layoutPageFrom(
+      ch.content,
+      _t,
+      starts[k],
+      cuts: _cutsOf(ch.content.spineIndex),
+    );
     if (q == null) return null;
     final contains =
         q.page.end > offset || q.page.end >= ch.content.item.text.length;
@@ -785,7 +801,11 @@ final class BookPager {
   ChapterLayoutJob _ensureJob(_Chapter ch, int priority) {
     var job = ch.job;
     if (job == null) {
-      job = ChapterLayoutJob(ch.content, _t);
+      job = ChapterLayoutJob(
+        ch.content,
+        _t,
+        cuts: _cutsOf(ch.content.spineIndex),
+      );
       ch.job = job;
       final spine = ch.content.spineIndex;
       final mine = job;
@@ -832,6 +852,10 @@ final class BookPager {
     await _loadBreaks(key);
     // os ajustes mudaram enquanto o cache era lido
     if (layoutGen != _layoutGen) return null;
+    // G18: só com os mesmos espaços abertos
+    if ((_breaks?.spaces[spine] ?? '') != spaceSignature(_cutsOf(spine))) {
+      return null;
+    }
     return _breaks?.chapters[spine];
   }
 
@@ -866,9 +890,15 @@ final class BookPager {
     // junta com o que já está guardado (lido antes, para não apagar os outros capítulos)
     await _loadBreaks(key);
     if (_disposed || layoutGen != _layoutGen) return;
+    final signature = spaceSignature(_cutsOf(spine));
     final merged = PageBreaks(
       sha: index.contentSha256,
       chapters: {...?_breaks?.chapters, spine: starts},
+      spaces: {
+        for (final e in {...?_breaks?.spaces}.entries)
+          if (e.key != spine) e.key: e.value,
+        if (signature.isNotEmpty) spine: signature,
+      },
     );
     _breaks = merged;
     try {

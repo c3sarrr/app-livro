@@ -1,6 +1,7 @@
 // G10.2 — cache das páginas (`page_layout_cache`, Anexo 03 §7.2): grava e lê o início de cada página por
 // capítulo; a chave é livro + ajustes + viewport + versão das fontes; conteúdo de outro formato não vale; some
 // com o livro.
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
@@ -94,4 +95,43 @@ void main() {
       expect(PageBreaks.decode(breaks.encode())!.chapters[1], [0, 1200, 2405]);
     },
   );
+
+  test('G18: a assinatura dos espaços de cada capítulo vai e volta; o blob antigo (sem ela) vale sem espaços', () async {
+    final com = PageBreaks(
+      sha: 'a' * 64,
+      chapters: const {
+        1: [0, 1200],
+        3: [0],
+      },
+      spaces: const {1: '120:206.00'},
+    );
+    await dao.put(
+      userBookId: livro,
+      settingsHash: 'h1',
+      viewport: '390x844@3',
+      fontsVersion: 1,
+      breaks: com,
+      now: DateTime.utc(2026, 10, 8),
+    );
+    final r = (await ler())!;
+    expect(r.spaces, {1: '120:206.00'});
+    expect(r.chapters[1], [0, 1200]);
+    final antigo = PageBreaks.decode(
+      utf8.encode(
+        jsonEncode({
+          'sha': 'a' * 64,
+          'c': {
+            '1': [0, 1200],
+          },
+        }),
+      ),
+    )!;
+    expect(antigo.spaces, isEmpty);
+    expect(antigo.chapters[1], [0, 1200]);
+    // o capítulo sem espaços não leva entrada
+    expect(
+      jsonDecode(utf8.decode(com.encode())),
+      containsPair('s', {'1': '120:206.00'}),
+    );
+  });
 }
