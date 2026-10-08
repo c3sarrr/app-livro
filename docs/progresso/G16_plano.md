@@ -526,7 +526,8 @@ Testes (banco em memória):
   (`simulatedPressure`) na captura; toque sem arrastar = 1 ponto; `DrawEnd` vira `AddStroke` (no desenho tocado ou num
   novo; desenho que passaria de 256 KiB fecha e o traço começa outro).
 - Reta: prévia ao vivo; grudada (15°/4°); < 4 px não cria; grava 2 pontos com `tool = line`.
-- Borracha: cada passada é um `Erase` (traços e grifos tocados).
+- Borracha: cada passada é um `Erase` (traços e grifos **à mão** tocados — D-168: os de seleção nem entram como
+  candidatos).
 - Laço: contorno ao vivo; ao soltar seleciona (≥ 50 %); arrastar dentro do retângulo move ao vivo (`MoveStrokes` ao
   soltar); tocar fora solta; `setTool(eraser)` com seleção apaga os selecionados (um `Erase`) e deixa a Borracha.
 - `changes()`: o `InkChanges` da sessão: desenhos novos e mudados com a âncora refeita (`placeDrawing` com o desenho
@@ -720,6 +721,10 @@ Testes: os lugares com área segura 0 e com 47/34 (iPhone); Noite; semântica.
   em 20,5) e para o BNK1 (pressão 0,5; larguras pela D-159: 2,3 → 125; 1,8 → 98; 2,4 → 131).
 - O mundo base ganha os traços (elipse com 2 traços; onda; duplo) e as âncoras de 8 chaves.
 - `mundoDaTela22`: sem a onda e o duplo (camadas e anotações); `t22` usa ele.
+- D-169: `mundoSemTintaDeHoje` (a tinta de hoje — os 3 desenhos e o grifo à mão — com a âncora sem lugar: outro `sha`
+  e uma citação que não existe no capítulo); os instantâneos e os livros de teste das pranchas 19, 20, 26, 26b, 27 e
+  27b passam a usar ele, e os goldens dessas pranchas não mudam (o teste prova que a contagem continua 12 e a página
+  não pinta tinta).
 - `mundoEpub(..., nbsp: {...})`: NBSP dentro dos 4 trechos anotados do cap. XXXII; as âncoras da 22 refeitas com o sha
   e a citação desse arquivo (os offsets não mudam).
 - O teste da G03 "22/23/23b/24": a 22 passa a ter 2 anotações (o grifo à mão e a elipse) e 1 camada — a única mudança
