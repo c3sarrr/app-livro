@@ -252,37 +252,38 @@ void main() {
   });
 
   testWidgets(
-    'Marca-texto, o poço, o Espaço e o 2º toque na ativa mostram o aviso e a ferramenta continua (D-163); a Borracha troca',
+    'G17: o Espaço avisa e a ferramenta continua (D-163); o poço e o 2º toque abrem o painel; o Voltar fecha o painel antes de concluir; o Marca-texto e a Borracha trocam',
     (tester) async {
       setCanvasView(tester, logical: const Size(390, 844));
       await abrirLeitor(tester, livro);
       await _anotar(tester);
-      await tester.tap(_key('ann.toolShelf.marker'));
+      await tester.tap(_key('ann.toolShelf.space'));
       await tester.pump();
       expect(_aviso(tester), readerSoonText);
       expect(_sessao(tester).tool, AnnotationTool.pen);
       await tester.pump(const Duration(seconds: 2));
       await tester.pump();
       expect(_aviso(tester), isNull);
+      // o poço abre o painel da caneta (R2); o Voltar fecha só o painel (R3, D-42 por camadas)
       await tester.tap(_key('ann.island.colorWell'));
-      await tester.pump();
-      expect(_aviso(tester), readerSoonText);
-      await tester.pump(const Duration(seconds: 2));
-      await tester.pump();
-      // o Espaço (G18) e o 2º toque na ativa (o painel da caneta — G17)
-      for (final k in const ['ann.toolShelf.space', 'ann.toolShelf.pen']) {
-        expect(_aviso(tester), isNull);
-        await tester.tap(_key(k));
-        await tester.pump();
-        expect(_aviso(tester), readerSoonText, reason: k);
-        expect(_sessao(tester).tool, AnnotationTool.pen, reason: k);
-        await tester.pump(const Duration(seconds: 2));
-        await tester.pump();
-      }
+      await _quadros(tester, 20);
+      expect(_key('ann.penPanel'), findsOneWidget);
+      await tester.binding.handlePopRoute();
+      await _quadros(tester, 20);
+      expect(_key('ann.penPanel'), findsNothing);
+      expect(_key('ann.mode'), findsOneWidget);
+      expect(_aviso(tester), isNull);
+      // o 2º toque na ativa (R1)
+      await tester.tap(_key('ann.toolShelf.pen'));
+      await _quadros(tester, 20);
+      expect(_key('ann.penPanel'), findsOneWidget);
+      await tester.tap(_key('ann.toolShelf.marker'));
+      await _quadros(tester, 20);
+      expect(_key('ann.penPanel'), findsNothing);
+      expect(_sessao(tester).tool, AnnotationTool.marker);
       await tester.tap(_key('ann.toolShelf.eraser'));
       await tester.pump();
       expect(_sessao(tester).tool, AnnotationTool.eraser);
-      await tester.pump(const Duration(seconds: 2));
       await _concluir(tester);
     },
   );

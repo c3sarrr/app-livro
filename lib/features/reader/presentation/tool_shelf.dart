@@ -13,6 +13,9 @@ import '../../../core/design_system/widgets/pressable.dart';
 import '../application/annotation_session.dart' show AnnotationTool;
 import 'reader_chrome_scope.dart';
 
+/// A altura da prateleira (L22c: 70).
+const double toolShelfHeight = 70;
+
 /// Quanto a ferramenta ativa sobe (L22c: `translateY(-12px)`).
 const double toolShelfLift = 12;
 

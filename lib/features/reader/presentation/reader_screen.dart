@@ -1107,7 +1107,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         canPop: false,
         onPopInvokedWithResult: (didPop, _) {
           if (didPop) return;
-          if (_ann != null) {
+          if (_ann case final a? when a.session.panel.value != null) {
+            // com um painel aberto (telas 23 e 23b), o Voltar fecha o painel (D-42 por camadas — R3)
+            a.session.closePanel();
+          } else if (_ann != null) {
             // no modo anotação, o Voltar é o Concluir (D-42)
             unawaited(_concludeAnnotation());
           } else if (_note != null) {

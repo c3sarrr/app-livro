@@ -3,8 +3,11 @@
 // (o anel cônico com o miolo na cor da tinta e o aro claro), a espessura (Fina/Média/Grossa, a ativa em `brand`) e,
 // à direita, Desfazer e Refazer (vazios: a 0,38 e "indisponível"). No Noite (D-167 17), as cores das ilhas do Noite;
 // os ícones tingidos com a cor das letras.
+// G17: o poço e os pontos na cor da ferramenta de tinta em uso (a do marca-texto com ele — R2); com o Marca-texto, os 3
+// pontos são Baixa/Média/Alta (a ALTURA do painel), apagados com Sublinhado ou Ondulado (R18).
 import 'package:flutter/widgets.dart';
 
+import '../../../core/design_system/color/color_names.dart';
 import '../../../core/design_system/painters/chromium_dash.dart';
 import '../../../core/design_system/painters/conic_ring_painter.dart';
 import '../../../core/design_system/text/app_text.dart';
@@ -16,6 +19,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../annotations/domain/annotation.dart' show FillHeight;
 import '../annotations/domain/pen_presets.dart';
 import '../annotations/ink/ink_stroke.dart' show colorHex;
 import '../application/annotation_session.dart' show AnnotationTool;
@@ -36,13 +40,27 @@ class AnnotationIsland extends StatelessWidget {
     required this.onStrokeSize,
     required this.onUndo,
     required this.onRedo,
+    this.inkTool = AnnotationTool.pen,
+    this.height,
+    this.heightEnabled = true,
+    this.onHeight,
   });
 
   final AnnotationTool tool;
 
-  /// A cor da caneta (o miolo do poço e os pontos da espessura).
+  /// A ferramenta de tinta em uso (a do poço — R2).
+  final AnnotationTool inkTool;
+
+  /// A cor da ferramenta de tinta (o miolo do poço e os pontos da espessura).
   final Color ink;
   final StrokeSize strokeSize;
+
+  /// Com o Marca-texto: a altura do fundo (os 3 pontos viram Baixa/Média/Alta — R18); `null` = a espessura.
+  final FillHeight? height;
+
+  /// `false` com Sublinhado ou Ondulado: os pontos ficam a 0,38 e "indisponível" (R18).
+  final bool heightEnabled;
+  final ValueChanged<FillHeight>? onHeight;
   final bool canUndo, canRedo;
   final VoidCallback onColorWell, onUndo, onRedo;
   final ValueChanged<StrokeSize> onStrokeSize;
@@ -56,20 +74,11 @@ class AnnotationIsland extends StatelessWidget {
     (AnnotationTool.space, 'space', 'Espaço'),
   ];
 
-  /// O nome das cores da tela 23 (as favoritas de fábrica) para o leitor de tela.
-  static const Map<String, String> _colorNames = {
-    '#FF552E': 'coral',
-    '#552CB7': 'roxo',
-    '#058CD7': 'azul',
-    '#00995E': 'verde',
-    '#F2A815': 'dourado',
-    '#1A1714': 'tinta preta',
-  };
-
-  /// O nome de [c] para o poço; outra cor = o código (`#12AB34`).
+  /// O nome de [c] para o poço (as favoritas da tela 23 e as cores do marca-texto); outra cor = o código
+  /// (`#12AB34`).
   static String colorName(Color c) {
     final hex = colorHex(c.toARGB32());
-    return _colorNames[hex] ?? hex;
+    return colorNameOf(hex) ?? hex;
   }
 
   @override
@@ -201,8 +210,9 @@ class AnnotationIsland extends StatelessWidget {
 
   Widget _colorWell(ReaderChromeScope scope) => Pressable(
     key: const ValueKey('ann.island.colorWell'),
-    semanticsLabel:
-        'Cor da caneta: ${colorName(ink)}. Toque para escolher qualquer cor',
+    semanticsLabel: inkTool == AnnotationTool.marker
+        ? 'Cor do marca-texto: ${colorName(ink)}. Toque para ajustar o marca-texto'
+        : 'Cor da caneta: ${colorName(ink)}. Toque para escolher qualquer cor',
     onTap: onColorWell,
     child: CustomPaint(
       painter: ConicRingPainter(
@@ -227,11 +237,15 @@ class AnnotationIsland extends StatelessWidget {
   Widget _width(BuildContext context, BorderSide side) {
     final scope = ReaderChromeScope.of(context);
     final p = scope.palette;
+    final h = height;
+    final enabled = h == null || heightEnabled;
+    const sizes = [StrokeSize.thin, StrokeSize.medium, StrokeSize.thick];
+    const heights = [FillHeight.low, FillHeight.medium, FillHeight.high];
     return Semantics(
       key: const ValueKey('ann.island.width'),
       container: true,
       explicitChildNodes: true,
-      label: 'Espessura do traço',
+      label: h == null ? 'Espessura do traço' : 'Altura do fundo',
       child: NeoBox(
         height: 42,
         color: p.well,
@@ -242,48 +256,65 @@ class AnnotationIsland extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 1,
           children: [
-            for (final (s, name, label, dot, ring) in const [
-              (StrokeSize.thin, 'thin', 'Fina', 5.0, 1.0),
-              (StrokeSize.medium, 'medium', 'Média', 9.0, 1.2),
-              (StrokeSize.thick, 'thick', 'Grossa', 14.0, 1.4),
+            for (final (i, name, label, heightLabel, dot, ring) in const [
+              (0, 'thin', 'Fina', 'Baixa', 5.0, 1.0),
+              (1, 'medium', 'Média', 'Média', 9.0, 1.2),
+              (2, 'thick', 'Grossa', 'Alta', 14.0, 1.4),
             ])
-              Pressable(
-                key: ValueKey('ann.island.width.$name'),
-                semanticsLabel: label,
-                checked: s == strokeSize,
-                onTap: () => onStrokeSize(s),
-                child: NeoBox(
-                  width: 36,
-                  height: 36,
-                  color: s == strokeSize ? scope.tint(scope.brand) : null,
-                  border: s == strokeSize
-                      ? side
-                      : const BorderSide(
-                          width: AppStrokes.regular,
-                          color: Color(0x00000000),
-                        ),
-                  radius: BorderRadius.circular(18),
-                  child: Center(
-                    child: SizedBox.square(
-                      key: ValueKey('ann.island.width.$name.dot'),
-                      dimension: dot,
-                      // o ponto na cor da tinta com o aro fino (`box-shadow: 0 0 0 Npx`)
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: scope.tint(ink),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: p.border,
-                              spreadRadius: ring,
-                              blurRadius: 0,
+              Builder(
+                builder: (context) {
+                  final on = h == null
+                      ? sizes[i] == strokeSize
+                      : heights[i] == h;
+                  // apagados (R18): a 0,38, como o Desfazer vazio
+                  Color fade(Color c) => enabled
+                      ? c
+                      : c.withValues(alpha: c.a * islandDisabledAlpha);
+                  return Pressable(
+                    key: ValueKey('ann.island.width.$name'),
+                    semanticsLabel: h == null ? label : heightLabel,
+                    checked: on,
+                    enabled: enabled,
+                    onTap: h == null
+                        ? () => onStrokeSize(sizes[i])
+                        : () => onHeight?.call(heights[i]),
+                    child: NeoBox(
+                      width: 36,
+                      height: 36,
+                      color: on ? fade(scope.tint(scope.brand)) : null,
+                      border: on
+                          ? BorderSide(
+                              width: AppStrokes.regular,
+                              color: fade(p.border),
+                            )
+                          : const BorderSide(
+                              width: AppStrokes.regular,
+                              color: Color(0x00000000),
                             ),
-                          ],
+                      radius: BorderRadius.circular(18),
+                      child: Center(
+                        child: SizedBox.square(
+                          key: ValueKey('ann.island.width.$name.dot'),
+                          dimension: dot,
+                          // o ponto na cor da tinta com o aro fino (`box-shadow: 0 0 0 Npx`)
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: fade(scope.tint(ink)),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: fade(p.border),
+                                  spreadRadius: ring,
+                                  blurRadius: 0,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
           ],
         ),

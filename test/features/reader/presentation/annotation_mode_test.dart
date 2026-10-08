@@ -1,7 +1,9 @@
 // G16.6 — a camada do modo anotação: os lugares da D-167 (3) com a área segura 0, a de um iPhone (47/34, que dá os
 // lugares do arquivo) e uma maior; a entrada (o texto desce 30 em 220 ms, a moldura aparece em 150 ms, os toques só
 // depois) e a saída ao contrário; o Noite (D-167 17); a pílula da falha ao salvar (D-21) e o aviso da D-163 acima da
-// prateleira; as ferramentas (as das próximas fases, o poço e o 2º toque na ativa avisam); a semântica.
+// prateleira; as ferramentas (o Espaço avisa); a semântica.
+// G17: o 2º toque e o poço abrem os painéis (R1, R2), o véu só fecha (R3), a prateleira e a ilha vivas (R4), 150 ms
+// (R5) e o marca-texto na cor dele (R28).
 import 'dart:async';
 import 'dart:ui' as ui;
 
@@ -17,6 +19,7 @@ import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_mode.dart';
 import 'package:app_leitura/features/reader/presentation/ink_latency_meter.dart';
+import 'package:app_leitura/features/reader/presentation/tool_shelf.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -389,29 +392,202 @@ void main() {
   );
 
   testWidgets(
-    'ferramentas: a Borracha troca; Marca-texto, Espaço, o poço e o 2º toque na ativa avisam; Concluir',
+    'ferramentas: a Borracha e o Marca-texto trocam; o Espaço avisa; Borracha e Laço sem painel no 2º toque; Concluir',
     (tester) async {
       await montar(tester);
       await tester.tap(chave('ann.toolShelf.eraser'));
       await tester.pump();
       expect(sessao.tool, AnnotationTool.eraser);
-      await tester.tap(chave('ann.toolShelf.marker'));
-      await tester.tap(chave('ann.toolShelf.space'));
       await tester.tap(chave('ann.toolShelf.eraser'));
-      await tester.tap(chave('ann.island.colorWell'));
+      await tester.pump();
+      expect(sessao.panel.value, isNull);
+      await tester.tap(chave('ann.toolShelf.space'));
+      await tester.tap(chave('ann.toolShelf.marker'));
+      await tester.pump();
+      expect(sessao.tool, AnnotationTool.marker);
       await tester.tap(chave('ann.done'));
       await tester.pump();
-      expect(sessao.tool, AnnotationTool.eraser);
-      expect(eventos, [
-        'em breve',
-        'em breve',
-        'em breve',
-        'em breve',
-        'concluir',
-      ]);
+      expect(eventos, ['em breve', 'concluir']);
+      await tester.tap(chave('ann.toolShelf.lasso'));
+      await tester.tap(chave('ann.toolShelf.lasso'));
+      await tester.pump();
+      expect(sessao.panel.value, isNull);
       await tester.tap(chave('ann.island.width.thick'));
       await tester.pump();
       expect(sessao.strokeSize.name, 'thick');
+    },
+  );
+
+  group('painéis (R1–R5)', () {
+    testWidgets(
+      '2º toque na Caneta abre a 23 com a seta na Caneta; de novo fecha (R1)',
+      (tester) async {
+        await montar(tester);
+        expect(chave('ann.fade'), findsNothing);
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, (
+          kind: PanelKind.pen,
+          from: AnnotationTool.pen,
+        ));
+        expect(chave('ann.fade'), findsOneWidget);
+        expect(chave('ann.penPanel'), findsOneWidget);
+        expect(r(tester, 'ann.penPanel.arrow').center.dx, closeTo(66.25, 0.5));
+        // a base 22 acima do topo da prateleira (676 na prancha)
+        expect(r(tester, 'ann.penPanel').bottom, closeTo(654, 0.5));
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNull);
+        expect(chave('ann.fade'), findsNothing);
+        expect(eventos, isEmpty);
+      },
+    );
+
+    testWidgets(
+      'Reta ativa: o 2º toque abre a 23 com a seta na Reta; Marca-texto abre a 23b (R1)',
+      (tester) async {
+        await montar(tester);
+        await tester.tap(chave('ann.toolShelf.line'));
+        await tester.pump();
+        await tester.tap(chave('ann.toolShelf.line'));
+        await tester.pumpAndSettle();
+        expect(chave('ann.penPanel'), findsOneWidget);
+        // 251 + 1,5 + 14 + 8,75
+        expect(r(tester, 'ann.penPanel.arrow').center.dx, closeTo(275.25, 0.5));
+        // outra ferramenta fecha e troca (R4)
+        await tester.tap(chave('ann.toolShelf.marker'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNull);
+        expect(sessao.tool, AnnotationTool.marker);
+        await tester.tap(chave('ann.toolShelf.marker'));
+        await tester.pumpAndSettle();
+        expect(chave('ann.markerPanel'), findsOneWidget);
+        expect(
+          r(tester, 'ann.markerPanel.arrow').center.dx,
+          closeTo(119.25, 0.5),
+        );
+      },
+    );
+
+    testWidgets(
+      'o poço: com a Borracha depois do Marca-texto abre a 23b; tocar de novo fecha (R2)',
+      (tester) async {
+        await montar(tester);
+        await tester.tap(chave('ann.toolShelf.marker'));
+        await tester.tap(chave('ann.toolShelf.eraser'));
+        await tester.pump();
+        await tester.tap(chave('ann.island.colorWell'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, (
+          kind: PanelKind.marker,
+          from: AnnotationTool.marker,
+        ));
+        expect(sessao.tool, AnnotationTool.eraser);
+        await tester.tap(chave('ann.island.colorWell'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNull);
+      },
+    );
+
+    testWidgets(
+      'o toque no véu só fecha: não desenha nem conclui; o ✕ fecha (R3)',
+      (tester) async {
+        await montar(tester);
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pumpAndSettle();
+        // arrastar no véu não desenha (o painel fica)
+        await tester.dragFrom(const Offset(100, 300), const Offset(80, 0));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNotNull);
+        expect(sessao.drawings, isEmpty);
+        // tocar no Concluir por baixo do véu só fecha o painel
+        await tester.tapAt(const Offset(300, 75));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNull);
+        expect(eventos, isEmpty);
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pumpAndSettle();
+        await tester.tap(chave('ann.penPanel.close'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNull);
+      },
+    );
+
+    testWidgets(
+      'com o painel aberto, a ilha funciona: espessura, Desfazer e Refazer (R4)',
+      (tester) async {
+        await montar(tester);
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pumpAndSettle();
+        await tester.tap(chave('ann.island.width.thin'));
+        await tester.pump();
+        expect(sessao.strokeSize.name, 'thin');
+        expect(sessao.panel.value, isNotNull);
+        // o Espaço com o painel aberto: fecha e avisa (R1)
+        await tester.tap(chave('ann.toolShelf.space'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, isNull);
+        expect(eventos, ['em breve']);
+      },
+    );
+
+    testWidgets(
+      'o véu e o painel aparecem em 150 ms; com "reduzir movimento", na hora (R5)',
+      (tester) async {
+        await montar(tester);
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 75));
+        final meio = tester.widget<ColoredBox>(chave('ann.fade')).color.a;
+        expect(meio, closeTo(0.66 * 0.5, 0.08));
+        await tester.pump(const Duration(milliseconds: 80));
+        expect(
+          tester.widget<ColoredBox>(chave('ann.fade')).color.a,
+          closeTo(0.66, 0.01),
+        );
+        await tester.tap(chave('ann.penPanel.close'));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 75));
+        expect(chave('ann.fade'), findsOneWidget);
+        await tester.pump(const Duration(milliseconds: 80));
+        expect(chave('ann.fade'), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'com "reduzir movimento", o painel abre e fecha sem animar (R5)',
+      (tester) async {
+        tester.platformDispatcher.accessibilityFeaturesTestValue =
+            const FakeAccessibilityFeatures(disableAnimations: true);
+        addTearDown(
+          tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+        );
+        await montar(tester);
+        await tester.tap(chave('ann.toolShelf.pen'));
+        await tester.pump();
+        expect(
+          tester.widget<ColoredBox>(chave('ann.fade')).color.a,
+          closeTo(0.66, 0.01),
+        );
+        await tester.tap(chave('ann.penPanel.close'));
+        await tester.pump();
+        expect(chave('ann.fade'), findsNothing);
+      },
+    );
+  });
+
+  testWidgets(
+    'R28: na prateleira, o Marca-texto na cor do marca-texto e a Caneta na da caneta',
+    (tester) async {
+      await montar(tester);
+      sessao.setHighlighterColor('#ABCF82');
+      await tester.tap(chave('ann.toolShelf.marker'));
+      await tester.pump();
+      final shelf = tester.widget<ToolShelf>(find.byType(ToolShelf));
+      expect(
+        (shelf.ink, shelf.marker),
+        (const Color(0xFFFF552E), const Color(0xFFABCF82)),
+      );
     },
   );
 

@@ -6,12 +6,16 @@
 // - a pílula da falha ao salvar (D-21) e o aviso "Chega numa próxima fase" (D-163) acima da prateleira.
 // Entrada: o texto desce 30 px em 220 ms `easeOutCubic` e a moldura aparece em 150 ms; saída ao contrário (o texto
 // sobe e a moldura some), e então [onExited]. Enquanto anima, os toques não chegam à página.
-// A prateleira e a ilha decidem pouco: a ferramenta das próximas fases, o 2º toque na ativa e o poço de cor chamam
-// [onSoon] (D-163); o resto vai direto à sessão.
+// A prateleira e a ilha decidem pouco: o Espaço chama [onSoon] (D-163); o 2º toque na ativa e o poço abrem e fecham
+// o painel dela (telas 23 e 23b — R1, R2); o resto vai direto à sessão.
+// G17: com um painel aberto, o véu e o painel ficam entre a página (e o topo) e a prateleira, que continua viva com a
+// ilha por cima (R4); o véu e o painel aparecem e somem em 150 ms (R5).
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 
+import '../annotations/domain/annotation.dart' show HighlightStyle;
+import '../annotations/ink/ink_stroke.dart' show argbOfHex;
 import '../application/annotation_session.dart';
 import '../domain/reader_settings.dart';
 import '../layout/display_page.dart';
@@ -25,6 +29,7 @@ import 'reader_chrome_scope.dart';
 import 'reader_overlays.dart';
 import 'reader_page_view.dart' show readerTurnCurve, readerTurnDuration;
 import 'reader_palette.dart';
+import 'tool_panel_frame.dart';
 import 'tool_shelf.dart';
 
 /// D-167 (3): o topo da pílula e do Concluir.
@@ -82,7 +87,7 @@ class AnnotationMode extends StatefulWidget {
   /// Concluir (e o Voltar — D-42): a tela grava e sai.
   final VoidCallback onDone;
 
-  /// Marca-texto, Espaço, o poço de cor e o 2º toque na ativa (D-163).
+  /// O Espaço (D-163).
   final VoidCallback onSoon;
 
   final List<PaintedHighlight> highlights, inkHighlights;
@@ -114,6 +119,13 @@ class _AnnotationModeState extends State<AnnotationMode>
     duration: readerFade,
   );
 
+  /// O véu e o painel (R5); [_shown] fica até o painel sumir.
+  late final AnimationController _panel = AnimationController(
+    vsync: this,
+    duration: readerFade,
+  );
+  OpenPanel? _shown;
+
   /// O medidor criado aqui (com o define), que o modo liga e desliga.
   final InkLatencyMeter? _ownMeter = inkLatencyMeterOn
       ? InkLatencyMeter()
@@ -123,6 +135,8 @@ class _AnnotationModeState extends State<AnnotationMode>
   void initState() {
     super.initState();
     _text.addStatusListener(_status);
+    widget.session.panel.addListener(_panelChanged);
+    _panel.addStatusListener(_panelStatus);
     _ownMeter?.start();
     if (widget.open) _show();
   }
@@ -130,6 +144,10 @@ class _AnnotationModeState extends State<AnnotationMode>
   @override
   void didUpdateWidget(AnnotationMode old) {
     super.didUpdateWidget(old);
+    if (!identical(old.session, widget.session)) {
+      old.session.panel.removeListener(_panelChanged);
+      widget.session.panel.addListener(_panelChanged);
+    }
     if (old.open == widget.open) return;
     if (widget.open) {
       _show();
@@ -150,16 +168,87 @@ class _AnnotationModeState extends State<AnnotationMode>
 
   @override
   void dispose() {
+    widget.session.panel.removeListener(_panelChanged);
     _ownMeter?.dispose();
     _text.dispose();
     _frame.dispose();
+    _panel.dispose();
     super.dispose();
   }
 
+  // ---- painéis (R1–R5) --------------------------------------------------------------------------------------
+
+  void _panelChanged() {
+    final p = widget.session.panel.value;
+    final instant = MediaQuery.disableAnimationsOf(context);
+    if (p != null) {
+      setState(() => _shown = p);
+      if (instant) {
+        _panel.value = 1;
+      } else {
+        _panel.forward();
+      }
+    } else if (instant) {
+      _panel.value = 0;
+      setState(() => _shown = null);
+    } else {
+      _panel.reverse();
+    }
+  }
+
+  void _panelStatus(AnimationStatus st) {
+    if (st == AnimationStatus.dismissed && widget.session.panel.value == null) {
+      setState(() => _shown = null);
+    }
+  }
+
+  /// Uma ferramenta da prateleira: na ativa, abre ou fecha o painel dela (R1; Borracha e Laço não têm); outra
+  /// ferramenta fecha o painel e troca (R4); o Espaço avisa (D-163).
   void _tool(AnnotationTool t) {
     final s = widget.session;
-    // o 2º toque na ativa abriria o painel dela (telas 23/23b — G17); as ferramentas das próximas fases ficam
-    if (t == s.tool || !s.setTool(t)) widget.onSoon();
+    if (t == s.tool) {
+      if (t != AnnotationTool.pen &&
+          t != AnnotationTool.line &&
+          t != AnnotationTool.marker) {
+        return;
+      }
+      if (s.panel.value?.from == t) {
+        s.closePanel();
+      } else {
+        s.openPanel(t);
+      }
+      return;
+    }
+    if (!s.setTool(t)) widget.onSoon();
+  }
+
+  /// O poço abre o painel da ferramenta de tinta em uso; com um painel aberto, fecha (R2).
+  void _well() {
+    final s = widget.session;
+    if (s.panel.value != null) {
+      s.closePanel();
+    } else {
+      s.openPanel(s.tool);
+    }
+  }
+
+  /// O véu e o painel aberto (telas 23 e 23b), com a base 22 acima do topo da prateleira e a seta na ferramenta de
+  /// onde ele saiu.
+  Widget _panelOf(OpenPanel shown, double shelfBottom, Color paper) {
+    final s = widget.session;
+    final pen = shown.kind == PanelKind.pen;
+    return ToolPanelLayer(
+      id: pen ? 'ann.penPanel' : 'ann.markerPanel',
+      label: pen ? 'Ajustes da caneta' : 'Ajustes do marca-texto',
+      title: pen ? 'Caneta' : 'Marca-texto',
+      subtitle: '',
+      arrowLeft: panelArrowLeft(shown.from),
+      bottom: shelfBottom + toolShelfHeight + panelAboveShelf,
+      bottomPadding: pen ? 18 : 16,
+      paper: paper,
+      onClose: s.closePanel,
+      child: const SizedBox.shrink(),
+    );
   }
 
   @override
@@ -194,12 +283,16 @@ class _AnnotationModeState extends State<AnnotationMode>
       ),
     );
     return AnimatedBuilder(
-      animation: Listenable.merge([_text, _frame, s]),
+      animation: Listenable.merge([_text, _frame, _panel, s]),
       child: canvas,
       builder: (context, canvas) {
         final a = _frame.value;
         final settled = widget.open && _text.isCompleted;
         final ink = Color(s.color);
+        final pen = Color(argbOfHex(s.presets.penColor));
+        final marker = Color(argbOfHex(s.presets.highlighterColor));
+        final shown = _shown;
+        final pa = a * _panel.value;
         final message = s.failed ? annotationSaveFailed : widget.toast;
         return IgnorePointer(
           key: const ValueKey('ann.mode'),
@@ -223,28 +316,6 @@ class _AnnotationModeState extends State<AnnotationMode>
                     ),
                   ),
                   Positioned(
-                    left: (size.width - 312) / 2,
-                    bottom: shelfBottom,
-                    child: ToolShelf(active: s.tool, ink: ink, onTool: _tool),
-                  ),
-                  Positioned(
-                    left: 14,
-                    right: 14,
-                    bottom: bottom,
-                    height: annotationIslandHeight,
-                    child: AnnotationIsland(
-                      tool: s.tool,
-                      ink: ink,
-                      strokeSize: s.strokeSize,
-                      canUndo: s.canUndo,
-                      canRedo: s.canRedo,
-                      onColorWell: widget.onSoon,
-                      onStrokeSize: s.setStrokeSize,
-                      onUndo: s.undo,
-                      onRedo: s.redo,
-                    ),
-                  ),
-                  Positioned(
                     left: 14,
                     right: 14,
                     top: top,
@@ -253,11 +324,55 @@ class _AnnotationModeState extends State<AnnotationMode>
                       onDone: widget.onDone,
                     ),
                   ),
+                  if (shown != null)
+                    Positioned.fill(
+                      child: ReaderChromeScope(
+                        palette: chrome.faded(pa),
+                        brand: widget.brand,
+                        a: pa,
+                        child: _panelOf(shown, shelfBottom, paper.paper),
+                      ),
+                    ),
+                  Positioned(
+                    left: (size.width - 312) / 2,
+                    bottom: shelfBottom,
+                    child: ToolShelf(
+                      active: s.tool,
+                      ink: pen,
+                      marker: marker,
+                      onTool: _tool,
+                    ),
+                  ),
+                  Positioned(
+                    left: 14,
+                    right: 14,
+                    bottom: bottom,
+                    height: annotationIslandHeight,
+                    child: AnnotationIsland(
+                      tool: s.tool,
+                      inkTool: s.inkTool,
+                      ink: ink,
+                      strokeSize: s.strokeSize,
+                      height: s.tool == AnnotationTool.marker
+                          ? s.presets.highlighterHeight
+                          : null,
+                      heightEnabled:
+                          s.presets.highlighterStyle == HighlightStyle.fill,
+                      onHeight: s.setHighlighterHeight,
+                      canUndo: s.canUndo,
+                      canRedo: s.canRedo,
+                      onColorWell: _well,
+                      onStrokeSize: s.setStrokeSize,
+                      onUndo: s.undo,
+                      onRedo: s.redo,
+                    ),
+                  ),
                   if (message != null)
                     Positioned(
                       left: 0,
                       right: 0,
-                      bottom: shelfBottom + 70 + toolShelfLift + 12,
+                      bottom:
+                          shelfBottom + toolShelfHeight + toolShelfLift + 12,
                       child: Center(child: ReaderToastPill(text: message)),
                     ),
                 ],

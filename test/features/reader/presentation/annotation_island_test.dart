@@ -11,6 +11,8 @@ import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
 import 'package:app_leitura/core/design_system/tokens/app_shadows.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
+    show FillHeight;
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart'
     show AnnotationTool;
@@ -36,6 +38,8 @@ void main() {
     bool desfazer = true,
     bool refazer = false,
     ReaderPaper papel = ReaderPaper.creme,
+    FillHeight? altura,
+    bool alturaVale = true,
   }) async {
     final toques = <String>[];
     await montarPecasL22(
@@ -55,6 +59,12 @@ void main() {
             onStrokeSize: (s) => toques.add('espessura ${s.name}'),
             onUndo: () => toques.add('desfazer'),
             onRedo: () => toques.add('refazer'),
+            inkTool: tool == AnnotationTool.marker
+                ? AnnotationTool.marker
+                : AnnotationTool.pen,
+            height: altura,
+            heightEnabled: alturaVale,
+            onHeight: (a) => toques.add('altura ${a.name}'),
           ),
         ),
       ],
@@ -309,5 +319,96 @@ void main() {
       ],
       ['coral', 'roxo', 'azul', 'verde', 'dourado', 'tinta preta', '#12AB34'],
     );
+  });
+
+  testWidgets(
+    'R18: com o Marca-texto, o poço e os pontos amarelos; os pontos são Baixa/Média/Alta',
+    (tester) async {
+      final toques = await montar(
+        tester,
+        tool: AnnotationTool.marker,
+        tinta: AppColors.sun,
+        altura: FillHeight.medium,
+      );
+      final h = tester.ensureSemantics();
+      expect(
+        tester.getSemantics(chaveL22('ann.island.colorWell')),
+        isSemantics(
+          label:
+              'Cor do marca-texto: amarelo. Toque para ajustar o marca-texto',
+          isButton: true,
+          hasTapAction: true,
+        ),
+      );
+      expect(
+        tester.getSemantics(chaveL22('ann.island.width')),
+        isSemantics(label: 'Altura do fundo'),
+      );
+      for (final (id, rotulo, marcada) in const [
+        ('thin', 'Baixa', false),
+        ('medium', 'Média', true),
+        ('thick', 'Alta', false),
+      ]) {
+        expect(
+          tester.getSemantics(chaveL22('ann.island.width.$id')),
+          isSemantics(
+            label: rotulo,
+            hasCheckedState: true,
+            isChecked: marcada,
+            isInMutuallyExclusiveGroup: true,
+            hasTapAction: true,
+          ),
+        );
+      }
+      await tester.tap(chaveL22('ann.island.width.thick'));
+      expect(toques, ['altura high']);
+      final ponto = tester.widget<DecoratedBox>(
+        find.descendant(
+          of: chaveL22('ann.island.width.medium.dot'),
+          matching: find.byType(DecoratedBox),
+        ),
+      );
+      expect((ponto.decoration as BoxDecoration).color, AppColors.sun);
+      h.dispose();
+    },
+  );
+
+  testWidgets(
+    'R18: com Sublinhado ou Ondulado, os pontos ficam a 0,38 e indisponíveis',
+    (tester) async {
+      final toques = await montar(
+        tester,
+        tool: AnnotationTool.marker,
+        tinta: AppColors.sun,
+        altura: FillHeight.medium,
+        alturaVale: false,
+      );
+      final h = tester.ensureSemantics();
+      expect(
+        tester.getSemantics(chaveL22('ann.island.width.thick')),
+        isSemantics(
+          label: 'Alta',
+          hasCheckedState: true,
+          isInMutuallyExclusiveGroup: true,
+          hasEnabledState: true,
+          isEnabled: false,
+        ),
+      );
+      await tester.tap(chaveL22('ann.island.width.thick'), warnIfMissed: false);
+      expect(toques, isEmpty);
+      final ponto = tester.widget<DecoratedBox>(
+        find.descendant(
+          of: chaveL22('ann.island.width.medium.dot'),
+          matching: find.byType(DecoratedBox),
+        ),
+      );
+      expect((ponto.decoration as BoxDecoration).color!.a, closeTo(0.38, 0.01));
+      h.dispose();
+    },
+  );
+
+  test('o nome da cor do poço também para as cores do marca-texto', () {
+    expect(AnnotationIsland.colorName(AppColors.sun), 'amarelo');
+    expect(AnnotationIsland.colorName(AppColors.blush), 'rosa');
   });
 }

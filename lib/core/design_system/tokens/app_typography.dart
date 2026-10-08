@@ -866,6 +866,20 @@ abstract final class AppTextStyles {
   // Leitor — painéis da caneta e do marca-texto (telas 23 e 23b, G17). Cores da Creme; o Noite troca pela paleta
   // (R26).
 
+  /// ann.penPanel.title / ann.markerPanel.title ("Caneta", "Marca-texto"): Bricolage 22/800, 1,05, −0,4.
+  static final TextStyle annPanelTitle = AppFonts.bricolage(
+    22,
+    height: 1.05,
+    letterSpacing: -0.4,
+  );
+
+  /// ann.penPanel.subtitle ("Esferográfica · 1,2 mm · coral"): Figtree 12,5/600 `#5B544B`.
+  static final TextStyle annPanelSubtitle = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w600,
+    color: AppColors.inkMuted,
+  );
+
   /// ann.penPanel.picker.hex.value ("#FF552E"): Figtree 15/800, 0,6, algarismos de largura fixa.
   static final TextStyle annHexValue = AppFonts.figtreeReader(
     15,
