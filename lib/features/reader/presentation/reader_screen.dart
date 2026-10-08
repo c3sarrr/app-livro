@@ -65,6 +65,7 @@ import 'highlight_toolbar.dart';
 import 'ink_painter.dart' show handHighlightBoxes;
 import 'labels_sheet.dart';
 import 'note_sheet.dart';
+import 'other_color_sheet.dart';
 import 'page_marks.dart' show PaintedHighlight;
 import 'reader_actions.dart';
 import 'reader_chrome_palette.dart';
@@ -140,6 +141,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   /// A folha da nota aberta (D-131): o trecho, o grifo existente (se houver) e o texto da nota dele.
   ({ReaderRange range, String? highlightId, String initial})? _note;
+
+  /// A folha "Outra cor" aberta (D-178): o trecho, o grifo tocado e a cor de começo.
+  ({ReaderRange range, String? highlightId, String initial})? _otherColor;
 
   /// O Tema anima (D-121) só depois que a primeira página apareceu: abrir já no Noite não passa pelo Creme.
   bool _themeAnimates = false;
@@ -258,6 +262,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     } else {
       _selection.clear();
       _note = null;
+      _otherColor = null;
       _dropAnnotation();
     }
     if (state is! ReaderReady && (_controls || _search || _settings || _toc)) {
@@ -439,8 +444,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       palette: islands,
       marked: a == null ? null : (color: a.color!, style: a.style!),
       onColor: (hex) => _act(() => _color(hex)),
-      // a tela 23 (o seletor de cor) é da G17 (D-129): a seleção fica
-      onOtherColor: () => _showToast(readerSoonText),
+      // a folha "Outra cor" com o seletor da tela 23 (D-178)
+      onOtherColor: () => _act(_openOtherColor),
       onUnderline: () => _act(_underline),
       onNote: () => _act(_openNote),
       onCopy: () => _act(_copy),
@@ -534,6 +539,43 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   /// Cancelar ou Voltar: a folha fecha e a seleção continua.
   void _closeNote() => setState(() => _note = null);
+
+  /// "Outra cor" (D-178): a folha com o seletor, na cor do grifo tocado (D-132) ou na última de grifo (D-130).
+  Future<void> _openOtherColor() async {
+    final s = _selection.selection;
+    final notes = _annotations;
+    if (s == null || notes == null) return;
+    final id = s.highlightId;
+    final initial =
+        (id == null ? null : notes.byId(id)?.color) ?? await notes.lastColor();
+    // a seleção mudou enquanto lia: a folha não abre
+    if (!mounted || !identical(_selection.selection, s)) return;
+    setState(
+      () => _otherColor = (range: s.range, highlightId: id, initial: initial),
+    );
+  }
+
+  /// Cancelar ou Voltar: a folha fecha e a seleção continua (com a barra).
+  void _closeOtherColor() => setState(() => _otherColor = null);
+
+  /// "Grifar" (D-178): na seleção nova, o fundo Médio na cor pela D-32 (D-173); no grifo tocado, a cor dele troca
+  /// (D-132). A cor fica como a última de grifo (D-130).
+  Future<void> _applyOtherColor(String hex) async {
+    final o = _otherColor;
+    final notes = _annotations;
+    if (o == null || notes == null) return;
+    _dismissUndo();
+    final id = o.highlightId;
+    if (id != null) {
+      await notes.restyle(id, color: hex, style: HighlightStyle.fill);
+    } else {
+      await notes.addHighlight(o.range, color: hex, style: HighlightStyle.fill);
+    }
+    await notes.setLastColor(hex);
+    if (!mounted) return;
+    setState(() => _otherColor = null);
+    _selection.clear();
+  }
 
   /// Salvar (D-131): na seleção nova, o grifo de fundo na última cor + a nota; no grifo existente, a nota dele
   /// (vazia apaga só a nota).
@@ -1146,6 +1188,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             unawaited(_concludeAnnotation());
           } else if (_note != null) {
             _closeNote();
+          } else if (_otherColor != null) {
+            _closeOtherColor();
           } else if (_search) {
             _closeSearch();
           } else if (_settings) {
@@ -1439,6 +1483,19 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   brand: brand,
                   onCancel: _closeNote,
                   onSave: (text) => _act(() => _saveNote(text)),
+                ),
+              ),
+            ),
+          if (_otherColor case final o?)
+            Positioned.fill(
+              // a folha cobre a página: o leitor de tela fica nela
+              child: BlockSemantics(
+                child: OtherColorSheet(
+                  initial: o.initial,
+                  palette: islands,
+                  brand: brand,
+                  onCancel: _closeOtherColor,
+                  onApply: (hex) => _act(() => _applyOtherColor(hex)),
                 ),
               ),
             ),

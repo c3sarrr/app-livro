@@ -5,6 +5,7 @@
 // - o toque num grifo abre a barra dele com a cor marcada, sem alças nem fundo (D-132, D-137); fora de grifo, os
 //   terços; o grifo que passa da página fica com a barra ao virar para a parte seguinte;
 // - as ações da barra, uma de cada vez; a folha da nota (D-131, D-138); o "Desfazer" até a próxima ação (D-139);
+// - G17: "Outra cor" abre a folha com o seletor da tela 23 (D-178), no lugar do aviso da D-129;
 // - o PDF não seleciona (D-134).
 import 'dart:io';
 
@@ -436,16 +437,68 @@ void main() {
     });
 
     testWidgets(
-      'Outra cor: "Chega numa próxima fase" por 2 s e a seleção fica (D-129)',
+      'Outra cor (D-178): a folha com o seletor na última cor; Cancelar e o Voltar voltam à barra; Grifar faz o fundo Médio na cor escolhida',
       (tester) async {
+        await tester.runAsync(
+          () => KvDao(livro.db).set(lastHighlightColorKey, '#FFC1C6'),
+        );
         await abrir(tester);
         await selecionar(tester);
         await tocar(tester, 'r21.toolbar.colors.other');
-        expect(findAppText(readerSoonText), findsOneWidget);
+        expect(_key('leitor.outraCor'), findsOneWidget);
+        expect(findAppText('#FFC1C6'), findsOneWidget);
+        await tocar(tester, 'leitor.outraCor.cancelar');
+        expect(_key('leitor.outraCor'), findsNothing);
         expect(_key('r21.toolbar'), findsOneWidget);
-        await tester.pump(readerToastLife);
-        expect(findAppText(readerSoonText), findsNothing);
-        expect(await vivos(tester), isEmpty);
+        await tocar(tester, 'r21.toolbar.colors.other');
+        await tester.binding.handlePopRoute();
+        await tester.pump();
+        expect(_key('leitor.outraCor'), findsNothing);
+        expect(_key('r21.toolbar'), findsOneWidget);
+        await tocar(tester, 'r21.toolbar.colors.other');
+        await tester.tap(_key('leitor.outraCor.picker.hex'));
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), '1a2b3c');
+        await tester.pump();
+        await tocar(tester, 'leitor.outraCor.grifar');
+        final g = (await vivos(tester)).single;
+        expect(
+          (g.color, g.style, g.fillHeight),
+          ('#1A2B3C', HighlightStyle.fill, FillHeight.medium),
+        );
+        expect(_key('leitor.outraCor'), findsNothing);
+        expect(_key('r21.toolbar'), findsNothing);
+        expect(
+          await tester.runAsync(
+            () => KvDao(livro.db).get(lastHighlightColorKey),
+          ),
+          '#1A2B3C',
+        );
+      },
+    );
+
+    testWidgets(
+      'Outra cor num grifo tocado (D-132): começa na cor dele e Grifar troca a cor',
+      (tester) async {
+        await abrir(tester);
+        final w = await selecionar(tester);
+        await tocar(tester, 'r21.toolbar.colors.yellow');
+        final antes = (await vivos(tester)).single;
+        await tester.runAsync(
+          () => KvDao(livro.db).set(lastHighlightColorKey, '#ABCF82'),
+        );
+        await tester.tapAt(w.rect.center);
+        await _quadros(tester);
+        await tocar(tester, 'r21.toolbar.colors.other');
+        expect(findAppText('#FED170'), findsOneWidget);
+        await tester.tap(_key('leitor.outraCor.picker.hex'));
+        await tester.pump();
+        await tester.enterText(find.byType(EditableText), '058cd7');
+        await tester.pump();
+        await tocar(tester, 'leitor.outraCor.grifar');
+        final depois = (await vivos(tester)).single;
+        expect(depois.id, antes.id);
+        expect((depois.color, depois.style), ('#058CD7', HighlightStyle.fill));
       },
     );
 
