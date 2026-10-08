@@ -9,10 +9,12 @@ import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/laid_block.dart';
 import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../fixtures/mundo_2026_09_20.dart' show paragrafoDaPagina159;
 import '../../../support/load_fonts.dart';
+import '../../../support/mundo_epub.dart' show semQuebraNos;
 import '../../../support/personal_builders.dart';
 
 ParagraphBlock _p(String t, {BlockStyle style = BlockStyle.none}) =>
@@ -434,6 +436,166 @@ void main() {
           ) as LaidImage;
       laid.add(lida);
       expect(lida.drawHeight, 100);
+    });
+  });
+
+  group('espaço aberto (G18, D-181)', () {
+    // o parágrafo da pág. 159 com os 4 trechos sem quebra da prancha (D-160)
+    final texto = semQuebraNos(paragrafoDaPagina159, const {
+      'olhos de Capitu',
+      'Olhos de ressaca?',
+      'fluido misterioso',
+      'a vaga que se retira',
+    });
+    final ancora = texto.indexOf('Vá, de ressaca.') + 'Vá, de ressaca.'.length;
+    final depois = texto.indexOf('É o que');
+    String linha(LaidLine l) =>
+        texto.substring(l.start, l.end).replaceAll(' ', ' ').trim();
+
+    LaidText partir(List<SpaceCut> cortes, {int pieceChars = 1 << 30}) {
+      final b = BlockLayouter(
+        t,
+        pieceChars: pieceChars,
+      ).layout(_p(texto), start: 0, cuts: cortes) as LaidText;
+      laid.add(b);
+      return b;
+    }
+
+    test('parte na âncora: o resto sem recuo, com as linhas da prancha 24', () {
+      final b = partir([SpaceCut(at: ancora, height: 141.78, id: 'abridor')]);
+      final sem = partir(const []);
+      final k = b.gaps.single.afterLine;
+      expect(
+        b.gaps.single,
+        LaidGap(afterLine: k, height: 141.78, id: 'abridor', at: ancora),
+      );
+      // o 1º segmento: as linhas de antes, e a última acaba na frase (com o branco, como toda linha)
+      for (var i = 0; i < k; i++) {
+        expect(
+          (b.lines[i].start, b.lines[i].end),
+          (sem.lines[i].start, sem.lines[i].end),
+        );
+      }
+      expect(linha(b.lines[k]), endsWith('Vá, de ressaca.'));
+      expect(b.lines[k].end, depois);
+      // o 2º: começa em "É", sem o U+FFFC do recuo
+      expect(b.lines[k + 1].start, depois);
+      expect(b.pieces.first.placeholder, isTrue);
+      expect(b.pieces[b.lines[k + 1].piece].placeholder, isFalse);
+      expect(b.toParagraph(depois), (b.lines[k + 1].piece, 0));
+      expect(
+        [for (final l in b.lines.skip(k + 1)) linha(l)],
+        [
+          'É o que me dá ideia daquela feição',
+          'nova. Traziam não sei que',
+          'fluido misterioso e enérgico, uma',
+          'força que arrastava para dentro,',
+          'como a vaga que se retira da praia,',
+          'nos dias de ressaca. Para não ser',
+          'arrastado, agarrei-me às outras',
+          'partes vizinhas, às orelhas, aos',
+          'braços, aos cabelos espalhados',
+          'pelos ombros; mas tão depressa',
+          'buscava as pupilas, a onda que',
+          'saía delas vinha crescendo, cava e',
+          'escura, ameaçando envolver-me,',
+          'puxar-me e tragar-me.',
+        ],
+      );
+      expect(b.lines.last.end, texto.length);
+      // os topos não contam o buraco (a fatia do espaço fica entre eles); a altura conta
+      for (var i = 0; i < b.lines.length; i++) {
+        expect(b.lines[i].top, closeTo(i * t.lineHeight, 1e-4));
+      }
+      expect(b.height, closeTo(b.lines.length * t.lineHeight + 141.78, 1e-4));
+    });
+
+    test('as posições vão e voltam nos dois segmentos', () {
+      final b = partir([SpaceCut(at: ancora, height: 206, id: 'n')]);
+      for (var c = 0; c <= texto.length; c++) {
+        final (piece, i) = b.toParagraph(c);
+        expect(b.toCanonical(piece, i), c, reason: '$c');
+      }
+      expect(b.lineAt(ancora - 1), b.gaps.single.afterLine);
+      expect(b.lineAt(depois), b.gaps.single.afterLine + 1);
+    });
+
+    test('no fim do parágrafo: nada é partido; o buraco fica depois da última linha', () {
+      final b = partir([SpaceCut(at: texto.length, height: 206, id: 'n')]);
+      final sem = partir(const []);
+      expect(
+        b.lines.map((l) => (l.start, l.end)),
+        sem.lines.map((l) => (l.start, l.end)),
+      );
+      expect(
+        b.gaps.single,
+        LaidGap(
+          afterLine: b.lines.length - 1,
+          height: 206,
+          id: 'n',
+          at: texto.length,
+        ),
+      );
+      expect(b.pieces, hasLength(1));
+    });
+
+    test(
+      'dois espaços no parágrafo: três segmentos, os dois últimos sem recuo',
+      () {
+        final outra =
+            texto.indexOf('nos dias de ressaca.') +
+            'nos dias de ressaca.'.length;
+        final b = partir([
+          SpaceCut(at: outra, height: 55.26, id: 'b'),
+          SpaceCut(at: ancora, height: 206, id: 'a'),
+        ]);
+        expect(b.gaps.map((g) => (g.id, g.at)), [('a', ancora), ('b', outra)]);
+        expect(
+          linha(b.lines[b.gaps[1].afterLine]),
+          endsWith('nos dias de ressaca.'),
+        );
+        expect(
+          linha(b.lines[b.gaps[1].afterLine + 1]),
+          startsWith('Para não ser'),
+        );
+        expect(
+          b.pieces[b.lines[b.gaps[1].afterLine + 1].piece].placeholder,
+          isFalse,
+        );
+        expect(b.height, closeTo(b.lines.length * t.lineHeight + 261.26, 1e-4));
+      },
+    );
+
+    test('em pedaços (parágrafo longo): cada segmento com as linhas do layout inteiro dele', () {
+      final cortes = [SpaceCut(at: ancora, height: 206, id: 'n')];
+      final inteiro = partir(cortes);
+      final emPedacos = partir(cortes, pieceChars: 120);
+      expect(emPedacos.pieces.length, greaterThan(4));
+      expect(
+        emPedacos.lines.map((l) => (l.start, l.end)),
+        inteiro.lines.map((l) => (l.start, l.end)),
+      );
+      expect(emPedacos.gaps, inteiro.gaps);
+      for (var c = 0; c <= texto.length; c += 7) {
+        final (piece, i) = emPedacos.toParagraph(c);
+        expect(emPedacos.toCanonical(piece, i), c);
+      }
+    });
+
+    test('os cortes vão ao bloco deles (o fim do bloco conta; o começo do seguinte não)', () {
+      final blocks = [_p('Primeiro.'), _p('Segundo parágrafo. E mais.')];
+      final r = BlockLayouter(t).layoutAll(
+        blocks,
+        _starts(blocks),
+        cuts: const [
+          SpaceCut(at: 9, height: 206, id: 'fim'),
+          SpaceCut(at: 10 + 18, height: 206, id: 'meio'),
+        ],
+      );
+      laid.addAll(r);
+      expect((r[0] as LaidText).gaps.map((g) => g.id), ['fim']);
+      expect((r[1] as LaidText).gaps.map((g) => (g.id, g.at)), [('meio', 28)]);
+      expect((r[1] as LaidText).lines.last.start, 29);
     });
   });
 }

@@ -2,12 +2,17 @@
 // um `ui.Paragraph` com layout uma vez. O SkParagraph arredonda a altura de cada linha para px inteiro, então o
 // modelo vertical é próprio — topo exato de cada linha = soma de `ascent + descent` — e a pintura é linha a
 // linha (recorte na faixa exata da linha + o `Paragraph` deslocado). Parágrafos longos têm layout em pedaços
-// costurados na última linha (as linhas saem idênticas; cada pedaço cabe numa fatia de tempo).
+// costurados na última linha (as linhas saem idênticas; cada pedaço cabe numa fatia de tempo). G18 (D-181): um
+// espaço aberto parte o parágrafo na âncora — o 1º segmento acaba nela, o seguinte começa depois do branco, sem
+// recuo — e o buraco ([LaidGap]) fica entre as linhas, para o paginador pôr a fatia do espaço.
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart' show immutable;
+
 import '../content/content_blocks.dart';
 import 'reader_typography.dart';
+import 'space_cut.dart';
 
 /// Parágrafo acima disto (caracteres) tem layout em pedaços (ADR-005; ajustar no aparelho na G26).
 const int layoutPieceChars = 1200;
@@ -49,6 +54,37 @@ final class LaidLine {
 
   double get baseline => top + ascent;
   double get bottom => top + height;
+}
+
+/// G18 — um espaço aberto dentro de um bloco de texto: depois da linha [afterLine], [height] px (com as margens);
+/// [id] = a nota (ou o abridor); [at] = a âncora no texto canônico do item.
+@immutable
+final class LaidGap {
+  const LaidGap({
+    required this.afterLine,
+    required this.height,
+    required this.id,
+    required this.at,
+  });
+
+  final int afterLine;
+  final double height;
+  final String id;
+  final int at;
+
+  @override
+  bool operator ==(Object other) =>
+      other is LaidGap &&
+      other.afterLine == afterLine &&
+      other.height == height &&
+      other.id == id &&
+      other.at == at;
+
+  @override
+  int get hashCode => Object.hash(afterLine, height, id, at);
+
+  @override
+  String toString() => 'LaidGap($afterLine, $height, $id, $at)';
 }
 
 /// Um `Paragraph` de um bloco de texto: começa em [textOffset] do texto do bloco; o 1º pedaço de um
@@ -93,10 +129,15 @@ final class LaidText extends LaidBlock {
     required this.extraBottom,
     this.bullet,
     this.bulletCenter = 0,
+    this.gaps = const [],
   });
 
   final List<LaidPiece> pieces;
   final List<LaidLine> lines;
+
+  /// Os espaços abertos no bloco, em ordem (G18). Os `top` das linhas não os contam: o paginador põe a fatia de
+  /// cada um entre as linhas.
+  final List<LaidGap> gaps;
 
   /// Recuo da caixa do bloco (citação, lista) e a largura dela.
   final double left;
@@ -116,7 +157,10 @@ final class LaidText extends LaidBlock {
   bool get keepTogether => isHeading;
 
   @override
-  double get height => (lines.isEmpty ? 0 : lines.last.bottom) + extraBottom;
+  double get height =>
+      (lines.isEmpty ? 0 : lines.last.bottom) +
+      extraBottom +
+      gaps.fold(0.0, (s, g) => s + g.height);
 
   /// Posição no `Paragraph` do pedaço [piece] → posição no texto canônico do item (desconta o U+FFFC do
   /// recuo). Antes do 1º caractere → o início do bloco.
@@ -231,25 +275,38 @@ final class BlockLayouter {
       ? ui.Size(i.width!.toDouble(), i.height!.toDouble())
       : null;
 
-  /// Todos os blocos do item ([starts] = início de cada um no texto canônico).
-  List<LaidBlock> layoutAll(List<ContentBlock> blocks, List<int> starts) => [
+  /// Todos os blocos do item ([starts] = início de cada um no texto canônico; [cuts] = os espaços abertos — G18).
+  List<LaidBlock> layoutAll(
+    List<ContentBlock> blocks,
+    List<int> starts, {
+    List<SpaceCut> cuts = const [],
+  }) => [
     for (var i = 0; i < blocks.length; i++)
       layout(
         blocks[i],
         start: starts[i],
         previous: i == 0 ? null : blocks[i - 1],
         next: i + 1 < blocks.length ? blocks[i + 1] : null,
+        cuts: cuts,
       ),
   ];
 
-  /// Um bloco. [previous]/[next] = vizinhos no item (decidem o recuo e o espaço depois do título).
+  /// Um bloco. [previous]/[next] = vizinhos no item (decidem o recuo e o espaço depois do título); [cuts] = os
+  /// espaços abertos do item (os do bloco partem o parágrafo — G18).
   LaidBlock layout(
     ContentBlock b, {
     required int start,
     ContentBlock? previous,
     ContentBlock? next,
+    List<SpaceCut> cuts = const [],
   }) {
-    final task = begin(b, start: start, previous: previous, next: next);
+    final task = begin(
+      b,
+      start: start,
+      previous: previous,
+      next: next,
+      cuts: cuts,
+    );
     while (!task.step()) {}
     return task.result;
   }
@@ -260,8 +317,16 @@ final class BlockLayouter {
     required int start,
     ContentBlock? previous,
     ContentBlock? next,
+    List<SpaceCut> cuts = const [],
   }) => switch (b) {
-    TextBlock() => _TextTask(this, b, start, previous, next),
+    TextBlock() => _TextTask(
+      this,
+      b,
+      start,
+      previous,
+      next,
+      cutsIn(cuts, start: start, length: b.text.length),
+    ),
     ImageBlock() => _DoneTask(_image(b, start)),
     SceneBreakBlock() => _DoneTask(_scene(b, start, previous, next)),
   };
@@ -387,8 +452,14 @@ final class _DoneTask extends BlockLayoutTask {
 }
 
 final class _TextTask extends BlockLayoutTask {
-  _TextTask(this.l, this.block, this.start, this.previous, this.next)
-    : text = block.text,
+  _TextTask(
+    this.l,
+    this.block,
+    this.start,
+    this.previous,
+    this.next,
+    this._cuts,
+  ) : text = block.text,
       heading = block is HeadingBlock {
     final t = l.t;
     size = heading
@@ -420,6 +491,11 @@ final class _TextTask extends BlockLayoutTask {
 
   final List<LaidPiece> _pieces = [];
   final List<LaidLine> _lines = [];
+
+  /// Os espaços do bloco (posição dentro dele) e o próximo a pôr (G18).
+  final List<BlockCut> _cuts;
+  int _cut = 0;
+  final List<LaidGap> _gaps = [];
   int _pos = 0;
   double _y = 0;
   LaidText? _result;
@@ -446,27 +522,54 @@ final class _TextTask extends BlockLayoutTask {
 
   static bool _isHighSurrogate(int c) => c >= 0xD800 && c <= 0xDBFF;
 
+  /// O fim do segmento em montagem: o próximo espaço aberto ou o fim do texto (G18).
+  int get _segEnd => _cut < _cuts.length ? _cuts[_cut].at : text.length;
+
+  /// O 1º caractere depois do branco que começa em [at] (onde o segmento seguinte começa).
+  int _after(int at) {
+    var i = at;
+    while (i < text.length) {
+      final c = text.codeUnitAt(i);
+      if (c != 0x20 && c != 0x0A && c != 0x09) break;
+      i++;
+    }
+    return i;
+  }
+
   @override
   bool step() {
     if (_result != null) return true;
+    // dois espaços na mesma âncora (ou no branco depois dela — dados de outro aparelho): um embaixo do outro
+    while (_cut < _cuts.length && _cuts[_cut].at < _pos) {
+      final c = _cuts[_cut++];
+      _gaps.add(
+        LaidGap(
+          afterLine: _lines.length - 1,
+          height: c.height,
+          id: c.id,
+          at: start + c.at,
+        ),
+      );
+    }
+    final segEnd = _segEnd;
     var end = _pos + _pieceChars;
     // o pedaço termina num espaço (até 1/4 de pedaço adiante); sem espaço por perto (palavra enorme, texto
     // sem espaços como o chinês), corta onde estiver — sem partir um par substituto
-    if (end >= text.length) {
-      end = text.length;
+    if (end >= segEnd) {
+      end = segEnd;
     } else {
-      final limit = math.min(text.length, end + (_pieceChars >> 2));
+      final limit = math.min(segEnd, end + (_pieceChars >> 2));
       var e = end;
       while (e < limit && text.codeUnitAt(e) != 0x20) {
         e++;
       }
-      if (e < limit || e == text.length) {
+      if (e < limit || e == segEnd) {
         end = e;
       } else if (_isHighSurrogate(text.codeUnitAt(end - 1))) {
         end--;
       }
     }
-    final last = end >= text.length;
+    final last = end >= segEnd;
     final first = _pos == 0;
     final placeholder = first && indent;
     final p = _build(_pos, end, placeholder: placeholder);
@@ -492,9 +595,10 @@ final class _TextTask extends BlockLayoutTask {
       final m = metrics[i];
       final h = m.ascent + m.descent;
       final s = canonical(starts[i]);
+      // a última linha do segmento vai até o começo do seguinte (com o branco, como toda linha)
       final e = i + 1 < metrics.length
           ? canonical(starts[i + 1])
-          : start + text.length;
+          : start + (segEnd == text.length ? text.length : _after(segEnd));
       _lines.add(
         LaidLine(
           top: _y,
@@ -508,13 +612,30 @@ final class _TextTask extends BlockLayoutTask {
       );
       _y += h;
     }
-    if (last) {
-      _finish();
-      return true;
+    if (!last) {
+      // o próximo pedaço recomeça no início da 1ª linha descartada aqui
+      _pos += starts[keep] - (placeholder ? 1 : 0);
+      return false;
     }
-    // o próximo pedaço recomeça no início da 1ª linha descartada aqui
-    _pos += starts[keep] - (placeholder ? 1 : 0);
-    return false;
+    if (_cut < _cuts.length) {
+      final c = _cuts[_cut++];
+      _gaps.add(
+        LaidGap(
+          afterLine: _lines.length - 1,
+          height: c.height,
+          id: c.id,
+          at: start + c.at,
+        ),
+      );
+      final next = _after(c.at);
+      if (next < text.length) {
+        // o segmento seguinte: sem recuo (`_pos > 0`)
+        _pos = next;
+        return false;
+      }
+    }
+    _finish();
+    return true;
   }
 
   void _finish() {
@@ -536,6 +657,7 @@ final class _TextTask extends BlockLayoutTask {
       extraBottom: extra,
       bullet: block is ListItemBlock ? l._bullet(size) : null,
       bulletCenter: inset - t.indent / 2,
+      gaps: List.unmodifiable(_gaps),
     );
   }
 
