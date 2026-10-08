@@ -18,20 +18,29 @@ abstract final class AppFonts {
     42,
   };
 
+  /// Instâncias fracionárias (G16: o 15,5 do título da pílula do modo anotação — família `Bricolage15_5`).
+  static final Set<double> bricolageFractional = {15.5};
+
   static TextStyle bricolage(
     double size, {
     required double height,
     double letterSpacing = 0,
     Color color = AppColors.ink,
   }) {
-    final opsz = size.round().clamp(12, 96).toInt();
-    assert(
-      bricolageOpsz.contains(opsz),
-      'Sem instância Bricolage opsz $opsz: gere com design_handoff/ferramentas/build_fonts.py',
-    );
+    final String name;
+    if (bricolageFractional.contains(size)) {
+      name = size.toString().replaceAll('.', '_');
+    } else {
+      final opsz = size.round().clamp(12, 96).toInt();
+      assert(
+        bricolageOpsz.contains(opsz),
+        'Sem instância Bricolage opsz $opsz: gere com design_handoff/ferramentas/build_fonts.py',
+      );
+      name = '$opsz';
+    }
     return TextStyle(
-      fontFamily: 'Bricolage$opsz',
-      fontFamilyFallback: ['Bricolage${opsz}Ext', 'Bricolage${opsz}Vi'],
+      fontFamily: 'Bricolage$name',
+      fontFamilyFallback: ['Bricolage${name}Ext', 'Bricolage${name}Vi'],
       fontSize: size,
       fontWeight: FontWeight.w800,
       height: height,
@@ -820,5 +829,37 @@ abstract final class AppTextStyles {
     FontWeight.w600,
     height: 1.45,
     color: AppColors.labelReader,
+  );
+
+  // Leitor — modo anotação (tela 22, G16). Cores da Creme; o Noite troca pela paleta (D-167 17).
+
+  /// ann.modePill.title: Bricolage 15,5/800, 1,1, −0,2.
+  static final TextStyle annModeTitle = AppFonts.bricolage(
+    15.5,
+    height: 1.1,
+    letterSpacing: -0.2,
+  );
+
+  /// ann.modePill.subtitle: Figtree 11,5/600 `#5B544B`.
+  static final TextStyle annModeSubtitle = AppFonts.figtreeReader(
+    11.5,
+    FontWeight.w600,
+    color: AppColors.inkMuted,
+  );
+
+  /// ann.done ("Concluir"): Figtree 15/800.
+  static final TextStyle annDone = AppFonts.figtreeReader(15, FontWeight.w800);
+
+  /// ann.island.labels.*: Figtree 10/700 `#6F665B`.
+  static final TextStyle annLabel = AppFonts.figtreeReader(
+    10,
+    FontWeight.w700,
+    color: AppColors.labelReader,
+  );
+
+  /// ann.island.labels.*.pill (a ferramenta ativa, na pílula `brand`): Figtree 10/800.
+  static final TextStyle annLabelActive = AppFonts.figtreeReader(
+    10,
+    FontWeight.w800,
   );
 }

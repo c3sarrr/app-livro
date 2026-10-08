@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show mapEquals;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vector_graphics/vector_graphics_compat.dart'
@@ -12,11 +13,51 @@ Future<void> preloadAppIcons([Iterable<String> assets = AppIcons.all]) =>
     Future.wait(assets.map(_precache));
 
 Future<Object?> _precache(String asset) {
-  final loader = SvgAssetLoader(asset);
+  final loader = appSvgLoader(asset);
   return svg.cache.putIfAbsent(
     loader.cacheKey(null),
     () => loader.loadBytes(null),
   );
+}
+
+/// O carregador que o [AppSvg] usa para [asset] com a troca [colors] (a mesma chave de cache: para pré-carregar).
+SvgAssetLoader appSvgLoader(String asset, {Map<Color, Color>? colors}) =>
+    SvgAssetLoader(
+      asset,
+      colorMapper: colors == null ? null : SvgColorSwap(colors),
+    );
+
+/// Troca cores exatas do SVG (o ARGB inteiro) por outras na leitura do arquivo — o `ColorMapper` do flutter_svg: as
+/// ilustrações com as cores do usuário (G16: `#B6ACE4` → a `brand`, `#FF552E` → a tinta). Igual por conteúdo, para
+/// a chave do cache valer entre construções.
+@immutable
+final class SvgColorSwap extends ColorMapper {
+  SvgColorSwap(Map<Color, Color> colors)
+    : _colors = {
+        for (final e in colors.entries) e.key.toARGB32(): e.value.toARGB32(),
+      };
+
+  final Map<int, int> _colors;
+
+  @override
+  Color substitute(
+    String? id,
+    String elementName,
+    String attributeName,
+    Color color,
+  ) {
+    final to = _colors[color.toARGB32()];
+    return to == null ? color : Color(to);
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      other is SvgColorSwap && mapEquals(other._colors, _colors);
+
+  @override
+  int get hashCode => Object.hashAllUnordered([
+    for (final e in _colors.entries) Object.hash(e.key, e.value),
+  ]);
 }
 
 /// Ícone SVG do pacote no tamanho de uso (sem colorFilter; cores já estão no arquivo). [color] tinge o traço
@@ -31,6 +72,7 @@ class AppSvg extends StatelessWidget {
     this.height,
     this.color,
     this.opacity,
+    this.colors,
   });
   final String asset;
 
@@ -44,6 +86,9 @@ class AppSvg extends StatelessWidget {
   /// Esmaece o ícone sem trocar as cores dele (abrir/fechar os controles do leitor sem `Opacity` — G12):
   /// `modulate` com branco a este alfa.
   final double? opacity;
+
+  /// Troca de cores exatas do arquivo (G16: as ilustrações com a `brand` e a tinta do usuário — [SvgColorSwap]).
+  final Map<Color, Color>? colors;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +108,7 @@ class AppSvg extends StatelessWidget {
           width: size,
           height: h,
           colorFilter: filter,
+          colorMapper: colors == null ? null : SvgColorSwap(colors!),
           // com filtro, o caminho por picture pinta numa camada (`saveLayer`, proibida no app — F12 12.4); o
           // rasterizado aplica o filtro direto na imagem do ícone
           renderingStrategy: filter == null

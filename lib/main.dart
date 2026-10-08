@@ -11,6 +11,7 @@ import 'app/app.dart';
 import 'core/config/app_env.dart';
 import 'core/design_system/tokens/app_icons.dart';
 import 'core/design_system/tokens/app_icons_leitor.dart';
+import 'core/design_system/tokens/app_illustrations_leitor.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
 import 'features/account/application/account_providers.dart';
 import 'features/account/data/secure_session_storage.dart';
@@ -38,7 +39,11 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
   await configureSystemUi();
   // F12 12.4: os 18 SVGs já estão prontos no primeiro quadro (sem "piscar" na primeira abertura); G12: e os das
   // ilhas do leitor (a 1ª vez que os controles abrem).
-  await preloadAppIcons([...AppIcons.all, ...AppIconsLeitor.all]);
+  await preloadAppIcons([
+    ...AppIcons.all,
+    ...AppIconsLeitor.all,
+    ...AppIllustrationsLeitor.plain,
+  ]);
   final server = await connectServer(AppEnv.fromDefines());
   runApp(
     ProviderScope(

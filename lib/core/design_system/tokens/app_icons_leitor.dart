@@ -74,6 +74,14 @@ abstract final class AppIconsLeitor {
   static const checkRead = '$_d/ic_check_read.svg';
   static const pencilCoral = '$_d/ic_pencil_coral.svg';
 
+  /// G16 — modo anotação (tela 22): (19) o lápis da pílula do modo (`ann.modePill.icon`) e o ✓ do Concluir
+  /// (`ann.done.icon`); (20) Desfazer e Refazer da ilha (`ann.island.undo.icon`, `ann.island.redo.icon`). Sem versão
+  /// do Noite: lá são tingidos com a cor das letras da ilha.
+  static const pencil = '$_d/ic_pencil.svg';
+  static const check = '$_d/ic_check.svg';
+  static const undo = '$_d/ic_undo.svg';
+  static const redo = '$_d/ic_redo.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -112,5 +120,9 @@ abstract final class AppIconsLeitor {
     ribbonHint,
     checkRead,
     pencilCoral,
+    pencil,
+    check,
+    undo,
+    redo,
   ];
 }

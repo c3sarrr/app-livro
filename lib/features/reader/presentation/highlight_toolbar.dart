@@ -2,12 +2,12 @@
 // Nota · Copiar · Compartilhar · Buscar. No grifo existente, a cor dele (ou o Sublinhar) ganha um anel (D-132). No
 // Noite, as cores das ilhas e os ícones tingidos com a cor da borda. O "a" do Sublinhar é pintado com a Literata do
 // livro (o <text> do SVG usaria a fonte do sistema — armadilha da L21b).
-import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/painters/chromium_dash.dart';
+import '../../../core/design_system/painters/conic_ring_painter.dart';
 import '../../../core/design_system/text/app_text.dart';
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_icons_leitor.dart';
@@ -127,7 +127,11 @@ class HighlightToolbar extends StatelessWidget {
         false,
         onOtherColor,
         CustomPaint(
-          painter: RainbowRingPainter(border: p.border, center: p.island),
+          painter: ConicRingPainter(
+            border: p.border,
+            center: p.island,
+            centerRadius: 7,
+          ),
           child: Center(
             child: SizedBox.square(
               key: const ValueKey('r21.toolbar.colors.other.center'),
@@ -288,59 +292,6 @@ Rect? _globalRect(BuildContext context) {
   return box is RenderBox && box.hasSize
       ? box.localToGlobal(Offset.zero) & box.size
       : null;
-}
-
-/// "Escolher outra cor" (L21b nº 9 e 10): o anel cônico arco-íris (começa no topo e gira no sentido horário, como o
-/// CSS), a borda 1,5 e o miolo de 14 com borda 1,5.
-class RainbowRingPainter extends CustomPainter {
-  const RainbowRingPainter({required this.border, required this.center});
-
-  final Color border;
-  final Color center;
-
-  static const List<Color> colors = [
-    AppColors.flame,
-    AppColors.amber,
-    AppColors.sun,
-    AppColors.leaf,
-    AppColors.emerald,
-    AppColors.azure,
-    AppColors.lavender,
-    AppColors.violet,
-    AppColors.blush,
-    AppColors.flame,
-  ];
-
-  /// O miolo (L21b nº 10): 14.
-  static const double centerRadius = 7;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final c = size.center(Offset.zero);
-    final r = size.shortestSide / 2;
-    const half = AppStrokes.regular / 2;
-    Paint stroke() => Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = AppStrokes.regular
-      ..color = border;
-    canvas
-      ..drawCircle(
-        c,
-        r,
-        Paint()
-          ..shader = const SweepGradient(
-            colors: colors,
-            transform: GradientRotation(-math.pi / 2),
-          ).createShader(Rect.fromCircle(center: c, radius: r)),
-      )
-      ..drawCircle(c, r - half, stroke())
-      ..drawCircle(c, centerRadius, Paint()..color = center)
-      ..drawCircle(c, centerRadius - half, stroke());
-  }
-
-  @override
-  bool shouldRepaint(RainbowRingPainter old) =>
-      old.border != border || old.center != center;
 }
 
 /// O ícone do Sublinhar (L21b nº 13): o ondulado coral do SVG (`M4 19q2-2 4 0t4 0 4 0 4 0`, traço 2, em 20/24) e o

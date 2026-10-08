@@ -6,6 +6,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
+import 'package:app_leitura/core/design_system/painters/conic_ring_painter.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
@@ -501,7 +502,7 @@ void main() {
   );
 
   test('anel arco-íris: o degradê cônico do arquivo começando no topo, a borda e o miolo de 14', () {
-    expect(RainbowRingPainter.colors, const [
+    expect(ConicRingPainter.colors, const [
       Color(0xFFFF552E),
       Color(0xFFF2A815),
       Color(0xFFFED170),
@@ -514,9 +515,10 @@ void main() {
       Color(0xFFFF552E),
     ]);
     final tela = _Tela();
-    const RainbowRingPainter(
+    const ConicRingPainter(
       border: AppColors.ink,
       center: AppColors.surface,
+      centerRadius: 7,
     ).paint(tela, const Size(34, 34));
     expect(tela.chamadas, ['círculo', 'círculo', 'círculo', 'círculo']);
     final [(c0, r0, p0), (_, r1, p1), (_, r2, p2), (_, r3, p3)] = tela.circulos;
@@ -538,9 +540,10 @@ void main() {
 
   test('anel arco-íris nos pixels: vermelho no topo, lavanda à esquerda (sentido horário, como o CSS)', () async {
     final g = ui.PictureRecorder();
-    const RainbowRingPainter(
+    const ConicRingPainter(
       border: AppColors.ink,
       center: AppColors.surface,
+      centerRadius: 7,
     ).paint(Canvas(g), const Size(34, 34));
     final img = await g.endRecording().toImage(34, 34);
     final b = (await img.toByteData())!;
@@ -660,33 +663,37 @@ void main() {
   );
 
   test('os pintores repintam só quando as cores mudam', () {
-    const a = RainbowRingPainter(
+    const a = ConicRingPainter(
       border: AppColors.ink,
       center: AppColors.surface,
+      centerRadius: 7,
     );
     expect(
       a.shouldRepaint(
-        const RainbowRingPainter(
+        const ConicRingPainter(
           border: AppColors.ink,
           center: AppColors.surface,
+          centerRadius: 7,
         ),
       ),
       isFalse,
     );
     expect(
       a.shouldRepaint(
-        const RainbowRingPainter(
+        const ConicRingPainter(
           border: AppColors.inkNight,
           center: AppColors.surface,
+          centerRadius: 7,
         ),
       ),
       isTrue,
     );
     expect(
       a.shouldRepaint(
-        const RainbowRingPainter(
+        const ConicRingPainter(
           border: AppColors.ink,
           center: AppColors.islandNight,
+          centerRadius: 7,
         ),
       ),
       isTrue,

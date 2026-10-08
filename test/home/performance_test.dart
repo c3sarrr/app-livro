@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
+import 'package:app_leitura/core/design_system/painters/conic_ring_painter.dart';
 import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.dart';
 import 'package:app_leitura/core/design_system/painters/goal_dial_painter.dart';
 import 'package:app_leitura/core/design_system/painters/hatch_painter.dart';
@@ -317,34 +318,45 @@ void main() {
       });
     });
 
-    test(
-      'RainbowRingPainter (borda, miolo) e UnderlineIconPainter (letra) — G13',
-      () {
-        _expectRepaintsOnlyOnChange(
-          () => const RainbowRingPainter(
+    test('ConicRingPainter (borda, miolo, raio, aro) e UnderlineIconPainter (letra) — G13/G16', () {
+      _expectRepaintsOnlyOnChange(
+        () => const ConicRingPainter(
+          border: AppColors.ink,
+          center: AppColors.surface,
+          centerRadius: 7,
+        ),
+        {
+          'border': () => const ConicRingPainter(
+            border: AppColors.inkNight,
+            center: AppColors.surface,
+            centerRadius: 7,
+          ),
+          'center': () => const ConicRingPainter(
+            border: AppColors.ink,
+            center: AppColors.islandNight,
+            centerRadius: 7,
+          ),
+          'centerRadius': () => const ConicRingPainter(
             border: AppColors.ink,
             center: AppColors.surface,
+            centerRadius: 13.5,
           ),
-          {
-            'border': () => const RainbowRingPainter(
-              border: AppColors.inkNight,
-              center: AppColors.surface,
-            ),
-            'center': () => const RainbowRingPainter(
-              border: AppColors.ink,
-              center: AppColors.islandNight,
-            ),
-          },
-        );
-        _expectRepaintsOnlyOnChange(
-          () => const UnderlineIconPainter(letter: AppColors.ink),
-          {
-            'letter': () =>
-                const UnderlineIconPainter(letter: AppColors.inkNight),
-          },
-        );
-      },
-    );
+          'halo': () => const ConicRingPainter(
+            border: AppColors.ink,
+            center: AppColors.surface,
+            centerRadius: 7,
+            halo: (color: AppColors.surface, width: 2.5),
+          ),
+        },
+      );
+      _expectRepaintsOnlyOnChange(
+        () => const UnderlineIconPainter(letter: AppColors.ink),
+        {
+          'letter': () =>
+              const UnderlineIconPainter(letter: AppColors.inkNight),
+        },
+      );
+    });
 
     test('TocProgressRingPainter (progresso) — G15', () {
       _expectRepaintsOnlyOnChange(
@@ -374,7 +386,7 @@ void main() {
         'ReaderPagesPainter',
         'FillWavePainter',
         'MagnifierPainter',
-        'RainbowRingPainter',
+        'ConicRingPainter',
         'UnderlineIconPainter',
         'TocProgressRingPainter',
       });
