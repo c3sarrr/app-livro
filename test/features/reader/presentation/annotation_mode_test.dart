@@ -16,6 +16,7 @@ import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_mode.dart';
+import 'package:app_leitura/features/reader/presentation/ink_latency_meter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -131,6 +132,7 @@ void main() {
     bool open = true,
     ReaderPaper papel = ReaderPaper.creme,
     String? aviso,
+    InkLatencyMeter? medidor,
   }) => AnnotationMode(
     open: open,
     session: sessao,
@@ -143,6 +145,7 @@ void main() {
     onSoon: () => eventos.add('em breve'),
     toast: aviso,
     onExited: () => eventos.add('saiu'),
+    meter: medidor,
   );
 
   Future<void> montar(
@@ -151,6 +154,7 @@ void main() {
     ReaderPaper papel = ReaderPaper.creme,
     String? aviso,
     bool assentar = true,
+    InkLatencyMeter? medidor,
   }) async {
     tester.view
       ..devicePixelRatio = 3
@@ -186,7 +190,7 @@ void main() {
         view: tester.view,
         child: Directionality(
           textDirection: TextDirection.ltr,
-          child: modo(papel: papel, aviso: aviso),
+          child: modo(papel: papel, aviso: aviso, medidor: medidor),
         ),
       ),
     );
@@ -195,6 +199,27 @@ void main() {
 
   Finder chave(String k) => find.byKey(ValueKey<String>(k));
   Rect r(WidgetTester tester, String k) => tester.getRect(chave(k));
+
+  testWidgets(
+    'o medidor de latência vai ao canvas; sem ele e sem o define, nenhum (o app normal)',
+    (tester) async {
+      final m = InkLatencyMeter(
+        addTimings: (_) {},
+        removeTimings: (_) {},
+        log: (_) {},
+      );
+      await montar(tester, medidor: m);
+      expect(
+        tester.widget<AnnotationCanvas>(find.byType(AnnotationCanvas)).meter,
+        same(m),
+      );
+      await montar(tester);
+      expect(
+        tester.widget<AnnotationCanvas>(find.byType(AnnotationCanvas)).meter,
+        isNull,
+      );
+    },
+  );
 
   testWidgets('os lugares no canvas de 390×844 (D-167 3): os da prancha', (
     tester,

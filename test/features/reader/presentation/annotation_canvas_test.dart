@@ -13,6 +13,7 @@ import 'package:app_leitura/features/reader/application/annotation_anchors.dart'
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
+import 'package:app_leitura/features/reader/presentation/ink_latency_meter.dart';
 import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/widgets.dart';
@@ -144,7 +145,7 @@ void main() {
   late AnnotationSession sessao;
   late _Pagina pagina;
 
-  Future<void> montar(WidgetTester tester) async {
+  Future<void> montar(WidgetTester tester, {InkLatencyMeter? medidor}) async {
     tester.view
       ..devicePixelRatio = 1
       ..physicalSize = const Size(390, 844);
@@ -164,6 +165,7 @@ void main() {
             pageBox: _caixa,
             paper: _papel,
             semanticsLabel: 'Dom Casmurro, página 159 de 256 — modo anotação',
+            meter: medidor,
           ),
         ),
       ),
@@ -182,6 +184,35 @@ void main() {
     }
     vivas.clear();
   });
+
+  testWidgets(
+    'com o medidor de latência do S4 (--dart-define), vão a ele os eventos que mudam a tela (não o dedo parado)',
+    (tester) async {
+      final m = InkLatencyMeter(
+        addTimings: (_) {},
+        removeTimings: (_) {},
+        log: (_) {},
+      );
+      await montar(tester, medidor: m);
+      final g = await tester.startGesture(const Offset(60, 300));
+      await g.moveTo(
+        const Offset(80, 302),
+        timeStamp: const Duration(milliseconds: 16),
+      );
+      // o mesmo ponto de novo (a caneta só mudando a pressão): nada a pintar
+      await g.moveTo(
+        const Offset(80, 302),
+        timeStamp: const Duration(milliseconds: 24),
+      );
+      await g.moveTo(
+        const Offset(100, 304),
+        timeStamp: const Duration(milliseconds: 32),
+      );
+      await g.up(timeStamp: const Duration(milliseconds: 40));
+      await tester.pump();
+      expect(m.eventsUs, [0, 16000, 32000]);
+    },
+  );
 
   testWidgets(
     'a página 30 px abaixo, recortada na caixa ann.page; o limite dos 2 dedos (D-165)',

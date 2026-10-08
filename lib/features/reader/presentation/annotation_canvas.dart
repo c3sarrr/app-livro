@@ -22,6 +22,7 @@ import '../annotations/ink/gesture_arbiter.dart';
 import '../annotations/ink/ink_geometry.dart' show InkOffset;
 import '../application/annotation_session.dart';
 import '../layout/display_page.dart';
+import 'ink_latency_meter.dart';
 import 'ink_painter.dart';
 import 'page_marks.dart';
 import 'reader_page_view.dart'
@@ -72,9 +73,13 @@ class AnnotationCanvas extends StatefulWidget {
     this.highlights = const [],
     this.inkHighlights = const [],
     this.enter = kAlwaysCompleteAnimation,
+    this.meter,
   });
 
   final AnnotationSession session;
+
+  /// O medidor de latência do S4 (só com `--dart-define=BOOKNEST_MEDIR_TINTA=true`): recebe o tempo de cada evento.
+  final InkLatencyMeter? meter;
 
   /// A entrada (0 → 1) e a saída (1 → 0) do modo: o texto desce e sobe os 30 px junto (220 ms — a camada anima).
   final Animation<double> enter;
@@ -161,6 +166,23 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
     super.dispose();
   }
 
+  /// Com o medidor (S4), o evento só conta se mudou o que a tela mostra: o traço ao vivo, a tinta ou a página (a
+  /// palma, o dedo além do 2º e a caneta parada não pintam nada).
+  void _measured(PointerEvent e, VoidCallback handle) {
+    final m = widget.meter;
+    if (m == null) return handle();
+    final s = widget.session;
+    final live = s.live.value;
+    final revision = s.revision;
+    final pan = s.panOffset;
+    handle();
+    if (!identical(live, s.live.value) ||
+        revision != s.revision ||
+        pan != s.panOffset) {
+      m.event(e.timeStamp);
+    }
+  }
+
   InkPointer _pointer(PointerEvent e) => (
     id: e.pointer,
     kind: inkPointerKind(e.kind),
@@ -186,8 +208,8 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
       label: widget.semanticsLabel,
       child: Listener(
         behavior: HitTestBehavior.opaque,
-        onPointerDown: (e) => s.pointerDown(_pointer(e)),
-        onPointerMove: (e) => s.pointerMove(_pointer(e)),
+        onPointerDown: (e) => _measured(e, () => s.pointerDown(_pointer(e))),
+        onPointerMove: (e) => _measured(e, () => s.pointerMove(_pointer(e))),
         onPointerUp: (e) => s.pointerUp(_pointer(e)),
         onPointerCancel: (e) => s.pointerCancel(_pointer(e)),
         child: Stack(

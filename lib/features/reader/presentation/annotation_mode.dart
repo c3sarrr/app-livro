@@ -18,6 +18,7 @@ import '../layout/display_page.dart';
 import 'annotation_canvas.dart';
 import 'annotation_island.dart';
 import 'annotation_top_bar.dart';
+import 'ink_latency_meter.dart';
 import 'page_marks.dart';
 import 'reader_chrome_palette.dart';
 import 'reader_chrome_scope.dart';
@@ -62,6 +63,7 @@ class AnnotationMode extends StatefulWidget {
     this.inkHighlights = const [],
     this.toast,
     this.onExited,
+    this.meter,
   });
 
   /// `false` = saindo (anima e chama [onExited]).
@@ -89,6 +91,9 @@ class AnnotationMode extends StatefulWidget {
   final String? toast;
   final VoidCallback? onExited;
 
+  /// O medidor de latência do traço; sem ele, o modo cria um só com `--dart-define=BOOKNEST_MEDIR_TINTA=true`.
+  final InkLatencyMeter? meter;
+
   @override
   State<AnnotationMode> createState() => _AnnotationModeState();
 }
@@ -109,10 +114,16 @@ class _AnnotationModeState extends State<AnnotationMode>
     duration: readerFade,
   );
 
+  /// O medidor criado aqui (com o define), que o modo liga e desliga.
+  final InkLatencyMeter? _ownMeter = inkLatencyMeterOn
+      ? InkLatencyMeter()
+      : null;
+
   @override
   void initState() {
     super.initState();
     _text.addStatusListener(_status);
+    _ownMeter?.start();
     if (widget.open) _show();
   }
 
@@ -139,6 +150,7 @@ class _AnnotationModeState extends State<AnnotationMode>
 
   @override
   void dispose() {
+    _ownMeter?.dispose();
     _text.dispose();
     _frame.dispose();
     super.dispose();
@@ -195,6 +207,7 @@ class _AnnotationModeState extends State<AnnotationMode>
                       inkHighlights: widget.inkHighlights,
                       semanticsLabel: widget.semanticsLabel,
                       enter: _enter,
+                      meter: widget.meter ?? _ownMeter,
                     ),
                   ),
                   Positioned(
