@@ -10,6 +10,9 @@
 //   e os que ela tirou: somem e as notas vão para o destino, com o grupo, a âncora, a página e o capítulo dele (como
 //   na tela 21); sem destino (a Borracha apagou o destino), as notas vão junto (D-168). Destino que não existe mais
 //   (apagado em outro aparelho): o tirado fica, com as notas.
+// - G18 (R10, D-188): as notas à mão — a camada `space` (as linhas, recolhida, os traços na unidade da caixa) e a
+//   anotação `handwriting` dela, novas ou mudadas (a criação e o grupo ficam); as apagadas somem com a anotação. O
+//   toque na faixa do leitor limpo grava só o `collapsed` ([InkRepository.setCollapsed]).
 // - Rascunho: o JSON de `ink_changes.dart` na chave `ink_draft:<dono>:<user_book_id>:<sessão>` do `kv` (só do
 //   aparelho, nunca sincroniza), uma por sessão do modo: a sessão só apaga e sobrescreve o dela. Ao abrir o livro
 //   (D-166), cada um é gravado como um Concluir, na ordem das chaves, e a chave some; o que falhar fica, e a falha vai
@@ -28,6 +31,9 @@ import 'ink/ink_changes.dart';
 
 /// Um desenho salvo do livro: a camada `over_text` viva e a anotação `drawing` dela.
 typedef SavedDrawing = ({InkLayer layer, Annotation annotation});
+
+/// Uma nota à mão salva do livro (G18): a camada `space` viva e a anotação `handwriting` dela.
+typedef SavedNote = ({InkLayer layer, Annotation annotation});
 
 /// O rascunho não foi gravado ao abrir o livro (D-166): só o tipo da falha, sem o conteúdo.
 final class InkDraftNotRecovered implements Exception {
@@ -53,6 +59,12 @@ final class InkNotSaved implements Exception {
 abstract interface class InkRepository {
   /// Os desenhos vivos do livro, em ordem de criação.
   Future<List<SavedDrawing>> drawingsOfBook(String userBookId);
+
+  /// As notas à mão vivas do livro, em ordem de criação (G18).
+  Future<List<SavedNote>> notesOfBook(String userBookId);
+
+  /// G18 (D-184): a faixa do leitor limpo abriu ou fechou a nota [layerId] — grava só o `collapsed`.
+  Future<void> setCollapsed(String owner, String layerId, bool collapsed);
 
   /// Grava [c] numa transação, pelo `LocalVersioning.write`, com HLC.
   Future<void> commit(String owner, String userBookId, InkChanges c);
@@ -113,6 +125,41 @@ final class DriftInkRepository implements InkRepository {
   }
 
   @override
+  Future<List<SavedNote>> notesOfBook(String userBookId) async {
+    final layers = await _layers.liveSpacesForBook(userBookId);
+    final notes = await _annotations.handwritingOfLayers([
+      for (final l in layers) l.id,
+    ]);
+    final ofLayer = <String, Annotation>{};
+    for (final a in notes) {
+      ofLayer.putIfAbsent(a.inkLayerId!, () => a);
+    }
+    return [
+      for (final l in layers)
+        if (ofLayer[l.id] case final a?) (layer: l, annotation: a),
+    ];
+  }
+
+  @override
+  Future<void> setCollapsed(String owner, String layerId, bool collapsed) =>
+      db.transaction(() async {
+        final l = (await _layers.byIds([layerId])).firstOrNull;
+        if (l == null ||
+            l.meta.isDeleted ||
+            l.kind != InkLayerKind.space ||
+            l.collapsed == collapsed) {
+          return;
+        }
+        await _write(
+          'ink_layers',
+          layerId,
+          (v, at) => _layers.upsert(
+            l.copyWith(meta: l.meta.edited(at, v), collapsed: collapsed),
+          ),
+        );
+      });
+
+  @override
   Future<void> commit(String owner, String userBookId, InkChanges c) async {
     if (c.isEmpty) return;
     await db.transaction(() async {
@@ -145,6 +192,7 @@ final class DriftInkRepository implements InkRepository {
           await _delete(a);
         }
       }
+      await _writeNotes(owner, userBookId, c);
       await _writeHighlights(owner, userBookId, c);
       if (c.erasedHighlights.isNotEmpty) {
         final book = await _annotations.forBook(userBookId);
@@ -164,6 +212,144 @@ final class DriftInkRepository implements InkRepository {
         }
       }
     });
+  }
+
+  /// As notas à mão (G18): as novas e mudadas (a camada e a anotação) e as apagadas (com a anotação).
+  Future<void> _writeNotes(
+    String owner,
+    String userBookId,
+    InkChanges c,
+  ) async {
+    if (c.notes.isEmpty && c.deletedNotes.isEmpty) return;
+    final layers = {
+      for (final l in await _layers.byIds({
+        for (final r in c.notes) r.layerId,
+        ...c.deletedNotes,
+      }))
+        l.id: l,
+    };
+    final annotations = {
+      for (final a in await _annotations.byIds([
+        for (final r in c.notes) r.annotationId,
+      ]))
+        a.id: a,
+    };
+    for (final r in c.notes) {
+      await _writeNoteLayer(owner, userBookId, r, layers[r.layerId]);
+      await _writeNote(owner, userBookId, r, annotations[r.annotationId]);
+    }
+    for (final id in c.deletedNotes) {
+      final l = layers[id];
+      if (l == null || l.meta.isDeleted || l.kind != InkLayerKind.space) {
+        continue;
+      }
+      await _write(
+        'ink_layers',
+        id,
+        (v, at) => _layers.upsert(l.copyWith(meta: l.meta.deleted(at, v))),
+      );
+      for (final a in await _annotations.handwritingOfLayers([id])) {
+        await _delete(a);
+      }
+    }
+  }
+
+  Future<void> _writeNoteLayer(
+    String owner,
+    String userBookId,
+    NoteRow r,
+    InkLayer? old,
+  ) async {
+    if (old != null &&
+        !old.meta.isDeleted &&
+        old.kind == InkLayerKind.space &&
+        old.anchor == r.anchor &&
+        old.spaceLines == r.lines &&
+        old.collapsed == r.collapsed &&
+        old.strokesB64 == r.strokesB64 &&
+        old.strokeCount == r.strokeCount) {
+      return;
+    }
+    await _write(
+      'ink_layers',
+      r.layerId,
+      (v, at) => _layers.upsert(
+        old == null
+            ? InkLayer(
+                id: r.layerId,
+                meta: RecordMeta(
+                  userId: owner,
+                  createdAt: at,
+                  updatedAt: at,
+                  version: v,
+                ),
+                userBookId: userBookId,
+                kind: InkLayerKind.space,
+                anchor: r.anchor,
+                spaceLines: r.lines,
+                collapsed: r.collapsed,
+                strokesB64: r.strokesB64,
+                strokeCount: r.strokeCount,
+              )
+            : old.copyWith(
+                meta: _touched(old.meta, at, v),
+                anchor: r.anchor,
+                spaceLines: r.lines,
+                collapsed: r.collapsed,
+                strokesB64: r.strokesB64,
+                strokeCount: r.strokeCount,
+              ),
+      ),
+    );
+  }
+
+  Future<void> _writeNote(
+    String owner,
+    String userBookId,
+    NoteRow r,
+    Annotation? old,
+  ) async {
+    if (old != null &&
+        !old.meta.isDeleted &&
+        old.kind == AnnotationKind.handwriting &&
+        old.anchor == r.anchor &&
+        old.refPage == r.refPage &&
+        old.chapterIndex == r.chapterIndex &&
+        old.inkLayerId == r.layerId) {
+      return;
+    }
+    await _write(
+      'annotations',
+      r.annotationId,
+      (v, at) => _annotations.upsert(
+        old == null
+            ? Annotation(
+                id: r.annotationId,
+                meta: RecordMeta(
+                  userId: owner,
+                  createdAt: r.createdAt,
+                  updatedAt: at,
+                  version: v,
+                ),
+                userBookId: userBookId,
+                kind: AnnotationKind.handwriting,
+                groupId: r.groupId,
+                source: AnnotationSource.ink,
+                anchor: r.anchor,
+                refPage: r.refPage,
+                chapterIndex: r.chapterIndex,
+                inkLayerId: r.layerId,
+              )
+            // os grupos já gravados não mudam (Anexo 02 §4.3)
+            : old.copyWith(
+                meta: _touched(old.meta, at, v),
+                anchor: r.anchor,
+                refPage: r.refPage,
+                chapterIndex: r.chapterIndex,
+                inkLayerId: Nullable(r.layerId),
+              ),
+      ),
+    );
   }
 
   /// Os grifos do marca-texto (G17): os novos, os movidos e os tirados, nessa ordem — o destino das notas já tem o

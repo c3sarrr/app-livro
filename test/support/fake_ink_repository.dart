@@ -4,11 +4,20 @@ import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart';
 import 'package:app_leitura/features/reader/annotations/ink_repository.dart';
 
 final class FakeInkRepository implements InkRepository {
-  FakeInkRepository({List<SavedDrawing> drawings = const []})
-    : drawings = [...drawings];
+  FakeInkRepository({
+    List<SavedDrawing> drawings = const [],
+    List<SavedNote> notes = const [],
+  }) : drawings = [...drawings],
+       notes = [...notes];
 
   /// Os desenhos salvos devolvidos por [drawingsOfBook] (de qualquer livro).
   final List<SavedDrawing> drawings;
+
+  /// As notas à mão salvas devolvidas por [notesOfBook] (G18).
+  final List<SavedNote> notes;
+
+  /// Cada `setCollapsed` (a camada e o valor), em ordem.
+  final List<(String, bool)> collapsedWrites = [];
 
   /// Cada Concluir que chegou ao fim, em ordem.
   final List<InkChanges> commits = [];
@@ -30,6 +39,28 @@ final class FakeInkRepository implements InkRepository {
     for (final d in drawings)
       if (d.layer.userBookId == userBookId) d,
   ];
+
+  @override
+  Future<List<SavedNote>> notesOfBook(String userBookId) async => [
+    for (final n in notes)
+      if (n.layer.userBookId == userBookId) n,
+  ];
+
+  @override
+  Future<void> setCollapsed(
+    String owner,
+    String layerId,
+    bool collapsed,
+  ) async {
+    collapsedWrites.add((layerId, collapsed));
+    final i = notes.indexWhere((n) => n.layer.id == layerId);
+    if (i >= 0) {
+      notes[i] = (
+        layer: notes[i].layer.copyWith(collapsed: collapsed),
+        annotation: notes[i].annotation,
+      );
+    }
+  }
 
   @override
   Future<void> commit(String owner, String userBookId, InkChanges c) async {

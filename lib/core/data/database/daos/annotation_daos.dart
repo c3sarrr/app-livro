@@ -74,6 +74,25 @@ final class AnnotationsDao {
         .get();
   }
 
+  /// As notas à mão (`handwriting`) vivas das camadas [layerIds] (G18).
+  Future<List<Annotation>> handwritingOfLayers(Iterable<String> layerIds) {
+    final list = layerIds.toList();
+    if (list.isEmpty) return Future.value(const []);
+    return (_db.select(_db.annotations)
+          ..where(
+            (t) =>
+                t.inkLayerId.isIn(list) &
+                t.kind.equals(AnnotationKind.handwriting.code) &
+                t.deletedAt.isNull(),
+          )
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.createdAt),
+            (t) => OrderingTerm(expression: t.id),
+          ]))
+        .map(_toEntity)
+        .get();
+  }
+
   /// Itens do livro na ordem do livro (página, início da âncora, criação) — tela 25.
   Future<List<Annotation>> forBook(String userBookId) =>
       _forBook(userBookId).get();
@@ -224,6 +243,22 @@ final class InkLayersDao {
               (t) =>
                   t.userBookId.equals(userBookId) &
                   t.kind.equals(InkLayerKind.overText.code) &
+                  t.deletedAt.isNull(),
+            )
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.createdAt),
+              (t) => OrderingTerm(expression: t.id),
+            ]))
+          .map(_toEntity)
+          .get();
+
+  /// Os espaços abertos (as notas à mão — G18) vivos do livro, em ordem de criação.
+  Future<List<InkLayer>> liveSpacesForBook(String userBookId) =>
+      (_db.select(_db.inkLayers)
+            ..where(
+              (t) =>
+                  t.userBookId.equals(userBookId) &
+                  t.kind.equals(InkLayerKind.space.code) &
                   t.deletedAt.isNull(),
             )
             ..orderBy([

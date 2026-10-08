@@ -734,4 +734,165 @@ void main() {
       expect(errors, hasLength(2));
     },
   );
+
+  group('G18 (R10): as notas à mão', () {
+    final nota = encodeStrokesB64(const [
+      InkStroke(
+        tool: 1,
+        tip: 0,
+        argb: 0xFFFF552E,
+        widthCentiMm: 120,
+        points: [InkPoint(0.1, 0.8, 0.5, 0), InkPoint(0.3, 1.1, 0.6, 8)],
+      ),
+    ], Bnk1Unit.box);
+
+    NoteRow linha(
+      int layer,
+      int annotation, {
+      int linhas = 3,
+      bool recolhida = false,
+      int tracos = 1,
+    }) => NoteRow(
+      layerId: idTeste(layer),
+      annotationId: idTeste(annotation),
+      createdAt: DateTime.utc(2026, 9, 20, 19, 45),
+      anchor: ancoraTeste(inicio: 1233, exato: ''),
+      refPage: 159,
+      chapterIndex: 31,
+      groupId: idTeste(11),
+      lines: linhas,
+      collapsed: recolhida,
+      strokesB64: nota,
+      strokeCount: tracos,
+    );
+
+    test('a nova: a camada space e a anotação handwriting, com HLC, na mesma transação', () async {
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(layers: [_row(10, 11)], notes: [linha(20, 21)]),
+      );
+      final l = (await layer(20))!;
+      expect(
+        (l.kind, l.spaceLines, l.collapsed, l.strokesB64, l.strokeCount),
+        (InkLayerKind.space, 3, false, nota, 1),
+      );
+      expect(l.anchor, ancoraTeste(inicio: 1233, exato: ''));
+      expect(l.meta.version, isNotNull);
+      final a = (await annotation(21))!;
+      expect(
+        (a.kind, a.source, a.inkLayerId, a.groupId, a.refPage, a.chapterIndex),
+        (
+          AnnotationKind.handwriting,
+          AnnotationSource.ink,
+          idTeste(20),
+          idTeste(11),
+          159,
+          31,
+        ),
+      );
+      expect(a.anchor, ancoraTeste(inicio: 1233, exato: ''));
+      expect(a.meta.createdAt, DateTime.utc(2026, 9, 20, 19, 45));
+      expect((await layer(10))!.kind, InkLayerKind.overText);
+    });
+
+    test('mudada: regrava as linhas e o recolhida; igual não regrava; apagada some com a anotação', () async {
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(notes: [linha(20, 21)]),
+      );
+      final v1 = (await layer(20))!.meta.version;
+      final criada = (await layer(20))!.meta.createdAt;
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(notes: [linha(20, 21)]),
+      );
+      expect((await layer(20))!.meta.version, v1, reason: 'igual: não regrava');
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(notes: [linha(20, 21, linhas: 5, recolhida: true)]),
+      );
+      final l = (await layer(20))!;
+      expect((l.spaceLines, l.collapsed), (5, true));
+      expect(l.meta.createdAt, criada, reason: 'a criação fica');
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        const InkChanges(deletedNotes: {'nao-existe'}),
+      );
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(deletedNotes: {idTeste(20)}),
+      );
+      expect((await layer(20))!.meta.isDeleted, isTrue);
+      expect((await annotation(21))!.meta.isDeleted, isTrue);
+      expect(await repo.notesOfBook(_livro), isEmpty);
+    });
+
+    test('as notas do livro: as camadas space vivas com a anotação handwriting; os desenhos não as trazem', () async {
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(
+          layers: [_row(10, 11)],
+          notes: [linha(20, 21), linha(22, 23)],
+        ),
+      );
+      final notas = await repo.notesOfBook(_livro);
+      expect(notas.map((n) => (n.layer.id, n.annotation.id)), [
+        (idTeste(20), idTeste(21)),
+        (idTeste(22), idTeste(23)),
+      ]);
+      expect((await repo.drawingsOfBook(_livro)).map((d) => d.layer.id), [
+        idTeste(10),
+      ]);
+      expect(
+        (await InkLayersDao(db).liveSpacesForBook(_livro)).map((l) => l.id),
+        [idTeste(20), idTeste(22)],
+      );
+      expect(
+        (await AnnotationsDao(db).handwritingOfLayers([idTeste(22)])).single.id,
+        idTeste(23),
+      );
+    });
+
+    test('setCollapsed: grava só o recolhida, com a versão; a camada apagada ou de outro tipo não', () async {
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(
+          layers: [_row(10, 11)],
+          notes: [linha(20, 21, recolhida: true)],
+        ),
+      );
+      final antes = (await layer(20))!;
+      await repo.setCollapsed(usuarioTeste, idTeste(20), false);
+      final depois = (await layer(20))!;
+      expect(depois.collapsed, isFalse);
+      expect(depois.spaceLines, 3);
+      expect(depois.meta.version.compareTo(antes.meta.version), greaterThan(0));
+      await repo.setCollapsed(usuarioTeste, idTeste(10), true);
+      expect((await layer(10))!.collapsed, isFalse);
+      await repo.setCollapsed(usuarioTeste, 'nao-existe', true);
+    });
+
+    test(
+      'o rascunho do formato 3 gravado ao abrir leva as notas (D-166)',
+      () async {
+        await repo.saveDraft(
+          usuarioTeste,
+          _livro,
+          InkChanges(notes: [linha(20, 21)]),
+          session: 's1',
+        );
+        expect(await repo.recoverDraft(usuarioTeste, _livro), isTrue);
+        expect((await layer(20))!.kind, InkLayerKind.space);
+        expect(await KvDao(db).withPrefix('ink_draft:'), isEmpty);
+      },
+    );
+  });
 }
