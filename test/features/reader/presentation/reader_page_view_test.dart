@@ -10,10 +10,15 @@ import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
     show HighlightStyle;
+import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
+import 'package:app_leitura/features/reader/application/annotation_session.dart'
+    show PageDrawing;
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/application/reader_ink.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart'
     show ReaderTypography;
+import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:flutter/foundation.dart' show ValueListenable;
@@ -253,6 +258,22 @@ final class _Tela implements ui.Canvas {
     retangulos.add((rect, paint.color));
   }
 
+  /// G16: a mancha do grifo feito à mão (o modo de cada uma).
+  final manchas = <BlendMode>[];
+  @override
+  void drawPath(Path path, Paint paint) {
+    chamadas.add('mancha');
+    manchas.add(paint.blendMode);
+  }
+
+  /// G16: a tinta (a `Picture` de cada página).
+  final tintas = <ui.Picture>[];
+  @override
+  void drawPicture(ui.Picture picture) {
+    chamadas.add('tinta');
+    tintas.add(picture);
+  }
+
   @override
   Object? noSuchMethod(Invocation invocation) => null;
 }
@@ -269,6 +290,55 @@ final class _Grifos extends ChangeNotifier implements HighlightSource {
     for (final h in lista)
       if (h.range.unit == shown.unit) h,
   ];
+}
+
+/// A tinta do livro de mentira (G16): um traço em cada página pedida e os grifos feitos à mão.
+final class _Tinta extends ChangeNotifier implements InkSource {
+  _Tinta({this.aMao = const []});
+
+  List<PaintedHighlight> aMao;
+  final pedidas = <int>[];
+  int _revisao = 0;
+
+  void mudar() {
+    _revisao++;
+    notifyListeners();
+  }
+
+  @override
+  int get revision => _revisao;
+
+  @override
+  List<PaintedHighlight> inkHighlightsIn(ReaderRange shown) => [
+    for (final h in aMao)
+      if (h.range.unit == shown.unit) h,
+  ];
+
+  @override
+  List<PageDrawing> drawingsOn(DisplayPage page) {
+    final n = (page as _Pagina).n;
+    pedidas.add(n);
+    return [
+      (
+        saved: (
+          layerId: 'camada-$n',
+          annotationId: 'desenho-$n',
+          createdAt: DateTime.utc(2026, 10, 8),
+          groupId: 'desenho-$n',
+        ),
+        range: (unit: n, from: 0, to: 10),
+        strokes: const [
+          InkStroke(
+            tool: 1,
+            tip: 0,
+            argb: 0xFFFF552E,
+            widthCentiMm: 120,
+            points: [InkPoint(30, 140, 0.5, 0), InkPoint(60, 140, 0.5, 8)],
+          ),
+        ],
+      ),
+    ];
+  }
 }
 
 PaintedHighlight _grifo(
@@ -1400,4 +1470,151 @@ void main() {
       );
     });
   });
+
+  group(
+    'G16 — a tinta salva e a mancha do grifo feito à mão (D-59, D-161)',
+    () {
+      late InkPictureCache cache;
+      setUp(() => cache = InkPictureCache());
+      tearDown(() => cache.dispose());
+
+      PaintedHighlight aMao(int from, int to) => PaintedHighlight(
+        id: 'a-mao',
+        range: (unit: 2, from: from, to: to),
+        color: const Color(0xFFFED170),
+        style: HighlightStyle.fill,
+      );
+
+      test(
+        'ordem: fundos → texto → sublinhado → mancha (multiplicada) → tinta',
+        () {
+          final tela = _Tela();
+          ReaderPagesPainter(
+            document: _Livro(),
+            dx: 0,
+            dir: null,
+            neighbor: null,
+            highlights: _Grifos([
+              _grifo('g', 0, 10),
+              _grifo('s', 60, 70, style: HighlightStyle.underline),
+            ]),
+            ink: _Tinta(aMao: [aMao(20, 40)]),
+            inkPictures: cache,
+          ).paint(tela, const Size(390, 844));
+          expect(tela.chamadas, [
+            'corte',
+            'marca',
+            'texto',
+            'traço',
+            'mancha',
+            'tinta',
+          ]);
+          expect(tela.manchas, [BlendMode.multiply]);
+        },
+      );
+
+      test('Noite (D-133): a mancha por trás (D − cor) e por cima (D em diferença); a tinta por último, na cor dela', () {
+        final tela = _Tela();
+        ReaderPagesPainter(
+          document: _Livro(),
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          foundLightText: const Color(0xFFE3D9C6),
+          ink: _Tinta(aMao: [aMao(20, 40)]),
+          inkPictures: cache,
+        ).paint(tela, const Size(390, 844));
+        expect(tela.chamadas, ['mancha', 'texto', 'mancha', 'tinta']);
+        expect(tela.manchas, [BlendMode.srcOver, BlendMode.difference]);
+      });
+
+      test('a vizinha que chega no arrasto vem com a tinta dela; a imagem do PDF não pede tinta', () {
+        final l = _Livro();
+        final tinta = _Tinta();
+        final tela = _Tela();
+        ReaderPagesPainter(
+          document: l,
+          dx: -100,
+          dir: PageDirection.forward,
+          neighbor: l.paginas[3],
+          ink: tinta,
+          inkPictures: cache,
+        ).paint(tela, const Size(390, 844));
+        expect(tela.chamadas, ['texto', 'tinta', 'texto', 'tinta']);
+        expect(tinta.pedidas, [2, 3]);
+        expect(tela.tintas.first, isNot(same(tela.tintas.last)));
+        // a imagem do PDF (sem texto) não tem tinta nesta fase (D-164)
+        final pdf = _Livro();
+        pdf.paginas[2] = _Pagina(2, opaque: true);
+        final t2 = _Tela();
+        final semTinta = _Tinta();
+        ReaderPagesPainter(
+          document: pdf,
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          ink: semTinta,
+          inkPictures: cache,
+        ).paint(t2, const Size(390, 844));
+        expect(t2.chamadas, ['texto']);
+        expect(semTinta.pedidas, isEmpty);
+      });
+
+      test('a mesma revisão reusa a Picture da página; a tinta que muda repinta e grava outra', () {
+        final l = _Livro();
+        final tinta = _Tinta();
+        ReaderPagesPainter pintor({InkSource? ink}) => ReaderPagesPainter(
+          document: l,
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          ink: ink ?? tinta,
+          inkPictures: cache,
+        );
+        final tela = _Tela();
+        pintor().paint(tela, const Size(390, 844));
+        pintor().paint(tela, const Size(390, 844));
+        expect(tela.tintas[1], same(tela.tintas[0]));
+        expect(tinta.pedidas, [2]);
+        var avisos = 0;
+        pintor().addListener(() => avisos++);
+        tinta.mudar();
+        expect(avisos, 1);
+        pintor().paint(tela, const Size(390, 844));
+        expect(tela.tintas[2], isNot(same(tela.tintas[0])));
+        expect(tinta.pedidas, [2, 2]);
+        expect(pintor().shouldRepaint(pintor()), isFalse);
+        expect(pintor(ink: _Tinta()).shouldRepaint(pintor()), isTrue);
+      });
+
+      testWidgets('a página leva a tinta ao pintor, com o cache dela', (
+        tester,
+      ) async {
+        final tinta = _Tinta();
+        await tester.pumpWidget(
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: ReaderPageView(
+              document: _Livro(),
+              onTurn: (_) async => false,
+              onCenter: () {},
+              onLink: (_) async {},
+              onInteraction: () {},
+              ink: tinta,
+            ),
+          ),
+        );
+        final pintor =
+            tester
+                    .widget<CustomPaint>(
+                      find.byKey(const ValueKey('leitor.paginas')),
+                    )
+                    .painter!
+                as ReaderPagesPainter;
+        expect(pintor.ink, same(tinta));
+        expect(pintor.inkPictures, isNotNull);
+        expect(tinta.pedidas, [2]);
+      });
+    },
+  );
 }

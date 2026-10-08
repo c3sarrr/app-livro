@@ -12,6 +12,9 @@
 // - G12 (D-117): com os controles abertos, qualquer toque só fecha os controles ([onCenter]); o arrasto vira como
 //   sempre e avisa [onDragStarted] (a tela fecha os controles). A ocorrência da busca (D-120) é pintada por trás
 //   das letras na cor [foundColor].
+// - G16 (D-59, D-161): por cima do texto, a mancha dos grifos feitos à mão e a tinta salva ([ink]), na atual e na
+//   vizinha; os desenhos de cada página ficam num `ui.Picture` guardado pela página e pela revisão da tinta. Os
+//   controles esmaecem a tinta junto com a página (o véu deles fica por cima de tudo).
 // A página atual é lida do documento na hora de pintar (ele avisa quando ela muda por dentro).
 import 'dart:async';
 
@@ -19,8 +22,11 @@ import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
 import 'package:flutter/widgets.dart';
 
+import '../annotations/ink/ink_stroke.dart';
 import '../application/reader_document.dart';
 import '../application/reader_errors.dart';
+import '../application/reader_ink.dart';
+import 'ink_painter.dart';
 import 'page_marks.dart';
 
 /// D-22 / D-107.
@@ -52,6 +58,7 @@ class ReaderPageView extends StatefulWidget {
     this.foundColor,
     this.foundLightText,
     this.highlights,
+    this.ink,
     this.selection,
     this.selectionColor,
     this.selecting = false,
@@ -91,6 +98,9 @@ class ReaderPageView extends StatefulWidget {
 
   /// Os grifos do livro, pintados por trás das letras (G13).
   final HighlightSource? highlights;
+
+  /// A tinta salva e os grifos feitos à mão (G16), pintados por cima das letras.
+  final InkSource? ink;
 
   /// A seleção (G13), pintada na cor [selectionColor] (a `brand`).
   final ValueListenable<ReaderRange?>? selection;
@@ -136,11 +146,15 @@ class _ReaderPageViewState extends State<ReaderPageView>
   bool _busy = false;
   int _peekGen = 0;
 
+  /// Os desenhos das páginas já pintadas (G16).
+  final InkPictureCache _inkPictures = InkPictureCache();
+
   double get _width => context.size?.width ?? 0;
 
   @override
   void dispose() {
     _anim.dispose();
+    _inkPictures.dispose();
     super.dispose();
   }
 
@@ -373,6 +387,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
         foundColor: widget.foundColor,
         foundLightText: widget.foundLightText,
         highlights: widget.highlights,
+        ink: widget.ink,
+        inkPictures: _inkPictures,
         selection: widget.selection,
         selectionColor: widget.selectionColor,
       ),
@@ -385,7 +401,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
 /// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor]; com letras
 /// claras ([foundLightText], o Noite) a palavra marcada fica escura (D-127). G13: os grifos ([highlights]) e a
 /// seleção ([selection]) também, com recorte por prioridade (`page_marks.dart`); o sublinhado vai por cima. A
-/// vizinha que chega no arrasto vem com os grifos dela.
+/// vizinha que chega no arrasto vem com os grifos dela. G16: depois do sublinhado, a mancha dos grifos feitos à mão
+/// e a tinta salva ([ink]), de cada página (a `Picture` dela vem de [inkPictures]).
 class ReaderPagesPainter extends CustomPainter {
   ReaderPagesPainter({
     required this.document,
@@ -395,12 +412,15 @@ class ReaderPagesPainter extends CustomPainter {
     this.foundColor,
     this.foundLightText,
     this.highlights,
+    this.ink,
+    this.inkPictures,
     this.selection,
     this.selectionColor,
   }) : super(
          repaint: Listenable.merge(<Listenable?>[
            document.changes,
            highlights,
+           ink,
            selection,
          ]),
        );
@@ -412,6 +432,10 @@ class ReaderPagesPainter extends CustomPainter {
   final Color? foundColor;
   final Color? foundLightText;
   final HighlightSource? highlights;
+  final InkSource? ink;
+
+  /// Onde ficam as `Picture` da tinta de cada página; sem ele, a tinta é pintada traço a traço.
+  final InkPictureCache? inkPictures;
   final ValueListenable<ReaderRange?>? selection;
   final Color? selectionColor;
 
@@ -459,7 +483,7 @@ class ReaderPagesPainter extends CustomPainter {
       ..save()
       ..clipRect(Offset.zero & size)
       ..translate(offset, 0);
-    // a vizinha chega com os grifos dela; a seleção e a marca da busca são só da atual
+    // a vizinha chega com os grifos e a tinta dela; a seleção e a marca da busca são só da atual
     if (n.opaque) {
       n.paint(canvas);
     } else {
@@ -468,47 +492,47 @@ class ReaderPagesPainter extends CustomPainter {
     canvas.restore();
   }
 
-  /// Uma página de texto: os fundos (grifos, marca da busca, seleção) por trás das letras — no Noite, pela técnica
-  /// da D-127 — e os sublinhados por cima.
+  /// Uma página de texto, com os grifos, a tinta e os grifos feitos à mão dela ([paintTextPage]).
   void _paintText(
     Canvas canvas,
     DisplayPage page, {
     FoundRange? found,
     ReaderRange? selection,
   }) {
-    final light = foundLightText;
     final shown = page.shown;
-    final hs = shown == null
-        ? const <PaintedHighlight>[]
-        : highlights?.highlightsIn(shown) ?? const <PaintedHighlight>[];
-    final bands = backgroundBands(
+    final ink = this.ink;
+    paintTextPage(
+      canvas,
       page,
-      highlights: hs,
+      highlights: shown == null
+          ? const <PaintedHighlight>[]
+          : highlights?.highlightsIn(shown) ?? const <PaintedHighlight>[],
+      inkHighlights: shown == null || ink == null
+          ? const <PaintedHighlight>[]
+          : ink.inkHighlightsIn(shown),
       found: found,
       foundColor: foundColor,
       selection: selection,
       selectionColor: selectionColor,
-      night: light != null,
+      lightText: foundLightText,
+      paintInkLayer: shown == null || ink == null
+          ? null
+          : (c) => _paintInkOf(c, page, ink),
     );
-    if (light == null) {
-      // letras escuras: os fundos vão por trás delas
-      for (final b in bands) {
-        paintBand(canvas, b, b.color);
-      }
-      page.paint(canvas);
-    } else {
-      // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem
-      // camada. Com D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença:
-      // o fundo volta a ser a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
-      for (final b in bands) {
-        paintBand(canvas, b, channelMinus(channelMax(light, b.color), b.color));
-      }
-      page.paint(canvas);
-      for (final b in bands) {
-        paintBand(canvas, b, channelMax(light, b.color), BlendMode.difference);
-      }
+  }
+
+  /// Os desenhos de [page]: a `Picture` guardada (pela página e pela revisão) ou, sem o cache, traço a traço.
+  void _paintInkOf(Canvas canvas, DisplayPage page, InkSource ink) {
+    List<InkStroke> strokes() => [
+      for (final d in ink.drawingsOn(page)) ...d.strokes,
+    ];
+    final cache = inkPictures;
+    if (cache == null) {
+      paintInk(canvas, strokes());
+      return;
     }
-    paintUnderlines(canvas, page, hs);
+    final picture = cache.pictureOf(page, ink.revision, strokes);
+    if (picture != null) canvas.drawPicture(picture);
   }
 
   @override
@@ -518,8 +542,73 @@ class ReaderPagesPainter extends CustomPainter {
       old.foundColor != foundColor ||
       old.foundLightText != foundLightText ||
       !identical(old.highlights, highlights) ||
+      !identical(old.ink, ink) ||
+      !identical(old.inkPictures, inkPictures) ||
       !identical(old.selection, selection) ||
       old.selectionColor != selectionColor ||
       !identical(old.neighbor, neighbor) ||
       !identical(old.document, document);
+}
+
+/// Uma página de texto (G13, G16): os fundos ([highlights] de fundo, a marca da busca [found], a seleção) por trás
+/// das letras — com letras claras ([lightText], o Noite), pela técnica da D-127/D-133 —, os sublinhados, a mancha dos
+/// grifos feitos à mão ([inkHighlights], D-161) e, por último, a tinta ([paintInkLayer], D-59). O modo anotação
+/// pinta a página por aqui também.
+void paintTextPage(
+  Canvas canvas,
+  DisplayPage page, {
+  List<PaintedHighlight> highlights = const [],
+  List<PaintedHighlight> inkHighlights = const [],
+  ReaderRange? found,
+  Color? foundColor,
+  ReaderRange? selection,
+  Color? selectionColor,
+  Color? lightText,
+  void Function(Canvas canvas)? paintInkLayer,
+}) {
+  final bands = backgroundBands(
+    page,
+    highlights: highlights,
+    found: found,
+    foundColor: foundColor,
+    selection: selection,
+    selectionColor: selectionColor,
+    night: lightText != null,
+  );
+  if (lightText == null) {
+    // letras escuras: os fundos vão por trás delas
+    for (final b in bands) {
+      paintBand(canvas, b, b.color);
+    }
+    page.paint(canvas);
+  } else {
+    // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem
+    // camada. Com D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença:
+    // o fundo volta a ser a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
+    for (final b in bands) {
+      paintBand(
+        canvas,
+        b,
+        channelMinus(channelMax(lightText, b.color), b.color),
+      );
+    }
+    paintHandHighlightsBehind(
+      canvas,
+      page,
+      inkHighlights,
+      lightText: lightText,
+    );
+    page.paint(canvas);
+    for (final b in bands) {
+      paintBand(
+        canvas,
+        b,
+        channelMax(lightText, b.color),
+        BlendMode.difference,
+      );
+    }
+  }
+  paintUnderlines(canvas, page, highlights);
+  paintHandHighlights(canvas, page, inkHighlights, lightText: lightText);
+  paintInkLayer?.call(canvas);
 }

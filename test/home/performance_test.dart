@@ -20,7 +20,11 @@ import 'package:app_leitura/features/home/presentation/sections/header_section.d
 import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
+import 'package:app_leitura/features/reader/application/annotation_session.dart'
+    show PageDrawing;
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/application/reader_ink.dart';
+import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
 import 'package:app_leitura/features/reader/presentation/highlight_toolbar.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
@@ -213,7 +217,12 @@ void main() {
         final outro = _Documento();
         final vizinha = _Pagina();
         final grifos = _GrifosVazios();
+        final tinta = _TintaVazia();
+        final fotos = InkPictureCache();
+        addTearDown(fotos.dispose);
         final selecao = ValueNotifier<ReaderRange?>(null);
+        final fotos2 = InkPictureCache();
+        addTearDown(fotos2.dispose);
         ReaderPagesPainter pintor({
           ReaderDocument? document,
           double dx = -40,
@@ -222,6 +231,8 @@ void main() {
           Color? foundColor = AppColors.lavender,
           Color? foundLightText,
           HighlightSource? highlights,
+          InkSource? ink,
+          InkPictureCache? inkPictures,
           ValueListenable<ReaderRange?>? selection,
           Color? selectionColor = AppColors.lavender,
         }) => ReaderPagesPainter(
@@ -232,6 +243,8 @@ void main() {
           foundColor: foundColor,
           foundLightText: foundLightText,
           highlights: highlights ?? grifos,
+          ink: ink ?? tinta,
+          inkPictures: inkPictures ?? fotos,
           selection: selection ?? selecao,
           selectionColor: selectionColor,
         );
@@ -244,12 +257,14 @@ void main() {
           'foundLightText': () =>
               pintor(foundLightText: AppColors.bookTextNight),
           'highlights': () => pintor(highlights: _GrifosVazios()),
+          'ink': () => pintor(ink: _TintaVazia()),
+          'inkPictures': () => pintor(inkPictures: fotos2),
           'selection': () =>
               pintor(selection: ValueNotifier<ReaderRange?>(null)),
           'selectionColor': () => pintor(selectionColor: AppColors.sun),
         });
         // a página atual que muda por dentro (sem trocar de pintor) repinta pelo aviso do documento, e também
-        // os grifos do livro e a seleção (G13)
+        // os grifos do livro e a seleção (G13) e a tinta (G16)
         var avisos = 0;
         pintor().addListener(() => avisos++);
         doc.changes.value++;
@@ -257,6 +272,8 @@ void main() {
         grifos.avisar();
         selecao.value = (unit: 0, from: 0, to: 1);
         expect(avisos, 3);
+        tinta.avisar();
+        expect(avisos, 4);
       },
     );
 
@@ -640,4 +657,17 @@ class _GrifosVazios extends ChangeNotifier implements HighlightSource {
 
   @override
   List<PaintedHighlight> highlightsIn(ReaderRange shown) => const [];
+}
+
+class _TintaVazia extends ChangeNotifier implements InkSource {
+  void avisar() => notifyListeners();
+
+  @override
+  int get revision => 0;
+
+  @override
+  List<PaintedHighlight> inkHighlightsIn(ReaderRange shown) => const [];
+
+  @override
+  List<PageDrawing> drawingsOn(DisplayPage page) => const [];
 }
