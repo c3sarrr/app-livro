@@ -2,9 +2,9 @@
 // - Concluir: uma transação, cada linha pelo `LocalVersioning.write` (HLC). Camadas novas (`created = updated` = a
 //   hora do HLC) e mudadas (fica a criação); as anotações `drawing` (`source = ink`, a cor do 1º traço, a página e o
 //   capítulo do começo do trecho, o grupo — que não muda depois de gravado); camadas apagadas com as anotações
-//   delas; grifos apagados pela Borracha com as notas filhas. A linha que já não existe ou já está apagada, pula; a
-//   que ficaria igual, não é regravada: aplicar duas vezes dá as mesmas linhas (o rascunho é idempotente) e a fila
-//   do Pro só recebe o que mudou.
+//   delas; grifos à mão apagados pela Borracha, com as notas filhas (o de seleção fica — D-168). A linha que já não
+//   existe ou já está apagada, pula; a que ficaria igual, não é regravada: aplicar duas vezes dá as mesmas linhas (o
+//   rascunho é idempotente) e a fila do Pro só recebe o que mudou.
 // - Rascunho: o JSON de `ink_changes.dart` na chave `ink_draft:<dono>:<user_book_id>` do `kv` (só do aparelho, nunca
 //   sincroniza). Ao abrir o livro (D-166), é gravado como um Concluir e a chave some; se falhar, a chave fica e a
 //   falha vai ao relatório sem conteúdo.
@@ -119,11 +119,19 @@ final class DriftInkRepository implements InkRepository {
         }
       }
       if (c.erasedHighlights.isNotEmpty) {
-        for (final a in await _annotations.forBook(userBookId)) {
+        final book = await _annotations.forBook(userBookId);
+        // a Borracha só apaga tinta (D-168): o grifo de seleção (e a nota dele) fica, mesmo que venha na lista
+        final erasable = {
+          for (final a in book)
+            if (a.kind == AnnotationKind.highlight &&
+                a.source == AnnotationSource.ink &&
+                c.erasedHighlights.contains(a.id))
+              a.id,
+        };
+        for (final a in book) {
           final erased =
-              c.erasedHighlights.contains(a.id) ||
-              (a.kind == AnnotationKind.note &&
-                  c.erasedHighlights.contains(a.parentId));
+              erasable.contains(a.id) ||
+              (a.kind == AnnotationKind.note && erasable.contains(a.parentId));
           if (erased) await _delete(a);
         }
       }

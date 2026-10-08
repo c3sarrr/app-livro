@@ -1,7 +1,7 @@
 // G16.4 — o repositório da tinta no banco (§4): o Concluir grava camadas e anotações numa transação, com HLC
-// crescente; apaga camadas (com a anotação) e grifos (com as notas); o que já não existe ou já está apagado, pula;
-// aplicar duas vezes dá as mesmas linhas. Os desenhos do livro, o rascunho no `kv` e o rascunho gravado ao abrir
-// (D-166), que, se falhar, deixa a chave e relata sem conteúdo.
+// crescente; apaga camadas (com a anotação) e grifos à mão (com as notas; o de seleção fica — D-168); o que já não
+// existe ou já está apagado, pula; aplicar duas vezes dá as mesmas linhas. Os desenhos do livro, o rascunho no `kv`
+// e o rascunho gravado ao abrir (D-166), que, se falhar, deixa a chave e relata sem conteúdo.
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
@@ -165,18 +165,28 @@ void main() {
     },
   );
 
-  test('apaga camadas (com a anotação) e grifos (com as notas); o que não existe ou já foi apagado, pula', () async {
+  test('apaga camadas (com a anotação) e grifos à mão (com as notas); o que não existe ou já foi apagado, pula', () async {
     final camada = camadaSobreTextoTeste(30, livro: _livro);
     final desenho = desenhoTeste(31, livro: _livro, camada: camada);
-    final grifo = grifoTeste(32, livro: _livro);
+    final grifo = grifoTeste(32, livro: _livro, fonte: AnnotationSource.ink);
     final nota = notaTeste(
       33,
       livro: _livro,
       pai: grifo,
       texto: 'É o livro todo.',
     );
-    final outroGrifo = grifoTeste(34, livro: _livro, apagado: true);
-    final vizinho = grifoTeste(35, livro: _livro, inicio: 700);
+    final outroGrifo = grifoTeste(
+      34,
+      livro: _livro,
+      apagado: true,
+      fonte: AnnotationSource.ink,
+    );
+    final vizinho = grifoTeste(
+      35,
+      livro: _livro,
+      inicio: 700,
+      fonte: AnnotationSource.ink,
+    );
     await InkLayersDao(db).upsert(camada);
     for (final a in [desenho, grifo, nota, outroGrifo, vizinho]) {
       await AnnotationsDao(db).upsert(a);
@@ -198,6 +208,29 @@ void main() {
     expect(await layer(99), isNull);
     expect(await annotation(98), isNull);
   });
+
+  test(
+    'a Borracha só apaga tinta (D-168): o grifo de seleção e a nota dele ficam',
+    () async {
+      final grifo = grifoTeste(36, livro: _livro);
+      final nota = notaTeste(
+        37,
+        livro: _livro,
+        pai: grifo,
+        texto: 'Levar para o encontro.',
+      );
+      for (final a in [grifo, nota]) {
+        await AnnotationsDao(db).upsert(a);
+      }
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(erasedHighlights: {grifo.id}),
+      );
+      expect(await annotation(36), grifo);
+      expect(await annotation(37), nota);
+    },
+  );
 
   test('um erro no meio não grava nada (transação)', () async {
     final camada = camadaSobreTextoTeste(40, livro: _livro);
@@ -230,7 +263,7 @@ void main() {
   });
 
   test('aplicar duas vezes dá as mesmas linhas', () async {
-    final grifo = grifoTeste(52, livro: _livro);
+    final grifo = grifoTeste(52, livro: _livro, fonte: AnnotationSource.ink);
     await AnnotationsDao(db).upsert(grifo);
     final c = InkChanges(layers: [_row(50, 51)], erasedHighlights: {grifo.id});
     await repo.commit(usuarioTeste, _livro, c);
