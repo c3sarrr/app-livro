@@ -530,7 +530,7 @@ final class _TextTask extends BlockLayoutTask {
     var i = at;
     while (i < text.length) {
       final c = text.codeUnitAt(i);
-      if (c != 0x20 && c != 0x0A && c != 0x09) break;
+      if (c != 0x20 && c != 0x0A && c != 0x09 && c != 0x2028) break;
       i++;
     }
     return i;

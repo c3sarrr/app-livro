@@ -1,7 +1,8 @@
 // G10.1/G10.2 — paginação de um capítulo (Anexo 03 §7.2, D-96, D-98, D-100): as linhas entram na página até a
 // próxima não caber (tolerância 0,02 px); parágrafo partido = o mesmo `Paragraph` pintado em duas páginas;
 // título inteiro e nunca sozinho no pé; imagem e quebra de cena inteiras; `page-break-before` abre página.
-// Cada capítulo (item do spine) é paginado à parte — e por isso começa numa página nova (D-100).
+// Cada capítulo (item do spine) é paginado à parte — e por isso começa numa página nova (D-100). G18 (R12): o
+// espaço aberto é uma fatia inteira entre as linhas do parágrafo; se não cabe no resto da página, vai para a seguinte.
 import 'laid_block.dart';
 import 'reader_typography.dart';
 
@@ -25,6 +26,15 @@ final class TextSlice extends PageSlice {
 /// Imagem ou quebra de cena (inteira).
 final class ObjectSlice extends PageSlice {
   const ObjectSlice(super.block, super.y);
+}
+
+/// G18 — um espaço aberto (o buraco [gap] do bloco de texto [block]), inteiro: a nota à mão, a faixa dela ou o
+/// abridor. Quem pinta é a tinta (a página só reserva o lugar).
+final class SpaceSlice extends PageSlice {
+  const SpaceSlice(super.block, this.gap, super.y);
+
+  /// Índice em `LaidText.gaps`.
+  final int gap;
 }
 
 /// Uma página: as fatias e o trecho do texto canônico do item que ela cobre ([start] = 1º caractere visível).
@@ -56,11 +66,12 @@ final class ChapterPaginator {
 
   LaidBlock _block(int i) => _blocks[i - firstBlock];
 
-  /// O 1º bloco a partir da linha [firstLine] (as anteriores ficaram em páginas que não são montadas aqui).
-  void addFrom(LaidBlock b, int firstLine) {
+  /// O 1º bloco a partir da linha [firstLine] (as anteriores ficaram em páginas que não são montadas aqui); com
+  /// [gap], a página começa pelo espaço aberto desse índice (o que ficou para o topo dela — G18).
+  void addFrom(LaidBlock b, int firstLine, {int? gap}) {
     assert(_blocks.isEmpty);
     _blocks.add(b);
-    _place(firstBlock, from: firstLine);
+    _place(firstBlock, from: firstLine, gapFirst: gap);
     if (_keeps(b)) _pendingHeading = firstBlock;
   }
 
@@ -110,6 +121,7 @@ final class ChapterPaginator {
       b is LaidText &&
       b.keepTogether &&
       b.lines.isNotEmpty &&
+      b.gaps.isEmpty &&
       b.height <= _limit;
 
   /// Fecha a última página. Devolve todas.
@@ -119,43 +131,76 @@ final class ChapterPaginator {
     return pages;
   }
 
-  void _place(int i, {int from = 0}) {
+  void _place(int i, {int from = 0, int? gapFirst}) {
     final b = _block(i);
     switch (b) {
-      case LaidText(:final lines) when lines.isEmpty:
+      case LaidText(:final lines, :final gaps)
+          when lines.isEmpty && gaps.isEmpty:
         return;
-      // título maior que a página inteira (livro mal marcado): vai como texto comum, partido
-      case LaidText(keepTogether: true) when b.height <= _limit:
+      // título maior que a página inteira (livro mal marcado): vai como texto comum, partido; com um espaço aberto,
+      // também (G18)
+      case LaidText(keepTogether: true)
+          when b.height <= _limit && b.gaps.isEmpty:
         if (_y > 0 && _y + b.height > _limit) _close();
         _current.add(TextSlice(i, 0, b.lines.length - 1, _y));
         _y += b.height;
       case LaidText():
-        var l = from;
-        while (l < b.lines.length) {
-          final first = l;
-          final top = b.lines[l].top;
-          while (l < b.lines.length &&
-              _y + (b.lines[l].bottom - top) <= _limit) {
-            l++;
-          }
-          if (l == first) {
-            if (_current.isEmpty) {
-              l++; // nem uma linha cabe numa página vazia: vai assim mesmo
-            } else {
-              _close();
-              continue;
-            }
-          }
-          _current.add(TextSlice(i, first, l - 1, _y));
-          _y += b.lines[l - 1].bottom - top;
-          if (l < b.lines.length) _close();
-        }
-        if (b.extraBottom > 0) _y += b.extraBottom;
+        _placeText(i, b, from: from, gapFirst: gapFirst);
       case LaidImage() || LaidSceneBreak():
         if (_y > 0 && _y + b.height > _limit) _close();
         _current.add(ObjectSlice(i, _y));
         _y += b.height;
     }
+  }
+
+  /// As linhas de [b] a partir de [from], com os espaços abertos entre elas (G18): os que ficaram em páginas
+  /// anteriores (antes de [from]) não voltam; [gapFirst] = o espaço que abre esta página.
+  void _placeText(int i, LaidText b, {required int from, int? gapFirst}) {
+    final gaps = b.gaps;
+    var g = gapFirst ?? gaps.indexWhere((x) => x.afterLine >= from);
+    if (g < 0) g = gaps.length;
+    var l = from;
+    while (true) {
+      while (g < gaps.length && gaps[g].afterLine < l) {
+        _placeGap(i, g, gaps[g].height);
+        g++;
+      }
+      if (l >= b.lines.length) break;
+      final stop = g < gaps.length ? gaps[g].afterLine + 1 : b.lines.length;
+      l = _fillLines(i, b, l, stop);
+    }
+    if (b.extraBottom > 0) _y += b.extraBottom;
+  }
+
+  /// As linhas [from, stop) de [b], fechando as páginas que encherem. Devolve [stop].
+  int _fillLines(int i, LaidText b, int from, int stop) {
+    var l = from;
+    while (l < stop) {
+      final first = l;
+      final top = b.lines[l].top;
+      while (l < stop && _y + (b.lines[l].bottom - top) <= _limit) {
+        l++;
+      }
+      if (l == first) {
+        if (_current.isEmpty) {
+          l++; // nem uma linha cabe numa página vazia: vai assim mesmo
+        } else {
+          _close();
+          continue;
+        }
+      }
+      _current.add(TextSlice(i, first, l - 1, _y));
+      _y += b.lines[l - 1].bottom - top;
+      if (l < stop) _close();
+    }
+    return l;
+  }
+
+  /// R12: o espaço inteiro aqui; se não cabe no resto da página, no topo da seguinte.
+  void _placeGap(int i, int g, double h) {
+    if (_y > 0 && _y + h > _limit) _close();
+    _current.add(SpaceSlice(i, g, _y));
+    _y += h;
   }
 
   void _close() {
@@ -180,12 +225,16 @@ final class ChapterPaginator {
     TextSlice(:final block, :final firstLine) =>
       (_block(block) as LaidText).lines[firstLine].start,
     ObjectSlice(:final block) => _block(block).start,
+    SpaceSlice(:final block, :final gap) =>
+      (_block(block) as LaidText).gaps[gap].at,
   };
 
   int _endOf(PageSlice s) => switch (s) {
     TextSlice(:final block, :final lastLine) =>
       (_block(block) as LaidText).lines[lastLine].end,
     ObjectSlice(:final block) => _block(block).start + 1,
+    SpaceSlice(:final block, :final gap) =>
+      (_block(block) as LaidText).gaps[gap].at,
   };
 }
 
