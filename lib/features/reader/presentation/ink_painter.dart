@@ -7,10 +7,13 @@
 // - a mancha do grifo feito à mão (D-161): o caminho do arquivo, numa caixa de 100×20, esticado em cada linha do
 //   trecho — 5 px para os lados, de 3 px abaixo do topo da letra até 1 px acima da base —, a 90 % e multiplicada por
 //   cima do texto. Com letras claras (o Noite), a técnica da D-133: por trás vai D − cor e, por cima, D em diferença.
+//   G17 (R25): na altura do grifo (Baixa do meio da letra, Alta da letra toda) e só no fundo; o sublinhado e o
+//   ondulado à mão pintam como os da tela 21 (`paintUnderlines`).
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
 import '../annotations/ink/freehand.dart';
 import '../annotations/ink/ink_stroke.dart';
 import '../annotations/ink/ink_units.dart';
@@ -173,22 +176,31 @@ const double handHighlightBottom = 1;
 /// D-161: a mancha vai a 90 %.
 const double handHighlightAlpha = 0.9;
 
-/// A caixa da mancha em cada linha dos grifos feitos à mão [highlights], com a cor de cada um.
+/// A caixa da mancha em cada linha dos grifos de fundo feitos à mão [highlights], com a cor de cada um, na altura
+/// deles (R25): Média de 3 px abaixo do topo da letra até 1 px acima da base; Baixa do meio da letra até 1 px acima da
+/// base; Alta da letra toda.
 List<({ui.Rect box, ui.Color color})> handHighlightBoxes(
   DisplayPage page,
   List<PaintedHighlight> highlights,
 ) => [
   for (final h in highlights)
-    for (final b in page.boxesOf(h.range.unit, h.range.from, h.range.to))
-      (
-        box: ui.Rect.fromLTRB(
-          b.rect.left - handHighlightSide,
-          b.textTop + handHighlightTop,
-          b.rect.right + handHighlightSide,
-          b.textBottom - handHighlightBottom,
+    if (h.style == HighlightStyle.fill)
+      for (final b in page.boxesOf(h.range.unit, h.range.from, h.range.to))
+        (
+          box: ui.Rect.fromLTRB(
+            b.rect.left - handHighlightSide,
+            switch (h.height) {
+              FillHeight.low => (b.textTop + b.textBottom) / 2,
+              FillHeight.high => b.textTop,
+              FillHeight.medium => b.textTop + handHighlightTop,
+            },
+            b.rect.right + handHighlightSide,
+            h.height == FillHeight.high
+                ? b.textBottom
+                : b.textBottom - handHighlightBottom,
+          ),
+          color: h.color,
         ),
-        color: h.color,
-      ),
 ];
 
 /// O caminho da mancha do arquivo (`M2 4C20 1.5 45 3.5 70 2.5S94 2 98.5 3.5L99 17C82 18.5 60 16.5 38 18S8 18.5

@@ -2,12 +2,13 @@
 // 1,8×), a Reta como cápsula da largura do traço, o ponto como círculo, a cor e o alpha do traço (D-59); o cache de
 // `Picture` (mesma página e revisão = a mesma; revisão nova = outra; até 4 páginas, as velhas descartadas); a mancha
 // do grifo feito à mão (D-161) na caixa de cada linha (5 px para os lados, de 3 px abaixo do topo da letra até 1 px
-// acima da base), a 90 % e multiplicada; no Noite, a técnica da D-133.
+// acima da base), a 90 % e multiplicada; no Noite, a técnica da D-133. G17 (R25): a mancha na altura do grifo (Baixa
+// do meio da letra, Alta da letra toda) e só no fundo — o sublinhado e o ondulado à mão pintam como os da tela 21.
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
-    show HighlightStyle;
+    show FillHeight, HighlightStyle;
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
 import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
@@ -110,13 +111,19 @@ final class _Pagina implements DisplayPage {
 
 const _amarelo = Color(0xFFFED170);
 
-PaintedHighlight _aMao(int from, int to, {Color color = _amarelo}) =>
-    PaintedHighlight(
-      id: 'grifo-a-mao',
-      range: (unit: 2, from: from, to: to),
-      color: color,
-      style: HighlightStyle.fill,
-    );
+PaintedHighlight _aMao(
+  int from,
+  int to, {
+  Color color = _amarelo,
+  HighlightStyle style = HighlightStyle.fill,
+  FillHeight height = FillHeight.medium,
+}) => PaintedHighlight(
+  id: 'grifo-a-mao',
+  range: (unit: 2, from: from, to: to),
+  color: color,
+  style: style,
+  height: height,
+);
 
 void main() {
   group('inkPath', () {
@@ -236,6 +243,32 @@ void main() {
       final boxes = handHighlightBoxes(_Pagina(), [_aMao(10, 30)]);
       expect(boxes.single.box, const Rect.fromLTRB(45, 125.41, 95, 151.85));
       expect(boxes.single.color, _amarelo);
+    });
+
+    test('G17 (R25): a altura — Baixa do meio da letra, Alta da letra toda (até a base); os lados ficam', () {
+      const area = 152.85 - 122.41;
+      expect(
+        handHighlightBoxes(_Pagina(), [
+          _aMao(10, 30, height: FillHeight.low),
+        ]).single.box,
+        const Rect.fromLTRB(45, 122.41 + area / 2, 95, 151.85),
+      );
+      expect(
+        handHighlightBoxes(_Pagina(), [
+          _aMao(10, 30, height: FillHeight.high),
+        ]).single.box,
+        const Rect.fromLTRB(45, 122.41, 95, 152.85),
+      );
+    });
+
+    test('G17 (R25): o sublinhado e o ondulado à mão não são mancha', () {
+      expect(
+        handHighlightBoxes(_Pagina(), [
+          _aMao(10, 30, style: HighlightStyle.underline),
+          _aMao(10, 30, style: HighlightStyle.wavy),
+        ]),
+        isEmpty,
+      );
     });
 
     test('o caminho do arquivo (100×20) esticado na caixa', () {

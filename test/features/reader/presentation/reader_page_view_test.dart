@@ -1513,6 +1513,37 @@ void main() {
         },
       );
 
+      test('G17 (R25): o sublinhado e o ondulado à mão pintam como os da tela 21, por cima do texto, sem mancha', () {
+        final tela = _Tela();
+        ReaderPagesPainter(
+          document: _Livro(),
+          dx: 0,
+          dir: null,
+          neighbor: null,
+          ink: _Tinta(
+            aMao: const [
+              PaintedHighlight(
+                id: 'sub',
+                range: (unit: 2, from: 20, to: 40),
+                color: Color(0xFFFFC1C6),
+                style: HighlightStyle.underline,
+              ),
+              PaintedHighlight(
+                id: 'onda',
+                range: (unit: 2, from: 50, to: 60),
+                color: Color(0xFFB6ACE4),
+                style: HighlightStyle.wavy,
+              ),
+            ],
+          ),
+          inkPictures: cache,
+        ).paint(tela, const Size(390, 844));
+        // o ondulado é um caminho (a "mancha" do registro), na cor viva e sem multiplicar
+        expect(tela.chamadas, ['texto', 'traço', 'mancha', 'tinta']);
+        expect(tela.manchas, [BlendMode.srcOver]);
+        expect(tela.retangulos.single.$2.toARGB32(), 0xFFFFC1C6);
+      });
+
       test('Noite (D-133): a mancha por trás (D − cor) e por cima (D em diferença); a tinta por último, na cor dela', () {
         final tela = _Tela();
         ReaderPagesPainter(

@@ -1,14 +1,16 @@
 // G13.1 — o que a página pinta além do texto do livro (Anexo 03 §9.2, prancha 21): por trás das letras, o fundo
 // dos grifos, a seleção e a marca da busca; por cima, o sublinhado. Onde dois fundos se cruzam vale o de prioridade
 // maior (seleção > busca > grifo): o outro é recortado naquela linha. Com letras claras (o Noite), todo fundo usa a
-// técnica da D-127 (D-133). Nada de camada.
+// técnica da D-127 (D-133). Nada de camada. G17: o fundo na altura de cada grifo (D-172) e o ondulado (R25).
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 
 import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
+import '../annotations/domain/highlight_band.dart';
 import '../layout/display_page.dart';
+import 'wavy_underline.dart';
 
 /// Um grifo pronto para pintar.
 @immutable
@@ -47,9 +49,8 @@ abstract interface class HighlightSource implements Listenable {
   List<PaintedHighlight> highlightsIn(ReaderRange shown);
 }
 
-/// Grifo de fundo (prancha 21): a faixa vai de 12 % a 92 % da área do texto, com raio 3, na cor a 85 %.
-const double highlightBandTop = 0.12;
-const double highlightBandBottom = 0.92;
+/// Grifo de fundo (prancha 21): a faixa vai de 12 % a 92 % da área do texto (a Média; as outras alturas pela
+/// `fillBand` — D-172), com raio 3, na cor a 85 %.
 const double highlightAlpha = 0.85;
 const double highlightRadius = 3;
 
@@ -95,6 +96,7 @@ List<MarkBand> backgroundBands(
   final out = <MarkBand>[];
   for (final h in highlights) {
     if (h.style != HighlightStyle.fill) continue;
+    final (top, bottom) = fillBand(h.height);
     for (final b in page.boxesOf(h.range.unit, h.range.from, h.range.to)) {
       final area = b.textBottom - b.textTop;
       out.add((
@@ -103,8 +105,8 @@ List<MarkBand> backgroundBands(
         top: b.textTop,
         bottom: b.textBottom,
         radius: highlightRadius,
-        clipTop: b.textTop + highlightBandTop * area,
-        clipBottom: b.textTop + highlightBandBottom * area,
+        clipTop: b.textTop + top * area,
+        clipBottom: b.textTop + bottom * area,
         color: tone(h.color, highlightAlpha),
         priority: 0,
         line: b.rect.top,
@@ -218,16 +220,29 @@ void paintBand(
     ..restore();
 }
 
-/// Os sublinhados dos grifos, na cor viva, por cima do texto.
+/// Os sublinhados e os ondulados (R25) dos grifos, na cor viva, por cima do texto.
 void paintUnderlines(
   ui.Canvas canvas,
   DisplayPage page,
   List<PaintedHighlight> highlights,
 ) {
   for (final h in highlights) {
-    if (h.style != HighlightStyle.underline) continue;
+    if (h.style == HighlightStyle.fill) continue;
+    final boxes = page.boxesOf(h.range.unit, h.range.from, h.range.to);
+    if (h.style == HighlightStyle.wavy) {
+      for (final b in boxes) {
+        paintWavyUnderline(
+          canvas,
+          b.rect.left,
+          b.rect.right,
+          b.baseline,
+          h.color,
+        );
+      }
+      continue;
+    }
     final paint = ui.Paint()..color = h.color.withValues(alpha: 1);
-    for (final b in page.boxesOf(h.range.unit, h.range.from, h.range.to)) {
+    for (final b in boxes) {
       canvas.drawRect(
         ui.Rect.fromLTRB(
           b.rect.left,

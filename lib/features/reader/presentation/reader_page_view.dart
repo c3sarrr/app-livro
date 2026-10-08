@@ -608,7 +608,8 @@ void paintTextPage(
       );
     }
   }
-  paintUnderlines(canvas, page, highlights);
+  // os sublinhados e os ondulados, de seleção e à mão (R25)
+  paintUnderlines(canvas, page, [...highlights, ...inkHighlights]);
   paintHandHighlights(canvas, page, inkHighlights, lightText: lightText);
   paintInkLayer?.call(canvas);
 }
