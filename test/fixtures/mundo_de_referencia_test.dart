@@ -173,7 +173,8 @@ void main() {
         }
       }
       for (final c in m.camadas) {
-        final ancora = c.anchor as EpubAnchor;
+        // G16: os desenhos com a âncora de 8 chaves (o intervalo e a largura em em)
+        final ancora = inkAnchorOf(c.anchor)!.range;
         final texto =
             m.textosDosCapitulos[Slugs.domCasmurro]![ancora.spine - 1]!;
         expect(texto.substring(ancora.start, ancora.end), ancora.quote.exact);
@@ -463,8 +464,20 @@ void main() {
       expect(t21.textoDoCapitulo.substring(sel.inicio, sel.fim), sel.texto);
     });
 
-    test('22/23/23b/24: grifo à mão livre + elipse + ondulado + duplo; sem a nota à mão ainda', () {
-      for (final t in [t22, t23, t23b, t24]) {
+    test('22: o começo da sessão da prancha — o grifo à mão e a elipse (1 camada); o duplo e a onda vêm do fluxo', () {
+      expect(
+        [
+          for (final a in t22.anotacoesNaPagina)
+            (a.anchor as EpubAnchor).quote.exact,
+        ],
+        ['olhos de Capitu', 'Olhos de ressaca?'],
+      );
+      expect(t22.tintaNaPagina, hasLength(1));
+      expect(t22.modo, ModoDoLeitor.anotacao);
+    });
+
+    test('23/23b/24: grifo à mão livre + elipse + ondulado + duplo; sem a nota à mão ainda', () {
+      for (final t in [t23, t23b, t24]) {
         expect(
           [
             for (final a in t.anotacoesNaPagina)

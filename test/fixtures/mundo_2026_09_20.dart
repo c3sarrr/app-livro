@@ -32,6 +32,7 @@ import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
 import 'package:app_leitura/features/reader/annotations/domain/ink_layer.dart';
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
+import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
 import 'package:app_leitura/features/reader/domain/bookmark.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
@@ -40,6 +41,7 @@ import 'package:app_leitura/features/reader/domain/reading_session.dart';
 import 'package:crypto/crypto.dart';
 
 import 'sumario_dom_casmurro.dart';
+import 'tinta_do_mundo.dart';
 
 /// Cores do arquivo usadas nos dados (grifos, rótulos e tinta).
 abstract final class CoresDoMundo {
@@ -575,21 +577,24 @@ Mundo _construir() {
   ];
 
   // --- tinta (camadas) e anotações da tela 25 ------------------------------------------------
+  // G16: os desenhos têm os traços do arquivo (`tinta_do_mundo.dart`) e a âncora de 8 chaves (a largura do trecho
+  // em em); a anotação `drawing` fica com a de 7.
   InkLayer camada(
     String nome,
     InkLayerKind tipo,
     EpubAnchor ancora,
     DateTime em, {
     int? linhas,
+    DesenhoDoMundo? desenho,
   }) => InkLayer(
     id: _id('tinta/$nome', em),
     meta: _meta(em),
     userBookId: dc,
     kind: tipo,
-    anchor: ancora,
+    anchor: desenho == null ? ancora : inkLayerAnchor(ancora, desenho.w),
     spaceLines: linhas,
-    strokesB64: '',
-    strokeCount: 0,
+    strokesB64: desenho?.strokesB64 ?? '',
+    strokeCount: desenho?.emEm.length ?? 0,
   );
 
   final hoje = _sp(9, 20, 19, 41);
@@ -598,6 +603,7 @@ Mundo _construir() {
     InkLayerKind.overText,
     _ancora(Slugs.domCasmurro, 31, 'Olhos de ressaca?', pagina: 159),
     hoje.add(const Duration(minutes: 2)),
+    desenho: desenhoDaElipse,
   );
   final espaco = camada(
     'espaco-nota-a-mao',
@@ -617,12 +623,14 @@ Mundo _construir() {
     InkLayerKind.overText,
     _ancora(Slugs.domCasmurro, 31, 'fluido misterioso', pagina: 159),
     hoje.add(const Duration(minutes: 6)),
+    desenho: desenhoDoOndulado,
   );
   final duplo = camada(
     'duplo-a-vaga',
     InkLayerKind.overText,
     _ancora(Slugs.domCasmurro, 31, 'a vaga que se retira', pagina: 159),
     hoje.add(const Duration(minutes: 7)),
+    desenho: desenhoDoDuplo,
   );
 
   Annotation anotacao(
@@ -756,7 +764,7 @@ Mundo _construir() {
   final p159elipse = anotacao(
     'p159-elipse',
     AnnotationKind.drawing,
-    elipse.anchor as EpubAnchor,
+    inkAnchorOf(elipse.anchor)!.range,
     elipse.meta.createdAt,
     cor: CoresDoMundo.coral,
     fonte: AnnotationSource.ink,
@@ -775,7 +783,7 @@ Mundo _construir() {
   final p159ondulado = anotacao(
     'p159-ondulado',
     AnnotationKind.drawing,
-    ondulado.anchor as EpubAnchor,
+    inkAnchorOf(ondulado.anchor)!.range,
     ondulado.meta.createdAt,
     cor: CoresDoMundo.coral,
     fonte: AnnotationSource.ink,
@@ -784,7 +792,7 @@ Mundo _construir() {
   final p159duplo = anotacao(
     'p159-duplo',
     AnnotationKind.drawing,
-    duplo.anchor as EpubAnchor,
+    inkAnchorOf(duplo.anchor)!.range,
     duplo.meta.createdAt,
     grupo: p159ondulado.groupId, // mesma página, ≤ 2 linhas de distância (§4.3)
     cor: CoresDoMundo.coral,
