@@ -4,9 +4,13 @@
 // movem a página com o batente (D-165), as ferramentas das fases seguintes (D-163), a espessura no pen_presets, o
 // que o Concluir grava (âncora, moldura em em, página, capítulo, cartões, apagados), o rascunho a cada 5 s e no
 // segundo plano (D-166), o Concluir e a falha ao salvar, e a interação a cada toque (D-95).
+// G17: os ajustes da caneta e do marca-texto no pen_presets (R6, D-175), a cor de cada ferramenta e o painel aberto
+// (R1, R2, R4).
 import 'dart:async';
 
 import 'package:app_leitura/core/data/ids/uuid_v7.dart';
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
+    show FillHeight, HighlightStyle;
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
 import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
@@ -540,13 +544,172 @@ void main() {
   });
 
   group('ferramentas', () {
-    test('Marca-texto e Espaço são das fases seguintes (D-163): a ferramenta atual continua', () {
+    test('o Espaço é da G18 (D-163): a ferramenta atual continua; o Marca-texto vale (G17)', () {
       final s = open();
-      expect(s.setTool(AnnotationTool.marker), isFalse);
       expect(s.setTool(AnnotationTool.space), isFalse);
       expect(s.tool, AnnotationTool.pen);
+      expect(s.setTool(AnnotationTool.marker), isTrue);
+      expect(s.tool, AnnotationTool.marker);
       expect(s.setTool(AnnotationTool.lasso), isTrue);
       expect(s.tool, AnnotationTool.lasso);
+    });
+  });
+
+  group('ajustes da G17 (R2, R6, R12)', () {
+    test(
+      'ponta, espessura e cor da caneta mudam o preset e gravam uma vez cada',
+      () {
+        final s = open();
+        var avisos = 0;
+        s.addListener(() => avisos++);
+        s.setPenTip(PenTip.fountain);
+        s.setPenWidth(2.0);
+        s.setPenColor('#058CD7');
+        expect(s.presets.penTip, PenTip.fountain);
+        expect(s.presets.penWidthMm, 2.0);
+        expect(s.presets.penColor, '#058CD7');
+        expect(savedPresets, hasLength(3));
+        expect(savedPresets.last, s.presets);
+        expect(avisos, 3);
+        // sem mudança, nada
+        s.setPenTip(PenTip.fountain);
+        s.setPenWidth(2.0);
+        expect(savedPresets, hasLength(3));
+      },
+    );
+
+    test(
+      'o arrasto só muda; ao soltar grava, mesmo com o mesmo valor (R6)',
+      () {
+        final s = open();
+        s.setPenWidth(1.5, save: false);
+        s.setPenWidth(1.8, save: false);
+        s.setPenColor('#12AB34', save: false);
+        expect(savedPresets, isEmpty);
+        expect((s.presets.penWidthMm, s.presets.penColor), (1.8, '#12AB34'));
+        s.setPenWidth(1.8);
+        expect(savedPresets, hasLength(1));
+        expect(savedPresets.single.penColor, '#12AB34');
+        s.setPenColor('#12AB34');
+        expect(savedPresets, hasLength(1));
+      },
+    );
+
+    test('favoritas: "+" junta a cor atual no fim; nada se ela já está ou com 12 (D-175)', () {
+      final s = open();
+      expect(s.addFavorite(), isFalse); // o coral já é favorito
+      s.setPenColor('#12AB34');
+      expect(s.addFavorite(), isTrue);
+      expect(s.presets.favoriteColors.last, '#12AB34');
+      expect(s.presets.favoriteColors, hasLength(7));
+      expect(s.addFavorite(), isFalse);
+      for (var i = 0; i < 5; i++) {
+        s.setPenColor('#00000$i');
+        expect(s.addFavorite(), isTrue);
+      }
+      expect(s.presets.favoriteColors, hasLength(12));
+      s.setPenColor('#ABCDEF');
+      expect(s.addFavorite(), isFalse);
+      expect(s.presets.favoriteColors, hasLength(12));
+    });
+
+    test('tirar devolve o lugar; desfazer põe de volta no mesmo lugar; pode ficar sem nenhuma', () {
+      final s = open();
+      final antes = s.presets.favoriteColors;
+      final i = s.removeFavorite('#058cd7');
+      expect(i, 2);
+      expect(s.presets.favoriteColors, isNot(contains('#058CD7')));
+      s.restoreFavorite('#058CD7', i);
+      expect(s.presets.favoriteColors, antes);
+      expect(s.removeFavorite('#ABCDEF'), -1);
+      for (final c in antes) {
+        s.removeFavorite(c);
+      }
+      expect(s.presets.favoriteColors, isEmpty);
+      expect(savedPresets, hasLength(2 + antes.length));
+    });
+
+    test('marca-texto: estilo, cor e altura gravam', () {
+      final s = open();
+      s.setHighlighterStyle(HighlightStyle.wavy);
+      s.setHighlighterColor('#FFC1C6');
+      s.setHighlighterHeight(FillHeight.high);
+      expect(
+        (
+          s.presets.highlighterStyle,
+          s.presets.highlighterColor,
+          s.presets.highlighterHeight,
+        ),
+        (HighlightStyle.wavy, '#FFC1C6', FillHeight.high),
+      );
+      expect(savedPresets, hasLength(3));
+    });
+
+    test('a cor da ferramenta: caneta com Caneta e Reta, marca-texto com o Marca-texto, a última com Borracha e Laço (R2)', () {
+      final s = open();
+      s.setHighlighterColor('#FFC1C6');
+      expect(s.color, 0xFFFF552E);
+      s.setTool(AnnotationTool.line);
+      expect(s.color, 0xFFFF552E);
+      s.setTool(AnnotationTool.eraser);
+      expect(s.color, 0xFFFF552E);
+      s.setTool(AnnotationTool.marker);
+      expect(s.color, 0xFFFFC1C6);
+      s.setTool(AnnotationTool.lasso);
+      expect(s.color, 0xFFFFC1C6);
+      expect(s.inkTool, AnnotationTool.marker);
+    });
+
+    test('o painel: Caneta e Reta abrem o da caneta; Marca-texto o dele; Borracha e Laço o da última de tinta (R1, R2)', () {
+      final s = open();
+      s.openPanel(AnnotationTool.pen);
+      expect(s.panel.value, (kind: PanelKind.pen, from: AnnotationTool.pen));
+      s.closePanel();
+      expect(s.panel.value, isNull);
+      s.openPanel(AnnotationTool.line);
+      expect(s.panel.value, (kind: PanelKind.pen, from: AnnotationTool.line));
+      s.openPanel(AnnotationTool.eraser);
+      // a última de tinta ainda é a Caneta
+      expect(s.panel.value, (kind: PanelKind.pen, from: AnnotationTool.pen));
+      s.setTool(AnnotationTool.marker);
+      s.openPanel(AnnotationTool.marker);
+      expect(s.panel.value, (
+        kind: PanelKind.marker,
+        from: AnnotationTool.marker,
+      ));
+      s.setTool(AnnotationTool.eraser);
+      // trocar de ferramenta fecha o painel (R4)
+      expect(s.panel.value, isNull);
+      s.openPanel(AnnotationTool.eraser);
+      expect(s.panel.value, (
+        kind: PanelKind.marker,
+        from: AnnotationTool.marker,
+      ));
+      // o Espaço recusa e fecha (R1)
+      expect(s.setTool(AnnotationTool.space), isFalse);
+      expect(s.panel.value, isNull);
+      s.openPanel(AnnotationTool.space);
+      expect(s.panel.value, isNull);
+    });
+
+    test('a falha ao gravar o preset vai ao relatório', () async {
+      final s = AnnotationSession(
+        geometry: _geometry(),
+        anchors: _Anchors(),
+        drawings: const [],
+        highlights: const [],
+        presets: presetsTeste(),
+        repository: repo,
+        owner: usuarioTeste,
+        userBookId: idTeste(1),
+        startTimer: timers.start,
+        onError: (e, _) => errors.add(e),
+        savePresets: (_) async => throw StateError('disco cheio'),
+      );
+      addTearDown(s.dispose);
+      s.setPenTip(PenTip.brush);
+      await Future<void>.delayed(Duration.zero);
+      expect(errors.single, isA<StateError>());
     });
   });
 

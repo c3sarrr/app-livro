@@ -32,6 +32,9 @@ enum StrokeSize implements DbCode {
   static StrokeSize fromCode(String code) => Check.byCode(values, code);
 }
 
+/// Quantas favoritas cabem (o CHECK do `jsonb` no SQL — D-175).
+const int maxFavoriteColors = 12;
+
 /// Predefinições da caneta e do marca-texto — 1 linha por usuário (`personal.pen_presets`).
 /// Padrões = estado das telas 22/23/23b (e do SQL).
 @immutable
@@ -82,7 +85,7 @@ final class PenPresets {
   /// O SQL só limita o tamanho (`jsonb` array com até 12 itens): o formato de cada cor é regra da
   /// interface (tela 23), não do dado — senão uma linha válida no servidor quebraria a leitura aqui.
   static List<String> _favorites(List<String> colors) {
-    if (colors.length > 12) {
+    if (colors.length > maxFavoriteColors) {
       throw ArgumentError.value(
         colors.length,
         'favoriteColors',

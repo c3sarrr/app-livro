@@ -12,7 +12,9 @@
 //   retângulo (6 px de folga) move ao vivo e grava ao soltar; tocar fora solta; a Borracha com a seleção apaga os
 //   selecionados (um passo) e fica ativa (D-46).
 // - 2 dedos: a página sobe e desce, com o batente (D-165); ao soltar, volta para dentro dos limites (a tela anima).
-// - Marca-texto e Espaço são das fases seguintes (D-163): `setTool` recusa e a ferramenta atual continua.
+// - O Espaço é da fase seguinte (D-163): `setTool` recusa e a ferramenta atual continua.
+// - G17: os ajustes da caneta e do marca-texto (telas 23 e 23b) gravam o `pen_presets` na hora; os arrastos, ao soltar
+//   (R6); as favoritas (D-175); a cor de cada ferramenta e o painel aberto (R1, R2, R4).
 // - O Concluir grava as mudanças da sessão numa transação: os desenhos novos e mudados com a âncora refeita sobre o
 //   desenho inteiro (D-162), os pontos em em, o grupo dos cartões (Anexo 02 §4.3), os apagados e os grifos à mão
 //   apagados. O rascunho vai ao `kv` a cada 5 s com mudanças e no segundo plano (D-166). A falha ao salvar deixa o
@@ -25,6 +27,7 @@ import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 
 import '../../../core/data/ids/uuid_v7.dart';
+import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
 import '../annotations/domain/pen_presets.dart';
 import '../annotations/ink/bnk1_codec.dart';
 import '../annotations/ink/card_groups.dart';
@@ -63,9 +66,15 @@ enum AnnotationTool {
   line,
   space;
 
-  /// O Marca-texto (G17) e o Espaço (G18) ficam para as fases seguintes (D-163).
-  bool get inThisPhase => this != marker && this != space;
+  /// O Espaço (G18) fica para a fase seguinte (D-163).
+  bool get inThisPhase => this != space;
 }
+
+/// O painel de ajustes aberto (telas 23 e 23b — G17).
+enum PanelKind { pen, marker }
+
+/// O painel aberto e a ferramenta de onde ele saiu (a seta aponta para ela).
+typedef OpenPanel = ({PanelKind kind, AnnotationTool from});
 
 /// Um desenho salvo na página aberta: o que ele tinha no banco, o trecho dele no texto e os traços já na página
 /// (coordenadas do leitor limpo).
@@ -240,6 +249,16 @@ final class AnnotationSession extends ChangeNotifier {
   PenPresets _pen;
   AnnotationTool _tool = AnnotationTool.pen;
 
+  /// A última ferramenta de tinta usada (Caneta, Reta ou Marca-texto): a cor do poço e o painel com Borracha e Laço
+  /// (R2).
+  AnnotationTool _ink = AnnotationTool.pen;
+
+  /// Um ajuste mudou durante um arrasto e ainda não foi gravado (R6).
+  bool _presetsDirty = false;
+
+  /// O painel de ajustes aberto (`null` = nenhum).
+  final ValueNotifier<OpenPanel?> panel = ValueNotifier(null);
+
   /// O traço ao vivo, a prévia da Reta ou o contorno do Laço.
   final ValueNotifier<LiveInk?> live = ValueNotifier(null);
 
@@ -280,8 +299,14 @@ final class AnnotationSession extends ChangeNotifier {
   PenPresets get presets => _pen;
   StrokeSize get strokeSize => _pen.strokeSize;
 
-  /// A cor da Caneta (ARGB).
-  int get color => argbOfHex(_pen.penColor);
+  /// A cor da ferramenta (ARGB): a da caneta com Caneta e Reta, a do marca-texto com o Marca-texto; com Borracha e
+  /// Laço, a da última ferramenta de tinta (R2).
+  int get color => argbOfHex(
+    inkTool == AnnotationTool.marker ? _pen.highlighterColor : _pen.penColor,
+  );
+
+  /// A ferramenta de tinta em uso: a ativa, se for de tinta; senão, a última usada (R2).
+  AnnotationTool get inkTool => _ink;
 
   bool get canUndo => _history.canUndo;
   bool get canRedo => _history.canRedo;
@@ -710,7 +735,16 @@ final class AnnotationSession extends ChangeNotifier {
   /// Troca a ferramenta. O Marca-texto e o Espaço (D-163) devolvem `false` e a atual continua. A Borracha com a
   /// seleção do Laço apaga os selecionados (um passo) e fica ativa.
   bool setTool(AnnotationTool t) {
-    if (!t.inThisPhase) return false;
+    if (!t.inThisPhase) {
+      closePanel();
+      return false;
+    }
+    if (t != _tool) closePanel();
+    if (t == AnnotationTool.pen ||
+        t == AnnotationTool.line ||
+        t == AnnotationTool.marker) {
+      _ink = t;
+    }
     final sel = selection.value;
     if (sel != null && t != AnnotationTool.lasso) {
       selection.value = null;
@@ -728,16 +762,99 @@ final class AnnotationSession extends ChangeNotifier {
   }
 
   /// Fina, Média ou Grossa: vale para o próximo traço e grava no `pen_presets` na hora (todos os livros).
-  void setStrokeSize(StrokeSize s) {
-    if (s == _pen.strokeSize) return;
-    _pen = _pen.copyWith(strokeSize: s);
-    notifyListeners();
+  void setStrokeSize(StrokeSize s) => _setPresets(_pen.copyWith(strokeSize: s));
+
+  // ---- ajustes da caneta e do marca-texto (telas 23 e 23b — G17) --------------------------------------------
+
+  void setPenTip(PenTip t) => _setPresets(_pen.copyWith(penTip: t));
+
+  /// [mm] com 1 casa (0,3–4,0). Durante o arrasto, [save] = `false`: só muda; ao soltar grava (R6).
+  void setPenWidth(double mm, {bool save = true}) =>
+      _setPresets(_pen.copyWith(penWidthMm: mm), save: save);
+
+  /// [hex] = `#RRGGBB`. Durante o arrasto na roda ou no brilho, [save] = `false` (R6).
+  void setPenColor(String hex, {bool save = true}) =>
+      _setPresets(_pen.copyWith(penColor: hex.toUpperCase()), save: save);
+
+  /// "+": junta a cor atual no fim das favoritas; `false` se ela já está ou se já são 12 (D-175).
+  bool addFavorite() {
+    final favs = _pen.favoriteColors;
+    final c = _pen.penColor.toUpperCase();
+    if (favs.length >= maxFavoriteColors ||
+        favs.any((f) => f.toUpperCase() == c)) {
+      return false;
+    }
+    _setPresets(_pen.copyWith(favoriteColors: [...favs, c]));
+    return true;
+  }
+
+  /// Tira a favorita [hex] e devolve onde ela estava (para o Desfazer da pílula); -1 se ela não está (D-175).
+  int removeFavorite(String hex) {
+    final favs = _pen.favoriteColors;
+    final i = favs.indexWhere((f) => f.toUpperCase() == hex.toUpperCase());
+    if (i < 0) return -1;
+    _setPresets(_pen.copyWith(favoriteColors: [...favs]..removeAt(i)));
+    return i;
+  }
+
+  /// O Desfazer da pílula: põe [hex] de volta no lugar [index].
+  void restoreFavorite(String hex, int index) {
+    final favs = [..._pen.favoriteColors];
+    if (favs.length >= maxFavoriteColors ||
+        favs.any((f) => f.toUpperCase() == hex.toUpperCase())) {
+      return;
+    }
+    favs.insert(index.clamp(0, favs.length), hex.toUpperCase());
+    _setPresets(_pen.copyWith(favoriteColors: favs));
+  }
+
+  void setHighlighterStyle(HighlightStyle s) =>
+      _setPresets(_pen.copyWith(highlighterStyle: s));
+
+  void setHighlighterColor(String hex) =>
+      _setPresets(_pen.copyWith(highlighterColor: hex.toUpperCase()));
+
+  void setHighlighterHeight(FillHeight h) =>
+      _setPresets(_pen.copyWith(highlighterHeight: h));
+
+  /// Troca o `pen_presets` da sessão e grava (todos os livros); sem mudança, só grava o que um arrasto deixou.
+  void _setPresets(PenPresets next, {bool save = true}) {
+    if (next != _pen) {
+      _pen = next;
+      notifyListeners();
+      if (!save) {
+        _presetsDirty = true;
+        return;
+      }
+    } else if (!save || !_presetsDirty) {
+      return;
+    }
+    _presetsDirty = false;
     unawaited(
       savePresets(_pen).catchError((Object e, StackTrace st) {
         onError(e, st);
       }),
     );
   }
+
+  // ---- painéis (R1, R2) ---------------------------------------------------------------------------------------
+
+  /// Abre o painel da ferramenta [from]: Caneta e Reta → o da caneta; Marca-texto → o dele; Borracha e Laço → o da
+  /// última de tinta (R2); o Espaço não tem.
+  void openPanel(AnnotationTool from) {
+    final source = switch (from) {
+      AnnotationTool.eraser || AnnotationTool.lasso => _ink,
+      _ => from,
+    };
+    panel.value = switch (source) {
+      AnnotationTool.pen ||
+      AnnotationTool.line => (kind: PanelKind.pen, from: source),
+      AnnotationTool.marker => (kind: PanelKind.marker, from: source),
+      _ => null,
+    };
+  }
+
+  void closePanel() => panel.value = null;
 
   // ---- desfazer -----------------------------------------------------------------------------------------------
 
@@ -961,6 +1078,7 @@ final class AnnotationSession extends ChangeNotifier {
     live.dispose();
     touch.dispose();
     selection.dispose();
+    panel.dispose();
     super.dispose();
   }
 }
