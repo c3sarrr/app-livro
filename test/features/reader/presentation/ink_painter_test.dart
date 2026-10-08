@@ -392,6 +392,9 @@ void main() {
       expect(inkArgbOn(0xFF1A1714, letra), 0xFFE3D9C6);
       expect(inkArgbOn(0xFF1A1714, null), 0xFF1A1714);
       expect(inkArgbOn(0xFFFF552E, letra), 0xFFFF552E);
+      // o limite de 1,5 : 1 contra #1F1B17: #383838 (1,46) troca; #3A3A3A (1,50) fica
+      expect(inkArgbOn(0xFF383838, letra), 0xFFE3D9C6);
+      expect(inkArgbOn(0xFF3A3A3A, letra), 0xFF3A3A3A);
     });
 
     test('Marca-texto: no Creme, multiplicado na cor a 90 %; no Noite (D-133), D em diferença por cima e D − cor por trás; a caneta não vai por trás', () {

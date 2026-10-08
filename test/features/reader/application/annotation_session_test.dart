@@ -797,6 +797,22 @@ void main() {
       expect(s.desk.items.single, h);
     });
 
+    test('D-40: a contagem de cada cor = a do banco (todos os livros) + o que a sessão mudou; os rótulos em maiúsculas', () {
+      final s = open(desk: const [])
+        ..setLabelData(
+          labels: const {'#fed170': 'lindo'},
+          counts: const {'#FED170': 5, '#FFC1C6': 3},
+        )
+        ..setTool(AnnotationTool.marker);
+      expect(s.labels, {'#FED170': 'lindo'});
+      expect((s.colorCount('#fed170'), s.colorCount('#FFC1C6')), (5, 3));
+      expect(s.colorCount('#ABCF82'), 0);
+      draw(s, [(90, y0), (140, y0 + 3), (188, y0)]);
+      expect(s.colorCount('#FED170'), 6);
+      s.undo();
+      expect(s.colorCount('#FED170'), 5);
+    });
+
     test('no estilo e na cor do painel; com Alta, o traço mais largo', () {
       final s = open(desk: const [])
         ..setTool(AnnotationTool.marker)
