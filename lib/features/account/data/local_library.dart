@@ -12,6 +12,7 @@ import '../../../core/data/database/local_sql.dart';
 import '../../../core/data/ids/uuid_v7.dart';
 import '../../../core/sync/ebook_cloud.dart' show EbookCloud;
 import '../../../core/sync/local_merge.dart';
+import '../../reader/annotations/ink/ink_changes.dart' show draftKey;
 
 /// Chaves no `kv` (só local).
 abstract final class OwnerKeys {
@@ -312,6 +313,12 @@ final class LocalLibrary {
       'FROM user_books WHERE user_id = ?)',
       [owner],
     );
+    // o rascunho da tinta (G16, com os traços): `ink_draft:<dono>:<livro>`
+    final drafts = draftKey(owner, '');
+    await _db.customStatement('DELETE FROM kv WHERE substr(key, 1, ?) = ?', [
+      drafts.length,
+      drafts,
+    ]);
     for (final t in _tables) {
       n += await _db.customUpdate(
         'DELETE FROM $t WHERE user_id = ?',

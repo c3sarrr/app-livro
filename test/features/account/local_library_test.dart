@@ -13,6 +13,8 @@ import 'package:app_leitura/core/sync/ebook_cloud.dart' show EbookCloud;
 import 'package:app_leitura/features/account/data/local_library.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart'
+    show draftKey;
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:drift/native.dart';
@@ -462,6 +464,36 @@ void main() {
         1,
       );
     });
+
+    test(
+      'G16 — o rascunho da tinta do dono sai junto; o de outro dono fica',
+      () async {
+        final g = await lib.guestOwnerId();
+        for (final k in [
+          draftKey(conta, idTeste(1)),
+          draftKey(conta, idTeste(2)),
+          draftKey(g, idTeste(1)),
+        ]) {
+          await db.customStatement(
+            'INSERT INTO kv (key, value) VALUES (?, ?)',
+            [k, '{"v":1}'],
+          );
+        }
+        await lib.erase(conta);
+        expect(
+          await linhas(
+            "SELECT count(*) AS n FROM kv WHERE key LIKE 'ink_draft:%'",
+          ),
+          1,
+        );
+        expect(
+          await linhas('SELECT count(*) AS n FROM kv WHERE key = ?', [
+            draftKey(g, idTeste(1)),
+          ]),
+          1,
+        );
+      },
+    );
   });
 
   test('clearSocialCache: o cache social da conta anterior sai', () async {
