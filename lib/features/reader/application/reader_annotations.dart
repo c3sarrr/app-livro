@@ -6,8 +6,10 @@
 // mudaram, e guarda os grifos de cada trecho pintado até a próxima mudança. As escritas vão uma de cada vez e leem
 // as linhas do banco, não as da memória. Trocar a cor ou o estilo também passa pela D-32. A última cor fica no
 // aparelho (`kv`). D-138: a nota que vai ficar num grifo novo é a mais antiga dos grifos que ele une ou cobre.
-// D-140: só os grifos de seleção entram na sobreposição e na barra; os que vieram da tinta (o grifo feito à mão)
-// saem à parte pelo `inkHighlightsIn`, para a mancha da D-161 (G16).
+// D-140: só os grifos de seleção abrem a barra; os que vieram da tinta (o grifo feito à mão) saem à parte pelo
+// `inkHighlightsIn`, para a mancha da D-161 (G16). D-173 (G17): todos os grifos, de seleção e à mão, passam pela D-32
+// (unidos, fica o jeito do mais antigo; o pedaço cortado guarda a origem dele). O pintor recebe a altura de cada um
+// (D-172); a sessão do modo anotação recebe a mesa dos grifos da página (`deskIn`).
 import 'dart:async';
 import 'dart:ui' show Color;
 
@@ -113,15 +115,15 @@ final class ReaderAnnotations extends ChangeNotifier
   /// Uma leitura depois das escritas já pedidas.
   Future<T> _after<T>(Future<T> Function() f) => _queue.then((_) => f());
 
-  /// Os grifos da G13: os de seleção. Os que vieram da tinta (o marca-texto à mão livre) ficam para a G16/G17
-  /// (D-140): não pintam, não abrem a barra e não entram na sobreposição.
+  /// Os grifos da G13: os de seleção — os que pintam o fundo nítido e abrem a barra (D-140). Os que vieram da tinta
+  /// (o marca-texto) pintam a mancha (D-161) e, desde a D-173, também entram na sobreposição.
   static bool _ofSelection(Annotation a) =>
       a.kind == AnnotationKind.highlight &&
       a.source == AnnotationSource.selection;
 
   Iterable<Annotation> get _highlights => _rows.where(_ofSelection);
 
-  /// Os grifos feitos à mão (`source = ink`): a mancha da D-161, fora da sobreposição (D-140).
+  /// Os grifos feitos à mão (`source = ink`): a mancha da D-161.
   static bool _ofInk(Annotation a) =>
       a.kind == AnnotationKind.highlight && a.source == AnnotationSource.ink;
 
@@ -237,6 +239,7 @@ final class ReaderAnnotations extends ChangeNotifier
             range: r,
             color: hexColor(a.color!),
             style: a.style!,
+            height: a.fillHeight ?? FillHeight.medium,
           ),
       ]),
       complete,
@@ -323,7 +326,8 @@ final class ReaderAnnotations extends ChangeNotifier
     });
   }
 
-  /// Os grifos de [unit] onde estão agora; [self] entra com a cor e o estilo pedidos (trocar passa pela D-32).
+  /// Os grifos de [unit] onde estão agora, de seleção e à mão (D-173); [self] entra com a cor e o estilo pedidos
+  /// (trocar passa pela D-32).
   List<HighlightSpan> _spansIn(
     List<Annotation> rows,
     int unit, {
@@ -332,7 +336,7 @@ final class ReaderAnnotations extends ChangeNotifier
     HighlightStyle? style,
   }) => [
     for (final a in rows)
-      if (_ofSelection(a))
+      if (a.kind == AnnotationKind.highlight)
         if (placeOf(a) case final p? when p.unit == unit)
           (
             id: a.id,
@@ -409,6 +413,8 @@ final class ReaderAnnotations extends ChangeNotifier
             from.style!,
             groupId: from.groupId,
             fillHeight: from.fillHeight,
+            // o pedaço cortado continua do jeito dele: à mão ou de seleção (D-173)
+            source: from.source,
           ),
         );
       }
@@ -631,6 +637,7 @@ final class ReaderAnnotations extends ChangeNotifier
     HighlightStyle style, {
     required String groupId,
     FillHeight? fillHeight,
+    AnnotationSource source = AnnotationSource.selection,
   }) {
     final place = anchors.placeOf(r.unit, r.from);
     return Annotation(
@@ -639,6 +646,7 @@ final class ReaderAnnotations extends ChangeNotifier
       userBookId: userBookId,
       kind: AnnotationKind.highlight,
       groupId: groupId,
+      source: source,
       anchor: _anchor(r, text),
       refPage: place.refPage,
       chapterIndex: place.chapterIndex,

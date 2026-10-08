@@ -1,7 +1,8 @@
 // G13.2 — os grifos e as notas do livro aberto: criar (âncora com o sha, citação de 32, página e capítulo da 1ª
 // letra, grupo próprio, altura média), achar o lugar (mesmo arquivo; reancoragem; sem lugar não pinta nem apaga —
 // D-44), a sobreposição gravada (D-32) com as notas, trocar (também pela D-32), apagar com desfazer, a nota
-// (D-131), a nota que vai ficar (D-138), a última cor, os avisos ao pintor e as falhas do banco.
+// (D-131), a nota que vai ficar (D-138), a última cor, os avisos ao pintor e as falhas do banco. G17: os grifos à
+// mão também passam pela D-32 (D-173), a mesa da sessão e a altura de cada grifo para o pintor (D-172).
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
@@ -611,44 +612,143 @@ void main() {
     expect(g.highlightAt((unit: r.unit, offset: r.from))?.id, idTeste(1));
   });
 
-  test('D-140: o grifo que veio da tinta fica para a G17 — não pinta, não abre e não entra na D-32', () async {
-    final r = palavras(3);
-    final tinta = Annotation(
-      id: idTeste(7),
-      meta: metaTeste(),
-      userBookId: livro.userBookId,
-      kind: AnnotationKind.highlight,
-      source: AnnotationSource.ink,
-      groupId: idTeste(7),
-      anchor: EpubAnchor(
-        sha: livro.index.contentSha256,
-        spine: r.unit,
-        start: r.from,
-        end: r.to,
-        quote: const TextQuote(exact: 'x'),
-        refPage: 1,
-      ),
+  /// Um grifo à mão de [r] (`source = ink`), criado antes dos da tela 21.
+  Annotation tintaEm(
+    int n,
+    ReaderRange r, {
+    String cor = '#FED170',
+    FillHeight altura = FillHeight.low,
+  }) => Annotation(
+    id: idTeste(n),
+    meta: metaTeste(),
+    userBookId: livro.userBookId,
+    kind: AnnotationKind.highlight,
+    source: AnnotationSource.ink,
+    groupId: idTeste(n),
+    anchor: EpubAnchor(
+      sha: livro.index.contentSha256,
+      spine: r.unit,
+      start: r.from,
+      end: r.to,
+      quote: const TextQuote(exact: 'x'),
       refPage: 1,
-      chapterIndex: 0,
-      color: '#FED170',
-      style: HighlightStyle.fill,
-      fillHeight: FillHeight.medium,
-    );
+    ),
+    refPage: 1,
+    chapterIndex: 0,
+    color: cor,
+    style: HighlightStyle.fill,
+    fillHeight: altura,
+  );
+
+  ReaderRange? lugar(Annotation? a) => switch (a?.anchor) {
+    EpubAnchor(:final spine, :final start, :final end) => (
+      unit: spine,
+      from: start,
+      to: end,
+    ),
+    _ => null,
+  };
+
+  test('D-173: o grifo à mão entra na D-32 — o amarelo de seleção por cima une com ele (fica o à mão, mais antigo); não abre a barra (D-140)', () async {
+    final tinta = tintaEm(7, palavras(3));
     await AnnotationsDao(livro.db).upsert(tinta);
     await pumpEventQueue();
     expect(g.highlightsIn(doc.current.shown!), isEmpty);
+    final r = palavras(1);
     expect(g.highlightAt((unit: r.unit, offset: r.from)), isNull);
-    // um grifo de seleção da mesma cor por cima: não une com o da tinta nem o corta
     final novo = await g.addHighlight(
       palavras(5),
       color: '#FED170',
       style: HighlightStyle.fill,
     );
-    expect(novo, isNot(tinta.id));
+    expect(novo, tinta.id);
     final linhas = await vivos();
-    expect(linhas.singleWhere((a) => a.id == tinta.id).anchor, tinta.anchor);
-    expect(g.highlightsIn(doc.current.shown!).map((h) => h.id), [novo]);
+    final unido = linhas.singleWhere((a) => a.id == tinta.id);
+    expect(lugar(unido), palavras(5));
+    expect(
+      (unido.source, unido.fillHeight, unido.groupId),
+      (AnnotationSource.ink, FillHeight.low, tinta.groupId),
+    );
+    expect(
+      linhas.where((a) => a.kind == AnnotationKind.highlight),
+      hasLength(1),
+    );
+    await pumpEventQueue();
+    expect(g.highlightsIn(doc.current.shown!), isEmpty);
+    expect(g.inkHighlightsIn(doc.current.shown!).single.range, palavras(5));
   });
+
+  test('D-173: o rosa no meio do à mão o corta; o pedaço da direita continua à mão, com a cor, a altura e o grupo dele', () async {
+    final tinta = tintaEm(8, palavras(5));
+    await AnnotationsDao(livro.db).upsert(tinta);
+    await pumpEventQueue();
+    final meio = palavras(1, depois: 2);
+    final rosa = await g.addHighlight(
+      meio,
+      color: '#FFC1C6',
+      style: HighlightStyle.fill,
+    );
+    expect(rosa, isNot(tinta.id));
+    final linhas = await vivos();
+    final esquerda = linhas.singleWhere((a) => a.id == tinta.id);
+    expect(lugar(esquerda)!.from, palavras(5).from);
+    expect(lugar(esquerda)!.to, meio.from);
+    final direita = linhas.singleWhere(
+      (a) =>
+          a.kind == AnnotationKind.highlight &&
+          a.id != tinta.id &&
+          a.id != rosa,
+    );
+    expect(lugar(direita)!.from, meio.to);
+    expect(lugar(direita)!.to, palavras(5).to);
+    expect(
+      (direita.source, direita.color, direita.fillHeight, direita.groupId),
+      (AnnotationSource.ink, '#FED170', FillHeight.low, tinta.groupId),
+    );
+    final r = linhas.singleWhere((a) => a.id == rosa);
+    expect(r.source, AnnotationSource.selection);
+  });
+
+  test('D-173: trocar a cor passa pelos à mão — encostando num da cor nova, viram um (fica o à mão)', () async {
+    final tinta = tintaEm(9, palavras(2), cor: '#FFC1C6');
+    await AnnotationsDao(livro.db).upsert(tinta);
+    await pumpEventQueue();
+    // o amarelo por cima das palavras 2 a 4 corta o rosa à mão (fica na 1ª)
+    final amarelo = await g.addHighlight(
+      palavras(3, depois: 1),
+      color: '#FED170',
+      style: HighlightStyle.fill,
+    );
+    expect(amarelo, isNotNull);
+    // o amarelo vira rosa: encosta no à mão e viram um
+    final ficou = await g.restyle(
+      amarelo!,
+      color: '#FFC1C6',
+      style: HighlightStyle.fill,
+    );
+    expect(ficou, tinta.id);
+    final linhas = await vivos();
+    expect(lugar(linhas.singleWhere((a) => a.id == tinta.id)), palavras(4));
+    expect(linhas.any((a) => a.id == amarelo), isFalse);
+  });
+
+  test(
+    'G17 (D-172): o pintor recebe a altura de cada grifo (a média se não tem)',
+    () async {
+      final dao = AnnotationsDao(livro.db);
+      await dao.upsert(tintaEm(10, palavras(1), altura: FillHeight.high));
+      final sel = await g.addHighlight(
+        palavras(1, depois: 3),
+        color: '#FED170',
+        style: HighlightStyle.underline,
+      );
+      await pumpEventQueue();
+      final shown = doc.current.shown!;
+      expect(g.inkHighlightsIn(shown).single.height, FillHeight.high);
+      final s = g.highlightsIn(shown).single;
+      expect((s.id, s.height), (sel, FillHeight.medium));
+    },
+  );
 
   test('G17 (D-173): a mesa da sessão — os de seleção e os à mão que tocam o trecho, com altura, grupo e data', () async {
     final shown = doc.current.shown!;
