@@ -45,6 +45,7 @@ import '../annotations/ink_repository.dart';
 import '../application/annotation_session.dart';
 import '../application/ink_page_geometry.dart';
 import '../application/pdf_reader_document.dart';
+import '../application/highlight_labels_store.dart';
 import '../application/pen_presets_store.dart';
 import '../application/reader_annotations.dart';
 import '../application/reader_chrome.dart';
@@ -62,6 +63,7 @@ import 'book_search_panel.dart';
 import 'bottom_island.dart';
 import 'highlight_toolbar.dart';
 import 'ink_painter.dart' show handHighlightBoxes;
+import 'labels_sheet.dart';
 import 'note_sheet.dart';
 import 'page_marks.dart' show PaintedHighlight;
 import 'reader_actions.dart';
@@ -171,6 +173,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// sai (o texto sobe 30 px); [_annStarting] e [_annSaving] seguram toques repetidos.
   _Annotating? _ann;
   bool _annOpen = false;
+
+  /// A folha "Rótulos" aberta sobre o painel do marca-texto (D-177).
+  bool _labelsOpen = false;
   bool _annStarting = false;
   bool _annSaving = false;
 
@@ -759,6 +764,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         now: c.deps.now,
       );
       final presets = await store.load(owner);
+      // G17 (D-40, D-177): os rótulos das cores e as contagens de todos os livros, para a 23b
+      final labels = HighlightLabelsStore(c.deps.db, c.deps.versioning);
+      final labelData = await labels.load(owner);
       if (!mounted || _leaving || !identical(_doc, doc)) return;
       final page = doc.current;
       final shown = page.shown;
@@ -809,7 +817,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         onError: c.deps.onError,
         onInteraction: c.interaction,
         savePresets: store.save,
-      );
+      )..setLabelData(labels: labelData.labels, counts: labelData.counts);
       _selection.clear();
       _dismissUndo();
       _clearToast();
@@ -820,6 +828,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           page: page,
           highlights: highlights,
           inkHighlights: inkHighlights,
+          owner: owner,
+          labels: labels,
         );
         _annOpen = true;
       });
@@ -852,10 +862,25 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     }
   }
 
+  void _closeLabels() => setState(() => _labelsOpen = false);
+
+  /// "Salvar" na folha "Rótulos" (D-177): grava, relê e volta ao painel com os rótulos novos.
+  Future<void> _saveLabels(_Annotating a, Map<String, String> next) async {
+    try {
+      await a.labels.save(a.owner, next);
+      final d = await a.labels.load(a.owner);
+      a.session.setLabelData(labels: d.labels, counts: d.counts);
+    } on Object catch (e, st) {
+      _c?.deps.onError(e, st);
+    }
+    if (mounted && identical(_ann, a)) _closeLabels();
+  }
+
   /// A camada terminou de sair: a sessão acaba e o leitor limpo volta a responder.
   void _annotationExited() {
     final a = _ann;
     if (a == null || _annOpen) return;
+    _labelsOpen = false;
     setState(() => _ann = null);
     a.session.dispose();
     _holdBack();
@@ -876,6 +901,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     if (a == null) return;
     _ann = null;
     _annOpen = false;
+    _labelsOpen = false;
     unawaited(a.session.toBackground().whenComplete(a.session.dispose));
   }
 
@@ -1109,7 +1135,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         canPop: false,
         onPopInvokedWithResult: (didPop, _) {
           if (didPop) return;
-          if (_ann case final a? when a.session.panel.value != null) {
+          if (_ann != null && _labelsOpen) {
+            // a folha "Rótulos" fecha antes do painel (D-42 por camadas)
+            _closeLabels();
+          } else if (_ann case final a? when a.session.panel.value != null) {
             // com um painel aberto (telas 23 e 23b), o Voltar fecha o painel (D-42 por camadas — R3)
             a.session.closePanel();
           } else if (_ann != null) {
@@ -1453,10 +1482,23 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     onDone: () => unawaited(_concludeAnnotation()),
                     onSoon: () => _showToast(readerSoonText),
                     onExited: _annotationExited,
+                    onEditLabels: () => setState(() => _labelsOpen = true),
                   ),
                 ),
               ),
             ),
+            if (_labelsOpen)
+              Positioned.fill(
+                child: BlockSemantics(
+                  child: LabelsSheet(
+                    labels: a.session.labels,
+                    palette: islands,
+                    brand: brand,
+                    onCancel: _closeLabels,
+                    onSave: (m) => unawaited(_saveLabels(a, m)),
+                  ),
+                ),
+              ),
           ],
         ],
       ),
@@ -1471,9 +1513,15 @@ final class _Annotating {
     required this.page,
     required this.highlights,
     required this.inkHighlights,
+    required this.owner,
+    required this.labels,
   });
 
   final AnnotationSession session;
   final DisplayPage page;
   final List<PaintedHighlight> highlights, inkHighlights;
+
+  /// O dono e os rótulos das cores (a folha "Rótulos" grava por eles — D-177).
+  final String owner;
+  final HighlightLabelsStore labels;
 }
