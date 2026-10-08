@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
+import 'package:app_leitura/core/design_system/painters/color_wheel_painter.dart';
 import 'package:app_leitura/core/design_system/painters/conic_ring_painter.dart';
 import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.dart';
 import 'package:app_leitura/core/design_system/painters/goal_dial_painter.dart';
@@ -323,6 +324,13 @@ void main() {
       });
     });
 
+    test('ColorWheelPainter (borda) — G17', () {
+      _expectRepaintsOnlyOnChange(
+        () => const ColorWheelPainter(border: AppColors.ink),
+        {'border': () => const ColorWheelPainter(border: AppColors.inkNight)},
+      );
+    });
+
     test('ConicRingPainter (borda, miolo, raio, aro) e UnderlineIconPainter (letra) — G13/G16', () {
       _expectRepaintsOnlyOnChange(
         () => const ConicRingPainter(
@@ -489,6 +497,7 @@ void main() {
         'TocProgressRingPainter',
         'AnnotationPagePainter',
         'AnnotationLivePainter',
+        'ColorWheelPainter',
       });
     });
   });
