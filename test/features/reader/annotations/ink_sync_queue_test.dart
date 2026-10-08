@@ -11,6 +11,7 @@ import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/local_sql.dart';
 import 'package:app_leitura/core/data/database/powersync_schema.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart';
@@ -97,7 +98,8 @@ void main() {
     () async {
       await KvDao(db).set(syncModeKey, syncModePro);
       await KvDao(db).set(activeOwnerKey, usuarioTeste);
-      final grifo = grifoTeste(20, livro: _livro);
+      // um grifo feito à mão: a Borracha só apaga tinta (D-168)
+      final grifo = grifoTeste(20, livro: _livro, fonte: AnnotationSource.ink);
       await AnnotationsDao(db).upsert(grifo);
       final before = (await queue()).length;
       final c = InkChanges(
