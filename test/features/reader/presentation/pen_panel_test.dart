@@ -112,6 +112,11 @@ void main() {
           ),
           'Pincel · 1,2 mm · #12AB34',
         );
+        // só os 6 nomes da caneta: o amarelo do marca-texto sai pelo código
+        expect(
+          penPanelSubtitle(p.copyWith(penColor: '#FED170')),
+          'Esferográfica · 1,2 mm · #FED170',
+        );
       },
     );
 
@@ -152,6 +157,8 @@ void main() {
         (tinteiro.tip, tinteiro.argb),
         (tipCode(PenTip.fountain), 0xFF552CB7),
       );
+      // os pontos são amostrados uma vez (o painel reconstrói com a sessão)
+      expect(identical(tinteiro.points, t.points), isTrue);
     });
 
     testWidgets(
@@ -339,6 +346,22 @@ void main() {
       expect(_k('ann.penPanel.favorites.add'), findsNothing);
       expect(_k('ann.penPanel.favorites.12'), findsOneWidget);
     });
+
+    testWidgets(
+      'favoritas repetidas (de outro aparelho): a 1ª fica com o id do arquivo, a outra com o lugar',
+      (tester) async {
+        await _montar(
+          tester,
+          presets: presetsTeste().copyWith(
+            favoriteColors: ['#FF552E', '#058CD7', '#ff552e'],
+          ),
+        );
+        expect(tester.takeException(), isNull);
+        expect(_k('ann.penPanel.favorites.coral'), findsOneWidget);
+        expect(_k('ann.penPanel.favorites.blue'), findsOneWidget);
+        expect(_k('ann.penPanel.favorites.3'), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'pressão longa tira, com "Cor tirada das favoritas" e Desfazer, que põe de volta no lugar',

@@ -75,10 +75,10 @@ class AnnotationIsland extends StatelessWidget {
   ];
 
   /// O nome de [c] para o poço (as favoritas da tela 23 e as cores do marca-texto); outra cor = o código
-  /// (`#12AB34`).
-  static String colorName(Color c) {
+  /// (`#12AB34`). Na caneta ([pen]), só os 6 nomes da tela 23 (R8): o amarelo do marca-texto é o código.
+  static String colorName(Color c, {bool pen = false}) {
     final hex = colorHex(c.toARGB32());
-    return colorNameOf(hex) ?? hex;
+    return (pen ? penColorName(hex)?.toLowerCase() : colorNameOf(hex)) ?? hex;
   }
 
   @override
@@ -212,7 +212,7 @@ class AnnotationIsland extends StatelessWidget {
     key: const ValueKey('ann.island.colorWell'),
     semanticsLabel: inkTool == AnnotationTool.marker
         ? 'Cor do marca-texto: ${colorName(ink)}. Toque para ajustar o marca-texto'
-        : 'Cor da caneta: ${colorName(ink)}. Toque para escolher qualquer cor',
+        : 'Cor da caneta: ${colorName(ink, pen: true)}. Toque para escolher qualquer cor',
     onTap: onColorWell,
     child: CustomPaint(
       painter: ConicRingPainter(

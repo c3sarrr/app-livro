@@ -521,10 +521,12 @@ void main() {
       s.live.value = const LiveLasso([]);
       expect(folhas, 2);
       expect(vivos, 2);
-      // G17 (R26): no Noite, a folha também repinta com o traço ao vivo (o marca-texto vai nela)
+      // G17 (R26): no Noite, a folha também repinta com o marca-texto ao vivo (ele vai nela) — só com ele
       var noites = 0;
       folha(lightText: AppColors.bookTextNight).addListener(() => noites++);
       s.live.value = null;
+      expect(noites, 0);
+      s.live.value = LiveMarker(penPreviewStroke(presetsTeste()));
       expect(noites, 1);
     });
 

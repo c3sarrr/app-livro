@@ -60,6 +60,9 @@ const Map<String, String> _colorIds = {
 /// A prévia: 14 de cada lado, dentro da borda de 1,5.
 const double _previewPadding = 14;
 
+/// A prévia medida da última vez (a página e a largura mudam pouco; a sessão avisa a cada toque).
+final MarkerPreviewCache _previews = MarkerPreviewCache();
+
 /// O grifo nítido da prévia e das amostras vai a 95 %.
 const double _sampleAlpha = 0.95;
 
@@ -376,11 +379,12 @@ class MarkerPanel extends StatelessWidget {
         }
 
         final src = preview;
-        final m = markerPreviewOf(
+        final m = _previews.of(
           src?.text ?? '',
           start: src?.start ?? 0,
           end: src?.end ?? 0,
           maxWidth: inner,
+          style: style,
           width: measure,
         );
         final styleName = highlightStyleNames[pen.highlighterStyle]!

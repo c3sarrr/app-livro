@@ -4,7 +4,7 @@
 // cabe sozinha na linha útil da prévia, mais as seguintes enquanto couberem; o grifo vai na palavra mais longa da 1ª
 // (letras e números; empate: a 1ª). Nenhuma cabe: as primeiras palavras da 1ª frase que cabem, com "…". Sem frase
 // na página: a frase do arquivo. O espaço inseparável (D-160) sai como o comum. Dart puro: a medida vem de fora (o
-// `TextPainter` do painel, em Literata 17).
+// `TextPainter` do painel, em Literata 17); a `MarkerPreviewCache` guarda a última (o painel reconstrói com a sessão).
 import 'package:flutter/foundation.dart' show immutable;
 
 /// A frase do arquivo (`mk.markerPanel.preview`), para a página sem texto.
@@ -113,6 +113,55 @@ MarkerPreview _cut(String s, bool Function(String) fits) {
     to: z,
     firstSentence: shown.replaceFirst(_closing, ''),
   );
+}
+
+/// A última prévia (G17): o painel reconstrói com a sessão, mas a prévia só muda com o texto, o trecho, a largura e a
+/// letra ([style] — o que [markerPreviewOf] mede).
+final class MarkerPreviewCache {
+  ({
+    String text,
+    int start,
+    int end,
+    double maxWidth,
+    Object style,
+    MarkerPreview value,
+  })?
+  _last;
+
+  MarkerPreview of(
+    String text, {
+    required int start,
+    required int end,
+    required double maxWidth,
+    required Object style,
+    required double Function(String) width,
+  }) {
+    final l = _last;
+    if (l != null &&
+        l.text == text &&
+        l.start == start &&
+        l.end == end &&
+        l.maxWidth == maxWidth &&
+        l.style == style) {
+      return l.value;
+    }
+    final v = markerPreviewOf(
+      text,
+      start: start,
+      end: end,
+      maxWidth: maxWidth,
+      width: width,
+    );
+    _last = (
+      text: text,
+      start: start,
+      end: end,
+      maxWidth: maxWidth,
+      style: style,
+      value: v,
+    );
+    return v;
+  }
 }
 
 /// A palavra mais longa de [s] (a 1ª, no empate).

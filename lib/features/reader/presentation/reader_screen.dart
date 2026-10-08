@@ -808,7 +808,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       final presets = await store.load(owner);
       // G17 (D-40, D-177): os rótulos das cores e as contagens de todos os livros, para a 23b
       final labels = HighlightLabelsStore(c.deps.db, c.deps.versioning);
-      final labelData = await labels.load(owner);
+      HighlightLabelData labelData;
+      try {
+        labelData = await labels.load(owner);
+      } on Object catch (e, st) {
+        // sem os rótulos e as contagens (o banco falhou), o modo abre com os nomes das cores
+        c.deps.onError(e, st);
+        labelData = (labels: const {}, counts: const {});
+      }
       if (!mounted || _leaving || !identical(_doc, doc)) return;
       final page = doc.current;
       final shown = page.shown;
@@ -896,7 +903,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       _holdBack();
       _announce(
         'Modo anotação. Caneta, '
-        '${AnnotationIsland.colorName(Color(session.color))}.',
+        '${AnnotationIsland.colorName(Color(session.color), pen: true)}.',
       );
     } on Object catch (e, st) {
       c.deps.onError(e, st);
@@ -923,16 +930,18 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   void _closeLabels() => setState(() => _labelsOpen = false);
 
-  /// "Salvar" na folha "Rótulos" (D-177): grava, relê e volta ao painel com os rótulos novos.
+  /// "Salvar" na folha "Rótulos" (D-177): grava, relê e volta ao painel com os rótulos novos. Se falhar, a folha fica
+  /// (o texto digitado não se perde) e a falha vai ao relatório.
   Future<void> _saveLabels(_Annotating a, Map<String, String> next) async {
     try {
       await a.labels.save(a.owner, next);
       final d = await a.labels.load(a.owner);
+      if (!mounted || !identical(_ann, a)) return;
       a.session.setLabelData(labels: d.labels, counts: d.counts);
+      _closeLabels();
     } on Object catch (e, st) {
       _c?.deps.onError(e, st);
     }
-    if (mounted && identical(_ann, a)) _closeLabels();
   }
 
   /// A camada terminou de sair: a sessão acaba e o leitor limpo volta a responder.
@@ -1569,7 +1578,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     palette: islands,
                     brand: brand,
                     onCancel: _closeLabels,
-                    onSave: (m) => unawaited(_saveLabels(a, m)),
+                    onSave: (m) => _act(() => _saveLabels(a, m)),
                   ),
                 ),
               ),

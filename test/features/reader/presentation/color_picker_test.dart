@@ -17,30 +17,38 @@ final Rect _caixa = kRef23.elements['pen.penPanel.picker']!.rect;
 
 /// O seletor na caixa da prancha, com a cor de fora que muda como o painel mudaria.
 Future<({List<String> durante, List<String> fim, ValueNotifier<String> cor})>
-_montar(WidgetTester tester, {String inicial = '#FF552E'}) async {
+_montar(
+  WidgetTester tester, {
+  String inicial = '#FF552E',
+  bool rolavel = false,
+}) async {
   final durante = <String>[];
   final fim = <String>[];
   final cor = ValueNotifier(inicial);
   addTearDown(cor.dispose);
+  final Widget seletor = ValueListenableBuilder(
+    valueListenable: cor,
+    builder: (_, c, _) => ColorPicker(
+      color: c,
+      onChanged: (h) {
+        durante.add(h);
+        cor.value = h;
+      },
+      onChangeEnd: (h) {
+        fim.add(h);
+        cor.value = h;
+      },
+    ),
+  );
   await montarPecasL23(tester, [
     Positioned(
       left: _caixa.left,
       top: _caixa.top,
       width: _caixa.width,
-      child: ValueListenableBuilder(
-        valueListenable: cor,
-        builder: (_, c, _) => ColorPicker(
-          color: c,
-          onChanged: (h) {
-            durante.add(h);
-            cor.value = h;
-          },
-          onChangeEnd: (h) {
-            fim.add(h);
-            cor.value = h;
-          },
-        ),
-      ),
+      // [rolavel]: um arrasto vertical em volta disputa o dedo (como a página rolando)
+      child: rolavel
+          ? GestureDetector(onVerticalDragUpdate: (_) {}, child: seletor)
+          : seletor,
     ),
   ]);
   return (durante: durante, fim: fim, cor: cor);
@@ -87,6 +95,52 @@ void main() {
       expect(m.fim.single, '#80FF00');
       expect(m.durante, isNotEmpty);
       expect(m.cor.value, '#80FF00');
+    },
+  );
+
+  testWidgets(
+    'outro gesto ganha o toque (a página rolando): a cor de antes do toque volta, sem gravar',
+    (tester) async {
+      final m = await _montar(tester, rolavel: true);
+      final roda = tester.getRect(_k('ann.penPanel.picker.wheel'));
+      final g = await tester.startGesture(roda.center + const Offset(40, 0));
+      await tester.pump();
+      // o cursor foi ao dedo
+      expect(m.cor.value, isNot('#FF552E'));
+      await g.moveBy(const Offset(0, 20));
+      await tester.pump();
+      await g.moveBy(const Offset(0, 20));
+      await g.up();
+      await tester.pump();
+      expect(m.fim, isEmpty);
+      expect(m.cor.value, '#FF552E');
+      expect(m.durante.last, '#FF552E');
+      // o mesmo no brilho
+      final trilho = tester.getRect(_k('ann.penPanel.picker.brightness'));
+      final b = await tester.startGesture(
+        trilho.centerLeft + const Offset(20, 0),
+      );
+      await tester.pump();
+      expect(m.cor.value, isNot('#FF552E'));
+      await b.moveBy(const Offset(0, 20));
+      await tester.pump();
+      await b.up();
+      await tester.pump();
+      expect(m.fim, isEmpty);
+      expect(m.cor.value, '#FF552E');
+    },
+  );
+
+  testWidgets(
+    'o toque disputado com outro gesto ainda vale a cor do ponto (R13)',
+    (tester) async {
+      final m = await _montar(tester, rolavel: true);
+      final roda = tester.getRect(_k('ann.penPanel.picker.wheel'));
+      await tester.tapAt(roda.center + const Offset(40, 0));
+      await tester.pump();
+      expect(m.fim.single, m.durante.first);
+      expect(m.fim.single, isNot('#FF552E'));
+      expect(m.cor.value, m.fim.single);
     },
   );
 

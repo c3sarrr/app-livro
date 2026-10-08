@@ -226,6 +226,12 @@ final class AnnotationSession extends ChangeNotifier {
     );
     _initialDesk = _copy.desk;
     _history = InkHistory(_copy);
+    live.addListener(() {
+      liveMarker.value = switch (live.value) {
+        LiveMarker(:final stroke) => stroke,
+        _ => null,
+      };
+    });
     _armDraft();
   }
 
@@ -295,6 +301,9 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// O traço ao vivo, a prévia da Reta ou o contorno do Laço.
   final ValueNotifier<LiveInk?> live = ValueNotifier(null);
+
+  /// Só o traço do Marca-texto ao vivo (a folha do Noite repinta com ele, não com a Caneta nem com o Laço — R26).
+  final ValueNotifier<InkStroke?> liveMarker = ValueNotifier(null);
 
   /// Onde está o dedo que desenha (coordenadas da tela), para o indicador de toque; com a caneta, `null`.
   final ValueNotifier<InkOffset?> touch = ValueNotifier(null);
@@ -1400,6 +1409,7 @@ final class AnnotationSession extends ChangeNotifier {
     _disposed = true;
     _timer?.cancel();
     live.dispose();
+    liveMarker.dispose();
     touch.dispose();
     selection.dispose();
     panel.dispose();

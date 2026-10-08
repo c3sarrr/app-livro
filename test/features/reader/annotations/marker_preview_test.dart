@@ -96,6 +96,51 @@ void main() {
     }
   });
 
+  test('a cache guarda a última prévia: com o mesmo texto, trecho, largura e letra, não mede de novo', () {
+    final cache = MarkerPreviewCache();
+    var medidas = 0;
+    double medir(String s) {
+      medidas++;
+      return _medir(s);
+    }
+
+    const texto = 'Olhos de ressaca? Vá, de ressaca. Fim.';
+    MarkerPreview de({
+      int inicio = 0,
+      int fim = texto.length,
+      double largura = 296,
+      Object letra = 'Literata 17',
+      String t = texto,
+    }) => cache.of(
+      t,
+      start: inicio,
+      end: fim,
+      maxWidth: largura,
+      style: letra,
+      width: medir,
+    );
+
+    final p = de();
+    final n = medidas;
+    expect(n, greaterThan(0));
+    expect(identical(de(), p), isTrue);
+    expect(medidas, n);
+    // cada chave muda a prévia
+    for (final outra in [
+      () => de(inicio: 18),
+      () => de(fim: 34),
+      () => de(largura: 200),
+      () => de(letra: 'Literata 18'),
+      () => de(t: 'Vá, de ressaca. Fim.'),
+    ]) {
+      final antes = medidas;
+      outra();
+      expect(medidas, greaterThan(antes));
+      de();
+    }
+    expect(de(), p);
+  });
+
   group('na pág. 159 do mundo, com o Literata 17 de verdade', () {
     TestWidgetsFlutterBinding.ensureInitialized();
     setUpAll(loadAppFonts);

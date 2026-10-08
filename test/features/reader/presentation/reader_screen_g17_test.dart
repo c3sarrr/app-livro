@@ -184,6 +184,51 @@ void main() {
   );
 
   testWidgets(
+    'os rótulos que não abrem (o banco falhou): o modo abre com os nomes das cores e a falha vai ao relatório',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      final t = await abrirLeitor(tester, livro);
+      await tester.runAsync(
+        () => livro.db.customStatement('DROP TABLE highlight_labels'),
+      );
+      await _anotar(tester);
+      expect(t.erros, isNotEmpty);
+      await _painelDoMarcaTexto(tester);
+      expect(findAppText('Fundo · amarelo · média'), findsOneWidget);
+      expect(findAppText('0 grifos'), findsNWidgets(4));
+    },
+  );
+
+  testWidgets(
+    'Salvar que falha: a folha "Rótulos" fica com o que foi digitado e a falha vai ao relatório',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await semear(tester);
+      final t = await abrirLeitor(tester, livro);
+      await _anotar(tester);
+      await _painelDoMarcaTexto(tester);
+      await tester.tap(_key('ann.markerPanel.colorsHeader.editLabels'));
+      await tester.pump();
+      await tester.runAsync(
+        () => livro.db.customStatement('DROP TABLE highlight_labels'),
+      );
+      await tester.enterText(_key('ann.labels.pink.field'), 'personagem');
+      await tester.tap(_key('ann.labels.save'));
+      await _banco(tester);
+      expect(t.erros, isNotEmpty);
+      expect(_key('ann.labels'), findsOneWidget);
+      expect(
+        tester
+            .widget<TextField>(_key('ann.labels.pink.field'))
+            .controller!
+            .text,
+        'personagem',
+      );
+      expect(_sessao(tester).labels, {'#FED170': 'lindo'});
+    },
+  );
+
+  testWidgets(
     'o marca-texto sobre o grifo amarelo da página une com ele (D-173) e o Concluir grava',
     (tester) async {
       setCanvasView(tester, logical: const Size(390, 844));

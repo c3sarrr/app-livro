@@ -236,6 +236,11 @@ void main() {
       expect(pagina.recortes.last, _caixa);
       expect(tester.getRect(chave('ann.page')), _caixa);
       expect(sessao.panLimit, 145.25);
+      // a tinta da sessão nas 2 passadas do Noite (a da frente e a de trás) sem uma tirar a outra da cache
+      final folha =
+          tester.widget<CustomPaint>(chave('ann.canvas.page')).painter!
+              as AnnotationPagePainter;
+      expect(folha.pictures.capacity, 2);
     },
   );
 
@@ -484,6 +489,40 @@ void main() {
       s.pointerUp(p(200, 152, 48));
     });
 
+    test('no Noite, a folha repinta só com o Marca-texto ao vivo (a Caneta e o Laço ficam na camada viva)', () {
+      final s = _sessao();
+      addTearDown(s.dispose);
+      final fotos = InkPictureCache(capacity: 2);
+      addTearDown(fotos.dispose);
+      var avisos = 0;
+      s.pointerDown(p(60, 300, 0));
+      AnnotationPagePainter(
+        session: s,
+        page: _PaginaMuda(),
+        pageBox: _caixa,
+        paper: AppColors.paperNight,
+        pan: ValueNotifier<double>(0),
+        pictures: fotos,
+        lightText: letra,
+      ).addListener(() => avisos++);
+      s
+        ..pointerMove(p(120, 302, 16))
+        ..pointerMove(p(160, 304, 32));
+      expect(s.live.value, isA<LiveStroke>());
+      expect(s.liveMarker.value, isNull);
+      expect(avisos, 0);
+      s
+        ..pointerUp(p(160, 304, 48))
+        ..setTool(AnnotationTool.marker)
+        ..pointerDown(p(90, 152, 64));
+      avisos = 0;
+      s.pointerMove(p(180, 152, 80));
+      expect(s.liveMarker.value, (s.live.value! as LiveMarker).stroke);
+      expect(avisos, 1);
+      s.pointerUp(p(180, 152, 96));
+      expect(s.liveMarker.value, isNull);
+    });
+
     test(
       'D-174: a caneta quase preta ao vivo sai na cor das letras do Noite',
       () {
@@ -607,7 +646,5 @@ void main() {
       0.5,
     );
     expect(inkPressure(const PointerDownEvent(pressure: 0.7)), 0.7);
-    // a cache da tinta da sessão é a do pintor da página
-    expect(InkPictureCache(capacity: 1).capacity, 1);
   });
 }

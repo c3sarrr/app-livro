@@ -410,5 +410,25 @@ void main() {
   test('o nome da cor do poço também para as cores do marca-texto', () {
     expect(AnnotationIsland.colorName(AppColors.sun), 'amarelo');
     expect(AnnotationIsland.colorName(AppColors.blush), 'rosa');
+    // na caneta, só os 6 nomes da tela 23 (R8)
+    expect(AnnotationIsland.colorName(AppColors.sun, pen: true), '#FED170');
+    expect(AnnotationIsland.colorName(AppColors.flame, pen: true), 'coral');
   });
+
+  testWidgets(
+    'o poço da caneta com o amarelo do marca-texto: o código, não "amarelo" (R8)',
+    (tester) async {
+      await montar(tester, tinta: AppColors.sun);
+      final h = tester.ensureSemantics();
+      expect(
+        tester.getSemantics(chaveL22('ann.island.colorWell')),
+        isSemantics(
+          label: 'Cor da caneta: #FED170. Toque para escolher qualquer cor',
+          isButton: true,
+          hasTapAction: true,
+        ),
+      );
+      h.dispose();
+    },
+  );
 }

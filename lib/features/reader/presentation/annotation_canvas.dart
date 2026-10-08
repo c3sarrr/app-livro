@@ -116,7 +116,9 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   final ValueNotifier<double> _pan = ValueNotifier(0);
   double _backFrom = 0;
   double _backTo = 0;
-  final InkPictureCache _pictures = InkPictureCache(capacity: 1);
+
+  /// A tinta da sessão: a passada da frente e, no Noite, a de trás (o Marca-texto pela D-133).
+  final InkPictureCache _pictures = InkPictureCache(capacity: 2);
 
   /// Os traços do Laço sendo arrastados, gravados uma vez no começo do arrasto (depois, só transladados).
   final InkPictureCache _dragged = InkPictureCache(capacity: 1);
@@ -305,12 +307,12 @@ class AnnotationPagePainter extends CustomPainter {
     this.highlights = const [],
     this.inkHighlights = const [],
   }) : super(
-         // no Noite, o Marca-texto ao vivo vai na folha (R26): ela repinta com o traço
+         // no Noite, o Marca-texto ao vivo vai na folha (R26): ela repinta com o traço dele (só dele)
          repaint: Listenable.merge([
            session,
            pan,
            enter,
-           if (lightText != null) session.live,
+           if (lightText != null) session.liveMarker,
          ]),
        );
 
@@ -332,12 +334,7 @@ class AnnotationPagePainter extends CustomPainter {
     final hidden = session.hiddenHighlights;
     final light = lightText;
     // no Noite, o Marca-texto ao vivo é pintado aqui, por trás e por cima das letras (D-133 — R26)
-    final live = light == null
-        ? null
-        : switch (session.live.value) {
-            LiveMarker(:final stroke) => stroke,
-            _ => null,
-          };
+    final live = light == null ? null : session.liveMarker.value;
     canvas
       ..save()
       ..clipRect(pageBox)

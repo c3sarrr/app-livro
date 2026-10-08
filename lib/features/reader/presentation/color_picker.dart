@@ -1,6 +1,7 @@
 // G17.1 — o seletor de cor da tela 23 (L23.6, R13, R14), também usado pela folha "Outra cor" da tela 21 (D-178):
 // - a roda de 124 (o `ColorWheelPainter`) com o cursor de 24 (aro 3 `#FFFAF1`, anel 1,5 e sombra dura 2/2 de tinta)
-//   no tom e na intensidade da cor; tocar ou arrastar leva o cursor ao dedo, preso à borda (R13);
+//   no tom e na intensidade da cor; tocar ou arrastar leva o cursor ao dedo, preso à borda (R13); se outro gesto
+//   ganhar o toque (a página rolando, por exemplo), a cor de antes do toque volta, sem gravar;
 // - BRILHO: o trilho de 16 com o degradê da tinta à cor com brilho 100 % e o botão de 26, que vai de −3 a +3 das
 //   pontas do trilho, como no arquivo; com brilho 0 o tom e a intensidade ficam guardados (R13);
 // - o campo hex de 42 com a amostra de 18 e o código (Figtree 15/800): tocar abre o teclado só com 0–9 e A–F; a cor
@@ -102,10 +103,39 @@ class _ColorPickerState extends State<ColorPicker> {
 
   Key _k(String s) => ValueKey('${widget.keyPrefix}$s');
 
+  /// A cor de antes do toque na roda ou no brilho (volta se outro gesto ganhar o toque).
+  Hsv? _before;
+
+  /// O dedo já subiu (o `Listener` vê o soltar antes dos reconhecedores).
+  bool _lifted = false;
+
   void _set(Hsv c, {required bool end}) {
+    if (end) _before = null;
     setState(() => _hsv = c);
     (end ? widget.onChangeEnd : widget.onChanged)(c.toHex());
   }
+
+  /// O dedo desceu: guarda a cor de antes e mostra a do ponto.
+  void _down(void Function() show) {
+    _before = _hsv;
+    show();
+  }
+
+  /// O arrasto desistiu. Com o dedo já solto, foi um toque disputado com outro gesto: vale a cor do ponto (R13). Com
+  /// o dedo ainda na tela, outro gesto ganhou (a página rolando, por exemplo): a cor de antes volta, sem gravar.
+  void _cancel() {
+    final b = _before;
+    _before = null;
+    if (_lifted) return _set(_hsv, end: true);
+    if (b != null && b != _hsv) _set(b, end: false);
+  }
+
+  /// Acompanha o dedo da roda e do brilho para o [_cancel].
+  Widget _tracked(Widget child) => Listener(
+    onPointerDown: (_) => _lifted = false,
+    onPointerUp: (_) => _lifted = true,
+    child: child,
+  );
 
   // ---- roda -----------------------------------------------------------------------------------------------------
 
@@ -191,40 +221,42 @@ class _ColorPickerState extends State<ColorPicker> {
       ),
       onIncrease: () => _turn(wheelStepDegrees),
       onDecrease: () => _turn(-wheelStepDegrees),
-      child: GestureDetector(
-        excludeFromSemantics: true,
-        behavior: HitTestBehavior.opaque,
-        onPanDown: (d) => _wheelAt(d.localPosition),
-        // o 1º trecho do arrasto chega no começo (`DragStartBehavior.start`), não num update
-        onPanStart: (d) => _wheelAt(d.localPosition),
-        onPanUpdate: (d) => _wheelAt(d.localPosition),
-        onPanEnd: (_) => _wheelEnd(),
-        onPanCancel: _wheelEnd,
-        child: SizedBox.square(
-          dimension: colorWheelSize,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Positioned.fill(
-                child: CustomPaint(
-                  painter: ColorWheelPainter(border: p.border),
+      child: _tracked(
+        GestureDetector(
+          excludeFromSemantics: true,
+          behavior: HitTestBehavior.opaque,
+          onPanDown: (d) => _down(() => _wheelAt(d.localPosition)),
+          // o 1º trecho do arrasto chega no começo (`DragStartBehavior.start`), não num update
+          onPanStart: (d) => _wheelAt(d.localPosition),
+          onPanUpdate: (d) => _wheelAt(d.localPosition),
+          onPanEnd: (_) => _wheelEnd(),
+          onPanCancel: _cancel,
+          child: SizedBox.square(
+            dimension: colorWheelSize,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned.fill(
+                  child: CustomPaint(
+                    painter: ColorWheelPainter(border: p.border),
+                  ),
                 ),
-              ),
-              Positioned(
-                key: _k('.wheel.cursor'),
-                left: at.dx - _cursor / 2,
-                top: at.dy - _cursor / 2,
-                width: _cursor,
-                height: _cursor,
-                child: _Dot(
-                  color: color,
-                  ring: surface,
-                  edge: p.border,
-                  shadow: p.shadow,
-                  hardShadow: true,
+                Positioned(
+                  key: _k('.wheel.cursor'),
+                  left: at.dx - _cursor / 2,
+                  top: at.dy - _cursor / 2,
+                  width: _cursor,
+                  height: _cursor,
+                  child: _Dot(
+                    color: color,
+                    ring: surface,
+                    edge: p.border,
+                    shadow: p.shadow,
+                    hardShadow: true,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -244,48 +276,53 @@ class _ColorPickerState extends State<ColorPicker> {
           decreasedValue: pct(_hsv.v - brightnessStep),
           onIncrease: () => _bright(_hsv.v + brightnessStep, end: true),
           onDecrease: () => _bright(_hsv.v - brightnessStep, end: true),
-          child: GestureDetector(
-            excludeFromSemantics: true,
-            behavior: HitTestBehavior.opaque,
-            onHorizontalDragDown: (d) =>
-                _bright(_brightnessAt(d.localPosition.dx, w)),
-            onHorizontalDragStart: (d) =>
-                _bright(_brightnessAt(d.localPosition.dx, w)),
-            onHorizontalDragUpdate: (d) =>
-                _bright(_brightnessAt(d.localPosition.dx, w)),
-            onHorizontalDragEnd: (_) => _bright(_hsv.v, end: true),
-            onHorizontalDragCancel: () => _bright(_hsv.v, end: true),
-            child: SizedBox(
-              height: _track,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(999),
-                        border: Border.fromBorderSide(line),
-                        gradient: LinearGradient(
-                          colors: [scope.tint(AppColors.ink), scope.tint(full)],
+          child: _tracked(
+            GestureDetector(
+              excludeFromSemantics: true,
+              behavior: HitTestBehavior.opaque,
+              onHorizontalDragDown: (d) =>
+                  _down(() => _bright(_brightnessAt(d.localPosition.dx, w))),
+              onHorizontalDragStart: (d) =>
+                  _bright(_brightnessAt(d.localPosition.dx, w)),
+              onHorizontalDragUpdate: (d) =>
+                  _bright(_brightnessAt(d.localPosition.dx, w)),
+              onHorizontalDragEnd: (_) => _bright(_hsv.v, end: true),
+              onHorizontalDragCancel: _cancel,
+              child: SizedBox(
+                height: _track,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned.fill(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(999),
+                          border: Border.fromBorderSide(line),
+                          gradient: LinearGradient(
+                            colors: [
+                              scope.tint(AppColors.ink),
+                              scope.tint(full),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    key: _k('.brightness.knob'),
-                    // de −3 a +3 das pontas de dentro do trilho (o `right: −3px` do arquivo)
-                    left: _knobStart() + _hsv.v * _knobTravel(w),
-                    top: (_track - _knob) / 2,
-                    width: _knob,
-                    height: _knob,
-                    child: _Dot(
-                      color: color,
-                      ring: surface,
-                      edge: p.border,
-                      shadow: p.shadow,
+                    Positioned(
+                      key: _k('.brightness.knob'),
+                      // de −3 a +3 das pontas de dentro do trilho (o `right: −3px` do arquivo)
+                      left: _knobStart() + _hsv.v * _knobTravel(w),
+                      top: (_track - _knob) / 2,
+                      width: _knob,
+                      height: _knob,
+                      child: _Dot(
+                        color: color,
+                        ring: surface,
+                        edge: p.border,
+                        shadow: p.shadow,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -49,10 +49,11 @@ const Map<PenTip, String> penTipNames = {
   PenTip.brush: 'Pincel',
 };
 
-/// "Esferográfica · 1,2 mm · coral" (R8): a ponta, a espessura com 1 casa e o nome da cor (ou o hex).
+/// "Esferográfica · 1,2 mm · coral" (R8): a ponta, a espessura com 1 casa e o nome da cor (um dos 6 da caneta) ou o
+/// hex.
 String penPanelSubtitle(PenPresets p) =>
     '${penTipNames[p.penTip]} · ${widthLabel(p.penWidthMm)} · '
-    '${colorNameOf(p.penColor) ?? p.penColor.toUpperCase()}';
+    '${penColorName(p.penColor)?.toLowerCase() ?? p.penColor.toUpperCase()}';
 
 /// O caminho da prévia do arquivo (`il_previa_traco_caneta`, caixa de 300×56).
 ui.Path _previewPath() {
@@ -80,9 +81,9 @@ ui.Path _previewPath() {
   return path;
 }
 
-/// O traço da prévia (R9): o caminho do arquivo amostrado a cada 0,5 px, deslocado para o meio da faixa de dentro
-/// (324 de largura: 12 de cada lado), na ponta e na cor da caneta, com a espessura × Fina/Média/Grossa × 17/11.
-InkStroke penPreviewStroke(PenPresets p) {
+/// Os pontos da prévia: o caminho do arquivo amostrado a cada 0,5 px, deslocado para o meio da faixa de dentro (324
+/// de largura: 12 de cada lado). Calculados uma vez (o painel reconstrói com a sessão).
+final List<InkPoint> _previewPoints = () {
   final points = <InkPoint>[];
   for (final m in _previewPath().computeMetrics()) {
     final n = (m.length / 0.5).ceil();
@@ -91,16 +92,19 @@ InkStroke penPreviewStroke(PenPresets p) {
       points.add(InkPoint(t.position.dx + 12, t.position.dy, 0.5, i * 4));
     }
   }
-  return InkStroke(
-    tool: InkTool.pen.code,
-    tip: tipCode(p.penTip),
-    argb: argbOfHex(p.penColor),
-    widthCentiMm:
-        (p.penWidthMm * sizeFactor(p.strokeSize) * penPreviewZoom * 100)
-            .round(),
-    points: List.unmodifiable(points),
-  );
-}
+  return List<InkPoint>.unmodifiable(points);
+}();
+
+/// O traço da prévia (R9): os pontos da prévia, na ponta e na cor da caneta, com a espessura × Fina/Média/Grossa ×
+/// 17/11.
+InkStroke penPreviewStroke(PenPresets p) => InkStroke(
+  tool: InkTool.pen.code,
+  tip: tipCode(p.penTip),
+  argb: argbOfHex(p.penColor),
+  widthCentiMm: (p.penWidthMm * sizeFactor(p.strokeSize) * penPreviewZoom * 100)
+      .round(),
+  points: _previewPoints,
+);
 
 /// A faixa pautada e o traço da prévia.
 class PenPreviewPainter extends CustomPainter {
@@ -551,6 +555,11 @@ class PenPanel extends StatelessWidget {
                   favs[i],
                   i,
                   favs[i].toUpperCase() == current,
+                  first:
+                      favs.indexWhere(
+                        (f) => f.toUpperCase() == favs[i].toUpperCase(),
+                      ) ==
+                      i,
                 ),
               ),
             if (withAdd)
@@ -596,15 +605,19 @@ class PenPanel extends StatelessWidget {
     );
   }
 
+  /// A favorita [hex] no lugar [index]. A chave é o id do arquivo; a repetida (vinda de outro aparelho) e as outras
+  /// cores, o lugar (`1`…`12`) — duas chaves iguais quebrariam a fileira.
   Widget _favorite(
     ReaderChromeScope scope,
     String hex,
     int index,
-    bool selected,
-  ) {
+    bool selected, {
+    required bool first,
+  }) {
     final p = scope.palette;
     final name = penColorName(hex);
-    final id = _favoriteIds[hex.toUpperCase()] ?? '${index + 1}';
+    final id =
+        (first ? _favoriteIds[hex.toUpperCase()] : null) ?? '${index + 1}';
     return Pressable(
       key: ValueKey('$_k.favorites.$id'),
       semanticsLabel: name ?? 'Cor ${hex.toUpperCase()}',
