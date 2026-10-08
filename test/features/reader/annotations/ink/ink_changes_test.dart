@@ -126,7 +126,7 @@ void main() {
 
   test('G17 (R24): os grifos de ida e volta no formato 2', () {
     final json = encodeDraft(_marca, at: at);
-    expect(jsonDecode(json), containsPair('v', 2));
+    expect(jsonDecode(json), containsPair('v', 3));
     final back = decodeDraft(json)!;
     expect(back.changes, _marca);
     expect(back.changes.highlights[1].fillHeight, isNull);
@@ -145,7 +145,7 @@ void main() {
     expect(decodeDraft(encodeDraft(tudo, at: at))!.changes, tudo);
   });
 
-  test('G17: o rascunho do formato 1 (G16) ainda é lido, sem grifos; o formato 3 não', () {
+  test('G17: o rascunho do formato 1 (G16) ainda é lido, sem grifos; o formato 4 não', () {
     final v1 = jsonEncode({
       'v': 1,
       'at': '2026-10-08T09:31:05.000Z',
@@ -164,7 +164,7 @@ void main() {
       ),
     );
     final map = jsonDecode(encodeDraft(_marca, at: at)) as Map<String, dynamic>;
-    expect(decodeDraft(jsonEncode({...map, 'v': 3})), isNull);
+    expect(decodeDraft(jsonEncode({...map, 'v': 4})), isNull);
     // o formato 2 sem as listas dos grifos, ou com elas erradas: ilegível
     expect(decodeDraft(jsonEncode({...map}..remove('highlights'))), isNull);
     expect(
@@ -261,7 +261,7 @@ void main() {
 
   test('o rascunho de ida e volta é igual', () {
     final json = encodeDraft(_changes, at: at);
-    expect(jsonDecode(json), containsPair('v', 2));
+    expect(jsonDecode(json), containsPair('v', 3));
     final back = decodeDraft(json)!;
     expect(back.at, at);
     expect(back.changes, _changes);
@@ -339,5 +339,91 @@ void main() {
       const InkChanges(deletedLayers: {'b', 'a'}).hashCode,
     );
     expect(_changes, isNot(const InkChanges()));
+  });
+
+  group('notas à mão (G18, R10)', () {
+    final vazia = EpubAnchor(
+      sha: 'b' * 64,
+      spine: 4,
+      start: 1233,
+      end: 1233,
+      quote: const TextQuote(
+        prefix: 'Vá, de ressaca.',
+        exact: '',
+        suffix: ' É o que',
+      ),
+      refPage: 159,
+    );
+    NoteRow nota({bool recolhida = false}) => NoteRow(
+      layerId: '77777777-7777-4777-8777-777777777777',
+      annotationId: '88888888-8888-4888-8888-888888888888',
+      createdAt: DateTime.utc(2026, 10, 8, 9, 32),
+      anchor: vazia,
+      refPage: 159,
+      chapterIndex: 31,
+      groupId: '22222222-2222-4222-8222-222222222222',
+      lines: 3,
+      collapsed: recolhida,
+      strokesB64: 'Qk5LMQEA',
+      strokeCount: 4,
+    );
+    final mudancas = InkChanges(
+      notes: [nota()],
+      deletedNotes: const {'99999999-9999-4999-8999-999999999999'},
+    );
+
+    test('ida e volta no formato 3; não é vazio; valores', () {
+      expect(mudancas.isEmpty, isFalse);
+      expect(const InkChanges(deletedNotes: {'x'}).isEmpty, isFalse);
+      final j =
+          jsonDecode(encodeDraft(mudancas, at: at)) as Map<String, dynamic>;
+      expect(j['v'], 3);
+      expect(decodeDraft(jsonEncode(j))!.changes, mudancas);
+      expect(nota(), nota());
+      expect(nota().hashCode, nota().hashCode);
+      expect(nota(recolhida: true) == nota(), isFalse);
+      expect(nota().createdAt.isUtc, isTrue);
+    });
+
+    test('o formato 2 (G17) é lido sem notas; campos errados: null', () {
+      final j = jsonDecode(encodeDraft(_marca, at: at)) as Map<String, dynamic>;
+      final v2 = {...j, 'v': 2}
+        ..remove('notes')
+        ..remove('deletedNotes');
+      expect(decodeDraft(jsonEncode(v2))!.changes, _marca);
+      final m =
+          jsonDecode(encodeDraft(mudancas, at: at)) as Map<String, dynamic>;
+      final n = (m['notes'] as List).first as Map<String, dynamic>;
+      for (final quebrado in [
+        {...n, 'lines': '3'},
+        {...n, 'lines': 13},
+        {...n, 'lines': 0},
+        {...n, 'collapsed': 'não'},
+        {...n, 'anchor': 'âncora'},
+        ({...n}..remove('strokesB64')),
+        {...n, 'createdAt': 'ontem'},
+      ]) {
+        expect(
+          decodeDraft(
+            jsonEncode({
+              ...m,
+              'notes': [quebrado],
+            }),
+          ),
+          isNull,
+          reason: '$quebrado',
+        );
+      }
+      expect(
+        decodeDraft(
+          jsonEncode({
+            ...m,
+            'deletedNotes': [7],
+          }),
+        ),
+        isNull,
+      );
+      expect(decodeDraft(jsonEncode({...m}..remove('notes'))), isNull);
+    });
   });
 }

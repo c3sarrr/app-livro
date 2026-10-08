@@ -2,7 +2,8 @@
 // As linhas já vão com a âncora, a página, o capítulo e o grupo calculados: gravar o rascunho não precisa da página
 // aberta (D-166). Versão desconhecida ou JSON quebrado viram `null`: o rascunho nunca derruba a abertura do livro.
 // G17 (R24): o formato 2 leva os grifos do marca-texto — os novos, os movidos pela D-32 e os tirados com o destino
-// das notas — e ainda lê o formato 1 da G16 (sem grifos).
+// das notas — e ainda lê o formato 1 da G16 (sem grifos). G18 (R10): o formato 3 leva as notas à mão (a camada
+// `space` e a anotação `handwriting` de cada uma) e as apagadas; lê os formatos 1 e 2 (sem notas).
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart'
@@ -13,7 +14,7 @@ import '../domain/annotation.dart'
     show AnnotationSource, FillHeight, HighlightStyle;
 
 /// A versão do formato do rascunho.
-const int inkDraftVersion = 2;
+const int inkDraftVersion = 3;
 
 /// A chave do rascunho no `kv` (só do aparelho, nunca sincroniza): uma por sessão do modo anotação ([session]), para
 /// que uma sessão nunca apague nem sobrescreva o rascunho de outra (o de uma sessão que morreu e que não gravou ao
@@ -136,6 +137,121 @@ final class DrawingRow {
     chapterIndex,
     groupId,
     color,
+    strokesB64,
+    strokeCount,
+  );
+}
+
+/// G18 (R10) — uma nota à mão pronta a gravar: a camada `space` ([layerId]: as linhas, recolhida, os traços em BNK1
+/// na unidade da caixa) e a anotação `handwriting` ([annotationId]); as duas com a âncora vazia na costura (7 chaves),
+/// a página, o capítulo e o grupo.
+@immutable
+final class NoteRow {
+  NoteRow({
+    required this.layerId,
+    required this.annotationId,
+    required DateTime createdAt,
+    required this.anchor,
+    required this.refPage,
+    required this.chapterIndex,
+    required this.groupId,
+    required this.lines,
+    required this.collapsed,
+    required this.strokesB64,
+    required this.strokeCount,
+  }) : createdAt = createdAt.toUtc();
+
+  final String layerId;
+  final String annotationId;
+  final DateTime createdAt;
+  final EpubAnchor anchor;
+  final int refPage;
+  final int chapterIndex;
+  final String groupId;
+  final int lines;
+  final bool collapsed;
+  final String strokesB64;
+  final int strokeCount;
+
+  Map<String, Object?> toJson() => {
+    'layerId': layerId,
+    'annotationId': annotationId,
+    'createdAt': createdAt.toIso8601String(),
+    'anchor': anchor.toJson(),
+    'refPage': refPage,
+    'chapterIndex': chapterIndex,
+    'groupId': groupId,
+    'lines': lines,
+    'collapsed': collapsed,
+    'strokesB64': strokesB64,
+    'strokeCount': strokeCount,
+  };
+
+  /// A linha do JSON [j]; `null` se faltar ou sobrar algo do tipo errado (ou as linhas fora de 1–12 — D-41).
+  static NoteRow? tryFromJson(Object? j) {
+    if (j is! Map<String, dynamic>) return null;
+    final anchor = j['anchor'];
+    final createdAt = j['createdAt'];
+    final lines = j['lines'];
+    if (j['layerId'] is! String ||
+        j['annotationId'] is! String ||
+        createdAt is! String ||
+        anchor is! Map<String, dynamic> ||
+        j['refPage'] is! int ||
+        j['chapterIndex'] is! int ||
+        j['groupId'] is! String ||
+        lines is! int ||
+        lines < 1 ||
+        lines > 12 ||
+        j['collapsed'] is! bool ||
+        j['strokesB64'] is! String ||
+        j['strokeCount'] is! int) {
+      return null;
+    }
+    final epub = TextAnchor.fromJson(anchor);
+    final at = DateTime.tryParse(createdAt);
+    if (epub is! EpubAnchor || at == null) return null;
+    return NoteRow(
+      layerId: j['layerId'] as String,
+      annotationId: j['annotationId'] as String,
+      createdAt: at,
+      anchor: epub,
+      refPage: j['refPage'] as int,
+      chapterIndex: j['chapterIndex'] as int,
+      groupId: j['groupId'] as String,
+      lines: lines,
+      collapsed: j['collapsed'] as bool,
+      strokesB64: j['strokesB64'] as String,
+      strokeCount: j['strokeCount'] as int,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      other is NoteRow &&
+      other.layerId == layerId &&
+      other.annotationId == annotationId &&
+      other.createdAt == createdAt &&
+      other.anchor == anchor &&
+      other.refPage == refPage &&
+      other.chapterIndex == chapterIndex &&
+      other.groupId == groupId &&
+      other.lines == lines &&
+      other.collapsed == collapsed &&
+      other.strokesB64 == strokesB64 &&
+      other.strokeCount == strokeCount;
+
+  @override
+  int get hashCode => Object.hash(
+    layerId,
+    annotationId,
+    createdAt,
+    anchor,
+    refPage,
+    chapterIndex,
+    groupId,
+    lines,
+    collapsed,
     strokesB64,
     strokeCount,
   );
@@ -334,9 +450,15 @@ final class InkChanges {
     this.highlights = const [],
     this.moved = const [],
     this.removed = const {},
+    this.notes = const [],
+    this.deletedNotes = const {},
   });
 
   final List<DrawingRow> layers;
+
+  /// G18: as notas à mão novas e mudadas, e as camadas `space` apagadas (as que ficaram sem traço também — D-188).
+  final List<NoteRow> notes;
+  final Set<String> deletedNotes;
   final Set<String> deletedLayers;
   final Set<String> erasedHighlights;
   final List<HighlightRow> highlights;
@@ -349,7 +471,9 @@ final class InkChanges {
       erasedHighlights.isEmpty &&
       highlights.isEmpty &&
       moved.isEmpty &&
-      removed.isEmpty;
+      removed.isEmpty &&
+      notes.isEmpty &&
+      deletedNotes.isEmpty;
 
   @override
   bool operator ==(Object other) =>
@@ -359,7 +483,9 @@ final class InkChanges {
       setEquals(other.erasedHighlights, erasedHighlights) &&
       listEquals(other.highlights, highlights) &&
       listEquals(other.moved, moved) &&
-      mapEquals(other.removed, removed);
+      mapEquals(other.removed, removed) &&
+      listEquals(other.notes, notes) &&
+      setEquals(other.deletedNotes, deletedNotes);
 
   @override
   int get hashCode => Object.hash(
@@ -371,13 +497,15 @@ final class InkChanges {
     Object.hashAllUnordered(
       removed.entries.map((e) => Object.hash(e.key, e.value)),
     ),
+    Object.hashAll(notes),
+    Object.hashAllUnordered(deletedNotes),
   );
 }
 
 /// O rascunho: as mudanças e a hora em que foi guardado.
 typedef InkDraft = ({InkChanges changes, DateTime at});
 
-/// O JSON do rascunho das mudanças [c], guardado em [at] (formato 2).
+/// O JSON do rascunho das mudanças [c], guardado em [at] (formato 3).
 String encodeDraft(InkChanges c, {required DateTime at}) => jsonEncode({
   'v': inkDraftVersion,
   'at': at.toUtc().toIso8601String(),
@@ -387,10 +515,12 @@ String encodeDraft(InkChanges c, {required DateTime at}) => jsonEncode({
   'highlights': [for (final h in c.highlights) h.toJson()],
   'moved': [for (final m in c.moved) m.toJson()],
   'removed': c.removed,
+  'notes': [for (final n in c.notes) n.toJson()],
+  'deletedNotes': c.deletedNotes.toList(),
 });
 
-/// O rascunho do JSON [json] (formato 1 da G16 ou 2); `null` com versão desconhecida, JSON quebrado ou campos
-/// errados.
+/// O rascunho do JSON [json] (formato 1 da G16, 2 da G17 ou 3); `null` com versão desconhecida, JSON quebrado ou
+/// campos errados.
 InkDraft? decodeDraft(String json) {
   final Object? j;
   try {
@@ -400,7 +530,7 @@ InkDraft? decodeDraft(String json) {
   }
   if (j is! Map<String, dynamic>) return null;
   final v = j['v'];
-  if (v != 1 && v != inkDraftVersion) return null;
+  if (v != 1 && v != 2 && v != inkDraftVersion) return null;
   final at = j['at'] is String ? DateTime.tryParse(j['at'] as String) : null;
   final layers = j['layers'];
   final deleted = j['deletedLayers'];
@@ -409,6 +539,11 @@ InkDraft? decodeDraft(String json) {
   final highlights = v == 1 ? const <Object?>[] : j['highlights'];
   final moved = v == 1 ? const <Object?>[] : j['moved'];
   final removed = v == 1 ? const <String, dynamic>{} : j['removed'];
+  // os formatos 1 e 2 não têm as notas à mão
+  final notes = v != inkDraftVersion ? const <Object?>[] : j['notes'];
+  final deletedNotes = v != inkDraftVersion
+      ? const <Object?>[]
+      : j['deletedNotes'];
   if (at == null ||
       layers is! List ||
       deleted is! List ||
@@ -416,6 +551,9 @@ InkDraft? decodeDraft(String json) {
       highlights is! List ||
       moved is! List ||
       removed is! Map<String, dynamic> ||
+      notes is! List ||
+      deletedNotes is! List ||
+      deletedNotes.any((e) => e is! String) ||
       deleted.any((e) => e is! String) ||
       erased.any((e) => e is! String) ||
       removed.values.any((e) => e != null && e is! String)) {
@@ -439,6 +577,12 @@ InkDraft? decodeDraft(String json) {
     if (row == null) return null;
     moves.add(row);
   }
+  final noteRows = <NoteRow>[];
+  for (final n in notes) {
+    final row = NoteRow.tryFromJson(n);
+    if (row == null) return null;
+    noteRows.add(row);
+  }
   return (
     changes: InkChanges(
       layers: List.unmodifiable(rows),
@@ -447,6 +591,8 @@ InkDraft? decodeDraft(String json) {
       highlights: List.unmodifiable(marks),
       moved: List.unmodifiable(moves),
       removed: Map.unmodifiable(removed.cast<String, String?>()),
+      notes: List.unmodifiable(noteRows),
+      deletedNotes: Set.unmodifiable(deletedNotes.cast<String>()),
     ),
     at: at.toUtc(),
   );

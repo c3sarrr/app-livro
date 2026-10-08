@@ -256,6 +256,7 @@ final class AnnotationSession extends ChangeNotifier {
         ),
     ];
     _managed.addAll([for (final n in pageNotes) n.id]);
+    _initialNotes.addAll({for (final n in pageNotes) n.id: n});
     _copy = InkWorkingCopy(
       initial,
       HighlightDesk(List.unmodifiable(deskHighlights ?? const [])),
@@ -329,8 +330,9 @@ final class AnnotationSession extends ChangeNotifier {
   final Map<String, DateTime> _createdAt = {};
   final Map<String, String> _annotationOf = {};
 
-  /// G18: as notas que a sessão cuida (as da página e as novas).
+  /// G18: as notas que a sessão cuida (as da página e as novas) e como as salvas chegaram.
   final Set<String> _managed = {};
+  final Map<String, SessionNote> _initialNotes = {};
 
   /// A assinatura dos espaços da página de agora (refaz a página quando ela muda).
   String _cutsSignature = '';
@@ -1617,6 +1619,16 @@ final class AnnotationSession extends ChangeNotifier {
     return null;
   }
 
+  /// G18: a linha onde a âncora [at] de [unit] está (a de cima da costura): a última que começa antes dela.
+  int? _lineAbove(int unit, int at) {
+    int? found;
+    for (var i = 0; i < geometry.lines.length; i++) {
+      final l = geometry.lines[i];
+      if (l.unit == unit && l.from < at) found = i;
+    }
+    return found;
+  }
+
   /// As mudanças da sessão: os desenhos novos e mudados (âncora refeita sobre o desenho inteiro — D-162), os salvos
   /// que ficaram sem traços e os grifos à mão apagados.
   InkChanges changes() {
@@ -1685,8 +1697,11 @@ final class AnnotationSession extends ChangeNotifier {
         ),
       );
     }
+    final notes = _noteChanges(cards);
     final marks = _highlightChanges();
     return InkChanges(
+      notes: notes.rows,
+      deletedNotes: notes.deleted,
       layers: rows,
       deletedLayers: {
         for (final id in _saved.keys)
@@ -1697,6 +1712,68 @@ final class AnnotationSession extends ChangeNotifier {
       moved: marks.moved,
       removed: marks.removed,
     );
+  }
+
+  /// G18 (R10, D-188): as notas novas e mudadas (com traço) e as salvas apagadas ou que ficaram sem traço. O grupo
+  /// da nota nova vem dos cartões da página, como o dos desenhos (Anexo 02 §4.3).
+  ({List<NoteRow> rows, Set<String> deleted}) _noteChanges(
+    List<CardCandidate> cards,
+  ) {
+    final rows = <NoteRow>[];
+    final deleted = <String>{};
+    for (final n in _copy.notes) {
+      final first = _initialNotes[n.id];
+      final strokes = [for (final s in n.strokes) s.stroke];
+      if (strokes.isEmpty) {
+        if (first != null) deleted.add(n.id);
+        continue;
+      }
+      if (first != null &&
+          first.lines == n.lines &&
+          first.collapsed == n.collapsed &&
+          listEquals([for (final s in first.strokes) s.stroke], strokes)) {
+        continue;
+      }
+      final text = anchors.textOf(n.unit);
+      if (text == null) continue;
+      final where = anchors.placeOf(n.unit, n.at);
+      final annotationId = n.saved?.annotationId ?? _annotationOf[n.id]!;
+      final line = _lineAbove(n.unit, n.at);
+      final group =
+          n.saved?.groupId ??
+          (line == null
+              ? annotationId
+              : cardGroup(id: annotationId, line: line, others: cards));
+      if (n.saved == null && line != null) {
+        cards.add((id: n.id, group: group, line: line, createdAt: n.createdAt));
+      }
+      rows.add(
+        NoteRow(
+          layerId: n.id,
+          annotationId: annotationId,
+          createdAt: n.saved?.createdAt ?? n.createdAt,
+          anchor: EpubAnchor(
+            sha: anchors.sha,
+            spine: n.unit,
+            start: n.at,
+            end: n.at,
+            quote: quoteAt(text, n.at, n.at),
+            refPage: where.refPage,
+          ),
+          refPage: where.refPage,
+          chapterIndex: where.chapterIndex,
+          groupId: group,
+          lines: n.lines,
+          collapsed: n.collapsed,
+          strokesB64: encodeStrokesB64(strokes, Bnk1Unit.box),
+          strokeCount: strokes.length,
+        ),
+      );
+    }
+    for (final id in _initialNotes.keys) {
+      if (_copy.note(id) == null) deleted.add(id);
+    }
+    return (rows: rows, deleted: deleted);
   }
 
   /// Os grifos da mesa (G17, R24): os novos (o traço do marca-texto e os pedaços cortados), os salvos que a D-32

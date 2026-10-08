@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/data/ids/uuid_v7.dart';
+import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_commands.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
@@ -136,16 +137,24 @@ void main() {
   });
   tearDown(() => fonte.dispose());
 
+  /// Onde [trecho] começa no texto (os trechos da D-160 estão com NBSP).
+  int onde(String trecho) {
+    final i = _texto.indexOf(trecho);
+    final j = i >= 0 ? i : _texto.indexOf(trecho.replaceAll(' ', '\u00A0'));
+    expect(j, greaterThanOrEqualTo(0), reason: trecho);
+    return j;
+  }
+
   /// As caixas de [trecho] na página [p].
   List<TextLineBox> caixas(DisplayPage p, String trecho) {
-    final i = _texto.indexOf(trecho);
+    final i = onde(trecho);
     return p.boxesOf(_unit, i, i + trecho.length);
   }
 
   /// Um desenho salvo sobre [trecho]: um traço de 2 pontos, 4 px acima da base, nas pontas do trecho.
   PageDrawing desenho(DisplayPage p, String trecho, int n) {
     final b = caixas(p, trecho).first;
-    final i = _texto.indexOf(trecho);
+    final i = onde(trecho);
     return (
       saved: (
         layerId: idTeste(n),
@@ -521,4 +530,114 @@ void main() {
       expect(s.noteDeleted.value, isNull);
     });
   });
+
+  group('o Concluir (R10, D-188)', () {
+    SessionNote salva({List<InkStroke> tracos = const []}) => SessionNote(
+      id: 'espaco-1',
+      unit: _unit,
+      at: _ancora,
+      lines: 3,
+      collapsed: false,
+      strokes: [for (final x in tracos) SessionStroke(0, x)],
+      createdAt: DateTime.utc(2026, 9, 20, 19, 45),
+      saved: (
+        layerId: 'espaco-1',
+        annotationId: 'nota-1',
+        createdAt: DateTime.utc(2026, 9, 20, 19, 45),
+        groupId: 'grupo-1',
+      ),
+    );
+    final tinta = InkStroke(
+      tool: InkTool.pen.code,
+      tip: 0,
+      argb: 0xFFFF552E,
+      widthCentiMm: 120,
+      points: const [InkPoint(0.1, 0.8, 0.5, 0), InkPoint(0.3, 1.1, 0.5, 8)],
+    );
+
+    test('a nota nova com tinta: a camada e a anotação, com a âncora vazia na costura e o grupo da página', () {
+      final s = abrir(desenhos: (p) => [desenho(p, 'Olhos de ressaca?', 10)]);
+      final nota = abrirNota(s);
+      final caixa = s.noteBox(nota.id)!;
+      arrastar(s, [caixa.top + 30, caixa.top + 40], x: 80);
+      final c = s.changes();
+      expect(c.layers, isEmpty);
+      final r = c.notes.single;
+      expect(
+        (r.layerId, r.lines, r.collapsed, r.strokeCount),
+        (nota.id, 3, false, 1),
+      );
+      expect(
+        (r.anchor.start, r.anchor.end, r.anchor.spine),
+        (_ancora, _ancora, _unit),
+      );
+      expect((r.refPage, r.chapterIndex), (159, 31));
+      expect(
+        r.groupId,
+        idTeste(11),
+        reason: 'junto da elipse de "Olhos de ressaca?", 1 linha acima',
+      );
+      expect(r.createdAt, DateTime.utc(2026, 10, 8, 12));
+      final volta = decodeStrokesB64(
+        r.strokesB64,
+        Bnk1Unit.box,
+      ).single.points.first;
+      expect(volta.x, closeTo((80 - caixa.left) / caixa.width, 1e-4));
+      expect(volta.y, closeTo(30 / noteLinePx, 1e-4));
+      expect(c.deletedNotes, isEmpty);
+    });
+
+    test('a nota nova sem tinta não é gravada (D-188)', () {
+      final s = abrir();
+      abrirNota(s);
+      expect(s.changes().isEmpty, isTrue);
+    });
+
+    test('a salva intocada não vai; mudada vai com a mesma camada, anotação, grupo e criação', () {
+      final s = abrir(
+        notas: [
+          salva(tracos: [tinta]),
+        ],
+      );
+      expect(s.changes().isEmpty, isTrue);
+      s.toggleNote('espaco-1');
+      final r = s.changes().notes.single;
+      expect(
+        (r.layerId, r.annotationId, r.groupId, r.collapsed, r.createdAt),
+        (
+          'espaco-1',
+          'nota-1',
+          'grupo-1',
+          true,
+          DateTime.utc(2026, 9, 20, 19, 45),
+        ),
+      );
+      s.undo();
+      s.dragNoteHandle('espaco-1', 42);
+      s.endNoteHandle('espaco-1');
+      expect(s.changes().notes.single.lines, 4);
+    });
+
+    test('a salva apagada, ou que ficou sem tinta, sai (D-188)', () {
+      final s = abrir(
+        notas: [
+          salva(tracos: [tinta]),
+        ],
+      );
+      s.deleteNote('espaco-1');
+      expect(s.changes().deletedNotes, {'espaco-1'});
+      expect(s.changes().notes, isEmpty);
+      s.undo();
+      s.setTool(AnnotationTool.eraser);
+      final caixa = s.noteBox('espaco-1')!;
+      final p = fromNotePoint(tinta.points.first, caixa);
+      arrastar(s, [p.dy, p.dy], x: p.dx);
+      expect(s.notes.single.strokes, isEmpty);
+      expect(s.changes().deletedNotes, {'espaco-1'});
+    });
+  });
 }
+
+/// O ponto [p] (unidade da nota) na página, na caixa [caixa].
+ui.Offset fromNotePoint(InkPoint p, ui.Rect caixa) =>
+    ui.Offset(caixa.left + p.x * caixa.width, caixa.top + p.y * noteLinePx);
