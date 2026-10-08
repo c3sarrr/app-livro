@@ -278,7 +278,9 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
               child: RepaintBoundary(
                 child: ValueListenableBuilder<InkOffset?>(
                   valueListenable: s.touch,
-                  builder: (context, at, _) => at == null
+                  // no Espaço, o dedo do abridor é o indicador (tela 24)
+                  builder: (context, at, _) =>
+                      at == null || s.tool == AnnotationTool.space
                       ? const SizedBox.shrink()
                       : TouchIndicator(
                           at: Offset(at.x, at.y),

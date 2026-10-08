@@ -333,22 +333,22 @@ List<String> tracosDoCaminho(String d) => [
   for (final m in RegExp(r'M[^M]+').allMatches(d)) m.group(0)!.trim(),
 ];
 
-/// A íris cheia do arquivo (um círculo de 7,5) como a caneta faz: uma espiral de traço 2,2 do contorno de dentro até
-/// o centro, com passo de 2 (cobre o círculo sem falhas). Coordenadas do SVG.
-List<Offset> espiralDaIris(Offset centro, double raio) {
-  const largura = 2.2;
-  const passoDaVolta = 2.0;
-  final r0 = raio - largura / 2;
-  final voltas = r0 / passoDaVolta;
-  final out = <Offset>[];
-  const porVolta = 96;
-  final n = (voltas * porVolta).ceil();
-  for (var k = 0; k <= n; k++) {
-    final a = 2 * math.pi * k / porVolta;
-    final r = math.max(0.0, r0 - passoDaVolta * k / porVolta);
-    out.add(centro + Offset(math.cos(a) * r, math.sin(a) * r));
-  }
-  return out;
+/// A íris cheia do arquivo (um círculo de 7,5) como a caneta enche: traços retos lado a lado, a cada 1,5 (menos que o
+/// traço de 2,2, sem falhas), com as pontas no contorno de dentro — a ponta redonda fecha o círculo. Coordenadas do
+/// SVG, um traço por fileira.
+List<List<Offset>> preenchimentoDaIris(Offset centro, double raio) {
+  const meia = 2.2 / 2;
+  final r0 = raio - meia / escalaDaNotaAMao;
+  return [
+    for (var dy = -6.0; dy <= 6.0; dy += 1.5)
+      () {
+        final m = math.sqrt(r0 * r0 - dy * dy);
+        return amostrarCaminho(
+          'M${centro.dx - m} ${centro.dy + dy}L${centro.dx + m} ${centro.dy + dy}',
+          origem: Offset.zero,
+        );
+      }(),
+  ];
 }
 
 /// Um ponto do SVG da nota em px por dentro da borda da caixa (o canto de cima à esquerda da tinta).
@@ -358,7 +358,7 @@ Offset naCaixaDaNota(Offset svg) => Offset(
 );
 
 /// Os traços da nota da 24b na unidade dela (x = fração da largura, y = linhas de 42 — `note_ink.dart`): cada
-/// subcaminho amostrado a cada 0,5 px, a íris como espiral; caneta coral de 2,2 px, pressão 0,5.
+/// subcaminho amostrado a cada 0,5 px, a íris em fileiras; caneta coral de 2,2 px, pressão 0,5.
 List<InkStroke> tracosDaNotaAMao() {
   final (:caminhos, :centro, :raio) = caminhosDaNotaAMao();
   final linhas = <List<Offset>>[
@@ -370,7 +370,8 @@ List<InkStroke> tracosDaNotaAMao() {
           sx: escalaDaNotaAMao,
           sy: escalaDaNotaAMao,
         ),
-    [for (final p in espiralDaIris(centro, raio)) naCaixaDaNota(p)],
+    for (final fileira in preenchimentoDaIris(centro, raio))
+      [for (final p in fileira) naCaixaDaNota(p)],
   ];
   return [
     for (final l in linhas)

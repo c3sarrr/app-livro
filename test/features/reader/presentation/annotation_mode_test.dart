@@ -697,6 +697,8 @@ void main() {
           ..pointerMove(dedo(topo + 3 * 35.25 - 2 + 30, 16));
         await tester.pump();
         final abridor = tester.widget<SpaceOpener>(find.byType(SpaceOpener));
+        // o dedo do abridor é o indicador de toque da tela 24: o anel da D-167 (6) não aparece junto
+        expect(find.byType(TouchIndicator), findsNothing);
         expect(abridor.lines, 3);
         expect(abridor.fingerX, 221.72);
         expect(abridor.colors, OpenerColors.paper);

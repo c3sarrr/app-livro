@@ -547,8 +547,8 @@ void main() {
       expect(espaco.strokeCount, tracos.length);
       final (:caminhos, :centro, :raio) = caminhosDaNotaAMao();
       final subcaminhos = [for (final d in caminhos) ...tracosDoCaminho(d)];
-      // um traço por subcaminho e a íris
-      expect(tracos, hasLength(subcaminhos.length + 1));
+      // um traço por subcaminho e as 9 fileiras da íris
+      expect(tracos, hasLength(subcaminhos.length + 9));
       for (final s in tracos) {
         expect(
           (s.tool, s.argb, s.widthCentiMm),
@@ -568,24 +568,33 @@ void main() {
         final px = Offset(p.x * larguraDaTintaDaNota, p.y * noteLinePx);
         expect(distanciaALinha(px, linha), lessThan(0.5));
       }
-      // a íris enche o círculo: o último ponto no centro, o primeiro no contorno de dentro
-      final iris = tracos.last.points;
+      // a íris cheia: 9 fileiras retas a cada 1,5 do SVG; com a ponta redonda de 1,1, cobrem o círculo de 7,5 sem falha
+      // e não passam dele
       final c = naCaixaDaNota(centro);
-      expect(
-        (Offset(iris.last.x * larguraDaTintaDaNota, iris.last.y * noteLinePx) -
-                c)
-            .distance,
-        lessThan(0.5),
-      );
-      expect(
-        (Offset(
-                  iris.first.x * larguraDaTintaDaNota,
-                  iris.first.y * noteLinePx,
-                ) -
-                c)
-            .distance,
-        closeTo((raio - 1.1) * escalaDaNotaAMao, 0.5),
-      );
+      final fileiras = [
+        for (final s in tracos.sublist(tracos.length - 9))
+          [
+            for (final p in s.points)
+              Offset(p.x * larguraDaTintaDaNota, p.y * noteLinePx),
+          ],
+      ];
+      final r = raio * escalaDaNotaAMao;
+      for (final f in fileiras) {
+        expect(f.map((p) => p.dy).toSet().length, 1, reason: 'reta');
+        for (final p in [f.first, f.last]) {
+          expect((p - c).distance, closeTo(r - 1.1, 0.05));
+        }
+      }
+      for (var dx = -r + 1; dx <= r - 1; dx += 0.5) {
+        for (var dy = -r + 1; dy <= r - 1; dy += 0.5) {
+          final p = c + Offset(dx, dy);
+          if ((p - c).distance > r - 1) continue;
+          final perto = fileiras
+              .map((f) => distanciaALinha(p, f))
+              .reduce((a, b) => a < b ? a : b);
+          expect(perto, lessThanOrEqualTo(1.1), reason: '$p');
+        }
+      }
       // a menor caixa que contém a tinta tem 3 linhas: a 2ª onda desce até 106,3 px, passando da 2ª pauta (106) — a
       // alça não sobe dali (D-186)
       expect(inkBottomPx(tracos), closeTo(106.3, 0.1));
