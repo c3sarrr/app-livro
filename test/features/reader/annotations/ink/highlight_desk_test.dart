@@ -170,5 +170,22 @@ void main() {
       HighlightDesk([_grifo('a', 1, 2)]) == HighlightDesk([_grifo('a', 1, 3)]),
       isFalse,
     );
+    // iguais têm o mesmo hash (as mesas vão em conjuntos e mapas do desfazer)
+    final d = HighlightDesk(
+      [_grifo('a', 1, 2, mao: true)],
+      removed: const {'x': 'a'},
+      erased: const {'y'},
+    );
+    final e = HighlightDesk(
+      [_grifo('a', 1, 2, mao: true)],
+      removed: const {'x': 'a'},
+      erased: const {'y'},
+    );
+    expect((d == e, d.hashCode == e.hashCode), (true, true));
+    expect(_grifo('a', 1, 2).hashCode, _grifo('a', 1, 2).hashCode);
+    expect(
+      _grifo('a', 1, 2, estilo: HighlightStyle.wavy).toString(),
+      'DeskHighlight(a, 4, 1…2, #FED170, wavy, ink: false)',
+    );
   });
 }
