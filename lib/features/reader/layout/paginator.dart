@@ -230,12 +230,23 @@ final class ChapterPaginator {
   };
 
   int _endOf(PageSlice s) => switch (s) {
-    TextSlice(:final block, :final lastLine) =>
-      (_block(block) as LaidText).lines[lastLine].end,
+    TextSlice(:final block, :final lastLine) => _textEnd(
+      _block(block) as LaidText,
+      lastLine,
+    ),
     ObjectSlice(:final block) => _block(block).start + 1,
     SpaceSlice(:final block, :final gap) =>
       (_block(block) as LaidText).gaps[gap].at,
   };
+}
+
+/// O fim da página que acaba na linha [line] de [b]: o fim dela; com um espaço logo depois (que foi para a página
+/// seguinte — R12), a âncora dele, onde a seguinte começa (o branco depois da âncora fica numa página só).
+int _textEnd(LaidText b, int line) {
+  for (final g in b.gaps) {
+    if (g.afterLine == line) return g.at;
+  }
+  return b.lines[line].end;
 }
 
 /// Pagina um capítulo inteiro de uma vez.

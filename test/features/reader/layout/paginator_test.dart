@@ -239,7 +239,11 @@ void main() {
         expect(pages, hasLength(2));
         expect(pages[0].slices.single, isA<TextSlice>());
         expect((pages[0].slices.single as TextSlice).lastLine, 16);
-        expect(pages[0].end, b.lines[16].end);
+        // a página acaba na âncora, onde a seguinte começa: o branco depois dela não fica nas duas (o caractere da
+        // âncora é de uma página só)
+        expect(b.lines[16].end, greaterThan(8 * 17 - 1));
+        expect(pages[0].end, 8 * 17 - 1);
+        expect(pages[0].end, pages[1].start);
         final s = pages[1].slices;
         expect(s.first, isA<SpaceSlice>());
         expect(s.first.y, 0);
