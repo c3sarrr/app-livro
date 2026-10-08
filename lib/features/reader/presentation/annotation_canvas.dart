@@ -71,9 +71,13 @@ class AnnotationCanvas extends StatefulWidget {
     this.lightText,
     this.highlights = const [],
     this.inkHighlights = const [],
+    this.enter = kAlwaysCompleteAnimation,
   });
 
   final AnnotationSession session;
+
+  /// A entrada (0 → 1) e a saída (1 → 0) do modo: o texto desce e sobe os 30 px junto (220 ms — a camada anima).
+  final Animation<double> enter;
 
   /// A página aberta, do leitor limpo (o layout fica travado no modo).
   final DisplayPage page;
@@ -200,6 +204,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
                   highlights: widget.highlights,
                   inkHighlights: widget.inkHighlights,
                   pan: _pan,
+                  enter: widget.enter,
                   pictures: _pictures,
                 ),
               ),
@@ -212,6 +217,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
                     session: s,
                     pageBox: widget.pageBox,
                     pan: _pan,
+                    enter: widget.enter,
                   ),
                 ),
               ),
@@ -251,10 +257,11 @@ class AnnotationPagePainter extends CustomPainter {
     required this.paper,
     required this.pan,
     required this.pictures,
+    this.enter = kAlwaysCompleteAnimation,
     this.lightText,
     this.highlights = const [],
     this.inkHighlights = const [],
-  }) : super(repaint: Listenable.merge([session, pan]));
+  }) : super(repaint: Listenable.merge([session, pan, enter]));
 
   final AnnotationSession session;
   final DisplayPage page;
@@ -263,6 +270,9 @@ class AnnotationPagePainter extends CustomPainter {
   final Color? lightText;
   final List<PaintedHighlight> highlights, inkHighlights;
   final ValueListenable<double> pan;
+
+  /// A entrada e a saída do modo (0–1): quanto dos 30 px o texto já desceu.
+  final ValueListenable<double> enter;
   final InkPictureCache pictures;
 
   @override
@@ -272,7 +282,7 @@ class AnnotationPagePainter extends CustomPainter {
     canvas
       ..save()
       ..clipRect(pageBox)
-      ..translate(0, session.textShift + pan.value);
+      ..translate(0, session.textShift * enter.value + pan.value);
     paintTextPage(
       canvas,
       page,
@@ -307,6 +317,7 @@ class AnnotationPagePainter extends CustomPainter {
       !identical(old.highlights, highlights) ||
       !identical(old.inkHighlights, inkHighlights) ||
       !identical(old.pan, pan) ||
+      !identical(old.enter, enter) ||
       !identical(old.pictures, pictures);
 }
 
@@ -316,11 +327,20 @@ class AnnotationLivePainter extends CustomPainter {
     required this.session,
     required this.pageBox,
     required this.pan,
-  }) : super(repaint: Listenable.merge([session.live, session.selection, pan]));
+    this.enter = kAlwaysCompleteAnimation,
+  }) : super(
+         repaint: Listenable.merge([
+           session.live,
+           session.selection,
+           pan,
+           enter,
+         ]),
+       );
 
   final AnnotationSession session;
   final Rect pageBox;
   final ValueListenable<double> pan;
+  final ValueListenable<double> enter;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -330,7 +350,7 @@ class AnnotationLivePainter extends CustomPainter {
     canvas
       ..save()
       ..clipRect(pageBox)
-      ..translate(0, session.textShift + pan.value);
+      ..translate(0, session.textShift * enter.value + pan.value);
     switch (live) {
       case LiveStroke(:final stroke) || LiveLine(:final stroke):
         paintInk(canvas, [stroke]);
@@ -372,7 +392,8 @@ class AnnotationLivePainter extends CustomPainter {
   bool shouldRepaint(AnnotationLivePainter old) =>
       !identical(old.session, session) ||
       old.pageBox != pageBox ||
-      !identical(old.pan, pan);
+      !identical(old.pan, pan) ||
+      !identical(old.enter, enter);
 }
 
 /// O contorno do Laço e a seleção: lavanda a 35 % e o traço `#1A1714` de 1,7 tracejado 4/3.

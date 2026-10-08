@@ -70,7 +70,8 @@ class ToolShelf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final brand = ReaderChromeScope.of(context).brand;
+    final scope = ReaderChromeScope.of(context);
+    final brand = scope.brand;
     return Semantics(
       key: const ValueKey('ann.toolShelf'),
       container: true,
@@ -113,6 +114,8 @@ class ToolShelf extends StatelessWidget {
                               size: 50,
                               height: 70,
                               colors: colors,
+                              // a moldura aparece e some em 150 ms
+                              opacity: scope.a < 1 ? scope.a : null,
                             ),
                           ),
                         ),

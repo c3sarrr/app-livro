@@ -8,19 +8,22 @@ import '../tokens/app_strokes.dart';
 /// O anel cônico arco-íris (o `conic-gradient` do arquivo, começando no topo e no sentido horário, como o CSS) com a
 /// borda de 1,5 e o miolo na cor [center] (raio [centerRadius], borda de 1,5). Opcional, o aro [halo] em volta do
 /// miolo (o `box-shadow: 0 0 0 Npx` do CSS). A barra de grifar da G13 usa o miolo de 7 (L21b nº 10); o poço de cor
-/// do modo anotação, 13,5 com o aro de 2,5 `#FFFAF1` (L22d nº 11–12).
+/// do modo anotação, 13,5 com o aro de 2,5 `#FFFAF1` (L22d nº 11–12). [alpha] esmaece o arco-íris junto com a
+/// moldura (as outras cores já chegam esmaecidas).
 class ConicRingPainter extends CustomPainter {
   const ConicRingPainter({
     required this.border,
     required this.center,
     required this.centerRadius,
     this.halo,
+    this.alpha = 1,
   });
 
   final Color border;
   final Color center;
   final double centerRadius;
   final ({Color color, double width})? halo;
+  final double alpha;
 
   static const List<Color> colors = [
     AppColors.flame,
@@ -49,9 +52,11 @@ class ConicRingPainter extends CustomPainter {
         c,
         r,
         Paint()
-          ..shader = const SweepGradient(
-            colors: colors,
-            transform: GradientRotation(-math.pi / 2),
+          ..shader = SweepGradient(
+            colors: alpha >= 1
+                ? colors
+                : [for (final k in colors) k.withValues(alpha: k.a * alpha)],
+            transform: const GradientRotation(-math.pi / 2),
           ).createShader(Rect.fromCircle(center: c, radius: r)),
       )
       ..drawCircle(c, r - half, stroke());
@@ -69,5 +74,6 @@ class ConicRingPainter extends CustomPainter {
       old.border != border ||
       old.center != center ||
       old.centerRadius != centerRadius ||
-      old.halo != halo;
+      old.halo != halo ||
+      old.alpha != alpha;
 }

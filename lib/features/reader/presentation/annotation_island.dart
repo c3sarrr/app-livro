@@ -113,7 +113,7 @@ class AnnotationIsland extends StatelessWidget {
                                       'ann.island.labels.$name.pill',
                                     ),
                                     height: 19,
-                                    color: scope.brand,
+                                    color: scope.tint(scope.brand),
                                     border: side,
                                     radius: BorderRadius.circular(999),
                                     padding: const EdgeInsets.symmetric(
@@ -123,7 +123,10 @@ class AnnotationIsland extends StatelessWidget {
                                       widthFactor: 1,
                                       child: AppText(
                                         label,
-                                        style: AppTextStyles.annLabelActive,
+                                        style: AppTextStyles.annLabelActive
+                                            .copyWith(
+                                              color: scope.tint(AppColors.ink),
+                                            ),
                                         maxLines: 1,
                                       ),
                                     ),
@@ -155,7 +158,7 @@ class AnnotationIsland extends StatelessWidget {
                 child: Row(
                   spacing: 10,
                   children: [
-                    _colorWell(p.border),
+                    _colorWell(scope),
                     _width(context, side),
                     const Expanded(
                       child: SizedBox(
@@ -189,17 +192,18 @@ class AnnotationIsland extends StatelessWidget {
     );
   }
 
-  Widget _colorWell(Color border) => Pressable(
+  Widget _colorWell(ReaderChromeScope scope) => Pressable(
     key: const ValueKey('ann.island.colorWell'),
     semanticsLabel:
         'Cor da caneta: ${colorName(ink)}. Toque para escolher qualquer cor',
     onTap: onColorWell,
     child: CustomPaint(
       painter: ConicRingPainter(
-        border: border,
-        center: ink,
+        border: scope.palette.border,
+        center: scope.tint(ink),
         centerRadius: 13.5,
-        halo: (color: AppColors.surface, width: 2.5),
+        halo: (color: scope.tint(AppColors.surface), width: 2.5),
+        alpha: scope.a,
       ),
       child: const SizedBox.square(
         dimension: 42,
@@ -244,7 +248,7 @@ class AnnotationIsland extends StatelessWidget {
                 child: NeoBox(
                   width: 36,
                   height: 36,
-                  color: s == strokeSize ? scope.brand : null,
+                  color: s == strokeSize ? scope.tint(scope.brand) : null,
                   border: s == strokeSize
                       ? side
                       : const BorderSide(
@@ -259,7 +263,7 @@ class AnnotationIsland extends StatelessWidget {
                       // o ponto na cor da tinta com o aro fino (`box-shadow: 0 0 0 Npx`)
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          color: ink,
+                          color: scope.tint(ink),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
@@ -288,7 +292,9 @@ class AnnotationIsland extends StatelessWidget {
     required bool enabled,
     required VoidCallback onTap,
   }) {
-    final p = ReaderChromeScope.of(context).palette;
+    final scope = ReaderChromeScope.of(context);
+    final p = scope.palette;
+    final alpha = (enabled ? 1.0 : islandDisabledAlpha) * scope.a;
     Color fade(Color c) =>
         enabled ? c : c.withValues(alpha: c.a * islandDisabledAlpha);
     return Pressable(
@@ -309,7 +315,7 @@ class AnnotationIsland extends StatelessWidget {
             size: 20,
             // o arquivo só tem o traço escuro: no Noite, tingido com a cor das letras da ilha
             color: p.night ? fade(p.title) : null,
-            opacity: enabled ? null : islandDisabledAlpha,
+            opacity: alpha < 1 ? alpha : null,
           ),
         ),
       ),

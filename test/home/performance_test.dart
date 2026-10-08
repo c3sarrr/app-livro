@@ -352,6 +352,12 @@ void main() {
             centerRadius: 7,
             halo: (color: AppColors.surface, width: 2.5),
           ),
+          'alpha': () => const ConicRingPainter(
+            border: AppColors.ink,
+            center: AppColors.surface,
+            centerRadius: 7,
+            alpha: 0.5,
+          ),
         },
       );
       _expectRepaintsOnlyOnChange(
@@ -395,6 +401,7 @@ void main() {
         List<PaintedHighlight> highlights = grifos,
         List<PaintedHighlight> inkHighlights = aMao,
         ValueListenable<double>? panOffset,
+        ValueListenable<double>? entrada,
         InkPictureCache? pictures,
       }) => AnnotationPagePainter(
         session: session ?? s,
@@ -405,6 +412,7 @@ void main() {
         highlights: highlights,
         inkHighlights: inkHighlights,
         pan: panOffset ?? pan,
+        enter: entrada ?? kAlwaysCompleteAnimation,
         pictures: pictures ?? fotos,
       );
       _expectRepaintsOnlyOnChange(folha, {
@@ -416,21 +424,25 @@ void main() {
         'highlights': () => folha(highlights: <PaintedHighlight>[]),
         'inkHighlights': () => folha(inkHighlights: <PaintedHighlight>[]),
         'pan': () => folha(panOffset: ValueNotifier<double>(0)),
+        'enter': () => folha(entrada: ValueNotifier<double>(1)),
         'pictures': () => folha(pictures: InkPictureCache(capacity: 1)),
       });
       AnnotationLivePainter vivo({
         AnnotationSession? session,
         Rect pageBox = caixa,
         ValueListenable<double>? panOffset,
+        ValueListenable<double>? entrada,
       }) => AnnotationLivePainter(
         session: session ?? s,
         pageBox: pageBox,
         pan: panOffset ?? pan,
+        enter: entrada ?? kAlwaysCompleteAnimation,
       );
       _expectRepaintsOnlyOnChange(vivo, {
         'session': () => vivo(session: outra),
         'pageBox': () => vivo(pageBox: const Rect.fromLTRB(28, 120, 362, 844)),
         'pan': () => vivo(panOffset: ValueNotifier<double>(0)),
+        'enter': () => vivo(entrada: ValueNotifier<double>(1)),
       });
       // a sessão que muda por dentro e o deslocamento repintam a folha; o traço ao vivo e a seleção, a camada viva
       var folhas = 0;

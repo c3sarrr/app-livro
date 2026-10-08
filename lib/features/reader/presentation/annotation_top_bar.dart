@@ -31,7 +31,10 @@ class AnnotationTopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final p = ReaderChromeScope.of(context).palette;
+    final scope = ReaderChromeScope.of(context);
+    final p = scope.palette;
+    // a moldura aparece e some em 150 ms (as cores fixas e os ícones esmaecem com a paleta)
+    final iconAlpha = scope.a < 1 ? scope.a : null;
     final side = BorderSide(width: AppStrokes.regular, color: p.border);
     final round = BorderRadius.circular(26);
     return Row(
@@ -54,14 +57,15 @@ class AnnotationTopBar extends StatelessWidget {
                 key: const ValueKey('ann.modePill.iconCircle'),
                 width: 38,
                 height: 38,
-                color: AppColors.sun,
+                color: scope.tint(AppColors.sun),
                 border: side,
                 radius: BorderRadius.circular(19),
-                child: const Center(
+                child: Center(
                   child: AppSvg(
                     AppIconsLeitor.pencil,
-                    key: ValueKey('ann.modePill.icon'),
+                    key: const ValueKey('ann.modePill.icon'),
                     size: 19,
+                    opacity: iconAlpha,
                   ),
                 ),
               ),
@@ -102,7 +106,7 @@ class AnnotationTopBar extends StatelessWidget {
           onTap: onDone,
           child: NeoBox(
             height: 52,
-            color: AppColors.leaf,
+            color: scope.tint(AppColors.leaf),
             border: side,
             radius: round,
             shadow: AppShadows.hard3,
@@ -112,12 +116,19 @@ class AnnotationTopBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               spacing: 7,
               children: [
-                const AppSvg(
+                AppSvg(
                   AppIconsLeitor.check,
-                  key: ValueKey('ann.done.icon'),
+                  key: const ValueKey('ann.done.icon'),
                   size: 19,
+                  opacity: iconAlpha,
                 ),
-                AppText('Concluir', style: AppTextStyles.annDone, maxLines: 1),
+                AppText(
+                  'Concluir',
+                  style: AppTextStyles.annDone.copyWith(
+                    color: scope.tint(AppColors.ink),
+                  ),
+                  maxLines: 1,
+                ),
               ],
             ),
           ),
