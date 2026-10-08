@@ -7,6 +7,7 @@ import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/ids/uuid_v7.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation_stats.dart';
+import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:drift/native.dart';
@@ -409,6 +410,41 @@ void main() {
         expect(t.anotacoesNaPagina, isEmpty, reason: t.prancha);
         expect(t.tintaNaPagina, isEmpty, reason: t.prancha);
       }
+    });
+
+    test('D-169: 19/20/26/26b/27/27b — a tinta de hoje fica no banco sem lugar (conta 12, não pinta)', () {
+      for (final t in [t19, t20, t26, t26b, t27, t27b]) {
+        expect(t.contagens.all, 12, reason: t.prancha);
+        final deHoje = [
+          for (final a in t.mundo.anotacoesDo(Slugs.domCasmurro))
+            if (a.refPage == 159 &&
+                a.source == AnnotationSource.ink &&
+                a.kind != AnnotationKind.handwriting)
+              a,
+        ];
+        expect(deHoje, hasLength(4), reason: t.prancha);
+        for (final a in deHoje) {
+          final ancora = a.anchor as EpubAnchor;
+          expect(ancora.sha, shaDeAntesDeHoje, reason: t.prancha);
+          expect(ancora.quote.exact, citacaoDeAntesDeHoje);
+          expect(t.textoDoCapitulo.contains(citacaoDeAntesDeHoje), isFalse);
+          final id = a.inkLayerId;
+          if (id == null) continue;
+          final camada = t.mundo.camadas.singleWhere((c) => c.id == id);
+          expect(
+            inkAnchorOf(camada.anchor)!.range.quote.exact,
+            citacaoDeAntesDeHoje,
+            reason: t.prancha,
+          );
+        }
+      }
+      // o mundo base continua com a tinta no lugar
+      expect(
+        (m.anotacao(t22.anotacoesNaPagina.first.id).anchor as EpubAnchor)
+            .quote
+            .exact,
+        'olhos de Capitu',
+      );
     });
 
     test('21: grifo de seleção em "aqueles olhos de Capitu", nenhuma tinta, trecho selecionado', () {

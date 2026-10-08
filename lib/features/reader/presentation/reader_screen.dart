@@ -17,6 +17,13 @@
 // G14.4 — tela 26: "Aa Fonte" abre a folha de ajustes por cima (os controles somem e voltam ao fechar — D-142);
 // fecha pelo ×, pelo Voltar, pelo toque na página de cima ou puxando a alça (D-141); cada toque grava e repagina
 // (D-144). No PDF a Fonte segue desabilitada (D-122).
+// G16.6 — tela 22: "Anotar" (no EPUB) fecha os controles e abre o modo anotação sobre a página atual, em modo
+// imersivo; no PDF, "Chega numa próxima fase" (D-164). No modo, a página de baixo não responde (D-167 19) e o rodapé,
+// a fita, o chip e a pílula da volta somem (o prazo dela não corre — D-125). Concluir e o Voltar gravam e saem
+// (D-42); sem mudanças, só saem; se a gravação falhar, o modo fica com a pílula (D-21) e tocar de novo tenta de novo.
+// Marca-texto, Espaço, o poço de cor e o 2º toque na ativa mostram o aviso (D-163). A tinta salva aparece na página
+// (`ReaderInk`, junto dos grifos); o rascunho de uma sessão que morreu é gravado ao abrir o livro (D-166) e o do modo
+// aberto vai ao banco quando o app vai para o segundo plano.
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -32,20 +39,30 @@ import '../../../app/routes.dart';
 import '../../../core/preferences/brand_preference.dart';
 import '../../shell/presentation/main_shell.dart';
 import '../annotations/domain/annotation.dart' show HighlightStyle;
+import '../annotations/ink/ink_geometry.dart' show InkRect;
+import '../annotations/ink_repository.dart';
+import '../application/annotation_session.dart';
+import '../application/ink_page_geometry.dart';
 import '../application/pdf_reader_document.dart';
+import '../application/pen_presets_store.dart';
 import '../application/reader_annotations.dart';
 import '../application/reader_chrome.dart';
 import '../application/reader_document.dart';
 import '../application/reader_errors.dart';
+import '../application/reader_ink.dart';
 import '../application/reader_providers.dart';
 import '../application/reader_session_controller.dart';
 import '../application/reader_toc.dart';
 import '../application/toc_view.dart';
 import '../domain/reader_settings.dart';
+import 'annotation_island.dart' show AnnotationIsland;
+import 'annotation_mode.dart';
 import 'book_search_panel.dart';
 import 'bottom_island.dart';
 import 'highlight_toolbar.dart';
+import 'ink_painter.dart' show handHighlightBoxes;
 import 'note_sheet.dart';
+import 'page_marks.dart' show PaintedHighlight;
 import 'reader_actions.dart';
 import 'reader_chrome_palette.dart';
 import 'reader_chrome_scope.dart';
@@ -145,6 +162,17 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   final SelectionController _selection = SelectionController();
   ReaderAnnotations? _annotations;
 
+  /// A tinta salva do livro aberto e onde ela grava (G16 — só no EPUB).
+  ReaderInk? _ink;
+  InkRepository? _inkRepository;
+
+  /// O modo anotação (tela 22 — G16): a sessão sobre o retrato da página. [_annOpen] fica `false` enquanto a camada
+  /// sai (o texto sobe 30 px); [_annStarting] e [_annSaving] seguram toques repetidos.
+  _Annotating? _ann;
+  bool _annOpen = false;
+  bool _annStarting = false;
+  bool _annSaving = false;
+
   /// O documento na tela, quando há um.
   ReaderDocument? get _doc => switch (_c?.state) {
     ReaderReady(:final document) => document,
@@ -189,7 +217,13 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final c = ReaderSessionController(userBookId: widget.bookId, deps: deps)
       ..addListener(_changed);
     _life = AppLifecycleListener(
-      onStateChange: (s) => unawaited(c.lifecycle(s)),
+      onStateChange: (s) {
+        unawaited(c.lifecycle(s));
+        // o rascunho do modo anotação vai ao banco no segundo plano (D-166)
+        if (s != AppLifecycleState.resumed) {
+          unawaited(_ann?.session.toBackground());
+        }
+      },
     );
     setState(() => _c = c);
     await c.open(v);
@@ -218,6 +252,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     } else {
       _selection.clear();
       _note = null;
+      _dropAnnotation();
     }
     if (state is! ReaderReady && (_controls || _search || _settings || _toc)) {
       // o livro deixou de estar na tela (erro, reabertura): os controles, a busca e as folhas fecham
@@ -281,6 +316,30 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             onError: c.deps.onError,
           );
     unawaited(_annotations?.load());
+    // a tinta salva (G16): ao abrir, o rascunho de uma sessão que morreu é gravado (D-166)
+    _dropAnnotation();
+    _ink?.dispose();
+    final notes = _annotations;
+    final repo = _inkRepository ??=
+        c.deps.inkRepository ??
+        DriftInkRepository(
+          c.deps.db,
+          c.deps.versioning,
+          now: c.deps.now,
+          onError: c.deps.onError,
+        );
+    _ink = anchors == null || notes == null
+        ? null
+        : ReaderInk(
+            db: c.deps.db,
+            repository: repo,
+            owner: c.deps.owner,
+            userBookId: widget.bookId,
+            anchors: anchors,
+            annotations: notes,
+            onError: c.deps.onError,
+          );
+    unawaited(_ink?.load());
     _chrome = ReaderChrome(
       db: c.deps.db,
       userBookId: widget.bookId,
@@ -642,7 +701,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
 
   /// A pílula da volta fica escondida com os controles, a busca ou a folha de ajustes por cima: o prazo dela só
   /// conta à vista (D-125).
-  void _holdBack() => _c?.holdBack(_controls || _search || _settings || _toc);
+  void _holdBack() =>
+      _c?.holdBack(_controls || _search || _settings || _toc || _ann != null);
 
   void _tool(ReaderTool t) {
     final c = _c;
@@ -654,11 +714,161 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         _openSettings();
       case ReaderTool.toc:
         _openToc();
-      case ReaderTool.notes:
       case ReaderTool.annotate:
-        // Grifos → G19, Anotar → G16 (D-118)
+        // Anotar (G16): o modo anotação no EPUB; no PDF, o aviso (D-164)
+        if (_doc is PdfReaderDocument || _ink == null) {
+          _showToast(readerSoonText);
+        } else {
+          unawaited(_openAnnotation());
+        }
+      case ReaderTool.notes:
+        // Grifos → G19 (D-118)
         _showToast(readerSoonText);
     }
+  }
+
+  // ---- modo anotação (G16) ------------------------------------------------------------------------------
+
+  /// "Anotar": fecha os controles e abre a sessão sobre a página atual — os desenhos e os grifos dela e o
+  /// `pen_presets` —, em modo imersivo; o leitor de tela ouve "Modo anotação. Caneta, ‹cor›.".
+  Future<void> _openAnnotation() async {
+    final c = _c;
+    final doc = _doc;
+    final ink = _ink;
+    final notes = _annotations;
+    final anchors = doc?.anchors;
+    final repo = _inkRepository;
+    if (c == null ||
+        doc == null ||
+        ink == null ||
+        notes == null ||
+        anchors == null ||
+        repo == null ||
+        _ann != null ||
+        _annStarting ||
+        _leaving) {
+      return;
+    }
+    _annStarting = true;
+    try {
+      final owner = await c.deps.owner();
+      final store = PenPresetsStore(
+        c.deps.db,
+        c.deps.versioning,
+        now: c.deps.now,
+      );
+      final presets = await store.load(owner);
+      if (!mounted || _leaving || !identical(_doc, doc)) return;
+      final page = doc.current;
+      final shown = page.shown;
+      if (shown == null) return;
+      final highlights = notes.highlightsIn(shown);
+      final inkHighlights = notes.inkHighlightsIn(shown);
+      final session = AnnotationSession(
+        geometry: inkGeometryOf(page),
+        anchors: anchors,
+        drawings: ink.drawingsOn(page),
+        highlights: [
+          for (final h in highlights)
+            (
+              id: h.id,
+              ink: false,
+              areas: [
+                for (final b in page.boxesOf(
+                  h.range.unit,
+                  h.range.from,
+                  h.range.to,
+                ))
+                  InkRect(b.rect.left, b.textTop, b.rect.right, b.textBottom),
+              ],
+            ),
+          for (final h in inkHighlights)
+            (
+              id: h.id,
+              ink: true,
+              areas: [
+                for (final (:box, color: _) in handHighlightBoxes(page, [h]))
+                  InkRect(box.left, box.top, box.right, box.bottom),
+              ],
+            ),
+        ],
+        presets: presets,
+        repository: repo,
+        owner: owner,
+        userBookId: widget.bookId,
+        startTimer: c.deps.startTimer,
+        now: c.deps.now,
+        onError: c.deps.onError,
+        onInteraction: c.interaction,
+        savePresets: store.save,
+      );
+      _selection.clear();
+      _dismissUndo();
+      _clearToast();
+      _setControls(false);
+      setState(() {
+        _ann = _Annotating(
+          session: session,
+          page: page,
+          highlights: highlights,
+          inkHighlights: inkHighlights,
+        );
+        _annOpen = true;
+      });
+      _systemUi(immersive: true);
+      _holdBack();
+      _announce(
+        'Modo anotação. Caneta, '
+        '${AnnotationIsland.colorName(Color(session.color))}.',
+      );
+    } on Object catch (e, st) {
+      c.deps.onError(e, st);
+    } finally {
+      _annStarting = false;
+    }
+  }
+
+  /// Concluir e o Voltar (D-42): grava a sessão numa transação e sai (o texto sobe 30 px); sem mudanças, só sai. Se a
+  /// gravação falhar, o modo fica com a pílula (D-21) e o rascunho guardado; tocar de novo tenta de novo.
+  Future<void> _concludeAnnotation() async {
+    final a = _ann;
+    if (a == null || !_annOpen || _annSaving) return;
+    _annSaving = true;
+    try {
+      final ok = await a.session.conclude();
+      if (!ok || !mounted || !identical(_ann, a)) return;
+      _clearToast();
+      setState(() => _annOpen = false);
+    } finally {
+      _annSaving = false;
+    }
+  }
+
+  /// A camada terminou de sair: a sessão acaba e o leitor limpo volta a responder.
+  void _annotationExited() {
+    final a = _ann;
+    if (a == null || _annOpen) return;
+    setState(() => _ann = null);
+    a.session.dispose();
+    _holdBack();
+    _systemUi(
+      immersive:
+          _c?.state is ReaderReady &&
+          !_controls &&
+          !_search &&
+          !_settings &&
+          !_toc,
+    );
+  }
+
+  /// O livro saiu da tela com o modo aberto (erro, reabertura, sair): o que estava na sessão vai ao rascunho
+  /// (D-166) e ela acaba.
+  void _dropAnnotation() {
+    final a = _ann;
+    if (a == null) return;
+    _ann = null;
+    _annOpen = false;
+    unawaited(a.session.toBackground().whenComplete(a.session.dispose));
   }
 
   void _showToast(String text) {
@@ -854,6 +1064,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _tocData?.dispose();
     _noToc.dispose();
     _searchSession?.dispose();
+    _dropAnnotation();
+    _ink?.dispose();
     _annotations?.dispose();
     _selection.dispose();
     _life?.dispose();
@@ -889,7 +1101,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         canPop: false,
         onPopInvokedWithResult: (didPop, _) {
           if (didPop) return;
-          if (_note != null) {
+          if (_ann != null) {
+            // no modo anotação, o Voltar é o Concluir (D-42)
+            unawaited(_concludeAnnotation());
+          } else if (_note != null) {
             _closeNote();
           } else if (_search) {
             _closeSearch();
@@ -976,6 +1191,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 foundColor: brand,
                 foundLightText: c.palette.lightText,
                 highlights: _annotations,
+                ink: _ink,
                 // no grifo existente, sem fundo de seleção (D-137)
                 selection: _selection.fill,
                 selectionColor: brand,
@@ -1058,6 +1274,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   foundColor: brand,
                   foundLightText: c.palette.lightText,
                   highlights: _annotations,
+                  ink: _ink,
                   selection: _selection.fill,
                   selectionColor: brand,
                 ),
@@ -1066,7 +1283,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             ),
           ),
           // os avisos com os controles fechados: 12 acima do rodapé, nas cores das ilhas
-          if (!_controls && (_undo != null || _toast != null))
+          if (!_controls && _ann == null && (_undo != null || _toast != null))
             Positioned(
               left: 14,
               right: 14,
@@ -1199,8 +1416,50 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 ),
               ),
             ),
+          // o modo anotação (tela 22): por cima de tudo; a página de baixo não recebe toque nem enquanto a camada
+          // entra e sai (D-167 19)
+          if (_ann case final a?) ...[
+            const Positioned.fill(
+              child: AbsorbPointer(child: SizedBox.expand()),
+            ),
+            Positioned.fill(
+              child: BlockSemantics(
+                child: AnnotationMode(
+                  open: _annOpen,
+                  session: a.session,
+                  page: a.page,
+                  paper: c.paper,
+                  brand: brand,
+                  sideMargin: t.sideMargin,
+                  semanticsLabel:
+                      '${doc.title}, página ${n.refPage} de ${n.refTotal} '
+                      '— modo anotação',
+                  highlights: a.highlights,
+                  inkHighlights: a.inkHighlights,
+                  toast: _toast,
+                  onDone: () => unawaited(_concludeAnnotation()),
+                  onSoon: () => _showToast(readerSoonText),
+                  onExited: _annotationExited,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
   }
+}
+
+/// O modo anotação aberto: a sessão, a página travada e os grifos que ela pinta.
+final class _Annotating {
+  _Annotating({
+    required this.session,
+    required this.page,
+    required this.highlights,
+    required this.inkHighlights,
+  });
+
+  final AnnotationSession session;
+  final DisplayPage page;
+  final List<PaintedHighlight> highlights, inkHighlights;
 }

@@ -22,6 +22,7 @@ import '../../../core/data/database/versioning.dart';
 import '../../../core/data/ids/uuid_v7.dart';
 import '../../../core/data/model/record_meta.dart';
 import '../../library/domain/user_book.dart';
+import '../annotations/ink_repository.dart' show InkRepository;
 import '../content/content_failure.dart';
 import '../content/ref_pages.dart' show refPageVersion;
 import '../domain/bookmark.dart';
@@ -123,6 +124,7 @@ final class ReaderDeps {
     this.club = const NoReaderClub(),
     this.utcOffsetAt = readerUtcOffset,
     this.onError = reportReaderError,
+    this.inkRepository,
   });
 
   final AppDatabase db;
@@ -170,6 +172,9 @@ final class ReaderDeps {
   /// O fuso nas datas da folha do sumário ("marcada hoje", "QUI 24/9").
   final Duration Function(DateTime utc) utcOffsetAt;
   final ReaderErrorReporter onError;
+
+  /// Onde a tinta grava (G16); `null` = no banco ([db], com [versioning]). Os testes trocam (a falha ao salvar).
+  final InkRepository? inkRepository;
 }
 
 class ReaderSessionController extends ChangeNotifier {

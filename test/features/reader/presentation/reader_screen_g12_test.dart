@@ -293,7 +293,7 @@ void main() {
   );
 
   testWidgets(
-    'Grifos e Anotar: "Chega numa próxima fase" por 2 s, 12 acima da ilha; anunciado (a Fonte abre a folha — G14; o Sumário, a do sumário — G15)',
+    'Grifos: "Chega numa próxima fase" por 2 s, 12 acima da ilha; anunciado (a Fonte abre a folha — G14; o Sumário, a do sumário — G15; Anotar, o modo anotação — G16)',
     (tester) async {
       tester.platformDispatcher.accessibilityFeaturesTestValue =
           const FakeAccessibilityFeatures(accessibleNavigation: true);
@@ -304,7 +304,7 @@ void main() {
       await abrirLeitor(tester, livro);
       await _abrirControles(tester);
       tester.takeAnnouncements();
-      for (final t in const ['notes', 'annotate']) {
+      for (final t in const ['notes']) {
         await tester.tap(_key('r20.bottomIsland.tools.$t'));
         await tester.pump();
         expect(findAppText(readerSoonText), findsOneWidget, reason: t);

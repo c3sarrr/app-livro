@@ -5,6 +5,7 @@ import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation_stats.dart';
 import 'package:app_leitura/features/reader/annotations/domain/ink_layer.dart';
+import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
 import 'package:app_leitura/features/reader/domain/bookmark.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reading_position.dart';
@@ -190,6 +191,62 @@ final Mundo mundoDaTela21 = () {
     ],
   );
 }();
+
+/// D-169 — as pranchas de antes da sessão de hoje (19, 20, 26, 26b, 27 e 27b): a tinta de hoje (os 3 desenhos e o
+/// grifo à mão da pág. 159) fica no banco com a âncora sem lugar — outro arquivo e uma citação que não existe no
+/// capítulo —, então conta (o contador 12, as marcas do sumário) e não pinta (D-44).
+final Mundo mundoSemTintaDeHoje = () {
+  final dc = mundoReferencia.domCasmurro.id;
+  EpubAnchor semLugar(EpubAnchor a) => EpubAnchor(
+    sha: shaDeAntesDeHoje,
+    spine: a.spine,
+    start: a.start,
+    end: a.end,
+    quote: const TextQuote(exact: citacaoDeAntesDeHoje),
+    refPage: a.refPage,
+  );
+  TextAnchor camadaSemLugar(TextAnchor a) {
+    final ink = inkAnchorOf(a);
+    if (ink == null) return a;
+    final w = ink.w;
+    return w == null
+        ? semLugar(ink.range)
+        : inkLayerAnchor(semLugar(ink.range), w);
+  }
+
+  final deHoje = {
+    for (final a in mundoReferencia.anotacoes)
+      if (a.userBookId == dc &&
+          a.refPage == 159 &&
+          a.source == AnnotationSource.ink &&
+          (a.kind == AnnotationKind.highlight ||
+              a.kind == AnnotationKind.drawing))
+        a.id,
+  };
+  final camadasDeHoje = {
+    for (final a in mundoReferencia.anotacoes)
+      if (deHoje.contains(a.id) && a.inkLayerId != null) a.inkLayerId!,
+  };
+  return mundoReferencia.copyWith(
+    anotacoes: [
+      for (final a in mundoReferencia.anotacoes)
+        deHoje.contains(a.id)
+            ? a.copyWith(anchor: semLugar(a.anchor as EpubAnchor))
+            : a,
+    ],
+    camadas: [
+      for (final c in mundoReferencia.camadas)
+        camadasDeHoje.contains(c.id)
+            ? c.copyWith(anchor: camadaSemLugar(c.anchor))
+            : c,
+    ],
+  );
+}();
+
+/// D-169: o arquivo e a citação de "antes da sessão de hoje" (nenhum livro do mundo tem os dois).
+const String shaDeAntesDeHoje =
+    '0000000000000000000000000000000000000000000000000000000000000169';
+const String citacaoDeAntesDeHoje = '‹antes da sessão de hoje›';
 
 /// Itens que a página 159 mostra no modo anotação (telas 22–24b).
 List<Annotation> anotacoesDaPagina159(Mundo mundo) => [

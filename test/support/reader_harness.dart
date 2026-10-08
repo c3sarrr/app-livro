@@ -11,6 +11,7 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
+import 'package:app_leitura/features/reader/annotations/ink_repository.dart';
 import 'package:app_leitura/features/reader/application/book_search.dart';
 import 'package:app_leitura/features/reader/application/epub_images.dart';
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
@@ -175,6 +176,7 @@ final class LivroNaEstante {
     Future<double> Function(AppDatabase db, String userId)? speedOf,
     ReaderClubSource club = const NoReaderClub(),
     Duration Function(DateTime utc)? utcOffsetAt,
+    InkRepository? ink,
   }) => ReaderDeps(
     db: db,
     versioning: versioning,
@@ -210,6 +212,7 @@ final class LivroNaEstante {
     club: club,
     utcOffsetAt: utcOffsetAt ?? readerUtcOffset,
     onError: onError ?? reportReaderError,
+    inkRepository: ink,
   );
 
   Future<void> close() async {

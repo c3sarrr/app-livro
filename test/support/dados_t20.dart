@@ -10,6 +10,7 @@ import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 
 import '../fixtures/mundo_2026_09_20.dart';
 import '../fixtures/telas/indice_t19.dart';
+import '../fixtures/telas/instantaneo.dart' show mundoSemTintaDeHoje;
 import 'mundo_epub.dart';
 import 'pump_reader.dart' show LeitorNaTela;
 import 'reader_harness.dart';
@@ -18,7 +19,8 @@ import 'reader_harness.dart';
 Future<LivroNaEstante> livroDaTela20({
   ReaderPaper papel = ReaderPaper.creme,
 }) async {
-  final m = mundoReferencia;
+  // D-169: a tinta de hoje fica no banco sem lugar (conta e não pinta)
+  final m = mundoSemTintaDeHoje;
   final livro = await LivroNaEstante.epubDe(
     mundoEpub(Slugs.domCasmurro, completo: true),
     livro: m.domCasmurro,
