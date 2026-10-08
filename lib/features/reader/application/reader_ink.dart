@@ -9,6 +9,9 @@
 //   tela, guardados por página até a próxima mudança.
 // - Uma camada com BNK1 quebrado não derruba a página: não aparece e a falha vai ao relatório (uma vez).
 // - Os grifos feitos à mão vêm do `ReaderAnnotations` (`inkHighlightsIn`, D-161); os avisos dele passam adiante.
+// - G18: as notas à mão do livro (a camada `space` e a anotação `handwriting`): o lugar da âncora (como o dos
+//   desenhos), as linhas, recolhida e a tinta na unidade da caixa; os cortes de cada item para o paginador
+//   (`cutsOf`); as da página pelos espaços dela; `expand` abre a faixa (D-184).
 import 'dart:async';
 
 import 'package:drift/drift.dart' show TableUpdateQuery;
@@ -19,14 +22,31 @@ import '../annotations/ink/bnk1_codec.dart';
 import '../annotations/ink/drawing_anchor.dart';
 import '../annotations/ink/ink_stroke.dart';
 import '../annotations/ink_repository.dart';
+import '../annotations/space/space_metrics.dart';
 import '../domain/anchoring.dart';
 import '../domain/locator.dart';
 import '../layout/display_page.dart';
+import '../layout/reader_typography.dart';
+import '../layout/space_cut.dart';
 import '../presentation/page_marks.dart' show PaintedHighlight;
 import 'annotation_anchors.dart';
 import 'annotation_session.dart' show PageDrawing;
 import 'reader_annotations.dart';
 import 'reader_errors.dart';
+
+/// G18 — uma nota à mão do livro no leitor: a camada, a anotação, o item e a âncora, as linhas, recolhida, a tinta
+/// (unidade da nota), a criação e o grupo.
+typedef ReaderNote = ({
+  String id,
+  String annotationId,
+  int unit,
+  int at,
+  int lines,
+  bool collapsed,
+  List<InkStroke> strokes,
+  DateTime createdAt,
+  String groupId,
+});
 
 /// Quem sabe a tinta das páginas (o `ReaderInk`; nos testes, listas).
 abstract interface class InkSource implements Listenable {
@@ -60,6 +80,7 @@ final class ReaderInk extends ChangeNotifier implements InkSource {
   final ReaderErrorReporter onError;
 
   List<SavedDrawing> _drawings = const [];
+  List<SavedNote> _saved = const [];
   int _revision = 0;
   StreamSubscription<Object?>? _sub;
   bool _disposed = false;
@@ -97,8 +118,13 @@ final class ReaderInk extends ChangeNotifier implements InkSource {
   Future<void> _reload() async {
     try {
       final drawings = await repository.drawingsOfBook(userBookId);
-      if (_disposed || listEquals(drawings, _drawings)) return;
+      final notes = await repository.notesOfBook(userBookId);
+      if (_disposed ||
+          (listEquals(drawings, _drawings) && listEquals(notes, _saved))) {
+        return;
+      }
       _drawings = drawings;
+      _saved = notes;
       _changed();
     } on Object catch (e, st) {
       onError(e, st);
@@ -208,12 +234,79 @@ final class ReaderInk extends ChangeNotifier implements InkSource {
     return r;
   }
 
-  List<InkStroke>? _strokesOf(String id, String b64) {
+  /// G18: as notas à mão do livro com lugar (as sem lugar não aparecem e continuam no banco), guardadas até a
+  /// próxima mudança.
+  List<ReaderNote> get notes {
+    final kept = _notes;
+    if (kept != null && kept.$1 == _revision) return kept.$2;
+    final list = List<ReaderNote>.unmodifiable(_notesNow());
+    // a nota sem lugar (o item ainda não abriu) é procurada de novo depois
+    if (list.length == _saved.length) _notes = (_revision, list);
+    return list;
+  }
+
+  (int, List<ReaderNote>)? _notes;
+
+  List<ReaderNote> _notesNow() => [
+    for (final n in _saved)
+      if (n.layer.anchor case final EpubAnchor a)
+        if (_placeOf(n.layer.id, a, a) case final r?)
+          if (_strokesOf(n.layer.id, n.layer.strokesB64, Bnk1Unit.box)
+              case final strokes?)
+            (
+              id: n.layer.id,
+              annotationId: n.annotation.id,
+              unit: r.unit,
+              at: r.from,
+              lines: n.layer.spaceLines ?? minSpaceLines,
+              collapsed: n.layer.collapsed,
+              strokes: strokes,
+              createdAt: n.annotation.meta.createdAt,
+              groupId: n.annotation.groupId,
+            ),
+  ];
+
+  /// Os espaços do item [spine] para o paginador: a caixa ou a faixa de cada nota (D-182, D-184).
+  List<SpaceCut> cutsOf(int spine, ReaderTypography t) => [
+    for (final n in notes)
+      if (n.unit == spine)
+        SpaceCut(
+          at: n.at,
+          height: n.collapsed
+              ? stripFlowHeight(t.lineHeight)
+              : noteFlowHeight(n.lines),
+          id: n.id,
+        ),
+  ];
+
+  /// As notas que estão na página [page] (pelos espaços dela), de cima para baixo.
+  List<ReaderNote> notesOn(DisplayPage page) {
+    final ids = [for (final s in spacesOf(page)) s.id];
+    if (ids.isEmpty) return const [];
+    final byId = {for (final n in notes) n.id: n};
+    return [for (final id in ids) ?byId[id]];
+  }
+
+  /// D-184: um toque na faixa do leitor limpo abre a nota (grava só o `collapsed`).
+  Future<void> expand(String id) async {
+    try {
+      await repository.setCollapsed(await owner(), id, false);
+      await _reload();
+    } on Object catch (e, st) {
+      onError(e, st);
+    }
+  }
+
+  List<InkStroke>? _strokesOf(
+    String id,
+    String b64, [
+    Bnk1Unit unit = Bnk1Unit.em,
+  ]) {
     final cached = _strokes[id];
     if (cached != null && cached.$1 == b64) return cached.$2;
     List<InkStroke>? strokes;
     try {
-      strokes = decodeStrokesB64(b64, Bnk1Unit.em);
+      strokes = decodeStrokesB64(b64, unit);
     } on Bnk1Failure catch (e, st) {
       onError(e, st);
     }

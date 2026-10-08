@@ -11,6 +11,7 @@ import '../domain/locator.dart';
 import '../domain/reader_numbers.dart';
 import '../layout/display_page.dart';
 import '../layout/reader_typography.dart' show ReaderTypography;
+import '../layout/space_cut.dart';
 import 'annotation_anchors.dart';
 
 export '../layout/display_page.dart';
@@ -85,6 +86,23 @@ String bookmarkExcerpt(String pageText) {
   if (t.length <= 90) return t;
   final cut = t.lastIndexOf(' ', 90);
   return '${t.substring(0, cut > 40 ? cut : 90).trimRight()}…';
+}
+
+/// G18 — o documento que abre espaços no texto (o EPUB): os espaços de cada item (as notas à mão), a repaginação
+/// quando eles mudam e a página do modo anotação refeita com eles (o mesmo começo; [contentHeight] = até o pé da
+/// tela — R3). A página devolvida tem os blocos dela: [dispose] quando não for mais usada.
+abstract interface class SpacedDocument {
+  set spaces(SpaceCutsOf? spaces);
+
+  Future<void> respace();
+
+  ReaderTypography get typography;
+
+  ({DisplayPage page, void Function() dispose})? pageWithSpaces(
+    DisplayPage page,
+    List<SpaceCut> cuts, {
+    double? contentHeight,
+  });
 }
 
 abstract interface class ReaderDocument {

@@ -10,8 +10,10 @@ import '../../library/domain/user_book.dart';
 import '../content/book_index.dart';
 import '../content/chapter_content.dart';
 import '../domain/reader_numbers.dart';
+import '../layout/chapter_layout.dart' show layoutPageFrom;
 import '../layout/layout_scheduler.dart';
 import '../layout/reader_typography.dart';
+import '../layout/space_cut.dart';
 import 'annotation_anchors.dart';
 import 'book_pager.dart';
 import 'book_search.dart';
@@ -57,7 +59,7 @@ final class EpubDocumentDeps {
   final double devicePixelRatio;
 }
 
-final class EpubReaderDocument implements ReaderDocument {
+final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
   EpubReaderDocument._(this._deps, BookPager pager, EpubImageCache images)
     : _pager = pager,
       _images = images;
@@ -163,6 +165,60 @@ final class EpubReaderDocument implements ReaderDocument {
     // seguidas volta sempre a ele
     await _pager.relayout(t);
     _announce();
+  }
+
+  // ---- G18: os espaços abertos (as notas à mão) ----------------------------------------------------------------
+
+  @override
+  set spaces(SpaceCutsOf? spaces) => _pager.spaces = spaces;
+
+  @override
+  ReaderTypography get typography => _pager.typography;
+
+  @override
+  Future<void> respace() async {
+    await _pager.respace();
+    _announce();
+  }
+
+  @override
+  ({DisplayPage page, void Function() dispose})? pageWithSpaces(
+    DisplayPage page,
+    List<SpaceCut> cuts, {
+    double? contentHeight,
+  }) {
+    if (page is! PageSnapshot) return null;
+    final content = _pager.contentOf(page.spine);
+    if (content == null) return null;
+    final t = _pager.typography;
+    final q = layoutPageFrom(
+      content,
+      t,
+      page.page.start,
+      cuts: cuts,
+      contentHeight: contentHeight,
+      snap: true,
+    );
+    if (q == null) return null;
+    var alive = true;
+    return (
+      page: PageSnapshot(
+        spine: page.spine,
+        page: q.page,
+        blockOf: (b) => q.blocks[b - q.firstBlock],
+        typography: t,
+        item: content.item,
+        alive: () => alive,
+        imageOf: _images.imageOf,
+      ),
+      dispose: () {
+        if (!alive) return;
+        alive = false;
+        for (final b in q.blocks) {
+          b.dispose();
+        }
+      },
+    );
   }
 
   FoundRange? _found;

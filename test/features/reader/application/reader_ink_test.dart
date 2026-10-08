@@ -22,7 +22,10 @@ import 'package:app_leitura/features/reader/application/annotation_anchors.dart'
 import 'package:app_leitura/features/reader/application/reader_annotations.dart';
 import 'package:app_leitura/features/reader/application/reader_ink.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
+import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:app_leitura/features/reader/layout/display_page.dart';
+import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -96,6 +99,16 @@ final class _Pagina implements DisplayPage {
 
   @override
   String textOf(int unit, int from, int to) => _text.substring(from, to);
+}
+
+/// A página com os espaços [espacos] (G18).
+final class _PaginaComEspacos extends _Pagina implements PageWithSpaces {
+  _PaginaComEspacos(this.espacos);
+
+  final List<PageSpace> espacos;
+
+  @override
+  List<PageSpace> get spaces => espacos;
 }
 
 final class _Anchors implements AnnotationAnchors {
@@ -385,5 +398,112 @@ void main() {
     await ink.load();
     expect(ink.drawingsOn(_Pagina()), isEmpty);
     expect(errors.single, isA<Bnk1Failure>());
+  });
+
+  group('notas à mão (G18)', () {
+    const tinta = InkStroke(
+      tool: 1,
+      tip: 0,
+      argb: 0xFFFF552E,
+      widthCentiMm: 120,
+      points: [InkPoint(0.1, 0.8, 0.5, 0), InkPoint(0.3, 1.1, 0.6, 8)],
+    );
+
+    Future<void> salvarNota(
+      int n, {
+      int at = 33,
+      int linhas = 3,
+      bool recolhida = false,
+      String? sha,
+      int spine = _spine,
+    }) async {
+      final anchor = EpubAnchor(
+        sha: sha ?? shaTeste,
+        spine: spine,
+        start: at,
+        end: at,
+        quote: TextQuote(prefix: _text.substring(0, at), exact: ''),
+        refPage: 159,
+      );
+      await repo.commit(
+        usuarioTeste,
+        idTeste(1),
+        InkChanges(
+          notes: [
+            NoteRow(
+              layerId: idTeste(n),
+              annotationId: idTeste(n + 1),
+              createdAt: t,
+              anchor: anchor,
+              refPage: 159,
+              chapterIndex: 31,
+              groupId: idTeste(n + 1),
+              lines: linhas,
+              collapsed: recolhida,
+              strokesB64: encodeStrokesB64(const [tinta], Bnk1Unit.box),
+              strokeCount: 1,
+            ),
+          ],
+        ),
+      );
+    }
+
+    test('as notas do livro: lugar, linhas, recolhida e a tinta na unidade da caixa; os cortes do item', () async {
+      await salvarNota(20);
+      await salvarNota(22, at: _text.length, recolhida: true);
+      await annotations.load();
+      await ink.load();
+      final notas = ink.notes;
+      expect(notas.map((n) => (n.id, n.unit, n.at, n.lines, n.collapsed)), [
+        (idTeste(20), _spine, 33, 3, false),
+        (idTeste(22), _spine, _text.length, 3, true),
+      ]);
+      expect(notas.first.annotationId, idTeste(21));
+      expect(notas.first.strokes.single.points.first.x, closeTo(0.1, 1e-4));
+      const tp = ReaderTypography();
+      expect(ink.cutsOf(_spine, tp), [
+        SpaceCut(at: 33, height: noteFlowHeight(3), id: idTeste(20)),
+        SpaceCut(
+          at: _text.length,
+          height: stripFlowHeight(tp.lineHeight),
+          id: idTeste(22),
+        ),
+      ]);
+      expect(ink.cutsOf(_spine + 1, tp), isEmpty);
+      // as da página são as dos espaços dela
+      final pagina = _PaginaComEspacos([
+        (id: idTeste(22), rect: const ui.Rect.fromLTWH(28, 300, 334, 55.26)),
+      ]);
+      expect(ink.notesOn(pagina).map((n) => n.id), [idTeste(22)]);
+      expect(ink.notesOn(_Pagina()), isEmpty);
+    });
+
+    test(
+      'mudar no banco relê (a revisão sobe); expand grava o recolhida',
+      () async {
+        await salvarNota(20, recolhida: true);
+        await annotations.load();
+        await ink.load();
+        final r0 = ink.revision;
+        await ink.expand(idTeste(20));
+        for (var i = 0; i < 20 && ink.notes.single.collapsed; i++) {
+          await Future<void>.delayed(const Duration(milliseconds: 10));
+        }
+        expect(ink.notes.single.collapsed, isFalse);
+        expect(ink.revision, greaterThan(r0));
+        expect(
+          (await InkLayersDao(db).byIds([idTeste(20)])).single.collapsed,
+          isFalse,
+        );
+      },
+    );
+
+    test('a nota sem lugar (outro arquivo, item ainda não aberto) não aparece nem entra nos cortes', () async {
+      await salvarNota(20, sha: 'f' * 64, spine: 99);
+      await annotations.load();
+      await ink.load();
+      expect(ink.notes, isEmpty);
+      expect(ink.cutsOf(99, const ReaderTypography()), isEmpty);
+    });
   });
 }

@@ -13,6 +13,7 @@ import 'package:app_leitura/features/reader/domain/reader_numbers.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/load_fonts.dart';
@@ -246,6 +247,38 @@ void main() {
         lendo,
         reason: 'de volta aos ajustes de antes, a mesma página',
       );
+    });
+  });
+
+  group('espaço aberto (G18)', () {
+    test('respace: a página atual ganha o espaço; a página do modo é refeita do mesmo começo, mais alta', () async {
+      final meio = livro.index.spine[2].chars ~/ 2;
+      await livro.guardarPosicao(2, meio);
+      final d = await abrir();
+      final pagina = d.current;
+      final shown = pagina.shown!;
+      final texto = d.anchors.textOf(2)!;
+      final at = texto.indexOf('. ', shown.from) + 1;
+      expect(at, inInclusiveRange(shown.from + 1, shown.to));
+      final corte = SpaceCut(at: at, height: 206, id: 'n1');
+      (d as SpacedDocument).spaces = (spine, t) =>
+          spine == 2 ? [corte] : const [];
+      await d.respace();
+      expect(spacesOf(d.current).map((s) => s.id), ['n1']);
+      // a página do modo: o mesmo começo, com o espaço, e mais linhas quando mais alta
+      final modo = d.pageWithSpaces(d.current, [
+        corte,
+      ], contentHeight: d.typography.contentHeight + 200)!;
+      addTearDown(modo.dispose);
+      expect(modo.page.shown!.from, d.current.shown!.from);
+      expect(spacesOf(modo.page).single.id, 'n1');
+      expect(modo.page.shown!.to, greaterThan(d.current.shown!.to));
+      // sem o espaço (a nota saiu no modo): ainda monta, do mesmo começo
+      final sem = d.pageWithSpaces(d.current, const [])!;
+      addTearDown(sem.dispose);
+      expect(spacesOf(sem.page), isEmpty);
+      sem.dispose();
+      expect(sem.page.alive, isFalse);
     });
   });
 }

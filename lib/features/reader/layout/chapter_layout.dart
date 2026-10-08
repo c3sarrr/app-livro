@@ -217,13 +217,16 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
 
 /// Uma página que começa no caractere [start] do item (um início de página guardado no cache): monta só os
 /// blocos dela. `null` quando [start] não cai no começo de uma linha nem na âncora de um espaço (o cache não vale
-/// para este layout). [cuts] = os espaços do capítulo; [contentHeight] = a altura da página (a do modo — G18).
+/// para este layout). [cuts] = os espaços do capítulo; [contentHeight] = a altura da página (a do modo — G18); com
+/// [snap], um início que não é começo de linha vai ao começo da linha dele (a página do modo depois que um espaço sai
+/// ou entra no começo dela).
 ({ReaderPage page, List<LaidBlock> blocks, int firstBlock})? layoutPageFrom(
   ChapterContent content,
   ReaderTypography t,
   int start, {
   List<SpaceCut> cuts = const [],
   double? contentHeight,
+  bool snap = false,
 }) {
   final item = content.item;
   if (item.blocks.isEmpty) return null;
@@ -258,6 +261,9 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
           firstLine = b.gaps[g].afterLine + 1;
         } else {
           firstLine = b.lines.indexWhere((l) => l.start == start);
+          if (firstLine < 0 && snap && b.lines.isNotEmpty) {
+            firstLine = b.lineAt(start);
+          }
         }
         if (firstLine < 0) {
           for (final x in laid) {
@@ -265,7 +271,7 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
           }
           return null;
         }
-      } else if (b.start != start) {
+      } else if (b.start != start && !snap) {
         b.dispose();
         return null;
       }
