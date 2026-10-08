@@ -4,6 +4,7 @@ import 'package:app_leitura/core/data/model/record_meta.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/ink_layer.dart';
+import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
 import 'package:app_leitura/features/reader/domain/bookmark.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reading_position.dart';
@@ -218,4 +219,10 @@ Bookmark marcadorTeste(
   refPage: pagina,
   chapterIndex: 31,
   excerpt: 'Retórica dos namorados, dá-me uma comparação exata e poética…',
+);
+
+/// O `pen_presets` padrão (o das telas 22/23: esferográfica, 1,2 mm, coral, Média).
+PenPresets presetsTeste({String dono = usuarioTeste}) => PenPresets(
+  id: dono,
+  meta: metaTeste(userId: dono),
 );
