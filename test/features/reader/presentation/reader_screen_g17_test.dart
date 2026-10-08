@@ -1,8 +1,16 @@
 // G17 — os painéis e o marca-texto pela rota real, com o Dom Casmurro do Gutenberg num banco em memória: o 2º toque no
 // Marca-texto abre o painel da 23b com os rótulos e as contagens do banco (D-40); "Editar rótulos" abre a folha sobre
 // o painel, Salvar grava e volta com o rótulo novo, Cancelar não grava e o Voltar fecha a folha primeiro (D-177, D-42
-// por camadas); o marca-texto sobre o grifo amarelo da página une com ele (D-173) e o Concluir grava.
+// por camadas); o marca-texto sobre o grifo amarelo da página une com ele (D-173) e o Concluir grava. G17.7
+// (comportamento): os ajustes da caneta gravam o `pen_presets` e valem no traço seguinte; o marca-texto na margem
+// fica como tinta translúcida e aparece no leitor limpo (R22); o rosa no meio de um amarelo de seleção o corta, o
+// Desfazer e o Refazer voltam e o Concluir grava os 3; no Noite, a tinta preta sai na cor das letras (D-174).
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
+import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
+import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
@@ -16,6 +24,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/app_text_finder.dart';
 import '../../../support/canvas.dart';
+import '../../../support/capture.dart';
+import '../../../support/dados_t23.dart';
 import '../../../support/load_fonts.dart';
 import '../../../support/personal_builders.dart';
 import '../../../support/pump_reader.dart';
@@ -241,6 +251,219 @@ void main() {
         linhas.where((a) => a.kind == AnnotationKind.highlight),
         hasLength(1),
       );
+    },
+  );
+
+  testWidgets(
+    'os ajustes da caneta gravam o pen_presets e valem no traço seguinte',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro);
+      await _anotar(tester);
+      await tester.tap(_key('ann.toolShelf.pen'));
+      await tester.pump();
+      await _quadros(tester, 12);
+      expect(_key('ann.penPanel'), findsOneWidget);
+      await tester.tap(_key('ann.penPanel.tips.fountain'));
+      await _banco(tester);
+      await tester.tap(_key('ann.penPanel.picker.hex'));
+      await tester.pump();
+      await tester.enterText(find.byType(EditableText), '058cd7');
+      await _banco(tester);
+      final gravado = await tester.runAsync(
+        () => PenPresetsDao(livro.db).forUser(livro.leitor),
+      );
+      expect((gravado!.penTip, gravado.penColor), (PenTip.fountain, '#058CD7'));
+      await tester.tap(_key('ann.penPanel.close'));
+      await tester.pump();
+      await _quadros(tester, 12);
+      expect(_key('ann.penPanel'), findsNothing);
+      final g = await tester.startGesture(const Offset(80, 330));
+      for (var i = 1; i <= 6; i++) {
+        await g.moveTo(
+          Offset(80 + 20.0 * i, 332),
+          timeStamp: Duration(milliseconds: 16 * i),
+        );
+      }
+      await g.up();
+      await tester.pump();
+      final t = _sessao(tester).visibleStrokes.single;
+      expect((t.tip, t.argb), (tipCode(PenTip.fountain), 0xFF058CD7));
+    },
+  );
+
+  testWidgets(
+    'o marca-texto na margem fica como tinta translúcida e aparece no leitor limpo (R22)',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro);
+      final pagina = _doc(tester).current;
+      final shown = pagina.shown!;
+      final linha = pagina
+          .boxesOf(shown.unit, shown.from, shown.from + 1)
+          .first;
+      await _anotar(tester);
+      await tester.tap(_key('ann.toolShelf.marker'));
+      await tester.pump();
+      // do lado de fora das letras, na altura da 1ª linha (30 abaixo no modo)
+      final y = (linha.textTop + linha.textBottom) / 2 + annotationTextShift;
+      final g = await tester.startGesture(Offset(linha.rect.left - 20, y));
+      await g.moveTo(
+        Offset(linha.rect.left - 6, y),
+        timeStamp: const Duration(milliseconds: 16),
+      );
+      await g.up();
+      await tester.pump();
+      expect(_sessao(tester).desk.items, isEmpty);
+      expect(_sessao(tester).visibleStrokes.single.tool, InkTool.marker.code);
+      await tester.tap(_key('ann.done'));
+      await _banco(tester);
+      await _quadros(tester, 20);
+      final camadas = await tester.runAsync(
+        () => InkLayersDao(livro.db).liveOverTextForBook(livro.userBookId),
+      );
+      final tracos = decodeStrokesB64(camadas!.single.strokesB64, Bnk1Unit.em);
+      expect(
+        (tracos.single.tool, tracos.single.argb),
+        (InkTool.marker.code, 0xE6FED170),
+      );
+      final desenhos = tester
+          .widget<ReaderPageView>(find.byType(ReaderPageView))
+          .ink!
+          .drawingsOn(_doc(tester).current);
+      expect(desenhos.single.strokes.single.tool, InkTool.marker.code);
+    },
+  );
+
+  testWidgets(
+    'o rosa no meio de um amarelo de seleção o corta; Desfazer e Refazer; o Concluir grava os 3 (D-173)',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro);
+      final pagina = _doc(tester).current;
+      final shown = pagina.shown!;
+      final texto = pagina.textOf(shown.unit, shown.from, shown.to);
+      final palavras = RegExp(
+        r'[\p{L}]{3,}',
+        unicode: true,
+      ).allMatches(texto).take(3).toList();
+      final a = shown.from + palavras.first.start;
+      final z = shown.from + palavras.last.end;
+      final grifo = Annotation(
+        id: idTeste(60),
+        meta: metaTeste(userId: livro.leitor),
+        userBookId: livro.userBookId,
+        kind: AnnotationKind.highlight,
+        groupId: idTeste(60),
+        anchor: EpubAnchor(
+          sha: livro.index.contentSha256,
+          spine: shown.unit,
+          start: a,
+          end: z,
+          quote: TextQuote(
+            exact: texto.substring(a - shown.from, z - shown.from),
+          ),
+          refPage: 1,
+        ),
+        refPage: 1,
+        chapterIndex: 0,
+        color: '#FED170',
+        style: HighlightStyle.fill,
+        fillHeight: FillHeight.medium,
+      );
+      await tester.runAsync(() => AnnotationsDao(livro.db).upsert(grifo));
+      await _banco(tester);
+      await _anotar(tester);
+      await _painelDoMarcaTexto(tester);
+      await tester.tap(_key('ann.markerPanel.colors.pink'));
+      await tester.pump();
+      await tester.tap(_key('ann.markerPanel.close'));
+      await tester.pump();
+      await _quadros(tester, 12);
+      // sobre a 2ª palavra
+      final meio = palavras[1];
+      final caixa = pagina
+          .boxesOf(shown.unit, shown.from + meio.start, shown.from + meio.end)
+          .first;
+      final y = (caixa.textTop + caixa.textBottom) / 2 + annotationTextShift;
+      final g = await tester.startGesture(Offset(caixa.rect.left + 1, y));
+      await g.moveTo(
+        Offset(caixa.rect.right - 1, y),
+        timeStamp: const Duration(milliseconds: 16),
+      );
+      await g.up();
+      await tester.pump();
+      final s = _sessao(tester);
+      expect(s.desk.items, hasLength(3));
+      await tester.tap(_key('ann.island.undo'));
+      await tester.pump();
+      expect(s.desk.items.map((h) => h.id), [grifo.id]);
+      await tester.tap(_key('ann.island.redo'));
+      await tester.pump();
+      expect(s.desk.items, hasLength(3));
+      await tester.tap(_key('ann.done'));
+      await _banco(tester);
+      await _quadros(tester, 20);
+      final linhas = [
+        for (final x in (await tester.runAsync(
+          () => AnnotationsDao(livro.db).forBook(livro.userBookId),
+        ))!)
+          if (x.kind == AnnotationKind.highlight) x,
+      ];
+      expect(linhas, hasLength(3));
+      final amarelo = linhas.singleWhere((x) => x.id == grifo.id);
+      expect(
+        (amarelo.anchor as EpubAnchor).end,
+        lessThanOrEqualTo(shown.from + meio.start),
+      );
+      final rosa = linhas.singleWhere((x) => x.color == '#FFC1C6');
+      expect(rosa.source, AnnotationSource.ink);
+      final direita = linhas.singleWhere(
+        (x) => x.id != grifo.id && x.color == '#FED170',
+      );
+      expect(
+        (direita.source, direita.groupId, (direita.anchor as EpubAnchor).end),
+        (AnnotationSource.selection, grifo.groupId, z),
+      );
+    },
+  );
+
+  testWidgets(
+    'Noite: o painel nas cores do Noite e a tinta preta sai na cor das letras (D-174)',
+    (tester) async {
+      final noite = await livroDaTela23(papel: ReaderPaper.noite);
+      addTearDown(noite.close);
+      await abrirTela23(tester, noite, golden: true);
+      expect(
+        (tester.widget<Container>(_key('ann.penPanel')).decoration!
+                as BoxDecoration)
+            .color,
+        AppColors.islandNight,
+      );
+      await tester.tap(_key('ann.penPanel.favorites.black'));
+      await _banco(tester);
+      await tester.tap(_key('ann.penPanel.close'));
+      await tester.pump();
+      await _quadros(tester, 12);
+      final g = await tester.startGesture(const Offset(120, 420));
+      for (var i = 1; i <= 6; i++) {
+        await g.moveTo(
+          Offset(120 + 15.0 * i, 420),
+          timeStamp: Duration(milliseconds: 16 * i),
+        );
+      }
+      await g.up();
+      await tester.pump();
+      await _quadros(tester, 4);
+      // o traço novo (pode entrar num desenho do mundo que ele toca — D-162)
+      expect(
+        _sessao(tester).visibleStrokes.where((t) => t.argb == 0xFF1A1714),
+        hasLength(1),
+      );
+      final img = await captureAt(tester, find.byKey(goldenRootKey));
+      final rgba = await rgbaOf(tester, img);
+      final i = ((420 * 3) * img.width + 165 * 3) * 4;
+      expect((rgba[i], rgba[i + 1], rgba[i + 2]), (0xE3, 0xD9, 0xC6));
     },
   );
 }
