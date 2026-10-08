@@ -46,6 +46,34 @@ final class AnnotationsDao {
     _db.annotations,
   )..where((t) => t.id.equals(id))).map(_toEntity).getSingleOrNull();
 
+  /// As linhas [ids], vivas ou não (o Concluir da G16 lê o que vai regravar).
+  Future<List<Annotation>> byIds(Iterable<String> ids) {
+    final list = ids.toList();
+    if (list.isEmpty) return Future.value(const []);
+    return (_db.select(
+      _db.annotations,
+    )..where((t) => t.id.isIn(list))).map(_toEntity).get();
+  }
+
+  /// Os desenhos (`drawing`) vivos das camadas [layerIds] (G16).
+  Future<List<Annotation>> drawingsOfLayers(Iterable<String> layerIds) {
+    final list = layerIds.toList();
+    if (list.isEmpty) return Future.value(const []);
+    return (_db.select(_db.annotations)
+          ..where(
+            (t) =>
+                t.inkLayerId.isIn(list) &
+                t.kind.equals(AnnotationKind.drawing.code) &
+                t.deletedAt.isNull(),
+          )
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.createdAt),
+            (t) => OrderingTerm(expression: t.id),
+          ]))
+        .map(_toEntity)
+        .get();
+  }
+
   /// Itens do livro na ordem do livro (página, início da âncora, criação) — tela 25.
   Future<List<Annotation>> forBook(String userBookId) =>
       _forBook(userBookId).get();
@@ -170,27 +198,52 @@ final class InkLayersDao {
               (t) => t.userBookId.equals(userBookId) & t.deletedAt.isNull(),
             )
             ..orderBy([(t) => OrderingTerm(expression: t.createdAt)]))
-          .map(
-            (r) => InkLayer(
-              id: r.id,
-              meta: metaFromRow(
-                userId: r.userId,
-                createdAt: r.createdAt,
-                updatedAt: r.updatedAt,
-                deletedAt: r.deletedAt,
-                versionHlc: r.versionHlc,
-              ),
-              userBookId: r.userBookId,
-              kind: r.kind,
-              anchor: r.anchor,
-              spaceLines: r.spaceLines,
-              collapsed: r.collapsed,
-              strokesB64: r.strokesB64,
-              strokeCount: r.strokeCount,
-              codecVersion: r.codecVersion,
-            ),
-          )
+          .map(_toEntity)
           .get();
+
+  /// As camadas [ids], vivas ou não (o Concluir da G16 lê o que vai regravar ou apagar).
+  Future<List<InkLayer>> byIds(Iterable<String> ids) {
+    final list = ids.toList();
+    if (list.isEmpty) return Future.value(const []);
+    return (_db.select(
+      _db.inkLayers,
+    )..where((t) => t.id.isIn(list))).map(_toEntity).get();
+  }
+
+  /// As camadas sobre o texto (os desenhos — G16) vivas do livro, em ordem de criação.
+  Future<List<InkLayer>> liveOverTextForBook(String userBookId) =>
+      (_db.select(_db.inkLayers)
+            ..where(
+              (t) =>
+                  t.userBookId.equals(userBookId) &
+                  t.kind.equals(InkLayerKind.overText.code) &
+                  t.deletedAt.isNull(),
+            )
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.createdAt),
+              (t) => OrderingTerm(expression: t.id),
+            ]))
+          .map(_toEntity)
+          .get();
+
+  static InkLayer _toEntity(InkLayerRow r) => InkLayer(
+    id: r.id,
+    meta: metaFromRow(
+      userId: r.userId,
+      createdAt: r.createdAt,
+      updatedAt: r.updatedAt,
+      deletedAt: r.deletedAt,
+      versionHlc: r.versionHlc,
+    ),
+    userBookId: r.userBookId,
+    kind: r.kind,
+    anchor: r.anchor,
+    spaceLines: r.spaceLines,
+    collapsed: r.collapsed,
+    strokesB64: r.strokesB64,
+    strokeCount: r.strokeCount,
+    codecVersion: r.codecVersion,
+  );
 }
 
 final class HighlightLabelsDao {

@@ -134,6 +134,43 @@ InkLayer camadaTeste(int n, {required String livro}) => InkLayer(
   strokeCount: 0,
 );
 
+/// G16: uma camada sobre o texto (um desenho), presa a "Olhos de ressaca?".
+InkLayer camadaSobreTextoTeste(
+  int n, {
+  required String livro,
+  bool apagada = false,
+  String strokesB64 = '',
+  int tracos = 0,
+}) => InkLayer(
+  id: idTeste(n),
+  meta: metaTeste(apagado: apagada),
+  userBookId: livro,
+  kind: InkLayerKind.overText,
+  anchor: ancoraTeste(inicio: 300, exato: 'Olhos de ressaca?'),
+  strokesB64: strokesB64,
+  strokeCount: tracos,
+);
+
+/// G16: a anotação `drawing` da camada [camada].
+Annotation desenhoTeste(
+  int n, {
+  required String livro,
+  required InkLayer camada,
+  bool apagado = false,
+}) => Annotation(
+  id: idTeste(n),
+  meta: metaTeste(apagado: apagado),
+  userBookId: livro,
+  kind: AnnotationKind.drawing,
+  groupId: idTeste(n),
+  source: AnnotationSource.ink,
+  anchor: ancoraTeste(inicio: 300, exato: 'Olhos de ressaca?'),
+  refPage: 159,
+  chapterIndex: 31,
+  color: '#FF552E',
+  inkLayerId: camada.id,
+);
+
 ReadingPosition posicaoTeste(String livro, {String dono = usuarioTeste}) =>
     ReadingPosition(
       id: livro,

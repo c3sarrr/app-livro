@@ -24,4 +24,8 @@ final class KvDao {
       .insertOnConflictUpdate(
         KvCompanion(key: Value(key), value: Value(value)),
       );
+
+  /// Apaga a chave [key] (a que não existe não faz nada).
+  Future<void> delete(String key) =>
+      (_db.delete(_db.kv)..where((t) => t.key.equals(key))).go();
 }

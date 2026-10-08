@@ -338,6 +338,68 @@ void main() {
     });
   });
 
+  group('G16: leituras da tinta', () {
+    test(
+      'camadas por id (vivas ou não) e as sobre o texto vivas do livro',
+      () async {
+        final dao = InkLayersDao(db);
+        final viva = camadaSobreTextoTeste(90, livro: idTeste(1));
+        final apagada = camadaSobreTextoTeste(
+          91,
+          livro: idTeste(1),
+          apagada: true,
+        );
+        final espaco = camadaTeste(92, livro: idTeste(1));
+        final outroLivro = camadaSobreTextoTeste(93, livro: idTeste(2));
+        for (final l in [viva, apagada, espaco, outroLivro]) {
+          await dao.upsert(l);
+        }
+        expect(
+          await dao.byIds([viva.id, apagada.id, idTeste(99)]),
+          unorderedEquals([viva, apagada]),
+        );
+        expect(await dao.byIds(const []), isEmpty);
+        expect(await dao.liveOverTextForBook(idTeste(1)), [viva]);
+      },
+    );
+
+    test(
+      'anotações por id (vivas ou não) e os desenhos vivos das camadas',
+      () async {
+        final dao = AnnotationsDao(db);
+        final c1 = camadaSobreTextoTeste(90, livro: idTeste(1));
+        final c2 = camadaSobreTextoTeste(91, livro: idTeste(1));
+        final d1 = desenhoTeste(94, livro: idTeste(1), camada: c1);
+        final d2 = desenhoTeste(
+          95,
+          livro: idTeste(1),
+          camada: c2,
+          apagado: true,
+        );
+        final grifo = grifoTeste(96, livro: idTeste(1));
+        for (final a in [d1, d2, grifo]) {
+          await dao.upsert(a);
+        }
+        expect(
+          await dao.byIds([d1.id, d2.id, grifo.id, idTeste(99)]),
+          unorderedEquals([d1, d2, grifo]),
+        );
+        expect(await dao.byIds(const []), isEmpty);
+        expect(await dao.drawingsOfLayers([c1.id, c2.id]), [d1]);
+        expect(await dao.drawingsOfLayers(const []), isEmpty);
+      },
+    );
+
+    test('kv: apagar uma chave (e a que não existe não faz nada)', () async {
+      final kv = KvDao(db);
+      await kv.set('ink_draft:dona:livro', '{"v":1}');
+      await kv.delete('ink_draft:dona:livro');
+      expect(await kv.get('ink_draft:dona:livro'), isNull);
+      await kv.delete('ink_draft:dona:livro');
+      expect(await kv.get('sync'), 'gratis');
+    });
+  });
+
   group('kv e versões', () {
     test('kv: get/set/watch', () async {
       final kv = KvDao(db);
