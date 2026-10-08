@@ -7,6 +7,10 @@
 // - Os desenhos mexidos ficam marcados mesmo depois do desfazer: o Concluir compara cada um com o que foi lido.
 // - G17: a cópia guarda também a mesa de grifos (D-173); o traço do Marca-texto é um passo (`MarkHighlights`) e a
 //   Borracha tira da mesa os grifos à mão que apaga.
+// - G18: a cópia guarda as notas à mão da página (a tinta delas na unidade da caixa — `note_ink.dart`); abrir,
+//   mudar a altura ou recolher, apagar e escrever nelas são passos; a Borracha alcança os traços delas. Quando a
+//   página do modo muda (um espaço abriu ou mudou), [InkWorkingCopy.remap] e [InkHistory.remap] levam cada desenho
+//   junto com as palavras dele — na cópia e nos estados guardados dos comandos.
 import 'package:flutter/foundation.dart' show immutable, listEquals;
 
 import 'highlight_desk.dart';
@@ -76,14 +80,151 @@ final class SessionDrawing {
   String toString() => 'SessionDrawing($id, $order, $strokes)';
 }
 
+/// O que uma nota à mão salva já tinha no banco: a camada, a anotação, a hora de criação e o grupo.
+typedef SavedNoteRef = SavedDrawingRef;
+
+/// G18 — uma nota à mão da página: a camada `space` ([id]), o item e a âncora, as linhas (1–12), recolhida, os traços
+/// (na unidade da nota: x = fração da largura da caixa, y = linhas de 42 px), a hora de criação e o que ela já tinha
+/// no banco.
+@immutable
+final class SessionNote {
+  const SessionNote({
+    required this.id,
+    required this.unit,
+    required this.at,
+    required this.lines,
+    required this.collapsed,
+    required this.strokes,
+    required this.createdAt,
+    this.saved,
+  });
+
+  final String id;
+  final int unit;
+  final int at;
+  final int lines;
+  final bool collapsed;
+  final List<SessionStroke> strokes;
+  final DateTime createdAt;
+  final SavedNoteRef? saved;
+
+  SessionNote copyWith({
+    int? lines,
+    bool? collapsed,
+    List<SessionStroke>? strokes,
+  }) => SessionNote(
+    id: id,
+    unit: unit,
+    at: at,
+    lines: lines ?? this.lines,
+    collapsed: collapsed ?? this.collapsed,
+    strokes: strokes == null ? this.strokes : List.unmodifiable(strokes),
+    createdAt: createdAt,
+    saved: saved,
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      other is SessionNote &&
+      other.id == id &&
+      other.unit == unit &&
+      other.at == at &&
+      other.lines == lines &&
+      other.collapsed == collapsed &&
+      other.createdAt == createdAt &&
+      other.saved == saved &&
+      listEquals(other.strokes, strokes);
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    unit,
+    at,
+    lines,
+    collapsed,
+    createdAt,
+    saved,
+    Object.hashAll(strokes),
+  );
+
+  @override
+  String toString() =>
+      'SessionNote($id, $at, $lines${collapsed ? ', recolhida' : ''}, $strokes)';
+}
+
+/// G18 — o deslocamento do desenho [drawingId] (de traços [strokes]) quando a página do modo muda; `null` = fica.
+typedef InkShift = ({double dx, double dy})? Function(
+  String drawingId,
+  List<SessionStroke> strokes,
+);
+
+SessionDrawing _shifted(SessionDrawing d, InkShift shift) {
+  final s = shift(d.id, d.strokes);
+  if (s == null) return d;
+  return d.withStrokes([
+    for (final x in d.strokes)
+      SessionStroke(x.id, x.stroke.translated(s.dx, s.dy)),
+  ]);
+}
+
 /// A cópia de trabalho da página.
 final class InkWorkingCopy {
   InkWorkingCopy(
     Iterable<SessionDrawing> drawings, [
     this._desk = HighlightDesk.empty,
-  ]) : _drawings = {for (final d in drawings) d.id: d};
+    Iterable<SessionNote> notes = const [],
+  ]) : _drawings = {for (final d in drawings) d.id: d},
+       _notes = [...notes];
 
   final Map<String, SessionDrawing> _drawings;
+
+  /// As notas à mão da página, na ordem em que entraram (G18).
+  final List<SessionNote> _notes;
+  final Set<String> _changedNotes = {};
+
+  List<SessionNote> get notes => List.unmodifiable(_notes);
+
+  SessionNote? note(String id) {
+    for (final n in _notes) {
+      if (n.id == id) return n;
+    }
+    return null;
+  }
+
+  /// A nota do traço [strokeId].
+  String? noteOfStroke(int strokeId) {
+    for (final n in _notes) {
+      if (n.strokes.any((s) => s.id == strokeId)) return n.id;
+    }
+    return null;
+  }
+
+  /// As notas mexidas nesta sessão (mesmo que desfeitas).
+  Set<String> get changedNotes => Set.unmodifiable(_changedNotes);
+
+  void _putNote(SessionNote n) {
+    final i = _notes.indexWhere((x) => x.id == n.id);
+    if (i < 0) {
+      _notes.add(n);
+    } else {
+      _notes[i] = n;
+    }
+    _changedNotes.add(n.id);
+  }
+
+  int _removeNote(String id) {
+    final i = _notes.indexWhere((x) => x.id == id);
+    if (i >= 0) _notes.removeAt(i);
+    _changedNotes.add(id);
+    return i;
+  }
+
+  /// G18: a página do modo mudou — cada desenho anda pelo deslocamento dele (sem contar como mexido).
+  void remap(InkShift shift) {
+    for (final d in _drawings.values.toList()) {
+      _drawings[d.id] = _shifted(d, shift);
+    }
+  }
 
   /// Os grifos da página (G17, D-173).
   HighlightDesk _desk;
@@ -136,6 +277,9 @@ final class InkWorkingCopy {
 sealed class InkCommand {
   void apply(InkWorkingCopy w);
   void revert(InkWorkingCopy w);
+
+  /// G18: leva os traços guardados pelo comando junto com a página que mudou (os das notas não andam).
+  void remap(InkShift shift) {}
 }
 
 /// Um traço novo: no desenho [into] (o que ele tocou) ou num desenho novo [newDrawingId] de ordem [order].
@@ -147,13 +291,23 @@ final class AddStroke extends InkCommand {
     required this.order,
   });
 
-  final SessionStroke stroke;
+  SessionStroke stroke;
   final String? into;
   final String newDrawingId;
   final int order;
 
   SessionDrawing? _before;
   bool _created = false;
+
+  @override
+  void remap(InkShift shift) {
+    final s = shift(into ?? newDrawingId, [stroke]);
+    if (s != null) {
+      stroke = SessionStroke(stroke.id, stroke.stroke.translated(s.dx, s.dy));
+    }
+    final b = _before;
+    if (b != null) _before = _shifted(b, shift);
+  }
 
   @override
   void apply(InkWorkingCopy w) {
@@ -192,15 +346,37 @@ final class Erase extends InkCommand {
 
   final List<SessionDrawing> _before = [];
   final Set<String> _added = {};
+  final List<SessionNote> _notesBefore = [];
 
   HighlightDesk? _deskBefore;
+
+  @override
+  void remap(InkShift shift) {
+    for (var i = 0; i < _before.length; i++) {
+      _before[i] = _shifted(_before[i], shift);
+    }
+  }
 
   @override
   void apply(InkWorkingCopy w) {
     _before.clear();
     _added.clear();
+    _notesBefore.clear();
     _deskBefore = w._desk;
     w._desk = w._desk.erase(highlightIds);
+    // G18: os traços das notas (a nota fica, mesmo sem nenhum)
+    for (final n in w.notes) {
+      if (!n.strokes.any((s) => strokeIds.contains(s.id))) continue;
+      _notesBefore.add(n);
+      w._putNote(
+        n.copyWith(
+          strokes: [
+            for (final s in n.strokes)
+              if (!strokeIds.contains(s.id)) s,
+          ],
+        ),
+      );
+    }
     for (final d in w.drawings) {
       if (!d.strokes.any((s) => strokeIds.contains(s.id))) continue;
       _before.add(d);
@@ -223,6 +399,9 @@ final class Erase extends InkCommand {
   void revert(InkWorkingCopy w) {
     for (final d in _before) {
       w._put(d);
+    }
+    for (final n in _notesBefore) {
+      w._putNote(n);
     }
     w._erasedHighlights.removeAll(_added);
     w._desk = _deskBefore ?? w._desk;
@@ -263,6 +442,26 @@ final class MoveStrokes extends InkCommand {
 
   final List<SessionDrawing> _before = [];
 
+  /// Os traços já movidos, guardados na 1ª aplicação (o refazer usa os mesmos — G18: eles andam com o `remap`).
+  List<SessionStroke>? _moved;
+
+  @override
+  void remap(InkShift shift) {
+    for (var i = 0; i < _before.length; i++) {
+      _before[i] = _shifted(_before[i], shift);
+    }
+    final m = _moved;
+    if (m != null) {
+      final s = shift(newDrawingId, m);
+      if (s != null) {
+        _moved = [
+          for (final x in m)
+            SessionStroke(x.id, x.stroke.translated(s.dx, s.dy)),
+        ];
+      }
+    }
+  }
+
   @override
   void apply(InkWorkingCopy w) {
     _before.clear();
@@ -285,11 +484,12 @@ final class MoveStrokes extends InkCommand {
       }
     }
     moved.sort((a, b) => a.id.compareTo(b.id));
+    final strokes = _moved ??= List.unmodifiable(moved);
     w._put(
       SessionDrawing(
         id: newDrawingId,
         order: order,
-        strokes: List.unmodifiable(moved),
+        strokes: List.unmodifiable(strokes),
       ),
     );
   }
@@ -300,6 +500,117 @@ final class MoveStrokes extends InkCommand {
     for (final d in _before) {
       w._put(d);
     }
+  }
+}
+
+/// G18 — uma nota à mão nova na página.
+final class OpenNote extends InkCommand {
+  OpenNote(this.note);
+
+  final SessionNote note;
+
+  @override
+  void apply(InkWorkingCopy w) => w._putNote(note);
+
+  @override
+  void revert(InkWorkingCopy w) => w._removeNote(note.id);
+}
+
+/// G18 — a nota mudou de altura ou foi recolhida/aberta.
+final class ChangeNote extends InkCommand {
+  ChangeNote({required this.before, required this.after});
+
+  final SessionNote before;
+  final SessionNote after;
+
+  @override
+  void apply(InkWorkingCopy w) => w._putNote(after);
+
+  @override
+  void revert(InkWorkingCopy w) => w._putNote(before);
+}
+
+/// G18 — a nota [id] apagada (com os traços); o desfazer a devolve no mesmo lugar.
+final class DeleteNote extends InkCommand {
+  DeleteNote(this.id);
+
+  final String id;
+  SessionNote? _before;
+  int _index = -1;
+
+  @override
+  void apply(InkWorkingCopy w) {
+    _before = w.note(id);
+    _index = w._removeNote(id);
+  }
+
+  @override
+  void revert(InkWorkingCopy w) {
+    final n = _before;
+    if (n == null) return;
+    w._notes.insert(_index.clamp(0, w._notes.length), n);
+    w._changedNotes.add(id);
+  }
+}
+
+/// G18 — um traço novo na nota [noteId] (na unidade dela).
+final class AddNoteStroke extends InkCommand {
+  AddNoteStroke(this.noteId, this.stroke);
+
+  final String noteId;
+  final SessionStroke stroke;
+  SessionNote? _before;
+
+  @override
+  void apply(InkWorkingCopy w) {
+    final n = w.note(noteId);
+    _before = n;
+    if (n != null) w._putNote(n.copyWith(strokes: [...n.strokes, stroke]));
+  }
+
+  @override
+  void revert(InkWorkingCopy w) {
+    final n = _before;
+    if (n != null) w._putNote(n);
+  }
+}
+
+/// G18 — o Laço moveu os traços [strokeIds] da nota [noteId] de ([dx], [dy]) na unidade dela.
+final class MoveNoteStrokes extends InkCommand {
+  MoveNoteStrokes({
+    required this.noteId,
+    required this.strokeIds,
+    required this.dx,
+    required this.dy,
+  });
+
+  final String noteId;
+  final Set<int> strokeIds;
+  final double dx;
+  final double dy;
+  SessionNote? _before;
+
+  @override
+  void apply(InkWorkingCopy w) {
+    final n = w.note(noteId);
+    _before = n;
+    if (n == null) return;
+    w._putNote(
+      n.copyWith(
+        strokes: [
+          for (final s in n.strokes)
+            strokeIds.contains(s.id)
+                ? SessionStroke(s.id, s.stroke.translated(dx, dy))
+                : s,
+        ],
+      ),
+    );
+  }
+
+  @override
+  void revert(InkWorkingCopy w) {
+    final n = _before;
+    if (n != null) w._putNote(n);
   }
 }
 
@@ -337,5 +648,15 @@ final class InkHistory {
     final c = _redo.removeLast()..apply(copy);
     _undo.add(c);
     return true;
+  }
+
+  /// O último passo feito (o que o Desfazer desfaz), ou `null`.
+  InkCommand? get last => _undo.isEmpty ? null : _undo.last;
+
+  /// G18: a página do modo mudou — os traços guardados em todos os passos (feitos e desfeitos) andam junto.
+  void remap(InkShift shift) {
+    for (final c in [..._undo, ..._redo]) {
+      c.remap(shift);
+    }
   }
 }

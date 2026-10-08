@@ -1,6 +1,7 @@
 // G16.3 — a cópia de trabalho da página e a pilha de comandos da sessão (§3): cada comando aplicado e desfeito volta
 // exatamente ao estado anterior; no máximo 100 passos (o mais antigo sai); uma ação nova limpa o refazer; mover o
 // único traço de um desenho apaga o desenho e o desfazer o devolve; os desenhos mexidos ficam marcados.
+import 'package:app_leitura/features/reader/annotations/ink/highlight_desk.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_commands.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -207,5 +208,163 @@ void main() {
     h.undo();
     expect(w.changedDrawings, {'camada-elipse'});
     expect(w.erasedHighlights, isEmpty);
+  });
+
+  group('notas à mão (G18)', () {
+    SessionStroke n(int id, {double x = 0.1, double y = 0.5}) => SessionStroke(
+      id,
+      InkStroke(
+        tool: InkTool.pen.code,
+        tip: 0,
+        argb: 0xFFFF552E,
+        widthCentiMm: 120,
+        points: [InkPoint(x, y, 0.5, 0), InkPoint(x + 0.1, y + 0.2, 0.4, 8)],
+      ),
+    );
+    SessionNote nota(String id, {List<SessionStroke> tracos = const []}) =>
+        SessionNote(
+          id: id,
+          unit: 31,
+          at: 120,
+          lines: 3,
+          collapsed: false,
+          strokes: tracos,
+          createdAt: _t0,
+        );
+
+    late InkWorkingCopy c;
+    setUp(
+      () => c = InkWorkingCopy(
+        [_saved, _other],
+        HighlightDesk.empty,
+        [
+          nota('salva', tracos: [n(10), n(11, y: 1.5)]),
+        ],
+      ),
+    );
+
+    test('a cópia tem as notas, por id e por traço', () {
+      expect(c.notes.map((x) => x.id), ['salva']);
+      expect(c.note('salva')!.strokes, hasLength(2));
+      expect(c.noteOfStroke(11), 'salva');
+      expect(c.noteOfStroke(1), isNull);
+      expect(c.changedNotes, isEmpty);
+    });
+
+    test('OpenNote, ChangeNote e AddNoteStroke: aplicam e desfazem', () {
+      final abrir = OpenNote(nota('nova'))..apply(c);
+      expect(c.notes.map((x) => x.id), ['salva', 'nova']);
+      final antes = c.note('nova')!;
+      final mudar = ChangeNote(
+        before: antes,
+        after: antes.copyWith(lines: 5, collapsed: true),
+      )..apply(c);
+      expect((c.note('nova')!.lines, c.note('nova')!.collapsed), (5, true));
+      final escrever = AddNoteStroke('nova', n(20))..apply(c);
+      expect(c.note('nova')!.strokes.map((s) => s.id), [20]);
+      expect(c.noteOfStroke(20), 'nova');
+      escrever.revert(c);
+      expect(c.note('nova')!.strokes, isEmpty);
+      mudar.revert(c);
+      expect(c.note('nova'), antes);
+      abrir.revert(c);
+      expect(c.notes.map((x) => x.id), ['salva']);
+      expect(c.changedNotes, {'nova'});
+    });
+
+    test('DeleteNote tira com os traços e devolve no mesmo lugar', () {
+      OpenNote(nota('nova')).apply(c);
+      final antes = [...c.notes];
+      final apagar = DeleteNote('salva')..apply(c);
+      expect(c.notes.map((x) => x.id), ['nova']);
+      expect(c.noteOfStroke(10), isNull);
+      apagar.revert(c);
+      expect(c.notes, antes);
+      expect(c.changedNotes, {'nova', 'salva'});
+    });
+
+    test('Erase alcança os traços da nota (a nota fica, mesmo vazia); desfazer devolve', () {
+      final antes = c.note('salva');
+      final e = Erase(strokeIds: {10, 11, 2}, highlightIds: const {})..apply(c);
+      expect(c.note('salva')!.strokes, isEmpty);
+      expect(c.drawing('camada-elipse')!.strokes.map((s) => s.id), [1]);
+      e.revert(c);
+      expect(c.note('salva'), antes);
+      expect(c.changedNotes, {'salva'});
+    });
+
+    test(
+      'MoveNoteStrokes move dentro da nota (unidade da nota); desfazer volta',
+      () {
+        final antes = c.note('salva');
+        final m = MoveNoteStrokes(
+          noteId: 'salva',
+          strokeIds: {11},
+          dx: 0.25,
+          dy: -0.5,
+        )..apply(c);
+        expect(c.note('salva')!.strokes[0], n(10));
+        expect(
+          c.note('salva')!.strokes[1],
+          SessionStroke(11, n(11, y: 1.5).stroke.translated(0.25, -0.5)),
+        );
+        m.revert(c);
+        expect(c.note('salva'), antes);
+      },
+    );
+
+    test('remap: cada desenho anda pelo deslocamento dele, na cópia e na pilha; as notas não', () {
+      final h = InkHistory(c)
+        ..push(
+          AddStroke(
+            _s(4, y: 200),
+            into: 'camada-onda',
+            newDrawingId: 'x',
+            order: 2,
+          ),
+        )
+        ..push(
+          MoveStrokes(
+            strokeIds: {2},
+            dx: 5,
+            dy: 0,
+            newDrawingId: 'movido',
+            order: 3,
+          ),
+        )
+        ..push(AddNoteStroke('salva', n(12)));
+      h.undo(); // a nota
+      ({double dx, double dy})? desloca(String id, List<SessionStroke> _) =>
+          id == 'camada-onda' || id == 'movido' ? (dx: 0, dy: 100) : null;
+      c.remap(desloca);
+      h.remap(desloca);
+      expect(c.drawing('camada-onda')!.strokes, [
+        SessionStroke(3, _s(3, y: 200).stroke.translated(0, 100)),
+        SessionStroke(4, _s(4, y: 200).stroke.translated(0, 100)),
+      ]);
+      expect(c.drawing('movido')!.strokes, [
+        SessionStroke(2, _s(2, x: 50).stroke.translated(5, 100)),
+      ]);
+      expect(c.drawing('camada-elipse')!.strokes, [_s(1)]);
+      expect(c.changedDrawings, {'camada-onda', 'movido', 'camada-elipse'});
+      // desfazer e refazer depois do remap: tudo transladado
+      h.undo(); // o Laço
+      expect(c.drawing('camada-elipse')!.strokes, [_s(1), _s(2, x: 50)]);
+      h.undo(); // o traço
+      expect(c.drawing('camada-onda')!.strokes, [
+        SessionStroke(3, _s(3, y: 200).stroke.translated(0, 100)),
+      ]);
+      h.redo();
+      expect(
+        c.drawing('camada-onda')!.strokes.last,
+        SessionStroke(4, _s(4, y: 200).stroke.translated(0, 100)),
+      );
+      h.redo();
+      expect(c.drawing('movido')!.strokes, [
+        SessionStroke(2, _s(2, x: 50).stroke.translated(5, 100)),
+      ]);
+      h.redo(); // a nota: a tinta dela não anda
+      expect(c.note('salva')!.strokes.last, n(12));
+    });
   });
 }
