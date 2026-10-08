@@ -19,8 +19,25 @@ abstract final class AppIllustrationsLeitor {
   static const toolSpace = '$_d/il_ferramenta_espaco.svg';
   static const toolSpaceActive = '$_d/il_ferramenta_espaco_ativa.svg';
 
+  /// G17 — as amostras das pontas da tela 23 (80×26; o coral `#FF552E` vira a cor da caneta) e a dica "Gruda nas
+  /// palavras" da 23b (34×22).
+  static const tipBallpoint = '$_d/il_ponta_esferografica.svg';
+  static const tipFountain = '$_d/il_ponta_tinteiro.svg';
+  static const tipBrush = '$_d/il_ponta_pincel.svg';
+  static const markerTip = '$_d/il_dica_gruda_nas_palavras.svg';
+
+  /// As dos painéis 23 e 23b.
+  static const panels = [tipBallpoint, tipFountain, tipBrush, markerTip];
+
   /// As que não levam cor do usuário (pré-carregadas no `main()`, como os ícones).
-  static const plain = [toolMarker, toolEraser, toolLasso, toolLine, toolSpace];
+  static const plain = [
+    toolMarker,
+    toolEraser,
+    toolLasso,
+    toolLine,
+    toolSpace,
+    markerTip,
+  ];
 
   static const all = [
     toolPen,

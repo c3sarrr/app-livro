@@ -82,6 +82,11 @@ abstract final class AppIconsLeitor {
   static const undo = '$_d/ic_undo.svg';
   static const redo = '$_d/ic_redo.svg';
 
+  /// G17 — painéis da caneta e do marca-texto (telas 23 e 23b): (14) o "+" das favoritas
+  /// (`ann.penPanel.favorites.add.icon`, traço 3); o × dos painéis é o [close] (18, traço 2,4). Sem versão do Noite:
+  /// lá são tingidos com a cor das letras da ilha.
+  static const plus = '$_d/ic_plus.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -124,5 +129,6 @@ abstract final class AppIconsLeitor {
     check,
     undo,
     redo,
+    plus,
   ];
 }

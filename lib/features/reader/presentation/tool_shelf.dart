@@ -1,7 +1,8 @@
 // G16.6 — a prateleira de ferramentas do modo anotação (L22c): os 6 objetos (50×70, cada um num lugar de 52×70) numa
 // fileira de 312×70, atrás da ilha; a ativa sobe 12 px e a caixa de layout fica. Desenho de ativa só na Caneta e no
 // Espaço (D-58): a Caneta ativa com o corpo na `brand`; a inativa com o corpo `#FFFAF1`; nas duas, a faixa e a ponta
-// na cor da tinta (a troca de cor do SVG — `AppSvg.colors`). As outras só sobem. No Noite, os objetos ficam como no
+// na cor da tinta (a troca de cor do SVG — `AppSvg.colors`). O Marca-texto, a faixa e a ponta na cor dele (R28, G17).
+// As outras só sobem. No Noite, os objetos ficam como no
 // Creme (D-167 17). Para o leitor de tela, um grupo de opções "Ferramentas de anotação" com a marcada.
 import 'package:flutter/widgets.dart';
 
@@ -20,6 +21,7 @@ class ToolShelf extends StatelessWidget {
     super.key,
     required this.active,
     required this.ink,
+    this.marker = AppColors.sun,
     required this.onTool,
   });
 
@@ -27,6 +29,9 @@ class ToolShelf extends StatelessWidget {
 
   /// A cor da caneta (a faixa e a ponta da Caneta).
   final Color ink;
+
+  /// A cor do marca-texto (a faixa e a ponta do Marca-texto — R28).
+  final Color marker;
   final ValueChanged<AnnotationTool> onTool;
 
   static const List<(AnnotationTool, String, String)> _tools = [
@@ -48,6 +53,7 @@ class ToolShelf extends StatelessWidget {
     required bool on,
     required Color brand,
     required Color ink,
+    Color marker = AppColors.sun,
   }) => switch (tool) {
     AnnotationTool.pen when on => (
       AppIllustrationsLeitor.toolPenActive,
@@ -62,7 +68,11 @@ class ToolShelf extends StatelessWidget {
       {AppColors.lavender: brand},
     ),
     AnnotationTool.space => (AppIllustrationsLeitor.toolSpace, null),
-    AnnotationTool.marker => (AppIllustrationsLeitor.toolMarker, null),
+    // R28: o amarelo do arquivo vira a cor do marca-texto (com o amarelo, igual à prancha)
+    AnnotationTool.marker => (
+      AppIllustrationsLeitor.toolMarker,
+      marker == AppColors.sun ? null : {AppColors.sun: marker},
+    ),
     AnnotationTool.eraser => (AppIllustrationsLeitor.toolEraser, null),
     AnnotationTool.lasso => (AppIllustrationsLeitor.toolLasso, null),
     AnnotationTool.line => (AppIllustrationsLeitor.toolLine, null),
@@ -92,6 +102,7 @@ class ToolShelf extends StatelessWidget {
                     on: on,
                     brand: brand,
                     ink: ink,
+                    marker: marker,
                   );
                   return SizedBox(
                     key: ValueKey('$id#slot'),

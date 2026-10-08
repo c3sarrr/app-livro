@@ -156,4 +156,57 @@ void main() {
       h.dispose();
     },
   );
+
+  test('R28: o desenho do Marca-texto troca o amarelo pela cor dele; com o amarelo, igual à prancha', () {
+    final (asset, rosa) = ToolShelf.art(
+      AnnotationTool.marker,
+      on: true,
+      brand: _brand,
+      ink: _tinta,
+      marker: AppColors.blush,
+    );
+    expect(asset, AppIllustrationsLeitor.toolMarker);
+    expect(rosa, {AppColors.sun: AppColors.blush});
+    final (_, amarelo) = ToolShelf.art(
+      AnnotationTool.marker,
+      on: false,
+      brand: _brand,
+      ink: _tinta,
+      marker: AppColors.sun,
+    );
+    expect(amarelo, isNull);
+    // a Caneta continua com a tinta dela, mesmo com o Marca-texto ativo
+    final (_, caneta) = ToolShelf.art(
+      AnnotationTool.pen,
+      on: false,
+      brand: _brand,
+      ink: _tinta,
+      marker: AppColors.blush,
+    );
+    expect(caneta, {AppColors.flame: _tinta});
+  });
+
+  testWidgets('R28 na prateleira: o SVG do Marca-texto recebe a cor dele', (
+    tester,
+  ) async {
+    await montarPecasL22(tester, [
+      Positioned(
+        left: 39,
+        top: 676,
+        child: ToolShelf(
+          active: AnnotationTool.marker,
+          ink: _tinta,
+          marker: AppColors.leaf,
+          onTool: (_) {},
+        ),
+      ),
+    ], brand: _brand);
+    final svg = tester.widget<AppSvg>(
+      find.descendant(
+        of: find.byKey(const ValueKey('ann.toolShelf.marker')),
+        matching: find.byType(AppSvg),
+      ),
+    );
+    expect(svg.colors, {AppColors.sun: AppColors.leaf});
+  });
 }
