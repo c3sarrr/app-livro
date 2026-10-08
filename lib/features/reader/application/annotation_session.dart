@@ -12,7 +12,11 @@
 //   retângulo (6 px de folga) move ao vivo e grava ao soltar; tocar fora solta; a Borracha com a seleção apaga os
 //   selecionados (um passo) e fica ativa (D-46).
 // - 2 dedos: a página sobe e desce, com o batente (D-165); ao soltar, volta para dentro dos limites (a tela anima).
-// - O Espaço é da fase seguinte (D-163): `setTool` recusa e a ferramenta atual continua.
+// - G18: o Espaço (R1–R9) — o dedo entre as linhas abre o abridor (a costura depois da frase — D-181), o arrasto
+//   conta as linhas (1–12 — D-41) e, ao soltar, nasce a nota à mão aberta e a Caneta volta (D-187). A página do modo
+//   é refeita com os espaços (`AnnotationPageSource` — R3) e cada desenho anda com as palavras dele. O traço que
+//   começa dentro da caixa é da nota (R6, unidade da nota); a alça (D-186), recolher (D-184) e apagar (D-185) são
+//   passos do desfazer. Sem a fonte da página, o Espaço não abre (como antes, D-163).
 // - G17: os ajustes da caneta e do marca-texto (telas 23 e 23b) gravam o `pen_presets` na hora; os arrastos, ao soltar
 //   (R6); as favoritas (D-175); a cor de cada ferramenta e o painel aberto (R1, R2, R4).
 // - O Concluir grava as mudanças da sessão numa transação: os desenhos novos e mudados com a âncora refeita sobre o
@@ -23,7 +27,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:math' as math;
-import 'dart:ui' show Color;
+import 'dart:ui' show Color, Offset, Rect;
 
 import 'package:flutter/foundation.dart';
 
@@ -47,11 +51,17 @@ import '../annotations/ink/ink_tools.dart';
 import '../annotations/ink/ink_units.dart';
 import '../annotations/ink/marker_snap.dart';
 import '../annotations/ink_repository.dart';
+import '../annotations/space/note_ink.dart';
+import '../annotations/space/space_metrics.dart';
+import '../annotations/space/space_seam.dart';
 import '../domain/anchoring.dart' show quoteAt;
 import '../domain/locator.dart';
-import '../layout/display_page.dart' show ReaderRange;
+import '../layout/display_page.dart' show DisplayPage, ReaderRange, spacesOf;
+import '../layout/space_cut.dart';
 import '../presentation/page_marks.dart' show PaintedHighlight;
 import 'annotation_anchors.dart';
+import 'annotation_page_source.dart';
+import 'ink_page_geometry.dart';
 import 'reader_errors.dart';
 
 /// O texto desce 30 px no modo anotação (24 da página + 6 do respiro em cima — L22a).
@@ -64,17 +74,16 @@ const Duration inkDraftEvery = Duration(seconds: 5);
 const double lassoPadding = 6;
 
 /// As ferramentas da prateleira (L22c), na ordem dela.
-enum AnnotationTool {
-  pen,
-  marker,
-  eraser,
-  lasso,
-  line,
-  space;
+enum AnnotationTool { pen, marker, eraser, lasso, line, space }
 
-  /// O Espaço (G18) fica para a fase seguinte (D-163).
-  bool get inThisPhase => this != space;
-}
+/// G18 — o id do abridor no fluxo da página (durante o arrasto do Espaço).
+const String spaceOpenerId = 'abridor';
+
+/// O abridor durante o arrasto (tela 24): a fresta, as linhas e o dedo (coordenadas do leitor limpo).
+typedef SpaceOpening = ({SpaceSeam seam, int lines, InkOffset finger});
+
+/// O dedo precisa andar isto (px) para o abridor aparecer: um toque sem arrastar não abre nada (R2).
+const double spaceDragSlop = 8;
 
 /// O painel de ajustes aberto (telas 23 e 23b — G17).
 enum PanelKind { pen, marker }
@@ -140,9 +149,13 @@ final class LassoSelection {
     required this.bounds,
     this.dx = 0,
     this.dy = 0,
+    this.note,
   });
 
   final Set<int> strokes;
+
+  /// G18: a nota de onde a seleção saiu (o Laço que começa numa caixa só pega a tinta dela — R6).
+  final String? note;
 
   /// A caixa dos traços selecionados, antes do arrasto.
   final InkRect bounds;
@@ -157,8 +170,13 @@ final class LassoSelection {
 
   bool get dragging => dx != 0 || dy != 0;
 
-  LassoSelection movedBy(double dx, double dy) =>
-      LassoSelection(strokes: strokes, bounds: bounds, dx: dx, dy: dy);
+  LassoSelection movedBy(double dx, double dy) => LassoSelection(
+    strokes: strokes,
+    bounds: bounds,
+    dx: dx,
+    dy: dy,
+    note: note,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -166,14 +184,15 @@ final class LassoSelection {
       setEquals(other.strokes, strokes) &&
       other.bounds == bounds &&
       other.dx == dx &&
-      other.dy == dy;
+      other.dy == dy &&
+      other.note == note;
 
   @override
   int get hashCode =>
-      Object.hash(Object.hashAllUnordered(strokes), bounds, dx, dy);
+      Object.hash(Object.hashAllUnordered(strokes), bounds, dx, dy, note);
 }
 
-enum _Mode { pen, line, erase, lasso, move, marker }
+enum _Mode { pen, line, erase, lasso, move, marker, space }
 
 void _nothing() {}
 
@@ -181,7 +200,7 @@ Future<void> _noSave(PenPresets _) async {}
 
 final class AnnotationSession extends ChangeNotifier {
   AnnotationSession({
-    required this.geometry,
+    required InkPageGeometry geometry,
     required this.anchors,
     required List<PageDrawing> drawings,
     required List<PageHighlight> highlights,
@@ -198,7 +217,14 @@ final class AnnotationSession extends ChangeNotifier {
     this.textShift = annotationTextShift,
     String? draftId,
     List<DeskHighlight>? deskHighlights,
-  }) : _pen = presets,
+    this.pageSource,
+    this._page,
+    List<SessionNote> notes = const [],
+    this.otherCuts = const [],
+    double? lineHeight,
+  }) : _geometry = geometry,
+       _lineHeight = lineHeight ?? geometry.lineHeight,
+       _pen = presets,
        _hasDesk = deskHighlights != null,
        _now = now ?? DateTime.now,
        _ids = ids ?? UuidV7Generator(),
@@ -220,10 +246,22 @@ final class AnnotationSession extends ChangeNotifier {
         ),
       );
     }
+    // G18: as notas da página, com ids de traço da sessão
+    final pageNotes = [
+      for (final n in notes)
+        n.copyWith(
+          strokes: [
+            for (final s in n.strokes) SessionStroke(_nextStroke++, s.stroke),
+          ],
+        ),
+    ];
+    _managed.addAll([for (final n in pageNotes) n.id]);
     _copy = InkWorkingCopy(
       initial,
       HighlightDesk(List.unmodifiable(deskHighlights ?? const [])),
+      pageNotes,
     );
+    _cutsSignature = spaceSignature(_cuts());
     _initialDesk = _copy.desk;
     _history = InkHistory(_copy);
     live.addListener(() {
@@ -235,8 +273,22 @@ final class AnnotationSession extends ChangeNotifier {
     _armDraft();
   }
 
-  /// As linhas e as palavras da página (coordenadas do leitor limpo).
-  final InkPageGeometry geometry;
+  /// As linhas e as palavras da página (coordenadas do leitor limpo); G18: mudam quando um espaço abre.
+  InkPageGeometry get geometry => _geometry;
+  InkPageGeometry _geometry;
+
+  /// G18: de onde vem a página do modo com os espaços (sem ela, o Espaço não abre).
+  final AnnotationPageSource? pageSource;
+
+  /// G18: os espaços salvos do capítulo que não estão nesta página (o layout de baixo os leva em conta).
+  final List<SpaceCut> otherCuts;
+
+  /// A página do modo agora (com os espaços), ou `null` quando a tela não deu a fonte.
+  DisplayPage? get page => _page;
+  DisplayPage? _page;
+
+  /// A altura da linha do texto (a faixa recolhida e o abridor — D-182, D-184).
+  final double _lineHeight;
   final AnnotationAnchors anchors;
   final InkRepository repository;
   final String owner;
@@ -258,7 +310,7 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// Grava o `pen_presets` (a espessura vale para todos os livros).
   final Future<void> Function(PenPresets presets) savePresets;
-  final List<PageHighlight> _highlights;
+  List<PageHighlight> _highlights;
 
   /// A tela passou os grifos da página (G17): a mesa decide o que se pinta, o que a Borracha alcança e o que o
   /// Concluir grava (D-173).
@@ -276,6 +328,24 @@ final class AnnotationSession extends ChangeNotifier {
   /// A hora de criação e a anotação de cada desenho novo (ficam no desfazer e no refazer).
   final Map<String, DateTime> _createdAt = {};
   final Map<String, String> _annotationOf = {};
+
+  /// G18: as notas que a sessão cuida (as da página e as novas).
+  final Set<String> _managed = {};
+
+  /// A assinatura dos espaços da página de agora (refaz a página quando ela muda).
+  String _cutsSignature = '';
+
+  /// O arrasto do Espaço: a fresta, onde o dedo começou e se o abridor já apareceu.
+  SpaceSeam? _seam;
+  double _spaceStartY = 0;
+  bool _spaceShown = false;
+
+  /// A nota onde o traço em curso começou (R6), ou `null`.
+  String? _noteTarget;
+
+  /// A alça em curso: a nota, as linhas no começo e as de agora (D-186).
+  ({String id, int base, int lines})? _handleDrag;
+  Timer? _noteTimer;
 
   int _nextOrder = 0;
   int _nextStroke = 0;
@@ -310,6 +380,12 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// A seleção do Laço.
   final ValueNotifier<LassoSelection?> selection = ValueNotifier(null);
+
+  /// G18: o abridor durante o arrasto do Espaço (tela 24), ou `null`.
+  final ValueNotifier<SpaceOpening?> opening = ValueNotifier(null);
+
+  /// G18: a nota que acabou de ser apagada — a pílula "Nota apagada · Desfazer" fica [favoriteUndoLife] (D-185).
+  final ValueNotifier<String?> noteDeleted = ValueNotifier(null);
 
   _Mode? _mode;
   int _t0 = 0;
@@ -389,15 +465,279 @@ final class AnnotationSession extends ChangeNotifier {
     ];
   }
 
-  /// Os traços selecionados pelo Laço, onde estão (sem o arrasto em curso).
+  /// Os traços selecionados pelo Laço, onde estão (sem o arrasto em curso); os de uma nota, na página.
   List<InkStroke> get selectedStrokes {
     final sel = selection.value;
     if (sel == null) return const [];
+    final note = sel.note;
+    if (note != null) {
+      final box = noteBox(note);
+      final n = _copy.note(note);
+      if (box == null || n == null) return const [];
+      return [
+        for (final s in n.strokes)
+          if (sel.strokes.contains(s.id)) fromNote(s.stroke, box),
+      ];
+    }
     return [
       for (final d in _copy.drawings)
         for (final s in d.strokes)
           if (sel.strokes.contains(s.id)) s.stroke,
     ];
+  }
+
+  // ---- notas à mão (G18) -------------------------------------------------------------------------------------
+
+  /// As notas à mão da página (as salvas e as novas, sem as apagadas), com a alça em curso.
+  List<SessionNote> get notes => [
+    for (final n in _copy.notes)
+      if (_handleDrag case (:final id, :final lines, base: _) when id == n.id)
+        n.copyWith(lines: lines)
+      else
+        n,
+  ];
+
+  /// O bloco de [id] na página do modo (com as margens), ou `null`.
+  Rect? _blockOf(String id) {
+    final page = _page;
+    if (page == null) return null;
+    for (final s in spacesOf(page)) {
+      if (s.id == id) return s.rect;
+    }
+    return null;
+  }
+
+  /// A caixa da nota [id] na página (coordenadas do leitor limpo): a caixa da 24b, ou a faixa se recolhida.
+  Rect? noteBox(String id) {
+    final block = _blockOf(id);
+    final n = _noteNow(id);
+    if (block == null || n == null) return null;
+    return n.collapsed
+        ? Rect.fromLTWH(
+            block.left,
+            block.top + stripMargin,
+            block.width,
+            _lineHeight,
+          )
+        : Rect.fromLTWH(
+            block.left,
+            block.top + noteMarginTop,
+            block.width,
+            noteBoxHeight(n.lines),
+          );
+  }
+
+  /// A área do abridor na página (coordenadas do leitor limpo), durante o arrasto.
+  Rect? get openerArea {
+    final o = opening.value;
+    final block = _blockOf(spaceOpenerId);
+    if (o == null || block == null) return null;
+    return Rect.fromLTWH(
+      block.left,
+      block.top + openerMarginTop,
+      block.width,
+      openerAreaHeight(o.lines, _lineHeight),
+    );
+  }
+
+  SessionNote? _noteNow(String id) {
+    for (final n in notes) {
+      if (n.id == id) return n;
+    }
+    return null;
+  }
+
+  /// Os traços da nota [id] que a página pinta (unidade da nota), sem o que a Borracha está apagando nem a seleção
+  /// que está sendo arrastada.
+  List<InkStroke> noteStrokes(String id) {
+    final n = _copy.note(id);
+    if (n == null) return const [];
+    final sel = selection.value;
+    final moving = sel != null && sel.note == id && sel.dragging
+        ? sel.strokes
+        : const <int>{};
+    return [
+      for (final s in n.strokes)
+        if (!_pendingStrokes.contains(s.id) && !moving.contains(s.id)) s.stroke,
+    ];
+  }
+
+  /// A nota aberta cuja caixa contém [at] (R6).
+  String? _noteAt(InkOffset at) {
+    for (final n in notes) {
+      if (n.collapsed) continue;
+      final box = noteBox(n.id);
+      if (box != null && box.contains(Offset(at.x, at.y))) return n.id;
+    }
+    return null;
+  }
+
+  /// O bloco de alguma nota (aberta ou recolhida) contém [at] (R5).
+  bool _inSomeNote(InkOffset at) {
+    for (final n in notes) {
+      final block = _blockOf(n.id);
+      if (block != null && block.contains(Offset(at.x, at.y))) return true;
+    }
+    return false;
+  }
+
+  /// Os espaços da página: os do capítulo que a sessão não cuida, as notas e o abridor.
+  List<SpaceCut> _cuts() {
+    final o = opening.value;
+    return [
+      for (final c in otherCuts)
+        if (!_managed.contains(c.id)) c,
+      for (final n in notes)
+        SpaceCut(
+          at: n.at,
+          height: n.collapsed
+              ? stripFlowHeight(_lineHeight)
+              : noteFlowHeight(n.lines),
+          id: n.id,
+        ),
+      if (o != null)
+        SpaceCut(
+          at: o.seam.at,
+          height: openerFlowHeight(o.lines, _lineHeight),
+          id: spaceOpenerId,
+        ),
+    ];
+  }
+
+  /// Os espaços mudaram: a página do modo é refeita e cada desenho anda com as palavras dele (R3).
+  void _relayoutIfNeeded() {
+    final source = pageSource;
+    if (source == null) return;
+    final cuts = _cuts();
+    final signature = spaceSignature(cuts);
+    if (signature == _cutsSignature) return;
+    _cutsSignature = signature;
+    final next = source.pageWith(cuts);
+    final old = _geometry;
+    final shifts = <String, ({double dx, double dy})?>{};
+    ({double dx, double dy})? shift(String id, List<SessionStroke> strokes) =>
+        shifts.putIfAbsent(id, () => _shiftOf(strokes, old, next));
+    _copy.remap(shift);
+    _history.remap(shift);
+    for (final e in _initialStrokes.entries.toList()) {
+      final s = shift(e.key, [for (final x in e.value) SessionStroke(-1, x)]);
+      if (s != null) {
+        _initialStrokes[e.key] = [
+          for (final x in e.value) x.translated(s.dx, s.dy),
+        ];
+      }
+    }
+    _page = next;
+    _geometry = inkGeometryOf(next);
+    _highlights = List.unmodifiable(source.highlightsOn(next));
+    selection.value = null;
+    _repaint();
+  }
+
+  /// O deslocamento de um desenho: o trecho dele na página velha (`placeDrawing`) e o mesmo trecho na nova — mesma
+  /// letra, mesmo trecho: só anda.
+  static ({double dx, double dy})? _shiftOf(
+    List<SessionStroke> strokes,
+    InkPageGeometry old,
+    DisplayPage next,
+  ) {
+    if (strokes.isEmpty) return null;
+    final place = placeDrawing(
+      drawingBox([for (final s in strokes) s.stroke]),
+      old,
+    );
+    if (place == null) return null;
+    final unit = old.lines[place.line].unit;
+    final frame = placedFrame([
+      for (final b in next.boxesOf(unit, place.from, place.to))
+        (
+          left: b.rect.left,
+          right: b.rect.right,
+          baseline: b.baseline,
+          em: b.em,
+        ),
+    ], place.frame.w);
+    if (frame == null) return null;
+    final dx = frame.x - place.frame.x;
+    final dy = frame.baseline - place.frame.baseline;
+    return dx == 0 && dy == 0 ? null : (dx: dx, dy: dy);
+  }
+
+  /// R7 (D-186): a alça da nota [id] andou [dy] px desde o toque: as linhas mudam de 42 em 42, de 1 a 12, sem subir
+  /// além da última linha escrita; a página acompanha.
+  void dragNoteHandle(String id, double dy) {
+    final n = _copy.note(id);
+    if (n == null || n.collapsed) return;
+    final drag = _handleDrag;
+    final base = drag != null && drag.id == id ? drag.base : n.lines;
+    final min = math.max(
+      minLinesFor([for (final s in n.strokes) s.stroke]),
+      minSpaceLines,
+    );
+    final lines = math.min(
+      maxSpaceLines,
+      math.max(min, base + (dy / noteLinePx).round()),
+    );
+    final before = drag?.lines;
+    _handleDrag = (id: id, base: base, lines: lines);
+    if (before != lines) {
+      _relayoutIfNeeded();
+      notifyListeners();
+    }
+  }
+
+  /// A alça soltou: um passo do desfazer, se as linhas mudaram.
+  void endNoteHandle(String id) {
+    final h = _handleDrag;
+    _handleDrag = null;
+    final n = _copy.note(id);
+    if (h == null || h.id != id || n == null) return;
+    if (h.lines == n.lines) {
+      _relayoutIfNeeded();
+      return;
+    }
+    _push(
+      ChangeNote(
+        before: n,
+        after: n.copyWith(lines: h.lines),
+      ),
+    );
+  }
+
+  /// R8 (D-184): recolhe a nota aberta ou abre a recolhida (um passo).
+  void toggleNote(String id) {
+    final n = _copy.note(id);
+    if (n == null) return;
+    _push(
+      ChangeNote(
+        before: n,
+        after: n.copyWith(collapsed: !n.collapsed),
+      ),
+    );
+  }
+
+  /// R9 (D-185): apaga a nota na hora (um passo) e mostra a pílula "Nota apagada · Desfazer".
+  void deleteNote(String id) {
+    if (_copy.note(id) == null) return;
+    _push(DeleteNote(id));
+    noteDeleted.value = id;
+    _noteTimer?.cancel();
+    _noteTimer = startTimer(favoriteUndoLife, () {
+      _noteTimer = null;
+      noteDeleted.value = null;
+    });
+  }
+
+  /// O Desfazer da pílula: só se o último passo é apagar essa nota.
+  bool undoNoteDeletion() {
+    final id = noteDeleted.value;
+    _noteTimer?.cancel();
+    _noteTimer = null;
+    noteDeleted.value = null;
+    final last = _history.last;
+    if (id == null || last is! DeleteNote || last.id != id) return false;
+    undo();
+    return true;
   }
 
   /// Os grifos que não aparecem: os apagados na sessão e os que a Borracha está apagando.
@@ -519,15 +859,16 @@ final class AnnotationSession extends ChangeNotifier {
   }
 
   /// [p] nas coordenadas do leitor limpo.
-  InkOffset _page(InkPointer p) => (x: p.x, y: p.y - textShift - _panOffset);
+  InkOffset _pageOf(InkPointer p) => (x: p.x, y: p.y - textShift - _panOffset);
 
   void _showTouch(InkPointer p) =>
       touch.value = p.kind == InkPointerKind.touch ? (x: p.x, y: p.y) : null;
 
   void _drawStart(InkPointer p) {
-    final at = _page(p);
+    final at = _pageOf(p);
     _showTouch(p);
     _t0 = p.tMs;
+    _noteTarget = _tool == AnnotationTool.space ? null : _noteAt(at);
     switch (_tool) {
       case AnnotationTool.pen:
         _mode = _Mode.pen;
@@ -577,11 +918,20 @@ final class AnnotationSession extends ChangeNotifier {
         live.value = LiveMarker(_markerStroke());
       case AnnotationTool.space:
         _mode = null;
+        // R1 e R5: a fresta mais perto, fora das notas e numa âncora sem nota
+        if (_inSomeNote(at)) return;
+        final seam = seamAt(geometry, at.y, anchors.textOf);
+        if (seam == null) return;
+        if (notes.any((n) => n.unit == seam.unit && n.at == seam.at)) return;
+        _mode = _Mode.space;
+        _seam = seam;
+        _spaceStartY = at.y;
+        _spaceShown = false;
     }
   }
 
   void _drawMove(InkPointer p) {
-    final at = _page(p);
+    final at = _pageOf(p);
     _showTouch(p);
     switch (_mode) {
       case _Mode.pen:
@@ -618,6 +968,17 @@ final class AnnotationSession extends ChangeNotifier {
       case _Mode.lasso:
         _polygon.add(at);
         live.value = LiveLasso(UnmodifiableListView(_polygon));
+      case _Mode.space:
+        final seam = _seam!;
+        if (!_spaceShown && (at.y - _spaceStartY).abs() < spaceDragSlop) {
+          return;
+        }
+        _spaceShown = true;
+        // R2: as linhas pelo dedo, a partir do topo da área (a fresta + a margem de cima)
+        final n = linesOfDrag(at.y - (seam.y + openerMarginTop), _lineHeight);
+        final before = opening.value?.lines;
+        opening.value = (seam: seam, lines: n, finger: at);
+        if (before != n) _relayoutIfNeeded();
       case _Mode.move:
         // a seleção saiu no meio do arrasto (outra ferramenta, desfazer): o arrasto acaba
         final sel = selection.value;
@@ -641,7 +1002,7 @@ final class AnnotationSession extends ChangeNotifier {
     switch (mode) {
       case _Mode.pen:
         live.value = null;
-        _addStroke(
+        _addInk(
           InkStroke(
             tool: InkTool.pen.code,
             tip: tipCode(_pen.penTip),
@@ -653,14 +1014,19 @@ final class AnnotationSession extends ChangeNotifier {
         _points.clear();
       case _Mode.marker:
         live.value = null;
-        _markerEnd();
+        if (_noteTarget != null) {
+          // R6: dentro da nota não há palavra — fica tinta translúcida da nota
+          _addInk(_markerStroke());
+        } else {
+          _markerEnd();
+        }
         _points.clear();
       case _Mode.line:
         live.value = null;
         final start = _lineStart!;
         final end = _lineEnd;
         if (end != null && !lineTooShort(start, end)) {
-          _addStroke(_lineStroke(start, end, _lineMs));
+          _addInk(_lineStroke(start, end, _lineMs));
         }
       case _Mode.erase:
         if (_pendingStrokes.isEmpty && _pendingHighlights.isEmpty) return;
@@ -673,9 +1039,49 @@ final class AnnotationSession extends ChangeNotifier {
         live.value = null;
         _select(List.of(_polygon));
         _polygon.clear();
+      case _Mode.space:
+        final seam = _seam!;
+        final o = opening.value;
+        _seam = null;
+        if (!_spaceShown || o == null) return;
+        // D-187: a nota nasce aberta com as linhas do arrasto e a Caneta volta
+        final id = _ids.next();
+        _managed.add(id);
+        _annotationOf[id] = _ids.next();
+        opening.value = null;
+        _push(
+          OpenNote(
+            SessionNote(
+              id: id,
+              unit: seam.unit,
+              at: seam.at,
+              lines: o.lines,
+              collapsed: false,
+              strokes: const [],
+              createdAt: _now().toUtc(),
+            ),
+          ),
+        );
+        setTool(AnnotationTool.pen);
       case _Mode.move:
         final sel = selection.value;
         if (sel == null || !sel.dragging) return;
+        final note = sel.note;
+        if (note != null) {
+          final box = noteBox(note);
+          selection.value = null;
+          if (box == null) return;
+          // R6: o Laço da nota move dentro dela (na unidade da nota)
+          _push(
+            MoveNoteStrokes(
+              noteId: note,
+              strokeIds: sel.strokes,
+              dx: sel.dx / box.width,
+              dy: sel.dy / noteLinePx,
+            ),
+          );
+          return;
+        }
         // juntos num desenho só, os traços passariam do teto da camada: ficam onde estavam
         if (!_fits([
           for (final s in selectedStrokes) s.translated(sel.dx, sel.dy),
@@ -730,9 +1136,27 @@ final class AnnotationSession extends ChangeNotifier {
         if (sel == null || !sel.dragging) return;
         selection.value = sel.movedBy(0, 0);
         _repaint();
+      case _Mode.space:
+        // os 2 dedos ou o cancelamento: o abridor some e a página volta
+        _seam = null;
+        if (opening.value == null) return;
+        opening.value = null;
+        _relayoutIfNeeded();
       case null:
         break;
     }
+  }
+
+  /// R6: o traço vai para a nota onde ele começou (na unidade dela) ou para os desenhos.
+  void _addInk(InkStroke s) {
+    final note = _noteTarget;
+    _noteTarget = null;
+    final box = note == null ? null : noteBox(note);
+    if (note == null || box == null) {
+      _addStroke(s);
+      return;
+    }
+    _push(AddNoteStroke(note, SessionStroke(_nextStroke++, toNote(s, box))));
   }
 
   /// R20: a largura do marca-texto = a faixa da altura escolhida na letra da linha mais perto do toque.
@@ -883,6 +1307,18 @@ final class AnnotationSession extends ChangeNotifier {
         }
       }
     }
+    // G18: a tinta das notas abertas, na página
+    for (final n in notes) {
+      final box = n.collapsed ? null : noteBox(n.id);
+      if (box == null) continue;
+      for (final s in n.strokes) {
+        if (_pendingStrokes.contains(s.id)) continue;
+        if (eraserTouchesStroke(a, b, fromNote(s.stroke, box))) {
+          _pendingStrokes.add(s.id);
+          changed = true;
+        }
+      }
+    }
     final erased = _copy.erasedHighlights;
     for (final h in _erasable()) {
       if (erased.contains(h.id) || _pendingHighlights.contains(h.id)) {
@@ -946,6 +1382,25 @@ final class AnnotationSession extends ChangeNotifier {
     if (polygon.length < 3) return;
     final picked = <int>{};
     final strokes = <InkStroke>[];
+    // G18 (R6): o Laço que começa numa caixa só pega a tinta dela
+    final note = _noteAt(polygon.first);
+    if (note != null) {
+      final box = noteBox(note)!;
+      for (final s in _copy.note(note)!.strokes) {
+        final onPage = fromNote(s.stroke, box);
+        if (lassoSelects(onPage, polygon)) {
+          picked.add(s.id);
+          strokes.add(onPage);
+        }
+      }
+      if (picked.isEmpty) return;
+      selection.value = LassoSelection(
+        strokes: picked,
+        bounds: drawingBox(strokes),
+        note: note,
+      );
+      return;
+    }
     for (final d in _copy.drawings) {
       for (final s in d.strokes) {
         if (lassoSelects(s.stroke, polygon)) {
@@ -972,7 +1427,8 @@ final class AnnotationSession extends ChangeNotifier {
   /// Troca a ferramenta. O Marca-texto e o Espaço (D-163) devolvem `false` e a atual continua. A Borracha com a
   /// seleção do Laço apaga os selecionados (um passo) e fica ativa.
   bool setTool(AnnotationTool t) {
-    if (!t.inThisPhase) {
+    // sem a página do modo (a tela não deu a fonte), o Espaço não abre (D-163)
+    if (t == AnnotationTool.space && pageSource == null) {
       closePanel();
       return false;
     }
@@ -1126,8 +1582,11 @@ final class AnnotationSession extends ChangeNotifier {
 
   void _changed() {
     _unsaved = true;
+    _relayoutIfNeeded();
     final sel = selection.value;
-    if (sel != null) {
+    if (sel != null && sel.note != null) {
+      selection.value = null;
+    } else if (sel != null) {
       // a seleção segue os traços (o desfazer de um movimento os devolve)
       final strokes = [
         for (final d in _copy.drawings)
@@ -1421,6 +1880,9 @@ final class AnnotationSession extends ChangeNotifier {
     panel.dispose();
     _favoriteTimer?.cancel();
     favoriteRemoved.dispose();
+    _noteTimer?.cancel();
+    opening.dispose();
+    noteDeleted.dispose();
     super.dispose();
   }
 }
