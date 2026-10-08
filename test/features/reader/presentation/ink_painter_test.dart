@@ -397,14 +397,41 @@ void main() {
       expect(inkArgbOn(0xFF3A3A3A, letra), 0xFF3A3A3A);
     });
 
-    test('Marca-texto: no Creme, multiplicado na cor a 90 %; no Noite (D-133), D em diferença por cima e D − cor por trás; a caneta não vai por trás', () {
+    test('Marca-texto: no Creme, multiplicado na cor a 90 %; no Noite (D-133), D em diferença por cima (paintInkFill) e D − cor por trás; a caneta só na passada de cima', () {
       final creme = _Tela();
       paintInk(creme, [marca()]);
       expect(creme.caminhos.single.$3, BlendMode.multiply);
       expect(creme.caminhos.single.$2.toARGB32(), 0xE6FED170);
+      // no Noite, a passada de cima da tinta leva só a caneta e a Reta
+      final caneta = _Tela();
+      paintInk(caneta, [_traco(_reta), marca()], lightText: letra);
+      expect(caneta.caminhos.single.$2.toARGB32(), 0xFFFF552E);
       final frente = _Tela();
-      paintInk(frente, [marca()], lightText: letra);
+      paintInkFill(frente, [_traco(_reta), marca()], lightText: letra);
       expect(frente.caminhos.single.$3, BlendMode.difference);
+      // os da mesma cor e largura num caminho só (onde se cruzam, a diferença uma vez — achado 17); outra cor, outro
+      final juntos = _Tela();
+      paintInkFill(juntos, [
+        marca(),
+        _traco(
+          [(70, 100), (70, 160)],
+          tool: InkTool.marker,
+          argb: 0xE6FED170,
+          largura: 870,
+        ),
+        _traco(
+          [(20, 150), (100, 150)],
+          tool: InkTool.marker,
+          argb: 0xE6FFC1C6,
+          largura: 870,
+        ),
+      ], lightText: letra);
+      expect(juntos.caminhos, hasLength(2));
+      expect(
+        juntos.caminhos.first.$1.computeMetrics().length,
+        2,
+        reason: 'os 2 amarelos no mesmo caminho',
+      );
       expect(
         frente.caminhos.single.$2.toARGB32(),
         channelMax(letra, _amarelo).toARGB32(),
@@ -426,7 +453,7 @@ void main() {
         ..drawRect(const Rect.fromLTWH(0, 0, 120, 160), Paint()..color = papel);
       paintInkBehind(canvas, [marca()], lightText: letra);
       pagina.paint(canvas);
-      paintInk(canvas, [marca()], lightText: letra);
+      paintInkFill(canvas, [marca()], lightText: letra);
       final img = await gravador.endRecording().toImage(120, 160);
       final bytes = (await img.toByteData())!;
       img.dispose();
@@ -456,36 +483,35 @@ void main() {
       expect(contraste, greaterThan(4.5), reason: 'a letra escura');
     });
 
-    test('o cache separa o Creme, o Noite e a passada de trás; sem marca-texto, nada por trás', () {
-      final cache = InkPictureCache();
+    test('o cache separa o Creme e as 3 passadas do Noite; sem marca-texto, nada por trás nem na camada; no Creme, só a de cima', () {
+      final cache = InkPictureCache(capacity: 8);
       addTearDown(cache.dispose);
       final p = _Pagina();
       List<InkStroke> tinta() => [_traco(_reta), marca()];
       final creme = cache.pictureOf(p, 1, tinta)!;
       final noite = cache.pictureOf(p, 1, tinta, lightText: letra)!;
-      final atras = cache.pictureOf(
-        p,
-        1,
-        tinta,
-        lightText: letra,
-        behind: true,
-      )!;
-      expect({creme, noite, atras}, hasLength(3));
+      ui.Picture? passada(InkPass pass, [List<InkStroke> Function()? t]) =>
+          cache.pictureOf(p, 1, t ?? tinta, lightText: letra, pass: pass);
+      final atras = passada(InkPass.behind)!;
+      final camada = passada(InkPass.fill)!;
+      expect({creme, noite, atras, camada}, hasLength(4));
       expect(cache.pictureOf(p, 1, tinta), same(creme));
       expect(cache.pictureOf(p, 1, tinta, lightText: letra), same(noite));
-      expect(
-        cache.pictureOf(p, 1, tinta, lightText: letra, behind: true),
-        same(atras),
-      );
+      expect(passada(InkPass.behind), same(atras));
+      expect(passada(InkPass.fill), same(camada));
       expect(creme.debugDisposed, isFalse);
+      final soCaneta = _Pagina();
+      List<InkStroke> caneta() => [_traco(_reta)];
+      for (final pass in const [InkPass.behind, InkPass.fill]) {
+        expect(
+          cache.pictureOf(soCaneta, 1, caneta, lightText: letra, pass: pass),
+          isNull,
+        );
+        expect(cache.pictureOf(p, 1, tinta, pass: pass), isNull);
+      }
+      // só o marca-texto: no Noite, nada na passada de cima
       expect(
-        cache.pictureOf(
-          _Pagina(),
-          1,
-          () => [_traco(_reta)],
-          lightText: letra,
-          behind: true,
-        ),
+        cache.pictureOf(_Pagina(), 1, () => [marca()], lightText: letra),
         isNull,
       );
     });

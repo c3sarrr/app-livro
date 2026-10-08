@@ -10,6 +10,8 @@ import 'package:app_leitura/core/data/database/failures.dart';
 import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/library/domain/reading_goals.dart';
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
+    show AnnotationSource;
 import 'package:app_leitura/features/reader/annotations/domain/highlight_label.dart';
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
@@ -242,7 +244,16 @@ void main() {
       await dao.upsert(g);
       await dao.upsert(notaTeste(43, livro: idTeste(2), pai: g, texto: 'n'));
       await dao.upsert(grifoTeste(44, livro: idTeste(2), apagado: true));
-      expect(await dao.highlightsOfUser(usuarioTeste), hasLength(3));
+      // o à mão conta; o de outra conta, não
+      await dao.upsert(
+        grifoTeste(45, livro: idTeste(3), fonte: AnnotationSource.ink),
+      );
+      await dao.upsert(grifoTeste(46, livro: idTeste(9), dono: idTeste(900)));
+      expect(await dao.highlightCountsByColor(usuarioTeste), {
+        '#FED170': 3,
+        '#ABCF82': 1,
+      });
+      expect(await dao.highlightCountsByColor(idTeste(901)), isEmpty);
     });
 
     test(

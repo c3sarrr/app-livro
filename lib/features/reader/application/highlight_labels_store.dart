@@ -31,11 +31,7 @@ final class HighlightLabelsStore {
 
   Future<HighlightLabelData> load(String owner) async {
     final labels = await HighlightLabelsDao(db).forUser(owner);
-    final counts = <String, int>{};
-    for (final a in await AnnotationsDao(db).highlightsOfUser(owner)) {
-      final c = a.color?.toUpperCase();
-      if (c != null) counts[c] = (counts[c] ?? 0) + 1;
-    }
+    final counts = await AnnotationsDao(db).highlightCountsByColor(owner);
     return (
       labels: Map<String, String>.unmodifiable({
         for (final l in labels) l.color.toUpperCase(): l.label,

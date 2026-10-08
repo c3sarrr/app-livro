@@ -27,6 +27,7 @@ import 'package:app_leitura/features/home/presentation/sections/header_section.d
 import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
+import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
@@ -511,16 +512,35 @@ void main() {
         'enter': () => vivo(entrada: ValueNotifier<double>(1)),
         'lightText': () => vivo(lightText: AppColors.bookTextNight),
       });
-      // a sessão que muda por dentro e o deslocamento repintam a folha; o traço ao vivo e a seleção, a camada viva
+      // a tinta que muda (a revisão) e o deslocamento repintam a folha — a ferramenta e os ajustes (o arrasto na roda),
+      // não; o traço ao vivo e a seleção repintam a camada viva
       var folhas = 0;
       var vivos = 0;
       folha().addListener(() => folhas++);
       vivo().addListener(() => vivos++);
-      s.setTool(AnnotationTool.eraser);
+      s
+        ..setTool(AnnotationTool.eraser)
+        ..setPenColor('#058CD7', save: false);
+      expect(folhas, 0);
       pan.value = -10;
       s.live.value = const LiveLasso([]);
-      expect(folhas, 2);
+      expect(folhas, 1);
       expect(vivos, 2);
+      InkPointer dedo(double x, int t) => (
+        id: 1,
+        kind: InkPointerKind.touch,
+        x: x,
+        y: 300,
+        pressure: 1,
+        tMs: t,
+      );
+      s
+        ..setTool(AnnotationTool.pen)
+        ..pointerDown(dedo(60, 0))
+        ..pointerMove(dedo(120, 16))
+        ..pointerUp(dedo(120, 32));
+      expect(s.visibleStrokes, hasLength(1));
+      expect(folhas, 2);
       // G17 (R26): no Noite, a folha também repinta com o marca-texto ao vivo (ele vai nela) — só com ele
       var noites = 0;
       folha(lightText: AppColors.bookTextNight).addListener(() => noites++);

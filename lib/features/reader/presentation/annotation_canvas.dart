@@ -11,6 +11,8 @@
 //   na Reta, o ponto de 12 na cor da tinta;
 // - ao soltar os 2 dedos fora do limite, a página volta em 220 ms `easeOutCubic` (D-165);
 // - a borda de mesa (`DeskEdge`): o degradê do papel no pé da tela, sem receber toque.
+import 'dart:ui' as ui;
+
 import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/widgets.dart';
@@ -20,6 +22,7 @@ import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_strokes.dart';
 import '../annotations/ink/gesture_arbiter.dart';
 import '../annotations/ink/ink_geometry.dart' show InkOffset;
+import '../annotations/ink/ink_stroke.dart' show InkStroke;
 import '../annotations/ink/ink_tools.dart' show panLimit;
 import '../application/annotation_session.dart';
 import '../layout/display_page.dart';
@@ -117,8 +120,9 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   double _backFrom = 0;
   double _backTo = 0;
 
-  /// A tinta da sessão: a passada da frente e, no Noite, a de trás (o Marca-texto pela D-133).
-  final InkPictureCache _pictures = InkPictureCache(capacity: 2);
+  /// A tinta da sessão: a passada de cima e, no Noite, a de trás e a dos fundos (o Marca-texto pela D-133 — achado
+  /// 17).
+  final InkPictureCache _pictures = InkPictureCache(capacity: 3);
 
   /// Os traços do Laço sendo arrastados, gravados uma vez no começo do arrasto (depois, só transladados).
   final InkPictureCache _dragged = InkPictureCache(capacity: 1);
@@ -307,9 +311,10 @@ class AnnotationPagePainter extends CustomPainter {
     this.highlights = const [],
     this.inkHighlights = const [],
   }) : super(
-         // no Noite, o Marca-texto ao vivo vai na folha (R26): ela repinta com o traço dele (só dele)
+         // a folha repinta quando a tinta muda (a revisão), não a cada aviso da sessão (a ferramenta, os ajustes, o
+         // arrasto na roda); no Noite, também com o Marca-texto ao vivo, que vai nela (R26) — só com ele
          repaint: Listenable.merge([
-           session,
+           session.revisions,
            pan,
            enter,
            if (lightText != null) session.liveMarker,
@@ -333,8 +338,15 @@ class AnnotationPagePainter extends CustomPainter {
     canvas.drawRect(Offset.zero & size, Paint()..color = paper);
     final hidden = session.hiddenHighlights;
     final light = lightText;
-    // no Noite, o Marca-texto ao vivo é pintado aqui, por trás e por cima das letras (D-133 — R26)
+    // no Noite, o Marca-texto ao vivo é pintado aqui, por trás das letras e por cima, com os fundos (D-133 — R26)
     final live = light == null ? null : session.liveMarker.value;
+    ui.Picture? picture(InkPass pass) => pictures.pictureOf(
+      session,
+      session.revision,
+      () => session.visibleStrokes,
+      lightText: light,
+      pass: pass,
+    );
     canvas
       ..save()
       ..clipRect(pageBox)
@@ -354,29 +366,33 @@ class AnnotationPagePainter extends CustomPainter {
       lightText: light,
       paintInkBehind: light == null
           ? null
-          : (c) {
-              final picture = pictures.pictureOf(
-                session,
-                session.revision,
-                () => session.visibleStrokes,
-                lightText: light,
-                behind: true,
-              );
-              if (picture != null) c.drawPicture(picture);
-              if (live != null) paintInkBehind(c, [live], lightText: light);
-            },
+          : _noite(picture(InkPass.behind), live, (c, s) {
+              paintInkBehind(c, s, lightText: light);
+            }),
+      paintInkFill: light == null
+          ? null
+          : _noite(picture(InkPass.fill), live, (c, s) {
+              paintInkFill(c, s, lightText: light);
+            }),
       paintInkLayer: (c) {
-        final picture = pictures.pictureOf(
-          session,
-          session.revision,
-          () => session.visibleStrokes,
-          lightText: light,
-        );
-        if (picture != null) c.drawPicture(picture);
-        if (live != null) paintInk(c, [live], lightText: light);
+        final p = picture(InkPass.top);
+        if (p != null) c.drawPicture(p);
       },
     );
     canvas.restore();
+  }
+
+  /// A passada do Noite: a `Picture` da tinta salva e o Marca-texto ao vivo [live]; `null` sem nenhum dos dois.
+  static void Function(Canvas)? _noite(
+    ui.Picture? picture,
+    InkStroke? live,
+    void Function(Canvas, List<InkStroke>) paintLive,
+  ) {
+    if (picture == null && live == null) return null;
+    return (c) {
+      if (picture != null) c.drawPicture(picture);
+      if (live != null) paintLive(c, [live]);
+    };
   }
 
   @override

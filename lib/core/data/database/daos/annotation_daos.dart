@@ -94,16 +94,23 @@ final class AnnotationsDao {
             ]))
           .map(_toEntity);
 
-  /// Grifos não apagados de todos os livros do usuário (contagem por rótulo — D-40).
-  Future<List<Annotation>> highlightsOfUser(String userId) =>
-      (_db.select(_db.annotations)..where(
-            (t) =>
-                t.userId.equals(userId) &
-                t.deletedAt.isNull() &
-                t.kind.equals(AnnotationKind.highlight.code),
-          ))
-          .map(_toEntity)
-          .get();
+  /// Quantos grifos não apagados de cada cor (`#RRGGBB` em maiúsculas) o usuário tem em todos os livros, de seleção e
+  /// à mão (contagem por rótulo — D-40), contados no banco.
+  Future<Map<String, int>> highlightCountsByColor(String userId) async {
+    final rows = await _db
+        .customSelect(
+          'SELECT UPPER(color) AS c, COUNT(*) AS n FROM annotations '
+          'WHERE user_id = ? AND deleted_at IS NULL AND kind = ? '
+          'AND color IS NOT NULL GROUP BY UPPER(color)',
+          variables: [
+            Variable.withString(userId),
+            Variable.withString(AnnotationKind.highlight.code),
+          ],
+          readsFrom: {_db.annotations},
+        )
+        .get();
+    return {for (final r in rows) r.read<String>('c'): r.read<int>('n')};
+  }
 
   /// Busca da tela 25 no texto do grifo e da nota (FTS5, sem acento, prefixo por palavra).
   Future<List<Annotation>> search(String userBookId, String query) async {

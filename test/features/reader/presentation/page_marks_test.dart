@@ -1,6 +1,6 @@
 // G17 — o que a página pinta dos grifos: o fundo na altura de cada um (D-172: Baixa 50–92 %, Média 12–92 %, Alta
-// 0–100 % da letra), o sublinhado (4 px a 3 px da base) e o ondulado (R25) por cima do texto, na cor viva; no Noite,
-// as manchas dos grifos à mão recortam os fundos da mesma linha (achado 17).
+// 0–100 % da letra), o sublinhado (4 px a 3 px da base) e o ondulado (R25) por cima do texto, na cor viva. (O Noite
+// com fundos que se cruzam — achado 17 — é conferido nos pixels em `reader_page_view_test`.)
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -82,30 +82,6 @@ void main() {
         highlights: [_g(HighlightStyle.underline), _g(HighlightStyle.wavy)],
       ),
       isEmpty,
-    );
-  });
-
-  test('achado 17: os retângulos que cruzam a linha recortam o fundo; os de outra linha, não', () {
-    // o fundo vai de 50 a 90; a mancha à mão de 60 a 70 na mesma linha o parte em 2
-    final b = backgroundBands(
-      _Pagina(),
-      highlights: [_g(HighlightStyle.fill)],
-      night: true,
-      cuts: const [
-        Rect.fromLTRB(60, 125, 70, 150),
-        Rect.fromLTRB(20, 160, 200, 180),
-      ],
-    );
-    expect(
-      [for (final x in b) (x.left, x.right)],
-      [(50.0, 60.0), (70.0, 90.0)],
-    );
-    // no Noite, a cor fica opaca (D-133)
-    expect(b.first.color.a, 1);
-    // sem recorte, um só
-    expect(
-      backgroundBands(_Pagina(), highlights: [_g(HighlightStyle.fill)]),
-      hasLength(1),
     );
   });
 

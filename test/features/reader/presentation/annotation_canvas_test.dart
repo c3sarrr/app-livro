@@ -126,6 +126,12 @@ final class _Tela implements ui.Canvas {
   @override
   void drawPath(Path path, Paint paint) => caminhos.add((path, paint));
 
+  /// As camadas (o modo de cada uma) e quantos caminhos vieram antes de cada uma.
+  final camadas = <(BlendMode, int)>[];
+  @override
+  void saveLayer(Rect? bounds, Paint paint) =>
+      camadas.add((paint.blendMode, caminhos.length));
+
   @override
   Object? noSuchMethod(Invocation invocation) => null;
 }
@@ -236,11 +242,11 @@ void main() {
       expect(pagina.recortes.last, _caixa);
       expect(tester.getRect(chave('ann.page')), _caixa);
       expect(sessao.panLimit, 145.25);
-      // a tinta da sessão nas 2 passadas do Noite (a da frente e a de trás) sem uma tirar a outra da cache
+      // a tinta da sessão nas 3 passadas do Noite (por trás, com os fundos e por cima) sem uma tirar a outra da cache
       final folha =
           tester.widget<CustomPaint>(chave('ann.canvas.page')).painter!
               as AnnotationPagePainter;
-      expect(folha.pictures.capacity, 2);
+      expect(folha.pictures.capacity, 3);
     },
   );
 
@@ -477,10 +483,12 @@ void main() {
       );
       final tela = _Tela();
       folha().paint(tela, const Size(390, 844));
+      // por trás D − cor; por cima D em diferença — sem camada (a regra 12.4)
       expect(
         [for (final (_, paint) in tela.caminhos) paint.blendMode],
         [BlendMode.srcOver, BlendMode.difference],
       );
+      expect(tela.camadas, isEmpty);
       // a folha do Noite repinta com o traço ao vivo
       var avisos = 0;
       folha().addListener(() => avisos++);

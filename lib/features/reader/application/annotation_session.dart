@@ -369,6 +369,10 @@ final class AnnotationSession extends ChangeNotifier {
   /// Sobe a cada mudança da tinta mostrada (o cache da pintura).
   int get revision => _revision;
 
+  /// A [revision] para ouvir: a página do modo repinta com ela, não com cada aviso da sessão.
+  ValueListenable<int> get revisions => _revisions;
+  final ValueNotifier<int> _revisions = ValueNotifier(0);
+
   /// Os desenhos da cópia de trabalho, em ordem de criação.
   List<SessionDrawing> get drawings => _copy.drawings.toList();
 
@@ -1139,6 +1143,7 @@ final class AnnotationSession extends ChangeNotifier {
 
   void _repaint() {
     _revision++;
+    _revisions.value = _revision;
     notifyListeners();
   }
 
@@ -1410,6 +1415,7 @@ final class AnnotationSession extends ChangeNotifier {
     _timer?.cancel();
     live.dispose();
     liveMarker.dispose();
+    _revisions.dispose();
     touch.dispose();
     selection.dispose();
     panel.dispose();

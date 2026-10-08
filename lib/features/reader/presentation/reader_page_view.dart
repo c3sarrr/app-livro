@@ -147,7 +147,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
   int _peekGen = 0;
 
   /// Os desenhos das páginas já pintadas (G16).
-  final InkPictureCache _inkPictures = InkPictureCache();
+  /// As 4 páginas das vizinhas × as 3 passadas do Noite (R26, achado 17).
+  final InkPictureCache _inkPictures = InkPictureCache(capacity: 12);
 
   double get _width => context.size?.width ?? 0;
 
@@ -517,42 +518,50 @@ class ReaderPagesPainter extends CustomPainter {
       lightText: foundLightText,
       paintInkBehind: shown == null || ink == null
           ? null
-          : (c) => _paintInkOf(c, page, ink, behind: true),
+          : _inkOf(page, ink, InkPass.behind),
+      paintInkFill: shown == null || ink == null
+          ? null
+          : _inkOf(page, ink, InkPass.fill),
       paintInkLayer: shown == null || ink == null
           ? null
-          : (c) => _paintInkOf(c, page, ink),
+          : _inkOf(page, ink, InkPass.top),
     );
   }
 
-  /// Os desenhos de [page] (no Noite, com a cor das letras; [behind] = só a passada de trás do Marca-texto — R26): a
-  /// `Picture` guardada (pela página e pela revisão) ou, sem o cache, traço a traço.
-  void _paintInkOf(
-    Canvas canvas,
+  /// A passada [pass] dos desenhos de [page] (no Noite, com a cor das letras — R26, achado 17): a `Picture` guardada
+  /// (pela página, pela revisão e pela passada) ou, sem o cache, traço a traço; `null` sem nada a pintar nela.
+  void Function(Canvas canvas)? _inkOf(
     DisplayPage page,
-    InkSource ink, {
-    bool behind = false,
-  }) {
+    InkSource ink,
+    InkPass pass,
+  ) {
     final light = foundLightText;
     List<InkStroke> strokes() => [
       for (final d in ink.drawingsOn(page)) ...d.strokes,
     ];
     final cache = inkPictures;
     if (cache == null) {
-      if (!behind) {
-        paintInk(canvas, strokes(), lightText: light);
-      } else if (light != null) {
-        paintInkBehind(canvas, strokes(), lightText: light);
+      if (pass == InkPass.top) {
+        return (c) => paintInk(c, strokes(), lightText: light);
       }
-      return;
+      if (light == null) return null;
+      final markers = [
+        for (final s in strokes())
+          if (InkTool.fromCode(s.tool) == InkTool.marker) s,
+      ];
+      if (markers.isEmpty) return null;
+      return pass == InkPass.behind
+          ? (c) => paintInkBehind(c, markers, lightText: light)
+          : (c) => paintInkFill(c, markers, lightText: light);
     }
     final picture = cache.pictureOf(
       page,
       ink.revision,
       strokes,
       lightText: light,
-      behind: behind,
+      pass: pass,
     );
-    if (picture != null) canvas.drawPicture(picture);
+    return picture == null ? null : (c) => c.drawPicture(picture);
   }
 
   @override
@@ -573,8 +582,10 @@ class ReaderPagesPainter extends CustomPainter {
 /// Uma página de texto (G13, G16): os fundos ([highlights] de fundo, a marca da busca [found], a seleção) por trás
 /// das letras — com letras claras ([lightText], o Noite), pela técnica da D-127/D-133 —, os sublinhados, a mancha dos
 /// grifos feitos à mão ([inkHighlights], D-161) e, por último, a tinta ([paintInkLayer], D-59). O modo anotação
-/// pinta a página por aqui também. G17 (R26): no Noite, a passada de trás do Marca-texto ([paintInkBehind]) vai antes
-/// das letras, e as manchas recortam os fundos dos grifos da linha delas (achado 17).
+/// pinta a página por aqui também. G17 (R26): no Noite, o Marca-texto vai por trás das letras ([paintInkBehind]) e
+/// por cima, com os fundos ([paintInkFill]); a caneta e a Reta por último ([paintInkLayer]). Achado 17: no Noite, onde
+/// dois fundos se cruzam (os grifos, a busca, a seleção, as manchas e o Marca-texto) vale o de cima, e a conta da D-133
+/// é feita uma vez (`_paintNightTops`).
 void paintTextPage(
   Canvas canvas,
   DisplayPage page, {
@@ -586,6 +597,7 @@ void paintTextPage(
   Color? selectionColor,
   Color? lightText,
   void Function(Canvas canvas)? paintInkBehind,
+  void Function(Canvas canvas)? paintInkFill,
   void Function(Canvas canvas)? paintInkLayer,
 }) {
   final bands = backgroundBands(
@@ -596,15 +608,6 @@ void paintTextPage(
     selection: selection,
     selectionColor: selectionColor,
     night: lightText != null,
-    cuts: lightText == null
-        ? const []
-        : [
-            for (final (:box, color: _) in handHighlightBoxes(
-              page,
-              inkHighlights,
-            ))
-              box,
-          ],
   );
   if (lightText == null) {
     // letras escuras: os fundos vão por trás delas
@@ -613,9 +616,11 @@ void paintTextPage(
     }
     page.paint(canvas);
   } else {
-    // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem
-    // camada. Com D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença:
-    // o fundo volta a ser a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau.
+    // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem camada. Com
+    // D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença: o fundo volta a ser
+    // a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau. Por trás, o Marca-texto
+    // vai primeiro, depois os fundos e as manchas (o de cima vale onde se cruzam)
+    paintInkBehind?.call(canvas);
     for (final b in bands) {
       paintBand(
         canvas,
@@ -629,19 +634,100 @@ void paintTextPage(
       inkHighlights,
       lightText: lightText,
     );
-    paintInkBehind?.call(canvas);
     page.paint(canvas);
-    for (final b in bands) {
-      paintBand(
-        canvas,
-        b,
-        channelMax(lightText, b.color),
-        BlendMode.difference,
-      );
-    }
+    _paintNightTops(
+      canvas,
+      page,
+      bands,
+      inkHighlights,
+      lightText,
+      paintInkFill,
+    );
   }
   // os sublinhados e os ondulados, de seleção e à mão (R25)
   paintUnderlines(canvas, page, [...highlights, ...inkHighlights]);
-  paintHandHighlights(canvas, page, inkHighlights, lightText: lightText);
+  // no Creme, a mancha vai por cima, multiplicada
+  if (lightText == null) paintHandHighlights(canvas, page, inkHighlights);
   paintInkLayer?.call(canvas);
+}
+
+/// Um fundo do Noite: onde ele está, a forma, D e como ele se pinta sozinho.
+typedef _NightTop = ({
+  Rect bounds,
+  Path Function() shape,
+  Color color,
+  void Function(Paint) draw,
+});
+
+/// Achado 17, sem camada (a regra 12.4): no Noite, a parte de cima (D em diferença) de cada fundo vai só onde nenhum
+/// fundo pintado depois dele o cobre — por trás vale o de cima, e por cima cada pixel leva a diferença uma vez. A
+/// ordem é a de trás: o Marca-texto ([paintInkFill], recortado fora dos fundos e das manchas), os fundos [bands] e as
+/// manchas dos grifos à mão. O que não se cruza com nada vai direto, como antes.
+void _paintNightTops(
+  Canvas canvas,
+  DisplayPage page,
+  List<MarkBand> bands,
+  List<PaintedHighlight> inkHighlights,
+  Color light,
+  void Function(Canvas canvas)? paintInkFill,
+) {
+  final items = <_NightTop>[
+    for (final b in bands)
+      (
+        bounds: Rect.fromLTRB(
+          b.left,
+          b.clipTop ?? b.top,
+          b.right,
+          b.clipBottom ?? b.bottom,
+        ),
+        shape: () => bandPath(b),
+        color: channelMax(light, b.color),
+        draw: (p) => paintBand(canvas, b, p.color, p.blendMode),
+      ),
+    for (final (:box, :color) in handHighlightBoxes(page, inkHighlights))
+      (
+        bounds: box,
+        shape: () => handHighlightPath(box),
+        color: channelMax(light, color),
+        draw: (p) => canvas.drawPath(handHighlightPath(box), p),
+      ),
+  ];
+  Path union(Iterable<Path> paths) =>
+      paths.reduce((a, b) => Path.combine(PathOperation.union, a, b));
+  if (paintInkFill != null) {
+    if (items.isEmpty) {
+      paintInkFill(canvas);
+    } else {
+      canvas
+        ..save()
+        ..clipPath(
+          Path.combine(
+            PathOperation.difference,
+            Path()..addRect(const Rect.fromLTRB(-1e5, -1e5, 1e5, 1e5)),
+            union([for (final i in items) i.shape()]),
+          ),
+        );
+      paintInkFill(canvas);
+      canvas.restore();
+    }
+  }
+  for (var k = 0; k < items.length; k++) {
+    final item = items[k];
+    final paint = Paint()
+      ..color = item.color
+      ..blendMode = BlendMode.difference
+      ..isAntiAlias = true;
+    final above = [
+      for (final o in items.skip(k + 1))
+        if (o.bounds.overlaps(item.bounds)) o.shape(),
+    ];
+    if (above.isEmpty) {
+      item.draw(paint);
+      continue;
+    }
+    canvas.drawPath(
+      Path.combine(PathOperation.difference, item.shape(), union(above)),
+      paint,
+    );
+  }
 }

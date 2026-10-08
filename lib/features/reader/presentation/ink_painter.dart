@@ -10,8 +10,11 @@
 //   G17 (R25): na altura do grifo (Baixa do meio da letra, Alta da letra toda) e só no fundo; o sublinhado e o
 //   ondulado à mão pintam como os da tela 21 (`paintUnderlines`);
 // - G17 (R26): no Noite, a tinta translúcida do marca-texto pela D-133 (por trás D − cor, por cima D em diferença) e a
-//   tinta com contraste < 1,5 : 1 contra o papel do Noite na cor das letras (D-174); o cache separa o Creme, o Noite e
-//   a passada de trás.
+//   tinta com contraste < 1,5 : 1 contra o papel do Noite na cor das letras (D-174); o cache separa o Creme e as 3
+//   passadas do Noite (por trás, com os fundos e por cima);
+// - achado 17: no Noite, onde dois fundos se cruzam vale o de cima e a conta da D-133 é feita uma vez
+//   (`paintTextPage`, sem camada); os traços do Marca-texto da mesma cor e largura vão num caminho só (não somam onde
+//   se cruzam); a caneta e a Reta ficam por cima de tudo.
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -94,8 +97,9 @@ int inkArgbOn(int argb, ui.Color? lightText) {
 bool _isMarker(InkStroke s) => InkTool.fromCode(s.tool) == InkTool.marker;
 
 /// Pinta [strokes] na ordem, cada um na cor e no alpha com que foi feito (D-59). O Marca-texto (R22): a linha dos
-/// pontos na largura dele, com as pontas redondas, multiplicada (como a mancha da D-161); com letras claras
-/// ([lightText], o Noite), a parte de cima da D-133 (D em diferença). A cor passa pela D-174.
+/// pontos na largura dele, com as pontas redondas, multiplicada (como a mancha da D-161). Com letras claras
+/// ([lightText], o Noite), só a caneta e a Reta: o Marca-texto vai por trás ([paintInkBehind]) e por cima, com os
+/// fundos ([paintInkFill]). A cor passa pela D-174.
 void paintInk(
   ui.Canvas canvas,
   List<InkStroke> strokes, {
@@ -104,17 +108,9 @@ void paintInk(
   for (final s in strokes) {
     final argb = inkArgbOn(s.argb, lightText);
     if (_isMarker(s)) {
-      final light = lightText;
-      _paintMarker(
-        canvas,
-        s,
-        light == null
-            ? (ui.Color(argb), ui.BlendMode.multiply)
-            : (
-                channelMax(light, ui.Color(argb | 0xFF000000)),
-                ui.BlendMode.difference,
-              ),
-      );
+      if (lightText == null) {
+        _paintMarker(canvas, s, (ui.Color(argb), ui.BlendMode.multiply));
+      }
       continue;
     }
     canvas.drawPath(
@@ -143,6 +139,34 @@ void paintInkBehind(
   }
 }
 
+/// Com letras claras ([lightText], o Noite — D-133): a parte do Marca-texto que vai por cima das letras, D em
+/// diferença. Os traços da mesma cor e largura vão num caminho só: onde se cruzam, a diferença é feita uma vez
+/// (achado 17). A caneta e a Reta não.
+void paintInkFill(
+  ui.Canvas canvas,
+  List<InkStroke> strokes, {
+  required ui.Color lightText,
+}) {
+  final groups = <(int, int), ui.Path>{};
+  for (final s in strokes) {
+    if (!_isMarker(s)) continue;
+    final c = inkArgbOn(s.argb, lightText) | 0xFF000000;
+    groups
+        .putIfAbsent((c, s.widthCentiMm), ui.Path.new)
+        .addPath(markerLine(s), ui.Offset.zero);
+  }
+  for (final MapEntry(key: (c, w), value: path) in groups.entries) {
+    canvas.drawPath(
+      path,
+      _markerPaint(
+        w,
+        channelMax(lightText, ui.Color(c)),
+        ui.BlendMode.difference,
+      ),
+    );
+  }
+}
+
 /// A linha dos pontos de [s].
 ui.Path markerLine(InkStroke s) {
   final path = ui.Path();
@@ -165,18 +189,27 @@ void _paintMarker(
   (ui.Color, ui.BlendMode) look,
 ) => canvas.drawPath(
   markerLine(s),
-  ui.Paint()
-    ..style = ui.PaintingStyle.stroke
-    ..strokeWidth = dpOfCentiMm(s.widthCentiMm)
-    ..strokeCap = ui.StrokeCap.round
-    ..strokeJoin = ui.StrokeJoin.round
-    ..color = look.$1
-    ..blendMode = look.$2
-    ..isAntiAlias = true,
+  _markerPaint(s.widthCentiMm, look.$1, look.$2),
 );
 
+/// O traço do Marca-texto: a linha na largura dele, com as pontas e as juntas redondas.
+ui.Paint _markerPaint(int widthCentiMm, ui.Color color, ui.BlendMode mode) =>
+    ui.Paint()
+      ..style = ui.PaintingStyle.stroke
+      ..strokeWidth = dpOfCentiMm(widthCentiMm)
+      ..strokeCap = ui.StrokeCap.round
+      ..strokeJoin = ui.StrokeJoin.round
+      ..color = color
+      ..blendMode = mode
+      ..isAntiAlias = true;
+
+/// As passadas da tinta de uma página (R26, achado 17): no Creme só a de cima ([top], tudo); no Noite, a de cima é só
+/// a caneta e a Reta, e o Marca-texto vai por trás das letras ([behind], D − cor) e por cima, com os fundos ([fill], D
+/// em diferença).
+enum InkPass { top, behind, fill }
+
 /// Os desenhos de cada página gravados num `ui.Picture`, pela página e pela revisão da tinta (e, no Noite, pela cor
-/// das letras e pela passada: a de trás e a de cima — R26).
+/// das letras e pela passada — R26).
 final class InkPictureCache {
   InkPictureCache({this.capacity = 4});
 
@@ -188,28 +221,26 @@ final class InkPictureCache {
     ({
       Object page,
       ui.Color? light,
-      bool behind,
+      InkPass pass,
       int revision,
       ui.Picture picture,
     })
   >
   _entries = [];
 
-  /// A `Picture` dos traços de [page] na [revision], com as letras [lightText] (o Noite) e só a passada de trás
-  /// ([behind], o Marca-texto pela D-133); `strokes` só é chamado quando ela ainda não existe. Sem traços (ou, por trás,
-  /// sem Marca-texto), `null`.
+  /// A `Picture` da passada [pass] dos traços de [page] na [revision], com as letras [lightText] (o Noite); `strokes`
+  /// só é chamado quando ela ainda não existe. Sem nada a pintar nessa passada (no Creme, a de trás e a dos fundos nunca têm),
+  /// `null`.
   ui.Picture? pictureOf(
     Object page,
     int revision,
     List<InkStroke> Function() strokes, {
     ui.Color? lightText,
-    bool behind = false,
+    InkPass pass = InkPass.top,
   }) {
     for (var i = 0; i < _entries.length; i++) {
       final e = _entries[i];
-      if (!identical(e.page, page) ||
-          e.light != lightText ||
-          e.behind != behind) {
+      if (!identical(e.page, page) || e.light != lightText || e.pass != pass) {
         continue;
       }
       _entries.removeAt(i);
@@ -221,24 +252,28 @@ final class InkPictureCache {
       break;
     }
     final light = lightText;
-    if (behind && light == null) return null;
+    if (light == null && pass != InkPass.top) return null;
+    // no Noite, o Marca-texto não vai na passada de cima
     final list = [
       for (final s in strokes())
-        if (!behind || _isMarker(s)) s,
+        if (light == null || (_isMarker(s) != (pass == InkPass.top))) s,
     ];
     if (list.isEmpty) return null;
     final recorder = ui.PictureRecorder();
     final canvas = ui.Canvas(recorder);
-    if (behind) {
-      paintInkBehind(canvas, list, lightText: light!);
-    } else {
-      paintInk(canvas, list, lightText: light);
+    switch (pass) {
+      case InkPass.top:
+        paintInk(canvas, list, lightText: light);
+      case InkPass.behind:
+        paintInkBehind(canvas, list, lightText: light!);
+      case InkPass.fill:
+        paintInkFill(canvas, list, lightText: light!);
     }
     final picture = recorder.endRecording();
     _entries.add((
       page: page,
       light: light,
-      behind: behind,
+      pass: pass,
       revision: revision,
       picture: picture,
     ));
@@ -332,7 +367,8 @@ void paintHandHighlightsBehind(
   }
 }
 
-/// A mancha por cima do texto: multiplicada a 90 %; com letras claras ([lightText]), D em diferença (D-133).
+/// A mancha por cima do texto: multiplicada a 90 %; com letras claras ([lightText]), D em diferença (D-133 — a
+/// página do Noite pinta as dela por `paintTextPage`, que recorta as que se cruzam: achado 17).
 void paintHandHighlights(
   ui.Canvas canvas,
   DisplayPage page,

@@ -1,9 +1,9 @@
 // G13.1 — o que a página pinta além do texto do livro (Anexo 03 §9.2, prancha 21): por trás das letras, o fundo
 // dos grifos, a seleção e a marca da busca; por cima, o sublinhado. Onde dois fundos se cruzam vale o de prioridade
 // maior (seleção > busca > grifo): o outro é recortado naquela linha. Com letras claras (o Noite), todo fundo usa a
-// técnica da D-127 (D-133). Nada de camada. G17: o fundo na altura de cada grifo (D-172), o ondulado (R25) e, no
-// Noite, as manchas dos grifos à mão recortam os fundos dos grifos na mesma linha (achado 17: a conta da D-133 uma
-// vez só onde eles se cruzam).
+// técnica da D-127 (D-133). Nada de camada. G17: o fundo na altura de cada grifo (D-172) e o ondulado (R25); no
+// Noite, onde dois fundos se cruzam, a parte de cima de cada um vai só fora dos de cima dele (`bandPath`,
+// `paintTextPage` — achado 17).
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -84,8 +84,7 @@ typedef MarkBand = ({
 });
 
 /// Os fundos da página: grifos de fundo, marca da busca e seleção, já recortados por prioridade. Com letras
-/// claras ([night]) as cores ficam opacas (a técnica da D-127 precisa da cor viva — D-133). Os fundos dos grifos
-/// saem dos retângulos [cuts] que cruzam a linha deles (as manchas à mão no Noite — achado 17).
+/// claras ([night]) as cores ficam opacas (a técnica da D-127 precisa da cor viva — D-133).
 List<MarkBand> backgroundBands(
   DisplayPage page, {
   List<PaintedHighlight> highlights = const [],
@@ -94,7 +93,6 @@ List<MarkBand> backgroundBands(
   ReaderRange? selection,
   ui.Color? selectionColor,
   bool night = false,
-  List<ui.Rect> cuts = const [],
 }) {
   ui.Color tone(ui.Color c, double a) => c.withValues(alpha: night ? 1 : a);
   final out = <MarkBand>[];
@@ -103,28 +101,18 @@ List<MarkBand> backgroundBands(
     final (top, bottom) = fillBand(h.height);
     for (final b in page.boxesOf(h.range.unit, h.range.from, h.range.to)) {
       final area = b.textBottom - b.textTop;
-      var pieces = [(b.rect.left, b.rect.right)];
-      for (final c in cuts) {
-        if (c.bottom <= b.textTop || c.top >= b.textBottom) continue;
-        pieces = [
-          for (final (l, r) in pieces) ...cutInterval(l, r, c.left, c.right),
-        ];
-      }
-      for (final (l, r) in pieces) {
-        if (r - l <= 0.01) continue;
-        out.add((
-          left: l,
-          right: r,
-          top: b.textTop,
-          bottom: b.textBottom,
-          radius: highlightRadius,
-          clipTop: b.textTop + top * area,
-          clipBottom: b.textTop + bottom * area,
-          color: tone(h.color, highlightAlpha),
-          priority: 0,
-          line: b.rect.top,
-        ));
-      }
+      out.add((
+        left: b.rect.left,
+        right: b.rect.right,
+        top: b.textTop,
+        bottom: b.textBottom,
+        radius: highlightRadius,
+        clipTop: b.textTop + top * area,
+        clipBottom: b.textTop + bottom * area,
+        color: tone(h.color, highlightAlpha),
+        priority: 0,
+        line: b.rect.top,
+      ));
     }
   }
   if (found != null && foundColor != null) {
@@ -202,6 +190,28 @@ List<MarkBand> cutBands(List<MarkBand> bands) {
 List<(double, double)> cutInterval(double l, double r, double a, double z) {
   if (z <= l || a >= r) return [(l, r)];
   return [if (a > l) (l, a), if (z < r) (z, r)];
+}
+
+/// A forma de um fundo: o retângulo arredondado, cortado na faixa do grifo (achado 17 — os recortes do Noite).
+ui.Path bandPath(MarkBand b) {
+  final shape = ui.Path()
+    ..addRRect(
+      ui.RRect.fromLTRBR(
+        b.left,
+        b.top,
+        b.right,
+        b.bottom,
+        ui.Radius.circular(b.radius),
+      ),
+    );
+  final top = b.clipTop;
+  final bottom = b.clipBottom;
+  if (top == null || bottom == null) return shape;
+  return ui.Path.combine(
+    ui.PathOperation.intersect,
+    shape,
+    ui.Path()..addRect(ui.Rect.fromLTRB(b.left, top, b.right, bottom)),
+  );
 }
 
 /// Pinta um fundo em [color] com [mode] (a faixa do grifo é um corte do retângulo arredondado).
