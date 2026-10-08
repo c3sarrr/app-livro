@@ -4,11 +4,13 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/content/content_blocks.dart';
+import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/layout/laid_block.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
 import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/epub_builder.dart';
@@ -188,4 +190,55 @@ void main() {
     }
     expect(conferidas, greaterThan(100));
   });
+
+  test('G18: a página diz onde está cada espaço (lado, largura e altura do texto); o texto de baixo já desce', () {
+    final item = parse(
+      '<p>Primeira frase da página. Segunda frase dela, um pouco mais longa.</p><p>Outro parágrafo.</p>',
+    );
+    final at = item.text.indexOf('página.') + 'página.'.length;
+    final cortes = [SpaceCut(at: at, height: 206, id: 'n1')];
+    final semCorte = montar(item).snap;
+    final blocks = BlockLayouter(t)
+        .layoutAll(item.blocks, item.blockStarts, cuts: cortes);
+    addTearDown(() {
+      for (final b in blocks) {
+        b.dispose();
+      }
+    });
+    final page = paginateChapter(blocks, t.contentHeight).first;
+    final snap = PageSnapshot(
+      spine: 0,
+      page: page,
+      blockOf: (b) => blocks[b],
+      typography: t,
+      item: item,
+    );
+    final s = page.slices.whereType<SpaceSlice>().single;
+    expect(spacesOf(snap), [
+      (
+        id: 'n1',
+        rect: ui.Rect.fromLTWH(
+          t.sideMargin,
+          t.topInset + s.y,
+          t.contentWidth,
+          206,
+        ),
+      ),
+    ]);
+    expect(spacesOf(semCorte), isEmpty);
+    // "Outro" desce a altura do espaço e mais o que o 2º segmento ocupar
+    final outro = item.text.indexOf('Outro');
+    final antes = semCorte.boxesOf(0, outro, outro + 5).single.rect.top;
+    final depois = snap.boxesOf(0, outro, outro + 5).single.rect.top;
+    expect(depois - antes, greaterThanOrEqualTo(206 - 0.01));
+    // o texto falado não muda
+    expect(snap.spokenText, semCorte.spokenText);
+    // a página do PDF (e as que não são do EPUB) não têm espaços
+    expect(spacesOf(_SemEspacos()), isEmpty);
+  });
+}
+
+final class _SemEspacos implements DisplayPage {
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

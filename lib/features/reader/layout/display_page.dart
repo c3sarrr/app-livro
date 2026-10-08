@@ -26,6 +26,22 @@ typedef TextLineBox = ({
   double em,
 });
 
+/// G18 — um espaço aberto na página (a nota à mão, a faixa dela ou o abridor): a camada e o lugar dele (o bloco
+/// inteiro, com as margens, na largura do texto).
+typedef PageSpace = ({String id, ui.Rect rect});
+
+/// A página que tem espaços abertos (a do EPUB).
+abstract interface class PageWithSpaces {
+  /// Os espaços da página, de cima para baixo.
+  List<PageSpace> get spaces;
+}
+
+/// Os espaços de [page] (nenhum, se ela não é do EPUB).
+List<PageSpace> spacesOf(DisplayPage page) => switch (page) {
+  final PageWithSpaces p => p.spaces,
+  _ => const [],
+};
+
 abstract interface class DisplayPage {
   /// Pinta o conteúdo da página, sem o papel e o rodapé, nas coordenadas da tela.
   void paint(ui.Canvas canvas);

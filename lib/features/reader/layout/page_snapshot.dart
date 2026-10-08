@@ -11,7 +11,7 @@ import 'paginator.dart';
 import 'reader_typography.dart';
 import 'text_geometry.dart';
 
-final class PageSnapshot implements DisplayPage {
+final class PageSnapshot implements DisplayPage, PageWithSpaces {
   @override
   bool get opaque => false;
 
@@ -77,6 +77,26 @@ final class PageSnapshot implements DisplayPage {
       }
     }
     return null;
+  }
+
+  @override
+  List<PageSpace> get spaces {
+    if (!alive) return const [];
+    final t = typography;
+    return [
+      for (final s in page.slices)
+        if (s is SpaceSlice)
+          if (_blockOf(s.block) case final LaidText b)
+            (
+              id: b.gaps[s.gap].id,
+              rect: ui.Rect.fromLTWH(
+                t.sideMargin,
+                t.topInset + s.y,
+                t.contentWidth,
+                b.gaps[s.gap].height,
+              ),
+            ),
+    ];
   }
 
   @override
