@@ -842,10 +842,27 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             (
               id: h.id,
               ink: true,
-              areas: [
-                for (final (:box, color: _) in handHighlightBoxes(page, [h]))
-                  InkRect(box.left, box.top, box.right, box.bottom),
-              ],
+              // a mancha (o fundo); o sublinhado e o ondulado à mão, pela caixa das letras (R23)
+              areas: h.style == HighlightStyle.fill
+                  ? [
+                      for (final (:box, color: _) in handHighlightBoxes(page, [
+                        h,
+                      ]))
+                        InkRect(box.left, box.top, box.right, box.bottom),
+                    ]
+                  : [
+                      for (final b in page.boxesOf(
+                        h.range.unit,
+                        h.range.from,
+                        h.range.to,
+                      ))
+                        InkRect(
+                          b.rect.left,
+                          b.textTop,
+                          b.rect.right,
+                          b.textBottom,
+                        ),
+                    ],
             ),
         ],
         // G17 (D-173): a mesa — os grifos que tocam a página, para o Marca-texto passar pela D-32

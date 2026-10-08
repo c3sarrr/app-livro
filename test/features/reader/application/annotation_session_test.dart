@@ -958,6 +958,63 @@ void main() {
       expect(s.changes().removed, {'a': amarelo});
     });
 
+    test('o 1º trecho se junta a um grifo mais antigo: os trechos seguintes ficam no grupo dele', () {
+      final s = open(desk: [grifo('velho', 0, 5)])
+        ..setTool(AnnotationTool.marker);
+      // "Olhos" e "ressaca", saindo da linha por cima de "de"
+      draw(s, [
+        (30, y0),
+        (80, y0),
+        (80, y0 - 50),
+        (120, y0 - 50),
+        (120, y0),
+        (188, y0),
+      ]);
+      expect(s.desk.items, hasLength(2));
+      final novo = s.desk.items.singleWhere((h) => h.id != 'velho');
+      expect(_text.substring(novo.start, novo.end), 'ressaca');
+      expect(novo.groupId, 'g-velho');
+      expect(s.desk.byId('velho'), grifo('velho', 0, 5));
+    });
+
+    test('sem a mesa (a tela não passou os grifos), o grifo do marca-texto também vai no Concluir', () {
+      final s = open()..setTool(AnnotationTool.marker);
+      draw(s, [(90, y0), (140, y0 + 3), (188, y0)]);
+      final c = s.changes();
+      final h = c.highlights.single;
+      expect(
+        (h.range.start, h.range.end, h.source),
+        (6, 16, AnnotationSource.ink),
+      );
+      expect(c.erasedHighlights, isEmpty);
+      expect(c.moved, isEmpty);
+      expect(c.removed, isEmpty);
+    });
+
+    test('a Borracha alcança o grifo à mão salvo sem caixas da tela (Sublinhado ou Ondulado) pelas palavras', () {
+      final s = open(
+        desk: [
+          DeskHighlight(
+            id: 'onda',
+            unit: _unit,
+            start: 6,
+            end: 8,
+            color: '#FED170',
+            style: HighlightStyle.wavy,
+            height: null,
+            ink: true,
+            groupId: 'g-onda',
+            createdAt: DateTime.utc(2026, 9, 1),
+          ),
+        ],
+        highlights: const [(id: 'onda', ink: true, areas: <InkRect>[])],
+      )..setTool(AnnotationTool.eraser);
+      // sobre "de"
+      draw(s, [(90, y0), (105, y0)]);
+      expect(s.desk.items, isEmpty);
+      expect(s.changes().erasedHighlights, {'onda'});
+    });
+
     test('a Borracha num grifo à mão salvo: só nos apagados', () {
       final s = open(
         desk: [grifo('mao', 6, 8, mao: true)],

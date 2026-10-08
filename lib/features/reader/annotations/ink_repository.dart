@@ -5,10 +5,11 @@
 //   delas; grifos à mão apagados pela Borracha, com as notas filhas (o de seleção fica — D-168). A linha que já não
 //   existe ou já está apagada, pula; a que ficaria igual, não é regravada: aplicar duas vezes dá as mesmas linhas (o
 //   rascunho é idempotente) e a fila do Pro só recebe o que mudou.
-// - G17 (R24): os grifos do marca-texto — os novos (`source` do traço ou do grifo cortado), os salvos que a D-32
-//   moveu (a âncora, a página e o capítulo novos; o grupo e a criação ficam) e os que ela tirou: somem e as notas vão
-//   para o destino, com o grupo, a âncora, a página e o capítulo dele (como na tela 21); sem destino (a Borracha
-//   apagou o destino), as notas vão junto (D-168). Destino que não existe mais: as notas ficam onde estavam.
+// - G17 (R24): os grifos do marca-texto — os novos (`source` do traço ou do grifo cortado; a criação = a hora do traço),
+//   os salvos que a D-32 moveu (a âncora, a página e o capítulo novos, com as notas deles; o grupo e a criação ficam)
+//   e os que ela tirou: somem e as notas vão para o destino, com o grupo, a âncora, a página e o capítulo dele (como
+//   na tela 21); sem destino (a Borracha apagou o destino), as notas vão junto (D-168). Destino que não existe mais
+//   (apagado em outro aparelho): o tirado fica, com as notas.
 // - Rascunho: o JSON de `ink_changes.dart` na chave `ink_draft:<dono>:<user_book_id>:<sessão>` do `kv` (só do
 //   aparelho, nunca sincroniza), uma por sessão do modo: a sessão só apaga e sobrescreve o dela. Ao abrir o livro
 //   (D-166), cada um é gravado como um Concluir, na ordem das chaves, e a chave some; o que falhar fica, e a falha vai
@@ -184,6 +185,15 @@ final class DriftInkRepository implements InkRepository {
     for (final h in c.highlights) {
       await _writeHighlight(owner, userBookId, h, old[h.id]);
     }
+    if (c.moved.isEmpty && c.removed.isEmpty) return;
+    final book = await _annotations.forBook(userBookId);
+    List<Annotation> notesOf(String id) => [
+      for (final n in book)
+        if (n.kind == AnnotationKind.note &&
+            n.parentId == id &&
+            !n.meta.isDeleted)
+          n,
+    ];
     for (final m in c.moved) {
       final a = old[m.id];
       if (!_live(a) ||
@@ -204,25 +214,37 @@ final class DriftInkRepository implements InkRepository {
           ),
         ),
       );
+      // as notas do grifo andam com ele (a âncora, a página e o capítulo do pai)
+      for (final n in notesOf(m.id)) {
+        await _write(
+          'annotations',
+          n.id,
+          (v, at) => _annotations.upsert(
+            n.copyWith(
+              anchor: m.range,
+              refPage: m.refPage,
+              chapterIndex: m.chapterIndex,
+              meta: n.meta.edited(at, v),
+            ),
+          ),
+        );
+      }
     }
-    if (c.removed.isEmpty) return;
-    final book = await _annotations.forBook(userBookId);
     for (final MapEntry(key: id, value: to) in c.removed.entries) {
       final a = old[id];
       if (!_live(a)) continue;
-      await _delete(a!);
-      final notes = [
-        for (final n in book)
-          if (n.kind == AnnotationKind.note && n.parentId == id) n,
-      ];
+      final notes = notesOf(id);
       if (to == null) {
+        await _delete(a!);
         for (final n in notes) {
           await _delete(n);
         }
         continue;
       }
       final parent = await _annotations.byId(to);
-      if (parent == null || parent.meta.isDeleted) continue;
+      // o destino não existe mais (apagado em outro aparelho): o tirado fica, com as notas
+      if (!_live(parent)) continue;
+      await _delete(a!);
       for (final n in notes) {
         await _write(
           'annotations',
@@ -230,7 +252,7 @@ final class DriftInkRepository implements InkRepository {
           (v, at) => _annotations.upsert(
             n.copyWith(
               parentId: Nullable(to),
-              groupId: parent.groupId,
+              groupId: parent!.groupId,
               anchor: parent.anchor,
               refPage: parent.refPage,
               chapterIndex: parent.chapterIndex,
@@ -269,9 +291,10 @@ final class DriftInkRepository implements InkRepository {
         old == null
             ? Annotation(
                 id: r.id,
+                // a criação = a hora do traço na sessão
                 meta: RecordMeta(
                   userId: owner,
-                  createdAt: at,
+                  createdAt: r.createdAt,
                   updatedAt: at,
                   version: v,
                 ),

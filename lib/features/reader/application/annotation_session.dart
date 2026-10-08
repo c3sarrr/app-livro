@@ -761,19 +761,28 @@ final class AnnotationSession extends ChangeNotifier {
     String? group;
     for (final r in runs) {
       final id = _ids.next();
-      group ??= id;
       desk = desk.mark(
         r,
         color: _pen.highlighterColor,
         style: _pen.highlighterStyle,
         height: _pen.highlighterHeight,
         id: id,
-        groupId: group,
+        groupId: group ?? id,
         at: at,
         newId: _ids.next,
       );
+      // o grupo do traço = o do grifo que ficou com o 1º trecho (o mais antigo, se a D-32 juntou os dois)
+      group ??= _holderOf(desk, r)?.groupId ?? id;
     }
     if (desk != before) _push(MarkHighlights(before: before, after: desk));
+  }
+
+  /// O grifo vivo da mesa [desk] que cobre o trecho [r].
+  static DeskHighlight? _holderOf(HighlightDesk desk, MarkedRun r) {
+    for (final h in desk.items) {
+      if (h.unit == r.unit && h.start <= r.from && h.end >= r.to) return h;
+    }
+    return null;
   }
 
   InkStroke _liveStroke() => InkStroke(
@@ -892,7 +901,10 @@ final class AnnotationSession extends ChangeNotifier {
       final onScreen = screen[h.id];
       yield (
         id: h.id,
-        areas: kept && onScreen != null ? onScreen.areas : _areasOf(h),
+        // sem caixas da tela (o sublinhado e o ondulado não têm mancha), as das palavras
+        areas: kept && onScreen != null && onScreen.areas.isNotEmpty
+            ? onScreen.areas
+            : _areasOf(h),
       );
     }
   }
@@ -1216,7 +1228,8 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// Os grifos da mesa (G17, R24): os novos (o traço do marca-texto e os pedaços cortados), os salvos que a D-32
   /// moveu, os salvos que ela tirou com o destino final das notas (`null` se a Borracha apagou o destino) e os salvos
-  /// apagados pela Borracha. O que nunca foi gravado e saiu na sessão não vai. Sem a mesa, só os apagados.
+  /// apagados pela Borracha. O que nunca foi gravado e saiu na sessão não vai. Sem a mesa, os do marca-texto são
+  /// todos novos e os apagados vêm da tela.
   ({
     List<HighlightRow> highlights,
     List<MovedHighlight> moved,
@@ -1224,14 +1237,6 @@ final class AnnotationSession extends ChangeNotifier {
     Set<String> erased,
   })
   _highlightChanges() {
-    if (!_hasDesk) {
-      return (
-        highlights: const [],
-        moved: const [],
-        removed: const {},
-        erased: _copy.erasedHighlights,
-      );
-    }
     final desk = _copy.desk;
     bool saved(String id) => _initialDesk.byId(id) != null;
     final highlights = <HighlightRow>[];
@@ -1291,10 +1296,13 @@ final class AnnotationSession extends ChangeNotifier {
               final t => t,
             },
       },
-      erased: {
-        for (final id in desk.erased)
-          if (saved(id)) id,
-      },
+      // sem a mesa, os apagados são os da tela
+      erased: !_hasDesk
+          ? _copy.erasedHighlights
+          : {
+              for (final id in desk.erased)
+                if (saved(id)) id,
+            },
     );
   }
 

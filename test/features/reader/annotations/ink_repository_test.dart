@@ -69,9 +69,10 @@ HighlightRow _grifo(
   HighlightStyle estilo = HighlightStyle.fill,
   FillHeight? altura = FillHeight.low,
   String cor = '#FFC1C6',
+  DateTime? criado,
 }) => HighlightRow(
   id: idTeste(n),
-  createdAt: _t1,
+  createdAt: criado ?? _t1,
   range: ancoraTeste(inicio: inicio, exato: exato, pagina: 160),
   refPage: 160,
   chapterIndex: 32,
@@ -301,8 +302,10 @@ void main() {
   });
 
   group('G17 (R24): os grifos do marca-texto', () {
-    test('novos: o à mão e o pedaço cortado de um de seleção, com a origem, a altura, o grupo e o HLC', () async {
-      final mao = _grifo(100);
+    test('novos: o à mão e o pedaço cortado de um de seleção, com a origem, a altura, o grupo, a criação e o HLC', () async {
+      // o traço foi feito meia hora antes do Concluir
+      final traco = DateTime.utc(2026, 10, 8, 9);
+      final mao = _grifo(100, criado: traco);
       final pedaco = _grifo(
         101,
         group: 7,
@@ -335,7 +338,8 @@ void main() {
         ('#FFC1C6', HighlightStyle.fill, FillHeight.low, idTeste(100), null),
       );
       expect(a.meta.userId, usuarioTeste);
-      expect(a.meta.createdAt, a.meta.updatedAt);
+      expect(a.meta.createdAt, traco);
+      expect(a.meta.updatedAt, _t1);
       expect(a.meta.updatedAt.millisecondsSinceEpoch, a.meta.version.ms);
       final b = (await annotation(101))!;
       expect(
@@ -394,6 +398,44 @@ void main() {
       expect(a.meta.version > velho.meta.version, isTrue);
       expect(await annotation(112), apagado);
       expect(await annotation(113), isNull);
+    });
+
+    test('movido: as notas dele andam junto (a âncora, a página e o capítulo novos); a nota apagada fica', () async {
+      final velho = grifoTeste(114, livro: _livro);
+      final nota = notaTeste(115, livro: _livro, pai: velho, texto: 'Olhos.');
+      final apagada = notaTeste(
+        116,
+        livro: _livro,
+        pai: velho,
+        texto: 'Antiga.',
+      ).copyWith(meta: metaTeste(apagado: true));
+      for (final a in [velho, nota, apagada]) {
+        await AnnotationsDao(db).upsert(a);
+      }
+      final novo = ancoraTeste(inicio: 0, exato: 'aqueles olhos', pagina: 158);
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(
+          moved: [
+            MovedHighlight(
+              id: velho.id,
+              range: novo,
+              refPage: 158,
+              chapterIndex: 30,
+            ),
+          ],
+        ),
+      );
+      final n = (await annotation(115))!;
+      expect(
+        (n.parentId, n.groupId, n.anchor, n.refPage, n.chapterIndex),
+        (velho.id, velho.groupId, novo, 158, 30),
+      );
+      expect((n.noteText, n.meta.isDeleted), ('Olhos.', false));
+      expect(n.meta.createdAt, nota.meta.createdAt);
+      expect(n.meta.version > nota.meta.version, isTrue);
+      expect(await annotation(116), apagada);
     });
 
     test('tirados: some e as notas vão para o destino (o grupo, a âncora, a página e o capítulo dele)', () async {
@@ -470,7 +512,19 @@ void main() {
     test('tirado sem destino (o destino foi apagado pela Borracha): as notas vão junto (D-168)', () async {
       final tirado = grifoTeste(150, livro: _livro);
       final nota = notaTeste(151, livro: _livro, pai: tirado, texto: 'Olhos.');
-      // tirado para um destino que não existe mais: a nota fica onde estava (como na tela 21)
+      for (final a in [tirado, nota]) {
+        await AnnotationsDao(db).upsert(a);
+      }
+      await repo.commit(
+        usuarioTeste,
+        _livro,
+        InkChanges(removed: {tirado.id: null}),
+      );
+      expect((await annotation(150))!.meta.isDeleted, isTrue);
+      expect((await annotation(151))!.meta.isDeleted, isTrue);
+    });
+
+    test('tirado para um destino que não existe mais ou foi apagado em outro aparelho: o tirado fica, com a nota', () async {
       final outro = grifoTeste(152, livro: _livro, inicio: 80);
       final notaDoOutro = notaTeste(
         153,
@@ -478,18 +532,27 @@ void main() {
         pai: outro,
         texto: 'Fica.',
       );
-      for (final a in [tirado, nota, outro, notaDoOutro]) {
+      final terceiro = grifoTeste(154, livro: _livro, inicio: 120);
+      final destinoApagado = grifoTeste(
+        155,
+        livro: _livro,
+        inicio: 160,
+        apagado: true,
+      );
+      for (final a in [outro, notaDoOutro, terceiro, destinoApagado]) {
         await AnnotationsDao(db).upsert(a);
       }
       await repo.commit(
         usuarioTeste,
         _livro,
-        InkChanges(removed: {tirado.id: null, outro.id: idTeste(199)}),
+        InkChanges(
+          removed: {outro.id: idTeste(199), terceiro.id: destinoApagado.id},
+        ),
       );
-      expect((await annotation(150))!.meta.isDeleted, isTrue);
-      expect((await annotation(151))!.meta.isDeleted, isTrue);
-      expect((await annotation(152))!.meta.isDeleted, isTrue);
+      expect(await annotation(152), outro);
       expect(await annotation(153), notaDoOutro);
+      expect(await annotation(154), terceiro);
+      expect(await annotation(155), destinoApagado);
     });
 
     test(
