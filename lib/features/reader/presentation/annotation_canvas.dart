@@ -26,6 +26,7 @@ import '../annotations/ink/ink_stroke.dart' show InkStroke;
 import '../annotations/ink/ink_tools.dart' show panLimit;
 import '../application/annotation_session.dart';
 import '../layout/display_page.dart';
+import 'hand_note.dart';
 import 'ink_latency_meter.dart';
 import 'ink_painter.dart';
 import 'page_marks.dart';
@@ -351,6 +352,27 @@ class AnnotationPagePainter extends CustomPainter {
       ..save()
       ..clipRect(pageBox)
       ..translate(0, session.textShift * enter.value + pan.value);
+    // G18: as notas à mão no lugar dos espaços (a caixa da 24b ou a faixa — a etiqueta e os botões são widgets), por
+    // baixo do texto e da tinta da página
+    final noteColors = light == null
+        ? HandNoteColors.onPaper
+        : HandNoteColors.night;
+    for (final n in session.notes) {
+      final box = session.noteBox(n.id);
+      if (box == null) continue;
+      if (n.collapsed) {
+        paintNoteStrip(canvas, box, colors: noteColors);
+      } else {
+        paintHandNote(
+          canvas,
+          box,
+          lines: n.lines,
+          strokes: session.noteStrokes(n.id),
+          colors: noteColors,
+          lightText: light,
+        );
+      }
+    }
     // com a mesa (G17), os grifos vêm da sessão: o marca-texto e a D-32 aparecem antes do Concluir; G18: a página com
     // os espaços, quando a sessão a refez (R3)
     paintTextPage(

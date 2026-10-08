@@ -11,7 +11,8 @@
 // G17: com um painel aberto, o véu e o painel ficam entre a página (e o topo) e a prateleira, que continua viva com a
 // ilha por cima (R4); o véu e o painel aparecem e somem em 150 ms (R5).
 // G18: a página pintada é a da sessão (refeita com os espaços — R3); com a fonte dela, o Espaço fica ativo e a pílula
-// diz "Arraste entre as linhas" (R4); no arrasto, o abridor (tela 24) sobre a página, 30 px abaixo como o texto.
+// diz "Arraste entre as linhas" (R4); no arrasto, o abridor (tela 24) sobre a página, 30 px abaixo como o texto; os
+// controles das notas à mão (tela 24b) por cima da página; "Nota apagada · Desfazer" no lugar do aviso (D-185).
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -32,6 +33,7 @@ import 'reader_overlays.dart';
 import 'reader_page_view.dart' show readerTurnCurve, readerTurnDuration;
 import 'reader_palette.dart';
 import 'marker_panel.dart';
+import 'hand_note.dart';
 import 'pen_panel.dart';
 import 'space_opener.dart';
 import 'tool_panel_frame.dart';
@@ -312,7 +314,14 @@ class _AnnotationModeState extends State<AnnotationMode>
       ),
     );
     return AnimatedBuilder(
-      animation: Listenable.merge([_text, _frame, _panel, s, s.opening]),
+      animation: Listenable.merge([
+        _text,
+        _frame,
+        _panel,
+        s,
+        s.opening,
+        s.noteDeleted,
+      ]),
       child: canvas,
       builder: (context, canvas) {
         final a = _frame.value;
@@ -325,6 +334,10 @@ class _AnnotationModeState extends State<AnnotationMode>
         final message = s.failed ? annotationSaveFailed : widget.toast;
         final opening = s.opening.value;
         final openerArea = s.openerArea;
+        final deleted = s.noteDeleted.value;
+        final night = widget.paper == ReaderPaper.noite;
+        // onde o texto está agora: os 30 px da entrada e o deslocamento dos 2 dedos
+        final textDy = s.textShift * _enter.value + s.panOffset;
         return IgnorePointer(
           key: const ValueKey('ann.mode'),
           // entrando, saindo ou gravando (o que viesse agora não entraria na gravação)
@@ -338,16 +351,25 @@ class _AnnotationModeState extends State<AnnotationMode>
               child: Stack(
                 children: [
                   Positioned.fill(child: canvas!),
+                  // as notas à mão (tela 24b): os controles por cima da página, onde o texto está
+                  Positioned.fill(
+                    child: HandNoteLayer(
+                      session: s,
+                      dy: textDy,
+                      pageBox: pageBox,
+                      colors: night
+                          ? HandNoteColors.night
+                          : HandNoteColors.onPaper,
+                    ),
+                  ),
                   // o abridor (tela 24): sobre a página, onde o texto está (30 px abaixo, com o deslocamento)
                   if (opening != null && openerArea != null)
                     Positioned.fill(
                       child: SpaceOpener(
-                        area: openerArea.shift(
-                          Offset(0, s.textShift * _enter.value + s.panOffset),
-                        ),
+                        area: openerArea.shift(Offset(0, textDy)),
                         lines: opening.lines,
                         fingerX: opening.finger.x,
-                        colors: widget.paper == ReaderPaper.noite
+                        colors: night
                             ? OpenerColors.nightOf(widget.brand)
                             : OpenerColors.paper,
                       ),
@@ -419,13 +441,20 @@ class _AnnotationModeState extends State<AnnotationMode>
                       onRedo: s.redo,
                     ),
                   ),
-                  if (message != null)
+                  if (deleted != null || message != null)
                     Positioned(
                       left: 0,
                       right: 0,
                       bottom:
                           shelfBottom + toolShelfHeight + toolShelfLift + 12,
-                      child: Center(child: ReaderToastPill(text: message)),
+                      child: Center(
+                        child: deleted != null
+                            ? ReaderUndoPill(
+                                text: noteDeletedText,
+                                onUndo: () => s.undoNoteDeletion(),
+                              )
+                            : ReaderToastPill(text: message!),
+                      ),
                     ),
                 ],
               ),
