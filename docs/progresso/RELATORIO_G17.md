@@ -17,6 +17,10 @@ Decisões usadas (respondidas por você em 08/10, antes do código):
 - As regras derivadas do desenho, R1–R27, e a R28 da revisão da spec: o desenho do Marca-texto na prateleira fica na
   cor dele (D-179).
 
+Respondida depois deste relatório (08/10), para fechar o achado 12 da revisão:
+- Grifos que se cruzam no Noite, **sem camada** (D-180): a regra 12.4 continua; cada fundo é recortado pela forma dos
+  que vão por cima dele.
+
 ## Resultado
 
 | Subfase | Entrega | Prova |
@@ -31,7 +35,7 @@ Decisões usadas (respondidas por você em 08/10, antes do código):
 
 Números finais:
 - `flutter analyze` sem problemas.
-- `flutter test`: **2.425 verdes** (+7 pulados; eram 2.212 no fim da G16).
+- `flutter test`: **2.429 verdes** (+7 pulados; eram 2.212 no fim da G16).
 - **Fases L23 e L23b** (as telas pela rota real: "Anotar" e o 2º toque na Caneta, ou o Marca-texto e o 2º toque
   nele): **10/10**:
   - os ids no lugar e no tamanho certos (48 na 23, 53 na 23b);
@@ -41,15 +45,16 @@ Números finais:
   - os dados do banco (o subtítulo, o `pen_presets`, os rótulos e as contagens 5/3/2/2 da D-40).
 - **Golden @3x** contra as pranchas: **0,21 %** (23) e **0,14 %** (23b), com limite de 0,5 %. O lado a lado foi
   conferido a olho.
-- **Cobertura** dos arquivos mexidos na fase: **97,9 %**. O menor é o `page_marks.dart` (90,5 %); os 3 arquivos de
+- **Cobertura** dos arquivos mexidos na fase: **97,8 %**. O menor é o `page_marks.dart` (90,7 %); os 3 arquivos de
   tokens só têm constantes, sem linhas para medir.
-- **Mutação:** **55/55** trocas derrubadas pelos testes. As trocas cobrem:
+- **Mutação:** **60/60** trocas derrubadas pelos testes. As trocas cobrem:
   - as regras numéricas;
   - as decisões D-171, D-173 e D-174, mais o achado 17;
   - as regras R1, R2, R4, R6, R18, R20, R22 e R28;
   - cada correção da revisão.
 
-  Na 1ª rodada passaram 3; os testes ganharam o que faltava e as 3 caíram na 2ª.
+  Na 1ª rodada passaram 3; os testes ganharam o que faltava e as 3 caíram na 2ª. As 5 do fechamento dos achados 4, 8
+  e 12 caíram na 1ª.
 - **gitleaks:** os commits da fase e as pastas tocadas, sem vazamento.
 - **Latência no celular:** continua pendente, da G16.
 
@@ -67,21 +72,22 @@ Mandadas na conversa e guardadas em `tools/medicao/tmp/capturas_g17/` (fora do g
 Um agente separado leu a fase inteira sem editar e fez **14 achados**: 4 defeitos, 3 riscos e 7 detalhes. Nenhum
 dado sai do aparelho no Grátis.
 
-Corrigi 13 com teste, nos commits `917ab3f` e `574300b`. Os testes novos falharam antes da correção, menos o do toque
-simples no seletor, que guarda a R13. O achado 12 ficou registrado como limite.
+Corrigi os 14 com teste, nos commits `917ab3f`, `574300b` e `44893b4`. Os testes novos falharam antes da correção,
+menos o do toque simples no seletor, que guarda a R13. Os achados 4, 8 e 12 ficaram pela metade na 1ª entrega deste
+relatório e foram fechados depois, no `44893b4` (o 12 pela D-180).
 
 | # | Achado | O que fiz |
 |---|---|---|
 | 1 | A Borracha não alcançava o grifo à mão salvo em Sublinhado ou Ondulado | Ela passa a alcançar pelas palavras |
 | 2 | As notas dos grifos que a D-32 encolheu ou estendeu ficavam com o lugar velho | Andam com o grifo, como na tela 21 |
 | 3 | O grifo tirado sumia mesmo sem o destino das notas | O tirado fica, com as notas |
-| 4 | No Noite, a página repintava a cada amostra de qualquer traço | Repinta só com o marca-texto, sem regravar a tinta |
+| 4 | No Noite, a página repintava a cada amostra de qualquer traço | Repinta só quando a tinta muda ou com o marca-texto ao vivo, sem regravar a tinta |
 | 5 | Um traço que se juntava a um grifo antigo deixava os outros trechos num grupo inexistente | Os trechos ficam no grupo do grifo antigo |
 | 6 | As prévias eram refeitas a cada quadro | Guardadas |
-| 7, 8 | A folha "Rótulos" perdia o texto numa falha; os rótulos que não abriam travavam o modo | A folha fica aberta; o modo abre com os nomes das cores |
+| 7, 8 | A folha "Rótulos" perdia o texto numa falha; os rótulos que não abriam travavam o modo; as contagens liam todos os grifos | A folha fica aberta; o modo abre com os nomes das cores; as contagens saem do banco (`COUNT … GROUP BY`) |
 | 9, 10 | A caneta usava os nomes do marca-texto; favoritas repetidas derrubavam o painel | Só os 6 nomes da tela 23; a repetida não quebra |
 | 11 | Um arrasto que virava rolagem gravava a cor do ponto | A cor de antes volta |
-| 12 | O achado 17 cobre só parte dos casos (grifos sobrepostos de antes da D-173) | Limite registrado |
+| 12 | O achado 17 cobria só parte dos casos (grifos sobrepostos de antes da D-173) | Sem camada (D-180): cada fundo é recortado pela forma dos de cima; o Marca-texto vai por baixo dos fundos |
 | 13, 14 | A criação do grifo pela hora do Concluir; o caminho sem a mesa perdia o marca-texto | Corrigidos |
 
 ## O que mudou do desenho
@@ -90,13 +96,14 @@ Nenhuma decisão mudou sem você. Os desvios do arquivo estão na seção "Desvi
 - o "+" das favoritas aparece apagado na 23, porque o coral já é favorito (D-175);
 - o Desfazer aparece apagado ao abrir o modo, porque não há passos ainda;
 - a tinta antiga da 23b fica coral, como manda a D-59.
+- no Noite, o Marca-texto vai por baixo dos fundos e das manchas, e a caneta e a Reta por cima de tudo (D-180).
 
 ## Pendências
 
 - **Latência no celular:** pendente da G16. Com o celular no cabo, eu rodo a medição: uns 20 traços seus no modo
   anotação.
-- **Contagem por cor:** contar os grifos no banco, sem ler todos ao abrir o modo.
-- **Achado 17:** os casos de grifos sobrepostos de antes da D-173.
+- **Achado 17:** no Noite, traços do Marca-texto de cores diferentes que se cruzam saem com a cor do cruzamento errada
+  (sem camada, pela D-180). Os fundos, as manchas e o Marca-texto da mesma cor saem certos.
 - **O Laço da prateleira no Noite:** fica para o design.
 - **G26, no celular:** TalkBack e VoiceOver nos painéis, o teclado do hex e a caneta do aparelho.
 
