@@ -28,3 +28,8 @@ String? penColorName(String hex) => _pen[hex.toUpperCase()];
 
 /// O nome de uma cor do marca-texto ("amarelo", "rosa", "verde", "lavanda"); `null` se não for uma delas.
 String? markerColorName(String hex) => _marker[hex.toUpperCase()];
+
+/// O nome da cor em minúsculas, para o leitor de tela e os subtítulos ("coral", "tinta preta", "amarelo"); `null` se
+/// ela não tem nome (quem chama mostra o hex).
+String? colorNameOf(String hex) =>
+    penColorName(hex)?.toLowerCase() ?? markerColorName(hex);

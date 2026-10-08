@@ -862,4 +862,14 @@ abstract final class AppTextStyles {
     10,
     FontWeight.w800,
   );
+
+  // Leitor — painéis da caneta e do marca-texto (telas 23 e 23b, G17). Cores da Creme; o Noite troca pela paleta
+  // (R26).
+
+  /// ann.penPanel.picker.hex.value ("#FF552E"): Figtree 15/800, 0,6, algarismos de largura fixa.
+  static final TextStyle annHexValue = AppFonts.figtreeReader(
+    15,
+    FontWeight.w800,
+    letterSpacing: 0.6,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 }

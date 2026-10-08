@@ -26,4 +26,11 @@ void main() {
     expect(markerColorName('#fed170'), 'amarelo');
     expect(markerColorName('#FF552E'), isNull);
   });
+
+  test('o nome em minúsculas para o leitor de tela e os subtítulos', () {
+    expect(colorNameOf('#FF552E'), 'coral');
+    expect(colorNameOf('#1A1714'), 'tinta preta');
+    expect(colorNameOf('#FED170'), 'amarelo');
+    expect(colorNameOf('#12AB34'), isNull);
+  });
 }
