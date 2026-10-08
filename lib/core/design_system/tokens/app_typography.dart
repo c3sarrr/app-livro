@@ -892,6 +892,66 @@ abstract final class AppTextStyles {
     FontWeight.w800,
   ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 
+  /// ann.markerPanel.preview: a frase da página em Literata 17, `line-height: 1.5`, `#2A2520` (D-171).
+  static final TextStyle annMarkerPreview = AppFonts.literata(
+    17,
+    FontWeight.w400,
+    height: 1.5,
+    color: AppColors.bookText,
+  );
+
+  /// ann.markerPanel.styles.*.sample ("ressaca"): Literata 16, `line-height: 1.2`, `#2A2520`.
+  static final TextStyle annMarkerSample = AppFonts.literata(
+    16,
+    FontWeight.w400,
+    height: 1.2,
+    color: AppColors.bookText,
+  );
+
+  /// ann.markerPanel.colors.*.label (o rótulo ou o nome da cor): Figtree 13,5/800, 1,15.
+  static final TextStyle annColorLabel = AppFonts.figtreeReader(
+    13.5,
+    FontWeight.w800,
+    height: 1.15,
+  );
+
+  /// ann.markerPanel.colors.*.count ("5 grifos"): Figtree 11/600 `#8A8073`.
+  static final TextStyle annColorCount = AppFonts.figtreeReader(
+    11,
+    FontWeight.w600,
+    color: AppColors.inkSoft,
+  );
+
+  /// ann.markerPanel.colorsHeader.editLabels ("Editar rótulos"): Figtree 12,5/800 sublinhado.
+  static final TextStyle annPanelLink = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+  ).copyWith(decoration: TextDecoration.underline);
+
+  /// ann.markerPanel.heights.* ("Baixa", "Média", "Alta"): Figtree 13/600 `#5B544B`; a marcada, 13/800.
+  static final TextStyle annHeightOption = AppFonts.figtreeReader(
+    13,
+    FontWeight.w600,
+    color: AppColors.inkMuted,
+  );
+  static final TextStyle annHeightOptionActive = AppFonts.figtreeReader(
+    13,
+    FontWeight.w800,
+  );
+
+  /// ann.markerPanel.tip.text: Figtree 12,5/600, 1,35, `#3D3830`; o começo em negrito na tinta.
+  static final TextStyle annTip = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w600,
+    height: 1.35,
+    color: AppColors.tipText,
+  );
+  static final TextStyle annTipStrong = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+    height: 1.35,
+  );
+
   /// ann.penPanel.picker.hex.value ("#FF552E"): Figtree 15/800, 0,6, algarismos de largura fixa.
   static final TextStyle annHexValue = AppFonts.figtreeReader(
     15,

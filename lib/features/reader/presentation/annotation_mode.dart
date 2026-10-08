@@ -29,6 +29,7 @@ import 'reader_chrome_scope.dart';
 import 'reader_overlays.dart';
 import 'reader_page_view.dart' show readerTurnCurve, readerTurnDuration;
 import 'reader_palette.dart';
+import 'marker_panel.dart';
 import 'pen_panel.dart';
 import 'tool_panel_frame.dart';
 import 'tool_shelf.dart';
@@ -70,6 +71,7 @@ class AnnotationMode extends StatefulWidget {
     this.toast,
     this.onExited,
     this.meter,
+    this.onEditLabels,
   });
 
   /// `false` = saindo (anima e chama [onExited]).
@@ -90,6 +92,9 @@ class AnnotationMode extends StatefulWidget {
 
   /// O Espaço (D-163).
   final VoidCallback onSoon;
+
+  /// "Editar rótulos" no painel do marca-texto (D-177): a tela abre a folha.
+  final VoidCallback? onEditLabels;
 
   final List<PaintedHighlight> highlights, inkHighlights;
 
@@ -252,17 +257,18 @@ class _AnnotationModeState extends State<AnnotationMode>
         top: top,
       );
     }
-    return ToolPanelLayer(
-      id: 'ann.markerPanel',
-      label: 'Ajustes do marca-texto',
-      title: 'Marca-texto',
-      subtitle: '',
-      arrowLeft: panelArrowLeft(shown.from),
+    // a prévia da 23b com a página aberta (D-171)
+    final range = widget.page.shown;
+    final text = range == null ? null : s.anchors.textOf(range.unit);
+    return MarkerPanelLayer(
+      session: s,
       bottom: bottom,
       top: top,
       paper: paper,
-      onClose: s.closePanel,
-      child: const SizedBox.shrink(),
+      preview: range == null || text == null
+          ? null
+          : (text: text, start: range.from, end: range.to),
+      onEditLabels: widget.onEditLabels,
     );
   }
 

@@ -417,6 +417,40 @@ final class AnnotationSession extends ChangeNotifier {
               ),
         ];
 
+  Map<String, String> _labels = const {};
+  Map<String, int> _counts = const {};
+
+  /// Os rótulos das cores do marca-texto (`highlight_labels` — D-177), pela cor em `#RRGGBB` maiúsculo.
+  Map<String, String> get labels => _labels;
+
+  /// Os grifos vivos de cada cor em todos os livros, como estavam ao abrir o modo (D-40); a 23b soma o [countDelta].
+  Map<String, int> get savedCounts => _counts;
+
+  /// Os rótulos e as contagens lidos do banco (ao abrir o modo e ao salvar os rótulos).
+  void setLabelData({Map<String, String>? labels, Map<String, int>? counts}) {
+    if (labels != null) {
+      _labels = Map.unmodifiable({
+        for (final e in labels.entries) e.key.toUpperCase(): e.value,
+      });
+    }
+    if (counts != null) {
+      _counts = Map.unmodifiable({
+        for (final e in counts.entries) e.key.toUpperCase(): e.value,
+      });
+    }
+    notifyListeners();
+  }
+
+  /// Os grifos de cada cor que a 23b mostra: os do banco mais o saldo da sessão (D-40).
+  int colorCount(String hex) {
+    final c = hex.toUpperCase();
+    var n = _counts[c] ?? 0;
+    for (final e in countDelta.entries) {
+      if (e.key.toUpperCase() == c) n += e.value;
+    }
+    return n;
+  }
+
   /// Quantos grifos de cada cor a sessão pôs ou tirou (as contagens da 23b — D-40).
   Map<String, int> get countDelta {
     final now = _copy.desk.counts();

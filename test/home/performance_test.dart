@@ -3,6 +3,9 @@ import 'dart:io';
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
 import 'package:app_leitura/core/design_system/painters/color_wheel_painter.dart';
+import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
+    show HighlightStyle;
+import 'package:app_leitura/features/reader/presentation/marker_panel.dart';
 import 'package:app_leitura/features/reader/presentation/pen_panel.dart';
 import 'package:app_leitura/core/design_system/painters/conic_ring_painter.dart';
 import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.dart';
@@ -97,10 +100,11 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('12.4 shouldRepaint compara todos os campos de cada pintor', () {
-    test('DashedStadiumPainter (espessura, cor) — G14', () {
+    test('DashedStadiumPainter (espessura, cor, raio) — G14, G17', () {
       _expectRepaintsOnlyOnChange(() => const DashedStadiumPainter(), {
         'thickness': () => const DashedStadiumPainter(thickness: 1.2),
         'color': () => const DashedStadiumPainter(color: AppColors.ink),
+        'radius': () => const DashedStadiumPainter(radius: 16),
       });
     });
 
@@ -356,6 +360,26 @@ void main() {
       );
     });
 
+    test('MarkerSamplePainter (cor, estilo, faixa, base) — G17', () {
+      MarkerSamplePainter amostra({
+        Color color = AppColors.sun,
+        HighlightStyle style = HighlightStyle.fill,
+        (double, double) band = (0.14, 0.92),
+        double baseline = 18.8,
+      }) => MarkerSamplePainter(
+        color: color,
+        style: style,
+        band: band,
+        baseline: baseline,
+      );
+      _expectRepaintsOnlyOnChange(amostra, {
+        'color': () => amostra(color: AppColors.lavender),
+        'style': () => amostra(style: HighlightStyle.wavy),
+        'band': () => amostra(band: (0.5, 0.92)),
+        'baseline': () => amostra(baseline: 20),
+      });
+    });
+
     test('ColorWheelPainter (borda) — G17', () {
       _expectRepaintsOnlyOnChange(
         () => const ColorWheelPainter(border: AppColors.ink),
@@ -539,6 +563,7 @@ void main() {
         'AnnotationLivePainter',
         'ColorWheelPainter',
         'PenPreviewPainter',
+        'MarkerSamplePainter',
       });
     });
   });

@@ -61,6 +61,11 @@ abstract final class AppColors {
   /// O fio da faixa pautada da prévia da caneta (tela 23, G17).
   static const Color rulePen = Color(0xFFE6DBC6);
 
+  /// Tela 23b (G17): a borda das linhas de cor não marcadas, o tracejado da dica e o texto dela.
+  static const Color markerRowBorder = Color(0xFFE2D7C4);
+  static const Color tipDash = Color(0xFF8A7F63);
+  static const Color tipText = Color(0xFF3D3830);
+
   /// Rótulos pequenos do leitor nos papéis claros ("GRIFAR", "NOTA" — L21b nº 3).
   static const Color labelReader = Color(0xFF6F665B);
   static const Color hatchNight = Color(0xFF3A332B);
