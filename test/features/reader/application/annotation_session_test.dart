@@ -629,6 +629,23 @@ void main() {
       expect(savedPresets, hasLength(2 + antes.length));
     });
 
+    test('tirar mostra a pílula por 4 s; o Desfazer dela devolve ao lugar e some com ela (D-175)', () {
+      final s = open();
+      final i = s.removeFavorite('#058CD7');
+      expect(s.favoriteRemoved.value, (hex: '#058CD7', index: i));
+      expect(timers.pending.last.$1, const Duration(seconds: 4));
+      s.undoFavoriteRemoval();
+      expect(s.favoriteRemoved.value, isNull);
+      expect(s.presets.favoriteColors[i], '#058CD7');
+      s.removeFavorite('#00995E');
+      timers.pending.removeLast().$2();
+      expect(s.favoriteRemoved.value, isNull);
+      expect(s.presets.favoriteColors, isNot(contains('#00995E')));
+      // sem pílula, o Desfazer não faz nada
+      s.undoFavoriteRemoval();
+      expect(s.presets.favoriteColors, isNot(contains('#00995E')));
+    });
+
     test('marca-texto: estilo, cor e altura gravam', () {
       final s = open();
       s.setHighlighterStyle(HighlightStyle.wavy);

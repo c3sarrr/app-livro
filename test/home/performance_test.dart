@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
 import 'package:app_leitura/core/design_system/painters/color_wheel_painter.dart';
+import 'package:app_leitura/features/reader/presentation/pen_panel.dart';
 import 'package:app_leitura/core/design_system/painters/conic_ring_painter.dart';
 import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.dart';
 import 'package:app_leitura/core/design_system/painters/goal_dial_painter.dart';
@@ -324,6 +325,37 @@ void main() {
       });
     });
 
+    test('PenPreviewPainter (traço, fundo, fio) — G17', () {
+      final traco = penPreviewStroke(presetsTeste());
+      final outro = penPreviewStroke(
+        presetsTeste().copyWith(penColor: '#058CD7'),
+      );
+      _expectRepaintsOnlyOnChange(
+        () => PenPreviewPainter(
+          stroke: traco,
+          background: AppColors.paper,
+          rule: AppColors.rulePen,
+        ),
+        {
+          'stroke': () => PenPreviewPainter(
+            stroke: outro,
+            background: AppColors.paper,
+            rule: AppColors.rulePen,
+          ),
+          'background': () => PenPreviewPainter(
+            stroke: traco,
+            background: AppColors.paperNight,
+            rule: AppColors.rulePen,
+          ),
+          'rule': () => PenPreviewPainter(
+            stroke: traco,
+            background: AppColors.paper,
+            rule: AppColors.hatchNight,
+          ),
+        },
+      );
+    });
+
     test('ColorWheelPainter (borda) — G17', () {
       _expectRepaintsOnlyOnChange(
         () => const ColorWheelPainter(border: AppColors.ink),
@@ -498,6 +530,7 @@ void main() {
         'AnnotationPagePainter',
         'AnnotationLivePainter',
         'ColorWheelPainter',
+        'PenPreviewPainter',
       });
     });
   });

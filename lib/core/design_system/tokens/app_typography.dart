@@ -880,6 +880,18 @@ abstract final class AppTextStyles {
     color: AppColors.inkMuted,
   );
 
+  /// Os nomes dos cartões dos painéis ("Esferográfica", "Fundo"): Figtree 12/800.
+  static final TextStyle annPanelOption = AppFonts.figtreeReader(
+    12,
+    FontWeight.w800,
+  );
+
+  /// ann.penPanel.sizeHeader.value ("1,2 mm"): Figtree 13/800, algarismos de largura fixa.
+  static final TextStyle annPanelValue = AppFonts.figtreeReader(
+    13,
+    FontWeight.w800,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
   /// ann.penPanel.picker.hex.value ("#FF552E"): Figtree 15/800, 0,6, algarismos de largura fixa.
   static final TextStyle annHexValue = AppFonts.figtreeReader(
     15,

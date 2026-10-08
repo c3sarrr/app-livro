@@ -73,6 +73,9 @@ enum AnnotationTool {
 /// O painel de ajustes aberto (telas 23 e 23b — G17).
 enum PanelKind { pen, marker }
 
+/// Quanto fica a pílula "Cor tirada das favoritas" (como "Grifo apagado" — D-132, D-175).
+const Duration favoriteUndoLife = Duration(seconds: 4);
+
 /// O painel aberto e a ferramenta de onde ele saiu (a seta aponta para ela).
 typedef OpenPanel = ({PanelKind kind, AnnotationTool from});
 
@@ -258,6 +261,12 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// O painel de ajustes aberto (`null` = nenhum).
   final ValueNotifier<OpenPanel?> panel = ValueNotifier(null);
+
+  /// A favorita que a pressão longa acabou de tirar e o lugar dela: a pílula "Cor tirada das favoritas" com Desfazer
+  /// fica [favoriteUndoLife] (D-175).
+  final ValueNotifier<({String hex, int index})?> favoriteRemoved =
+      ValueNotifier(null);
+  Timer? _favoriteTimer;
 
   /// O traço ao vivo, a prévia da Reta ou o contorno do Laço.
   final ValueNotifier<LiveInk?> live = ValueNotifier(null);
@@ -794,7 +803,23 @@ final class AnnotationSession extends ChangeNotifier {
     final i = favs.indexWhere((f) => f.toUpperCase() == hex.toUpperCase());
     if (i < 0) return -1;
     _setPresets(_pen.copyWith(favoriteColors: [...favs]..removeAt(i)));
+    favoriteRemoved.value = (hex: favs[i].toUpperCase(), index: i);
+    _favoriteTimer?.cancel();
+    _favoriteTimer = startTimer(favoriteUndoLife, () {
+      _favoriteTimer = null;
+      favoriteRemoved.value = null;
+    });
     return i;
+  }
+
+  /// O Desfazer da pílula: a favorita volta ao lugar dela e a pílula some.
+  void undoFavoriteRemoval() {
+    final r = favoriteRemoved.value;
+    if (r == null) return;
+    _favoriteTimer?.cancel();
+    _favoriteTimer = null;
+    favoriteRemoved.value = null;
+    restoreFavorite(r.hex, r.index);
   }
 
   /// O Desfazer da pílula: põe [hex] de volta no lugar [index].
@@ -1079,6 +1104,8 @@ final class AnnotationSession extends ChangeNotifier {
     touch.dispose();
     selection.dispose();
     panel.dispose();
+    _favoriteTimer?.cancel();
+    favoriteRemoved.dispose();
     super.dispose();
   }
 }

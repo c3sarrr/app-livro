@@ -1,3 +1,4 @@
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 import 'package:flutter/widgets.dart';
 
 /// D-04: feedback de toque sem ripple. Sempre um nó semântico PRÓPRIO (container) de botão/link:
@@ -15,6 +16,8 @@ class Pressable extends StatefulWidget {
     this.hint,
     this.enabled = true,
     this.checked,
+    this.onLongPress,
+    this.customActions,
   });
   final Widget child;
   final VoidCallback? onTap;
@@ -36,6 +39,12 @@ class Pressable extends StatefulWidget {
   /// Opção de um grupo (radio — a fonte, o papel, a entrelinha e as margens da folha de ajustes, G14): marcada ou
   /// não; o nó vira uma opção num grupo exclusivo, não um botão.
   final bool? checked;
+
+  /// Pressão longa (tirar uma favorita — G17, D-175).
+  final VoidCallback? onLongPress;
+
+  /// Ações nomeadas para o leitor de tela ("Tirar das favoritas" — G17).
+  final Map<CustomSemanticsAction, VoidCallback>? customActions;
 
   /// Liga/desliga o feedback de escala (D-04: "desligável por flag"). O repouso não muda.
   static bool feedbackEnabled = true;
@@ -76,10 +85,13 @@ class _PressableState extends State<Pressable> {
       enabled: widget.enabled ? null : false,
       excludeSemantics: widget.semanticsLabel != null,
       onTap: onTap,
+      onLongPress: widget.enabled ? widget.onLongPress : null,
+      customSemanticsActions: widget.enabled ? widget.customActions : null,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         excludeFromSemantics: true,
         onTap: onTap,
+        onLongPress: widget.enabled ? widget.onLongPress : null,
         // desabilitado: sem o "afundar" do toque (o resto continua como sempre foi)
         onTapDown: widget.enabled ? (_) => _setDown(true) : null,
         onTapUp: widget.enabled ? (_) => _setDown(false) : null,

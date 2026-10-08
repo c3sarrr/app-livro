@@ -53,6 +53,8 @@ class ToolPanelLayer extends StatelessWidget {
     required this.onClose,
     required this.child,
     this.bottomPadding = 16,
+    this.banner,
+    this.top = 0,
   });
 
   /// O começo das chaves (`ann.penPanel`, `ann.markerPanel`).
@@ -73,14 +75,20 @@ class ToolPanelLayer extends StatelessWidget {
   final Widget child;
   final double bottomPadding;
 
+  /// Uma pílula 12 acima do painel ("Cor tirada das favoritas" — D-175), ou `null`.
+  final Widget? banner;
+
+  /// O limite de cima (a área segura): se o painel não cabe entre ele e [bottom], o miolo rola e o cabeçalho fica
+  /// (R7).
+  final double top;
+
   @override
   Widget build(BuildContext context) {
     final scope = ReaderChromeScope.of(context);
-    final p = scope.palette;
-    final line = BorderSide(width: AppStrokes.regular, color: p.border);
-    // a caixa visual da seta girada (o lado × √2), centrada na caixa dela
-    const visual = _arrow * math.sqrt2;
-    const shift = (visual - _arrow) / 2;
+    final line = BorderSide(
+      width: AppStrokes.regular,
+      color: scope.palette.border,
+    );
     return Stack(
       children: [
         Positioned.fill(
@@ -98,6 +106,31 @@ class ToolPanelLayer extends StatelessWidget {
           left: 14,
           right: 14,
           bottom: bottom,
+          child: _panel(context, scope, line),
+        ),
+      ],
+    );
+  }
+
+  Widget _panel(
+    BuildContext context,
+    ReaderChromeScope scope,
+    BorderSide line,
+  ) {
+    final p = scope.palette;
+    final screen = MediaQuery.sizeOf(context).height;
+    // R7: a altura que cabe entre o limite de cima e a base do painel
+    final room = math.max(0.0, screen - bottom - top);
+    // a caixa visual da seta girada (o lado × √2), centrada na caixa dela
+    const visual = _arrow * math.sqrt2;
+    const shift = (visual - _arrow) / 2;
+    final b = banner;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (b != null) ...[b, const SizedBox(height: 12)],
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: room),
           child: Semantics(
             container: true,
             explicitChildNodes: true,
@@ -124,7 +157,10 @@ class ToolPanelLayer extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [_header(scope, line), child],
+                      children: [
+                        _header(scope, line),
+                        Flexible(child: SingleChildScrollView(child: child)),
+                      ],
                     ),
                   ),
                 ),

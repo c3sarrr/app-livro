@@ -29,6 +29,7 @@ import 'reader_chrome_scope.dart';
 import 'reader_overlays.dart';
 import 'reader_page_view.dart' show readerTurnCurve, readerTurnDuration;
 import 'reader_palette.dart';
+import 'pen_panel.dart';
 import 'tool_panel_frame.dart';
 import 'tool_shelf.dart';
 
@@ -234,17 +235,31 @@ class _AnnotationModeState extends State<AnnotationMode>
 
   /// O véu e o painel aberto (telas 23 e 23b), com a base 22 acima do topo da prateleira e a seta na ferramenta de
   /// onde ele saiu.
-  Widget _panelOf(OpenPanel shown, double shelfBottom, Color paper) {
+  Widget _panelOf(
+    OpenPanel shown,
+    double shelfBottom,
+    Color paper,
+    double top,
+  ) {
     final s = widget.session;
-    final pen = shown.kind == PanelKind.pen;
+    final bottom = shelfBottom + toolShelfHeight + panelAboveShelf;
+    if (shown.kind == PanelKind.pen) {
+      return PenPanelLayer(
+        session: s,
+        from: shown.from,
+        bottom: bottom,
+        paper: paper,
+        top: top,
+      );
+    }
     return ToolPanelLayer(
-      id: pen ? 'ann.penPanel' : 'ann.markerPanel',
-      label: pen ? 'Ajustes da caneta' : 'Ajustes do marca-texto',
-      title: pen ? 'Caneta' : 'Marca-texto',
+      id: 'ann.markerPanel',
+      label: 'Ajustes do marca-texto',
+      title: 'Marca-texto',
       subtitle: '',
       arrowLeft: panelArrowLeft(shown.from),
-      bottom: shelfBottom + toolShelfHeight + panelAboveShelf,
-      bottomPadding: pen ? 18 : 16,
+      bottom: bottom,
+      top: top,
       paper: paper,
       onClose: s.closePanel,
       child: const SizedBox.shrink(),
@@ -330,7 +345,12 @@ class _AnnotationModeState extends State<AnnotationMode>
                         palette: chrome.faded(pa),
                         brand: widget.brand,
                         a: pa,
-                        child: _panelOf(shown, shelfBottom, paper.paper),
+                        child: _panelOf(
+                          shown,
+                          shelfBottom,
+                          paper.paper,
+                          safe.top,
+                        ),
                       ),
                     ),
                   Positioned(

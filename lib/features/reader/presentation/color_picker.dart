@@ -23,6 +23,10 @@ import 'reader_chrome_scope.dart';
 /// A roda do arquivo (L23 nº da roda).
 const double colorWheelSize = 124;
 
+/// A altura do lado do seletor: BRILHO (11 × 1,2), 9, o trilho (16), 16 e o campo hex (42) — o campo termina na base
+/// do lado, que fica centrado na roda.
+const double colorPickerSideHeight = 11 * 1.2 + 9 + 16 + 16 + 42;
+
 /// O cursor e o botão do brilho.
 const double _cursor = 24;
 const double _knob = 26;
@@ -191,6 +195,8 @@ class _ColorPickerState extends State<ColorPicker> {
         excludeFromSemantics: true,
         behavior: HitTestBehavior.opaque,
         onPanDown: (d) => _wheelAt(d.localPosition),
+        // o 1º trecho do arrasto chega no começo (`DragStartBehavior.start`), não num update
+        onPanStart: (d) => _wheelAt(d.localPosition),
         onPanUpdate: (d) => _wheelAt(d.localPosition),
         onPanEnd: (_) => _wheelEnd(),
         onPanCancel: _wheelEnd,
@@ -242,6 +248,8 @@ class _ColorPickerState extends State<ColorPicker> {
             excludeFromSemantics: true,
             behavior: HitTestBehavior.opaque,
             onHorizontalDragDown: (d) =>
+                _bright(_brightnessAt(d.localPosition.dx, w)),
+            onHorizontalDragStart: (d) =>
                 _bright(_brightnessAt(d.localPosition.dx, w)),
             onHorizontalDragUpdate: (d) =>
                 _bright(_brightnessAt(d.localPosition.dx, w)),
