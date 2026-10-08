@@ -2,9 +2,11 @@
 // (banco em memória, sem a fila do Pro) — abrir o livro com o rascunho de uma sessão que morreu (D-166), o
 // `pen_presets` lido e a espessura gravada, desenhar, apagar, mover com o Laço, grifar com o marca-texto (G17), o
 // rascunho a cada 5 s e no segundo plano, e o Concluir — não abre nenhuma conexão: qualquer `HttpClient` criado na
-// zona é gravado e falha.
+// zona é gravado e falha. G18: o Espaço e a nota à mão também — abrir, escrever, recolher, o Concluir e o toque que
+// abre a faixa no leitor limpo.
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui' show Canvas, Offset, Rect;
 
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
@@ -17,11 +19,14 @@ import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/annotations/ink_repository.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
+import 'package:app_leitura/features/reader/application/annotation_page_source.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/application/pen_presets_store.dart';
 import 'package:app_leitura/features/reader/application/reader_annotations.dart';
 import 'package:app_leitura/features/reader/application/reader_ink.dart';
 import 'package:app_leitura/features/reader/domain/locator.dart';
+import 'package:app_leitura/features/reader/layout/display_page.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -85,6 +90,50 @@ final class _NoNetwork extends HttpOverrides {
     created.add('HttpClient');
     throw StateError('a tinta do Grátis não pode usar a rede');
   }
+}
+
+/// Uma página com os espaços (cada um logo abaixo da 1ª linha, 109,25).
+final class _Pagina implements DisplayPage, PageWithSpaces {
+  _Pagina([this.spaces = const []]);
+
+  @override
+  final List<PageSpace> spaces;
+  @override
+  void paint(Canvas canvas) {}
+  @override
+  bool get alive => true;
+  @override
+  bool get opaque => false;
+  @override
+  String get spokenText => '';
+  @override
+  LinkHit? linkAt(Offset p) => null;
+  @override
+  List<Rect> rectsOf(int unit, int from, int to) => const [];
+  @override
+  ReaderRange? get shown => (unit: 4, from: 0, to: 27);
+  @override
+  ReaderSpot? spotAt(Offset p) => null;
+  @override
+  ReaderRange? wordAround(ReaderSpot s) => null;
+  @override
+  ReaderRange? wordAt(Offset p) => null;
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
+  @override
+  String textOf(int unit, int from, int to) => '';
+}
+
+final class _Fonte implements AnnotationPageSource {
+  @override
+  DisplayPage pageWith(List<SpaceCut> cuts) => _Pagina([
+    for (final c in cuts)
+      (id: c.id, rect: Rect.fromLTWH(28, 109.25, 334, c.height)),
+  ]);
+  @override
+  List<PageHighlight> highlightsOn(DisplayPage page) => const [];
+  @override
+  void dispose() {}
 }
 
 InkPointer _touch(int id, double x, double y, int t) =>
@@ -197,6 +246,81 @@ void main() {
       expect(
         (grifos.single.source, (grifos.single.anchor as EpubAnchor).start),
         (AnnotationSource.ink, 6),
+      );
+    }, createHttpClient: net.createHttpClient);
+    expect(net.created, isEmpty);
+  });
+
+  test('G18: o Espaço e a nota à mão no Grátis — abrir, escrever, recolher, Concluir e abrir a faixa: nenhuma conexão', () async {
+    final net = _NoNetwork();
+    await HttpOverrides.runZoned(() async {
+      final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
+      addTearDown(db.close);
+      final t = DateTime.utc(2026, 10, 8, 10);
+      final versioning = LocalVersioning(
+        db,
+        HlcClock(deviceId: 'aparelhoA', nowMs: () => t.millisecondsSinceEpoch),
+      );
+      final repo = DriftInkRepository(db, versioning, now: () => t);
+      final s = AnnotationSession(
+        geometry: _geometry(),
+        anchors: _Anchors(),
+        drawings: const [],
+        highlights: const [],
+        presets: presetsTeste(),
+        repository: repo,
+        owner: usuarioTeste,
+        userBookId: idTeste(1),
+        startTimer: (d, f) => Timer(Duration.zero, () {}),
+        now: () => t,
+        pageSource: _Fonte(),
+        page: _Pagina(),
+      )..panLimit = 0;
+      addTearDown(s.dispose);
+      // o Espaço: 3 linhas a partir da fresta abaixo da 1ª linha (a tela soma os 30 px do modo)
+      expect(s.setTool(AnnotationTool.space), isTrue);
+      const fresta = 109.25 + 30;
+      s
+        ..pointerDown(_touch(1, 200, fresta + 2, 0))
+        ..pointerMove(_touch(1, 200, fresta + 20, 8))
+        ..pointerMove(_touch(1, 200, fresta + 14 + 3 * 35.25 - 2, 16))
+        ..pointerUp(_touch(1, 200, fresta + 14 + 3 * 35.25 - 2, 24));
+      final nota = s.notes.single;
+      final caixa = s.noteBox(nota.id)!;
+      s
+        ..pointerDown(_touch(2, 80, caixa.top + 40 + 30, 30))
+        ..pointerMove(_touch(2, 140, caixa.top + 44 + 30, 38))
+        ..pointerUp(_touch(2, 200, caixa.top + 42 + 30, 46))
+        ..toggleNote(nota.id);
+      await s.toBackground();
+      expect(await s.conclude(), isTrue);
+      final camadas = await InkLayersDao(db).liveSpacesForBook(idTeste(1));
+      expect(camadas.single.collapsed, isTrue);
+      // o leitor limpo abre a faixa com um toque (grava só no aparelho)
+      Future<String> dona() async => usuarioTeste;
+      final notes = ReaderAnnotations(
+        db: db,
+        versioning: versioning,
+        owner: dona,
+        userBookId: idTeste(1),
+        anchors: _Anchors(),
+        onError: (e, _) => fail('$e'),
+      );
+      addTearDown(notes.dispose);
+      final ink = ReaderInk(
+        db: db,
+        repository: repo,
+        owner: dona,
+        userBookId: idTeste(1),
+        anchors: _Anchors(),
+        annotations: notes,
+      );
+      addTearDown(ink.dispose);
+      await ink.load();
+      await ink.expand(nota.id);
+      expect(
+        (await InkLayersDao(db).liveSpacesForBook(idTeste(1))).single.collapsed,
+        isFalse,
       );
     }, createHttpClient: net.createHttpClient);
     expect(net.created, isEmpty);

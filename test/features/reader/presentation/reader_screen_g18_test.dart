@@ -2,12 +2,21 @@
 // trechos da D-160): o Espaço fica ativo (R4); arrastar 3 linhas a partir da fresta de "Vá, de ressaca." mostra o
 // abridor e o texto de baixo desce sem recuo (R3); o que passa do pé da tela fica escondido; ao soltar, a caixa da
 // 24b e a Caneta (D-187); o Concluir sem escrever não grava nada (D-188). G18.5: com tinta, o Concluir grava e o
-// leitor limpo repagina com a caixa (R11); recolhida, a faixa aparece e abre com um toque (D-184).
+// leitor limpo repagina com a caixa (R11); recolhida, a faixa aparece e abre com um toque (D-184). G18.6: a alça para
+// na tinta e cresce (D-186), recolher e abrir, apagar com a pílula e o Desfazer (D-185); o Voltar grava como o Concluir
+// (D-42); o rascunho guardado traz a nota (D-166); a nota que não cabe vai inteira para a página seguinte (R12); Noite.
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
+import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart';
+import 'package:app_leitura/features/reader/annotations/ink_repository.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
+import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_mode.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/space_opener.dart';
@@ -223,4 +232,205 @@ void main() {
       expect(tester.getRect(_key('ann.page.handNote')).height, 150);
     },
   );
+
+  /// Abre uma nota de 3 linhas na fresta da linha [l] (coordenadas da sessão) e escreve nela pela sessão (o caminho do
+  /// dedo, sem depender do que está por cima da página na tela).
+  Future<SessionNoteRef> notaComTinta(
+    WidgetTester tester,
+    AnnotationSession s,
+    InkLine l,
+  ) async {
+    final fresta = l.bottom + s.textShift;
+    await tracarL22(tester, [
+      Offset(dedoDaTela24, fresta + 2),
+      Offset(dedoDaTela24, fresta + 20),
+      Offset(dedoDaTela24, fresta + 14 + 3 * s.geometry.lineHeight - 2),
+    ]);
+    final nota = s.notes.single;
+    final caixa = s.noteBox(nota.id)!;
+    InkPointer dedo(double x, double y, int t) => (
+      id: 9,
+      kind: InkPointerKind.touch,
+      x: x,
+      y: y + s.textShift,
+      pressure: 1,
+      tMs: t,
+    );
+    s
+      ..pointerDown(dedo(80, caixa.top + 40, 0))
+      ..pointerMove(dedo(140, caixa.top + 44, 8))
+      ..pointerUp(dedo(200, caixa.top + 42, 16));
+    await tester.pump();
+    expect(s.notes.single.strokes, hasLength(1));
+    return (id: nota.id, at: nota.at);
+  }
+
+  testWidgets(
+    'a alça para na tinta e cresce (D-186); recolher e abrir; apagar com a pílula e o Desfazer (D-185)',
+    (tester) async {
+      final mundo = await livroDaTela24b();
+      addTearDown(mundo.close);
+      await abrirTela24b(tester, mundo);
+      final s = sessaoNaTela(tester);
+      final id = s.notes.single.id;
+      // a tinta da 24b desce até a 2ª pauta: a alça não sobe de 3 linhas
+      Future<void> alca(double dy) async {
+        final g = await tester.startGesture(
+          tester.getCenter(_key('ann.page.handNote.handle')),
+        );
+        await g.moveBy(Offset(0, dy.sign * 20));
+        await g.moveBy(Offset(0, dy - dy.sign * 20));
+        await tester.pump();
+        await g.up();
+        await tester.pump();
+      }
+
+      await alca(-84);
+      expect(s.notes.single.lines, 3);
+      await alca(84);
+      expect(s.notes.single.lines, 5);
+      expect(tester.getRect(_key('ann.page.handNote')).height, 42 * 5 + 24);
+      // "É o que…" desceu as 2 linhas da caixa
+      expect(
+        _linha(s, 'É o que me dá ideia').top + 30,
+        closeTo(546.08 + 64 + 84, 0.5),
+      );
+      // recolher e abrir
+      await tester.tap(_key('ann.page.handNote.actions.collapse'));
+      await tester.pump();
+      expect(s.notes.single.collapsed, isTrue);
+      await tester.tap(_key('ann.page.handNote.open'));
+      await tester.pump();
+      expect(s.notes.single.collapsed, isFalse);
+      // apagar: some na hora, a pílula "Nota apagada · Desfazer"; Desfazer volta
+      await tester.tap(_key('ann.page.handNote.actions.delete'));
+      await tester.pump();
+      expect(s.notes, isEmpty);
+      expect(_key('leitor.desfazer'), findsOneWidget);
+      await tester.tap(_key('leitor.desfazer.botao'));
+      await tester.pump();
+      expect(s.notes.single.id, id);
+      expect(_key('leitor.desfazer'), findsNothing);
+    },
+  );
+
+  testWidgets('o Voltar grava a nota como o Concluir (D-42)', (tester) async {
+    final s = await espaco(tester);
+    final nota = await notaComTinta(
+      tester,
+      s,
+      _linha(s, 'Olhos de ressaca? Vá, de ressaca.'),
+    );
+    await tester.binding.handlePopRoute();
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    expect(find.byType(AnnotationMode), findsNothing);
+    final gravadas = await tester.runAsync(
+      () => InkLayersDao(livro.db).liveSpacesForBook(livro.book.id),
+    );
+    expect(gravadas!.single.id, nota.id);
+  });
+
+  testWidgets(
+    'o rascunho a cada 5 s traz a nota; "matar" o app e reabrir grava (D-166)',
+    (tester) async {
+      final s = await espaco(tester);
+      final nota = await notaComTinta(
+        tester,
+        s,
+        _linha(s, 'Olhos de ressaca? Vá, de ressaca.'),
+      );
+      final repo = DriftInkRepository(livro.db, livro.versioning);
+      Future<List<InkChanges>?> rascunho() =>
+          tester.runAsync(() => repo.draftsOf(livro.leitor, livro.userBookId));
+      await tester.pump(inkDraftEvery);
+      await esperarBancoL22(tester);
+      final guardado = await rascunho();
+      expect(guardado!.single.notes.single.layerId, nota.id);
+      // o app morre e o livro é aberto de novo: o rascunho é gravado
+      await tester.pumpWidget(const SizedBox.shrink());
+      await esperarBancoL22(tester);
+      await abrirLeitor(tester, livro, deps: (t) => depsDaTela20(t, livro));
+      await esperarBancoL22(tester);
+      await _quadros(tester);
+      final gravadas = await tester.runAsync(
+        () => InkLayersDao(livro.db).liveSpacesForBook(livro.book.id),
+      );
+      expect(gravadas!.single.id, nota.id);
+      expect(await rascunho(), isEmpty);
+      // e o leitor limpo abre o espaço dela
+      expect(
+        spacesOf(_doc(tester).current).map((x) => x.id),
+        contains(nota.id),
+      );
+    },
+  );
+
+  testWidgets(
+    'R12: a nota que não cabe no resto da página vai inteira para a seguinte; a de cima acaba na âncora',
+    (tester) async {
+      final s = await espaco(tester);
+      final limpo = _doc(tester).current as PageSnapshot;
+      final fundo = limpo.typography.topInset + limpo.typography.contentHeight;
+      // a última linha com a fresta acima da prateleira (no modo, onde o dedo começa) cuja caixa (206) não cabe até o
+      // pé da página limpa
+      final l = s.geometry.lines.lastWhere(
+        (x) =>
+            x.bottom + s.textShift + 2 < 660 &&
+            x.bottom + noteFlowHeight(3) > fundo,
+      );
+      final nota = await notaComTinta(tester, s, l);
+      await tester.tap(_key('ann.done'));
+      await esperarBancoL22(tester);
+      await _quadros(tester);
+      await esperarBancoL22(tester);
+      await _quadros(tester);
+      final atual = _doc(tester).current as PageSnapshot;
+      expect(spacesOf(atual).map((x) => x.id), isNot(contains(nota.id)));
+      expect(atual.page.end, nota.at, reason: 'a página acaba na âncora');
+      await tester.tapAt(const Offset(360, 420));
+      await _quadros(tester);
+      final seguinte = _doc(tester).current as PageSnapshot;
+      expect(seguinte.page.slices.first, isA<SpaceSlice>());
+      expect(seguinte.page.start, nota.at);
+      final espacos = spacesOf(seguinte);
+      expect(espacos.first.id, nota.id);
+      expect(
+        espacos.first.rect.top,
+        closeTo(seguinte.typography.topInset, 0.01),
+      );
+    },
+  );
+
+  testWidgets('Noite (R14): a caixa e o abridor com as cores do Noite', (
+    tester,
+  ) async {
+    final noite = await livroDaTela24b(papel: ReaderPaper.noite);
+    addTearDown(noite.close);
+    await abrirTela24b(tester, noite);
+    final b =
+        tester
+                .widget<Container>(_key('ann.page.handNote.actions.delete.box'))
+                .decoration!
+            as BoxDecoration;
+    expect(b.color, AppColors.islandNight);
+    expect(b.border, Border.all(width: 1.5, color: AppColors.inkNight));
+    // o Espaço no Noite
+    final s = sessaoNaTela(tester);
+    await tester.tap(_key('ann.toolShelf.space'));
+    await tester.pump();
+    final l = _linha(s, 'que eles foram e me fizeram.');
+    await tracarL22(tester, [
+      Offset(dedoDaTela24, l.bottom + 30 + 2),
+      Offset(dedoDaTela24, l.bottom + 30 + 40),
+    ], soltar: false);
+    await tester.pump();
+    expect(
+      tester.widget<SpaceOpener>(find.byType(SpaceOpener)).colors.chip,
+      AppColors.inkNight,
+    );
+  });
 }
+
+/// A nota criada no teste: a camada e a âncora.
+typedef SessionNoteRef = ({String id, int at});
