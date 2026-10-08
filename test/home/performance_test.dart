@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
@@ -21,12 +22,14 @@ import 'package:app_leitura/features/home/presentation/sections/header_section.d
 import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
-import 'package:app_leitura/features/reader/application/annotation_session.dart'
-    show PageDrawing;
+import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
+import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
+import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_ink.dart';
 import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
+import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
 import 'package:app_leitura/features/reader/presentation/highlight_toolbar.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/selection_layer.dart';
@@ -44,7 +47,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/canvas.dart';
+import '../support/fake_ink_repository.dart';
 import '../support/load_fonts.dart';
+import '../support/personal_builders.dart';
 import '../support/pump_app.dart';
 
 Finder _key(String id) => find.byKey(ValueKey<String>(id));
@@ -358,6 +363,87 @@ void main() {
       );
     });
 
+    test('AnnotationPagePainter e AnnotationLivePainter (sessão, página, caixa, papel, letras, grifos, deslocamento) — G16', () {
+      AnnotationSession sessao() => AnnotationSession(
+        geometry: InkPageGeometry.empty,
+        anchors: _AncorasVazias(),
+        drawings: const [],
+        highlights: const [],
+        presets: presetsTeste(),
+        repository: FakeInkRepository(),
+        owner: usuarioTeste,
+        userBookId: idTeste(1),
+        startTimer: (_, _) => _Parado(),
+      );
+      final s = sessao();
+      final outra = sessao();
+      addTearDown(s.dispose);
+      addTearDown(outra.dispose);
+      final pagina = _Pagina();
+      final pan = ValueNotifier<double>(0);
+      final fotos = InkPictureCache(capacity: 1);
+      addTearDown(fotos.dispose);
+      const caixa = Rect.fromLTRB(28, 116, 362, 844);
+      const grifos = <PaintedHighlight>[];
+      const aMao = <PaintedHighlight>[];
+      AnnotationPagePainter folha({
+        AnnotationSession? session,
+        DisplayPage? page,
+        Rect pageBox = caixa,
+        Color paper = AppColors.paperCream,
+        Color? lightText,
+        List<PaintedHighlight> highlights = grifos,
+        List<PaintedHighlight> inkHighlights = aMao,
+        ValueListenable<double>? panOffset,
+        InkPictureCache? pictures,
+      }) => AnnotationPagePainter(
+        session: session ?? s,
+        page: page ?? pagina,
+        pageBox: pageBox,
+        paper: paper,
+        lightText: lightText,
+        highlights: highlights,
+        inkHighlights: inkHighlights,
+        pan: panOffset ?? pan,
+        pictures: pictures ?? fotos,
+      );
+      _expectRepaintsOnlyOnChange(folha, {
+        'session': () => folha(session: outra),
+        'page': () => folha(page: _Pagina()),
+        'pageBox': () => folha(pageBox: const Rect.fromLTRB(28, 120, 362, 844)),
+        'paper': () => folha(paper: AppColors.paperNight),
+        'lightText': () => folha(lightText: AppColors.bookTextNight),
+        'highlights': () => folha(highlights: <PaintedHighlight>[]),
+        'inkHighlights': () => folha(inkHighlights: <PaintedHighlight>[]),
+        'pan': () => folha(panOffset: ValueNotifier<double>(0)),
+        'pictures': () => folha(pictures: InkPictureCache(capacity: 1)),
+      });
+      AnnotationLivePainter vivo({
+        AnnotationSession? session,
+        Rect pageBox = caixa,
+        ValueListenable<double>? panOffset,
+      }) => AnnotationLivePainter(
+        session: session ?? s,
+        pageBox: pageBox,
+        pan: panOffset ?? pan,
+      );
+      _expectRepaintsOnlyOnChange(vivo, {
+        'session': () => vivo(session: outra),
+        'pageBox': () => vivo(pageBox: const Rect.fromLTRB(28, 120, 362, 844)),
+        'pan': () => vivo(panOffset: ValueNotifier<double>(0)),
+      });
+      // a sessão que muda por dentro e o deslocamento repintam a folha; o traço ao vivo e a seleção, a camada viva
+      var folhas = 0;
+      var vivos = 0;
+      folha().addListener(() => folhas++);
+      vivo().addListener(() => vivos++);
+      s.setTool(AnnotationTool.eraser);
+      pan.value = -10;
+      s.live.value = const LiveLasso([]);
+      expect(folhas, 2);
+      expect(vivos, 2);
+    });
+
     test('TocProgressRingPainter (progresso) — G15', () {
       _expectRepaintsOnlyOnChange(
         () => const TocProgressRingPainter(progress: 0.4),
@@ -389,6 +475,8 @@ void main() {
         'ConicRingPainter',
         'UnderlineIconPainter',
         'TocProgressRingPainter',
+        'AnnotationPagePainter',
+        'AnnotationLivePainter',
       });
     });
   });
@@ -669,6 +757,30 @@ class _GrifosVazios extends ChangeNotifier implements HighlightSource {
 
   @override
   List<PaintedHighlight> highlightsIn(ReaderRange shown) => const [];
+}
+
+class _AncorasVazias implements AnnotationAnchors {
+  @override
+  String get sha => shaTeste;
+
+  @override
+  String? textOf(int spine) => null;
+
+  @override
+  ({int refPage, int chapterIndex}) placeOf(int spine, int offset) =>
+      (refPage: 1, chapterIndex: 0);
+}
+
+/// O relógio do rascunho parado.
+class _Parado implements Timer {
+  @override
+  void cancel() {}
+
+  @override
+  bool get isActive => false;
+
+  @override
+  int get tick => 0;
 }
 
 class _TintaVazia extends ChangeNotifier implements InkSource {
