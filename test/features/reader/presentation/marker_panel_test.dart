@@ -4,6 +4,7 @@
 // a dica; o leitor de tela.
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart'
     show FillHeight, HighlightStyle;
 import 'package:app_leitura/features/reader/annotations/domain/pen_presets.dart';
@@ -380,6 +381,124 @@ void main() {
         expect(find.bySemanticsLabel(g), findsOneWidget, reason: g);
       }
       semantica.dispose();
+    });
+  });
+
+  group('Noite (R26)', () {
+    /// As cores dos trechos do `AppText` de [chave] (o trecho com o texto [t]).
+    Color corDe(WidgetTester tester, String chave, String t) {
+      final span =
+          tester
+                  .widget<AppText>(
+                    find
+                        .descendant(
+                          of: _k(chave),
+                          matching: find.byType(AppText),
+                        )
+                        .last,
+                  )
+                  .span
+              as TextSpan;
+      Color? achar(InlineSpan s, Color? herdada) {
+        if (s is! TextSpan) return null;
+        final c = s.style?.color ?? herdada;
+        if (s.text == t) return c;
+        for (final f in s.children ?? const <InlineSpan>[]) {
+          final r = achar(f, c);
+          if (r != null) return r;
+        }
+        return null;
+      }
+
+      return achar(span, null)!;
+    }
+
+    testWidgets(
+      'as cores da ilha do Noite; os cartões e a pílula no poço; o ativo brand com letras escuras',
+      (tester) async {
+        await _montar(tester, papel: ReaderPaper.noite);
+        final caixa = tester.widget<Container>(_k('ann.markerPanel'));
+        expect(
+          (caixa.decoration! as BoxDecoration).color,
+          AppColors.islandNight,
+        );
+        BoxDecoration deco(String chave) =>
+            tester
+                    .widget<Container>(
+                      find
+                          .descendant(
+                            of: _k(chave),
+                            matching: find.byType(Container),
+                          )
+                          .first,
+                    )
+                    .decoration!
+                as BoxDecoration;
+        expect(
+          deco('ann.markerPanel.styles.underline').color,
+          AppColors.paperNight,
+        );
+        expect(deco('ann.markerPanel.styles.fill').color, AppColors.lavender);
+        expect(
+          (tester.widget<Container>(_k('ann.markerPanel.heights')).decoration!
+                  as BoxDecoration)
+              .color,
+          AppColors.paperNight,
+        );
+        expect(
+          (tester.widget<Container>(_k('ann.markerPanel.preview')).decoration!
+                  as BoxDecoration)
+              .color,
+          AppColors.paperNight,
+        );
+        // o desenho da dica: o contorno escuro do arquivo vira o claro do Noite
+        expect(tester.widget<AppSvg>(_k('ann.markerPanel.tip.icon')).colors, {
+          AppColors.ink: AppColors.inkNight,
+        });
+      },
+    );
+
+    testWidgets(
+      'as letras: claras no poço; a palavra do fundo e o cartão ativo escuros (D-133)',
+      (tester) async {
+        await _montar(tester, papel: ReaderPaper.noite);
+        // a prévia: a frase clara e "ressaca" (no fundo amarelo) escura
+        expect(
+          corDe(tester, 'ann.markerPanel.preview', 'Olhos de '),
+          AppColors.bookTextNight,
+        );
+        expect(
+          corDe(tester, 'ann.markerPanel.preview', 'ressaca'),
+          AppColors.ink,
+        );
+        // as amostras: o Fundo (ativo, na brand) e o Sublinhado (no poço)
+        expect(
+          corDe(tester, 'ann.markerPanel.styles.fill.sample', 'ressaca'),
+          AppColors.ink,
+        );
+        expect(
+          corDe(tester, 'ann.markerPanel.styles.underline.sample', 'ressaca'),
+          AppColors.bookTextNight,
+        );
+      },
+    );
+
+    testWidgets('no Creme, as letras da frase e das amostras são as do livro', (
+      tester,
+    ) async {
+      await _montar(tester);
+      expect(
+        corDe(tester, 'ann.markerPanel.preview', 'ressaca'),
+        AppColors.bookText,
+      );
+      expect(
+        corDe(tester, 'ann.markerPanel.styles.wavy.sample', 'ressaca'),
+        AppColors.bookText,
+      );
+      expect(
+        tester.widget<AppSvg>(_k('ann.markerPanel.tip.icon')).colors,
+        isNull,
+      );
     });
   });
 }

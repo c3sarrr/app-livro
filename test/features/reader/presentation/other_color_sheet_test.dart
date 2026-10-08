@@ -3,6 +3,7 @@
 // de grifo — D-130 — ou a do grifo tocado) e Cancelar/Grifar; Grifar devolve a cor escolhida; o leitor de tela ouve
 // "Outra cor".
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/presentation/other_color_sheet.dart';
 import 'package:app_leitura/features/reader/presentation/reader_chrome_palette.dart';
@@ -24,6 +25,7 @@ void main() {
     WidgetTester tester, {
     String inicial = '#FFC1C6',
     double teclado = 0,
+    ReaderPaper papel = ReaderPaper.creme,
   }) async {
     tester.view
       ..devicePixelRatio = 1
@@ -47,7 +49,7 @@ void main() {
               ),
               OtherColorSheet(
                 initial: inicial,
-                palette: ReaderChromePalette.of(ReaderPaper.creme),
+                palette: ReaderChromePalette.of(papel),
                 brand: AppColors.lavender,
                 onCancel: () => eventos.add('cancelar'),
                 onApply: eventos.add,
@@ -98,5 +100,19 @@ void main() {
     await montar(tester);
     expect(find.bySemanticsLabel('Outra cor'), findsOneWidget);
     semantica.dispose();
+  });
+
+  testWidgets('Noite (R26): o cartão nas cores da ilha do Noite', (
+    tester,
+  ) async {
+    await montar(tester, papel: ReaderPaper.noite);
+    expect(
+      tester.widget<NeoBox>(_key('leitor.outraCor')).color,
+      AppColors.islandNight,
+    );
+    expect(
+      tester.widget<NeoBox>(_key('leitor.outraCor')).border!.color,
+      AppColors.inkNight,
+    );
   });
 }

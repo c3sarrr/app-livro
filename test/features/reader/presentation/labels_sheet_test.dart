@@ -2,6 +2,7 @@
 // véu, que segura os toques; "RÓTULOS", as 4 cores com a amostra e o campo (até 24, contando como o banco; a dica é o
 // nome da cor) e Cancelar/Salvar; Salvar devolve os 4 textos sem os espaços das pontas (só espaços = vazio).
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/presentation/labels_sheet.dart';
 import 'package:app_leitura/features/reader/presentation/reader_chrome_palette.dart';
@@ -26,6 +27,7 @@ void main() {
       '#FFC1C6': 'personagem',
     },
     double teclado = 300,
+    ReaderPaper papel = ReaderPaper.creme,
   }) async {
     tester.view
       ..devicePixelRatio = 1
@@ -49,7 +51,7 @@ void main() {
               ),
               LabelsSheet(
                 labels: rotulos,
-                palette: ReaderChromePalette.of(ReaderPaper.creme),
+                palette: ReaderChromePalette.of(papel),
                 brand: AppColors.lavender,
                 onCancel: () => eventos.add('cancelar'),
                 onSave: eventos.add,
@@ -125,4 +127,24 @@ void main() {
     await tester.tap(_key('ann.labels.cancel'));
     expect(eventos, ['cancelar']);
   });
+
+  testWidgets(
+    'Noite (R26): o cartão nas cores da ilha do Noite e os campos no poço',
+    (tester) async {
+      await montar(tester, papel: ReaderPaper.noite);
+      expect(
+        tester.widget<NeoBox>(_key('ann.labels')).color,
+        AppColors.islandNight,
+      );
+      final campo = tester.widget<NeoBox>(
+        find
+            .ancestor(
+              of: _key('ann.labels.pink.field'),
+              matching: find.byType(NeoBox),
+            )
+            .first,
+      );
+      expect(campo.color, AppColors.paperNight);
+    },
+  );
 }

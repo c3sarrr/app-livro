@@ -154,6 +154,7 @@ class _MarkedLine extends StatelessWidget {
     required this.wordKey,
     this.textKey,
     this.expand = false,
+    this.wordColor,
   });
 
   final String text;
@@ -166,6 +167,9 @@ class _MarkedLine extends StatelessWidget {
   final Key wordKey;
   final Key? textKey;
   final bool expand;
+
+  /// As letras da palavra grifada (no Noite, escuras no fundo — D-133); `null` = as do resto.
+  final Color? wordColor;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -221,10 +225,21 @@ class _MarkedLine extends StatelessWidget {
               ),
             ),
             Positioned.fill(
-              child: AppText(
-                text,
+              child: AppText.rich(
+                TextSpan(
+                  style: style,
+                  children: [
+                    if (from > 0) TextSpan(text: text.substring(0, from)),
+                    TextSpan(
+                      text: text.substring(from, to),
+                      style: wordColor == null
+                          ? null
+                          : TextStyle(color: wordColor),
+                    ),
+                    if (to < text.length) TextSpan(text: text.substring(to)),
+                  ],
+                ),
                 key: textKey,
-                style: style,
                 maxLines: 1,
                 textAlign: expand ? TextAlign.center : TextAlign.start,
               ),
@@ -403,6 +418,11 @@ class MarkerPanel extends StatelessWidget {
                 wordKey: const ValueKey('$_k.preview.highlight'),
                 textKey: const ValueKey('$_k.preview.text'),
                 expand: true,
+                // no Noite, a palavra no fundo fica escura, como na página (D-133)
+                wordColor:
+                    p.night && pen.highlighterStyle == HighlightStyle.fill
+                    ? scope.tint(AppColors.ink)
+                    : null,
               ),
             ),
           ),
@@ -461,10 +481,14 @@ class MarkerPanel extends StatelessWidget {
                           from: 0,
                           to: 7,
                           style: AppTextStyles.annMarkerSample.copyWith(
+                            // no Noite: escuras na brand (o ativo) e no fundo (D-133); claras no poço
                             color: scope.tint(
-                              p.night
-                                  ? AppColors.bookTextNight
-                                  : AppColors.bookText,
+                              !p.night
+                                  ? AppColors.bookText
+                                  : style == pen.highlighterStyle ||
+                                        style == HighlightStyle.fill
+                                  ? AppColors.ink
+                                  : AppColors.bookTextNight,
                             ),
                           ),
                           color: color,
@@ -756,6 +780,8 @@ class MarkerPanel extends StatelessWidget {
               key: const ValueKey('$_k.tip.icon'),
               size: 34,
               height: 22,
+              // o contorno escuro do arquivo, claro no Noite
+              colors: p.night ? {AppColors.ink: p.border} : null,
               opacity: scope.a < 1 ? scope.a : null,
             ),
             Expanded(
