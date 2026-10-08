@@ -9,6 +9,9 @@ import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/application/reader_ink.dart'
+    show ReaderNote;
+import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/presentation/hand_note.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -65,6 +68,56 @@ Matcher _cor(Color c, {int tol = 3}) => predicate<Color>(
     (g.b - c.b).abs(),
   ].every((d) => d * 255 <= tol),
   '≈ $c',
+);
+
+/// Uma página do leitor limpo com os espaços [spaces].
+final class _Pagina implements DisplayPage, PageWithSpaces {
+  _Pagina(this.spaces);
+
+  @override
+  final List<PageSpace> spaces;
+
+  @override
+  void paint(ui.Canvas canvas) {}
+  @override
+  bool get alive => true;
+  @override
+  bool get opaque => false;
+  @override
+  String get spokenText => '';
+  @override
+  LinkHit? linkAt(ui.Offset p) => null;
+  @override
+  List<Rect> rectsOf(int unit, int from, int to) => const [];
+  @override
+  ReaderRange? get shown => (unit: 4, from: 0, to: 10);
+  @override
+  ReaderSpot? spotAt(ui.Offset p) => null;
+  @override
+  ReaderRange? wordAround(ReaderSpot s) => null;
+  @override
+  ReaderRange? wordAt(ui.Offset p) => null;
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) => const [];
+  @override
+  String textOf(int unit, int from, int to) => '';
+}
+
+ReaderNote _nota(
+  String id, {
+  int lines = 3,
+  bool collapsed = false,
+  List<InkStroke> strokes = const [],
+}) => (
+  id: id,
+  annotationId: '$id-a',
+  unit: 4,
+  at: 21,
+  lines: lines,
+  collapsed: collapsed,
+  strokes: strokes,
+  createdAt: DateTime(2026, 9, 20),
+  groupId: '$id-a',
 );
 
 void main() {
@@ -279,5 +332,101 @@ void main() {
         AppColors.mutedNight,
       ),
     );
+  });
+
+  group('o leitor limpo (R11, D-183, D-184)', () {
+    // o bloco do espaço da 24b (com as margens 30/26) e o de uma faixa (10 + L + 10)
+    const bloco = Rect.fromLTWH(28, 404.08, 334, 206);
+    const blocoFaixa = Rect.fromLTWH(28, 650, 334, 55.26);
+
+    test(
+      'a caixa no bloco: 30 abaixo, 42·n + 24; a faixa: 10 de cada lado',
+      () {
+        expect(noteBoxIn(bloco, lines: 3, collapsed: false), _caixa);
+        expect(
+          noteBoxIn(blocoFaixa, lines: 3, collapsed: true),
+          const Rect.fromLTWH(28, 660, 334, 35.26),
+        );
+      },
+    );
+
+    test('as notas da página pelos espaços dela (as sem espaço ou sem nota ficam de fora)', () {
+      final p = _Pagina([
+        (id: 'a', rect: bloco),
+        (id: 'abridor', rect: const Rect.fromLTWH(28, 0, 334, 40)),
+        (id: 'b', rect: blocoFaixa),
+      ]);
+      final postas = placedNotes(p, [
+        _nota('b', collapsed: true),
+        _nota('c'),
+        _nota('a'),
+      ]);
+      expect(
+        [for (final (n, r) in postas) (n.id, r)],
+        [('a', _caixa), ('b', const Rect.fromLTWH(28, 660, 334, 35.26))],
+      );
+    });
+
+    test('pinta a caixa com a etiqueta, as pautas e a tinta, e a faixa com a etiqueta; sem botões', () async {
+      final p = _Pagina([(id: 'a', rect: bloco), (id: 'b', rect: blocoFaixa)]);
+      final notas = [
+        _nota('a', strokes: [_traco((0.2, 1), (0.4, 1))]),
+        _nota('b', collapsed: true),
+      ];
+      final px = await _pixels((c) => paintPageNotes(c, p, notas));
+      expect(_em(px, 100, 470), _cor(AppColors.paperWhite));
+      expect(_em(px, 67.5, _ref('.tag').center.dy), _cor(AppColors.sun));
+      final dentro = _ref('.ink');
+      expect(
+        _em(px, dentro.left + 0.3 * dentro.width, dentro.top + 42),
+        _cor(const Color(0xFFFF552E)),
+      );
+      // a faixa fica abaixo do recorte de 240: pela gravação, o fundo e a etiqueta dela
+      final canvas = TestRecordingCanvas();
+      paintPageNotes(canvas, p, notas);
+      final fundos = [
+        for (final c in canvas.invocations)
+          if (c.invocation.memberName == #drawRRect &&
+              (c.invocation.positionalArguments[1] as Paint).color.toARGB32() ==
+                  AppColors.paperWhite.toARGB32())
+            (c.invocation.positionalArguments[0] as RRect).outerRect,
+      ];
+      expect(fundos, [_caixa, const Rect.fromLTWH(28, 660, 334, 35.26)]);
+      final etiquetas = canvas.invocations.where(
+        (c) =>
+            c.invocation.memberName == #drawRRect &&
+            (c.invocation.positionalArguments[1] as Paint).color.toARGB32() ==
+                AppColors.sun.toARGB32(),
+      );
+      expect(etiquetas, hasLength(2));
+      expect(
+        canvas.invocations.where((c) => c.invocation.memberName == #saveLayer),
+        isEmpty,
+      );
+    });
+
+    test(
+      'Noite (R14): o fundo do Noite e a tinta preta clara (D-174)',
+      () async {
+        final p = _Pagina([(id: 'a', rect: bloco)]);
+        final px = await _pixels(
+          (c) => paintPageNotes(c, p, [
+            _nota('a', strokes: [_traco((0.2, 1), (0.4, 1), argb: 0xFF1A1714)]),
+          ], lightText: AppColors.bookTextNight),
+        );
+        expect(_em(px, 100, 470), _cor(AppColors.islandNight));
+        final dentro = _ref('.ink');
+        expect(
+          _em(px, dentro.left + 0.3 * dentro.width, dentro.top + 42),
+          _cor(AppColors.bookTextNight),
+        );
+      },
+    );
+
+    test('sem notas, nada', () {
+      final canvas = TestRecordingCanvas();
+      paintPageNotes(canvas, _Pagina([(id: 'a', rect: bloco)]), const []);
+      expect(canvas.invocations, isEmpty);
+    });
   });
 }

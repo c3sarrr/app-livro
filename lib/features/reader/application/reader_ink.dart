@@ -56,6 +56,9 @@ abstract interface class InkSource implements Listenable {
   /// Os desenhos cujo trecho começa em [page], com os traços na página (coordenadas da tela).
   List<PageDrawing> drawingsOn(DisplayPage page);
 
+  /// G18: as notas à mão que estão em [page] (pelos espaços dela), de cima para baixo.
+  List<ReaderNote> notesOn(DisplayPage page);
+
   /// Sobe a cada mudança da tinta (a chave do cache da pintura).
   int get revision;
 }
@@ -279,7 +282,14 @@ final class ReaderInk extends ChangeNotifier implements InkSource {
         ),
   ];
 
+  /// A assinatura das notas do livro (o lugar, as linhas e se está recolhida): a tela repagina quando ela muda.
+  String get notesSignature => [
+    for (final n in notes)
+      '${n.id}:${n.unit}:${n.at}:${n.lines}:${n.collapsed ? 1 : 0}',
+  ].join('|');
+
   /// As notas que estão na página [page] (pelos espaços dela), de cima para baixo.
+  @override
   List<ReaderNote> notesOn(DisplayPage page) {
     final ids = [for (final s in spacesOf(page)) s.id];
     if (ids.isEmpty) return const [];

@@ -15,6 +15,8 @@
 // - G16 (D-59, D-161): por cima do texto, a mancha dos grifos feitos à mão e a tinta salva ([ink]), na atual e na
 //   vizinha; os desenhos de cada página ficam num `ui.Picture` guardado pela página e pela revisão da tinta. Os
 //   controles esmaecem a tinta junto com a página (o véu deles fica por cima de tudo).
+// - G18 (R11, D-183, D-184): as notas à mão nos espaços da página (a caixa com a etiqueta, as pautas e a tinta, ou a
+//   faixa recolhida), por baixo do texto; o toque na faixa ([onTapNote]) vem depois do grifo e antes dos terços.
 // A página atual é lida do documento na hora de pintar (ele avisa quando ela muda por dentro).
 import 'dart:async';
 
@@ -26,6 +28,7 @@ import '../annotations/ink/ink_stroke.dart';
 import '../application/reader_document.dart';
 import '../application/reader_errors.dart';
 import '../application/reader_ink.dart';
+import 'hand_note.dart' show paintPageNotes;
 import 'ink_painter.dart';
 import 'page_marks.dart';
 
@@ -64,6 +67,7 @@ class ReaderPageView extends StatefulWidget {
     this.selecting = false,
     this.onTapSelecting,
     this.onTapHighlight,
+    this.onTapNote,
     this.onLongPressStart,
     this.onLongPressMove,
     this.onLongPressEnd,
@@ -77,6 +81,9 @@ class ReaderPageView extends StatefulWidget {
 
   /// Toque fora de link: `true` = era um grifo e a tela abriu a barra dele (D-132); senão valem os terços.
   final bool Function(Offset p)? onTapHighlight;
+
+  /// G18 (D-184): toque fora de link e de grifo: `true` = era a faixa de uma nota recolhida (a tela a abriu).
+  final bool Function(Offset p)? onTapNote;
 
   /// Pressão longa (a seleção — D-45), arrastar sem soltar e soltar.
   final ValueChanged<Offset>? onLongPressStart;
@@ -209,6 +216,8 @@ class _ReaderPageViewState extends State<ReaderPageView>
       return;
     }
     if (widget.onTapHighlight?.call(d.localPosition) ?? false) return;
+    // G18 (D-184): a faixa de uma nota recolhida abre com um toque
+    if (widget.onTapNote?.call(d.localPosition) ?? false) return;
     final x = d.localPosition.dx / _width;
     if (x < 1 / 3) {
       unawaited(_tapTurn(PageDirection.backward));
@@ -502,6 +511,15 @@ class ReaderPagesPainter extends CustomPainter {
   }) {
     final shown = page.shown;
     final ink = this.ink;
+    // G18 (R11): as notas à mão nos espaços da página, por baixo do texto e da tinta
+    if (ink != null) {
+      paintPageNotes(
+        canvas,
+        page,
+        ink.notesOn(page),
+        lightText: foundLightText,
+      );
+    }
     paintTextPage(
       canvas,
       page,

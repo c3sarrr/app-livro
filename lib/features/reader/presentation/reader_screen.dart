@@ -62,6 +62,8 @@ import 'annotation_mode.dart';
 import 'book_search_panel.dart';
 import 'bottom_island.dart';
 import 'highlight_toolbar.dart';
+import 'hand_note.dart'
+    show noteGroupLabel, noteInkLabel, noteOpenInReaderLabel, placedNotes;
 import 'labels_sheet.dart';
 import 'mode_page_source.dart';
 import 'note_sheet.dart';
@@ -172,6 +174,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// A tinta salva do livro aberto e onde ela grava (G16 — só no EPUB).
   ReaderInk? _ink;
   InkRepository? _inkRepository;
+
+  /// G18: a assinatura das notas à mão do livro com que o documento foi paginado (muda → repagina).
+  String _notesSignature = '';
 
   /// O modo anotação (tela 22 — G16): a sessão sobre o retrato da página. [_annOpen] fica `false` enquanto a camada
   /// sai (o texto sobe 30 px); [_annStarting] e [_annSaving] seguram toques repetidos.
@@ -350,6 +355,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             annotations: notes,
             onError: c.deps.onError,
           );
+    // G18 (R11): o paginador abre os espaços das notas à mão; quando elas mudam (salvas, abertas, apagadas), o
+    // capítulo repagina
+    final ink = _ink;
+    _notesSignature = '';
+    if (doc case final SpacedDocument spaced when ink != null) {
+      spaced.spaces = ink.cutsOf;
+      ink.addListener(() => _inkChanged(ink, spaced));
+    }
     unawaited(_ink?.load());
     _chrome = ReaderChrome(
       db: c.deps.db,
@@ -417,6 +430,32 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   }
 
   /// O toque num grifo abre a barra dele (D-132); `false` = não era grifo (valem os terços).
+  /// A tinta mudou: com as notas do livro diferentes, o documento repagina (os espaços); a tela refaz a semântica.
+  void _inkChanged(ReaderInk ink, SpacedDocument doc) {
+    if (!identical(ink, _ink)) return;
+    final signature = ink.notesSignature;
+    if (signature != _notesSignature) {
+      _notesSignature = signature;
+      unawaited(doc.respace());
+    }
+    if (mounted) setState(() {});
+  }
+
+  /// D-184: o toque na faixa de uma nota recolhida a abre (grava o recolhida; o capítulo repagina).
+  bool _tapNote(Offset p) {
+    final ink = _ink;
+    final doc = _doc;
+    if (ink == null || doc == null) return false;
+    final page = doc.current;
+    for (final (n, box) in placedNotes(page, ink.notesOn(page))) {
+      if (n.collapsed && box.contains(p)) {
+        unawaited(ink.expand(n.id));
+        return true;
+      }
+    }
+    return false;
+  }
+
   bool _tapHighlight(Offset p) {
     final notes = _annotations;
     final page = _doc?.current;
@@ -1319,6 +1358,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                 selecting: _selection.active,
                 onTapSelecting: _tapSelecting,
                 onTapHighlight: _tapHighlight,
+                onTapNote: _tapNote,
                 onLongPressStart: _longPressStart,
                 onLongPressMove: _longPressMove,
                 onLongPressEnd: () => _pressSelected = false,
@@ -1354,6 +1394,40 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               child: const SizedBox.expand(),
             ),
           ),
+          // G18 (R13): as notas à mão da página para o leitor de tela (o grupo, a tinta e o "Abrir" da faixa); os
+          // toques passam para a página embaixo
+          if (_ink case final ink?)
+            for (final (note, box) in placedNotes(
+              doc.current,
+              ink.notesOn(doc.current),
+            ))
+              Positioned.fromRect(
+                rect: box,
+                child: IgnorePointer(
+                  child: Semantics(
+                    container: true,
+                    explicitChildNodes: true,
+                    label: noteGroupLabel(
+                      doc.anchors?.textOf(note.unit),
+                      note.at,
+                    ),
+                    child: note.collapsed
+                        ? Semantics(
+                            button: true,
+                            label: noteOpenInReaderLabel,
+                            onTap: () => unawaited(ink.expand(note.id)),
+                            child: const SizedBox.expand(),
+                          )
+                        : note.strokes.isEmpty
+                        ? const SizedBox.expand()
+                        : Semantics(
+                            image: true,
+                            label: noteInkLabel(note.createdAt),
+                            child: const SizedBox.expand(),
+                          ),
+                  ),
+                ),
+              ),
           ReaderFooter(
             numbers: n,
             palette: palette,

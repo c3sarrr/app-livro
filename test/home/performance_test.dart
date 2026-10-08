@@ -32,6 +32,7 @@ import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/annotations/space/hand_note_layout.dart';
 import 'package:app_leitura/features/reader/application/reader_ink.dart';
 import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
 import 'package:app_leitura/features/reader/presentation/page_marks.dart';
@@ -39,6 +40,7 @@ import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart'
 import 'package:app_leitura/features/reader/presentation/highlight_toolbar.dart';
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/selection_layer.dart';
+import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:app_leitura/features/reader/presentation/scrubber.dart'
     show FillWavePainter;
 import 'package:app_leitura/features/reader/presentation/toc_chapters.dart'
@@ -550,6 +552,26 @@ void main() {
       expect(noites, 1);
     });
 
+    test('OpenerPainter (as peças do abridor, as cores) — G18', () {
+      const area = Rect.fromLTWH(28, 418.08, 334, 103.78);
+      _expectRepaintsOnlyOnChange(
+        () => OpenerPainter(
+          parts: openerLayout(area, 221.72),
+          colors: OpenerColors.paper,
+        ),
+        {
+          'parts': () => OpenerPainter(
+            parts: openerLayout(area, 120),
+            colors: OpenerColors.paper,
+          ),
+          'colors': () => OpenerPainter(
+            parts: openerLayout(area, 221.72),
+            colors: OpenerColors.nightOf(AppColors.lavender),
+          ),
+        },
+      );
+    });
+
     test('TocProgressRingPainter (progresso) — G15', () {
       _expectRepaintsOnlyOnChange(
         () => const TocProgressRingPainter(progress: 0.4),
@@ -586,6 +608,7 @@ void main() {
         'ColorWheelPainter',
         'PenPreviewPainter',
         'MarkerSamplePainter',
+        'OpenerPainter',
       });
     });
   });
@@ -903,4 +926,7 @@ class _TintaVazia extends ChangeNotifier implements InkSource {
 
   @override
   List<PageDrawing> drawingsOn(DisplayPage page) => const [];
+
+  @override
+  List<ReaderNote> notesOn(DisplayPage page) => const [];
 }

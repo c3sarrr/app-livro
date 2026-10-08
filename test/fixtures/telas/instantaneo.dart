@@ -221,9 +221,10 @@ final Mundo mundoDaTela21 = () {
   );
 }();
 
-/// D-169 — as pranchas de antes da sessão de hoje (19, 20, 26, 26b, 27 e 27b): a tinta de hoje (os 3 desenhos e o
-/// grifo à mão da pág. 159) fica no banco com a âncora sem lugar — outro arquivo e uma citação que não existe no
-/// capítulo —, então conta (o contador 12, as marcas do sumário) e não pinta (D-44).
+/// D-169 — as pranchas de antes da sessão de hoje (19, 20, 26, 26b, 27 e 27b): a tinta de hoje (os 3 desenhos, o
+/// grifo à mão e — G18 — a nota à mão da pág. 159) fica no banco com a âncora sem lugar — outro arquivo e uma citação
+/// que não existe no capítulo —, então conta (o contador 12, as marcas do sumário) e não pinta (D-44) nem abre espaço
+/// na página.
 final Mundo mundoSemTintaDeHoje = () {
   final dc = mundoReferencia.domCasmurro.id;
   EpubAnchor semLugar(EpubAnchor a) => EpubAnchor(
@@ -249,7 +250,8 @@ final Mundo mundoSemTintaDeHoje = () {
           a.refPage == 159 &&
           a.source == AnnotationSource.ink &&
           (a.kind == AnnotationKind.highlight ||
-              a.kind == AnnotationKind.drawing))
+              a.kind == AnnotationKind.drawing ||
+              a.kind == AnnotationKind.handwriting))
         a.id,
   };
   final camadasDeHoje = {

@@ -481,16 +481,21 @@ void main() {
     test(
       'mudar no banco relê (a revisão sobe); expand grava o recolhida',
       () async {
+        expect(ink.notesSignature, '', reason: 'sem notas');
         await salvarNota(20, recolhida: true);
         await annotations.load();
         await ink.load();
         final r0 = ink.revision;
+        // a assinatura das notas do livro (a tela repagina quando ela muda): o lugar, as linhas e o recolhida
+        final antes = ink.notesSignature;
+        expect(antes, '${idTeste(20)}:$_spine:33:3:1');
         await ink.expand(idTeste(20));
         for (var i = 0; i < 20 && ink.notes.single.collapsed; i++) {
           await Future<void>.delayed(const Duration(milliseconds: 10));
         }
         expect(ink.notes.single.collapsed, isFalse);
         expect(ink.revision, greaterThan(r0));
+        expect(ink.notesSignature, '${idTeste(20)}:$_spine:33:3:0');
         expect(
           (await InkLayersDao(db).byIds([idTeste(20)])).single.collapsed,
           isFalse,

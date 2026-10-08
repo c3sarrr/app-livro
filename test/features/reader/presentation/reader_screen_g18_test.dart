@@ -1,11 +1,15 @@
 // G18 — o Espaço e a nota à mão pela tela inteira, no mundo das telas 23/24 (a pág. 159 do Dom Casmurro com os
 // trechos da D-160): o Espaço fica ativo (R4); arrastar 3 linhas a partir da fresta de "Vá, de ressaca." mostra o
 // abridor e o texto de baixo desce sem recuo (R3); o que passa do pé da tela fica escondido; ao soltar, a caixa da
-// 24b e a Caneta (D-187); o Concluir sem escrever não grava nada (D-188).
+// 24b e a Caneta (D-187); o Concluir sem escrever não grava nada (D-188). G18.5: com tinta, o Concluir grava e o
+// leitor limpo repagina com a caixa (R11); recolhida, a faixa aparece e abre com um toque (D-184).
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
+import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
+import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_mode.dart';
+import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
 import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -25,6 +29,9 @@ Future<void> _quadros(WidgetTester tester, [int n = 30]) async {
     await tester.pump(const Duration(milliseconds: 16));
   }
 }
+
+ReaderDocument _doc(WidgetTester tester) =>
+    tester.widget<ReaderPageView>(find.byType(ReaderPageView)).document;
 
 AnnotationSession _sessao(WidgetTester tester) =>
     tester.widget<AnnotationMode>(find.byType(AnnotationMode)).session;
@@ -117,4 +124,67 @@ void main() {
       expect(espacos, isEmpty);
     },
   );
+
+  testWidgets('Concluir com tinta grava a nota; o leitor limpo repagina com ela (R11); recolhida, a faixa "Abrir a nota à mão" '
+      'abre com um toque (D-184)', (tester) async {
+    final s = await espaco(tester);
+    final fresta = _linha(s, 'Olhos de ressaca? Vá, de ressaca.').bottom + 30;
+    final l = s.geometry.lineHeight;
+    await tracarL22(tester, [
+      Offset(221.72, fresta + 2),
+      Offset(221.72, fresta + 20),
+      Offset(221.72, fresta + 14 + 3 * l - 2),
+    ]);
+    final nota = s.notes.single;
+    final caixa = s.noteBox(nota.id)!.shift(const Offset(0, 30));
+    // escrever na caixa (a Caneta voltou — D-187)
+    await tracarL22(tester, [
+      Offset(80, caixa.top + 40),
+      Offset(140, caixa.top + 44),
+      Offset(200, caixa.top + 42),
+    ]);
+    expect(s.notes.single.strokes, hasLength(1));
+    await tester.tap(_key('ann.page.handNote.actions.collapse'));
+    await tester.pump();
+    expect(s.notes.single.collapsed, isTrue);
+    await tester.tap(_key('ann.done'));
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    expect(find.byType(AnnotationMode), findsNothing);
+    final gravadas = await tester.runAsync(
+      () => InkLayersDao(livro.db).liveSpacesForBook(livro.book.id),
+    );
+    expect(gravadas!.single.collapsed, isTrue);
+    // o leitor limpo: a faixa no lugar do espaço
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    final faixa = spacesOf(_doc(tester).current)
+        .singleWhere((x) => x.id == nota.id);
+    expect(faixa.rect.height, closeTo(stripFlowHeight(l), 1e-3));
+    final h = tester.ensureSemantics();
+    expect(find.bySemanticsLabel('Abrir a nota à mão'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Nota à mão, depois de “Vá, de ressaca.”'),
+      findsOneWidget,
+    );
+    h.dispose();
+    // um toque na faixa abre e grava; o capítulo repagina com a caixa
+    await tester.tapAt(faixa.rect.center);
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    final aberta = spacesOf(_doc(tester).current)
+        .singleWhere((x) => x.id == nota.id);
+    expect(aberta.rect.height, closeTo(noteFlowHeight(3), 1e-3));
+    final depois = await tester.runAsync(
+      () => InkLayersDao(livro.db).liveSpacesForBook(livro.book.id),
+    );
+    expect(depois!.single.collapsed, isFalse);
+    final h2 = tester.ensureSemantics();
+    expect(find.bySemanticsLabel('Abrir a nota à mão'), findsNothing);
+    expect(
+      find.bySemanticsLabel(RegExp(r'^Nota à mão, \d+ de ')),
+      findsOneWidget,
+    );
+    h2.dispose();
+  });
 }

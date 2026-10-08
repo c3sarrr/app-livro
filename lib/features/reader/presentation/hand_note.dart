@@ -31,6 +31,8 @@ import '../annotations/space/note_ink.dart';
 import '../annotations/space/space_metrics.dart';
 import '../annotations/space/space_seam.dart';
 import '../application/annotation_session.dart';
+import '../application/reader_ink.dart' show ReaderNote;
+import '../layout/display_page.dart';
 import 'ink_painter.dart';
 
 /// As cores da caixa, da faixa e dos controles no papel (Creme, Branco, Sépia) e no Noite (R14).
@@ -146,6 +148,64 @@ void paintNoteStrip(
   if (tag) paintNoteTag(canvas, stripLayout(strip).tag);
 }
 
+// ---- o leitor limpo (R11, D-183, D-184) ------------------------------------------------------------------------
+
+/// A caixa da nota no bloco [block] do espaço (com as margens): a da 24b, 30 abaixo do topo e 42·n + 24 de altura
+/// (D-182); recolhida, a faixa, 10 para dentro em cima e embaixo (D-184).
+Rect noteBoxIn(Rect block, {required int lines, required bool collapsed}) =>
+    collapsed
+    ? Rect.fromLTRB(
+        block.left,
+        block.top + stripMargin,
+        block.right,
+        block.bottom - stripMargin,
+      )
+    : Rect.fromLTWH(
+        block.left,
+        block.top + noteMarginTop,
+        block.width,
+        noteBoxHeight(lines),
+      );
+
+/// As notas [notes] que têm espaço na página [page], com a caixa (ou a faixa) delas, de cima para baixo.
+List<(ReaderNote, Rect)> placedNotes(DisplayPage page, List<ReaderNote> notes) {
+  if (notes.isEmpty) return const [];
+  final byId = {for (final n in notes) n.id: n};
+  return [
+    for (final s in spacesOf(page))
+      if (byId[s.id] case final n?)
+        (n, noteBoxIn(s.rect, lines: n.lines, collapsed: n.collapsed)),
+  ];
+}
+
+/// R11: as notas [notes] da página [page] do leitor limpo — a caixa com a etiqueta, as pautas e a tinta, ou a faixa
+/// com a etiqueta; sem botões, alça nem dica (D-183). [lightText] = as letras do Noite (R14).
+void paintPageNotes(
+  Canvas canvas,
+  DisplayPage page,
+  List<ReaderNote> notes, {
+  Color? lightText,
+}) {
+  final colors = lightText == null
+      ? HandNoteColors.onPaper
+      : HandNoteColors.night;
+  for (final (n, box) in placedNotes(page, notes)) {
+    if (n.collapsed) {
+      paintNoteStrip(canvas, box, colors: colors, tag: true);
+    } else {
+      paintHandNote(
+        canvas,
+        box,
+        lines: n.lines,
+        strokes: n.strokes,
+        colors: colors,
+        lightText: lightText,
+        tag: true,
+      );
+    }
+  }
+}
+
 // ---- a etiqueta ------------------------------------------------------------------------------------------------
 
 /// Por dentro da borda da etiqueta: 7 até o lápis, 5 até o texto, 10 depois dele (a prancha: 8,5 / 5 / 11,5 com a
@@ -243,6 +303,9 @@ const double noteHintHeight = 13.2;
 const String noteCollapseLabel = 'Recolher a nota';
 const String noteDeleteLabel = 'Apagar a nota';
 const String noteOpenLabel = 'Abrir a nota';
+
+/// O botão da faixa no leitor limpo (R13).
+const String noteOpenInReaderLabel = 'Abrir a nota à mão';
 const String noteHandleLabel = 'Arrastar para mudar a altura do espaço';
 
 /// A pílula do apagar (D-185).

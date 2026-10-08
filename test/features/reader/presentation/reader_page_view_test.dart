@@ -27,10 +27,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Página n: anota onde foi pintada (x da translação do canvas) e tem um link no canto de cima.
-final class _Pagina implements DisplayPage {
+final class _Pagina implements DisplayPage, PageWithSpaces {
   _Pagina(this.n, {this.opaque = false, this.letra});
 
   final int n;
+
+  /// G18: os espaços abertos da página (as notas à mão).
+  @override
+  List<PageSpace> spaces = const [];
 
   /// Uma "letra" (um quadrado cheio) dentro da marca da busca, para ler os pixels.
   final Color? letra;
@@ -302,7 +306,22 @@ final class _Grifos extends ChangeNotifier implements HighlightSource {
 
 /// A tinta do livro de mentira (G16): um traço em cada página pedida e os grifos feitos à mão.
 final class _Tinta extends ChangeNotifier implements InkSource {
-  _Tinta({this.aMao = const [], this.marcador = false, this.extra = const []});
+  _Tinta({
+    this.aMao = const [],
+    this.marcador = false,
+    this.extra = const [],
+    this.notas = const [],
+  });
+
+  /// G18: as notas à mão do livro (as da página são as dos espaços dela).
+  final List<ReaderNote> notas;
+
+  @override
+  List<ReaderNote> notesOn(DisplayPage page) => [
+    for (final s in spacesOf(page))
+      for (final n in notas)
+        if (n.id == s.id) n,
+  ];
 
   List<PaintedHighlight> aMao;
 
@@ -390,6 +409,7 @@ void main() {
     Color? foundColor,
     bool selecting = false,
     bool Function(Offset p)? grifo,
+    bool Function(Offset p)? nota,
     bool pressaoLonga = false,
   }) async {
     tester.view
@@ -419,6 +439,7 @@ void main() {
           selecting: selecting,
           onTapSelecting: (p) => eventos.add('toque na seleção $p'),
           onTapHighlight: grifo,
+          onTapNote: nota,
           onLongPressStart: pressaoLonga
               ? (p) => eventos.add('pressão $p')
               : null,
@@ -1137,6 +1158,34 @@ void main() {
       await tester.pumpAndSettle();
       expect(livro.viradas, [PageDirection.forward]);
     });
+
+    testWidgets(
+      'G18 (R11, D-184): a faixa recolhida vem depois do grifo e antes dos terços',
+      (tester) async {
+        final notas = <Offset>[];
+        var ehFaixa = true;
+        await montar(
+          tester,
+          grifo: (_) => false,
+          nota: (p) {
+            notas.add(p);
+            return ehFaixa;
+          },
+        );
+        await tester.tapAt(const Offset(350, 400));
+        await tester.pumpAndSettle();
+        expect(notas, [const Offset(350, 400)]);
+        expect(livro.viradas, isEmpty);
+        ehFaixa = false;
+        await tester.tapAt(const Offset(350, 400));
+        await tester.pumpAndSettle();
+        expect(livro.viradas, [PageDirection.forward]);
+        // o link continua primeiro
+        await tester.tapAt(const Offset(195, 115));
+        await tester.pumpAndSettle();
+        expect(notas, hasLength(2));
+      },
+    );
   });
 
   group('G13 — grifos e seleção na página (D-133)', () {
@@ -1507,6 +1556,51 @@ void main() {
       color: const Color(0xFFFED170),
       style: HighlightStyle.fill,
     );
+
+    test('G18 (R11, D-183): as notas da página antes do texto — o fundo da caixa, as pautas e a etiqueta', () {
+      final livro = _Livro();
+      livro.paginas[2].spaces = [
+        (id: 'n', rect: const Rect.fromLTWH(28, 300, 334, 206)),
+        (id: 'abridor', rect: const Rect.fromLTWH(28, 600, 334, 40)),
+      ];
+      final tela = _Tela();
+      ReaderPagesPainter(
+        document: livro,
+        dx: 0,
+        dir: null,
+        neighbor: null,
+        ink: _Tinta(
+          notas: [
+            (
+              id: 'n',
+              annotationId: 'n-a',
+              unit: 2,
+              at: 40,
+              lines: 3,
+              collapsed: false,
+              strokes: const [],
+              createdAt: DateTime(2026, 9, 20),
+              groupId: 'n-a',
+            ),
+          ],
+        ),
+        inkPictures: cache,
+      ).paint(tela, const Size(390, 844));
+      final fundos = [
+        for (final (r, c) in tela.marcas)
+          if (c.toARGB32() == const Color(0xFFFFFDF8).toARGB32()) r.outerRect,
+      ];
+      expect(fundos, [const Rect.fromLTWH(28, 330, 334, 150)]);
+      expect(
+        tela.marcas.where((m) => m.$2.toARGB32() == 0xFFFED170),
+        hasLength(1),
+        reason: 'a etiqueta',
+      );
+      expect(
+        tela.chamadas.indexOf('marca'),
+        lessThan(tela.chamadas.indexOf('texto')),
+      );
+    });
 
     test(
       'ordem: fundos → texto → sublinhado → mancha (multiplicada) → tinta',

@@ -413,17 +413,19 @@ void main() {
       }
     });
 
-    test('D-169: 19/20/26/26b/27/27b — a tinta de hoje fica no banco sem lugar (conta 12, não pinta)', () {
+    test('D-169: 19/20/26/26b/27/27b — a tinta de hoje fica no banco sem lugar (conta 12, não pinta, não abre espaço)', () {
       for (final t in [t19, t20, t26, t26b, t27, t27b]) {
         expect(t.contagens.all, 12, reason: t.prancha);
+        // os 3 desenhos, o grifo à mão e (G18) a nota à mão
         final deHoje = [
           for (final a in t.mundo.anotacoesDo(Slugs.domCasmurro))
-            if (a.refPage == 159 &&
-                a.source == AnnotationSource.ink &&
-                a.kind != AnnotationKind.handwriting)
-              a,
+            if (a.refPage == 159 && a.source == AnnotationSource.ink) a,
         ];
-        expect(deHoje, hasLength(4), reason: t.prancha);
+        expect(deHoje, hasLength(5), reason: t.prancha);
+        expect(
+          deHoje.where((a) => a.kind == AnnotationKind.handwriting),
+          hasLength(1),
+        );
         for (final a in deHoje) {
           final ancora = a.anchor as EpubAnchor;
           expect(ancora.sha, shaDeAntesDeHoje, reason: t.prancha);
