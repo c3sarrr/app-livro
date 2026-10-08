@@ -9,6 +9,7 @@ import 'package:app_leitura/features/reader/layout/chapter_layout.dart';
 import 'package:app_leitura/features/reader/layout/laid_block.dart';
 import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/epub_builder.dart';
@@ -161,5 +162,60 @@ void main() {
     addTearDown(layout.dispose);
     final img = layout.blocks.whereType<LaidImage>().single;
     expect((img.drawWidth, img.drawHeight), (40.0, 20.0));
+  });
+
+  group('espaço aberto (G18)', () {
+    String fatias(ReaderPage p) =>
+        '${p.start}-${p.end}:${p.slices.map((s) => '${s is SpaceSlice ? 'S' : s.block}@${s.y.toStringAsFixed(3)}').join(',')}';
+
+    test('o job e a página avulsa com o espaço: a página que começa nele, a seguinte e a do modo', () {
+      final content = chapterOf(livro, 1);
+      final sem = ChapterLayoutJob(content, t).runAll();
+      addTearDown(sem.dispose);
+      // a âncora no fim da última linha da página 5 (antes do branco): o espaço não cabe mais nela
+      final ultima = sem.pages[5].slices.last as TextSlice;
+      final linha =
+          (sem.blocks[ultima.block] as LaidText).lines[ultima.lastLine];
+      final texto = content.item.text;
+      var ancora = linha.end;
+      while (texto.codeUnitAt(ancora - 1) == 0x20) {
+        ancora--;
+      }
+      final cortes = [SpaceCut(at: ancora, height: 206, id: 'n')];
+      final com = ChapterLayoutJob(content, t, cuts: cortes).runAll();
+      addTearDown(com.dispose);
+      expect(com.pages[5].start, sem.pages[5].start);
+      expect(com.pages[5].slices.whereType<SpaceSlice>(), isEmpty);
+      expect(com.pages[6].slices.first, isA<SpaceSlice>());
+      expect(com.pages[6].start, ancora);
+      expect(com.pages.length, greaterThanOrEqualTo(sem.pages.length));
+      for (final k in [5, 6, 7]) {
+        final r = layoutPageFrom(content, t, com.pages[k].start, cuts: cortes)!;
+        addTearDown(() {
+          for (final b in r.blocks) {
+            b.dispose();
+          }
+        });
+        expect(fatias(r.page), fatias(com.pages[k]), reason: 'página $k');
+      }
+      // sem os cortes, o começo na âncora não é começo de linha
+      expect(layoutPageFrom(content, t, ancora), isNull);
+      // a página do modo: o mesmo começo, mais alta, com mais linhas
+      final alta = layoutPageFrom(
+        content,
+        t,
+        com.pages[6].start,
+        cuts: cortes,
+        contentHeight: t.contentHeight + 300,
+      )!;
+      addTearDown(() {
+        for (final b in alta.blocks) {
+          b.dispose();
+        }
+      });
+      expect(alta.page.start, com.pages[6].start);
+      expect(alta.page.slices.first, isA<SpaceSlice>());
+      expect(alta.page.end, greaterThan(com.pages[6].end));
+    });
   });
 }

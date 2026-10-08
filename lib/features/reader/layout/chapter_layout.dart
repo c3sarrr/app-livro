@@ -1,7 +1,9 @@
 // G10.2 — layout e paginação de um capítulo em passos pequenos (Anexo 03 §7.2 e §12): cada passo monta um
 // bloco ou um pedaço de parágrafo longo e entrega ao paginador; [ChapterLayoutJob.runFor] trabalha até o
 // orçamento de tempo da fatia (4 ms) e devolve o controle. [layoutPageFrom] monta só a página que começa num
-// caractere conhecido (o início que o cache de páginas guardou) para mostrar a posição antes do resto.
+// caractere conhecido (o início que o cache de páginas guardou) para mostrar a posição antes do resto. G18: os dois
+// recebem os espaços abertos do capítulo (`SpaceCut`); a página avulsa pode começar num espaço e ter outra altura
+// (a página do modo anotação, que vai até o pé da tela).
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
@@ -10,6 +12,7 @@ import '../content/content_blocks.dart';
 import 'laid_block.dart';
 import 'paginator.dart';
 import 'reader_typography.dart';
+import 'space_cut.dart';
 
 /// Orçamento de cada fatia de trabalho por quadro (Anexo 03 §7.2).
 const Duration layoutSliceBudget = Duration(milliseconds: 4);
@@ -59,11 +62,14 @@ final class ChapterLayout {
 
 /// Layout + paginação de um capítulo, em passos.
 final class ChapterLayoutJob {
-  ChapterLayoutJob(this.content, ReaderTypography t)
+  ChapterLayoutJob(this.content, ReaderTypography t, {this.cuts = const []})
     : _layouter = BlockLayouter(t, imageSize: _sizes(content)),
       _paginator = ChapterPaginator(t.contentHeight);
 
   final ChapterContent content;
+
+  /// Os espaços abertos do capítulo (G18).
+  final List<SpaceCut> cuts;
   final BlockLayouter _layouter;
   final ChapterPaginator _paginator;
   final List<LaidBlock> _blocks = [];
@@ -115,6 +121,7 @@ final class ChapterLayoutJob {
         start: content.item.blockStarts[i],
         previous: i == 0 ? null : blocks[i - 1],
         next: i + 1 < blocks.length ? blocks[i + 1] : null,
+        cuts: cuts,
       );
       _task = task;
     }
@@ -209,12 +216,15 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
 };
 
 /// Uma página que começa no caractere [start] do item (um início de página guardado no cache): monta só os
-/// blocos dela. `null` quando [start] não cai no começo de uma linha (o cache não vale para este layout).
+/// blocos dela. `null` quando [start] não cai no começo de uma linha nem na âncora de um espaço (o cache não vale
+/// para este layout). [cuts] = os espaços do capítulo; [contentHeight] = a altura da página (a do modo — G18).
 ({ReaderPage page, List<LaidBlock> blocks, int firstBlock})? layoutPageFrom(
   ChapterContent content,
   ReaderTypography t,
-  int start,
-) {
+  int start, {
+  List<SpaceCut> cuts = const [],
+  double? contentHeight,
+}) {
   final item = content.item;
   if (item.blocks.isEmpty) return null;
   final layouter = BlockLayouter(t, imageSize: _sizes(content));
@@ -223,7 +233,10 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
   for (var i = 0; i < item.blocks.length; i++) {
     if (item.blockStarts[i] <= start) k = i;
   }
-  final paginator = ChapterPaginator(t.contentHeight, firstBlock: k);
+  final paginator = ChapterPaginator(
+    contentHeight ?? t.contentHeight,
+    firstBlock: k,
+  );
   final laid = <LaidBlock>[];
   var firstLine = 0;
   for (var i = k; i < item.blocks.length; i++) {
@@ -232,11 +245,20 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
       start: item.blockStarts[i],
       previous: i == 0 ? null : item.blocks[i - 1],
       next: i + 1 < item.blocks.length ? item.blocks[i + 1] : null,
+      cuts: cuts,
     );
     laid.add(b);
     if (i == k) {
+      int? gap;
       if (b is LaidText) {
-        firstLine = b.lines.indexWhere((l) => l.start == start);
+        // a página que começa num espaço aberto começa na âncora dele (G18)
+        final g = b.gaps.indexWhere((x) => x.at == start);
+        if (g >= 0) {
+          gap = g;
+          firstLine = b.gaps[g].afterLine + 1;
+        } else {
+          firstLine = b.lines.indexWhere((l) => l.start == start);
+        }
         if (firstLine < 0) {
           for (final x in laid) {
             x.dispose();
@@ -247,7 +269,7 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
         b.dispose();
         return null;
       }
-      paginator.addFrom(b, firstLine);
+      paginator.addFrom(b, firstLine, gap: gap);
     } else {
       paginator.add(b);
     }
