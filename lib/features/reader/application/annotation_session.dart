@@ -51,6 +51,7 @@ import '../annotations/ink/ink_tools.dart';
 import '../annotations/ink/ink_units.dart';
 import '../annotations/ink/marker_snap.dart';
 import '../annotations/ink_repository.dart';
+import '../annotations/space/hand_note_layout.dart' show inkFrame;
 import '../annotations/space/note_ink.dart';
 import '../annotations/space/space_metrics.dart';
 import '../annotations/space/space_seam.dart';
@@ -473,7 +474,7 @@ final class AnnotationSession extends ChangeNotifier {
     if (sel == null) return const [];
     final note = sel.note;
     if (note != null) {
-      final box = noteBox(note);
+      final box = noteInkFrame(note);
       final n = _copy.note(note);
       if (box == null || n == null) return const [];
       return [
@@ -527,6 +528,15 @@ final class AnnotationSession extends ChangeNotifier {
             block.width,
             noteBoxHeight(n.lines),
           );
+  }
+
+  /// R6: onde a tinta da nota [id] vive na página — a caixa por dentro da borda (a unidade da nota mede daqui); `null`
+  /// recolhida ou fora da página.
+  Rect? noteInkFrame(String id) {
+    final n = _noteNow(id);
+    final box = noteBox(id);
+    if (n == null || box == null || n.collapsed) return null;
+    return inkFrame(box);
   }
 
   /// A área do abridor na página (coordenadas do leitor limpo), durante o arrasto.
@@ -1070,7 +1080,7 @@ final class AnnotationSession extends ChangeNotifier {
         if (sel == null || !sel.dragging) return;
         final note = sel.note;
         if (note != null) {
-          final box = noteBox(note);
+          final box = noteInkFrame(note);
           selection.value = null;
           if (box == null) return;
           // R6: o Laço da nota move dentro dela (na unidade da nota)
@@ -1153,7 +1163,7 @@ final class AnnotationSession extends ChangeNotifier {
   void _addInk(InkStroke s) {
     final note = _noteTarget;
     _noteTarget = null;
-    final box = note == null ? null : noteBox(note);
+    final box = note == null ? null : noteInkFrame(note);
     if (note == null || box == null) {
       _addStroke(s);
       return;
@@ -1311,7 +1321,7 @@ final class AnnotationSession extends ChangeNotifier {
     }
     // G18: a tinta das notas abertas, na página
     for (final n in notes) {
-      final box = n.collapsed ? null : noteBox(n.id);
+      final box = noteInkFrame(n.id);
       if (box == null) continue;
       for (final s in n.strokes) {
         if (_pendingStrokes.contains(s.id)) continue;
@@ -1387,7 +1397,7 @@ final class AnnotationSession extends ChangeNotifier {
     // G18 (R6): o Laço que começa numa caixa só pega a tinta dela
     final note = _noteAt(polygon.first);
     if (note != null) {
-      final box = noteBox(note)!;
+      final box = noteInkFrame(note)!;
       for (final s in _copy.note(note)!.strokes) {
         final onPage = fromNote(s.stroke, box);
         if (lassoSelects(onPage, polygon)) {

@@ -415,11 +415,16 @@ void main() {
       final s = abrir();
       final nota = abrirNota(s);
       final caixa = s.noteBox(nota.id)!;
+      // a tinta vive por dentro da borda de 1,5 (a unidade da nota mede dali — o desenho da prancha 24b)
+      final tinta = s.noteInkFrame(nota.id)!;
+      perto(tinta, caixa.deflate(1.5));
       arrastar(s, [caixa.top + 30, caixa.top + 40, caixa.top + 60], x: 80);
       expect(s.notes.single.strokes, hasLength(1));
       final p = s.notes.single.strokes.single.stroke.points.first;
-      expect(p.x, closeTo((80 - caixa.left) / caixa.width, 1e-9));
-      expect(p.y, closeTo(30 / noteLinePx, 1e-9));
+      expect(p.x, closeTo((80 - tinta.left) / tinta.width, 1e-9));
+      expect(p.y, closeTo(28.5 / noteLinePx, 1e-9));
+      // na página, o traço volta onde o dedo passou
+      expect(s.noteStrokes(nota.id), hasLength(1));
       expect(s.drawings, isEmpty);
       arrastar(s, [caixa.bottom + 60, caixa.bottom + 70], x: 80);
       expect(s.drawings, hasLength(1));
@@ -450,7 +455,7 @@ void main() {
       s.pointerMove(_touch(1, 100, caixa.top + 52 + 30, 28));
       s.pointerUp(_touch(1, 100, caixa.top + 52 + 30, 36));
       final movido = s.notes.single.strokes.first.stroke.points.first;
-      expect(movido.y, closeTo((30 + 21) / noteLinePx, 1e-9));
+      expect(movido.y, closeTo((28.5 + 21) / noteLinePx, 1e-9));
       // a Borracha passa no 2º traço
       s.setTool(AnnotationTool.eraser);
       arrastar(s, [caixa.top + 71, caixa.top + 71], x: 100);
@@ -497,6 +502,11 @@ void main() {
       final y = fresta(s);
       s.toggleNote(nota.id);
       expect(s.notes.single.collapsed, isTrue);
+      expect(
+        s.noteInkFrame(nota.id),
+        isNull,
+        reason: 'recolhida não tem tinta à vista',
+      );
       perto(
         s.noteBox(nota.id)!,
         ui.Rect.fromLTWH(28, y + stripMargin, 334, t.lineHeight),
@@ -582,8 +592,9 @@ void main() {
         r.strokesB64,
         Bnk1Unit.box,
       ).single.points.first;
-      expect(volta.x, closeTo((80 - caixa.left) / caixa.width, 1e-4));
-      expect(volta.y, closeTo(30 / noteLinePx, 1e-4));
+      final tinta = s.noteInkFrame(nota.id)!;
+      expect(volta.x, closeTo((80 - tinta.left) / tinta.width, 1e-4));
+      expect(volta.y, closeTo(28.5 / noteLinePx, 1e-4));
       expect(c.deletedNotes, isEmpty);
     });
 
