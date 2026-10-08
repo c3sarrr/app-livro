@@ -178,16 +178,33 @@ class _AnnotationModeState extends State<AnnotationMode>
       size.height,
     );
     final s = widget.session;
+    // o canvas fica fora do que é refeito a cada mudança da sessão e a cada quadro da entrada: ele ouve o que precisa
+    final canvas = RepaintBoundary(
+      child: AnnotationCanvas(
+        session: s,
+        page: widget.page,
+        pageBox: pageBox,
+        paper: paper.paper,
+        lightText: paper.lightText,
+        highlights: widget.highlights,
+        inkHighlights: widget.inkHighlights,
+        semanticsLabel: widget.semanticsLabel,
+        enter: _enter,
+        meter: widget.meter ?? _ownMeter,
+      ),
+    );
     return AnimatedBuilder(
       animation: Listenable.merge([_text, _frame, s]),
-      builder: (context, _) {
+      child: canvas,
+      builder: (context, canvas) {
         final a = _frame.value;
         final settled = widget.open && _text.isCompleted;
         final ink = Color(s.color);
         final message = s.failed ? annotationSaveFailed : widget.toast;
         return IgnorePointer(
           key: const ValueKey('ann.mode'),
-          ignoring: !settled,
+          // entrando, saindo ou gravando (o que viesse agora não entraria na gravação)
+          ignoring: !settled || s.saving,
           child: ExcludeSemantics(
             excluding: !widget.open,
             child: ReaderChromeScope(
@@ -196,20 +213,7 @@ class _AnnotationModeState extends State<AnnotationMode>
               a: a,
               child: Stack(
                 children: [
-                  Positioned.fill(
-                    child: AnnotationCanvas(
-                      session: s,
-                      page: widget.page,
-                      pageBox: pageBox,
-                      paper: paper.paper,
-                      lightText: paper.lightText,
-                      highlights: widget.highlights,
-                      inkHighlights: widget.inkHighlights,
-                      semanticsLabel: widget.semanticsLabel,
-                      enter: _enter,
-                      meter: widget.meter ?? _ownMeter,
-                    ),
-                  ),
+                  Positioned.fill(child: canvas!),
                   Positioned(
                     left: 0,
                     right: 0,

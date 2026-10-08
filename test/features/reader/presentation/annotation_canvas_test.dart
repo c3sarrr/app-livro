@@ -25,7 +25,8 @@ import '../../../support/personal_builders.dart';
 const _caixa = Rect.fromLTRB(28, 116, 362, 844);
 const _papel = Color(0xFFF8F1E4);
 
-/// Duas linhas: uma em cima (linha de base 130) e a última em 700 (a página pode subir 700 + 30 − 594 = 136).
+/// Duas linhas: uma em cima (linha de base 130) e a última em 700, com a base (o pé) em 709,25: a página pode subir
+/// 709,25 + 30 − 594 = 145,25 (D-165: até a base da última linha passar do topo da borda de mesa).
 InkPageGeometry _geometria() => const InkPageGeometry([
   InkLine(
     unit: 4,
@@ -88,7 +89,7 @@ final class _Pagina implements DisplayPage {
   @override
   bool get opaque => false;
   @override
-  String get spokenText => '';
+  String get spokenText => 'Olhos de ressaca a vaga que';
   @override
   LinkHit? linkAt(ui.Offset p) => null;
   @override
@@ -221,7 +222,7 @@ void main() {
       expect(pagina.ty.last, 30);
       expect(pagina.recortes.last, _caixa);
       expect(tester.getRect(chave('ann.page')), _caixa);
-      expect(sessao.panLimit, 136);
+      expect(sessao.panLimit, 145.25);
     },
   );
 
@@ -322,14 +323,65 @@ void main() {
       await a.up();
       await b.up();
       await tester.pump();
-      expect(sessao.panOffset, -136);
+      expect(sessao.panOffset, -145.25);
       expect(pagina.ty.last, antes, reason: 'a volta começa de onde estava');
       await tester.pump(const Duration(milliseconds: 110));
-      expect(pagina.ty.last, allOf(lessThan(30 - 136), greaterThan(antes)));
+      expect(pagina.ty.last, allOf(lessThan(30 - 145.25), greaterThan(antes)));
       await tester.pump(const Duration(milliseconds: 120));
-      expect(pagina.ty.last, 30 - 136);
+      expect(pagina.ty.last, 30 - 145.25);
       // nenhum traço ficou dos 2 dedos
       expect(sessao.visibleStrokes, isEmpty);
+    },
+  );
+
+  testWidgets(
+    'tocar durante a volta do batente leva a página ao lugar final na hora: o traço sai sob o dedo (D-165)',
+    (tester) async {
+      await montar(tester);
+      final limite = sessao.panLimit;
+      final a = await tester.startGesture(const Offset(100, 400));
+      final b = await tester.startGesture(const Offset(200, 400));
+      await a.moveBy(Offset(0, -(limite + 90)));
+      await b.moveBy(Offset(0, -(limite + 90)));
+      await tester.pump();
+      await a.up();
+      await b.up();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 50));
+      expect(pagina.ty.last, lessThan(30 - limite - 1), reason: 'voltando');
+      final g = await tester.startGesture(const Offset(150, 300));
+      await tester.pump();
+      expect(pagina.ty.last, moreOrLessEquals(30 - limite, epsilon: 1e-9));
+      await g.moveTo(const Offset(190, 300));
+      await g.up();
+      await tester.pump();
+      expect(
+        sessao.visibleStrokes.single.points.first.y,
+        moreOrLessEquals(300 - 30 + limite, epsilon: 1e-9),
+      );
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(pagina.ty.last, moreOrLessEquals(30 - limite, epsilon: 1e-9));
+    },
+  );
+
+  testWidgets(
+    'o dedo andando não repinta a página (o traço ao vivo e o indicador ficam nas camadas deles); soltar repinta 1 vez',
+    (tester) async {
+      await montar(tester);
+      final g = await tester.startGesture(const Offset(60, 300));
+      await tester.pump();
+      final antes = pagina.ty.length;
+      for (var i = 1; i <= 5; i++) {
+        await g.moveTo(
+          Offset(60 + 10.0 * i, 300 + (i.isEven ? 2 : 0)),
+          timeStamp: Duration(milliseconds: 16 * i),
+        );
+        await tester.pump();
+      }
+      expect(pagina.ty.length, antes, reason: 'a página não repinta');
+      await g.up(timeStamp: const Duration(milliseconds: 100));
+      await tester.pump();
+      expect(pagina.ty.length, antes + 1, reason: 'o traço entra na página');
     },
   );
 
@@ -435,6 +487,18 @@ void main() {
           'Dom Casmurro, página 159 de 256 — modo anotação',
         ),
         findsOneWidget,
+      );
+      // o texto da página também, como no leitor limpo (o `<article>` do arquivo)
+      expect(
+        tester.getSemantics(
+          find.bySemanticsLabel(
+            'Dom Casmurro, página 159 de 256 — modo anotação',
+          ),
+        ),
+        isSemantics(
+          label: 'Dom Casmurro, página 159 de 256 — modo anotação',
+          value: 'Olhos de ressaca a vaga que',
+        ),
       );
       h.dispose();
     },

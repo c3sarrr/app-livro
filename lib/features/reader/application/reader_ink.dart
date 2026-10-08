@@ -126,6 +126,24 @@ final class ReaderInk extends ChangeNotifier implements InkSource {
     final kept = _pages[page];
     if (kept != null && kept.$1 == _revision) return kept.$2;
     final out = <PageDrawing>[];
+    // o em de cada linha: o da 1ª caixa dela, como na criação (`inkGeometryOf`)
+    List<(double, double)>? lineEms;
+    double emAt(double baseline, double fallback) {
+      lineEms ??= () {
+        final out = <(double, double)>[];
+        for (final b in page.boxesOf(shown.unit, shown.from, shown.to)) {
+          if (!out.any((l) => (l.$1 - b.baseline).abs() < 0.5)) {
+            out.add((b.baseline, b.em));
+          }
+        }
+        return out;
+      }();
+      for (final (base, em) in lineEms!) {
+        if ((base - baseline).abs() < 0.5) return em;
+      }
+      return fallback;
+    }
+
     for (final d in _drawings) {
       final parsed = inkAnchorOf(d.layer.anchor);
       if (parsed == null) continue;
@@ -136,15 +154,16 @@ final class ReaderInk extends ChangeNotifier implements InkSource {
           r.from >= shown.to) {
         continue;
       }
+      // o trecho que segue na página seguinte não estica sobre o pedaço que ficou (k = 1)
       final frame = placedFrame([
         for (final b in page.boxesOf(r.unit, r.from, r.to))
           (
             left: b.rect.left,
             right: b.rect.right,
             baseline: b.baseline,
-            em: b.em,
+            em: emAt(b.baseline, b.em),
           ),
-      ], parsed.w);
+      ], r.to <= shown.to ? parsed.w : null);
       final strokes = _strokesOf(d.layer.id, d.layer.strokesB64);
       if (frame == null || strokes == null || strokes.isEmpty) continue;
       out.add((

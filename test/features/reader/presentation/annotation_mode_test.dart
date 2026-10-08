@@ -201,6 +201,39 @@ void main() {
   Rect r(WidgetTester tester, String k) => tester.getRect(chave(k));
 
   testWidgets(
+    'enquanto o Concluir grava, a camada não recebe toque (o que viesse não entraria na gravação)',
+    (tester) async {
+      await montar(tester);
+      bool ignorando() => tester
+          .widget<IgnorePointer>(find.byKey(const ValueKey('ann.mode')))
+          .ignoring;
+      expect(ignorando(), isFalse);
+      // um traço, para o Concluir ter o que gravar
+      InkPointer p(double x, int t) => (
+        id: 1,
+        kind: InkPointerKind.touch,
+        x: x,
+        y: 300,
+        pressure: 1,
+        tMs: t,
+      );
+      sessao
+        ..pointerDown(p(60, 0))
+        ..pointerMove(p(120, 16))
+        ..pointerUp(p(120, 32));
+      final porta = Completer<void>();
+      repo.gate = porta.future;
+      final gravando = sessao.conclude();
+      await tester.pump();
+      expect(ignorando(), isTrue);
+      porta.complete();
+      await gravando;
+      await tester.pump();
+      expect(ignorando(), isFalse);
+    },
+  );
+
+  testWidgets(
     'o medidor de latência vai ao canvas; sem ele e sem o define, nenhum (o app normal)',
     (tester) async {
       final m = InkLatencyMeter(

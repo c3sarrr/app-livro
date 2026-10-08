@@ -20,6 +20,7 @@ import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_strokes.dart';
 import '../annotations/ink/gesture_arbiter.dart';
 import '../annotations/ink/ink_geometry.dart' show InkOffset;
+import '../annotations/ink/ink_tools.dart' show panLimit;
 import '../application/annotation_session.dart';
 import '../layout/display_page.dart';
 import 'ink_latency_meter.dart';
@@ -116,6 +117,9 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   double _backFrom = 0;
   double _backTo = 0;
   final InkPictureCache _pictures = InkPictureCache(capacity: 1);
+
+  /// Os traços do Laço sendo arrastados, gravados uma vez no começo do arrasto (depois, só transladados).
+  final InkPictureCache _dragged = InkPictureCache(capacity: 1);
   bool _wasPanning = false;
 
   @override
@@ -163,6 +167,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
     _back.dispose();
     _pan.dispose();
     _pictures.dispose();
+    _dragged.dispose();
     super.dispose();
   }
 
@@ -196,38 +201,50 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   Widget build(BuildContext context) {
     final s = widget.session;
     final size = MediaQuery.sizeOf(context);
-    // a página sobe até a última linha passar do topo da borda de mesa (D-165)
+    // a página sobe até a base da última linha passar do topo da borda de mesa (D-165)
     final lines = s.geometry.lines;
     s.panLimit = lines.isEmpty
         ? 0
-        : (lines.last.baseline + s.textShift - (size.height - deskEdgeHeight))
-              .clamp(0, double.infinity)
-              .toDouble();
+        : panLimit(
+            lastLineBottom: lines.last.bottom + s.textShift,
+            deskTop: size.height - deskEdgeHeight,
+          );
     return Semantics(
       container: true,
       label: widget.semanticsLabel,
+      value: widget.page.spokenText,
       child: Listener(
         behavior: HitTestBehavior.opaque,
-        onPointerDown: (e) => _measured(e, () => s.pointerDown(_pointer(e))),
+        onPointerDown: (e) {
+          // um toque durante a volta do batente: a página vai ao lugar final já (onde a sessão põe o traço)
+          if (_back.isAnimating) {
+            _back.stop();
+            _pan.value = s.panOffset;
+          }
+          _measured(e, () => s.pointerDown(_pointer(e)));
+        },
         onPointerMove: (e) => _measured(e, () => s.pointerMove(_pointer(e))),
         onPointerUp: (e) => s.pointerUp(_pointer(e)),
         onPointerCancel: (e) => s.pointerCancel(_pointer(e)),
         child: Stack(
           children: [
+            // a página, o traço ao vivo e o indicador em camadas próprias: o dedo andando não repinta o texto
             Positioned.fill(
-              child: CustomPaint(
-                key: const ValueKey('ann.canvas.page'),
-                painter: AnnotationPagePainter(
-                  session: s,
-                  page: widget.page,
-                  pageBox: widget.pageBox,
-                  paper: widget.paper,
-                  lightText: widget.lightText,
-                  highlights: widget.highlights,
-                  inkHighlights: widget.inkHighlights,
-                  pan: _pan,
-                  enter: widget.enter,
-                  pictures: _pictures,
+              child: RepaintBoundary(
+                child: CustomPaint(
+                  key: const ValueKey('ann.canvas.page'),
+                  painter: AnnotationPagePainter(
+                    session: s,
+                    page: widget.page,
+                    pageBox: widget.pageBox,
+                    paper: widget.paper,
+                    lightText: widget.lightText,
+                    highlights: widget.highlights,
+                    inkHighlights: widget.inkHighlights,
+                    pan: _pan,
+                    enter: widget.enter,
+                    pictures: _pictures,
+                  ),
                 ),
               ),
             ),
@@ -240,6 +257,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
                     pageBox: widget.pageBox,
                     pan: _pan,
                     enter: widget.enter,
+                    dragged: _dragged,
                   ),
                 ),
               ),
@@ -249,17 +267,19 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
               child: const SizedBox(key: ValueKey('ann.page')),
             ),
             Positioned.fill(
-              child: ValueListenableBuilder<InkOffset?>(
-                valueListenable: s.touch,
-                builder: (context, at, _) => at == null
-                    ? const SizedBox.shrink()
-                    : TouchIndicator(
-                        at: Offset(at.x, at.y),
-                        ink: Color(s.color),
-                        dot:
-                            s.tool != AnnotationTool.eraser &&
-                            s.tool != AnnotationTool.lasso,
-                      ),
+              child: RepaintBoundary(
+                child: ValueListenableBuilder<InkOffset?>(
+                  valueListenable: s.touch,
+                  builder: (context, at, _) => at == null
+                      ? const SizedBox.shrink()
+                      : TouchIndicator(
+                          at: Offset(at.x, at.y),
+                          ink: Color(s.color),
+                          dot:
+                              s.tool != AnnotationTool.eraser &&
+                              s.tool != AnnotationTool.lasso,
+                        ),
+                ),
               ),
             ),
           ],
@@ -350,6 +370,7 @@ class AnnotationLivePainter extends CustomPainter {
     required this.pageBox,
     required this.pan,
     this.enter = kAlwaysCompleteAnimation,
+    this.dragged,
   }) : super(
          repaint: Listenable.merge([
            session.live,
@@ -363,6 +384,10 @@ class AnnotationLivePainter extends CustomPainter {
   final Rect pageBox;
   final ValueListenable<double> pan;
   final ValueListenable<double> enter;
+
+  /// Os traços do arrasto do Laço gravados numa `Picture` (pela seleção e pela revisão da tinta); sem ela, o
+  /// contorno é refeito a cada quadro.
+  final InkPictureCache? dragged;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -389,9 +414,24 @@ class AnnotationLivePainter extends CustomPainter {
     }
     if (sel != null) {
       if (sel.dragging) {
-        paintInk(canvas, [
-          for (final s in session.selectedStrokes) s.translated(sel.dx, sel.dy),
-        ]);
+        final cache = dragged;
+        final picture = cache?.pictureOf(
+          sel.strokes,
+          session.revision,
+          () => session.selectedStrokes,
+        );
+        if (picture != null) {
+          canvas
+            ..save()
+            ..translate(sel.dx, sel.dy)
+            ..drawPicture(picture)
+            ..restore();
+        } else {
+          paintInk(canvas, [
+            for (final s in session.selectedStrokes)
+              s.translated(sel.dx, sel.dy),
+          ]);
+        }
       }
       final f = sel.frame;
       paintLassoShape(
@@ -415,7 +455,8 @@ class AnnotationLivePainter extends CustomPainter {
       !identical(old.session, session) ||
       old.pageBox != pageBox ||
       !identical(old.pan, pan) ||
-      !identical(old.enter, enter);
+      !identical(old.enter, enter) ||
+      !identical(old.dragged, dragged);
 }
 
 /// O contorno do Laço e a seleção: lavanda a 35 % e o traço `#1A1714` de 1,7 tracejado 4/3.

@@ -70,6 +70,19 @@ InkPageGeometry _geometry() {
   return InkPageGeometry(lines);
 }
 
+/// As âncoras de um capítulo que não abre na hora de gravar (o texto lança).
+final class _Quebradas implements AnnotationAnchors {
+  @override
+  String get sha => shaTeste;
+
+  @override
+  String? textOf(int spine) => throw StateError('capítulo ilegível');
+
+  @override
+  ({int refPage, int chapterIndex}) placeOf(int spine, int offset) =>
+      (refPage: 159, chapterIndex: 31);
+}
+
 final class _Anchors implements AnnotationAnchors {
   @override
   String get sha => shaTeste;
@@ -154,10 +167,13 @@ void main() {
     List<PageHighlight> highlights = const [],
     PenPresets? presets,
     double panLimit = 100,
+    AnnotationAnchors? anchors,
+    String draftId = 'sessao-1',
   }) {
     final s = AnnotationSession(
       geometry: _geometry(),
-      anchors: _Anchors(),
+      anchors: anchors ?? _Anchors(),
+      draftId: draftId,
       drawings: drawings,
       highlights: highlights,
       presets: presets ?? presetsTeste(),
@@ -251,6 +267,26 @@ void main() {
         expect(s.drawings.last.strokes.single.stroke.points, hasLength(1));
       },
     );
+
+    test('um evento com o tempo voltando não volta o tempo do traço nem quebra o BNK1', () {
+      final s = open();
+      s.pointerDown(_pen(1, 40, 140, 100));
+      s.pointerMove(_pen(1, 50, 140, 120));
+      s.pointerMove(_pen(1, 60, 140, 90));
+      s.pointerUp(_pen(1, 60, 140, 130));
+      expect(
+        [for (final p in s.visibleStrokes.single.points) p.tMs],
+        [0, 20, 20],
+      );
+      expect(() => s.changes(), returnsNormally);
+      // a Reta também
+      s.setTool(AnnotationTool.line);
+      s.pointerDown(_pen(1, 40, 200, 500));
+      s.pointerMove(_pen(1, 90, 200, 400));
+      s.pointerUp(_pen(1, 90, 200, 410));
+      expect(s.visibleStrokes.last.points.last.tMs, greaterThanOrEqualTo(0));
+      expect(() => s.changes(), returnsNormally);
+    });
 
     test('com a caneta do aparelho, o indicador de toque não aparece', () {
       final s = open();
@@ -389,6 +425,58 @@ void main() {
       expect(s.selection.value, isNull);
     });
 
+    test('trocar de ferramenta ou desfazer no meio do arrasto do Laço não quebra (o arrasto acaba)', () {
+      for (final trocar in <void Function(AnnotationSession)>[
+        (s) => s.setTool(AnnotationTool.pen),
+        (s) => s.undo(),
+      ]) {
+        final s = open();
+        draw(s, [(30, 130), (80, 130)]);
+        s.setTool(AnnotationTool.lasso);
+        draw(s, [(20, 110), (100, 110), (100, 160), (20, 160)], id: 3);
+        expect(s.selection.value, isNotNull);
+        s.pointerDown(_touch(4, 50, 130, 100));
+        s.pointerMove(_touch(4, 50, 150, 108));
+        trocar(s);
+        expect(s.selection.value, isNull);
+        expect(() => s.pointerMove(_touch(4, 50, 170, 116)), returnsNormally);
+        expect(() => s.pointerUp(_touch(4, 50, 170, 124)), returnsNormally);
+        expect(s.live.value, isNull);
+      }
+    });
+
+    test('a seleção que juntaria mais de 256 KiB não se move (os traços ficam onde estavam)', () {
+      final s = open();
+      // 2 traços longos de zigue-zague, em linhas longe (2 desenhos que cabem sozinhos e não juntos)
+      for (final (id, y) in const [(1, 126.0), (2, 232.0)]) {
+        s.pointerDown(_pen(id, 30, y, 0));
+        for (var i = 1; i <= 30000; i++) {
+          s.pointerMove(_pen(id, i.isEven ? 30 : 180, y + (i % 3), 8 * i));
+        }
+        s.pointerUp(_pen(id, 30, y, 8 * 30001));
+      }
+      expect(s.drawings, hasLength(2));
+      // com a caneta do aparelho na sessão, só ela desenha (o dedo move a página)
+      s.setTool(AnnotationTool.lasso);
+      s.pointerDown(_pen(3, 20, 110, 0));
+      for (final (x, y) in const [
+        (200.0, 110.0),
+        (200.0, 250.0),
+        (20.0, 250.0),
+      ]) {
+        s.pointerMove(_pen(3, x, y, 8));
+      }
+      s.pointerUp(_pen(3, 20, 250, 16));
+      expect(s.selection.value!.strokes, hasLength(2));
+      final antes = s.visibleStrokes;
+      s.pointerDown(_pen(4, 100, 180, 100));
+      s.pointerMove(_pen(4, 100, 190, 108));
+      s.pointerUp(_pen(4, 100, 190, 116));
+      expect(s.drawings, hasLength(2));
+      expect(s.visibleStrokes, antes);
+      expect(s.selection.value!.dy, 0);
+    });
+
     test('a Borracha com a seleção apaga os traços selecionados (1 passo) e fica ativa', () {
       final s = open();
       draw(s, [(30, 130), (80, 130)]);
@@ -499,18 +587,120 @@ void main() {
       expect(c.layers, hasLength(1));
     });
 
-    test(
-      'nada mudou: o Concluir não grava e apaga um rascunho velho',
-      () async {
-        final s = open();
-        repo.drafts['ink_draft:$usuarioTeste:${idTeste(1)}'] = const InkChanges(
-          deletedLayers: {'x'},
-        );
-        expect(await s.conclude(), isTrue);
-        expect(repo.commits, isEmpty);
-        expect(repo.drafts, isEmpty);
-      },
-    );
+    test('nada mudou: o Concluir não grava e apaga só o rascunho da sessão; o de uma sessão que morreu fica (D-166)', () async {
+      final s = open();
+      final morta = draftKey(usuarioTeste, idTeste(1), 'sessao-morta');
+      final minha = draftKey(usuarioTeste, idTeste(1), 'sessao-1');
+      repo.drafts[morta] = const InkChanges(deletedLayers: {'x'});
+      repo.drafts[minha] = const InkChanges(deletedLayers: {'y'});
+      expect(await s.conclude(), isTrue);
+      expect(repo.commits, isEmpty);
+      expect(repo.drafts.keys, [morta]);
+      // desenhar e o tique dos 5 s guardam na chave da sessão, sem tocar na outra
+      draw(s, [(40, 140), (60, 140)]);
+      timers.fire();
+      await pumpEventQueue();
+      expect(repo.drafts.keys, unorderedEquals([morta, minha]));
+      expect(repo.drafts[morta], const InkChanges(deletedLayers: {'x'}));
+      expect(await s.conclude(), isTrue);
+      expect(repo.drafts.keys, [morta]);
+    });
+
+    test('enquanto o Concluir grava, a página não aceita tinta nem move; o traço em curso entra no que é gravado', () async {
+      final s = open();
+      final porta = Completer<void>();
+      repo.gate = porta.future;
+      s.pointerDown(_pen(1, 40, 140, 0));
+      s.pointerMove(_pen(1, 60, 140, 8));
+      final gravando = s.conclude();
+      expect(s.saving, isTrue);
+      expect(s.live.value, isNull, reason: 'o traço em curso fechou');
+      expect(s.visibleStrokes, hasLength(1));
+      // a caneta segue e outra passada vem durante a gravação: nada disso entra
+      s.pointerMove(_pen(1, 90, 140, 16));
+      s.pointerUp(_pen(1, 90, 140, 24));
+      s.pointerDown(_pen(2, 40, 200, 40));
+      s.pointerMove(_pen(2, 90, 200, 48));
+      expect(s.live.value, isNull);
+      s.pointerUp(_pen(2, 90, 200, 56));
+      porta.complete();
+      expect(await gravando, isTrue);
+      expect(s.saving, isFalse);
+      final gravado = repo.commits.single.layers.single;
+      expect(gravado.strokeCount, 1);
+      expect(s.visibleStrokes, hasLength(1));
+      expect(s.visibleStrokes.single.points.last.x, 60);
+      expect(repo.drafts, isEmpty);
+    });
+
+    test('o que não dá para montar ao gravar (o capítulo que lança) liga a pílula, sem escapar do Concluir', () async {
+      final s = open(anchors: _Quebradas());
+      draw(s, [(40, 140), (60, 140)]);
+      expect(await s.conclude(), isFalse);
+      expect(s.failed, isTrue);
+      expect(repo.commits, isEmpty);
+      expect(errors, isNotEmpty);
+    });
+
+    test('editar um desenho salvo mantém a camada, a anotação, a criação e o grupo dele', () {
+      final antigo = _saved(
+        40,
+        from: 0,
+        to: 5,
+        group: 99,
+        points: [(28, 104), (83, 104)],
+      );
+      final s = open(drawings: [antigo]);
+      // um traço que toca o salvo entra nele
+      draw(s, [(30, 140), (80, 140)]);
+      expect(s.drawings, hasLength(1));
+      final r = s.changes().layers.single;
+      expect(
+        (r.layerId, r.annotationId, r.createdAt, r.groupId, r.strokeCount),
+        (idTeste(40), idTeste(41), DateTime.utc(2026, 10, 1), idTeste(99), 2),
+      );
+    });
+
+    test('mover o salvo inteiro com o Laço: a camada dele sai e entra uma nova, com anotação nova no grupo dele', () {
+      final antigo = _saved(
+        40,
+        from: 0,
+        to: 5,
+        group: 99,
+        points: [(28, 104), (83, 104)],
+      );
+      final s = open(drawings: [antigo])..setTool(AnnotationTool.lasso);
+      draw(s, [(20, 120), (100, 120), (100, 150), (20, 150)], id: 3);
+      expect(s.selection.value!.strokes, hasLength(1));
+      s.pointerDown(_touch(4, 50, 134, 100));
+      s.pointerMove(_touch(4, 50, 204, 108));
+      s.pointerUp(_touch(4, 50, 204, 116));
+      final c = s.changes();
+      expect(c.deletedLayers, {idTeste(40)});
+      final novo = c.layers.single;
+      expect(novo.layerId, isNot(idTeste(40)));
+      expect(novo.annotationId, isNot(idTeste(41)));
+      expect(_text.substring(novo.range.start, novo.range.end), 'da praia');
+    });
+
+    test('2 desenhos novos a até 2 linhas ficam no mesmo cartão; a 3 linhas, cada um no seu', () {
+      // linha 0 à esquerda e linha 1 à direita (longe o bastante para não serem um desenho só)
+      var s = open();
+      draw(s, [(28, 126), (60, 126)]);
+      draw(s, [(100, 161), (133, 161)], id: 2, t: 100);
+      expect(s.drawings, hasLength(2));
+      var rows = s.changes().layers;
+      expect(rows[1].groupId, rows[0].groupId);
+      expect(rows[0].groupId, rows[0].annotationId);
+      // linha 0 e linha 3
+      s = open(draftId: 'sessao-2');
+      draw(s, [(28, 126), (60, 126)]);
+      draw(s, [(28, 232), (70, 232)], id: 2, t: 100);
+      rows = s.changes().layers;
+      expect(rows, hasLength(2));
+      expect(rows[1].groupId, isNot(rows[0].groupId));
+      expect(rows[1].groupId, rows[1].annotationId);
+    });
 
     test('Concluir grava, apaga o rascunho e devolve true; a falha liga a pílula e guarda o rascunho', () async {
       final s = open();

@@ -7,6 +7,7 @@
 // a página até o limite e ela volta do batente (D-165); a tinta acompanha a fonte, o tamanho e a margem (G14 — a
 // moldura da D-162); o Noite (D-167 17); o leitor de tela (o anúncio ao entrar); o rascunho a cada 5 s é gravado ao
 // reabrir o livro depois de "matar" o app (D-166). (Vindo da 19 sem NBSP, as quebras ficam e o texto desce 30: L22a.)
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
@@ -39,6 +40,7 @@ import 'package:pdfrx/pdfrx.dart' show pdfrxInitialize;
 
 import '../../../support/canvas.dart';
 import '../../../support/dados_t22.dart';
+import '../../../support/epub_builder.dart' show simpleEpub;
 import '../../../support/fake_ink_repository.dart';
 import '../../../support/load_fonts.dart';
 import '../../../support/personal_builders.dart';
@@ -560,13 +562,12 @@ void main() {
       await _anotar(tester);
       await _risco(tester);
       final repo = DriftInkRepository(livro.db, livro.versioning);
-      Future<InkChanges?> rascunho() => tester
-          .runAsync(() => repo.draftOf(livro.leitor, livro.userBookId))
-          .then((r) => r);
-      expect(await rascunho(), isNull, reason: 'antes dos 5 s');
+      Future<List<InkChanges>?> rascunho() =>
+          tester.runAsync(() => repo.draftsOf(livro.leitor, livro.userBookId));
+      expect(await rascunho(), isEmpty, reason: 'antes dos 5 s');
       await tester.pump(inkDraftEvery);
       await _banco(tester);
-      expect(await rascunho(), isNotNull, reason: 'o rascunho dos 5 s');
+      expect(await rascunho(), hasLength(1), reason: 'o rascunho dos 5 s');
       expect(
         await tester.runAsync(
           () => InkLayersDao(livro.db).liveOverTextForBook(livro.userBookId),
@@ -585,11 +586,80 @@ void main() {
         ),
         hasLength(1),
       );
-      expect(await rascunho(), isNull, reason: 'o rascunho foi usado');
+      expect(await rascunho(), isEmpty, reason: 'o rascunho foi usado');
       expect(
         _pagina(tester).ink!.drawingsOn(_doc(tester).current),
         hasLength(1),
       );
+    },
+  );
+
+  testWidgets(
+    'o app indo para o segundo plano guarda o rascunho já; sair do leitor com o modo aberto também (D-166)',
+    (tester) async {
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, livro);
+      await _anotar(tester);
+      await _risco(tester);
+      final repo = DriftInkRepository(livro.db, livro.versioning);
+      Future<List<InkChanges>?> rascunhos() =>
+          tester.runAsync(() => repo.draftsOf(livro.leitor, livro.userBookId));
+      expect(await rascunhos(), isEmpty);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      await _banco(tester);
+      expect(await rascunhos(), hasLength(1), reason: 'antes dos 5 s');
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
+      // mais um traço e o leitor sai da árvore com o modo aberto: o rascunho fica com os 2
+      await _risco(tester);
+      await tester.pumpWidget(const SizedBox.shrink());
+      await _banco(tester);
+      final guardados = await rascunhos();
+      expect(guardados, hasLength(1));
+      expect(guardados!.single.layers.single.strokeCount, 2);
+    },
+  );
+
+  testWidgets(
+    'página sem texto (só uma imagem): "Anotar" mostra o aviso e não abre o modo (D-170)',
+    (tester) async {
+      // um PNG de 1×1
+      final png = base64Decode(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=',
+      );
+      final soImagem = (await tester.runAsync(
+        () => LivroNaEstante.epubDe(
+          simpleEpub(
+            chapters: [
+              (
+                file: 'c1.xhtml',
+                title: 'Um',
+                body: '<img src="fig.png" alt=""/>',
+              ),
+              (
+                file: 'c2.xhtml',
+                title: 'Dois',
+                body: '<p>Depois da figura.</p>',
+              ),
+            ],
+            extra: {'OEBPS/fig.png': png},
+          ),
+        ),
+      ))!;
+      addTearDown(() => tester.runAsync(soImagem.close));
+      setCanvasView(tester, logical: const Size(390, 844));
+      await abrirLeitor(tester, soImagem);
+      await _abrirControles(tester);
+      await tester.tap(_key('r20.bottomIsland.tools.annotate'));
+      await _banco(tester);
+      expect(_aviso(tester), readerSoonText);
+      expect(find.byType(AnnotationMode), findsNothing);
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(milliseconds: 200));
     },
   );
 

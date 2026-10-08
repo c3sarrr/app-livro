@@ -297,17 +297,31 @@ void main() {
     expect(await repo.drawingsOfBook(_livro), [(layer: viva, annotation: d)]);
   });
 
-  test('o rascunho de ida e volta no kv; vazio apaga a chave', () async {
+  test('o rascunho de ida e volta no kv, um por sessão; vazio e o clear apagam só o da sessão', () async {
     final c = InkChanges(layers: [_row(70, 71)], deletedLayers: {idTeste(72)});
-    await repo.saveDraft(usuarioTeste, _livro, c);
-    expect(await KvDao(db).get(draftKey(usuarioTeste, _livro)), isNotNull);
-    expect(await repo.draftOf(usuarioTeste, _livro), c);
-    expect(await repo.draftOf(usuarioTeste, idTeste(2)), isNull);
-    await repo.saveDraft(usuarioTeste, _livro, const InkChanges());
-    expect(await KvDao(db).get(draftKey(usuarioTeste, _livro)), isNull);
-    await repo.saveDraft(usuarioTeste, _livro, c);
-    await repo.clearDraft(usuarioTeste, _livro);
-    expect(await repo.draftOf(usuarioTeste, _livro), isNull);
+    final d = InkChanges(deletedLayers: {idTeste(73)});
+    await repo.saveDraft(usuarioTeste, _livro, c, session: 's1');
+    await repo.saveDraft(usuarioTeste, _livro, d, session: 's2');
+    expect(
+      await KvDao(db).get(draftKey(usuarioTeste, _livro, 's1')),
+      isNotNull,
+    );
+    expect(await repo.draftsOf(usuarioTeste, _livro), [c, d]);
+    expect(await repo.draftsOf(usuarioTeste, idTeste(2)), isEmpty);
+    await repo.saveDraft(
+      usuarioTeste,
+      _livro,
+      const InkChanges(),
+      session: 's1',
+    );
+    expect(await KvDao(db).get(draftKey(usuarioTeste, _livro, 's1')), isNull);
+    expect(await repo.draftsOf(usuarioTeste, _livro), [d]);
+    await repo.saveDraft(usuarioTeste, _livro, c, session: 's1');
+    await repo.clearDraft(usuarioTeste, _livro, session: 's1');
+    expect(await repo.draftsOf(usuarioTeste, _livro), [d]);
+    // a chave de outro livro que começa igual não entra
+    await KvDao(db).set('${draftKey(usuarioTeste, _livro)}x:s9', 'lixo');
+    expect(await repo.draftsOf(usuarioTeste, _livro), [d]);
   });
 
   test('o rascunho gravado ao abrir (D-166): grava como um Concluir e apaga a chave', () async {
@@ -320,11 +334,23 @@ void main() {
       usuarioTeste,
       _livro,
       InkChanges(layers: [_row(80, 81)]),
+      session: 's1',
+    );
+    await repo.saveDraft(
+      usuarioTeste,
+      _livro,
+      InkChanges(layers: [_row(82, 83)]),
+      session: 's2',
     );
     expect(await repo.recoverDraft(usuarioTeste, _livro), isTrue);
     expect(await layer(80), isNotNull);
     expect(await annotation(81), isNotNull);
-    expect(await KvDao(db).get(draftKey(usuarioTeste, _livro)), isNull);
+    expect(
+      await layer(82),
+      isNotNull,
+      reason: 'os rascunhos de todas as sessões',
+    );
+    expect(await repo.draftsOf(usuarioTeste, _livro), isEmpty);
     expect(errors, isEmpty);
   });
 
@@ -344,16 +370,36 @@ void main() {
         strokesB64: _strokes,
         strokeCount: 1,
       );
-      await repo.saveDraft(usuarioTeste, _livro, InkChanges(layers: [bad]));
+      await repo.saveDraft(
+        usuarioTeste,
+        _livro,
+        InkChanges(layers: [bad]),
+        session: 's1',
+      );
+      // o de outra sessão que dá certo grava mesmo assim
+      await repo.saveDraft(
+        usuarioTeste,
+        _livro,
+        InkChanges(layers: [_row(84, 85)]),
+        session: 's2',
+      );
       expect(await repo.recoverDraft(usuarioTeste, _livro), isFalse);
-      expect(await KvDao(db).get(draftKey(usuarioTeste, _livro)), isNotNull);
+      expect(
+        await KvDao(db).get(draftKey(usuarioTeste, _livro, 's1')),
+        isNotNull,
+      );
+      expect(await KvDao(db).get(draftKey(usuarioTeste, _livro, 's2')), isNull);
+      expect(await layer(84), isNotNull);
       expect(errors.single, isA<InkDraftNotRecovered>());
       expect('${errors.single}', isNot(contains('Olhos')));
       expect('${errors.single}', isNot(contains(_strokes)));
       // ilegível: também fica
-      await KvDao(db).set(draftKey(usuarioTeste, _livro), '{quebrado');
+      await KvDao(db).set(draftKey(usuarioTeste, _livro, 's1'), '{quebrado');
       expect(await repo.recoverDraft(usuarioTeste, _livro), isFalse);
-      expect(await KvDao(db).get(draftKey(usuarioTeste, _livro)), '{quebrado');
+      expect(
+        await KvDao(db).get(draftKey(usuarioTeste, _livro, 's1')),
+        '{quebrado',
+      );
       expect(errors, hasLength(2));
     },
   );

@@ -13,7 +13,7 @@ final class FakeInkRepository implements InkRepository {
   /// Cada Concluir que chegou ao fim, em ordem.
   final List<InkChanges> commits = [];
 
-  /// O rascunho de cada chave.
+  /// O rascunho de cada chave (`draftKey` com a sessão).
   final Map<String, InkChanges> drafts = {};
 
   /// Quantas vezes o rascunho foi guardado.
@@ -21,6 +21,9 @@ final class FakeInkRepository implements InkRepository {
 
   /// O próximo Concluir (e o rascunho ao abrir) falha.
   bool failCommit = false;
+
+  /// O Concluir espera isto antes de gravar (o meio de uma gravação lenta).
+  Future<void>? gate;
 
   @override
   Future<List<SavedDrawing>> drawingsOfBook(String userBookId) async => [
@@ -30,15 +33,21 @@ final class FakeInkRepository implements InkRepository {
 
   @override
   Future<void> commit(String owner, String userBookId, InkChanges c) async {
+    await gate;
     if (failCommit) throw StateError('falha de propósito');
     if (c.isEmpty) return;
     commits.add(c);
   }
 
   @override
-  Future<void> saveDraft(String owner, String userBookId, InkChanges c) async {
+  Future<void> saveDraft(
+    String owner,
+    String userBookId,
+    InkChanges c, {
+    required String session,
+  }) async {
     draftWrites++;
-    final key = draftKey(owner, userBookId);
+    final key = draftKey(owner, userBookId, session);
     if (c.isEmpty) {
       drafts.remove(key);
     } else {
@@ -46,24 +55,34 @@ final class FakeInkRepository implements InkRepository {
     }
   }
 
-  @override
-  Future<InkChanges?> draftOf(String owner, String userBookId) async =>
-      drafts[draftKey(owner, userBookId)];
+  List<String> _keys(String owner, String userBookId) => [
+    for (final k in drafts.keys)
+      if (k.startsWith('${draftKey(owner, userBookId)}:')) k,
+  ]..sort();
 
   @override
-  Future<void> clearDraft(String owner, String userBookId) async =>
-      drafts.remove(draftKey(owner, userBookId));
+  Future<List<InkChanges>> draftsOf(String owner, String userBookId) async => [
+    for (final k in _keys(owner, userBookId)) drafts[k]!,
+  ];
+
+  @override
+  Future<void> clearDraft(
+    String owner,
+    String userBookId, {
+    required String session,
+  }) async => drafts.remove(draftKey(owner, userBookId, session));
 
   @override
   Future<bool> recoverDraft(String owner, String userBookId) async {
-    final c = drafts[draftKey(owner, userBookId)];
-    if (c == null) return true;
-    try {
-      await commit(owner, userBookId, c);
-    } on Object {
-      return false;
+    var ok = true;
+    for (final k in _keys(owner, userBookId)) {
+      try {
+        await commit(owner, userBookId, drafts[k]!);
+        drafts.remove(k);
+      } on Object {
+        ok = false;
+      }
     }
-    drafts.remove(draftKey(owner, userBookId));
-    return true;
+    return ok;
   }
 }

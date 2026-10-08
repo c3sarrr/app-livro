@@ -10,9 +10,13 @@ import '../../domain/locator.dart';
 /// A versão do formato do rascunho.
 const int inkDraftVersion = 1;
 
-/// A chave do rascunho no `kv` (só do aparelho, nunca sincroniza).
-String draftKey(String owner, String userBookId) =>
-    'ink_draft:$owner:$userBookId';
+/// A chave do rascunho no `kv` (só do aparelho, nunca sincroniza): uma por sessão do modo anotação ([session]), para
+/// que uma sessão nunca apague nem sobrescreva o rascunho de outra (o de uma sessão que morreu e que não gravou ao
+/// abrir o livro). Sem [session], o começo comum das chaves do livro (`<começo>:<sessão>`).
+String draftKey(String owner, String userBookId, [String? session]) =>
+    session == null
+    ? 'ink_draft:$owner:$userBookId'
+    : 'ink_draft:$owner:$userBookId:$session';
 
 /// Um desenho pronto a gravar: a camada `over_text` ([layerId], âncora de 8 chaves, os traços em BNK1) e a anotação
 /// `drawing` dela ([annotationId], âncora de intervalo de 7 chaves, página, capítulo, grupo e a cor do 1º traço).

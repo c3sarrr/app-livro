@@ -5,9 +5,10 @@
 //   delas; grifos à mão apagados pela Borracha, com as notas filhas (o de seleção fica — D-168). A linha que já não
 //   existe ou já está apagada, pula; a que ficaria igual, não é regravada: aplicar duas vezes dá as mesmas linhas (o
 //   rascunho é idempotente) e a fila do Pro só recebe o que mudou.
-// - Rascunho: o JSON de `ink_changes.dart` na chave `ink_draft:<dono>:<user_book_id>` do `kv` (só do aparelho, nunca
-//   sincroniza). Ao abrir o livro (D-166), é gravado como um Concluir e a chave some; se falhar, a chave fica e a
-//   falha vai ao relatório sem conteúdo.
+// - Rascunho: o JSON de `ink_changes.dart` na chave `ink_draft:<dono>:<user_book_id>:<sessão>` do `kv` (só do
+//   aparelho, nunca sincroniza), uma por sessão do modo: a sessão só apaga e sobrescreve o dela. Ao abrir o livro
+//   (D-166), cada um é gravado como um Concluir, na ordem das chaves, e a chave some; o que falhar fica, e a falha vai
+//   ao relatório sem conteúdo.
 import '../../../core/data/clock/hlc.dart';
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/daos/annotation_daos.dart';
@@ -33,6 +34,17 @@ final class InkDraftNotRecovered implements Exception {
   String toString() => 'InkDraftNotRecovered($cause)';
 }
 
+/// O Concluir ou o rascunho de uma sessão não gravou: só o tipo da falha, sem o conteúdo (o erro do banco traz o
+/// comando com os traços e a citação; o relatório não leva dado da pessoa).
+final class InkNotSaved implements Exception {
+  const InkNotSaved(this.cause);
+
+  final String cause;
+
+  @override
+  String toString() => 'InkNotSaved($cause)';
+}
+
 abstract interface class InkRepository {
   /// Os desenhos vivos do livro, em ordem de criação.
   Future<List<SavedDrawing>> drawingsOfBook(String userBookId);
@@ -40,16 +52,26 @@ abstract interface class InkRepository {
   /// Grava [c] numa transação, pelo `LocalVersioning.write`, com HLC.
   Future<void> commit(String owner, String userBookId, InkChanges c);
 
-  /// Guarda [c] como o rascunho do livro (vazio apaga o rascunho).
-  Future<void> saveDraft(String owner, String userBookId, InkChanges c);
+  /// Guarda [c] como o rascunho da sessão [session] do livro (vazio apaga o rascunho dela).
+  Future<void> saveDraft(
+    String owner,
+    String userBookId,
+    InkChanges c, {
+    required String session,
+  });
 
-  /// O rascunho guardado; `null` sem rascunho ou ilegível.
-  Future<InkChanges?> draftOf(String owner, String userBookId);
+  /// Os rascunhos guardados do livro (de todas as sessões, na ordem das chaves), sem os ilegíveis.
+  Future<List<InkChanges>> draftsOf(String owner, String userBookId);
 
-  Future<void> clearDraft(String owner, String userBookId);
+  /// Apaga o rascunho da sessão [session] (só o dela).
+  Future<void> clearDraft(
+    String owner,
+    String userBookId, {
+    required String session,
+  });
 
-  /// D-166: grava o rascunho como um Concluir e apaga a chave; se falhar, a chave fica (`false`). Sem rascunho,
-  /// `true`.
+  /// D-166: grava cada rascunho do livro como um Concluir e apaga a chave dele; o que falhar fica (`false`). Sem
+  /// rascunho, `true`.
   Future<bool> recoverDraft(String owner, String userBookId);
 }
 
@@ -254,35 +276,53 @@ final class DriftInkRepository implements InkRepository {
   );
 
   @override
-  Future<void> saveDraft(String owner, String userBookId, InkChanges c) {
-    final key = draftKey(owner, userBookId);
+  Future<void> saveDraft(
+    String owner,
+    String userBookId,
+    InkChanges c, {
+    required String session,
+  }) {
+    final key = draftKey(owner, userBookId, session);
     if (c.isEmpty) return KvDao(db).delete(key);
     return KvDao(db).set(key, encodeDraft(c, at: _now()));
   }
 
-  @override
-  Future<InkChanges?> draftOf(String owner, String userBookId) async {
-    final raw = await KvDao(db).get(draftKey(owner, userBookId));
-    return raw == null ? null : decodeDraft(raw)?.changes;
-  }
+  /// As chaves dos rascunhos do livro e o texto de cada uma.
+  Future<List<(String, String)>> _drafts(String owner, String userBookId) =>
+      KvDao(db).withPrefix('${draftKey(owner, userBookId)}:');
 
   @override
-  Future<void> clearDraft(String owner, String userBookId) =>
-      KvDao(db).delete(draftKey(owner, userBookId));
+  Future<List<InkChanges>> draftsOf(String owner, String userBookId) async => [
+    for (final (_, raw) in await _drafts(owner, userBookId))
+      ?decodeDraft(raw)?.changes,
+  ];
+
+  @override
+  Future<void> clearDraft(
+    String owner,
+    String userBookId, {
+    required String session,
+  }) => KvDao(db).delete(draftKey(owner, userBookId, session));
 
   @override
   Future<bool> recoverDraft(String owner, String userBookId) async {
+    var ok = true;
     try {
-      final raw = await KvDao(db).get(draftKey(owner, userBookId));
-      if (raw == null) return true;
-      final draft = decodeDraft(raw);
-      if (draft == null) throw const FormatException('rascunho ilegível');
-      await commit(owner, userBookId, draft.changes);
-      await clearDraft(owner, userBookId);
-      return true;
+      for (final (key, raw) in await _drafts(owner, userBookId)) {
+        try {
+          final draft = decodeDraft(raw);
+          if (draft == null) throw const FormatException('rascunho ilegível');
+          await commit(owner, userBookId, draft.changes);
+          await KvDao(db).delete(key);
+        } on Object catch (e, st) {
+          onError(InkDraftNotRecovered('${e.runtimeType}'), st);
+          ok = false;
+        }
+      }
     } on Object catch (e, st) {
       onError(InkDraftNotRecovered('${e.runtimeType}'), st);
       return false;
     }
+    return ok;
   }
 }

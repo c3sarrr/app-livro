@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
+import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/database/local_sql.dart';
@@ -216,6 +217,50 @@ void main() {
         expect(await ReaderSettingsDao(db).forUser(g), isNull);
       },
     );
+
+    test('G16 — os rascunhos da tinta do convidado passam para a conta; o do livro juntado, para o que ficou (D-166)', () async {
+      final g = await lib.guestOwnerId();
+      await semearLivro(1, conta);
+      final dup = livroTeste(2, dono: g).copyWith(
+        contentSha256: Nullable(shaDoLivroTeste(1)),
+        meta: metaTeste(userId: g, contador: 5),
+      );
+      await UserBooksDao(db).upsert(dup);
+      await semearLivro(3, g);
+      for (final (k, v) in [
+        (draftKey(g, dup.id, 's1'), '{"um":1}'),
+        (draftKey(g, idTeste(3), 's2'), '{"dois":2}'),
+        (draftKey(conta, idTeste(1), 's0'), '{"zero":0}'),
+        ('outra:${draftKey(g, idTeste(3), 's9')}', '{"fora":9}'),
+      ]) {
+        await KvDao(db).set(k, v);
+      }
+      await lib.adopt(from: g, to: conta);
+      expect(
+        await KvDao(db).get(draftKey(conta, idTeste(1), 's1')),
+        '{"um":1}',
+      );
+      expect(
+        await KvDao(db).get(draftKey(conta, idTeste(3), 's2')),
+        '{"dois":2}',
+      );
+      expect(
+        await KvDao(db).get(draftKey(conta, idTeste(1), 's0')),
+        '{"zero":0}',
+      );
+      expect(
+        await linhas(
+          "SELECT count(*) AS n FROM kv WHERE key LIKE 'ink_draft:%' AND key LIKE ?",
+          ['%$g%'],
+        ),
+        0,
+      );
+      expect(
+        await KvDao(db).get('outra:${draftKey(g, idTeste(3), 's9')}'),
+        '{"fora":9}',
+        reason: 'só as chaves que começam com o rascunho',
+      );
+    });
 
     test('rótulo da mesma cor: fica o da conta; de outra cor: passa', () async {
       final g = await lib.guestOwnerId();
@@ -470,9 +515,9 @@ void main() {
       () async {
         final g = await lib.guestOwnerId();
         for (final k in [
-          draftKey(conta, idTeste(1)),
-          draftKey(conta, idTeste(2)),
-          draftKey(g, idTeste(1)),
+          draftKey(conta, idTeste(1), 's1'),
+          draftKey(conta, idTeste(2), 's2'),
+          draftKey(g, idTeste(1), 's3'),
         ]) {
           await db.customStatement(
             'INSERT INTO kv (key, value) VALUES (?, ?)',
@@ -488,7 +533,7 @@ void main() {
         );
         expect(
           await linhas('SELECT count(*) AS n FROM kv WHERE key = ?', [
-            draftKey(g, idTeste(1)),
+            draftKey(g, idTeste(1), 's3'),
           ]),
           1,
         );

@@ -170,9 +170,11 @@ final class AnnotationSession extends ChangeNotifier {
     this.onInteraction = _nothing,
     this.savePresets = _noSave,
     this.textShift = annotationTextShift,
+    String? draftId,
   }) : _pen = presets,
        _now = now ?? DateTime.now,
        _ids = ids ?? UuidV7Generator(),
+       _draftId = draftId ?? UuidV7Generator().next(),
        _highlights = List.unmodifiable(highlights) {
     final initial = <SessionDrawing>[];
     for (final d in drawings) {
@@ -205,6 +207,9 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// Quanto o texto desceu no modo.
   final double textShift;
+
+  /// A chave do rascunho desta sessão (D-166): ela só guarda e apaga o dela.
+  final String _draftId;
 
   final Timer Function(Duration duration, void Function() callback) startTimer;
   final DateTime Function() _now;
@@ -265,6 +270,7 @@ final class AnnotationSession extends ChangeNotifier {
   double panLimit = 0;
 
   bool _failed = false;
+  bool _saving = false;
   int _revision = 0;
   bool _unsaved = false;
   Timer? _timer;
@@ -288,6 +294,9 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// A gravação do Concluir falhou: a pílula "Não deu para salvar as anotações agora." (D-21).
   bool get failed => _failed;
+
+  /// O Concluir está gravando: a página não aceita tinta nem move (o que viesse agora não entraria na gravação).
+  bool get saving => _saving;
 
   /// Sobe a cada mudança da tinta mostrada (o cache da pintura).
   int get revision => _revision;
@@ -340,6 +349,8 @@ final class AnnotationSession extends ChangeNotifier {
 
   void _handle(List<InkGesture> gestures) {
     for (final g in gestures) {
+      // gravando: só o fim do movimento da página passa (o traço em curso já fechou no Concluir)
+      if (_saving && g is! PanEnd) continue;
       switch (g) {
         case DrawStart(:final p):
           _drawStart(p);
@@ -439,14 +450,15 @@ final class AnnotationSession extends ChangeNotifier {
             p.kind == InkPointerKind.stylus
                 ? p.pressure.clamp(0, 1).toDouble()
                 : simulatedPressure(last.pressure, distance, _size),
-            p.tMs - _t0,
+            // o tempo do traço não volta (o BNK1 grava o Δt sem sinal)
+            math.max(last.tMs, p.tMs - _t0),
           ),
         );
         live.value = LiveStroke(_liveStroke());
       case _Mode.line:
         final start = _lineStart!;
         _lineEnd = snapLineEnd(start, at);
-        _lineMs = p.tMs - _t0;
+        _lineMs = math.max(_lineMs, p.tMs - _t0);
         live.value = LiveLine(_lineStroke(start, _lineEnd!, _lineMs));
       case _Mode.erase:
         _eraseAlong(_erasePrev!, at);
@@ -455,7 +467,12 @@ final class AnnotationSession extends ChangeNotifier {
         _polygon.add(at);
         live.value = LiveLasso(UnmodifiableListView(_polygon));
       case _Mode.move:
-        final sel = selection.value!;
+        // a seleção saiu no meio do arrasto (outra ferramenta, desfazer): o arrasto acaba
+        final sel = selection.value;
+        if (sel == null) {
+          _mode = null;
+          return;
+        }
         final from = _moveFrom!;
         final wasDragging = sel.dragging;
         selection.value = sel.movedBy(at.x - from.x, at.y - from.y);
@@ -501,8 +518,16 @@ final class AnnotationSession extends ChangeNotifier {
         _select(List.of(_polygon));
         _polygon.clear();
       case _Mode.move:
-        final sel = selection.value!;
-        if (!sel.dragging) return;
+        final sel = selection.value;
+        if (sel == null || !sel.dragging) return;
+        // juntos num desenho só, os traços passariam do teto da camada: ficam onde estavam
+        if (!_fits([
+          for (final s in selectedStrokes) s.translated(sel.dx, sel.dy),
+        ])) {
+          selection.value = sel.movedBy(0, 0);
+          _repaint();
+          return;
+        }
         selection.value = LassoSelection(
           strokes: sel.strokes,
           bounds: InkRect(
@@ -544,8 +569,8 @@ final class AnnotationSession extends ChangeNotifier {
         _pendingHighlights.clear();
         _repaint();
       case _Mode.move:
-        final sel = selection.value!;
-        if (!sel.dragging) return;
+        final sel = selection.value;
+        if (sel == null || !sel.dragging) return;
         selection.value = sel.movedBy(0, 0);
         _repaint();
       case null:
@@ -843,12 +868,33 @@ final class AnnotationSession extends ChangeNotifier {
   /// Concluir: grava numa transação e apaga o rascunho (`true`); sem mudanças, só apaga um rascunho velho. A falha
   /// deixa o modo aberto com a pílula e o rascunho guardado (`false`).
   Future<bool> conclude() async {
-    final c = changes();
+    if (_saving) return false;
+    // o traço em curso (a caneta ainda no papel) fecha e entra no que é gravado
+    if (_mode != null) _drawEnd();
+    _saving = true;
+    notifyListeners();
+    try {
+      return await _conclude();
+    } finally {
+      _saving = false;
+      if (!_disposed) notifyListeners();
+    }
+  }
+
+  Future<bool> _conclude() async {
+    final InkChanges c;
+    try {
+      c = changes();
+    } on Object catch (e, st) {
+      onError(InkNotSaved('${e.runtimeType}'), st);
+      _setFailed(true);
+      return false;
+    }
     if (c.isEmpty) {
       try {
-        await repository.clearDraft(owner, userBookId);
+        await repository.clearDraft(owner, userBookId, session: _draftId);
       } on Object catch (e, st) {
-        onError(e, st);
+        onError(InkNotSaved('${e.runtimeType}'), st);
       }
       _unsaved = false;
       _setFailed(false);
@@ -856,17 +902,17 @@ final class AnnotationSession extends ChangeNotifier {
     }
     try {
       await repository.commit(owner, userBookId, c);
-      await repository.clearDraft(owner, userBookId);
+      await repository.clearDraft(owner, userBookId, session: _draftId);
       _unsaved = false;
       _setFailed(false);
       return true;
     } on Object catch (e, st) {
-      onError(e, st);
+      onError(InkNotSaved('${e.runtimeType}'), st);
       _setFailed(true);
       try {
-        await repository.saveDraft(owner, userBookId, c);
+        await repository.saveDraft(owner, userBookId, c, session: _draftId);
       } on Object catch (e2, st2) {
-        onError(e2, st2);
+        onError(InkNotSaved('${e2.runtimeType}'), st2);
       }
       return false;
     }
@@ -896,10 +942,15 @@ final class AnnotationSession extends ChangeNotifier {
   Future<void> _saveDraft() async {
     _unsaved = false;
     try {
-      await repository.saveDraft(owner, userBookId, changes());
+      await repository.saveDraft(
+        owner,
+        userBookId,
+        changes(),
+        session: _draftId,
+      );
     } on Object catch (e, st) {
       _unsaved = true;
-      onError(e, st);
+      onError(InkNotSaved('${e.runtimeType}'), st);
     }
   }
 

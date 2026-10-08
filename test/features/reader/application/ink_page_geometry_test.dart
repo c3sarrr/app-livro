@@ -6,6 +6,7 @@ import 'dart:ui';
 import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
 import 'package:app_leitura/features/reader/application/ink_page_geometry.dart';
 import 'package:app_leitura/features/reader/application/pdf_reader_document.dart';
+import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -13,7 +14,91 @@ import '../../../reference/leitor/reference_layout_19_leitor_limpo.dart';
 import '../../../support/load_fonts.dart';
 import '../../../support/reader_harness.dart';
 
+/// 'abc defghi jkl' em 2 linhas, com "defghi" quebrada no hífen discreto: "abc def" na linha de base 100 e
+/// "ghi jkl" na 135; cada letra 10 px a partir de x = 28. [de] = o começo do trecho mostrado.
+final class _Quebrada implements DisplayPage {
+  _Quebrada({this.de = 0});
+
+  final int de;
+  static const _texto = 'abc defghi jkl';
+
+  double _base(int i) => i < 7 ? 100 : 135;
+  double _x(int i) => 28 + 10.0 * (i < 7 ? i : i - 7);
+
+  @override
+  ReaderRange? get shown => (unit: 1, from: de, to: _texto.length);
+
+  @override
+  List<TextLineBox> boxesOf(int unit, int from, int to) {
+    final out = <TextLineBox>[];
+    var i = from < de ? de : from;
+    while (i < to) {
+      final b = _base(i);
+      var j = i;
+      while (j < to && _base(j) == b) {
+        j++;
+      }
+      out.add((
+        rect: Rect.fromLTRB(_x(i), b - 26, _x(j - 1) + 10, b + 9),
+        baseline: b,
+        textTop: b - 26,
+        textBottom: b + 9,
+        em: 20.5,
+      ));
+      i = j;
+    }
+    return out;
+  }
+
+  @override
+  ReaderRange? wordAround(ReaderSpot s) {
+    if (_texto[s.offset] == ' ') return null;
+    var a = s.offset;
+    var z = s.offset;
+    while (a > 0 && _texto[a - 1] != ' ') {
+      a--;
+    }
+    while (z < _texto.length && _texto[z] != ' ') {
+      z++;
+    }
+    return (unit: 1, from: a, to: z);
+  }
+
+  @override
+  Object? noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 void main() {
+  test(
+    'a palavra quebrada entre linhas: cada linha fica só com o pedaço dela',
+    () {
+      final g = inkGeometryOf(_Quebrada());
+      expect(g.lines, hasLength(2));
+      expect(g.lines[0].words, [
+        (from: 0, to: 3, left: 28.0, right: 58.0),
+        (from: 4, to: 7, left: 68.0, right: 98.0),
+      ]);
+      expect(g.lines[1].words, [
+        (from: 7, to: 10, left: 28.0, right: 58.0),
+        (from: 11, to: 14, left: 68.0, right: 98.0),
+      ]);
+      expect((g.lines[1].from, g.lines[1].to), (7, 14));
+    },
+  );
+
+  test(
+    'a palavra que começou na página anterior entra só com o que está nesta',
+    () {
+      final g = inkGeometryOf(_Quebrada(de: 5));
+      expect(g.lines.first.words.first, (
+        from: 5,
+        to: 7,
+        left: 78.0,
+        right: 98.0,
+      ));
+    },
+  );
+
   TestWidgetsFlutterBinding.ensureInitialized();
   setUpAll(loadAppFonts);
 

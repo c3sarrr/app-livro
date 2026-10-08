@@ -50,6 +50,7 @@ void main() {
 
   test('a chave do rascunho: ink_draft:<dono>:<livro>', () {
     expect(draftKey('dona', 'livro-7'), 'ink_draft:dona:livro-7');
+    expect(draftKey('dona', 'livro-7', 's1'), 'ink_draft:dona:livro-7:s1');
   });
 
   test('vazio', () {

@@ -1,6 +1,7 @@
 // G16.2 — a geometria da tinta tirada da página mostrada: as caixas do trecho mostrado agrupadas pela linha de base
 // dão as linhas; as palavras saem do `wordAround` andando pelo texto (espaço = `null`, vai para o próximo), cada uma
-// com as caixas dela na linha dela. Sem trecho mostrado (o PDF — D-134), sem linhas.
+// com as caixas dela na linha dela, cortada ao que está nesta página. A palavra quebrada entre linhas (o hífen
+// discreto) entra em cada linha só com o pedaço dela. Sem trecho mostrado (o PDF — D-134), sem linhas.
 import 'dart:math' as math;
 
 import '../annotations/ink/ink_geometry.dart';
@@ -33,8 +34,15 @@ InkPageGeometry inkGeometryOf(DisplayPage page) {
       o++;
       continue;
     }
-    for (final b in page.boxesOf(shown.unit, w.from, w.to)) {
-      lineAt(b.baseline)?.addWord(w.from, w.to, b.rect.left, b.rect.right);
+    final from = math.max(w.from, shown.from);
+    final to = math.min(w.to, shown.to);
+    final boxes = page.boxesOf(shown.unit, from, to);
+    if (boxes.every((b) => (b.baseline - boxes.first.baseline).abs() < 0.5)) {
+      for (final b in boxes) {
+        lineAt(b.baseline)?.addWord(from, to, b.rect.left, b.rect.right);
+      }
+    } else {
+      _splitAcrossLines(page, shown.unit, from, to, lineAt);
     }
     o = w.to;
   }
@@ -43,6 +51,41 @@ InkPageGeometry inkGeometryOf(DisplayPage page) {
     for (final l in lines)
       if (l.words.isNotEmpty) l.build(shown.unit),
   ]);
+}
+
+/// A palavra [from]…[to) que a quebra de linha partiu: letra a letra, cada pedaço contínuo vai à linha dele.
+void _splitAcrossLines(
+  DisplayPage page,
+  int unit,
+  int from,
+  int to,
+  _Line? Function(double baseline) lineAt,
+) {
+  _Line? line;
+  var start = from;
+  var left = 0.0;
+  var right = 0.0;
+  void flush(int end) {
+    if (line != null && end > start) line.addWord(start, end, left, right);
+  }
+
+  for (var k = from; k < to; k++) {
+    final bs = page.boxesOf(unit, k, k + 1);
+    if (bs.isEmpty) continue;
+    final b = bs.first;
+    final l = lineAt(b.baseline);
+    if (!identical(l, line)) {
+      flush(k);
+      line = l;
+      start = k;
+      left = b.rect.left;
+      right = b.rect.right;
+      continue;
+    }
+    left = math.min(left, b.rect.left);
+    right = math.max(right, b.rect.right);
+  }
+  flush(to);
 }
 
 /// Uma linha em montagem.

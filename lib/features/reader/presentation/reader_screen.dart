@@ -18,7 +18,8 @@
 // fecha pelo ×, pelo Voltar, pelo toque na página de cima ou puxando a alça (D-141); cada toque grava e repagina
 // (D-144). No PDF a Fonte segue desabilitada (D-122).
 // G16.6 — tela 22: "Anotar" (no EPUB) fecha os controles e abre o modo anotação sobre a página atual, em modo
-// imersivo; no PDF, "Chega numa próxima fase" (D-164). No modo, a página de baixo não responde (D-167 19) e o rodapé,
+// imersivo; no PDF e na página sem texto (só imagem — a tinta não tem onde se prender), "Chega numa próxima fase"
+// (D-164, D-170). No modo, a página de baixo não responde (D-167 19) e o rodapé,
 // a fita, o chip e a pílula da volta somem (o prazo dela não corre — D-125). Concluir e o Voltar gravam e saem
 // (D-42); sem mudanças, só saem; se a gravação falhar, o modo fica com a pílula (D-21) e tocar de novo tenta de novo.
 // Marca-texto, Espaço, o poço de cor e o 2º toque na ativa mostram o aviso (D-163). A tinta salva aparece na página
@@ -761,11 +762,16 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       if (!mounted || _leaving || !identical(_doc, doc)) return;
       final page = doc.current;
       final shown = page.shown;
-      if (shown == null) return;
+      final geometry = inkGeometryOf(page);
+      // D-170: sem texto na página, a tinta não tem onde se prender
+      if (shown == null || geometry.lines.isEmpty) {
+        _showToast(readerSoonText);
+        return;
+      }
       final highlights = notes.highlightsIn(shown);
       final inkHighlights = notes.inkHighlightsIn(shown);
       final session = AnnotationSession(
-        geometry: inkGeometryOf(page),
+        geometry: geometry,
         anchors: anchors,
         drawings: ink.drawingsOn(page),
         highlights: [
@@ -1424,22 +1430,25 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             ),
             Positioned.fill(
               child: BlockSemantics(
-                child: AnnotationMode(
-                  open: _annOpen,
-                  session: a.session,
-                  page: a.page,
-                  paper: c.paper,
-                  brand: brand,
-                  sideMargin: t.sideMargin,
-                  semanticsLabel:
-                      '${doc.title}, página ${n.refPage} de ${n.refTotal} '
-                      '— modo anotação',
-                  highlights: a.highlights,
-                  inkHighlights: a.inkHighlights,
-                  toast: _toast,
-                  onDone: () => unawaited(_concludeAnnotation()),
-                  onSoon: () => _showToast(readerSoonText),
-                  onExited: _annotationExited,
+                // a camada repinta sozinha: o leitor limpo embaixo não é repintado a cada quadro do traço
+                child: RepaintBoundary(
+                  child: AnnotationMode(
+                    open: _annOpen,
+                    session: a.session,
+                    page: a.page,
+                    paper: c.paper,
+                    brand: brand,
+                    sideMargin: t.sideMargin,
+                    semanticsLabel:
+                        '${doc.title}, página ${n.refPage} de ${n.refTotal} '
+                        '— modo anotação',
+                    highlights: a.highlights,
+                    inkHighlights: a.inkHighlights,
+                    toast: _toast,
+                    onDone: () => unawaited(_concludeAnnotation()),
+                    onSoon: () => _showToast(readerSoonText),
+                    onExited: _annotationExited,
+                  ),
                 ),
               ),
             ),

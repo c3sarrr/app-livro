@@ -31,17 +31,25 @@ import '../../../support/personal_builders.dart';
 const _text = 'Olhos de ressaca? Vá, de ressaca. É o que me dá ideia';
 const _spine = 32;
 
-/// Uma página de uma linha que mostra o item de [de] até o fim: cada letra ocupa [letra] px a partir de x = 28; a
-/// linha de base em y = 129,6; a letra [em].
+/// Uma página de uma linha que mostra o item de [de] até [ate]: cada letra ocupa [letra] px a partir de x = 28; a
+/// linha de base em y = 129,6; a letra [em] (com [emDoMeio], o que começa da letra 9 em diante tem outra — um
+/// trecho em outro tamanho no meio da linha).
 final class _Pagina implements DisplayPage {
-  _Pagina({this.letra = 10, this.em = 20.5, this.de = 0});
+  _Pagina({
+    this.letra = 10,
+    this.em = 20.5,
+    this.de = 0,
+    this.ate = _text.length,
+    this.emDoMeio,
+  });
 
   final double letra;
   final double em;
   final int de;
+  final int ate;
+  final double? emDoMeio;
   static const double x0 = 28;
   static const double base = 129.6;
-  static const int ate = _text.length;
 
   @override
   bool get alive => true;
@@ -81,7 +89,7 @@ final class _Pagina implements DisplayPage {
         baseline: base,
         textTop: base - 27,
         textBottom: base + 3,
-        em: em,
+        em: a >= 9 ? emDoMeio ?? em : em,
       ),
     ];
   }
@@ -230,6 +238,28 @@ void main() {
     expect(k, closeTo(1.0250, 1e-3));
   });
 
+  test('o trecho que passou para a página seguinte não estica sobre o pedaço que ficou (k = 1, Anexo 03 §9.5)', () async {
+    await saveDrawing(10, _range(0, 17));
+    await ink.load();
+    // a página acaba no meio de "ressaca?" (o trecho segue na próxima)
+    final d = ink.drawingsOn(_Pagina(ate: 10)).single;
+    final p = d.strokes.single.points;
+    expect(p.first.x, closeTo(28 - 0.5 * 20.5, 1e-9));
+    expect(p.last.x, closeTo(28 + 8.5 * 20.5, 1e-9));
+  });
+
+  test('a moldura usa o em da linha, como na criação: um trecho em outro tamanho não estica na vertical', () async {
+    // "ressaca?" (9…17) com a letra menor; a linha tem a letra de 20,5 (a 1ª caixa dela)
+    await saveDrawing(10, _range(9, 17), w: 80 / 20.5);
+    await ink.load();
+    final d = ink.drawingsOn(_Pagina(emDoMeio: 15)).single;
+    final p = d.strokes.single.points;
+    expect(p.first.y, closeTo(129.6 - 1.2 * 20.5, 1e-9));
+    expect(p.last.y, closeTo(129.6 + 0.4 * 20.5, 1e-9));
+    // na horizontal o k compensa: as mesmas palavras
+    expect(p.first.x, closeTo(28 + 90 - 0.5 * 20.5, 1e-3));
+  });
+
   test('outro arquivo: reancora pelo trecho; sem lugar, não aparece e continua no banco (D-44, D-169)', () async {
     await saveDrawing(
       10,
@@ -289,16 +319,23 @@ void main() {
           ),
         ],
       ),
+      session: 's1',
     );
     await ink.load();
-    expect(await KvDao(db).get(draftKey(usuarioTeste, idTeste(1))), isNull);
+    expect(
+      await KvDao(db).get(draftKey(usuarioTeste, idTeste(1), 's1')),
+      isNull,
+    );
     expect(ink.drawingsOn(_Pagina()).single.saved.layerId, idTeste(30));
   });
 
   test('o rascunho que não grava fica no kv e a falha vai ao relatório, sem conteúdo', () async {
-    await KvDao(db).set(draftKey(usuarioTeste, idTeste(1)), 'lixo');
+    await KvDao(db).set(draftKey(usuarioTeste, idTeste(1), 's1'), 'lixo');
     await ink.load();
-    expect(await KvDao(db).get(draftKey(usuarioTeste, idTeste(1))), 'lixo');
+    expect(
+      await KvDao(db).get(draftKey(usuarioTeste, idTeste(1), 's1')),
+      'lixo',
+    );
     expect(errors.single, isA<InkDraftNotRecovered>());
   });
 

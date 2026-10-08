@@ -170,14 +170,19 @@ final class LocalLibrary {
         )
         .get();
     for (final d in dups) {
-      final m = await mergeUserBook(
-        _db,
-        loser: d.read<String>('loser'),
-        survivor: d.read<String>('survivor'),
-      );
+      final loser = d.read<String>('loser');
+      final survivor = d.read<String>('survivor');
+      final m = await mergeUserBook(_db, loser: loser, survivor: survivor);
       files.addAll(m.removedFiles);
       merged++;
+      // o rascunho da tinta do livro juntado vai para o que ficou (D-166)
+      await _renameDrafts(
+        '${draftKey(from, loser)}:',
+        '${draftKey(to, survivor)}:',
+      );
     }
+    // os outros rascunhos da tinta do convidado passam para a conta
+    await _renameDrafts(draftKey(from, ''), draftKey(to, ''));
     for (final t in singletonTables) {
       final rows = await _db
           .customSelect(
@@ -226,6 +231,12 @@ final class LocalLibrary {
       files,
     );
   });
+
+  /// As chaves do `kv` que começam com [prefix] passam a começar com [to] (o resto da chave fica).
+  Future<void> _renameDrafts(String prefix, String to) => _db.customStatement(
+    'UPDATE kv SET key = ? || substr(key, ?) WHERE substr(key, 1, ?) = ?',
+    [to, prefix.length + 1, prefix.length, prefix],
+  );
 
   /// Apaga DESTE APARELHO tudo o que é do [owner]: dados pessoais, índices/caches locais dos livros e
   /// os arquivos dos livros. Exclusão física — não é a exclusão lógica que sincroniza. Devolve quantas

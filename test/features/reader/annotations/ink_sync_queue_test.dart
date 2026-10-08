@@ -106,7 +106,7 @@ void main() {
         layers: [_row(10, 11)],
         erasedHighlights: {grifo.id},
       );
-      await repo.saveDraft(usuarioTeste, _livro, c);
+      await repo.saveDraft(usuarioTeste, _livro, c, session: 's1');
       expect(await queue(), hasLength(before), reason: 'o rascunho fica no kv');
       await repo.commit(usuarioTeste, _livro, c);
       expect((await queue()).skip(before), [
@@ -117,14 +117,14 @@ void main() {
       // o mesmo Concluir de novo (o rascunho gravado ao abrir, depois de um Concluir que deu certo): nada a mais
       expect(await repo.recoverDraft(usuarioTeste, _livro), isTrue);
       expect(await queue(), hasLength(before + 3));
-      expect(await repo.draftOf(usuarioTeste, _livro), isNull);
+      expect(await repo.draftsOf(usuarioTeste, _livro), isEmpty);
     },
   );
 
   test('Grátis: desenhar, rascunhar e concluir não enchem a fila', () async {
     expect(await KvDao(db).get(syncModeKey), syncModeFree);
     final c = InkChanges(layers: [_row(10, 11)]);
-    await repo.saveDraft(usuarioTeste, _livro, c);
+    await repo.saveDraft(usuarioTeste, _livro, c, session: 's1');
     await repo.commit(usuarioTeste, _livro, c);
     await repo.commit(
       usuarioTeste,
