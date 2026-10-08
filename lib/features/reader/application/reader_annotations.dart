@@ -6,7 +6,8 @@
 // mudaram, e guarda os grifos de cada trecho pintado até a próxima mudança. As escritas vão uma de cada vez e leem
 // as linhas do banco, não as da memória. Trocar a cor ou o estilo também passa pela D-32. A última cor fica no
 // aparelho (`kv`). D-138: a nota que vai ficar num grifo novo é a mais antiga dos grifos que ele une ou cobre.
-// D-140: só os grifos de seleção; os que vieram da tinta ficam para a G16/G17.
+// D-140: só os grifos de seleção entram na sobreposição e na barra; os que vieram da tinta (o grifo feito à mão)
+// saem à parte pelo `inkHighlightsIn`, para a mancha da D-161 (G16).
 import 'dart:async';
 import 'dart:ui' show Color;
 
@@ -73,8 +74,9 @@ final class ReaderAnnotations extends ChangeNotifier
 
   AnnotationsDao get _dao => AnnotationsDao(db);
 
-  /// Os grifos de cada trecho já pedido pelo pintor, até as linhas mudarem.
+  /// Os grifos de cada trecho já pedido pelo pintor, até as linhas mudarem (os de seleção e os feitos à mão).
   final Map<ReaderRange, List<PaintedHighlight>> _shown = {};
+  final Map<ReaderRange, List<PaintedHighlight>> _shownInk = {};
 
   Future<void> load() async {
     await _reload();
@@ -90,6 +92,7 @@ final class ReaderAnnotations extends ChangeNotifier
       if (_disposed || listEquals(rows, _rows)) return;
       _rows = rows;
       _shown.clear();
+      _shownInk.clear();
       notifyListeners();
     } on Object catch (e, st) {
       onError(e, st);
@@ -116,6 +119,10 @@ final class ReaderAnnotations extends ChangeNotifier
       a.source == AnnotationSource.selection;
 
   Iterable<Annotation> get _highlights => _rows.where(_ofSelection);
+
+  /// Os grifos feitos à mão (`source = ink`): a mancha da D-161, fora da sobreposição (D-140).
+  static bool _ofInk(Annotation a) =>
+      a.kind == AnnotationKind.highlight && a.source == AnnotationSource.ink;
 
   /// Onde o grifo [a] está agora; `null` = sem lugar (ou o item ainda não está aberto: tenta de novo depois).
   ReaderRange? placeOf(Annotation a) {
@@ -146,23 +153,37 @@ final class ReaderAnnotations extends ChangeNotifier
   }
 
   @override
-  List<PaintedHighlight> highlightsIn(ReaderRange shown) {
-    final kept = _shown[shown];
+  List<PaintedHighlight> highlightsIn(ReaderRange shown) =>
+      _kept(_shown, shown, _highlights);
+
+  /// Os grifos feitos à mão que tocam [shown] (D-161).
+  List<PaintedHighlight> inkHighlightsIn(ReaderRange shown) =>
+      _kept(_shownInk, shown, _rows.where(_ofInk));
+
+  List<PaintedHighlight> _kept(
+    Map<ReaderRange, List<PaintedHighlight>> cache,
+    ReaderRange shown,
+    Iterable<Annotation> rows,
+  ) {
+    final kept = cache[shown];
     if (kept != null) return kept;
-    final (list, complete) = _find(shown);
+    final (list, complete) = _find(shown, rows);
     // um grifo cujo item ainda não abriu fica de fora desta vez: não guarda
     if (complete) {
-      if (_shown.length >= 8) _shown.clear();
-      _shown[shown] = list;
+      if (cache.length >= 8) cache.clear();
+      cache[shown] = list;
     }
     return list;
   }
 
-  /// Os grifos que tocam [shown], na ordem de criação, e se todos tiveram o lugar resolvido.
-  (List<PaintedHighlight>, bool) _find(ReaderRange shown) {
+  /// Os grifos [rows] que tocam [shown], na ordem de criação, e se todos tiveram o lugar resolvido.
+  (List<PaintedHighlight>, bool) _find(
+    ReaderRange shown, [
+    Iterable<Annotation>? rows,
+  ]) {
     final out = <(Annotation, ReaderRange)>[];
     var complete = true;
-    for (final a in _highlights) {
+    for (final a in rows ?? _highlights) {
       // a âncora diz o item; a reancoragem não sai dele
       if (a.anchor case EpubAnchor(:final spine) when spine != shown.unit) {
         continue;
