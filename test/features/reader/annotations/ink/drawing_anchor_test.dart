@@ -229,7 +229,7 @@ void main() {
       inkAnchorOf(
         RawAnchor({
           ..._range.toJson(),
-          'ink': {'w': 8},
+          'ink': const {'w': 8},
         }),
       )!.w,
       8.0,
