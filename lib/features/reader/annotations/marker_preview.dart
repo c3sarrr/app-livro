@@ -3,7 +3,8 @@
 // (com as aspas e os parênteses que fecham logo depois) seguidos de espaço, ou até o fim do parágrafo. Fica a 1ª que
 // cabe sozinha na linha útil da prévia, mais as seguintes enquanto couberem; o grifo vai na palavra mais longa da 1ª
 // (letras e números; empate: a 1ª). Nenhuma cabe: as primeiras palavras da 1ª frase que cabem, com "…". Sem frase
-// na página: a frase do arquivo. Dart puro: a medida vem de fora (o `TextPainter` do painel, em Literata 17).
+// na página: a frase do arquivo. O espaço inseparável (D-160) sai como o comum. Dart puro: a medida vem de fora (o
+// `TextPainter` do painel, em Literata 17).
 import 'package:flutter/foundation.dart' show immutable;
 
 /// A frase do arquivo (`mk.markerPanel.preview`), para a página sem texto.
@@ -62,7 +63,11 @@ MarkerPreview markerPreviewOf(
   required double maxWidth,
   required double Function(String) width,
 }) {
-  final sentences = _sentencesFrom(text, start, end);
+  // a prévia é uma linha só: o espaço inseparável (D-160) vira o comum (o mesmo tamanho: os índices ficam)
+  final sentences = [
+    for (final s in _sentencesFrom(text, start, end))
+      s.replaceAll('\u00A0', ' '),
+  ];
   if (sentences.isEmpty) return _fallback;
   bool fits(String s) => width(s) <= maxWidth;
   for (var i = 0; i < sentences.length; i++) {

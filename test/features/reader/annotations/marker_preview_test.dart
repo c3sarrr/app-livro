@@ -71,6 +71,16 @@ void main() {
     expect((longa.from, longa.to), (0, 36));
   });
 
+  test(
+    'o espaço inseparável vira o espaço comum (a prévia é uma linha só)',
+    () {
+      final p = _de('Olhos\u00A0de\u00A0ressaca? Vá, de ressaca.');
+      expect(p.text, 'Olhos de ressaca? Vá, de ressaca.');
+      expect(p.firstSentence, 'Olhos de ressaca');
+      expect(p.text.substring(p.from, p.to), 'ressaca');
+    },
+  );
+
   test('empate na palavra mais longa: a 1ª; números contam como letras', () {
     final p = _de('Gato pato rato.');
     expect((p.from, p.to), (0, 4));

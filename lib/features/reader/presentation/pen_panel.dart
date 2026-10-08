@@ -295,33 +295,36 @@ class PenPanel extends StatelessWidget {
         key: const ValueKey('$_k.preview'),
         child: Container(
           height: 58,
-          clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.fromBorderSide(line),
           ),
-          // a arte de 56 passa 1 px da caixa de dentro (55): o arquivo recorta embaixo
+          // a arte de 56 passa 1 px da caixa de dentro (55): o arquivo recorta embaixo — no canto de dentro
+          // (`overflow: hidden`: o raio de 16 menos a borda), sem cobrir a borda
           child: ExcludeSemantics(
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  height: 56,
-                  child: CustomPaint(
-                    key: const ValueKey('$_k.preview.art'),
-                    painter: PenPreviewPainter(
-                      stroke: penPreviewStroke(pen),
-                      background: p.well,
-                      rule: scope.tint(
-                        p.night ? AppColors.hatchNight : AppColors.rulePen,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16 - AppStrokes.regular),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    height: 56,
+                    child: CustomPaint(
+                      key: const ValueKey('$_k.preview.art'),
+                      painter: PenPreviewPainter(
+                        stroke: penPreviewStroke(pen),
+                        background: p.well,
+                        rule: scope.tint(
+                          p.night ? AppColors.hatchNight : AppColors.rulePen,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

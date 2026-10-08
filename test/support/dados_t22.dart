@@ -40,12 +40,14 @@ const Set<String> trechosDaTela22 = {
 };
 
 /// O Dom Casmurro da tela 22 na estante da conta do mundo, no papel [papel]. [nbsp] = `false`: o EPUB da 19 (as
-/// quebras do leitor limpo).
+/// quebras do leitor limpo). [mundo] troca o que estava gravado (G17: o mundo das telas 23 e 23b, com a tinta toda);
+/// os rótulos do marca-texto do mundo vão junto (D-40).
 Future<LivroNaEstante> livroDaTela22({
   ReaderPaper papel = ReaderPaper.creme,
   bool nbsp = true,
+  Mundo? mundo,
 }) async {
-  final m = mundoDaTela22;
+  final m = mundo ?? mundoDaTela22;
   final livro = await LivroNaEstante.epubDe(
     mundoEpub(
       Slugs.domCasmurro,
@@ -92,6 +94,9 @@ Future<LivroNaEstante> livroDaTela22({
     );
   }
   await PenPresetsDao(db).upsert(m.caneta);
+  for (final r in m.rotulos) {
+    await HighlightLabelsDao(db).upsert(r);
+  }
   await ReaderSettingsDao(db).upsert(m.ajustes.copyWith(paper: papel));
   return livro;
 }
