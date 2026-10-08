@@ -6,13 +6,17 @@
 // movimento até o centro do anel, com o dedo parado (o traço ao vivo e o indicador de toque da prancha).
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
+import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
 import 'package:app_leitura/features/reader/content/chapter_content.dart'
     show chapterOf;
 import 'package:app_leitura/features/reader/domain/anchoring.dart' show quoteAt;
 import 'package:app_leitura/features/reader/domain/locator.dart';
+import 'package:app_leitura/features/reader/application/annotation_session.dart'
+    show AnnotationTool;
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/presentation/tool_shelf.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,6 +27,7 @@ import '../fixtures/tinta_do_mundo.dart';
 import 'canvas.dart';
 import 'dados_t20.dart' show depsDaTela20;
 import 'mundo_epub.dart';
+import 'precache_svgs.dart';
 import 'pump_reader.dart';
 import 'reader_harness.dart';
 
@@ -146,6 +151,7 @@ Future<LeitorNaTela> abrirTela22(
   bool golden = false,
 }) async {
   setCanvasView(tester, logical: const Size(390, 844));
+  await precacheTela22(tester);
   final t = await abrirLeitor(
     tester,
     livro,
@@ -172,6 +178,26 @@ Future<LeitorNaTela> abrirTela22(
   });
   await _quadros(tester, 6);
   return t;
+}
+
+/// As ilustrações da prateleira, ativas e não, com as cores do mundo (a `brand` padrão e a tinta coral): o
+/// flutter_svg carrega de forma assíncrona e, sem isto, o golden sai sem os objetos.
+Future<void> precacheTela22(
+  WidgetTester tester, {
+  Color brand = AppColors.lavender,
+  Color ink = const Color(tintaCoral),
+}) async {
+  for (final tool in AnnotationTool.values) {
+    for (final on in const [false, true]) {
+      final (asset, colors) = ToolShelf.art(
+        tool,
+        on: on,
+        brand: brand,
+        ink: ink,
+      );
+      await precacheSvgs(tester, [asset], colors: colors);
+    }
+  }
 }
 
 /// O anel do indicador de toque medido na prancha (L22a nº 10).
