@@ -202,6 +202,22 @@ void main() {
       expect(plano(s), 'Eu [vi] … [longe]');
     });
 
+    test('sufixo guardado inteiro (32) sem pontuação: corta na palavra com "…"; mais curto, é o fim do item', () {
+      final cortado = spansFromQuotes([
+        (
+          id: 'g',
+          prefix: 'Eu ',
+          exact: 'conheço',
+          suffix: ' de vista e de chapéu e de chape',
+        ),
+      ]);
+      expect(plano(cortado), 'Eu [conheço] de vista e de chapéu e de…');
+      final fim = spansFromQuotes([
+        (id: 'g', prefix: 'Eu ', exact: 'conheço', suffix: ' de vista'),
+      ]);
+      expect(plano(fim), 'Eu [conheço] de vista');
+    });
+
     test('prefixo cortado sem branco: só "…"; sem citações: nada', () {
       final s = spansFromQuotes([
         (id: 'a', prefix: 'x' * 32, exact: 'vi', suffix: ''),

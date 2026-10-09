@@ -42,8 +42,11 @@ String _kindWord(Annotation h) => h.source == AnnotationSource.ink
     ? 'Grifo à mão livre'
     : 'Grifo ${markerColorName(h.color ?? '') ?? 'de outra cor'}';
 
-String _colorWord(Annotation h) =>
-    markerColorName(h.color ?? '') ?? (h.color ?? '');
+/// A cor no CSV pelo nome (R2/R9): as do marca-texto e as da caneta ("coral"); outra, o hex.
+String _colorWord(Annotation h) {
+  final c = h.color ?? '';
+  return markerColorName(c) ?? colorNameOf(c) ?? c;
+}
 
 Map<String, List<Annotation>> _notesByParent(Iterable<Annotation> items) {
   final m = <String, List<Annotation>>{};

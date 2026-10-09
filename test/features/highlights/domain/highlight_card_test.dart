@@ -5,6 +5,7 @@ import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../fixtures/mundo_2026_09_20.dart';
+import '../../../support/personal_builders.dart';
 import '../support/ordem_do_livro.dart';
 
 void main() {
@@ -108,5 +109,19 @@ void main() {
     expect(buildCards(itens), cartoes);
     expect(buildCards(itens).first.hashCode, cartoes.first.hashCode);
     expect(cartoes[0] == cartoes[1], isFalse);
+  });
+
+  test('R11: o grifo da nota é o pai da 1ª nota (um cartão com dois grifos); sem nota, o 1º grifo', () {
+    final h1 = grifoTeste(1, livro: idTeste(50), exato: 'um');
+    final h2 = grifoTeste(
+      2,
+      livro: idTeste(50),
+      inicio: 10,
+      exato: 'dois',
+    ).copyWith(groupId: h1.groupId);
+    final n = notaTeste(3, livro: idTeste(50), pai: h2, texto: 'do 2º');
+    expect(HighlightCard(h1.groupId, [h1, h2, n]).noteParent, h2);
+    expect(HighlightCard(h1.groupId, [h1, h2]).noteParent, h1);
+    expect(HighlightCard(h1.groupId, [n]).noteParent, isNull);
   });
 }

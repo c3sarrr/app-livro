@@ -159,6 +159,18 @@ void main() {
       );
     });
 
+    test('a cor da caneta vai pelo nome ("coral"); sem nome, o hex', () {
+      final g = grifoTeste(
+        1,
+        livro: idTeste(50),
+        pagina: 9,
+        exato: 'um',
+        cor: '#FF552E',
+      );
+      final c = csvOf([g], chapterLabels: const [], offsetAt: fuso);
+      expect(c, contains(';grifo;coral;um;;'));
+    });
+
     test('aspas e ponto e vírgula; duas notas juntas; capítulo sem rótulo', () {
       final g = grifoTeste(
         1,

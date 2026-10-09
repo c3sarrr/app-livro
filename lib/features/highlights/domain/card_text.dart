@@ -65,8 +65,9 @@ String contextBefore(String text, int start) {
   return '…${text.substring(k, start)}';
 }
 
-/// O que vem depois do último trecho, que acaba em [end] (R3).
-String tailAfter(String text, int end) {
+/// O que vem depois do último trecho, que acaba em [end] (R3). [cut] = o texto acaba por corte (o sufixo guardado
+/// da âncora), não no fim do item: sem pontuação, corta na palavra com "…".
+String tailAfter(String text, int end, {bool cut = false}) {
   if (end >= text.length || text[end] == '\n') return '';
   var k = end - 1;
   while (k >= 0 && _closers.contains(text[k])) {
@@ -86,7 +87,7 @@ String tailAfter(String text, int end) {
     }
     if (_soft.contains(c)) return '${text.substring(end, i)}…';
   }
-  if (stop == text.length) return text.substring(end);
+  if (stop == text.length && !cut) return text.substring(end);
   final window = text.substring(end, stop);
   final w = window.lastIndexOf(' ');
   return '${w > 0 ? window.substring(0, w) : window}…';
@@ -134,7 +135,11 @@ List<CardSpan> spansFromQuotes(List<CardQuote> quotes) {
     out.add((text: quotes[i].exact, annotationId: quotes[i].id));
   }
   final last = quotes.last;
-  final tail = tailAfter('${last.exact}${last.suffix}', last.exact.length);
+  final tail = tailAfter(
+    '${last.exact}${last.suffix}',
+    last.exact.length,
+    cut: last.suffix.length >= quoteContext,
+  );
   if (tail.isNotEmpty) out.add((text: tail, annotationId: null));
   return out;
 }

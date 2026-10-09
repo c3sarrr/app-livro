@@ -38,6 +38,16 @@ final class HighlightCard {
   List<Annotation> get drawings => _of(AnnotationKind.drawing);
   List<Annotation> get handwriting => _of(AnnotationKind.handwriting);
 
+  /// O grifo da nota do cartão (R11): o pai da 1ª nota, quando ele está no cartão (um cartão pode ter mais de um
+  /// grifo — o corte e o marca-texto mantêm o grupo); senão, o 1º grifo.
+  Annotation? get noteParent {
+    final parent = notes.firstOrNull?.parentId;
+    return items
+            .where((a) => a.id == parent && a.kind == AnnotationKind.highlight)
+            .firstOrNull ??
+        highlight;
+  }
+
   /// O post do clube de algum item do cartão (o chip "Leitoras de Capitu · 3 respostas").
   String? get clubPostId =>
       items.map((a) => a.sharedClubPostId).nonNulls.firstOrNull;

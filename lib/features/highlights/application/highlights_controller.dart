@@ -79,6 +79,7 @@ final class HighlightsState {
     this.orphans = const {},
     this.clubs = const {},
     this.undo,
+    this.results = 0,
   });
 
   final bool loading;
@@ -110,6 +111,9 @@ final class HighlightsState {
   final Map<String, ClubChip> clubs;
   final RemovedCard? undo;
 
+  /// Quantas vezes a lista mudou por um filtro ou por uma busca (a tela anuncia "N cartões" — §9).
+  final int results;
+
   bool get empty => !loading && items.isEmpty;
   int get visibleCards => entries.whereType<CardItem>().length;
 
@@ -130,6 +134,7 @@ final class HighlightsState {
     Set<String>? orphans,
     Map<String, ClubChip>? clubs,
     RemovedCard? Function()? undo,
+    int? results,
   }) => HighlightsState(
     loading: loading ?? this.loading,
     title: title ?? this.title,
@@ -147,6 +152,7 @@ final class HighlightsState {
     orphans: orphans ?? this.orphans,
     clubs: clubs ?? this.clubs,
     undo: undo == null ? this.undo : undo(),
+    results: results ?? this.results,
   );
 }
 
@@ -213,7 +219,8 @@ final class HighlightsController extends ChangeNotifier {
           ? null
           : await deps.repository.search(userBookId, q);
       if (gen != _itemsGen || _disposed) return;
-      _hits = hits;
+      // a busca mudou enquanto o banco era lido: os achados dela vêm pelo `_search` (ou não há busca)
+      if (_state.filters.query == q) _hits = hits;
       _state = _state.copyWith(
         loading: false,
         items: b.items,
@@ -228,10 +235,15 @@ final class HighlightsController extends ChangeNotifier {
       _rebuild();
     } on Object catch (e, st) {
       deps.onError(e, st);
+      // sem a lista, a tela não fica carregando para sempre
+      if (gen == _itemsGen && _state.loading) {
+        _set(_state.copyWith(loading: false));
+      }
     }
   }
 
-  void _rebuild() {
+  /// [filtered] = a lista mudou por um filtro ou pela busca (o anúncio).
+  void _rebuild({bool filtered = false}) {
     final visible = filterCards(_state.cards, _state.filters, hits: _hits);
     _set(
       _state.copyWith(
@@ -240,13 +252,14 @@ final class HighlightsController extends ChangeNotifier {
           herePage: _state.herePage,
           orphanGroups: _state.orphans,
         ),
+        results: filtered ? _state.results + 1 : null,
       ),
     );
   }
 
   void _filters(HighlightFilters f) {
     _state = _state.copyWith(filters: f);
-    _rebuild();
+    _rebuild(filtered: true);
   }
 
   void setType(TypeFilter t) => _filters(_state.filters.copyWith(type: t));
@@ -266,7 +279,7 @@ final class HighlightsController extends ChangeNotifier {
     _state = _state.copyWith(filters: _state.filters.copyWith(query: q));
     if (q.trim().isEmpty) {
       _hits = null;
-      _rebuild();
+      _rebuild(filtered: true);
       return;
     }
     notifyListeners();
@@ -278,7 +291,7 @@ final class HighlightsController extends ChangeNotifier {
       final hits = await deps.repository.search(userBookId, q);
       if (gen != _searchGen || _disposed) return;
       _hits = hits;
-      _rebuild();
+      _rebuild(filtered: true);
     } on Object catch (e, st) {
       deps.onError(e, st);
     }
@@ -329,13 +342,16 @@ final class HighlightsController extends ChangeNotifier {
     return any;
   }
 
-  Future<void> saveNote(HighlightCard c, String text) async {
-    final h = c.highlight;
-    if (h == null) return;
+  /// A nota do grifo da nota do cartão (`noteParent` — R11); `false` = não gravou (a folha fica aberta).
+  Future<bool> saveNote(HighlightCard c, String text) async {
+    final h = c.noteParent;
+    if (h == null) return false;
     try {
       await deps.repository.saveNote(userBookId, h.id, text);
+      return true;
     } on Object catch (e, st) {
       deps.onError(e, st);
+      return false;
     }
   }
 
