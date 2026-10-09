@@ -1,0 +1,215 @@
+{
+  "_doc": "As 16 pranchas do clube (arquivo 2 do Claude Design, 09/10/2026). Extrair: python3 tools/medicao/extrair_bundle.py docs/design/referencia/Redesign_mobile___App_de_leitura_2.html tools/medicao/pranchas_clube --aninhado tools/medicao/pranchas_clube.json",
+  "fonte": "docs/design/referencia/Redesign_mobile___App_de_leitura_2.html",
+  "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+  "pranchas": [
+    {
+      "tela": "04",
+      "slug": "004_clube_leitoras_de_capitu",
+      "idInterno": "004_clube_leitoras_de_capitu",
+      "prefixo": "c04",
+      "uuid": "1afc2f28-fc51-430d-9fa6-d239530fe1b4",
+      "titulo": "04 · Clube — Leitoras de Capitu",
+      "canvas": [
+        390,
+        2430
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "31",
+      "slug": "031_clube_discusso_da_semana_sem_spoiler",
+      "idInterno": "031_clube_discusso_da_semana_sem_spoiler",
+      "prefixo": "c31",
+      "uuid": "c8bcee66-8b91-4a6f-8837-08590702590b",
+      "titulo": "31 · Clube — discussão da semana (sem spoiler)",
+      "canvas": [
+        390,
+        1330
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "32",
+      "slug": "032_clube_membros_e_onde_cada_uma_est",
+      "idInterno": "032_clube_membros_e_onde_cada_uma_est",
+      "prefixo": "c32",
+      "uuid": "71a5e63e-da08-4fe5-9388-9b2153746cc2",
+      "titulo": "32 · Clube — membros e onde cada uma está",
+      "canvas": [
+        390,
+        1190
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "33",
+      "slug": "033_criar_clube",
+      "idInterno": "033_criar_clube",
+      "prefixo": "c33",
+      "uuid": "c0e1250b-21b7-44c3-90d9-db567d786e1b",
+      "titulo": "33 · Criar clube",
+      "canvas": [
+        390,
+        1560
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "34",
+      "slug": "034_clube_criado_convite_link_e_qr",
+      "idInterno": "034_clube_criado_convite_link_e_qr",
+      "prefixo": "c34",
+      "uuid": "f3fcc073-a2e6-4228-88ff-2c97b3868e4d",
+      "titulo": "34 · Clube criado — convite (link e QR)",
+      "canvas": [
+        390,
+        1030
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "47",
+      "slug": "047_enquete_criar",
+      "idInterno": "047_enquete_criar",
+      "prefixo": "c47",
+      "uuid": "b2e2eaa6-6f39-4829-9d19-f8a290fed767",
+      "titulo": "47 · Enquete — criar",
+      "canvas": [
+        390,
+        1210
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "102",
+      "slug": "102_quem_votou_enquete_aberta_da_04",
+      "idInterno": "102_quem_votou_enquete_aberta_da_04",
+      "prefixo": "c102",
+      "uuid": "51d01bc0-b8ac-4a76-84f4-8ceb19f831bd",
+      "titulo": "102 · Quem votou (enquete aberta, da 04)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "48",
+      "slug": "048_enquete_indicar_um_livro",
+      "idInterno": "048_enquete_indicar_um_livro",
+      "prefixo": "c48",
+      "uuid": "ad5e1710-17c2-4898-b793-4a9804630a25",
+      "titulo": "48 · Enquete — indicar um livro",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "103",
+      "slug": "103_quem_votou_resultado_da_50",
+      "idInterno": "103_quem_votou_resultado_da_50",
+      "prefixo": "c103",
+      "uuid": "9e639c91-5ecd-41c3-957e-720cedfc989b",
+      "titulo": "103 · Quem votou (resultado, da 50)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "49",
+      "slug": "049_enquete_votar",
+      "idInterno": "049_enquete_votar",
+      "prefixo": "c49",
+      "uuid": "64a68560-99de-4017-92a7-1e478b7d5c77",
+      "titulo": "49 · Enquete — votar",
+      "canvas": [
+        390,
+        1110
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "104",
+      "slug": "104_voto_secreto_variao",
+      "idInterno": "104_voto_secreto_variao",
+      "prefixo": "c104",
+      "uuid": "1bf13085-2bae-41cd-a23d-e3e376fadcec",
+      "titulo": "104 · Voto secreto (variação)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "50",
+      "slug": "050_enquete_resultado",
+      "idInterno": "050_enquete_resultado",
+      "prefixo": "c50",
+      "uuid": "0c1fafea-64d4-4e75-ab2f-e9097be6c544",
+      "titulo": "50 · Enquete — resultado",
+      "canvas": [
+        390,
+        1150
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "70",
+      "slug": "070_encontro_detalhe_dom_20_set",
+      "idInterno": "070_encontro_detalhe_dom_20_set",
+      "prefixo": "c70",
+      "uuid": "ecab5187-9ee2-4f47-a955-0b1b996eb3f0",
+      "titulo": "70 · Encontro — detalhe (dom 20 set)",
+      "canvas": [
+        390,
+        2070
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "71",
+      "slug": "071_encontro_na_hora_sala_aberta",
+      "idInterno": "071_encontro_na_hora_sala_aberta",
+      "prefixo": "c71",
+      "uuid": "2b19a081-ac8a-4e96-976f-ffa9a7b39e09",
+      "titulo": "71 · Encontro — na hora (sala aberta)",
+      "canvas": [
+        390,
+        990
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "72",
+      "slug": "072_encontro_mudar_presena_com_recado",
+      "idInterno": "072_encontro_mudar_presena_com_recado",
+      "prefixo": "c72",
+      "uuid": "05ec769d-06a9-490b-955f-7a2218da758b",
+      "titulo": "72 · Encontro — mudar presença com recado",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "73",
+      "slug": "073_encontro_depois_resumo",
+      "idInterno": "073_encontro_depois_resumo",
+      "prefixo": "c73",
+      "uuid": "3264d28e-b44f-4b8f-8e7e-a20d0d35a24c",
+      "titulo": "73 · Encontro — depois (resumo)",
+      "canvas": [
+        390,
+        1450
+      ],
+      "previa": ""
+    }
+  ]
+}

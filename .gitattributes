@@ -26,3 +26,5 @@ tools/**/*.sh text eol=lf
 test/fixtures/catalogo/** -text
 # G09: EPUB e PDF de fixture byte a byte (o PDF tem tabela de posições: CRLF no checkout o quebraria)
 test/fixtures/livros/** -text
+# G21: os arquivos HTML do design (a Início e a revisão; o clube) byte a byte, como vieram
+docs/design/referencia/** -text

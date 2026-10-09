@@ -69,3 +69,5 @@ __pycache__/
 .pytest_cache/
 .wrangler/
 .dev.vars
+# G21: saída da extração das pranchas do clube (regenerável)
+tools/medicao/pranchas_clube/
