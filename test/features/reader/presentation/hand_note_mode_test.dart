@@ -377,6 +377,12 @@ void main() {
       matchesSemantics(label: 'Nota à mão, 20 de setembro', isImage: true),
     );
     expect(noteInkLabel(DateTime(2026, 1, 3)), 'Nota à mão, 3 de janeiro');
+    // G20 (R8): o desenho no mesmo formato
+    expect(
+      drawingInkLabel(DateTime(2026, 9, 20, 15)),
+      'Desenho, 20 de setembro',
+    );
+    expect(drawingInkLabel(DateTime(2026, 12, 1)), 'Desenho, 1 de dezembro');
     h.dispose();
   });
 

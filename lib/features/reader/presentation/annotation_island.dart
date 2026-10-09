@@ -20,6 +20,7 @@ import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
 import '../annotations/domain/annotation.dart' show FillHeight;
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../annotations/domain/pen_presets.dart';
 import '../annotations/ink/ink_stroke.dart' show colorHex;
 import '../application/annotation_session.dart' show AnnotationTool;
@@ -73,6 +74,25 @@ class AnnotationIsland extends StatelessWidget {
     (AnnotationTool.line, 'line', 'Reta'),
     (AnnotationTool.space, 'space', 'Espaço'),
   ];
+
+  /// R8 (G20): o anúncio da troca de ferramenta ou de cor no modo anotação — "Marca-texto, amarelo", "Caneta, coral";
+  /// a Borracha, o Laço e o Espaço só com o nome.
+  static String toolAnnouncement(AnnotationTool t, Color c) {
+    final name = switch (t) {
+      AnnotationTool.pen => 'Caneta',
+      AnnotationTool.marker => 'Marca-texto',
+      AnnotationTool.line => 'Reta',
+      AnnotationTool.eraser => 'Borracha',
+      AnnotationTool.lasso => 'Laço',
+      AnnotationTool.space => 'Espaço',
+    };
+    return switch (t) {
+      AnnotationTool.eraser ||
+      AnnotationTool.lasso ||
+      AnnotationTool.space => name,
+      _ => '$name, ${colorName(c, pen: t != AnnotationTool.marker)}',
+    };
+  }
 
   /// O nome de [c] para o poço (as favoritas da tela 23 e as cores do marca-texto); outra cor = o código
   /// (`#12AB34`). Na caneta ([pen]), só os 6 nomes da tela 23 (R8): o amarelo do marca-texto é o código.
@@ -208,26 +228,28 @@ class AnnotationIsland extends StatelessWidget {
     );
   }
 
-  Widget _colorWell(ReaderChromeScope scope) => Pressable(
-    key: const ValueKey('ann.island.colorWell'),
-    semanticsLabel: inkTool == AnnotationTool.marker
-        ? 'Cor do marca-texto: ${colorName(ink)}. Toque para ajustar o marca-texto'
-        : 'Cor da caneta: ${colorName(ink, pen: true)}. Toque para escolher qualquer cor',
-    onTap: onColorWell,
-    child: CustomPaint(
-      painter: ConicRingPainter(
-        border: scope.palette.border,
-        center: scope.tint(ink),
-        centerRadius: 13.5,
-        halo: (color: scope.tint(AppColors.surface), width: 2.5),
-        alpha: scope.a,
-      ),
-      child: const SizedBox.square(
-        dimension: 42,
-        child: Center(
-          child: SizedBox.square(
-            key: ValueKey('ann.island.colorWell.ink'),
-            dimension: 27,
+  Widget _colorWell(ReaderChromeScope scope) => TapTarget(
+    child: Pressable(
+      key: const ValueKey('ann.island.colorWell'),
+      semanticsLabel: inkTool == AnnotationTool.marker
+          ? 'Cor do marca-texto: ${colorName(ink)}. Toque para ajustar o marca-texto'
+          : 'Cor da caneta: ${colorName(ink, pen: true)}. Toque para escolher qualquer cor',
+      onTap: onColorWell,
+      child: CustomPaint(
+        painter: ConicRingPainter(
+          border: scope.palette.border,
+          center: scope.tint(ink),
+          centerRadius: 13.5,
+          halo: (color: scope.tint(AppColors.surface), width: 2.5),
+          alpha: scope.a,
+        ),
+        child: const SizedBox.square(
+          dimension: 42,
+          child: Center(
+            child: SizedBox.square(
+              key: ValueKey('ann.island.colorWell.ink'),
+              dimension: 27,
+            ),
           ),
         ),
       ),
@@ -270,44 +292,46 @@ class AnnotationIsland extends StatelessWidget {
                   Color fade(Color c) => enabled
                       ? c
                       : c.withValues(alpha: c.a * islandDisabledAlpha);
-                  return Pressable(
-                    key: ValueKey('ann.island.width.$name'),
-                    semanticsLabel: h == null ? label : heightLabel,
-                    checked: on,
-                    enabled: enabled,
-                    onTap: h == null
-                        ? () => onStrokeSize(sizes[i])
-                        : () => onHeight?.call(heights[i]),
-                    child: NeoBox(
-                      width: 36,
-                      height: 36,
-                      color: on ? fade(scope.tint(scope.brand)) : null,
-                      border: on
-                          ? BorderSide(
-                              width: AppStrokes.regular,
-                              color: fade(p.border),
-                            )
-                          : const BorderSide(
-                              width: AppStrokes.regular,
-                              color: Color(0x00000000),
-                            ),
-                      radius: BorderRadius.circular(18),
-                      child: Center(
-                        child: SizedBox.square(
-                          key: ValueKey('ann.island.width.$name.dot'),
-                          dimension: dot,
-                          // o ponto na cor da tinta com o aro fino (`box-shadow: 0 0 0 Npx`)
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: fade(scope.tint(ink)),
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: fade(p.border),
-                                  spreadRadius: ring,
-                                  blurRadius: 0,
-                                ),
-                              ],
+                  return TapTarget(
+                    child: Pressable(
+                      key: ValueKey('ann.island.width.$name'),
+                      semanticsLabel: h == null ? label : heightLabel,
+                      checked: on,
+                      enabled: enabled,
+                      onTap: h == null
+                          ? () => onStrokeSize(sizes[i])
+                          : () => onHeight?.call(heights[i]),
+                      child: NeoBox(
+                        width: 36,
+                        height: 36,
+                        color: on ? fade(scope.tint(scope.brand)) : null,
+                        border: on
+                            ? BorderSide(
+                                width: AppStrokes.regular,
+                                color: fade(p.border),
+                              )
+                            : const BorderSide(
+                                width: AppStrokes.regular,
+                                color: Color(0x00000000),
+                              ),
+                        radius: BorderRadius.circular(18),
+                        child: Center(
+                          child: SizedBox.square(
+                            key: ValueKey('ann.island.width.$name.dot'),
+                            dimension: dot,
+                            // o ponto na cor da tinta com o aro fino (`box-shadow: 0 0 0 Npx`)
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: fade(scope.tint(ink)),
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: fade(p.border),
+                                    spreadRadius: ring,
+                                    blurRadius: 0,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -335,25 +359,27 @@ class AnnotationIsland extends StatelessWidget {
     final alpha = (enabled ? 1.0 : islandDisabledAlpha) * scope.a;
     Color fade(Color c) =>
         enabled ? c : c.withValues(alpha: c.a * islandDisabledAlpha);
-    return Pressable(
-      key: ValueKey(id),
-      semanticsLabel: label,
-      enabled: enabled,
-      onTap: onTap,
-      child: NeoBox(
-        width: 44,
-        height: 44,
-        color: fade(p.well),
-        border: BorderSide(width: AppStrokes.regular, color: fade(p.border)),
-        radius: BorderRadius.circular(22),
-        child: Center(
-          child: AppSvg(
-            icon,
-            key: ValueKey('$id.icon'),
-            size: 20,
-            // o arquivo só tem o traço escuro: no Noite, tingido com a cor das letras da ilha
-            color: p.night ? fade(p.title) : null,
-            opacity: alpha < 1 ? alpha : null,
+    return TapTarget(
+      child: Pressable(
+        key: ValueKey(id),
+        semanticsLabel: label,
+        enabled: enabled,
+        onTap: onTap,
+        child: NeoBox(
+          width: 44,
+          height: 44,
+          color: fade(p.well),
+          border: BorderSide(width: AppStrokes.regular, color: fade(p.border)),
+          radius: BorderRadius.circular(22),
+          child: Center(
+            child: AppSvg(
+              icon,
+              key: ValueKey('$id.icon'),
+              size: 20,
+              // o arquivo só tem o traço escuro: no Noite, tingido com a cor das letras da ilha
+              color: p.night ? fade(p.title) : null,
+              opacity: alpha < 1 ? alpha : null,
+            ),
           ),
         ),
       ),

@@ -579,3 +579,14 @@ void paintHandHighlights(
     canvas.drawPath(handHighlightPath(box), paint);
   }
 }
+
+/// Onde os traços [strokes] pintam (com a meia largura e 1 px de folga) — a miniatura da 25 e o nó do desenho no
+/// leitor de tela (R8 da G20).
+ui.Rect inkBounds(List<InkStroke> strokes) {
+  ui.Rect? r;
+  for (final s in strokes) {
+    final b = inkPath(s).getBounds().inflate(1);
+    r = r == null ? b : r.expandToInclude(b);
+  }
+  return r ?? ui.Rect.zero;
+}

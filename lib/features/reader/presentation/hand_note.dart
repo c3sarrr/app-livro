@@ -25,6 +25,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/pressable.dart';
 import '../annotations/ink/ink_commands.dart' show SessionNote;
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../annotations/ink/ink_stroke.dart';
 import '../annotations/space/hand_note_layout.dart';
 import '../annotations/space/note_ink.dart';
@@ -332,6 +333,13 @@ String noteInkLabel(DateTime createdAt) {
   return 'Nota à mão, ${d.day} de ${_months[d.month - 1]}';
 }
 
+/// R8 (G20): o desenho da página para o leitor de tela, "Desenho, 20 de setembro" (a data local de [createdAt]), no
+/// formato da nota à mão.
+String drawingInkLabel(DateTime createdAt) {
+  final d = createdAt.toLocal();
+  return 'Desenho, ${d.day} de ${_months[d.month - 1]}';
+}
+
 /// R13: o grupo da nota, "Nota à mão, depois de “‹a frase da âncora›”" (sem o texto do item, só "Nota à mão").
 String noteGroupLabel(String? text, int at) => text == null
     ? 'Nota à mão'
@@ -597,21 +605,23 @@ class _RoundButton extends StatelessWidget {
           : {AppColors.ink: colors.line},
     );
     if (flip) svg = RotatedBox(quarterTurns: 2, child: svg);
-    return Pressable(
-      key: ValueKey(id),
-      semanticsLabel: label,
-      onTap: onTap,
-      child: Container(
-        key: ValueKey('$id.box'),
-        width: size,
-        height: size,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: colors.button,
-          shape: BoxShape.circle,
-          border: Border.all(width: noteBorder, color: colors.line),
+    return TapTarget(
+      child: Pressable(
+        key: ValueKey(id),
+        semanticsLabel: label,
+        onTap: onTap,
+        child: Container(
+          key: ValueKey('$id.box'),
+          width: size,
+          height: size,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: colors.button,
+            shape: BoxShape.circle,
+            border: Border.all(width: noteBorder, color: colors.line),
+          ),
+          child: svg,
         ),
-        child: svg,
       ),
     );
   }

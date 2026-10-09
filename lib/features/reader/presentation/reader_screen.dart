@@ -70,8 +70,14 @@ import 'annotation_mode.dart';
 import 'book_search_panel.dart';
 import 'bottom_island.dart';
 import 'highlight_toolbar.dart';
+import 'ink_painter.dart' show inkBounds;
 import 'hand_note.dart'
-    show noteGroupLabel, noteInkLabel, noteOpenInReaderLabel, placedNotes;
+    show
+        drawingInkLabel,
+        noteGroupLabel,
+        noteInkLabel,
+        noteOpenInReaderLabel,
+        placedNotes;
 import 'labels_sheet.dart';
 import 'mode_page_source.dart';
 import 'note_sheet.dart';
@@ -1127,6 +1133,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen>
         'Modo anotação. Caneta, '
         '${AnnotationIsland.colorName(Color(session.color), pen: true)}.',
       );
+      // R8 (G20): trocar de ferramenta ou de cor é anunciado ("Marca-texto, amarelo"; a Borracha só com o nome)
+      var heard = (session.tool, session.color);
+      session.addListener(() {
+        final now = (session.tool, session.color);
+        if (now == heard) return;
+        heard = now;
+        _announce(AnnotationIsland.toolAnnouncement(now.$1, Color(now.$2)));
+      });
     } on Object catch (e, st) {
       c.deps.onError(e, st);
     } finally {
@@ -1611,6 +1625,21 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen>
                   ),
                 ),
               ),
+          // G20 (R8): cada desenho da página para o leitor de tela, "Desenho, 20 de setembro"
+          if (_ink case final ink?)
+            for (final d in ink.drawingsOn(doc.current))
+              if (d.strokes.isNotEmpty)
+                Positioned.fromRect(
+                  rect: inkBounds(d.strokes),
+                  child: IgnorePointer(
+                    child: Semantics(
+                      container: true,
+                      image: true,
+                      label: drawingInkLabel(d.saved.createdAt),
+                      child: const SizedBox.expand(),
+                    ),
+                  ),
+                ),
           ReaderFooter(
             numbers: n,
             palette: palette,

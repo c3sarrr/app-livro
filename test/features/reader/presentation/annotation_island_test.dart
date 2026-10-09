@@ -30,6 +30,24 @@ const _brand = Color(0xFFB6ACE4);
 void main() {
   setUpAll(loadAppFonts);
 
+  test('R8 (G20): o anúncio da ferramenta e da cor; a Borracha, o Laço e o Espaço só com o nome', () {
+    String a(AnnotationTool t, int c) =>
+        AnnotationIsland.toolAnnouncement(t, Color(c));
+    expect(a(AnnotationTool.marker, 0xFFFED170), 'Marca-texto, amarelo');
+    expect(a(AnnotationTool.marker, 0xFFABCF82), 'Marca-texto, verde');
+    expect(a(AnnotationTool.pen, 0xFFFF552E), 'Caneta, coral');
+    expect(a(AnnotationTool.pen, 0xFF1A1714), 'Caneta, tinta preta');
+    expect(
+      a(AnnotationTool.pen, 0xFFFED170),
+      'Caneta, #FED170',
+      reason: 'na caneta, o amarelo do marca-texto é o código',
+    );
+    expect(a(AnnotationTool.line, 0xFF058CD7), 'Reta, azul');
+    expect(a(AnnotationTool.eraser, 0xFFFF552E), 'Borracha');
+    expect(a(AnnotationTool.lasso, 0xFFFF552E), 'Laço');
+    expect(a(AnnotationTool.space, 0xFFFF552E), 'Espaço');
+  });
+
   Future<List<String>> montar(
     WidgetTester tester, {
     AnnotationTool tool = AnnotationTool.pen,

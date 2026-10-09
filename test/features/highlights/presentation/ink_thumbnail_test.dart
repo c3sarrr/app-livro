@@ -7,6 +7,8 @@ import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/features/highlights/presentation/ink_thumbnail.dart';
 import 'package:app_leitura/features/reader/annotations/domain/ink_layer.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/presentation/ink_painter.dart'
+    show inkBounds;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../fixtures/mundo_2026_09_20.dart';

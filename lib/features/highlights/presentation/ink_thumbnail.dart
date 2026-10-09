@@ -68,16 +68,6 @@ List<InkStroke>? handNoteInThumb(InkLayer layer) {
   ];
 }
 
-/// Onde os traços [strokes] pintam (com a meia largura e 1 px de folga).
-ui.Rect inkBounds(List<InkStroke> strokes) {
-  ui.Rect? r;
-  for (final s in strokes) {
-    final b = inkPath(s).getBounds().inflate(1);
-    r = r == null ? b : r.expandToInclude(b);
-  }
-  return r ?? ui.Rect.zero;
-}
-
 /// A chave de uma miniatura: a camada, a versão, a moldura (o `k` e o em do desenho; a nota à mão, zeros) e a escala
 /// do aparelho — não o lugar na tela (rolar não redesenha).
 typedef _ThumbKey = (String layer, String version, int k, int em, double dpr);
