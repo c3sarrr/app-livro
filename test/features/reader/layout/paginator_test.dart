@@ -254,6 +254,28 @@ void main() {
       },
     );
 
+    test('na página do modo (keepSpaces), o espaço que não cabe fica no pé dela e o texto de baixo sai (R3)', () {
+      final blocks = [_p(linhas(30))];
+      final l = BlockLayouter(t).layoutAll(
+        blocks,
+        _starts(blocks),
+        cuts: const [SpaceCut(at: 8 * 17 - 1, height: 206, id: 'n')],
+      );
+      laid.addAll(l);
+      final p = ChapterPaginator(t.contentHeight, keepSpaces: true);
+      for (final b in l) {
+        p.add(b);
+      }
+      final pages = p.finish();
+      final s = pages[0].slices;
+      expect((s.first as TextSlice).lastLine, 16);
+      expect(s.last, isA<SpaceSlice>());
+      expect(s.last.y, closeTo(17 * lh, 1e-3));
+      expect(pages[0].end, 8 * 17 - 1);
+      expect(pages[1].slices.first, isA<TextSlice>());
+      expect((pages[1].slices.first as TextSlice).firstLine, 17);
+    });
+
     test('o espaço cabe e a linha de baixo não: ele fica no pé; a seguinte começa na linha', () {
       final (l, pages) = comEspaco(30, 13, 206);
       final b = l.single as LaidText;

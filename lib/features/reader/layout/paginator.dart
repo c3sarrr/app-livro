@@ -48,12 +48,19 @@ final class ReaderPage {
 
 /// Paginação incremental: [add] recebe os blocos em ordem (como as fatias de tempo os entregam) e [finish]
 /// fecha a última página. As páginas fechadas ficam em [pages]. Com [firstBlock], o 1º bloco recebido é esse
-/// índice do capítulo ([addFrom] começa nele por uma linha do meio — página guardada no cache).
+/// índice do capítulo ([addFrom] começa nele por uma linha do meio — página guardada no cache). Com [keepSpaces] (a
+/// página do modo anotação — G18, R3), o espaço que não cabe no resto da página fica nela (passando do pé) em vez de
+/// ir para a seguinte: o texto de baixo é que sai.
 final class ChapterPaginator {
-  ChapterPaginator(this.contentHeight, {this.firstBlock = 0});
+  ChapterPaginator(
+    this.contentHeight, {
+    this.firstBlock = 0,
+    this.keepSpaces = false,
+  });
 
   final double contentHeight;
   final int firstBlock;
+  final bool keepSpaces;
   final List<ReaderPage> pages = [];
   final List<LaidBlock> _blocks = [];
   List<PageSlice> _current = [];
@@ -196,9 +203,9 @@ final class ChapterPaginator {
     return l;
   }
 
-  /// R12: o espaço inteiro aqui; se não cabe no resto da página, no topo da seguinte.
+  /// R12: o espaço inteiro aqui; se não cabe no resto da página, no topo da seguinte (no modo, fica aqui — R3).
   void _placeGap(int i, int g, double h) {
-    if (_y > 0 && _y + h > _limit) _close();
+    if (!keepSpaces && _y > 0 && _y + h > _limit) _close();
     _current.add(SpaceSlice(i, g, _y));
     _y += h;
   }

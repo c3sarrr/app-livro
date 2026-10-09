@@ -539,6 +539,18 @@ void main() {
       expect(b.pieces, hasLength(1));
     });
 
+    test('dois espaços na mesma âncora no fim do parágrafo: um embaixo do outro (dados de outro aparelho)', () {
+      final b = partir([
+        SpaceCut(at: texto.length, height: 206, id: 'a'),
+        SpaceCut(at: texto.length, height: 55.26, id: 'b'),
+      ]);
+      expect(b.gaps.map((g) => g.id).toSet(), {'a', 'b'});
+      for (final g in b.gaps) {
+        expect((g.afterLine, g.at), (b.lines.length - 1, texto.length));
+      }
+      expect(b.height, closeTo(b.lines.length * t.lineHeight + 261.26, 1e-4));
+    });
+
     test(
       'dois espaços no parágrafo: três segmentos, os dois últimos sem recuo',
       () {

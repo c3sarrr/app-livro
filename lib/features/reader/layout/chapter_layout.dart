@@ -219,7 +219,7 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
 /// blocos dela. `null` quando [start] não cai no começo de uma linha nem na âncora de um espaço (o cache não vale
 /// para este layout). [cuts] = os espaços do capítulo; [contentHeight] = a altura da página (a do modo — G18); com
 /// [snap], um início que não é começo de linha vai ao começo da linha dele (a página do modo depois que um espaço sai
-/// ou entra no começo dela).
+/// ou entra no começo dela); com [keepSpaces], o espaço que não cabe fica na página (a do modo — R3).
 ({ReaderPage page, List<LaidBlock> blocks, int firstBlock})? layoutPageFrom(
   ChapterContent content,
   ReaderTypography t,
@@ -227,6 +227,7 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
   List<SpaceCut> cuts = const [],
   double? contentHeight,
   bool snap = false,
+  bool keepSpaces = false,
 }) {
   final item = content.item;
   if (item.blocks.isEmpty) return null;
@@ -239,6 +240,7 @@ ImageSizeOf _sizes(ChapterContent c) => (img) {
   final paginator = ChapterPaginator(
     contentHeight ?? t.contentHeight,
     firstBlock: k,
+    keepSpaces: keepSpaces,
   );
   final laid = <LaidBlock>[];
   var firstLine = 0;

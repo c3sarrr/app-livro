@@ -43,5 +43,6 @@ void main() {
     expect(const SpaceCut(at: 10, height: 206, id: 'a'), a);
     expect(a == b, isFalse);
     expect(a.hashCode, const SpaceCut(at: 10, height: 206, id: 'a').hashCode);
+    expect(a.toString(), 'SpaceCut(10, 206.0, a)');
   });
 }

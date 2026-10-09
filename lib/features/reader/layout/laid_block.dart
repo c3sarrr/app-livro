@@ -633,6 +633,18 @@ final class _TextTask extends BlockLayoutTask {
         _pos = next;
         return false;
       }
+      // no fim do parágrafo: os outros espaços dali (dados de outro aparelho), um embaixo do outro
+      while (_cut < _cuts.length) {
+        final d = _cuts[_cut++];
+        _gaps.add(
+          LaidGap(
+            afterLine: _lines.length - 1,
+            height: d.height,
+            id: d.id,
+            at: start + d.at,
+          ),
+        );
+      }
     }
     _finish();
     return true;

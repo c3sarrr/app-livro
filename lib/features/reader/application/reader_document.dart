@@ -90,7 +90,8 @@ String bookmarkExcerpt(String pageText) {
 
 /// G18 — o documento que abre espaços no texto (o EPUB): os espaços de cada item (as notas à mão), a repaginação
 /// quando eles mudam e a página do modo anotação refeita com eles (o mesmo começo; [contentHeight] = até o pé da
-/// tela — R3). A página devolvida tem os blocos dela: [dispose] quando não for mais usada.
+/// tela — R3; o espaço que não cabe no resto dela fica nela, e o texto de baixo é que sai). A página devolvida tem
+/// os blocos dela: [dispose] quando não for mais usada.
 abstract interface class SpacedDocument {
   set spaces(SpaceCutsOf? spaces);
 

@@ -198,6 +198,7 @@ final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
       cuts: cuts,
       contentHeight: contentHeight,
       snap: true,
+      keepSpaces: true,
     );
     if (q == null) return null;
     var alive = true;

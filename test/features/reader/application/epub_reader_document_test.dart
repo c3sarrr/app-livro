@@ -280,5 +280,27 @@ void main() {
       sem.dispose();
       expect(sem.page.alive, isFalse);
     });
+
+    test('a página do modo guarda o espaço que não cabe no resto dela; o texto de baixo sai (R3)', () async {
+      final meio = livro.index.spine[2].chars ~/ 2;
+      await livro.guardarPosicao(2, meio);
+      final d = await abrir();
+      final pagina = d.current;
+      final shown = pagina.shown!;
+      final texto = d.anchors.textOf(2)!;
+      final at = texto.indexOf('. ', shown.from) + 1;
+      expect(at, inInclusiveRange(shown.from + 1, shown.to));
+      // mais alto que a página: no leitor iria para a seguinte (R12); no modo, fica
+      final alto = SpaceCut(
+        at: at,
+        height: (d as SpacedDocument).typography.contentHeight,
+        id: 'n2',
+      );
+      final modo = d.pageWithSpaces(pagina, [alto])!;
+      addTearDown(modo.dispose);
+      expect(modo.page.shown!.from, shown.from);
+      expect(spacesOf(modo.page).single.id, 'n2');
+      expect(modo.page.shown!.to, lessThanOrEqualTo(at + 1));
+    });
   });
 }
