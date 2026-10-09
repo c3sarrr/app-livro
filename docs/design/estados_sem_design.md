@@ -170,3 +170,49 @@ fechado, ele abre e faz o mesmo. Vários arquivos de uma vez entram um depois do
 
 A capa que vem no arquivo (a do EPUB; a 1ª página do PDF) aparece na moldura da seção, sem rede. Sem ela, a foto
 da fonte pelo ISBN (D-79) e, sem nenhuma, a capa gerada da G08.
+
+## G21 — clubes ligados aos pontos já desenhados (docs/progresso/G21.md §5)
+
+As telas do clube (04, 31, 32, 33, 34, 70–73) vêm pela Trilha T, com o HTML. Até lá, o que a G21 mostra sem prancha
+fica na tela 25 e segue as folhas da própria 25 (D-23; o padrão da folha da nota — D-131): o véu, o cartão a 14 das
+bordas, raio 28, borda 1,5 e sombra dura; o título em caixa alta (Figtree 11/800, como "pág. 6 · GRIFO + NOTA");
+os botões em pílula de 48 (`sheetButton`). As pílulas de aviso são o aviso do leitor (`leitor.aviso`, 2 s).
+
+### "Mais opções" da 25 — o Compartilhar no clube
+
+| Estado | Conteúdo |
+|---|---|
+| Cartão com texto (um grifo com trecho) | "Compartilhar no clube" |
+| Cartão sem texto (desenho, nota à mão, marca-texto feito à mão) | a opção não aparece |
+| Já compartilhado | "Já está em Leitoras de Capitu", apagado (não publica de novo); sem o nome do clube no aparelho, "Já está no clube" |
+
+### As pílulas do compartilhar
+
+| Caso | Texto |
+|---|---|
+| Sem conta | "Entre na sua conta para compartilhar." |
+| Sem rede | "Sem conexão. Tente de novo." |
+| Nenhum clube lê o livro | "Nenhum clube seu está lendo este livro." |
+| Publicado | "Compartilhado em Leitoras de Capitu." |
+| Outra falha | "Não deu para compartilhar. Tente de novo." |
+
+### Folha "Antes de publicar" (D-222)
+
+Aparece no primeiro compartilhar (e se a versão das regras mudar). Título "ANTES DE PUBLICAR"; "As regras da
+comunidade, por enquanto:" (Figtree 14/800) e as regras provisórias até a G25 (Figtree 14/600, `inkMuted`):
+- "Respeito: nada de ataque, ódio ou assédio."
+- "Spoiler com cuidado: o app esconde o que está à frente de quem lê."
+- "Nada de conteúdo sexual, spam ou propaganda."
+- "Denúncias são vistas em até 24 horas; o que quebra as regras sai do ar."
+
+Botões: "Aceitar e continuar" (cheio na cor da marca, sombra 2/2) e "Agora não". O véu é o "Agora não".
+
+### Folha "Compartilhar em…"
+
+Quando mais de um clube lê o livro. Título "COMPARTILHAR EM…"; um botão por clube (do encontro mais próximo): a
+bolinha de 14 na cor do clube, com a borda de tinta, e o nome; depois "Fechar".
+
+### Sininho da Início (D-212)
+
+O ponto que o arquivo já desenha aparece com notificações não lidas; o toque continua como hoje (a tela das
+notificações vem pela Trilha T).

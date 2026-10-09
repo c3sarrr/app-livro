@@ -2,9 +2,10 @@
 
 > **Para quem executa:** execução inline (superpowers:executing-plans), uma tarefa por vez, TDD: o teste falha
 > (RED), o código mínimo passa (GREEN), commit pequeno. Passos com `- [ ]`.
-> **Plano em duas etapas:** a G21.1 e a G21.2 (servidor) estão com o código completo. A G21.3 a G21.8 (app) estão com
-> os arquivos, as assinaturas, as regras e a lista de testes; antes de começar a G21.3, este plano ganha o código
-> completo delas (commit `docs(g21): o plano do app detalhado`), lendo o código do app daquele momento.
+> **Plano em duas etapas:** a G21.1 e a G21.2 (servidor) estão com o código completo. A G21.3 a G21.8 (app) foram
+> detalhadas no começo da G21.3, lendo o código do app daquele momento: cada tarefa tem os arquivos, as assinaturas,
+> as decisões de encaixe e os testes; o código está nos commits de cada tarefa (TDD: o teste chega antes, falha no
+> Windows e só então chega a implementação). Desvio registrado em `G21.md`.
 
 **Objetivo:** ligar o servidor social (G04–G06) ao app: o núcleo dos dados do clube que as pranchas 04, 31, 32 e
 70–73 pedem, o social do prompt mestre, os 4 pontos já desenhados (ticket, faixa, chip, compartilhar), o sininho, a
@@ -2195,117 +2196,111 @@ Deno.serve(criarHandler({
 
 ---
 
-## G21.3 a G21.8 — o app (contratos; o código completo entra antes da G21.3)
+## G21.3 a G21.8 — o app (detalhado no começo da G21.3)
 
-### Tarefa 13: as falhas e a conversão dos erros (G21.3)
+Encaixes decididos lendo o app (sem decisão nova de produto):
+- os testes do Supabase usam o `FakeBackend` da G05 (`test/features/account/support/fake_backend.dart`), que ganha
+  cabeçalhos na resposta (o `content-range` da contagem);
+- as leituras do social não repetem a ida sem rede (`.retry(enabled: false)`): uma tentativa e a pílula;
+- `ReaderClubGoal` ganha `goalLabel` (o rótulo do clube); `ReaderDeps` ganha `onLeave` (depois de gravar a posição,
+  ao fechar e no segundo plano); `HighlightsDeps` ganha `clubUpdates` e `share` opcionais (os testes antigos
+  continuam);
+- o dono do social é a conta entrada (`socialOwnerProvider`); o cache fica em `social_cache` por dono;
+- o ticket da Início continua o `CachedClubTicketSource` (G08); quem escreve a chave é o `ClubsCache` (ao guardar os
+  clubes e ao sair do leitor — o herói pode ter mudado);
+- a sequência do perfil (R10) é a da Início (`homeRepositoryProvider`, a mesma conta da tela).
 
-- `lib/features/social/domain/social_failure.dart`:
-  `sealed class SocialFailure` com `Offline`, `TermsRequired`, `FreeClubLimit`, `InvalidInvite`, `Blocked`,
-  `NotAllowed` (42501), `RateLimited`, `NotFound`, `ServerFailure(String code)`.
-- `SocialFailure fromPostgrest(PostgrestException e)`: pelo `message` do Postgres (`terms_required`,
-  `free_club_limit`, `invalid_invite`, `blocked`, `not_member`/`not_allowed` → `NotAllowed`) e pelo `code`;
-  `SocketException`/`ClientException` → `Offline`.
-- Testes: cada código da migração vira a falha certa; um erro desconhecido vira `ServerFailure` com o código.
+### Tarefa 13: as falhas e a chamada do social (G21.3)
+
+- `lib/features/social/domain/social_failure.dart`: `sealed SocialFailure(code)` — `SocialOffline`, `SocialNeedsAccount`,
+  `SocialNeedsAge`, `SocialTermsRequired`, `SocialFreeClubLimit`, `SocialInvalidInvite`, `SocialBlocked`,
+  `SocialNotAllowed`, `SocialNotFound`, `SocialContentBlocked`, `SocialUnexpected(code)`; `socialFailureOf(code,
+  message)` pelo código que o banco levanta (o `stale_terms` volta para a folha dos termos).
+- `lib/features/social/data/social_call.dart`: `socialCall` (a sessão antes da rede, 8 s, os erros) e `socialUserId`.
+- Testes: `test/features/social/social_failure_test.dart` (cada código; a sessão, a rede, o tempo, o formato).
 
 ### Tarefa 14: `ClubsRepository` (G21.3)
 
-- `lib/features/clubs/data/clubs_repository.dart`: `abstract interface class ClubsRepository` e
-  `SupabaseClubsRepository`, um método por RPC da §1 (`myClubs`, `overview`, `weekThread`, `meeting`, `members`,
-  `postSummaries`, `createClub`, `createInvite`, `revokeInvite`, `joinByCode`, `joinPublic`, `leave`,
-  `publishProgress`, `markRead`, `setRsvp`, `suggestQuestion`, `orderQuestions`, `setQuestionStatus`,
-  `shareHighlight`, `like`/`unlike`, `reply`, `report`), devolvendo os modelos de `lib/features/clubs/domain/`
-  (`ClubCard`, `ClubReading`, `ClubWeek`, `MeetingSummary`, `Person`, `ThreadReply`, …) ou `SocialFailure`.
-- Provider nulo sem cliente (o padrão do `community_catalog_api.dart`).
-- Testes com o `FakeBackend` (`test/support/`): o corpo de cada RPC, a conversão de cada JSON do mundo do clube (o
-  JSON do pgTAP 22 vira fixture `test/fixtures/clube/*.json`, gerado do banco local e conferido) e cada falha.
+- `lib/features/clubs/domain/club_models.dart` (os 6 resumos) e `lib/features/clubs/data/clubs_repository.dart` (um
+  método por RPC; curtir, responder e sair pelas tabelas).
+- Fixtures `test/fixtures/clube/*.json` capturadas do banco local por `tools/supabase/capturar_mundo_clube.sql`.
+- Testes: `club_models_test.dart` (os números do mundo) e `clubs_repository_test.dart` (os corpos, as falhas).
 
 ### Tarefa 15: os repositórios do social (G21.3)
 
-- `ProfileRepository` (meu perfil; o de outra pessoa: Pro → tabelas, Grátis → `profile_preview`), `FollowRepository`,
-  `BlockRepository`, `PostRepository` (posts, comentários, curtidas), `ReportRepository`, `TermsRepository`
-  (`my_terms`, `accept_terms`), `NotificationsRepository` (contagem com `count: exact` e `head`, marcar lidas).
-- Testes: o Grátis nunca recebe texto de resenha (o JSON da prévia não tem `body`), o Pro recebe; seguir perfil
-  fechado vira pedido; bloquear e desbloquear; denunciar cada tipo.
+- `profile_repository.dart` (Grátis → `profile_preview`; Pro → `profiles` + `posts`; mudar o meu; `publish_my_stats`),
+  `follow_repository.dart` (seguir, pedidos, aceitar, recusar, listas; bloquear), `post_repository.dart`,
+  `community_repository.dart` (denúncias, termos, sininho — HEAD com `count=exact`), `social_providers.dart`.
+- Testes: `profile_repository_test.dart` (o Grátis nunca recebe texto) e `social_repositories_test.dart`.
 
 ### Tarefa 16: `ClubPings` (G21.3)
 
-- `lib/features/clubs/data/club_pings.dart`: abre `client.channel('club:<id>', opts: RealtimeChannelConfig(private:
-  true))`, escuta o evento `changed` e emite um `Stream<String>` (o id do clube) com 2 s de espera para juntar
-  avisos seguidos; `close()` fecha os canais. Conferir na hora a API do `supabase_flutter` instalado
-  (`RealtimeChannelConfig`, `setAuth`).
-- Testes: com um canal falso, 3 avisos em 1 s viram 1 releitura; fechar não emite mais.
+- `lib/features/clubs/data/club_pings.dart`: `supabaseClubChannels(client)` (Broadcast privado, evento `changed`) e
+  `ClubPings` (2 s para juntar avisos; `watch(clubIds)` abre e fecha; `close()`).
+- Testes: `club_pings_test.dart` (relógio falso do `testWidgets`).
 
-### Tarefa 17: as regras R1–R12 (G21.4)
+### Tarefa 17: as regras (G21.4)
 
-`lib/features/clubs/domain/`:
-- R1 `bookMatchesReading({editionId, isbn13}, ClubReading)`;
-- R2 `clubChapterLabel(numerals, n, toLabel)` e `clubChapterOf(numerals, chapterIndex)` (sobre `chapterNumerals` e a
-  contagem do `homeChapter`, D-206);
-- R3 `ticketClub(clubs, readingBook)`; R4 vem do servidor (`current_week`); R5 e R6 vêm do servidor (o app só
-  formata: 0,5373 → "54%");
-- R7 `weekOpenFor(week, myClubChapter, currentWeek)`; R8 `isAhead(spoilerRatio, myRatio, protection)`;
-- R9 `shouldPublish(last, now)`; R10 `statsDue(lastPublished, now)`; R11 e R12 vêm do servidor.
-- Testes de tabela para cada uma (o Dom Casmurro real para R2: cap. 50 → "L", o XXXII → 32).
+- `lib/features/clubs/domain/club_rules.dart`: R1 `bookMatchesReading`, R2 `clubChapterLabel`/`clubChapterOf`, R3
+  `ticketClub`/`nearestFirst`/`clubsReading`, R7 `weekOpenFor`, R8 `isAhead`, R9 `shouldPublishProgress`, R10
+  `statsDue`, `percentText`, `ticketName`, `ticketJson`.
+- Testes: `club_rules_test.dart` (o Dom Casmurro real; o JSON do ticket lido de volta).
 
 ### Tarefa 18: o cache e a atualização (G21.4)
 
-- `lib/features/clubs/data/clubs_cache.dart`: `clubes:<dono>`, `inicio.clube:<dono>` (o JSON do
-  `CachedClubTicketSource`, com `until_chapter` = o fim da semana atual), `clube.posts:<dono>`,
-  `notificacoes:<dono>`; sem clube, a chave do ticket sai.
-- `ClubsSync`: ao abrir e ao voltar ao app (com conta e rede), `my_clubs` + a contagem de notificações; erro de rede
-  mantém o cache.
-- Testes: o JSON escrito é lido de volta pelo `CachedClubTicketSource` com os números do mundo (A J, 11, 54 %, 62 %,
-  3, a quinta); trocar de conta não mostra o clube da outra (D-68).
+- `lib/features/clubs/data/clubs_cache.dart` (`clubes:`, `inicio.clube:`, `clube.posts:`, `notificacoes:`,
+  `perfil.numeros:`, `clube.progresso:` — por dono; o herói da estante) e `application/clubs_sync.dart`,
+  `clubs_providers.dart`.
+- Testes: `clubs_cache_test.dart` e `clubs_sync_test.dart`.
 
 ### Tarefa 19: o ticket e o sininho (G21.5)
 
-- O provider do ticket continua o `CachedClubTicketSource`; o `ClubsSync` entra no ciclo de vida do app.
-- O `unreadNotifications` da Início vem de `notificacoes:<dono>`; o ponto aparece com > 0.
-- Testes: a Início com o cache do mundo mostra o ticket (golden da G08 inalterado) e o ponto do sininho.
+- `homeUnreadNotificationsProvider` (o cache da conta) e `homeUserOf(view, unread:)`; `SocialAutoSync` no `main.dart`
+  (1º quadro, voltar ao app, entrar na conta).
+- Testes: `home_providers_test.dart` (o ponto) e `social_auto_sync_test.dart`.
 
 ### Tarefa 20: a faixa do sumário (G21.5)
 
-- `ReaderClubGoal` ganha `goalLabel` (o `to_label` do clube); `ClubsReaderClubSource` (R1 no cache);
-  `toc_view._club()` troca `leaves[goal - 1]` pela R2 e o "faltam N" pela mesma contagem.
-- Testes: com o Dom Casmurro real no XXXII, "Até o cap. L · faltam 18"; livro sem numeração, a folha e o rótulo do
-  clube; sem clube, a faixa some (como hoje).
+- `toc_view._club`: R2 no lugar de `leaves[goal - 1]`; o "faltam" pela mesma contagem. `ClubsReaderClubSource` no
+  `readerDepsProvider`.
+- Testes: `toc_view_test.dart` (o Dom Casmurro real no XXXII: "Até o cap. L · faltam 18"; sem numeração, o rótulo);
+  `reader_toc_test.dart`, `fase_l27.dart` com o `goalLabel`; os goldens 27 e 27b iguais.
 
 ### Tarefa 21: o chip, o "Só do clube" e o tempo real na 25 (G21.5)
 
-- `ClubsHighlightsClubSource.clubOf` lê `clube.posts:<dono>`; ao abrir a 25, uma ida de `club_post_summaries` com
-  os `shared_club_post_id` e o `ClubPings` dos clubes deles; cada aviso relê; fechar a 25 fecha os canais.
-- Testes: "Leitoras de Capitu · 3 respostas"; um aviso muda para 4; o "Só do clube" mostra só os compartilhados;
-  fechar a 25 não deixa canal aberto.
+- `ClubsHighlightsClubSource` (o cache) e `ClubsChipUpdates` (uma ida de `club_post_summaries` e os canais dos
+  clubes dos posts; cancelar fecha); o controlador da 25 acompanha os posts da lista e relê os chips a cada aviso.
+- Testes: `highlights_club_test.dart` (3 → 4 respostas; fechar a 25 fecha) e `club_sources_test.dart`.
 
 ### Tarefa 22: compartilhar no clube (G21.5)
 
-- O `_shareToClub` da 25 segue os 7 casos da §5 (as pílulas, "Já está em…", a folha "Antes de publicar", a folha
-  "Compartilhar em…"); o id volta para `annotations.shared_club_post_id`.
-- As duas folhas novas no estilo das folhas do leitor; entram no `docs/design/estados_sem_design.md`.
-- Testes: cada caso da §5; a nota não vai no pedido (D-217); offline não chama nada.
+- `highlights_share.dart` (o contrato, os passos e os textos), o controlador (`startShare`, `acceptTerms`, `shareTo`,
+  `canShare`, `sharedLabel`), `HighlightsRepository.markShared`, `ClubsHighlightsShare` (o trecho, a cor, a página,
+  o capítulo do clube pela numeração, a fração), as folhas `highlight_share_sheets.dart` e a 25.
+- Testes: os 7 casos em `highlights_club_test.dart`, a rota real em `highlights_share_flow_test.dart` e
+  `highlight_more_sheet_test.dart`; os textos em `docs/design/estados_sem_design.md`.
 
 ### Tarefa 23: o progresso, os números e a privacidade do Grátis (G21.6)
 
-- `ProgressPublisher` (R9) no `lifecycle` do leitor e ao fechar; `StatsPublisher` (R10) ao abrir.
-- A lista do `privacy_free_test.dart` ganha as 7 entradas da §6, cada uma com o motivo; o teste novo: Grátis sem
-  clube lê, grifa e abre a 25 sem nenhuma chamada nova.
+- `application/publishers.dart`: `ProgressPublisher` (R9, no `onLeave` do leitor) e `StatsPublisher` (R10, no
+  `SocialAutoSync`); `stats_provider.dart`.
+- Testes: `publishers_test.dart`, `reader_session_controller_test.dart` (o `onLeave` depois de gravar) e
+  `privacy_free_test.dart` (a lista com o motivo; Grátis sem clube: ler, grifar e abrir a 25 não chamam nada).
 
-### Tarefa 24: integração com o Supabase local (G21.8, preparada aqui)
+### Tarefa 24: integração com o Supabase local (G21.8)
 
-- `test/integracao/clube_test.dart` (marca `integracao`): o `_mundo_clube.psql` carregado por `psql` antes; a
-  Marina entra; o ticket, a faixa e o chip com os números do mundo; compartilhar um grifo; a resposta de outra
-  leitora chega pelo tempo real; o termo exigido; o bloqueio.
+- `test/integracao/clube_test.dart` (marca `integracao`): o mundo carregado pelo `psql`; a Marina entra pelo código do
+  e-mail; o ticket, a faixa e o chip; compartilhar e a resposta pelo tempo real; o termo exigido; o bloqueio.
 
 ### Tarefa 25: Q29 (G21.7, D-224)
 
-- `GeneratedCoverArt`: medir a palavra mais longa com o `TextPainter` na largura útil; se não cabe, a fonte desce
-  até caber (mínimo 60 % do tamanho do desenho). Testes: "Dom Casmurro" na capa do herói fica inteiro; os goldens
-  das capas geradas que já existem iguais (ou a diferença no relatório).
+- `coverTitleSize(title, size, width)` em `book_cover.dart`: a palavra mais longa cabe (passos de 0,25, mínimo
+  60 %). Testes em `book_cover_test.dart`; os goldens das capas geradas conferidos.
 
 ### Tarefa 26: prova e relatório (G21.8)
 
 - `supabase test db`, `deno test`, `dart format`, `flutter analyze`, `flutter test`, a integração;
-- revisão independente (agente que não escreveu o código), mutação (R1–R12 e as funções SQL dos resumos), cobertura
-  ≥ 90 % nos arquivos da fase, gitleaks;
-- as capturas da §Prova; `docs/progresso/G21.md` (Resultados, Revisão, Desvios, Pendências, Capturas) e
-  `RELATORIO_G21.md`; a linha final "✅ FASE G21 concluída — aguardando sua aprovação para iniciar a FASE G22."
+- revisão independente, mutação (R1–R12 e as funções SQL dos resumos), cobertura ≥ 90 % nos arquivos da fase,
+  gitleaks;
+- as capturas; `docs/progresso/G21.md` (Resultados, Revisão, Desvios, Pendências, Capturas) e `RELATORIO_G21.md`; a
+  linha final "✅ FASE G21 concluída — aguardando sua aprovação para iniciar a FASE G22."
