@@ -14,6 +14,8 @@ final class AppEnv {
     this.authRedirect = defaultAuthRedirect,
     this.powersyncUrl = '',
     this.catalogUrl = '',
+    this.revenuecatKeyAndroid = '',
+    this.revenuecatKeyIos = '',
   });
 
   /// Lê os `--dart-define`.
@@ -32,6 +34,10 @@ final class AppEnv {
     ),
     powersyncUrl: String.fromEnvironment('POWERSYNC_URL'),
     catalogUrl: String.fromEnvironment('CATALOG_URL'),
+    revenuecatKeyAndroid: String.fromEnvironment(
+      'REVENUECAT_PUBLIC_KEY_ANDROID',
+    ),
+    revenuecatKeyIos: String.fromEnvironment('REVENUECAT_PUBLIC_KEY_IOS'),
   );
 
   /// Deep link de retorno do login pelo navegador (Apple no Android — D-67).
@@ -54,6 +60,11 @@ final class AppEnv {
   /// Worker do catálogo de livros (G07 — ISBN e o `catalog.db`). Local: `wrangler dev` em
   /// `workers/catalog` (D-75).
   final String catalogUrl;
+
+  /// As chaves PÚBLICAS do RevenueCat (G22): a da Test Store (`test_…`) no `env/dev.json` local, as das lojas
+  /// (`goog_…`, `appl_…`) na G27. Qual vale em cada build: `billingKeyFor` (`billing_providers.dart`).
+  final String revenuecatKeyAndroid;
+  final String revenuecatKeyIos;
 
   static bool _filled(String v) => v.isNotEmpty && !v.startsWith('<');
 

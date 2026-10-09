@@ -55,4 +55,22 @@ void main() {
       'https://cat.exemplo/base/v1/x',
     );
   });
+
+  test(
+    'G22: as chaves públicas do RevenueCat vêm do env, vazias por padrão',
+    () {
+      expect(
+        (const AppEnv().revenuecatKeyAndroid, const AppEnv().revenuecatKeyIos),
+        ('', ''),
+      );
+      const e = AppEnv(
+        revenuecatKeyAndroid: 'test_a',
+        revenuecatKeyIos: 'appl_i',
+      );
+      expect(
+        (e.revenuecatKeyAndroid, e.revenuecatKeyIos),
+        ('test_a', 'appl_i'),
+      );
+    },
+  );
 }
