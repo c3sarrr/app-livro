@@ -846,6 +846,33 @@ void main() {
       expect(recusas, [InkRefusal.noteFull]);
     });
 
+    test('o traço todo na borda da nota (recortado inteiro) não vira passo do Desfazer, nem aviso', () {
+      final recusas = <InkRefusal>[];
+      final s = abrir(
+        recusa: recusas.add,
+        notas: [
+          SessionNote(
+            id: 'espaco-1',
+            unit: _unit,
+            at: _ancora,
+            lines: 3,
+            collapsed: false,
+            strokes: const [],
+            createdAt: DateTime.utc(2026, 9, 20),
+          ),
+        ],
+      );
+      final caixa = s.noteBox('espaco-1')!;
+      expect(s.canUndo, isFalse);
+      s
+        ..pointerDown(_touch(1, caixa.left + 1, caixa.top + 40 + 30, 0))
+        ..pointerMove(_touch(1, caixa.left + 1, caixa.top + 60 + 30, 8))
+        ..pointerUp(_touch(1, caixa.left + 1, caixa.top + 60 + 30, 16));
+      expect(s.notes.single.strokes, isEmpty);
+      expect(s.canUndo, isFalse);
+      expect(recusas, isEmpty);
+    });
+
     test('a nota com lugar aceita o traço, sem aviso', () {
       final recusas = <InkRefusal>[];
       final s = abrir(
