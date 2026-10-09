@@ -96,6 +96,17 @@ abstract final class AppIconsLeitor {
   static const chevronUp = '$_d/ic_chevron_up.svg';
   static const trash = '$_d/ic_trash.svg';
 
+  /// G19 — grifos e notas (tela 25): (22) a estrela do título (`hl.sparkle`, amarela); (20) a lupa cinza da busca
+  /// (`hl.search.icon`); (15) as pessoas do "Só do clube" (`hl.filters.clubOnly.icon`); (20) o "•••" dos cartões
+  /// (`hl.list.card*.head.more.icon`); (17) as pessoas do chip do clube; (11) o lápis da nota à mão. A seta de voltar
+  /// é o [arrowLeft], o Exportar é o [share] (18) e a fita do "você parou aqui" é o [ribbonHint] (12×15).
+  static const starDeco = '$_d/ic_star_deco.svg';
+  static const searchGray = '$_d/ic_search_cinza.svg';
+  static const people = '$_d/ic_people.svg';
+  static const moreDots = '$_d/ic_more_dots.svg';
+  static const peopleChip = '$_d/ic_people_chip.svg';
+  static const pencilHeavy = '$_d/ic_pencil_heavy.svg';
+
   static const all = [
     arrowLeft,
     arrowLeftNight,
@@ -143,5 +154,11 @@ abstract final class AppIconsLeitor {
     pencilBold,
     chevronUp,
     trash,
+    starDeco,
+    searchGray,
+    people,
+    moreDots,
+    peopleChip,
+    pencilHeavy,
   ];
 }

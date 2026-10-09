@@ -105,6 +105,7 @@ abstract final class AppFonts {
     15: {500},
     15.5: {400},
     16: {400},
+    16.5: {400},
     17: {400, 500},
     18: {400},
     19: {500},
@@ -980,4 +981,144 @@ abstract final class AppTextStyles {
     FontWeight.w800,
     letterSpacing: 0.6,
   ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  // Grifos e notas (tela 25, G19).
+
+  /// hl.topBar.export ("Exportar"): Figtree 14/800.
+  static final TextStyle hlExport = AppFonts.figtreeReader(14, FontWeight.w800);
+
+  /// hl.title ("Grifos"): Bricolage 34/800, lh 0,98, ls −1.
+  static final TextStyle hlTitle = AppFonts.bricolage(
+    34,
+    height: 0.98,
+    letterSpacing: -1,
+  );
+
+  /// hl.title.serif ("e notas"): Instrument Serif itálico 42, ls −0,4 (lh 0,98 do título).
+  static final TextStyle hlTitleSerif = AppFonts.serif(
+    42,
+    height: 0.98,
+    italic: true,
+    letterSpacing: -0.4,
+  );
+
+  /// hl.subtitle ("· na ordem do livro"): Figtree 14/600 `#5B544B`.
+  static final TextStyle hlSubtitle = AppFonts.figtreeReader(
+    14,
+    FontWeight.w600,
+    color: AppColors.inkMuted,
+  );
+
+  /// hl.subtitle.strong ("Dom Casmurro"): Figtree 14/800 na tinta.
+  static final TextStyle hlSubtitleStrong = AppFonts.figtreeReader(
+    14,
+    FontWeight.w800,
+  );
+
+  /// hl.search.input: Figtree 15/600 na tinta; o texto de exemplo em `#757575` (o padrão do Chromium).
+  static final TextStyle hlSearch = AppFonts.figtreeReader(15, FontWeight.w600);
+  static final TextStyle hlSearchPlaceholder = AppFonts.figtreeReader(
+    15,
+    FontWeight.w600,
+    color: AppColors.placeholder,
+  );
+
+  /// hl.types.* ("Tudo"): Figtree 13,5/800; o número, 700 (`#8A8073`; no ativo, na tinta).
+  static final TextStyle hlChip = AppFonts.figtreeReader(13.5, FontWeight.w800);
+  static final TextStyle hlChipCount = AppFonts.figtreeReader(
+    13.5,
+    FontWeight.w700,
+    color: AppColors.inkSoft,
+  );
+
+  /// hl.filters.colors.label ("COR"): Figtree 11/800, ls 1, `#6F665B`.
+  static final TextStyle hlColorLabel = AppFonts.figtreeReader(
+    11,
+    FontWeight.w800,
+    letterSpacing: 1,
+    color: AppColors.labelReader,
+  );
+
+  /// hl.filters.clubOnly ("Só do clube"): Figtree 13/800.
+  static final TextStyle hlClubOnly = AppFonts.figtreeReader(
+    13,
+    FontWeight.w800,
+  );
+
+  /// hl.list.sep*.label ("pág. 3"): Figtree 12,5/800, algarismos de largura fixa.
+  static final TextStyle hlSep = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  /// hl.list.sepHere ("pág. 159 · você parou aqui", pílula coral): Figtree
+  /// 12,5/800 sem algarismos tabulares — a pílula não usa `tnum` no arquivo.
+  static final TextStyle hlSepHere = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w800,
+  );
+
+  /// hl.list.card*.head.* ("GRIFO", "NOTA", "2 DESENHOS"): Figtree 10,5/800, ls 0,9.
+  static final TextStyle hlPill = AppFonts.figtreeReader(
+    10.5,
+    FontWeight.w800,
+    letterSpacing: 0.9,
+  );
+
+  /// hl.list.card*.head.date ("2 set", "hoje"): Figtree 12/700 `#8A8073`.
+  static final TextStyle hlDate = AppFonts.figtreeReader(
+    12,
+    FontWeight.w700,
+    color: AppColors.inkSoft,
+  );
+
+  /// hl.list.card*.body.quote: Literata 16,5, lh 1,6, `#2A2520` (D-104); o contexto e o resto, `#8A8073`.
+  static final TextStyle hlQuote = AppFonts.literata(
+    16.5,
+    FontWeight.w400,
+    height: 1.6,
+    color: AppColors.bookText,
+  );
+  static final TextStyle hlQuoteMuted = hlQuote.copyWith(
+    color: AppColors.inkSoft,
+  );
+
+  /// hl.list.card*.body.note.label ("NOTA"): Figtree 10,5/800, ls 1, `#5B4A1C`.
+  static final TextStyle hlNoteLabel = AppFonts.figtreeReader(
+    10.5,
+    FontWeight.w800,
+    letterSpacing: 1,
+    color: AppColors.noteLabel,
+  );
+
+  /// hl.list.card*.body.note.text: Figtree 14,5/700, lh 1,4.
+  static final TextStyle hlNoteText = AppFonts.figtreeReader(
+    14.5,
+    FontWeight.w700,
+    height: 1.4,
+  );
+
+  /// hl.list.card*.body.club.chip ("Leitoras de Capitu"): Figtree 12,5/800; "· 3 respostas", 700 `#5B3A3E`.
+  static final TextStyle hlClub = AppFonts.figtreeReader(12.5, FontWeight.w800);
+  static final TextStyle hlClubReplies = AppFonts.figtreeReader(
+    12.5,
+    FontWeight.w700,
+    color: AppColors.clubKicker,
+  );
+
+  /// hl.list.card*.body.handNote.tag ("Nota à mão"): Figtree 10,5/800.
+  static final TextStyle hlHandTag = AppFonts.figtreeReader(
+    10.5,
+    FontWeight.w800,
+  );
+
+  /// hl.end.text: Instrument Serif itálico 22, lh 1,15.
+  static final TextStyle hlEnd = AppFonts.serif(22, height: 1.15, italic: true);
+
+  /// hl.end.cta ("Continuar lendo · pág. 159"): Figtree 15,5/800 `#F7F0E3`.
+  static final TextStyle hlEndCta = AppFonts.figtreeReader(
+    15.5,
+    FontWeight.w800,
+    color: AppColors.paper,
+  );
 }

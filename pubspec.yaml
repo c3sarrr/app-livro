@@ -373,6 +373,19 @@ flutter:
       fonts:
         - asset: assets/fonts/Literata16Vi-Regular.ttf
           weight: 400
+    # G19: a citação dos cartões da tela 25 (Literata 16,5 — D-104)
+    - family: Literata16_5
+      fonts:
+        - asset: assets/fonts/Literata16_5-Regular.ttf
+          weight: 400
+    - family: Literata16_5Ext
+      fonts:
+        - asset: assets/fonts/Literata16_5Ext-Regular.ttf
+          weight: 400
+    - family: Literata16_5Vi
+      fonts:
+        - asset: assets/fonts/Literata16_5Vi-Regular.ttf
+          weight: 400
     - family: Literata15_5
       fonts:
         - asset: assets/fonts/Literata15_5-Regular.ttf

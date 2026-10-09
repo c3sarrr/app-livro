@@ -81,6 +81,12 @@ abstract final class AppColors {
   static const Color clubKicker = Color(0xFF5B3A3E);
   static const Color tocRule = Color(0xFFE3D8C4);
 
+  /// G19 (tela 25): o texto de exemplo do campo (o padrão do Chromium — `hl.search.input`).
+  static const Color placeholder = Color(0xFF757575);
+
+  /// G19 (tela 25): o "NOTA" do post-it amarelo (`hl.list.card*.body.note.label`).
+  static const Color noteLabel = Color(0xFF5B4A1C);
+
   /// As duas linhas dos cartões de papel (L26 `rs.sheet.papers.*.line*`); as do Noite são o [dashNight].
   static const Color paperLineCream = Color(0xFFD9CCB4);
   static const Color paperLineWhite = Color(0xFFE3DCCD);
