@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../core/design_system/tokens/app_colors.dart';
 import '../core/design_system/tokens/app_typography.dart';
+import '../core/design_system/widgets/tap_target.dart';
 import '../features/shell/presentation/main_shell.dart' show MainShell;
 import 'router.dart';
 
@@ -62,7 +63,8 @@ class _AppState extends State<App> {
           // transparente, sem scrim — em TODAS as rotas (as telas cheias fora do shell também), não só nas abas.
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: MainShell.overlayStyle,
-            child: child!,
+            // R7 (G20): os alvos de toque menores que 48 crescem por dentro — o escopo entrega o toque da área nova
+            child: TapTargetScope(child: child!),
           ),
         ),
       ),
