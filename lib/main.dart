@@ -15,6 +15,7 @@ import 'core/design_system/tokens/app_illustrations_leitor.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
 import 'features/account/application/account_providers.dart';
 import 'features/account/data/secure_session_storage.dart';
+import 'features/billing/presentation/billing_lifecycle.dart';
 import 'features/catalog/application/catalog_auto_update.dart';
 import 'features/clubs/application/social_auto_sync.dart';
 import 'features/library/presentation/incoming_books.dart';
@@ -53,9 +54,12 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
     ProviderScope(
       overrides: [...server, ...overrides],
       // G07: o catálogo do aparelho se atualiza sozinho no Wi-Fi; G21: o social (os clubes, o sininho e os números
-      // do perfil) ao abrir e voltar ao app; G09: "Abrir com" e índices pendentes
+      // do perfil) ao abrir e voltar ao app; G22: o Pro (a loja e a ativação) acompanha o app; G09: "Abrir com" e
+      // índices pendentes
       child: const CatalogAutoUpdate(
-        child: SocialAutoSync(child: IncomingBooks(child: App())),
+        child: SocialAutoSync(
+          child: BillingLifecycle(child: IncomingBooks(child: App())),
+        ),
       ),
     ),
   );
