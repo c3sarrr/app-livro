@@ -180,27 +180,34 @@ void main() {
   });
 
   group('R13 — as saídas', () {
-    testWidgets('pelo leitor: tocar num cartão devolve o 1º item dele', (
-      tester,
-    ) async {
-      await abrirTela25(tester, livro, deLeitor: true);
-      final primeiro = cartoes25(tester).first.card.items.first;
-      await tester.tap(hl('hl.list.card1.body.quote'));
-      await tester.pumpAndSettle();
-      expect(find.byType(HighlightsScreen), findsNothing);
-      expect(await saidaDaTela25, HighlightsOpenAt(primeiro.id, page: 3));
-    });
+    testWidgets(
+      'pelo leitor: tocar num cartão publica o 1º item dele no canal (R5)',
+      (tester) async {
+        await abrirTela25(tester, livro, deLeitor: true);
+        final primeiro = cartoes25(tester).first.card.items.first;
+        await tester.tap(hl('hl.list.card1.body.quote'));
+        await tester.pumpAndSettle();
+        expect(find.byType(HighlightsScreen), findsNothing);
+        expect(saidasDaTela25, [HighlightsOpenAt(primeiro.id, page: 3)]);
+        expect(
+          await saidaDaTela25,
+          isNull,
+          reason: 'a saída não vai mais no resultado do push',
+        );
+      },
+    );
 
-    testWidgets('pelo leitor: "Continuar lendo" devolve o continuar', (
-      tester,
-    ) async {
-      await abrirTela25(tester, livro, deLeitor: true);
-      await tester.ensureVisible(hl('hl.end.cta'));
-      await tester.pumpAndSettle();
-      await tester.tap(hl('hl.end.cta'));
-      await tester.pumpAndSettle();
-      expect(await saidaDaTela25, const HighlightsContinue());
-    });
+    testWidgets(
+      'pelo leitor: "Continuar lendo" publica o continuar no canal (R5)',
+      (tester) async {
+        await abrirTela25(tester, livro, deLeitor: true);
+        await tester.ensureVisible(hl('hl.end.cta'));
+        await tester.pumpAndSettle();
+        await tester.tap(hl('hl.end.cta'));
+        await tester.pumpAndSettle();
+        expect(saidasDaTela25, [const HighlightsContinue()]);
+      },
+    );
 
     testWidgets(
       'pela Início: tocar num cartão troca a tela pelo leitor com ?ir=',

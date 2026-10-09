@@ -11,6 +11,7 @@ import 'package:app_leitura/app/routes.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
 import 'package:app_leitura/features/highlights/application/highlights_controller.dart';
+import 'package:app_leitura/features/highlights/application/highlights_exit.dart';
 import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
 import 'package:app_leitura/features/highlights/presentation/highlight_card.dart';
 import 'package:app_leitura/features/highlights/presentation/ink_thumbnail.dart';
@@ -39,8 +40,11 @@ Finder hl(String id) => find.byKey(ValueKey<String>(id));
 /// A tela da prancha: 390 × 2170.
 const Size tela25 = Size(390, 2170);
 
-/// O resultado do `push` da tela 25 (o que ela devolve ao sair — R13).
+/// O resultado do `push` da tela 25 (desde a G20 nada: a saída vai pelo canal — R5).
 Future<Object?>? saidaDaTela25;
+
+/// As saídas da tela 25 publicadas no canal do app para o livro aberto (R5 da G20).
+final List<HighlightsExit> saidasDaTela25 = [];
 
 /// Monta o app com a tela 25 do [livro] (rota real) e espera a lista (ou o vazio) aparecer.
 Future<void> abrirTela25(
@@ -74,6 +78,12 @@ Future<void> abrirTela25(
     ),
   );
   await tester.pumpAndSettle();
+  saidasDaTela25.clear();
+  final canal = ProviderScope.containerOf(tester.element(find.byType(App)))
+      .read(highlightsExitBusProvider)
+      .of(livro.userBookId)
+      .listen(saidasDaTela25.add);
+  addTearDown(canal.cancel);
   saidaDaTela25 = routerOf(
     tester,
   ).push<Object?>(AppRoutes.destaques(livro.userBookId, fromReader: deLeitor));

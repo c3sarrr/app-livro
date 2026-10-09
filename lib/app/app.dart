@@ -39,6 +39,8 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
     debugShowCheckedModeBanner: false,
+    // D-207: o sistema fecha o app em segundo plano e o reabre na mesma tela (a pilha de rotas, a aba, a rolagem)
+    restorationScopeId: 'app',
     theme: ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.paper,

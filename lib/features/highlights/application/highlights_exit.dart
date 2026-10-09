@@ -1,5 +1,9 @@
 // G19.8 — o que a tela 25 devolve ao leitor que a abriu (R13): abrir num trecho (o 1º item do cartão tocado) ou
 // continuar lendo onde estava. Voltar devolve nada.
+// G20 (R5): a saída vai por um canal do app ([HighlightsExitBus]), não pelo resultado do `push` — restaurada pelo
+// sistema (D-207), a 25 fica sobre um leitor refeito, que não espera mais o resultado.
+import 'dart:async';
+
 import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
@@ -40,4 +44,18 @@ final class HighlightsContinue extends HighlightsExit {
 
   @override
   int get hashCode => 1;
+}
+
+/// R5 (G20): a saída da 25 para o leitor do mesmo livro. O leitor escuta desde que abre — inclusive restaurado, quando
+/// ninguém mais espera o resultado do `push`.
+final class HighlightsExitBus {
+  final StreamController<(String, HighlightsExit)> _out =
+      StreamController.broadcast();
+
+  void post(String bookId, HighlightsExit exit) => _out.add((bookId, exit));
+
+  Stream<HighlightsExit> of(String bookId) =>
+      _out.stream.where((e) => e.$1 == bookId).map((e) => e.$2);
+
+  Future<void> dispose() => _out.close();
 }

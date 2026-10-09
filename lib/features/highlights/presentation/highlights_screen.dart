@@ -231,12 +231,19 @@ class _HighlightsScreenState extends ConsumerState<HighlightsScreen> {
 
   void _back() => unawaited(Navigator.of(context).maybePop());
 
+  /// R5: fecha e publica a saída no canal do app — o leitor de baixo escuta, mesmo restaurado (D-207).
+  void _exitToReader(HighlightsExit exit) {
+    final bus = ref.read(highlightsExitBusProvider);
+    Navigator.of(context).pop();
+    bus.post(widget.bookId, exit);
+  }
+
   void _open(HighlightCard card) {
     final c = _c;
     if (c == null) return;
     final first = card.items.first;
     if (widget.fromReader) {
-      Navigator.of(context).pop(
+      _exitToReader(
         HighlightsOpenAt(
           first.id,
           page: card.page,
@@ -252,7 +259,7 @@ class _HighlightsScreenState extends ConsumerState<HighlightsScreen> {
     final c = _c;
     if (c == null) return;
     if (widget.fromReader) {
-      Navigator.of(context).pop(const HighlightsContinue());
+      _exitToReader(const HighlightsContinue());
       return;
     }
     context.pushReplacement(

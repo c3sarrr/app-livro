@@ -15,8 +15,16 @@ import '../../reader/application/reader_errors.dart';
 import 'card_text_source.dart';
 import 'highlights_club_source.dart';
 import 'highlights_controller.dart';
+import 'highlights_exit.dart';
 import 'highlights_file_sink.dart';
 import 'highlights_repository.dart';
+
+/// R5 (G20): o canal das saídas da 25 para o leitor (um por app).
+final highlightsExitBusProvider = Provider<HighlightsExitBus>((ref) {
+  final bus = HighlightsExitBus();
+  ref.onDispose(bus.dispose);
+  return bus;
+});
 
 final highlightsDepsProvider = FutureProvider<HighlightsDeps>((ref) async {
   final db = await ref.watch(localDatabaseProvider.future);

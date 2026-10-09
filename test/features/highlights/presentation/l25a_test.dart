@@ -226,6 +226,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(HighlightsScreen), findsNothing);
     expect(await saidaDaTela25, isNull);
+    expect(saidasDaTela25, isEmpty, reason: 'o Voltar não publica saída');
   });
 
   test('a caixa da letra da Literata 16,5 é a do arquivo (24,5)', () async {

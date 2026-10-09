@@ -44,6 +44,8 @@ import '../../../app/routes.dart';
 import '../../../core/data/database/daos/annotation_daos.dart';
 import '../../../core/preferences/brand_preference.dart';
 import '../../highlights/application/highlights_exit.dart';
+import '../../highlights/application/highlights_providers.dart'
+    show highlightsExitBusProvider;
 import '../../shell/presentation/main_shell.dart';
 import '../annotations/domain/annotation.dart' show HighlightStyle;
 import '../annotations/ink/ink_commands.dart' show SessionNote, SessionStroke;
@@ -119,7 +121,8 @@ class ReaderScreen extends ConsumerStatefulWidget {
   ConsumerState<ReaderScreen> createState() => _ReaderScreenState();
 }
 
-class _ReaderScreenState extends ConsumerState<ReaderScreen> {
+class _ReaderScreenState extends ConsumerState<ReaderScreen>
+    with RestorationMixin {
   ReaderSessionController? _c;
   AppLifecycleListener? _life;
   ReaderSystemUi? _ui;
@@ -127,8 +130,18 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   bool _started = false;
   bool _depsFailed = false;
 
-  /// O salto do `?ir=` já foi feito (só na 1ª abertura).
-  bool _wentTo = false;
+  /// O salto do `?ir=` já foi feito (só na 1ª abertura): sobrevive à restauração — restaurado, o leitor abre na
+  /// posição gravada, não de novo no trecho (R4).
+  final RestorableBool _wentTo = RestorableBool(false);
+
+  @override
+  String? get restorationId => 'leitor.${widget.bookId}';
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_wentTo, 'saltou');
+  }
+
   bool _showOpening = false;
   Timer? _openingTimer;
   bool _immersive = false;
@@ -219,11 +232,23 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _ => null,
   };
 
+  /// A rota do leitor está por cima (nenhuma outra tela o cobre).
+  bool _onTop = true;
+
+  /// R5: as saídas da 25 deste livro, pelo canal do app; a que chega antes de o livro abrir espera por ele.
+  StreamSubscription<HighlightsExit>? _exits;
+  HighlightsExit? _pendingExit;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _coveredChanged(!(ModalRoute.isCurrentOf(context) ?? true));
     if (_started) return;
     _started = true;
+    _exits = ref
+        .read(highlightsExitBusProvider)
+        .of(widget.bookId)
+        .listen(_onHighlightsExit);
     _ui = ref.read(readerSystemUiProvider);
     _armOpening();
     // só o que a página usa (MediaQuery.of inteira refaria a tela a cada quadro do teclado da busca)
@@ -312,12 +337,20 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       );
     }
     if (ready && before is! ReaderReady) {
-      // a página apareceu: conta como leitura e liga a tela acesa (depois, só toques e o ciclo de vida)
+      // a página apareceu: conta como leitura e liga a tela acesa (depois, só toques e o ciclo de vida) — se nada
+      // a cobre (restaurado com a 25 por cima, só quando ela fechar)
       _openingTimer?.cancel();
-      _c!.setVisible(true);
+      if (_onTop) _c!.setVisible(true);
+      final exit = _pendingExit;
+      _pendingExit = null;
+      if (exit != null) {
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => _onHighlightsExit(exit),
+        );
+      }
       final goTo = widget.goTo;
-      if (goTo != null && !_wentTo) {
-        _wentTo = true;
+      if (goTo != null && !_wentTo.value) {
+        _wentTo.value = true;
         WidgetsBinding.instance.addPostFrameCallback(
           (_) => unawaited(_jumpToAnnotation(goTo)),
         );
@@ -885,25 +918,43 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     }
   }
 
-  /// Grifos (R13): a tela 25 por cima; a saída dela diz o que fazer.
+  /// Grifos (R13): a tela 25 por cima. A posição grava antes de ela abrir — o "você parou aqui" é a página de agora
+  /// (R2); a saída dela chega pelo canal (R5).
   Future<void> _openHighlights() async {
     _dismissUndo();
-    final c = _c;
-    // a 25 por cima: o tempo não conta e a posição grava antes — o "você parou aqui" é a página de agora (R2)
-    await c?.cover();
+    await _c?.cover();
     if (!mounted) return;
-    final r = await context.push<Object?>(
-      AppRoutes.destaques(widget.bookId, fromReader: true),
+    unawaited(
+      context.push<void>(AppRoutes.destaques(widget.bookId, fromReader: true)),
     );
+  }
+
+  /// Outra tela cobriu o leitor ou saiu de cima dele: o tempo pausa e volta (Anexo 03 §8) — vale também restaurado,
+  /// quando ninguém esperou o `push`.
+  void _coveredChanged(bool covered) {
+    if (covered == !_onTop) return;
+    _onTop = !covered;
+    final c = _c;
+    if (c == null || c.state is! ReaderReady) return;
+    if (covered) {
+      unawaited(c.cover());
+    } else {
+      c.setVisible(true);
+    }
+  }
+
+  /// R5: a saída da 25 deste livro — o trecho do cartão ou continuar onde estava, com os controles fechados.
+  void _onHighlightsExit(HighlightsExit exit) {
     if (!mounted) return;
-    if (c != null && identical(c, _c)) c.setVisible(true);
-    switch (r) {
+    if (_c?.state is! ReaderReady) {
+      _pendingExit = exit;
+      return;
+    }
+    _setControls(false);
+    switch (exit) {
       case HighlightsOpenAt(:final annotationId, :final page):
-        _setControls(false);
-        await _jumpToAnnotation(annotationId, page: page);
+        unawaited(_jumpToAnnotation(annotationId, page: page));
       case HighlightsContinue():
-        _setControls(false);
-      default:
         break;
     }
   }
@@ -1360,6 +1411,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         // fecha (grava a posição e o tempo) e solta o livro quando terminar
         ..dispose();
     }
+    _wentTo.dispose();
+    unawaited(_exits?.cancel());
     super.dispose();
   }
 

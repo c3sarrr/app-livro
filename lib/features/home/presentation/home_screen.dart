@@ -62,6 +62,8 @@ class HomeScreen extends ConsumerWidget {
       // (anima o PrimaryScrollController para o topo — `primary: true` sozinho não faz isso).
       body: SingleChildScrollView(
         primary: true,
+        // D-207: a rolagem volta depois que o sistema fecha o app
+        restorationId: 'inicio.rolagem',
         padding: EdgeInsets.only(
           top: topInset(context),
           bottom: AppSpacing.bottomPadding,

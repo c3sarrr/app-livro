@@ -36,6 +36,7 @@ GoRouter createRouter({
       );
 
   StatefulShellBranch tab(String path, Widget screen) => StatefulShellBranch(
+    restorationScopeId: 'aba$path',
     routes: [
       GoRoute(
         path: path,
@@ -46,12 +47,17 @@ GoRouter createRouter({
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
+    // D-207: a pilha de rotas e a aba voltam depois que o sistema fecha o app
+    restorationScopeId: 'raiz',
     initialLocation: initialLocation,
     overridePlatformDefaultLocation: overridePlatformDefaultLocation,
     routes: [
       StatefulShellRoute.indexedStack(
+        restorationScopeId: 'abas',
+        // D-207: a página das abas com o id de restauração fixo — o `pageKey` dela é o hash da rota, que muda a
+        // cada abertura do app e perderia o que as abas guardaram (a rolagem da Início)
         pageBuilder: (context, state, shell) =>
-            _page(state, MainShell(shell: shell)),
+            _page(state, MainShell(shell: shell), restorationId: 'abas.pagina'),
         branches: [
           tab(AppRoutes.inicio, const HomeScreen()),
           // G09 (D-87): até o design da Biblioteca, o placeholder ganha o bloco mínimo de importar (D-21).
@@ -131,6 +137,7 @@ Page<void> _page(
   GoRouterState state,
   Widget child, {
   bool fullscreenDialog = false,
+  String? restorationId,
 }) => MaterialPage<void>(
   key: state.pageKey,
   name: state.name ?? state.path,
@@ -138,7 +145,7 @@ Page<void> _page(
     ...state.pathParameters,
     ...state.uri.queryParameters,
   },
-  restorationId: state.pageKey.value,
+  restorationId: restorationId ?? state.pageKey.value,
   fullscreenDialog: fullscreenDialog,
   child: child,
 );
