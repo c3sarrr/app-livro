@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/data/database/local_database.dart';
 import '../../home/application/home_providers.dart';
+import '../../home/data/home_repository.dart';
 import '../../social/application/social_providers.dart';
 import 'clubs_providers.dart';
 import 'publishers.dart';
@@ -17,7 +18,11 @@ final statsPublisherProvider = Provider<StatsPublisher?>((ref) {
     streak: () async {
       final home = ref.read(homeRepositoryProvider);
       final now = ref.read(clockProvider);
-      return (await home.watch(now).first).readingDay.streakDays;
+      // a fonte que já tem o instantâneo (a fixture do app de desenvolvimento — D-34) não transmite
+      final snapshot = home is SyncHomeRepository
+          ? home.snapshot(now())
+          : await home.watch(now).first;
+      return snapshot.readingDay.streakDays;
     },
     now: ref.watch(clockProvider),
     isCurrent: (owner) => ref.read(socialOwnerProvider) == owner,
