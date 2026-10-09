@@ -14,7 +14,8 @@
 //   passadas do Noite (por trás, com os fundos e por cima);
 // - achado 17: no Noite, onde dois fundos se cruzam vale o de cima e a conta da D-133 é feita uma vez
 //   (`paintTextPage`, sem camada); os traços do Marca-texto da mesma cor e largura vão num caminho só (não somam onde
-//   se cruzam); a caneta e a Reta ficam por cima de tudo.
+//   se cruzam) e, onde um de outra cor ou largura passa por cima, vale o de cima (D-180: o de baixo é recortado fora
+//   dele); a caneta e a Reta ficam por cima de tudo.
 import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
@@ -38,24 +39,7 @@ ui.Path inkPath(InkStroke s) {
   final b = pts.last;
   if (pts.length == 1) return _circle(a.x, a.y, r);
   if (InkTool.fromCode(s.tool) == InkTool.line) {
-    final dx = b.x - a.x;
-    final dy = b.y - a.y;
-    final len = math.sqrt(dx * dx + dy * dy);
-    if (len == 0) return _circle(a.x, a.y, r);
-    final c = dx / len;
-    final sn = dy / len;
-    // a cápsula deitada em (0, 0)…(len, 0), girada e levada ao primeiro ponto
-    return (ui.Path()..addRRect(
-          ui.RRect.fromLTRBR(-r, -r, len + r, r, ui.Radius.circular(r)),
-        ))
-        .transform(
-          Float64List.fromList([
-            c, sn, 0, 0, //
-            -sn, c, 0, 0,
-            0, 0, 1, 0,
-            a.x, a.y, 0, 1,
-          ]),
-        );
+    return _capsule(a.x, a.y, b.x, b.y, r);
   }
   final outline = freehandOutline([
     for (final p in pts) (p.x, p.y, p.pressure),
@@ -65,6 +49,28 @@ ui.Path inkPath(InkStroke s) {
 
 ui.Path _circle(double x, double y, double r) =>
     ui.Path()..addOval(ui.Rect.fromCircle(center: ui.Offset(x, y), radius: r));
+
+/// A cápsula de raio [r] de (ax, ay) a (bx, by) (sem comprimento, um círculo), no sentido horário.
+ui.Path _capsule(double ax, double ay, double bx, double by, double r) {
+  final dx = bx - ax;
+  final dy = by - ay;
+  final len = math.sqrt(dx * dx + dy * dy);
+  if (len == 0) return _circle(ax, ay, r);
+  final c = dx / len;
+  final sn = dy / len;
+  // a cápsula deitada em (0, 0)…(len, 0), girada e levada ao primeiro ponto
+  return (ui.Path()..addRRect(
+        ui.RRect.fromLTRBR(-r, -r, len + r, r, ui.Radius.circular(r)),
+      ))
+      .transform(
+        Float64List.fromList([
+          c, sn, 0, 0, //
+          -sn, c, 0, 0,
+          0, 0, 1, 0,
+          ax, ay, 0, 1,
+        ]),
+      );
+}
 
 /// O contorno fechado com curvas pelos pontos médios (o `getSvgPathFromStroke` do perfect-freehand).
 ui.Path _smoothPolygon(List<Vec> pts) {
@@ -140,31 +146,189 @@ void paintInkBehind(
 }
 
 /// Com letras claras ([lightText], o Noite — D-133): a parte do Marca-texto que vai por cima das letras, D em
-/// diferença. Os traços da mesma cor e largura vão num caminho só: onde se cruzam, a diferença é feita uma vez
-/// (achado 17). A caneta e a Reta não.
+/// diferença, uma vez em cada ponto — a do traço de cima, como por trás (achado 17, D-180; [MarkerFill]). A caneta e
+/// a Reta não.
 void paintInkFill(
   ui.Canvas canvas,
   List<InkStroke> strokes, {
   required ui.Color lightText,
-}) {
-  final groups = <(int, int), ui.Path>{};
-  for (final s in strokes) {
-    if (!_isMarker(s)) continue;
-    final c = inkArgbOn(s.argb, lightText) | 0xFF000000;
-    groups
-        .putIfAbsent((c, s.widthCentiMm), ui.Path.new)
-        .addPath(markerLine(s), ui.Offset.zero);
+}) => MarkerFill.of(strokes, lightText: lightText).paint(canvas);
+
+/// A passada dos fundos do Marca-texto no Noite (achado 17, D-180), sem camada (a regra 12.4) e sem operações de
+/// caminho:
+/// - os traços da mesma cor e largura vão num caminho só (onde se cruzam, não somam) enquanto nenhum grupo pintado
+///   depois toca o traço; senão, ele começa outro grupo — a ordem dos grupos é a dos traços (a de trás);
+/// - cada grupo leva a diferença com o D dele; onde um grupo de cima o cobre, ela é desfeita por uma 2ª diferença com
+///   o mesmo D. Por baixo do Marca-texto, o fundo (D − cor) e a letra ficam abaixo de todo D, e aí |(|x − D|) − D| = x:
+///   cada ponto volta ao que era e leva só a diferença do grupo de cima.
+final class MarkerFill {
+  MarkerFill._(this._runs);
+
+  factory MarkerFill.of(
+    List<InkStroke> strokes, {
+    required ui.Color lightText,
+  }) {
+    final runs = <_MarkerRun>[];
+    for (final s in strokes) {
+      if (!_isMarker(s)) continue;
+      final c = inkArgbOn(s.argb, lightText) | 0xFF000000;
+      final box = markerBounds(s);
+      // o grupo da mesma cor e largura mais recente, se nenhum pintado depois dele toca este traço
+      _MarkerRun? into;
+      for (var i = runs.length - 1; i >= 0; i--) {
+        final r = runs[i];
+        if (r.color == c && r.width == s.widthCentiMm) {
+          into = r;
+          break;
+        }
+        if (r.bounds.overlaps(box)) break;
+      }
+      if (into == null) {
+        into = _MarkerRun(c, s.widthCentiMm, lightText);
+        runs.add(into);
+      }
+      into.add(s, box);
+    }
+    // os traços de cima que tocam cada grupo
+    for (var k = 0; k < runs.length; k++) {
+      final run = runs[k];
+      for (final above in runs.skip(k + 1)) {
+        if (!above.bounds.overlaps(run.bounds)) continue;
+        for (final (s, box) in above.strokes) {
+          if (box.overlaps(run.bounds)) run.cover(s, box);
+        }
+      }
+    }
+    return MarkerFill._(runs);
   }
-  for (final MapEntry(key: (c, w), value: path) in groups.entries) {
-    canvas.drawPath(
-      path,
-      _markerPaint(
-        w,
-        channelMax(lightText, ui.Color(c)),
+
+  final List<_MarkerRun> _runs;
+
+  bool get isEmpty => _runs.isEmpty;
+
+  void paint(ui.Canvas canvas) {
+    for (final run in _runs) {
+      canvas.drawPath(run.line, run.stroke);
+      final above = run.above;
+      if (above == null) continue;
+      canvas
+        ..save()
+        ..clipPath(run.outline)
+        ..drawPath(above, run.fill)
+        ..restore();
+    }
+  }
+
+  /// O Marca-texto ao vivo [live] por cima destes grupos, já pintados ([paint]): onde ele os cobre, a diferença deles
+  /// é desfeita — de cima para baixo, para cada ponto voltar ao que era (o de cima de cada ponto uma vez; os de baixo,
+  /// que lá já estavam desfeitos, duas) — e vale a dele.
+  void paintLive(
+    ui.Canvas canvas,
+    InkStroke live, {
+    required ui.Color lightText,
+  }) {
+    final box = markerBounds(live);
+    ui.Path? outline;
+    for (final run in _runs.reversed) {
+      if (!run.bounds.overlaps(box)) continue;
+      outline ??= markerOutline(live);
+      canvas
+        ..save()
+        ..clipPath(run.outline)
+        ..clipPath(outline)
+        ..drawRect(run.bounds, run.fill);
+      final above = run.above;
+      if (above != null && run.aboveBounds.overlaps(box)) {
+        canvas.drawPath(above, run.fill);
+      }
+      canvas.restore();
+    }
+    paintInkFill(canvas, [live], lightText: lightText);
+  }
+}
+
+/// Os traços do Marca-texto da mesma cor e largura pintados juntos (num caminho só) no Noite, e os de cima que os
+/// tocam.
+final class _MarkerRun {
+  _MarkerRun(this.color, this.width, ui.Color light)
+    : stroke = _markerPaint(
+        width,
+        channelMax(light, ui.Color(color)),
         ui.BlendMode.difference,
       ),
-    );
+      fill = ui.Paint()
+        ..color = channelMax(light, ui.Color(color))
+        ..blendMode = ui.BlendMode.difference
+        ..isAntiAlias = true;
+
+  final int color;
+  final int width;
+
+  /// A diferença pelo traço (a linha na largura) e pela forma cheia.
+  final ui.Paint stroke, fill;
+  final ui.Path line = ui.Path();
+  final List<(InkStroke, ui.Rect)> strokes = [];
+  ui.Rect bounds = ui.Rect.zero;
+
+  /// A forma cheia dos traços de cima que tocam este grupo (`null` = nenhum) e onde ela está.
+  ui.Path? above;
+  ui.Rect aboveBounds = ui.Rect.zero;
+
+  void add(InkStroke s, ui.Rect box) {
+    bounds = strokes.isEmpty ? box : bounds.expandToInclude(box);
+    strokes.add((s, box));
+    line.addPath(markerLine(s), ui.Offset.zero);
   }
+
+  void cover(InkStroke s, ui.Rect box) {
+    final a = above;
+    aboveBounds = a == null ? box : aboveBounds.expandToInclude(box);
+    (above = a ?? ui.Path()).addPath(markerOutline(s), ui.Offset.zero);
+  }
+
+  /// A forma cheia do grupo.
+  late final ui.Path outline = () {
+    final path = ui.Path();
+    for (final (s, _) in strokes) {
+      path.addPath(markerOutline(s), ui.Offset.zero);
+    }
+    return path;
+  }();
+}
+
+/// Onde o traço [s] do Marca-texto pinta: os pontos com a meia largura e 1 px da borda suavizada.
+ui.Rect markerBounds(InkStroke s) {
+  final pts = s.points;
+  if (pts.isEmpty) return ui.Rect.zero;
+  var left = pts.first.x, right = left, top = pts.first.y, bottom = top;
+  for (final p in pts) {
+    left = math.min(left, p.x);
+    right = math.max(right, p.x);
+    top = math.min(top, p.y);
+    bottom = math.max(bottom, p.y);
+  }
+  return ui.Rect.fromLTRB(
+    left,
+    top,
+    right,
+    bottom,
+  ).inflate(dpOfCentiMm(s.widthCentiMm) / 2 + 1);
+}
+
+/// A forma cheia do traço [s] do Marca-texto — a linha na largura dele, com as pontas e as juntas redondas, como
+/// [_markerPaint] a pinta: uma cápsula por trecho, todas no mesmo sentido (juntas, a união).
+ui.Path markerOutline(InkStroke s) {
+  final pts = s.points;
+  final path = ui.Path();
+  if (pts.isEmpty) return path;
+  final r = dpOfCentiMm(s.widthCentiMm) / 2;
+  if (pts.length == 1) return _circle(pts.first.x, pts.first.y, r);
+  for (var i = 1; i < pts.length; i++) {
+    final a = pts[i - 1];
+    final b = pts[i];
+    path.addPath(_capsule(a.x, a.y, b.x, b.y, r), ui.Offset.zero);
+  }
+  return path;
 }
 
 /// A linha dos pontos de [s].
@@ -283,11 +447,34 @@ final class InkPictureCache {
     return picture;
   }
 
+  /// Os grupos do Marca-texto de [page] na [revision], com as letras [lightText] (o Noite): para pintar o Marca-texto
+  /// ao vivo por cima deles ([MarkerFill.paintLive]), guardados até a página ou a revisão mudar.
+  MarkerFill markerFillOf(
+    Object page,
+    int revision,
+    List<InkStroke> Function() strokes, {
+    required ui.Color lightText,
+  }) {
+    final kept = _fill;
+    if (kept != null &&
+        identical(kept.$1, page) &&
+        kept.$2 == revision &&
+        kept.$3 == lightText) {
+      return kept.$4;
+    }
+    final fill = MarkerFill.of(strokes(), lightText: lightText);
+    _fill = (page, revision, lightText, fill);
+    return fill;
+  }
+
+  (Object, int, ui.Color, MarkerFill)? _fill;
+
   void dispose() {
     for (final e in _entries) {
       e.picture.dispose();
     }
     _entries.clear();
+    _fill = null;
   }
 }
 

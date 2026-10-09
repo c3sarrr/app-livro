@@ -56,6 +56,10 @@ final class _Tela implements ui.Canvas {
   }
 
   @override
+  void clipPath(ui.Path path, {bool doAntiAlias = true}) =>
+      chamadas.add('recorte');
+
+  @override
   Object? noSuchMethod(Invocation invocation) => null;
 }
 
@@ -409,7 +413,8 @@ void main() {
       final frente = _Tela();
       paintInkFill(frente, [_traco(_reta), marca()], lightText: letra);
       expect(frente.caminhos.single.$3, BlendMode.difference);
-      // os da mesma cor e largura num caminho só (onde se cruzam, a diferença uma vez — achado 17); outra cor, outro
+      // os da mesma cor e largura num caminho só (onde se cruzam, a diferença uma vez — achado 17); outra cor, outro;
+      // onde o rosa cobre o amarelo, a diferença do amarelo é desfeita (D-180)
       final juntos = _Tela();
       paintInkFill(juntos, [
         marca(),
@@ -426,11 +431,23 @@ void main() {
           largura: 870,
         ),
       ], lightText: letra);
-      expect(juntos.caminhos, hasLength(2));
+      expect(juntos.caminhos, hasLength(3));
       expect(
         juntos.caminhos.first.$1.computeMetrics().length,
         2,
         reason: 'os 2 amarelos no mesmo caminho',
+      );
+      expect(juntos.chamadas.where((c) => c == 'recorte'), hasLength(1));
+      expect(
+        [for (final (_, c, m) in juntos.caminhos) (c.toARGB32(), m)],
+        [
+          (channelMax(letra, _amarelo).toARGB32(), BlendMode.difference),
+          (channelMax(letra, _amarelo).toARGB32(), BlendMode.difference),
+          (
+            channelMax(letra, const Color(0xFFFFC1C6)).toARGB32(),
+            BlendMode.difference,
+          ),
+        ],
       );
       expect(
         frente.caminhos.single.$2.toARGB32(),
@@ -481,6 +498,193 @@ void main() {
           (_amarelo.computeLuminance() + 0.05) /
           (palavra.computeLuminance() + 0.05);
       expect(contraste, greaterThan(4.5), reason: 'a letra escura');
+    });
+
+    test('achado 17 (D-180): no Noite, os traços do Marca-texto de cores ou larguras diferentes que se cruzam — vale o de '
+        'cima, com a conta da D-133 feita uma vez; o mesmo traço por cima de outro da mesma cor não soma', () async {
+      const papel = Color(0xFF1F1B17);
+      const rosa = Color(0xFFFFC1C6);
+      const azul = Color(0xFF7EB6FF);
+      InkStroke marcaEm(
+        List<(double, double)> pts, {
+        int argb = 0xE6FED170,
+        int largura = 870,
+      }) => _traco(pts, tool: InkTool.marker, argb: argb, largura: largura);
+      final tracos = [
+        // amarelo deitado; o azul em pé por cima dele (D bem diferente do amarelo)
+        marcaEm([(10, 40), (110, 40)]),
+        marcaEm([(60, 10), (60, 80)], argb: 0xE67EB6FF),
+        // amarelo fino em pé, por cima do 1º (a mesma cor, outra largura)
+        marcaEm([(90, 20), (90, 80)], largura: 400),
+        // amarelo largo deitado, por cima do azul e do fino (a mesma chave do 1º, mas depois do azul)
+        marcaEm([(10, 70), (110, 70)]),
+        // um toque rosa (um ponto) por cima do 1º amarelo
+        marcaEm([(20, 40)], argb: 0xE6FFC1C6),
+        // o caneta não entra
+        _traco([(10, 100), (110, 100)]),
+      ];
+      final gravador = ui.PictureRecorder();
+      final canvas = Canvas(gravador)
+        ..drawRect(const Rect.fromLTWH(0, 0, 120, 120), Paint()..color = papel);
+      paintInkBehind(canvas, tracos, lightText: letra);
+      paintInkFill(canvas, tracos, lightText: letra);
+      final img = await gravador.endRecording().toImage(120, 120);
+      final bytes = (await img.toByteData())!;
+      img.dispose();
+      void cor(int x, int y, Color esperada, String onde) {
+        final i = (y * 120 + x) * 4;
+        for (final (k, c) in [
+          (0, esperada.r),
+          (1, esperada.g),
+          (2, esperada.b),
+        ]) {
+          expect(
+            (bytes.getUint8(i + k) - c * 255).abs(),
+            lessThanOrEqualTo(1),
+            reason: '$onde ($x, $y), canal $k',
+          );
+        }
+      }
+
+      cor(5, 5, papel, 'o papel');
+      cor(30, 40, _amarelo, 'só o amarelo');
+      cor(60, 25, azul, 'só o azul');
+      cor(60, 40, azul, 'o azul por cima do amarelo');
+      cor(90, 55, _amarelo, 'só o fino');
+      cor(90, 40, _amarelo, 'o fino por cima do largo');
+      cor(60, 70, _amarelo, 'o amarelo de baixo por cima do azul');
+      cor(90, 70, _amarelo, 'o largo por cima do fino');
+      cor(30, 70, _amarelo, 'só o amarelo de baixo');
+      cor(20, 40, rosa, 'o toque rosa por cima do amarelo');
+      cor(96, 55, papel, 'fora do fino (a largura dele)');
+    });
+
+    /// Pinta [salvos] (e [vivo], por cima) no Noite sobre o papel, por trás e com os fundos, e devolve a cor de cada
+    /// ponto.
+    Future<Color Function(int x, int y)> noite(
+      List<InkStroke> salvos, {
+      InkStroke? vivo,
+    }) async {
+      final gravador = ui.PictureRecorder();
+      final canvas = Canvas(gravador)
+        ..drawRect(
+          const Rect.fromLTWH(0, 0, 120, 120),
+          Paint()..color = const Color(0xFF1F1B17),
+        );
+      paintInkBehind(canvas, [...salvos, ?vivo], lightText: letra);
+      final fundos = MarkerFill.of(salvos, lightText: letra)..paint(canvas);
+      if (vivo != null) fundos.paintLive(canvas, vivo, lightText: letra);
+      final img = await gravador.endRecording().toImage(120, 120);
+      final bytes = (await img.toByteData())!;
+      img.dispose();
+      return (x, y) {
+        final i = (y * 120 + x) * 4;
+        return Color.fromARGB(
+          255,
+          bytes.getUint8(i),
+          bytes.getUint8(i + 1),
+          bytes.getUint8(i + 2),
+        );
+      };
+    }
+
+    void cor(Color Function(int, int) px, int x, int y, Color c, String onde) {
+      final p = px(x, y);
+      for (final (k, a, b) in [(0, p.r, c.r), (1, p.g, c.g), (2, p.b, c.b)]) {
+        expect(
+          ((a - b) * 255).abs(),
+          lessThanOrEqualTo(1),
+          reason: '$onde ($x, $y), canal $k',
+        );
+      }
+    }
+
+    InkStroke marcaEm(
+      List<(double, double)> pts, {
+      int argb = 0xE6FED170,
+      int largura = 870,
+    }) => _traco(pts, tool: InkTool.marker, argb: argb, largura: largura);
+
+    test('achado 17: o traço que volta ao grupo antigo da cor dele (longe do de outra cor) e depois é coberto por um de '
+        'outra cor que volta ao grupo dela — vale o de cima', () async {
+      const azul = Color(0xFF7EB6FF);
+      final px = await noite([
+        marcaEm([(10, 20), (110, 20)]),
+        marcaEm([(60, 5), (60, 35)], argb: 0xE67EB6FF),
+        // longe do azul: entra no grupo do 1º amarelo
+        marcaEm([(10, 80), (50, 80)]),
+        // o azul por cima dele: entra no grupo do 1º azul
+        marcaEm([(30, 65), (30, 100)], argb: 0xE67EB6FF),
+        // um amarelo e um azul deitados, perto: só as larguras se tocam
+        marcaEm([(70, 102), (110, 102)]),
+        marcaEm([(70, 116), (110, 116)], argb: 0xE67EB6FF),
+      ]);
+      cor(px, 60, 20, azul, 'o 1º azul por cima do 1º amarelo');
+      cor(px, 20, 80, _amarelo, 'só o 2º amarelo');
+      cor(px, 30, 80, azul, 'o 2º azul por cima do 2º amarelo');
+      cor(px, 30, 95, azul, 'só o 2º azul');
+      cor(px, 90, 99, _amarelo, 'só o amarelo de baixo');
+      cor(px, 90, 109, azul, 'onde as larguras se tocam, o azul de cima');
+      cor(px, 90, 119, azul, 'só o azul de baixo');
+    });
+
+    test(
+      'achado 17: o Marca-texto ao vivo por cima de dois salvos que se cruzam — vale o ao vivo (desfeitos de cima '
+      'para baixo: o azul de cima passa do amarelo de baixo no canal azul)',
+      () async {
+        const rosa = Color(0xFFFFC1C6);
+        const azul = Color(0xFF7EB6FF);
+        final salvos = [
+          marcaEm([(10, 40), (110, 40)]),
+          marcaEm([(60, 10), (60, 80)], argb: 0xE67EB6FF),
+        ];
+        final px = await noite(
+          salvos,
+          vivo: marcaEm([(30, 40), (110, 40)], argb: 0xE6FFC1C6),
+        );
+        cor(px, 20, 40, _amarelo, 'só o amarelo');
+        cor(px, 60, 20, azul, 'só o azul');
+        cor(px, 45, 40, rosa, 'o ao vivo por cima do amarelo');
+        cor(px, 60, 40, rosa, 'o ao vivo por cima do azul e do amarelo');
+        cor(px, 60, 70, azul, 'o azul fora do ao vivo');
+        // sem cruzar nada, o ao vivo não recorta
+        final tela = _Tela();
+        MarkerFill.of(salvos, lightText: letra).paintLive(
+          tela,
+          marcaEm([(10, 110), (50, 110)], argb: 0xE67EB6FF),
+          lightText: letra,
+        );
+        expect(tela.chamadas.where((c) => c == 'recorte'), isEmpty);
+      },
+    );
+
+    test('achado 17: sem cruzamento entre cores, cada cor num caminho só, sem recorte (como antes)', () {
+      final tela = _Tela();
+      paintInkFill(tela, [
+        marca(),
+        _traco(
+          [(70, 100), (70, 160)],
+          tool: InkTool.marker,
+          argb: 0xE6FED170,
+          largura: 870,
+        ),
+        _traco(
+          [(20, 10), (100, 10)],
+          tool: InkTool.marker,
+          argb: 0xE6FFC1C6,
+          largura: 870,
+        ),
+        // amarelo de novo, longe do rosa: volta ao caminho dos amarelos
+        _traco(
+          [(20, 200), (100, 200)],
+          tool: InkTool.marker,
+          argb: 0xE6FED170,
+          largura: 870,
+        ),
+      ], lightText: letra);
+      expect(tela.caminhos, hasLength(2));
+      expect(tela.caminhos.first.$1.computeMetrics().length, 3);
+      expect(tela.chamadas.where((c) => c == 'recorte'), isEmpty);
     });
 
     test('o cache separa o Creme e as 3 passadas do Noite; sem marca-texto, nada por trás nem na camada; no Creme, só a de cima', () {

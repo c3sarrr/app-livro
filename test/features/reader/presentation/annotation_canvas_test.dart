@@ -497,6 +497,68 @@ void main() {
       s.pointerUp(p(200, 152, 48));
     });
 
+    test(
+      'achado 17: no Noite, o Marca-texto ao vivo de outra cor por cima de um salvo — vale o ao vivo, com a conta da '
+      'D-133 uma vez (o salvo é recortado fora dele só onde ele o toca)',
+      () async {
+        final s = _sessao()..setTool(AnnotationTool.marker);
+        addTearDown(s.dispose);
+        final pan = ValueNotifier<double>(0);
+        // o salvo, deitado fora do texto (no texto, o Marca-texto vira grifo — G17)
+        s
+          ..pointerDown(p(40, 330, 0))
+          ..pointerMove(p(120, 330, 16))
+          ..pointerMove(p(180, 330, 32))
+          ..pointerUp(p(180, 330, 48));
+        final salvo = s.visibleStrokes.single;
+        s.setHighlighterColor('#FFC1C6');
+        // o ao vivo, em pé, cruzando o salvo
+        s
+          ..pointerDown(p(110, 290, 100))
+          ..pointerMove(p(110, 330, 116))
+          ..pointerMove(p(110, 370, 132));
+        final vivo = s.liveMarker.value!;
+        expect(vivo.argb, isNot(salvo.argb));
+        final fotos = InkPictureCache();
+        addTearDown(fotos.dispose);
+        final gravador = ui.PictureRecorder();
+        AnnotationPagePainter(
+          session: s,
+          page: _PaginaMuda(),
+          pageBox: _caixa,
+          paper: AppColors.paperNight,
+          pan: pan,
+          pictures: fotos,
+          lightText: letra,
+        ).paint(Canvas(gravador), const Size(390, 844));
+        final img = await gravador.endRecording().toImage(390, 844);
+        final bytes = (await img.toByteData())!;
+        img.dispose();
+        void cor(double x, double y, int argb, String onde) {
+          final i = ((y + s.textShift).round() * 390 + x.round()) * 4;
+          final esperada = Color(argb | 0xFF000000);
+          for (final (k, c) in [
+            (0, esperada.r),
+            (1, esperada.g),
+            (2, esperada.b),
+          ]) {
+            expect(
+              (bytes.getUint8(i + k) - c * 255).abs(),
+              lessThanOrEqualTo(1),
+              reason: '$onde, canal $k',
+            );
+          }
+        }
+
+        final y = salvo.points.first.y;
+        final x = vivo.points.first.x;
+        cor(60, y, salvo.argb, 'só o salvo');
+        cor(x, y, vivo.argb, 'o ao vivo por cima do salvo');
+        cor(x, vivo.points.last.y, vivo.argb, 'só o ao vivo');
+        s.pointerUp(p(110, 370, 148));
+      },
+    );
+
     test('no Noite, a folha repinta só com o Marca-texto ao vivo (a Caneta e o Laço ficam na camada viva)', () {
       final s = _sessao();
       addTearDown(s.dispose);

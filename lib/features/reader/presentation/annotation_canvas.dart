@@ -396,15 +396,43 @@ class AnnotationPagePainter extends CustomPainter {
             }),
       paintInkFill: light == null
           ? null
-          : _noite(picture(InkPass.fill), live, (c, s) {
-              paintInkFill(c, s, lightText: light);
-            }),
+          : _noiteFill(
+              picture(InkPass.fill),
+              live,
+              () => pictures.markerFillOf(
+                session,
+                session.revision,
+                () => session.visibleStrokes,
+                lightText: light,
+              ),
+              light,
+            ),
       paintInkLayer: (c) {
         final p = picture(InkPass.top);
         if (p != null) c.drawPicture(p);
       },
     );
     canvas.restore();
+  }
+
+  /// A passada dos fundos do Noite: a `Picture` da tinta salva e o Marca-texto ao vivo [live] por cima dela, que vale
+  /// onde se cruzam (achado 17); `null` sem nenhum dos dois.
+  static void Function(Canvas)? _noiteFill(
+    ui.Picture? picture,
+    InkStroke? live,
+    MarkerFill Function() saved,
+    Color light,
+  ) {
+    if (picture == null && live == null) return null;
+    return (c) {
+      if (picture != null) c.drawPicture(picture);
+      if (live == null) return;
+      if (picture == null) {
+        paintInkFill(c, [live], lightText: light);
+      } else {
+        saved().paintLive(c, live, lightText: light);
+      }
+    };
   }
 
   /// A passada do Noite: a `Picture` da tinta salva e o Marca-texto ao vivo [live]; `null` sem nenhum dos dois.
