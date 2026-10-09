@@ -3,6 +3,7 @@
 // do livro, no estilo das 9 capas desenhadas — até a foto chegar.
 import 'dart:async';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -260,6 +261,44 @@ int _hash(String s) {
 }
 
 /// Capa gerada a partir do título e do autor: sempre a mesma para o mesmo livro.
+/// D-224 (Q29): o corpo do título da capa gerada — o do desenho ([size]) ou, se a palavra mais longa não cabe em
+/// [width], o maior (em passos de 0,25) que a faz caber, nunca abaixo de 60 % do desenho. O resto da capa não muda.
+double coverTitleSize(String title, double size, double width) {
+  final words = [
+    for (final w in title.split(RegExp(r'\s+')))
+      if (w.isNotEmpty) w,
+  ];
+  if (words.isEmpty || width <= 0) return size;
+  double widest(double s) {
+    var m = 0.0;
+    for (final w in words) {
+      final p = TextPainter(
+        text: TextSpan(
+          text: w,
+          style: AppTextStyles.coverTitle19.copyWith(fontSize: s),
+        ),
+        textDirection: TextDirection.ltr,
+        maxLines: 1,
+      )..layout();
+      m = math.max(m, p.maxIntrinsicWidth);
+      p.dispose();
+    }
+    return m;
+  }
+
+  final full = widest(size);
+  if (full <= width) return size;
+  final min = size * 0.6;
+  var s = math.max(min, (size * width / full * 4).floorToDouble() / 4);
+  while (s > min && widest(s) > width) {
+    s = math.max(min, s - 0.25);
+  }
+  while (s + 0.25 < size && widest(s + 0.25) <= width) {
+    s += 0.25;
+  }
+  return s;
+}
+
 class GeneratedCoverArt extends StatelessWidget {
   GeneratedCoverArt({
     super.key,
@@ -283,7 +322,16 @@ class GeneratedCoverArt extends StatelessWidget {
     final p = palette;
     final w = slot.width;
     final h = slot.height;
-    final titleSize = slot.titleSize;
+    final drawn = slot.titleSize;
+    // Q29: a palavra mais longa cabe inteira na largura útil (dentro da borda da moldura, menos a lombada e as
+    // margens)
+    final titleSize = drawn == null
+        ? null
+        : coverTitleSize(
+            title,
+            drawn,
+            w - 2 * slot.border - slot.spineWidth - 2 * slot.inset,
+          );
     return KeyedSubtree(
       key: const ValueKey('cover.generated'),
       child: ColoredBox(

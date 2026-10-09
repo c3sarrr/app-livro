@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
+import 'package:app_leitura/core/design_system/text/app_text.dart';
+import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/features/home/application/cover_providers.dart';
 import 'package:app_leitura/features/home/data/cover_store.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
@@ -143,6 +145,85 @@ void main() {
         expect(a.shape, b.shape);
       },
     );
+
+    group('Q29 (D-224): a fonte do título desce só até a palavra mais longa caber', () {
+      double larguraDe(String palavra, double corpo) {
+        final p = TextPainter(
+          text: TextSpan(
+            text: palavra,
+            style: AppTextStyles.coverTitle19.copyWith(fontSize: corpo),
+          ),
+          textDirection: TextDirection.ltr,
+          maxLines: 1,
+        )..layout();
+        final w = p.maxIntrinsicWidth;
+        p.dispose();
+        return w;
+      }
+
+      // o herói: dentro da borda (1,5 de cada lado), menos a lombada e as margens
+      const util = 104.0 - 3 - 7 - 10 - 10;
+
+      test('"Dom Casmurro" no herói: "Casmurro" inteiro numa linha', () {
+        expect(
+          larguraDe('Casmurro', 22),
+          greaterThan(util),
+          reason: 'no corpo do desenho, não cabe',
+        );
+        final corpo = coverTitleSize('Dom Casmurro', 22, util);
+        expect(corpo, lessThan(22));
+        expect(corpo, greaterThanOrEqualTo(22 * 0.6));
+        expect(larguraDe('Casmurro', corpo), lessThanOrEqualTo(util));
+        expect(
+          larguraDe('Casmurro', corpo + 0.5),
+          greaterThan(util),
+          reason: 'só o necessário',
+        );
+      });
+
+      test(
+        'as palavras cabem: o corpo do desenho; palavra enorme: no mínimo 60 %',
+        () {
+          expect(coverTitleSize('A hora da estrela', 22, util), 22);
+          expect(coverTitleSize('', 22, util), 22);
+          expect(
+            coverTitleSize(
+              'Pneumoultramicroscopicossilicovulcanoconiótico',
+              22,
+              util,
+            ),
+            closeTo(22 * 0.6, 1e-9),
+          );
+        },
+      );
+
+      testWidgets('a capa gerada do herói usa o corpo que cabe', (
+        tester,
+      ) async {
+        await tester.pumpWidget(
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: SizedBox(
+                // o miolo da moldura do herói (a borda de 1,5 fica por fora)
+                width: 101,
+                height: 153,
+                child: GeneratedCoverArt(
+                  title: 'Dom Casmurro',
+                  author: 'Machado de Assis',
+                  slot: CoverSlot.hero,
+                ),
+              ),
+            ),
+          ),
+        );
+        final titulo = tester.widget<AppText>(findAppText('Dom Casmurro'));
+        expect(
+          titulo.span.style!.fontSize,
+          coverTitleSize('Dom Casmurro', 22, util),
+        );
+      });
+    });
 
     test('livros diferentes variam (paleta e forma das capas do arquivo)', () {
       final capas = [
