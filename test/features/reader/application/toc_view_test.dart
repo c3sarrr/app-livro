@@ -619,4 +619,15 @@ void main() {
       expect(_view().bookmarks, 0);
     });
   });
+
+  group('G19: os rótulos dos capítulos (o CSV da tela 25)', () {
+    test('um por capítulo, pelo índice do capítulo; sem índice, nenhum', () {
+      final r = chapterLabels(_indice());
+      expect(r[0], 'cap. I · Um');
+      expect(r[1], 'cap. II · Dois');
+      expect(r, contains('cap. III · Três'));
+      expect(chapterLabels(null), isEmpty);
+      expect(chapterLabels(_indice(toc: const [])), isEmpty);
+    });
+  });
 }

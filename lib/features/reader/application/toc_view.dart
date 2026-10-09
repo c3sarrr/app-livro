@@ -476,6 +476,22 @@ List<TocBookmarkCard> _cards(
   ];
 }
 
+/// G19: o rótulo de cada capítulo pelo índice dele ("cap. XXXII · Olhos de ressaca"), para o CSV da tela 25; sem
+/// índice ou sumário, nenhum.
+List<String?> chapterLabels(BookIndex? index) {
+  if (index == null || index.toc.isEmpty) return const [];
+  final out = <String?>[];
+  for (final r in _rows(_Places(index), (spine: 0, offset: 0), const [])) {
+    final c = r.chapter;
+    if (r.kind != TocRowKind.chapter || c == null) continue;
+    while (out.length <= c) {
+      out.add(null);
+    }
+    out[c] = _chapterLabel(r);
+  }
+  return out;
+}
+
 String _chapterLabel(TocRow r) =>
     r.numeral == null ? r.title : 'cap. ${r.numeral} · ${r.title}';
 
