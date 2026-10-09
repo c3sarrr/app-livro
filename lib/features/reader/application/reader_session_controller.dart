@@ -33,6 +33,7 @@ import '../layout/layout_scheduler.dart';
 import '../layout/reader_typography.dart';
 import '../presentation/reader_insets.dart';
 import '../presentation/reader_palette.dart';
+import 'book_file.dart';
 import 'book_pager.dart';
 import 'book_search.dart' show EpubSearchRunner;
 import 'epub_images.dart' show EpubImageLoader;
@@ -444,13 +445,8 @@ class ReaderSessionController extends ChangeNotifier {
       );
 
   /// O caminho guardado, ou o mesmo nome na pasta dos livros de agora (como a importação — G09).
-  Future<String?> _existing(String stored) async {
-    if (File(stored).existsSync()) return stored;
-    final name = stored.split(RegExp(r'[/\\]')).last;
-    final moved =
-        '${(await deps.booksDir()).path}${Platform.pathSeparator}$name';
-    return File(moved).existsSync() ? moved : null;
-  }
+  Future<String?> _existing(String stored) =>
+      existingBookFile(stored, deps.booksDir);
 
   void _attach(ReaderDocument d) {
     _doc = d;
