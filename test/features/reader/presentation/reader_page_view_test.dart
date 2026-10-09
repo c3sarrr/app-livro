@@ -148,6 +148,9 @@ final class _Livro implements ReaderDocument {
   ReaderMark get mark => (spine: 0, offset: at);
 
   @override
+  ReaderMark get markEnd => mark;
+
+  @override
   RefRange get shownRange => (fromRef: at + 1, toRef: at + 1);
 
   @override
@@ -182,7 +185,8 @@ final class _Livro implements ReaderDocument {
   Future<void> flush() async {}
 
   @override
-  Future<void> pin(ReaderMark? mark) async => alfinete = mark;
+  Future<void> pin(ReaderMark? mark, {ReaderMark? end}) async =>
+      alfinete = mark;
 
   @override
   void dispose() {}

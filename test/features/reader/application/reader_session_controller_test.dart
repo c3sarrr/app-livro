@@ -417,6 +417,29 @@ void main() {
     expect(sessao.refPageFrom, isNotNull);
   });
 
+  test('G20 (R2): outra tela por cima (a 25) — o tempo pausa e a posição da página de agora grava na hora', () async {
+    final c = await aberto();
+    c.setVisible(true);
+    h.agora += const Duration(seconds: 30);
+    expect(await c.turn(PageDirection.forward), isTrue);
+    h.agora += const Duration(milliseconds: 200); // menos que o 1 s da gravação
+    await c.cover();
+    final pos = await ReadingPositionsDao(h.livro.db)
+        .forBook(h.livro.userBookId);
+    expect(
+      (pos!.locator as EpubLocator).offset,
+      doc(c).mark.offset,
+      reason: 'gravada antes de a 25 ler',
+    );
+    expect(h.awake.log.last, 'off');
+    h.agora += const Duration(minutes: 1); // a 25 por cima: não conta
+    c.setVisible(true);
+    h.agora += const Duration(seconds: 10);
+    await c.close();
+    expect(await h.segundos(), [40]);
+    expect(h.erros, isEmpty);
+  });
+
   test('link (D-108): vai, guarda a volta; some em 2 viradas ou em 6 s; voltar = caractere exato', () async {
     final rosto = h.livro.index.spine.indexWhere(
       (s) => s.path.endsWith('55752-h-0.htm.xhtml'),

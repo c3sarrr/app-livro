@@ -22,6 +22,7 @@ import '../../../fixtures/mundo_2026_09_20.dart' show paragrafoDaPagina159;
 import '../../../support/epub_builder.dart';
 import '../../../support/load_fonts.dart';
 import '../../../support/personal_builders.dart';
+import '../../../support/reader_harness.dart' show domCasmurroEpub;
 
 String _esc(String s) =>
     s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
@@ -140,6 +141,46 @@ void main() {
       greaterThan(0),
     );
     await k.flush(); // nada pendente
+  });
+
+  test('G20 (D-210): com o último caractere da página, o capítulo gravado é o último que começa nela', () async {
+    final (index, book) = abrir(
+      'dc.epub',
+      File(domCasmurroEpub).readAsBytesSync(),
+      'b' * 64,
+    );
+    final i = index.toc.indexWhere(
+      (t) => t.title.startsWith('Olhos de ressaca'),
+    );
+    final t = index.toc[i];
+    final folha = index.toc.take(i + 1).where((e) => e.leaf).length - 1;
+    final texto = book.parseItem(t.spine!).text;
+    final k = guardiao(index);
+    // a página começa no fim do XXXI e mostra o começo do XXXII
+    k.pageShown(t.spine!, t.offset! - 40, texto, last: t.offset! + 40);
+    await k.flush();
+    var p = (await k.saved())!;
+    expect(p.chapterIndex, folha);
+    expect(
+      (p.locator as EpubLocator).offset,
+      t.offset! - 40,
+      reason: 'o lugar é o 1º caractere',
+    );
+    expect(
+      p.refPage,
+      index.refPages
+          .pageOf(index.globalOffset(t.spine!, t.offset! - 40)!)
+          .clamp(1, 1 << 30),
+    );
+    // sem o fim da página: o capítulo do 1º caractere (o XXXI)
+    k.pageShown(t.spine!, t.offset! - 40, texto);
+    await k.flush();
+    p = (await k.saved())!;
+    expect(p.chapterIndex, folha - 1);
+    // o fim antes do começo (não acontece na tela) não volta o capítulo para trás do 1º caractere
+    k.pageShown(t.spine!, t.offset! + 10, texto, last: 0);
+    await k.flush();
+    expect((await k.saved())!.chapterIndex, folha);
   });
 
   test(

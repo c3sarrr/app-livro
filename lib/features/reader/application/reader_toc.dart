@@ -22,8 +22,9 @@ import 'reader_club_source.dart';
 import 'reader_document.dart' show ReaderMark;
 import 'toc_view.dart';
 
-/// Onde a pessoa está: a marca da página (o caractere ou a página do PDF) e a página de referência.
-typedef TocPlace = ({ReaderMark mark, int refPage});
+/// Onde a pessoa está: a marca da página (o caractere ou a página do PDF), o último caractere dela (o capítulo atual é
+/// o último que começa na página — D-210) e a página de referência.
+typedef TocPlace = ({ReaderMark mark, ReaderMark? end, int refPage});
 
 class ReaderToc extends ChangeNotifier {
   ReaderToc({
@@ -154,6 +155,7 @@ class ReaderToc extends ChangeNotifier {
       index: _index,
       indexFailed: _indexFailed,
       at: p.mark,
+      atEnd: p.end,
       refPage: p.refPage,
       annotations: _notes,
       bookmarks: _marks,

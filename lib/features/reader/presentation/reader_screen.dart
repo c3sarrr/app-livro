@@ -888,10 +888,15 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// Grifos (R13): a tela 25 por cima; a saída dela diz o que fazer.
   Future<void> _openHighlights() async {
     _dismissUndo();
+    final c = _c;
+    // a 25 por cima: o tempo não conta e a posição grava antes — o "você parou aqui" é a página de agora (R2)
+    await c?.cover();
+    if (!mounted) return;
     final r = await context.push<Object?>(
       AppRoutes.destaques(widget.bookId, fromReader: true),
     );
     if (!mounted) return;
+    if (c != null && identical(c, _c)) c.setVisible(true);
     switch (r) {
       case HighlightsOpenAt(:final annotationId, :final page):
         _setControls(false);
@@ -1240,7 +1245,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       bookTitle: doc.title,
       place: () {
         final d = _doc ?? doc;
-        return (mark: d.mark, refPage: d.numbers.refPage);
+        return (mark: d.mark, end: d.markEnd, refPage: d.numbers.refPage);
       },
       owner: c.deps.owner,
       club: c.deps.club,

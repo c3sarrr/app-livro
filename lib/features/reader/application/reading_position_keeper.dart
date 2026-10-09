@@ -46,7 +46,7 @@ final class ReadingPositionKeeper {
   final ReaderErrorReporter _onError;
 
   Timer? _timer;
-  ({int spine, int offset, String text})? _pending;
+  ({int spine, int offset, String text, int? last})? _pending;
   Future<void> _saving = Future<void>.value();
 
   /// O `EpubLocator` do caractere [offset] do capítulo [spine] ([text] = texto canônico do capítulo).
@@ -63,9 +63,11 @@ final class ReadingPositionKeeper {
     );
   }
 
-  /// Uma página apareceu: grava depois de [delay] se a pessoa ficar nela.
-  void pageShown(int spine, int offset, String text) {
-    _pending = (spine: spine, offset: offset, text: text);
+  /// Uma página apareceu: grava depois de [delay] se a pessoa ficar nela. [offset] = o 1º caractere visível (o
+  /// lugar); [last] = o último da página — o capítulo gravado é o último que começa na página (D-210); sem [last],
+  /// o do 1º caractere.
+  void pageShown(int spine, int offset, String text, {int? last}) {
+    _pending = (spine: spine, offset: offset, text: text, last: last);
     _timer?.cancel();
     _timer = Timer(delay, () => unawaited(flush()));
   }
@@ -79,7 +81,7 @@ final class ReadingPositionKeeper {
     if (p == null) return _saving;
     return _saving = _saving.then((_) async {
       try {
-        await _save(p.spine, p.offset, p.text);
+        await _save(p.spine, p.offset, p.text, p.last);
       } on Object catch (e, st) {
         _onError(e, st); // a próxima página tenta de novo
       }
@@ -95,9 +97,16 @@ final class ReadingPositionKeeper {
     _timer = null;
   }
 
-  Future<void> _save(int spine, int offset, String text) async {
+  Future<void> _save(int spine, int offset, String text, int? last) async {
     final locator = locatorAt(spine, offset, text);
     final n = numbersAt(index, spine, locator.offset);
+    final chapter = last == null
+        ? n.chapterIndex
+        : numbersAt(
+            index,
+            spine,
+            last.clamp(locator.offset, text.length),
+          ).chapterIndex;
     final owner = await _owner();
     final dao = ReadingPositionsDao(_db);
     await _versioning.write('reading_positions', userBookId, (v) async {
@@ -114,7 +123,7 @@ final class ReadingPositionKeeper {
           ),
           locator: locator,
           refPage: n.refPage,
-          chapterIndex: n.chapterIndex,
+          chapterIndex: chapter,
           progression: n.progression,
           deviceId: deviceId,
         ),

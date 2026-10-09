@@ -490,6 +490,17 @@ class ReaderSessionController extends ChangeNotifier {
     }
   }
 
+  /// Outra tela cobre o leitor (a 25 — G20, R2): o tempo pausa como fora da tela (Anexo 03 §8) e a posição
+  /// pendente grava agora — quem abre por cima lê a página de agora ("você parou aqui"). Voltar = [setVisible].
+  Future<void> cover() async {
+    setVisible(false);
+    try {
+      await _doc?.flush();
+    } on Object catch (e, st) {
+      deps.onError(e, st);
+    }
+  }
+
   /// Toque, arrasto: conta como leitura (D-95) e segura a tela acesa (D-111).
   void interaction() {
     unawaited(_tracker?.interaction());
@@ -599,6 +610,7 @@ class ReaderSessionController extends ChangeNotifier {
       // saltos seguidos (D-126): enquanto a volta vale, ela continua para antes do 1º salto
       final kept = _back;
       final origin = kept ?? (mark: doc.mark, refPage: doc.numbers.refPage);
+      final originEnd = doc.markEnd;
       final before = doc.numbers.refPage;
       try {
         final ok = await go(doc);
@@ -614,7 +626,7 @@ class ReaderSessionController extends ChangeNotifier {
         _back = origin;
         _backTimed = timed;
         _startBackDeadline();
-        if (kept == null) await doc.pin(origin.mark);
+        if (kept == null) await doc.pin(origin.mark, end: originEnd);
         _set(ReaderReady(doc, back: origin));
         return true;
       } on Object catch (e, st) {

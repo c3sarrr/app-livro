@@ -2,6 +2,7 @@
 // letra visível (`numbersAt`), a posição gravada pelo `ReadingPositionKeeper` a cada página mostrada, e os
 // links internos do livro (`caminho#fragmento` → item do spine + caractere do `id` — D-108).
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show Listenable, ValueNotifier;
@@ -269,6 +270,16 @@ final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
   }
 
   @override
+  ReaderMark get markEnd {
+    final p = _pager.position!;
+    return (spine: p.spine, offset: _lastOf(p));
+  }
+
+  /// O último caractere da página (nunca antes do 1º visível).
+  static int _lastOf(PagerPosition p) =>
+      math.max(p.firstVisible, p.page.end - 1);
+
+  @override
   RefRange get shownRange {
     final p = _pager.position!;
     final last = p.page.end > p.page.start ? p.page.end - 1 : p.page.start;
@@ -369,7 +380,7 @@ final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
   ReaderMark? _pinned;
 
   @override
-  Future<void> pin(ReaderMark? mark) async {
+  Future<void> pin(ReaderMark? mark, {ReaderMark? end}) async {
     _pinned = mark;
     if (mark == null) {
       _announce();
@@ -378,7 +389,12 @@ final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
     final content = await _pager.content(mark.spine);
     // soltou ou trocou enquanto o capítulo carregava
     if (_pinned != mark) return;
-    _deps.keeper.pageShown(mark.spine, mark.offset, content.item.text);
+    _deps.keeper.pageShown(
+      mark.spine,
+      mark.offset,
+      content.item.text,
+      last: end?.spine == mark.spine ? end!.offset : null,
+    );
   }
 
   @override
@@ -395,7 +411,7 @@ final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
     final p = _pager.position;
     if (p == null) return;
     final text = _pager.contentOf(p.spine)?.item.text ?? '';
-    _deps.keeper.pageShown(p.spine, p.firstVisible, text);
+    _deps.keeper.pageShown(p.spine, p.firstVisible, text, last: _lastOf(p));
   }
 }
 

@@ -632,24 +632,97 @@ void main() {
     });
   });
 
-  group(
-    'G20: os numerais dos capítulos (o "Cap. N de M" da Início — D-206)',
-    () {
-      test('o Dom Casmurro real: 148 numerados (I…CXLVIII) entre as folhas do sumário', () {
-        final index = indexEpubFile(domCasmurroEpub, 'a' * 64);
-        final n = chapterNumerals(index);
-        expect(n, hasLength(index.chaptersTotal!));
-        final numerados = n.whereType<String>().toList();
-        expect(numerados, hasLength(148));
-        expect(numerados.first, 'I');
-        expect(numerados[31], 'XXXII');
-        expect(numerados.last, 'CXLVIII');
-      });
+  group('G20: os numerais dos capítulos (o "Cap. N de M" da Início — D-206)', () {
+    test('o Dom Casmurro real: 148 numerados (I…CXLVIII) entre as folhas do sumário', () {
+      final index = indexEpubFile(domCasmurroEpub, 'a' * 64);
+      final n = chapterNumerals(index);
+      expect(n, hasLength(index.chaptersTotal!));
+      final numerados = n.whereType<String>().toList();
+      expect(numerados, hasLength(148));
+      expect(numerados.first, 'I');
+      expect(numerados[31], 'XXXII');
+      expect(numerados.last, 'CXLVIII');
+    });
 
-      test('sem índice ou sem sumário, nenhum', () {
-        expect(chapterNumerals(null), isEmpty);
-        expect(chapterNumerals(_indice(toc: const [])), isEmpty);
-      });
-    },
-  );
+    test('D-210: o capítulo atual é o último que começa na página (a folha do último caractere)', () {
+      // I e II no mesmo item; III e IV no seguinte, os dois na mesma página
+      final indice = _indice(
+        toc: const [
+          TocPoint(title: 'I. Um', spine: 0, offset: 0, depth: 0, leaf: true),
+          TocPoint(
+            title: 'II. Dois',
+            spine: 0,
+            offset: 2000,
+            depth: 0,
+            leaf: true,
+          ),
+          TocPoint(
+            title: 'III. Três',
+            spine: 1,
+            offset: 0,
+            depth: 0,
+            leaf: true,
+          ),
+          TocPoint(
+            title: 'IV. Quatro',
+            spine: 1,
+            offset: 600,
+            depth: 0,
+            leaf: true,
+          ),
+          TocPoint(
+            title: 'V. Cinco',
+            spine: 1,
+            offset: 1400,
+            depth: 0,
+            leaf: true,
+          ),
+        ],
+      );
+      List<bool> atual(TocView v) => [for (final r in v.rows) r.current];
+      TocView pagina(int s0, int o0, int s1, int o1) => buildTocView(
+        bookTitle: 'Livro',
+        index: indice,
+        at: (spine: s0, offset: o0),
+        atEnd: (spine: s1, offset: o1),
+        refPage: 1,
+        annotations: const [],
+        bookmarks: const [],
+        now: _agora,
+        utcOffsetAt: _fuso,
+      );
+      // o fim do I e o começo do II: o II
+      final v = pagina(0, 1500, 0, 2400);
+      expect(atual(v), [false, true, false, false, false]);
+      expect(
+        v.rows[0].read,
+        isFalse,
+        reason: 'o fim do I ainda está na página',
+      );
+      expect(v.rows[1].progress, 0);
+      // o III e o começo do IV na mesma página: o IV (o último que começa nela)
+      expect(atual(pagina(1, 0, 1, 900)), [false, false, false, true, false]);
+      // nenhum começa na página: o que contém a página
+      expect(atual(pagina(1, 700, 1, 1300)), [
+        false,
+        false,
+        false,
+        true,
+        false,
+      ]);
+      // sem o fim (como antes): o do 1º caractere
+      expect(atual(_view(index: indice, at: (spine: 0, offset: 1500))), [
+        true,
+        false,
+        false,
+        false,
+        false,
+      ]);
+    });
+
+    test('sem índice ou sem sumário, nenhum', () {
+      expect(chapterNumerals(null), isEmpty);
+      expect(chapterNumerals(_indice(toc: const [])), isEmpty);
+    });
+  });
 }

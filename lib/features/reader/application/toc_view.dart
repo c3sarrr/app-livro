@@ -187,6 +187,7 @@ TocView buildTocView({
   required BookIndex? index,
   bool indexFailed = false,
   required ReaderMark at,
+  ReaderMark? atEnd,
   required int refPage,
   required List<Annotation> annotations,
   required List<Bookmark> bookmarks,
@@ -200,7 +201,7 @@ TocView buildTocView({
   final places = index == null || toc.isEmpty ? null : _Places(index);
   final rows = places == null
       ? const <TocRow>[]
-      : _rows(places, at, annotations);
+      : _rows(places, at, annotations, end: atEnd);
   final currentRow = rows.indexWhere((r) => r.current);
   final chapters = index?.chaptersTotal;
   final leaves = [
@@ -308,7 +309,14 @@ final class _Places {
   }
 }
 
-List<TocRow> _rows(_Places places, ReaderMark at, List<Annotation> notes) {
+/// [at] = o começo da página mostrada; [end] = o último caractere dela. O capítulo atual é o último que começa na
+/// página (D-210): a folha de [end] (sem [end], a de [at]).
+List<TocRow> _rows(
+  _Places places,
+  ReaderMark at,
+  List<Annotation> notes, {
+  ReaderMark? end,
+}) {
   final index = places.index;
   final pdf = places.pdf;
   final toc = index.toc;
@@ -318,7 +326,9 @@ List<TocRow> _rows(_Places places, ReaderMark at, List<Annotation> notes) {
   ]);
   final starts = places.starts;
   final position = places.positionOf(at);
-  final current = places.leafAt(position);
+  final current = places.leafAt(
+    end == null ? position : places.positionOf(end),
+  );
   final ends = places.ends;
   final byChapter = <int, List<Annotation>>{};
   for (final a in notes) {

@@ -63,7 +63,7 @@ void main() {
       db: db,
       userBookId: livro,
       bookTitle: 'Dom Casmurro',
-      place: () => (mark: (spine: 1, offset: 300), refPage: 3),
+      place: () => (mark: (spine: 1, offset: 300), end: null, refPage: 3),
       owner: () async => usuarioTeste,
       club: club,
       now: () => DateTime.utc(2026, 9, 20, 23),

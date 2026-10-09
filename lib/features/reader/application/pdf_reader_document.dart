@@ -307,6 +307,9 @@ final class PdfReaderDocument implements ReaderDocument {
   ReaderMark get mark => (spine: 0, offset: _at);
 
   @override
+  ReaderMark get markEnd => mark;
+
+  @override
   RefRange get shownRange => (fromRef: _at + 1, toRef: _at + 1);
 
   int? _neighbor(PageDirection d) {
@@ -390,7 +393,7 @@ final class PdfReaderDocument implements ReaderDocument {
   int? _pinned;
 
   @override
-  Future<void> pin(ReaderMark? mark) async {
+  Future<void> pin(ReaderMark? mark, {ReaderMark? end}) async {
     _pinned = mark?.offset;
     if (mark == null) {
       _announce();

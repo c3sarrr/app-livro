@@ -83,6 +83,56 @@ void main() {
     expect((l.spine, l.offset), (d.mark.spine, d.mark.offset));
   });
 
+  test('G20 (D-210): a página com o fim do XXXI e o começo do XXXII — o lugar é o 1º caractere, o capítulo é o último '
+      'que começa na página', () async {
+    final xxxii = livro.index.toc.firstWhere(
+      (t) => t.title.startsWith('Olhos de ressaca'),
+    );
+    await livro.guardarPosicao(xxxii.spine!, xxxii.offset!);
+    final d = await abrir();
+    final (inicio, fim) = (d.mark, d.markEnd);
+    expect(inicio.spine, xxxii.spine);
+    expect(
+      inicio.offset,
+      lessThan(xxxii.offset!),
+      reason: 'a página começa no fim do XXXI',
+    );
+    expect(fim.spine, inicio.spine);
+    expect(
+      fim.offset,
+      greaterThanOrEqualTo(xxxii.offset!),
+      reason: 'e mostra o começo do XXXII',
+    );
+    // o capítulo esperado, contado à mão: a última folha que começa até o último caractere da página
+    var folha = -1;
+    var esperado = -1;
+    for (final t in livro.index.toc) {
+      if (!t.leaf) continue;
+      folha++;
+      final s = t.spine;
+      if (s != null &&
+          (s < fim.spine ||
+              (s == fim.spine && (t.offset ?? 0) <= fim.offset))) {
+        esperado = folha;
+      }
+    }
+    await d.flush();
+    final pos = (await ReadingPositionsDao(livro.db)
+        .forBook(livro.userBookId))!;
+    expect(pos.chapterIndex, esperado);
+    expect(
+      (pos.locator as EpubLocator).offset,
+      inicio.offset,
+      reason: 'o lugar continua o 1º caractere visível',
+    );
+    expect(await d.turn(PageDirection.forward), isTrue);
+    expect(
+      d.mark.offset,
+      greaterThan(fim.offset),
+      reason: 'o último caractere é desta página, não da seguinte',
+    );
+  });
+
   test(
     'o "Indice" da folha de rosto leva ao índice no fim do livro (D-108)',
     () async {

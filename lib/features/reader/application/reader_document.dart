@@ -158,6 +158,10 @@ abstract interface class ReaderDocument {
   /// Onde a pessoa está (a volta de um link guarda isto).
   ReaderMark get mark;
 
+  /// O último caractere da página mostrada (no PDF, a própria página): o capítulo atual é o último que começa na
+  /// página (D-210).
+  ReaderMark get markEnd;
+
   RefRange get shownRange;
 
   /// A página vizinha sem virar; `null` = começo/fim do livro. Vizinha que não abre (arquivo danificado) = erro,
@@ -181,8 +185,9 @@ abstract interface class ReaderDocument {
   Future<void> flush();
 
   /// Enquanto houver [mark], a posição gravada é ela e não a página mostrada — a volta de um link (D-115): sair
-  /// do livro com a pílula valendo guarda a página de onde se saiu. `null` solta e grava a página mostrada.
-  Future<void> pin(ReaderMark? mark);
+  /// do livro com a pílula valendo guarda a página de onde se saiu ([end] = o último caractere dela, para o
+  /// capítulo — D-210). `null` solta e grava a página mostrada.
+  Future<void> pin(ReaderMark? mark, {ReaderMark? end});
 
   void dispose();
 }
