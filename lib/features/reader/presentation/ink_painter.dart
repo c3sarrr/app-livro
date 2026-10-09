@@ -235,7 +235,7 @@ final class MarkerFill {
       canvas
         ..save()
         ..clipPath(run.outline)
-        ..clipPath(outline)
+        ..clipPath(outline, doAntiAlias: false)
         ..drawRect(run.bounds, run.fill);
       final above = run.above;
       if (above != null && run.aboveBounds.overlaps(box)) {
@@ -256,15 +256,17 @@ final class _MarkerRun {
         channelMax(light, ui.Color(color)),
         ui.BlendMode.difference,
       ),
+      // a correção com a borda seca: na borda do traço de cima, a borda suavizada das duas diferenças deixava uma
+      // costura escura
       fill = ui.Paint()
         ..color = channelMax(light, ui.Color(color))
         ..blendMode = ui.BlendMode.difference
-        ..isAntiAlias = true;
+        ..isAntiAlias = false;
 
   final int color;
   final int width;
 
-  /// A diferença pelo traço (a linha na largura) e pela forma cheia.
+  /// A diferença pelo traço (a linha na largura) e pela forma cheia (a correção, com a borda seca).
   final ui.Paint stroke, fill;
   final ui.Path line = ui.Path();
   final List<(InkStroke, ui.Rect)> strokes = [];

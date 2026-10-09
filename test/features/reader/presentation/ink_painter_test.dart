@@ -4,6 +4,7 @@
 // do grifo feito à mão (D-161) na caixa de cada linha (5 px para os lados, de 3 px abaixo do topo da letra até 1 px
 // acima da base), a 90 % e multiplicada; no Noite, a técnica da D-133. G17 (R25): a mancha na altura do grifo (Baixa
 // do meio da letra, Alta da letra toda) e só no fundo — o sublinhado e o ondulado à mão pintam como os da tela 21.
+import 'dart:math' as math;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
@@ -657,6 +658,31 @@ void main() {
         expect(tela.chamadas.where((c) => c == 'recorte'), isEmpty);
       },
     );
+
+    test('achado 17: a borda de um traço por cima de outro fica sem a costura escura (a correção com a borda seca)', () async {
+      final px = await noite([
+        marcaEm([(10, 30), (110, 30)]),
+        marcaEm([(20, 70), (100, 10)], argb: 0xE67EB6FF),
+      ]);
+      // a linha do meio do amarelo, cruzando as 2 bordas do azul: nada mais escuro que 0,7 da média das cores
+      var escuro = 3.0;
+      for (var x = 40; x < 80; x++) {
+        final p = px(x, 30);
+        escuro = math.min(escuro, p.r + p.g + p.b);
+      }
+      const amarelo = 0xFE + 0xD1 + 0x70, azul = 0x7E + 0xB6 + 0xFF;
+      expect(escuro * 255, greaterThan(0.7 * (amarelo + azul) / 2));
+      // o mesmo com o azul ao vivo
+      final vivo = await noite([
+        marcaEm([(10, 30), (110, 30)]),
+      ], vivo: marcaEm([(20, 70), (100, 10)], argb: 0xE67EB6FF));
+      var escuroVivo = 3.0;
+      for (var x = 40; x < 80; x++) {
+        final p = vivo(x, 30);
+        escuroVivo = math.min(escuroVivo, p.r + p.g + p.b);
+      }
+      expect(escuroVivo * 255, greaterThan(0.7 * (amarelo + azul) / 2));
+    });
 
     test('achado 17: sem cruzamento entre cores, cada cor num caminho só, sem recorte (como antes)', () {
       final tela = _Tela();
