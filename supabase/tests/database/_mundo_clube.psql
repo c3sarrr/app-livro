@@ -1,0 +1,163 @@
+-- O mundo do clube (pranchas 04, 31, 32 e 70–73; docs/progresso/G21.md, Prova): as Leitoras de Capitu lendo o
+-- Dom Casmurro em 6 semanas, vistas pela Marina. Datas relativas a now(): o encontro da semana 2 é daqui a 4 dias
+-- ("em 4 dias"); a Marina leu tudo até 45 min atrás. Roda como postgres (sem RLS): dentro da transação do pgTAP
+-- (\ir) ou antes da integração do app (psql).
+-- Ids: 00000c10NNNN as leitoras (0001 Ana … 0011 Helô); 00000c200001 o clube; 00000c300001 a leitura;
+-- 00000c4000NN os encontros (NN = a semana); 00000c5000NN as perguntas; 00000c6000NN os grifos;
+-- 00000c7000NN as respostas da pergunta da semana 2; 00000c0a00NN o catálogo.
+
+insert into catalog.authors (id, name) values ('00000000-0000-7000-8000-00000c0a0001', 'Machado de Assis');
+insert into catalog.works (id, title) values ('00000000-0000-7000-8000-00000c0a0002', 'Dom Casmurro');
+insert into catalog.work_authors (work_id, author_id)
+values ('00000000-0000-7000-8000-00000c0a0002', '00000000-0000-7000-8000-00000c0a0001');
+insert into catalog.editions (id, work_id, isbn13, title, pages, cover_ref, source) values
+  ('00000000-0000-7000-8000-00000c0a0003', '00000000-0000-7000-8000-00000c0a0002', '9788535902778', 'Dom Casmurro',
+   256, 'ol:8231432', 'manual'),
+  ('00000000-0000-7000-8000-00000c0a0004', '00000000-0000-7000-8000-00000c0a0002', '9788508140912', 'Dom Casmurro',
+   208, null, 'manual');
+
+create function pg_temp.leitora(n integer) returns uuid language sql immutable as $$
+  select ('00000000-0000-7000-8000-00000c10' || lpad(n::text, 4, '0'))::uuid
+$$;
+
+insert into auth.users (id, email)
+select pg_temp.leitora(u.n::integer), u.e || '@mundo.clube'
+  from unnest(array['ana','julia','marina','lu','rafa','bia','carol','dani','fe','gabi','helo']) with ordinality as u(e, n);
+update public.profiles p set display_name = u.nome, handle = u.e || '_clube'
+  from unnest(array['ana','julia','marina','lu','rafa','bia','carol','dani','fe','gabi','helo'],
+              array['Ana','Júlia','Marina','Lu','Rafa','Bia','Carol','Dani','Fê','Gabi','Helô'])
+       with ordinality as u(e, nome, n)
+ where p.id = pg_temp.leitora(u.n::integer);
+insert into private.account_age (user_id, band, source)
+select pg_temp.leitora(n), '18_plus', 'birthdate' from generate_series(1, 11) n;
+
+insert into public.clubs (id, owner_id, name, name_highlight, category, color, work_id, edition_id, privacy,
+                          meeting_weekday, meeting_time, meeting_minutes, meeting_mode, timezone)
+values ('00000000-0000-7000-8000-00000c200001', pg_temp.leitora(1), 'Leitoras de Capitu', 'Capitu',
+        'Clássicos brasileiros', '#FFC1C6', '00000000-0000-7000-8000-00000c0a0002',
+        '00000000-0000-7000-8000-00000c0a0003', 'invite', 4, '20:00', 90, 'online', 'America/Sao_Paulo');
+
+-- as 11 leitoras na ordem de chegada (a Ana entrou pelo gatilho do clube), a cor e onde cada uma está (prancha 32)
+update public.club_members set joined_at = now() - interval '30 days', progress_ratio = 0.64, progress_chapter = 30
+ where club_id = '00000000-0000-7000-8000-00000c200001' and user_id = pg_temp.leitora(1);
+insert into public.club_members (club_id, user_id, color, progress_ratio, progress_chapter, joined_at,
+                                 last_read_post_at)
+select '00000000-0000-7000-8000-00000c200001', pg_temp.leitora(v.n), v.cor, v.ratio, v.cap,
+       now() - interval '30 days' + v.n * interval '1 hour',
+       case when v.n = 3 then now() - interval '45 minutes' end
+  from (values (2, '#ABCF82', 0.67, 34), (3, '#FED170', 0.62, 32), (4, '#FFC1C6', 0.63, 33),
+               (5, '#FFFAF1', 0.78, 41), (6, '#058CD7', 0.58, 30), (7, '#FFC1C6', 0.55, 28),
+               (8, '#FFFAF1', 0.46, 24), (9, '#F2A815', 0.40, 21), (10, '#ABCF82', 0.38, 20),
+               (11, '#058CD7', 0.20, 10)) as v(n, cor, ratio, cap);
+
+insert into public.club_readings (id, club_id, work_id, edition_id, status, starts_on, weeks)
+values ('00000000-0000-7000-8000-00000c300001', '00000000-0000-7000-8000-00000c200001',
+        '00000000-0000-7000-8000-00000c0a0002', '00000000-0000-7000-8000-00000c0a0003', 'current',
+        current_date - 10, 6);
+insert into public.club_weeks (reading_id, club_id, week_no, from_chapter, to_chapter)
+select '00000000-0000-7000-8000-00000c300001', '00000000-0000-7000-8000-00000c200001', v.n, v.de, v.ate
+  from (values (1, 1, 25), (2, 26, 50), (3, 51, 75), (4, 76, 100), (5, 101, 125), (6, 126, 148)) as v(n, de, ate);
+insert into public.club_meetings (id, club_id, reading_id, week_no, starts_at, ends_at, mode, timezone, created_by)
+select ('00000000-0000-7000-8000-00000c4000' || lpad(k::text, 2, '0'))::uuid, '00000000-0000-7000-8000-00000c200001',
+       '00000000-0000-7000-8000-00000c300001', k, b.t + (k - 2) * interval '7 days',
+       b.t + (k - 2) * interval '7 days' + interval '90 minutes', 'online', 'America/Sao_Paulo', pg_temp.leitora(1)
+  from generate_series(1, 6) k,
+       (select ((current_date + 4) + time '20:00') at time zone 'America/Sao_Paulo' as t) b;
+
+-- "8 confirmadas · 3 talvez" (prancha 04): a Lu, a Dani e a Helô talvez
+insert into public.meeting_rsvps (meeting_id, user_id, club_id, answer)
+select '00000000-0000-7000-8000-00000c400002', pg_temp.leitora(n), '00000000-0000-7000-8000-00000c200001',
+       case when n in (4, 8, 11) then 'talvez' else 'vou' end
+  from generate_series(1, 11) n;
+
+-- as perguntas: a da semana 1 (já conversada) e as 4 da semana 2 na ordem da Ana (prancha 70)
+insert into public.club_posts (id, club_id, author_id, kind, chapter_index, reading_id, week_no, position, status,
+                               body, created_at)
+select ('00000000-0000-7000-8000-00000c5000' || lpad(v.n::text, 2, '0'))::uuid, '00000000-0000-7000-8000-00000c200001',
+       pg_temp.leitora(v.quem), 'question', v.cap - 1, '00000000-0000-7000-8000-00000c300001', v.semana, v.pos, v.estado,
+       v.texto, now() - v.quando
+  from (values (1, 1, 25, 1, 1, 'discussed', 'O que vocês acharam do começo?', interval '12 days'),
+               (2, 1, 50, 2, 1, 'open', 'Bentinho é um narrador confiável?', interval '3 days'),
+               (3, 2, 50, 2, 2, 'open', 'Os “olhos de ressaca”: é amor ou é medo?', interval '3 days'),
+               (4, 5, 50, 2, 3, 'open', 'O que o José Dias ganha mexendo na vida dos outros?', interval '2 days'),
+               (5, 6, 50, 2, 4, 'open', 'Por que a Capitu sempre pensa mais rápido que o Bentinho?', interval '2 days'))
+       as v(n, quem, cap, semana, pos, estado, texto, quando);
+
+-- semana 1: 44 respostas na pergunta (de 11 a 7 dias atrás)
+insert into public.club_post_replies (post_id, author_id, body, created_at)
+select '00000000-0000-7000-8000-00000c500001', pg_temp.leitora((i % 11) + 1), 'Comentário ' || i || ' da semana 1.',
+       now() - interval '11 days' + i * interval '2 hours'
+  from generate_series(1, 44) i;
+
+-- semana 2: as 12 respostas da pergunta da semana (prancha 31). Depois do lido da Marina (45 min): a Lu e as duas
+-- filhas da Júlia = "3 novas"; a da Marina (20 min) é dela.
+insert into public.club_post_replies (id, post_id, author_id, parent_reply_id, body, quote_text, quote_color,
+                                      quote_page, spoiler_ratio, spoiler_page, created_at)
+select ('00000000-0000-7000-8000-00000c7000' || lpad(v.n::text, 2, '0'))::uuid, '00000000-0000-7000-8000-00000c500002',
+       pg_temp.leitora(v.quem),
+       case when v.pai is not null then ('00000000-0000-7000-8000-00000c7000' || lpad(v.pai::text, 2, '0'))::uuid end,
+       v.texto, v.trecho, v.cor, v.pag, v.ratio, v.spag, now() - v.quando
+  from (values
+    (1, 2, null::int, 'Acho que não. Ele conta tudo velho, sozinho e cheio de ciúme. A memória dele já chega torta.',
+        null::text, null::text, null::int, 0.58, 149, interval '2 hours'),
+    (2, 1, null, 'Repara que quem fala dos “olhos de cigana” é o José Dias, não o Bentinho. Ele só repete.',
+        'olhos de cigana oblíqua e dissimulada.', '#B6ACE4', 121, 0.60, 154, interval '1 hour'),
+    (3, 3, null, 'E depois ele mesmo inventa os “olhos de ressaca”. A imagem é dele!',
+        'Olhos de ressaca? Vá, de ressaca.', '#FED170', 159, 0.62, 159, interval '20 minutes'),
+    (4, 5, null, 'Esperem só até o capítulo do enterro, aí vocês vão entender por que eu acho que ele inventa metade.',
+        null, null, null, 0.78, 201, interval '50 minutes'),
+    (5, 4, null, 'Narrador de memória é sempre suspeito. Mas eu gosto de duvidar junto com ele.',
+        null, null, null, 0.55, 141, interval '35 minutes'),
+    (6, 6, null, 'Eu acredito nele até o capítulo da Capitu na janela.', null, null, null, 0.50, 128, interval '5 hours'),
+    (7, 7, null, 'Ele é honesto sobre ser desonesto.', null, null, null, 0.52, 133, interval '4 hours 30 minutes'),
+    (8, 8, null, 'Ainda não sei. Volto quando chegar no 50.', null, null, null, 0.40, 102, interval '4 hours'),
+    (9, 9, null, 'Confiável para contar o que sentiu, não o que aconteceu.', null, null, null, 0.38, 97,
+        interval '3 hours 30 minutes'),
+    (10, 10, null, 'A pergunta é se algum narrador é confiável.', null, null, null, 0.36, 92, interval '3 hours'),
+    (11, 1, 1, 'Concordo com a memória torta.', null, null, null, 0.60, 154, interval '30 minutes'),
+    (12, 6, 1, 'E o ciúme pinta tudo.', null, null, null, 0.50, 128, interval '25 minutes'))
+    as v(n, quem, pai, texto, trecho, cor, pag, ratio, spag, quando);
+
+-- os grifos compartilhados: o trecho dos "olhos de cigana" por 7 leitoras (a Ana por último, ontem — o destaque da
+-- prancha 04) e o "Capitu era Capitu" da Marina (o chip "Leitoras de Capitu · 3 respostas" da 25)
+insert into public.club_posts (id, club_id, author_id, kind, chapter_index, ref_page, quote_text, quote_color,
+                               reading_id, week_no, spoiler_ratio, spoiler_page, created_at)
+select ('00000000-0000-7000-8000-00000c6000' || lpad(v.n::text, 2, '0'))::uuid, '00000000-0000-7000-8000-00000c200001',
+       pg_temp.leitora(v.quem), 'shared_highlight', v.cap - 1, v.pag, v.trecho, v.cor,
+       '00000000-0000-7000-8000-00000c300001', v.semana, v.ratio, v.pag, now() - v.quando
+  from (values
+    (1, 1, 25, 121, '…olhos de cigana oblíqua e dissimulada.', '#B6ACE4', 1, 0.47, interval '1 day'),
+    (2, 2, 25, 121, 'olhos de cigana oblíqua e dissimulada', '#ABCF82', 1, 0.47, interval '3 days'),
+    (3, 4, 25, 121, 'Olhos de cigana oblíqua e dissimulada.', '#FFC1C6', 1, 0.47, interval '3 days'),
+    (4, 5, 25, 121, '"olhos de cigana oblíqua e dissimulada"', '#FFFAF1', 1, 0.47, interval '2 days 20 hours'),
+    (5, 6, 25, 121, 'olhos de cigana, oblíqua e dissimulada', '#058CD7', 1, 0.47, interval '2 days 18 hours'),
+    (6, 7, 25, 121, 'OLHOS DE CIGANA OBLÍQUA E DISSIMULADA', '#FFC1C6', 1, 0.47, interval '2 days 12 hours'),
+    (7, 9, 25, 121, 'olhos de cigana obliqua e dissimulada...', '#F2A815', 1, 0.47, interval '2 days 6 hours'),
+    (8, 3, 32, 152, 'Capitu era Capitu, isto é, uma criatura mui particular, mais mulher do que eu era homem.',
+        '#FFC1C6', 2, 0.59, interval '2 days'))
+    as v(n, quem, cap, pag, trecho, cor, semana, ratio, quando);
+
+-- as respostas aos grifos: 4 no da Ana (prancha 04, 💬4) e 3 no da Marina (o chip da 25)
+insert into public.club_post_replies (post_id, author_id, body, created_at)
+select ('00000000-0000-7000-8000-00000c6000' || lpad(v.post::text, 2, '0'))::uuid, pg_temp.leitora(v.quem), v.texto,
+       now() - v.quando
+  from (values (1, 2, 'Esse trecho é o livro inteiro.', interval '20 hours'),
+               (1, 4, 'O José Dias de novo!', interval '19 hours'),
+               (1, 5, 'E a gente cai junto.', interval '18 hours'),
+               (1, 6, 'Marquei também.', interval '17 hours'),
+               (8, 1, 'Levar para o encontro de quinta.', interval '1 day 4 hours'),
+               (8, 2, 'Essa frase!', interval '1 day 3 hours'),
+               (8, 5, 'Mais mulher do que eu era homem, que frase.', interval '1 day 2 hours')) as v(post, quem, texto, quando);
+
+-- as curtidas: ♥9 no grifo da Ana; na prancha 31, 9 na Júlia, 6 na Ana, 2 na Marina, 1 no Rafa e 4 na Lu
+create function pg_temp.curtir(p_tipo text, p_alvo uuid, p_quantas integer, p_autora integer) returns void
+language sql as $$
+  insert into public.club_likes (target_type, target_id, user_id)
+  select p_tipo, p_alvo, pg_temp.leitora(n) from generate_series(1, 11) n where n <> p_autora order by n limit p_quantas
+$$;
+select pg_temp.curtir('post', '00000000-0000-7000-8000-00000c600001', 9, 1);
+select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700001', 9, 2);
+select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700002', 6, 1);
+select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700003', 2, 3);
+select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700004', 1, 5);
+select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700005', 4, 4);

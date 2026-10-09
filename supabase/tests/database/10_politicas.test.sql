@@ -3,7 +3,7 @@
 -- Usuários: A = Pro · B = Grátis · C = Grátis · D = Pro (bloqueado por A).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(124);
+select plan(138);
 
 insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
@@ -53,6 +53,15 @@ insert into public.club_meetings (club_id, starts_at, created_by) values (pg_tem
 insert into public.club_posts (id, club_id, author_id, kind, chapter_index, body) values
   (pg_temp.id('cpost_a'), pg_temp.id('clube_x'), '00000000-0000-7000-8000-00000000000a', 'discussion', 3, 'post da Ana no clube');
 insert into public.club_post_replies (post_id, author_id, body) values (pg_temp.id('cpost_a'), '00000000-0000-7000-8000-00000000000b', 'resposta da Bia');
+-- G21.1: a leitura em semanas, a presença, o recado (só para a anfitriã) e uma curtida no clube X
+insert into public.club_readings (club_id, starts_on, weeks) values (pg_temp.id('clube_x'), current_date, 1);
+insert into public.club_weeks (reading_id, club_id, week_no, from_chapter, to_chapter)
+select r.id, r.club_id, 1, 1, 10 from public.club_readings r where r.club_id = pg_temp.id('clube_x');
+insert into public.meeting_rsvps (meeting_id, user_id, club_id, answer)
+select m.id, '00000000-0000-7000-8000-00000000000a', m.club_id, 'vou' from public.club_meetings m where m.club_id = pg_temp.id('clube_x');
+insert into public.meeting_notes (meeting_id, user_id, club_id, body)
+select m.id, '00000000-0000-7000-8000-00000000000a', m.club_id, 'Chego atrasada.' from public.club_meetings m where m.club_id = pg_temp.id('clube_x');
+insert into public.club_likes (target_type, target_id, user_id) values ('post', pg_temp.id('cpost_a'), '00000000-0000-7000-8000-00000000000a');
 insert into public.notifications (user_id, type) values
   ('00000000-0000-7000-8000-00000000000a', 'system'), ('00000000-0000-7000-8000-00000000000b', 'system');
 insert into public.device_tokens (token, user_id, platform) values ('token-da-ana', '00000000-0000-7000-8000-00000000000a', 'android');
@@ -218,17 +227,17 @@ select lives_ok($$ insert into public.clubs (owner_id, name) values ('00000000-0
 select throws_like($$ insert into public.clubs (owner_id, name) values ('00000000-0000-7000-8000-00000000000d', 'Clube falso') $$,
   '%row-level security%', 'clubs_insert: não cria em nome de outra pessoa');
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
-select is(pg_temp.linhas($$ update public.clubs set goal_chapter = 10 where id = pg_temp.id('clube_x') $$), 1, 'clubs_update_admin: o dono edita');
+select is(pg_temp.linhas($$ update public.clubs set category = 'Clássicos' where id = pg_temp.id('clube_x') $$), 1, 'clubs_update_admin: o dono edita');
 select pg_temp.como('00000000-0000-7000-8000-00000000000a');
-select is(pg_temp.linhas($$ update public.clubs set goal_chapter = 99 where id = pg_temp.id('clube_x') $$), 0, 'clubs_update_admin: membro comum não edita');
+select is(pg_temp.linhas($$ update public.clubs set category = 'Outro' where id = pg_temp.id('clube_x') $$), 0, 'clubs_update_admin: membro comum não edita');
 select is((select count(*)::int from public.club_members where club_id = pg_temp.id('clube_x')), 2, 'club_members_read: membro vê os membros');
 select pg_temp.como('00000000-0000-7000-8000-00000000000c');
 select is((select count(*)::int from public.club_members where club_id = pg_temp.id('clube_x')), 0, 'club_members_read: não membro não vê');
 select pg_temp.como('00000000-0000-7000-8000-00000000000a');
-select is(pg_temp.linhas($$ update public.club_members set progress_chapter = 5 where club_id = pg_temp.id('clube_x') and user_id = '00000000-0000-7000-8000-00000000000a' $$), 1,
-  'club_members_update_self: publica o próprio progresso');
-select is(pg_temp.linhas($$ update public.club_members set progress_chapter = 99 where club_id = pg_temp.id('clube_x') and user_id = '00000000-0000-7000-8000-00000000000b' $$), 0,
-  'club_members_update_self: não mexe no progresso de outra pessoa');
+-- G21.1: o progresso saiu da política de update (club_members_update_self) e passou para a RPC publish_progress
+select throws_like($$ update public.club_members set progress_chapter = 5 where club_id = pg_temp.id('clube_x') and user_id = '00000000-0000-7000-8000-00000000000a' $$,
+  '%permission denied%', 'club_members: o progresso não se escreve direto');
+select lives_ok($$ select public.publish_progress(pg_temp.id('clube_x'), 0.1, 5) $$, 'club_members: publica o próprio progresso pela RPC');
 select is(pg_temp.linhas($$ delete from public.club_members where club_id = pg_temp.id('clube_x') and user_id = '00000000-0000-7000-8000-00000000000b' $$), 0,
   'club_members_leave: membro não remove o dono');
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
@@ -283,6 +292,29 @@ select pg_temp.como('00000000-0000-7000-8000-00000000000c');
 select is((select count(*)::int from public.club_post_replies), 0, 'club_replies_read: não membro não vê');
 select throws_like($$ insert into public.club_post_replies (post_id, author_id, body) values (pg_temp.id('cpost_a'), '00000000-0000-7000-8000-00000000000c', 'intrusa') $$,
   '%row-level security%', 'club_replies_insert_member (restritiva): não membro não responde');
+
+-- G21.1: leitura, semanas, presença, recado e curtidas
+select pg_temp.como('00000000-0000-7000-8000-00000000000a');
+select is((select count(*)::int from public.club_readings), 1, 'club_readings_read: membro vê a leitura');
+select is((select count(*)::int from public.club_weeks), 1, 'club_weeks_read: membro vê as semanas');
+select is((select count(*)::int from public.meeting_rsvps), 1, 'meeting_rsvps_read: membro vê as presenças');
+select is((select count(*)::int from public.club_likes), 1, 'club_likes_read: membro vê as curtidas');
+select pg_temp.como('00000000-0000-7000-8000-00000000000b');
+select is((select count(*)::int from public.meeting_notes), 1, 'meeting_notes_read: a anfitriã lê o recado "Só a Ana"');
+select lives_ok($$ insert into public.club_likes (target_type, target_id, user_id) values ('post', pg_temp.id('cpost_a'), '00000000-0000-7000-8000-00000000000b') $$,
+  'club_likes_insert: membro curte');
+select is(pg_temp.linhas($$ delete from public.club_likes where user_id = '00000000-0000-7000-8000-00000000000a' $$), 0,
+  'club_likes_delete: não desfaz a curtida alheia');
+select is(pg_temp.linhas($$ delete from public.club_likes where user_id = '00000000-0000-7000-8000-00000000000b' $$), 1,
+  'club_likes_delete: desfaz a própria');
+select pg_temp.como('00000000-0000-7000-8000-00000000000c');
+select is((select count(*)::int from public.club_readings), 0, 'club_readings_read: não membro não vê');
+select is((select count(*)::int from public.club_weeks), 0, 'club_weeks_read: não membro não vê');
+select is((select count(*)::int from public.meeting_rsvps), 0, 'meeting_rsvps_read: não membro não vê');
+select is((select count(*)::int from public.meeting_notes), 0, 'meeting_notes_read: não membro não lê o recado');
+select is((select count(*)::int from public.club_likes), 0, 'club_likes_read: não membro não vê');
+select throws_like($$ insert into public.club_likes (target_type, target_id, user_id) values ('post', pg_temp.id('cpost_a'), '00000000-0000-7000-8000-00000000000c') $$,
+  '%row-level security%', 'club_likes_insert: não membro não curte');
 
 -- =====================================================================================
 -- notificações, aparelhos, denúncias
@@ -363,7 +395,10 @@ select set_eq(
     ('public.post_comments.post_comments_read'), ('public.post_comments.post_comments_insert'), ('public.post_comments.post_comments_delete_own'),
     ('public.post_likes.post_likes_read'), ('public.post_likes.post_likes_write'), ('public.post_likes.post_likes_delete'),
     ('public.clubs.clubs_read'), ('public.clubs.clubs_insert'), ('public.clubs.clubs_update_admin'),
-    ('public.club_members.club_members_read'), ('public.club_members.club_members_update_self'), ('public.club_members.club_members_leave'),
+    ('public.club_members.club_members_read'), ('public.club_members.club_members_leave'),
+    ('public.club_readings.club_readings_read'), ('public.club_weeks.club_weeks_read'),
+    ('public.meeting_rsvps.meeting_rsvps_read'), ('public.meeting_notes.meeting_notes_read'),
+    ('public.club_likes.club_likes_read'), ('public.club_likes.club_likes_insert'), ('public.club_likes.club_likes_delete'),
     ('public.club_invites.club_invites_admin'),
     ('public.club_meetings.club_meetings_read'), ('public.club_meetings.club_meetings_admin'),
     ('public.club_meetings.club_meetings_admin_update'), ('public.club_meetings.club_meetings_admin_delete'),

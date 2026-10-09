@@ -21,8 +21,9 @@ $$;
 -- ---------------------------------------------------------------- OK 07: Grátis cria 1 clube
 set local role authenticated;
 select pg_temp.como('00000000-0000-7000-8000-00000000000b');
-select lives_ok($$ insert into public.clubs (owner_id, name, name_highlight, goal_chapter, goal_chapter_label)
-  values ('00000000-0000-7000-8000-00000000000b', 'Leitoras de Capitu', 'Capitu', 50, 'L') $$, 'OK 07 Grátis cria o 1º clube');
+select lives_ok($$ insert into public.clubs (owner_id, name, name_highlight, category)
+  values ('00000000-0000-7000-8000-00000000000b', 'Leitoras de Capitu', 'Capitu', 'Clássicos brasileiros') $$,
+  'OK 07 Grátis cria o 1º clube');
 select throws_ok($$ insert into public.clubs (owner_id, name) values ('00000000-0000-7000-8000-00000000000b', 'Segundo clube') $$,
   'P0001', 'free_club_limit', 'OK 07 Grátis não cria o 2º clube');
 select is((select role from public.club_members where user_id = '00000000-0000-7000-8000-00000000000b'), 'owner',

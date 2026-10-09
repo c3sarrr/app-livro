@@ -44,6 +44,7 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
        'public.profiles', 'public.profile_stats', 'public.follows', 'public.user_blocks', 'public.posts',
        'public.post_comments', 'public.post_likes', 'public.clubs', 'public.club_members', 'public.club_invites',
        'public.club_meetings', 'public.club_posts', 'public.club_post_replies', 'public.notifications', 'public.device_tokens',
+       'public.club_readings', 'public.club_weeks', 'public.meeting_rsvps', 'public.meeting_notes', 'public.club_likes',
        'catalog.authors', 'catalog.works', 'catalog.work_authors', 'catalog.editions',
        'catalog.submission_confirmations',
        'personal.user_books', 'personal.reading_positions', 'personal.reading_sessions', 'personal.bookmarks',
@@ -52,7 +53,7 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
      union all
      select 'authenticated DELETE ' || t from unnest(array[
        'public.follows', 'public.user_blocks', 'public.post_likes', 'public.club_members', 'public.club_invites',
-       'public.club_meetings', 'public.device_tokens']) t $$,
+       'public.club_meetings', 'public.device_tokens', 'public.club_likes']) t $$,
   'tabelas: só SELECT/DELETE previstos para authenticated; nada para anon nem PUBLIC');
 
 -- ---------------------------------------------------------------- colunas (INSERT/UPDATE por coluna)
@@ -68,16 +69,21 @@ select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_d
          ('INSERT', 'public.post_comments', array['post_id', 'author_id', 'body']),
          ('UPDATE', 'public.post_comments', array['deleted_at']),
          ('INSERT', 'public.post_likes', array['post_id', 'user_id']),
-         ('INSERT', 'public.clubs', array['owner_id', 'name', 'name_highlight', 'work_id', 'edition_id', 'privacy', 'goal_chapter', 'goal_chapter_label']),
-         ('UPDATE', 'public.clubs', array['name', 'name_highlight', 'privacy', 'goal_chapter', 'goal_chapter_label']),
-         ('UPDATE', 'public.club_members', array['progress_chapter', 'progress_ratio', 'progress_updated_at', 'last_read_post_at']),
+         -- G21.1: a meta do clube saiu (é a semana); o progresso e o lido só pelas RPCs
+         ('INSERT', 'public.clubs', array['owner_id', 'name', 'name_highlight', 'work_id', 'edition_id', 'privacy',
+                                          'category', 'color', 'progress_colors', 'spoiler_protection', 'meeting_weekday', 'meeting_time', 'meeting_minutes', 'meeting_mode', 'timezone']),
+         ('UPDATE', 'public.clubs', array['name', 'name_highlight', 'privacy',
+                                          'category', 'color', 'progress_colors', 'spoiler_protection', 'meeting_weekday', 'meeting_time', 'meeting_minutes', 'meeting_mode', 'timezone']),
          ('INSERT', 'public.club_invites', array['club_id', 'created_by', 'expires_at', 'max_uses']),
          ('UPDATE', 'public.club_invites', array['expires_at', 'max_uses']),
          ('INSERT', 'public.club_meetings', array['club_id', 'starts_at', 'location', 'until_chapter', 'created_by', 'timezone']),
          ('UPDATE', 'public.club_meetings', array['starts_at', 'location', 'until_chapter', 'timezone']),
-         ('INSERT', 'public.club_posts', array['club_id', 'author_id', 'kind', 'chapter_index', 'ref_page', 'quote_text', 'quote_color', 'body']),
+         ('INSERT', 'public.club_posts', array['club_id', 'author_id', 'kind', 'chapter_index', 'ref_page', 'quote_text', 'quote_color', 'body',
+                                               'reading_id', 'week_no', 'spoiler_ratio', 'spoiler_page']),
          ('UPDATE', 'public.club_posts', array['body', 'edited_at', 'deleted_at']),
-         ('INSERT', 'public.club_post_replies', array['post_id', 'author_id', 'body']),
+         ('INSERT', 'public.club_post_replies', array['post_id', 'author_id', 'body', 'parent_reply_id', 'spoiler_ratio',
+                                                      'spoiler_page', 'quote_text', 'quote_color', 'quote_page']),
+         ('INSERT', 'public.club_likes', array['target_type', 'target_id', 'user_id']),
          ('UPDATE', 'public.club_post_replies', array['deleted_at']),
          ('UPDATE', 'public.notifications', array['read_at']),
          ('INSERT', 'public.content_reports', array['reporter_id', 'target_type', 'target_id', 'reason', 'details']),
@@ -97,7 +103,16 @@ select set_eq($$ select papel || ' ' || objeto from privilegios_de_funcao $$,
        'public.catalog_by_isbn(text)', 'public.catalog_submit(text, text, text, text)', 'public.catalog_confirm(uuid)',
        'private.uuid_generate_v7()', 'private.f_unaccent(text)', 'private.is_pro()', 'private.user_is_pro(uuid)',
        'private.can_sync(uuid)', 'private.is_club_member(uuid)', 'private.is_club_admin(uuid)',
-       'private.is_blocked_between(uuid, uuid)', 'private.can_view_profile_content(uuid)']) f $$,
+       'private.is_blocked_between(uuid, uuid)', 'private.can_view_profile_content(uuid)',
+       -- G21.1: as RPCs do clube e a chave do trecho (coluna gerada: roda como quem insere)
+       'public.create_club(jsonb)', 'public.create_invite(uuid, integer, integer)', 'public.revoke_invite(text)',
+       'public.publish_progress(uuid, numeric, integer)', 'public.mark_club_read(uuid)',
+       'public.set_rsvp(uuid, text, text, text)', 'public.suggest_question(uuid, integer, text)',
+       'public.order_questions(uuid, integer, uuid[])', 'public.set_question_status(uuid, text, text)',
+       'public.share_highlight(uuid, text, text, integer, integer, numeric)', 'public.my_clubs()',
+       'public.club_overview(uuid)', 'public.week_thread(uuid, integer, text, uuid, jsonb, integer)',
+       'public.meeting_overview(uuid)', 'public.club_members_overview(uuid)', 'public.club_post_summaries(uuid[])',
+       'private.quote_key(text)']) f $$,
   'funções: anon e PUBLIC não executam nada; authenticated só as RPCs e as funções usadas pela RLS');
 
 -- ---------------------------------------------------------------- esquemas
