@@ -3,7 +3,8 @@
 // - a prateleira (312×70, centrada, com a base 68 acima da base da ilha) **atrás** da ilha; a ilha com a base em
 //   `max(30, área segura de baixo − 4)`, 14 de cada lado; a pílula e o Concluir com o topo em
 //   `max(50, área segura de cima + 3)`;
-// - a pílula da falha ao salvar (D-21) e o aviso "Chega numa próxima fase" (D-163) acima da prateleira.
+// - a pílula da falha ao salvar (D-21) e os avisos "Chega numa próxima fase" (D-163) e do teto da camada (D-191)
+//   acima da prateleira.
 // Entrada: o texto desce 30 px em 220 ms `easeOutCubic` e a moldura aparece em 150 ms; saída ao contrário (o texto
 // sobe e a moldura some), e então [onExited]. Enquanto anima, os toques não chegam à página.
 // A prateleira e a ilha decidem pouco: o Espaço chama [onSoon] (D-163); o 2º toque na ativa e o poço abrem e fecham
@@ -62,6 +63,12 @@ const String annotationSpaceHint = 'Arraste entre as linhas';
 /// A pílula da falha ao salvar (D-21).
 const String annotationSaveFailed = 'Não deu para salvar as anotações agora.';
 
+/// O aviso do teto da camada (256 KiB) na pílula, por 2 s (D-191).
+String inkRefusalText(InkRefusal reason) => switch (reason) {
+  InkRefusal.selectionTooBig => 'Seleção grande demais para mover',
+  InkRefusal.noteFull => 'A nota está cheia',
+};
+
 class AnnotationMode extends StatefulWidget {
   const AnnotationMode({
     super.key,
@@ -108,7 +115,7 @@ class AnnotationMode extends StatefulWidget {
 
   final List<PaintedHighlight> highlights, inkHighlights;
 
-  /// O aviso na tela ("Chega numa próxima fase"), ou `null`.
+  /// O aviso na tela ("Chega numa próxima fase", o teto da camada — D-191), ou `null`.
   final String? toast;
   final VoidCallback? onExited;
 

@@ -80,6 +80,15 @@ const double lassoPadding = 6;
 /// As ferramentas da prateleira (L22c), na ordem dela.
 enum AnnotationTool { pen, marker, eraser, lasso, line, space }
 
+/// O gesto que o teto da camada (256 KiB — BNK1) recusou (D-191): a tela avisa na pílula por 2 s.
+enum InkRefusal {
+  /// A seleção do Laço que, junta num desenho só, passaria do teto: ela fica onde estava.
+  selectionTooBig,
+
+  /// A nota à mão cheia: o traço não entra.
+  noteFull,
+}
+
 /// G18 — o id do abridor no fluxo da página (durante o arrasto do Espaço).
 const String spaceOpenerId = 'abridor';
 
@@ -221,6 +230,7 @@ final class AnnotationSession extends ChangeNotifier {
     UuidV7Generator? ids,
     this.onError = reportReaderError,
     this.onInteraction = _nothing,
+    this.onRefused,
     this.savePresets = _noSave,
     this.textShift = annotationTextShift,
     String? draftId,
@@ -336,6 +346,9 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// Cada toque é interação da leitura (D-95).
   final void Function() onInteraction;
+
+  /// O teto da camada recusou o gesto (D-191).
+  final void Function(InkRefusal reason)? onRefused;
 
   /// Grava o `pen_presets` (a espessura vale para todos os livros).
   final Future<void> Function(PenPresets presets) savePresets;
@@ -1216,6 +1229,7 @@ final class AnnotationSession extends ChangeNotifier {
         ])) {
           selection.value = sel.movedBy(0, 0);
           _repaint();
+          onRefused?.call(InkRefusal.selectionTooBig);
           return;
         }
         selection.value = LassoSelection(
@@ -1284,15 +1298,15 @@ final class AnnotationSession extends ChangeNotifier {
       _addStroke(s);
       return;
     }
-    // recortado na borda; a nota que passaria do teto da camada (256 KiB) não leva mais tinta
+    // recortado na borda; a nota que passaria do teto da camada (256 KiB) não leva mais tinta, e a tela avisa (D-191)
     final pieces = [for (final p in clipToFrame(s, box)) toNote(p, box)];
     final n = _copy.note(note);
-    if (pieces.isEmpty ||
-        n == null ||
-        !fitsBnk1([
-          for (final x in n.strokes) x.stroke,
-          ...pieces,
-        ], Bnk1Unit.box)) {
+    if (pieces.isEmpty || n == null) return;
+    if (!fitsBnk1([
+      for (final x in n.strokes) x.stroke,
+      ...pieces,
+    ], Bnk1Unit.box)) {
+      onRefused?.call(InkRefusal.noteFull);
       return;
     }
     _push(

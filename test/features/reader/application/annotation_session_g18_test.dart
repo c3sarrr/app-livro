@@ -207,6 +207,7 @@ void main() {
     List<PageDrawing> Function(DisplayPage p)? desenhos,
     List<SessionNote> notas = const [],
     _Fonte? daPagina,
+    void Function(InkRefusal)? recusa,
   }) {
     final fonte = daPagina ?? fontePadrao();
     final page = fonte.pageWith([
@@ -235,6 +236,7 @@ void main() {
       page: page,
       notes: notas,
       lineHeight: t.lineHeight,
+      onRefused: recusa,
     );
     addTearDown(s.dispose);
     return s;
@@ -812,7 +814,7 @@ void main() {
       expect(fundo + meia, closeTo(tinta.height, 1e-6));
     });
 
-    test('a nota cheia (256 KiB) não aceita mais traços: o Concluir não quebra; nem vira desenho sobre o texto', () {
+    test('a nota cheia (256 KiB) não aceita mais traços: o Concluir não quebra; nem vira desenho sobre o texto; a tela avisa (D-191)', () {
       // 65 531 pontos parados: 19 + 4·n bytes = 262 143, 1 a menos que o teto
       final enorme = InkStroke(
         tool: InkTool.pen.code,
@@ -822,7 +824,9 @@ void main() {
         points: List.filled(65531, const InkPoint(0.5, 0.5, 0.5, 0)),
       );
       expect(fitsBnk1([enorme], Bnk1Unit.box), isTrue);
+      final recusas = <InkRefusal>[];
       final s = abrir(
+        recusa: recusas.add,
         notas: [
           SessionNote(
             id: 'espaco-1',
@@ -839,6 +843,29 @@ void main() {
       arrastar(s, [caixa.top + 30, caixa.top + 40], x: 80);
       expect(s.notes.single.strokes, hasLength(1));
       expect(s.drawings, isEmpty);
+      expect(recusas, [InkRefusal.noteFull]);
+    });
+
+    test('a nota com lugar aceita o traço, sem aviso', () {
+      final recusas = <InkRefusal>[];
+      final s = abrir(
+        recusa: recusas.add,
+        notas: [
+          SessionNote(
+            id: 'espaco-1',
+            unit: _unit,
+            at: _ancora,
+            lines: 3,
+            collapsed: false,
+            strokes: const [],
+            createdAt: DateTime.utc(2026, 9, 20),
+          ),
+        ],
+      );
+      final caixa = s.noteBox('espaco-1')!;
+      arrastar(s, [caixa.top + 30, caixa.top + 40], x: 80);
+      expect(s.notes.single.strokes, hasLength(1));
+      expect(recusas, isEmpty);
     });
   });
 }

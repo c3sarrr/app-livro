@@ -165,6 +165,7 @@ void main() {
   late _Timers timers;
   late List<PenPresets> savedPresets;
   late List<Object> errors;
+  late List<InkRefusal> refusals;
   late int interactions;
   var now = DateTime.utc(2026, 10, 8, 10);
 
@@ -193,6 +194,7 @@ void main() {
       ids: UuidV7Generator(clockMs: () => now.millisecondsSinceEpoch),
       onError: (e, _) => errors.add(e),
       onInteraction: () => interactions++,
+      onRefused: refusals.add,
       savePresets: (p) async => savedPresets.add(p),
     )..panLimit = panLimit;
     addTearDown(s.dispose);
@@ -218,6 +220,7 @@ void main() {
     timers = _Timers();
     savedPresets = [];
     errors = [];
+    refusals = [];
     interactions = 0;
     now = DateTime.utc(2026, 10, 8, 10);
   });
@@ -464,7 +467,7 @@ void main() {
       }
     });
 
-    test('a seleção que juntaria mais de 256 KiB não se move (os traços ficam onde estavam)', () {
+    test('a seleção que juntaria mais de 256 KiB não se move (os traços ficam onde estavam) e a tela avisa (D-191)', () {
       final s = open();
       // 2 traços longos de zigue-zague, em linhas longe (2 desenhos que cabem sozinhos e não juntos)
       for (final (id, y) in const [(1, 126.0), (2, 232.0)]) {
@@ -488,12 +491,41 @@ void main() {
       s.pointerUp(_pen(3, 20, 250, 16));
       expect(s.selection.value!.strokes, hasLength(2));
       final antes = s.visibleStrokes;
+      expect(refusals, isEmpty);
       s.pointerDown(_pen(4, 100, 180, 100));
       s.pointerMove(_pen(4, 100, 190, 108));
       s.pointerUp(_pen(4, 100, 190, 116));
       expect(s.drawings, hasLength(2));
       expect(s.visibleStrokes, antes);
       expect(s.selection.value!.dy, 0);
+      expect(refusals, [InkRefusal.selectionTooBig]);
+      // só um dos traços: ele se move, sem aviso
+      s.pointerDown(_pen(5, 20, 110, 200));
+      for (final (x, y) in const [
+        (200.0, 110.0),
+        (200.0, 150.0),
+        (20.0, 150.0),
+      ]) {
+        s.pointerMove(_pen(5, x, y, 208));
+      }
+      s.pointerUp(_pen(5, 20, 150, 216));
+      expect(s.selection.value!.strokes, hasLength(1));
+      final topo = s.selection.value!.bounds.top;
+      s.pointerDown(_pen(6, 100, 130, 300));
+      s.pointerMove(_pen(6, 100, 140, 308));
+      s.pointerUp(_pen(6, 100, 140, 316));
+      expect(s.selection.value!.bounds.top, closeTo(topo + 10, 1e-9));
+      expect(refusals, [InkRefusal.selectionTooBig]);
+    });
+
+    test('mover uma seleção que cabe não avisa', () {
+      final s = open();
+      draw(s, [(30, 130), (80, 130)]);
+      s.setTool(AnnotationTool.lasso);
+      draw(s, [(20, 110), (100, 110), (100, 160), (20, 160)], id: 3);
+      draw(s, [(50, 130), (50, 150)], id: 4, t: 100);
+      expect(s.visibleStrokes.single.points.first.y, 120);
+      expect(refusals, isEmpty);
     });
 
     test('a Borracha com a seleção apaga os traços selecionados (1 passo) e fica ativa', () {

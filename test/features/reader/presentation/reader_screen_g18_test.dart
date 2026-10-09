@@ -5,6 +5,7 @@
 // leitor limpo repagina com a caixa (R11); recolhida, a faixa aparece e abre com um toque (D-184). G18.6: a alça para
 // na tinta e cresce (D-186), recolher e abrir, apagar com a pílula e o Desfazer (D-185); o Voltar grava como o Concluir
 // (D-42); o rascunho guardado traz a nota (D-166); a nota que não cabe vai inteira para a página seguinte (R12); Noite.
+// O teto de 256 KiB avisa na pílula por 2 s (D-191).
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
@@ -23,6 +24,7 @@ import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../support/app_text_finder.dart';
 import '../../../support/canvas.dart';
 import '../../../support/dados_t20.dart' show depsDaTela20;
 import '../../../support/dados_t22.dart';
@@ -313,6 +315,37 @@ void main() {
       expect(_key('leitor.desfazer'), findsNothing);
     },
   );
+
+  testWidgets('o teto de 256 KiB (D-191): "A nota está cheia" e "Seleção grande demais para mover" na pílula acima da prateleira, '
+      'por 2 s; o leitor de tela lê', (tester) async {
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(accessibleNavigation: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+    final mundo = await livroDaTela24b();
+    addTearDown(mundo.close);
+    await abrirTela24b(tester, mundo);
+    final s = sessaoNaTela(tester);
+    tester.takeAnnouncements();
+    for (final (motivo, texto) in const [
+      (InkRefusal.noteFull, 'A nota está cheia'),
+      (InkRefusal.selectionTooBig, 'Seleção grande demais para mover'),
+    ]) {
+      s.onRefused!(motivo);
+      await tester.pump();
+      expect(findAppText(texto), findsOneWidget, reason: texto);
+      expect(tester.takeAnnouncements().map((a) => a.message), [texto]);
+      final aviso = tester.getRect(_key('leitor.aviso'));
+      expect(aviso.center.dx, closeTo(195, 0.01));
+      expect(
+        aviso.bottom,
+        closeTo(tester.getRect(_key('ann.toolShelf')).top - 12 - 12, 0.01),
+      );
+      await tester.pump(const Duration(milliseconds: 1900));
+      expect(findAppText(texto), findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(findAppText(texto), findsNothing, reason: '2 s');
+    }
+  });
 
   testWidgets('o Voltar grava a nota como o Concluir (D-42)', (tester) async {
     final s = await espaco(tester);

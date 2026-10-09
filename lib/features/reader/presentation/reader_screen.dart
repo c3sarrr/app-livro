@@ -967,6 +967,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         now: c.deps.now,
         onError: c.deps.onError,
         onInteraction: c.interaction,
+        // D-191: o teto da camada (256 KiB) recusou o gesto
+        onRefused: (r) => _showToast(inkRefusalText(r)),
         savePresets: store.save,
       )..setLabelData(labels: labelData.labels, counts: labelData.counts);
       _selection.clear();
