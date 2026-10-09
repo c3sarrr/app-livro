@@ -875,6 +875,9 @@ void main() {
       expect(depois.collapsed, isFalse);
       expect(depois.spaceLines, 3);
       expect(depois.meta.version.compareTo(antes.meta.version), greaterThan(0));
+      // o mesmo valor: nada a gravar (a versão fica)
+      await repo.setCollapsed(usuarioTeste, idTeste(20), false);
+      expect((await layer(20))!.meta.version, depois.meta.version);
       await repo.setCollapsed(usuarioTeste, idTeste(10), true);
       expect((await layer(10))!.collapsed, isFalse);
       await repo.setCollapsed(usuarioTeste, 'nao-existe', true);

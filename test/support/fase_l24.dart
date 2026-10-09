@@ -24,7 +24,6 @@ import 'package:app_leitura/features/reader/layout/laid_block.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
 import 'package:app_leitura/features/reader/layout/paginator.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
-import 'package:app_leitura/features/reader/presentation/hand_note.dart';
 import 'package:app_leitura/features/reader/presentation/ink_painter.dart';
 import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:flutter/widgets.dart';
@@ -572,7 +571,7 @@ void faseL24b() => _comOLivro(livroDaTela24b, (livro) {
       expect(fundo, hasLength(1));
       final rr = fundo.single.$1 as RRect;
       expect(rr.outerRect, s.noteBox(nota.id));
-      expect(rr.tlRadiusX, handNoteRadius);
+      expect(rr.tlRadiusX, 18, reason: 'o raio 18 da prancha');
       expect(
         chamadas(#drawRect).where((c) => c.$2 == AppColors.noteRule.toARGB32()),
         hasLength(2),

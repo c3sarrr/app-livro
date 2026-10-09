@@ -360,6 +360,12 @@ void main() {
       // a mesma âncora: a fresta logo acima da caixa leva à mesma frase
       arrastar(s, [y + 1, y + 120]);
       expect(s.notes, hasLength(1));
+      // fora da caixa, na linha de cima: a fresta mais perto é a da nota — a mesma âncora não abre outra (R5)
+      arrastar(s, [y - 3, y + 120]);
+      expect(s.notes, hasLength(1));
+      // dentro da caixa, perto do pé: a fresta mais perto é a da linha de baixo — dentro de uma nota, nada abre
+      arrastar(s, [caixa.bottom - 5, caixa.bottom + 115]);
+      expect(s.notes, hasLength(1));
     });
 
     test('2 dedos durante o arrasto: o abridor some e a página volta', () {
@@ -511,6 +517,11 @@ void main() {
       expect(s.notes.single.lines, 5);
       s.undo();
       expect(s.notes.single.lines, 3);
+      // de 42 em 42: 62 px (menos de 1,5 linha da nota) = 1 linha
+      s.dragNoteHandle(nota.id, 62);
+      expect(s.notes.single.lines, 4);
+      s.endNoteHandle(nota.id);
+      s.undo();
       // soltar sem mudar não é passo
       s.dragNoteHandle(nota.id, 10);
       s.endNoteHandle(nota.id);
