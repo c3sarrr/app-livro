@@ -1,0 +1,366 @@
+{
+    "club": {
+        "id": "00000000-0000-7000-8000-00000c200001",
+        "name": "Leitoras de Capitu",
+        "role": "member",
+        "color": "#FFC1C6",
+        "privacy": "invite",
+        "category": "Clássicos brasileiros",
+        "members_count": 11,
+        "name_highlight": "Capitu",
+        "progress_colors": "club",
+        "spoiler_protection": true
+    },
+    "shared": [
+        {
+            "id": "00000000-0000-7000-8000-00000c600001",
+            "liked": true,
+            "likes": 9,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100001",
+                "me": false,
+                "host": true,
+                "name": "Ana",
+                "color": "#B6ACE4",
+                "initial": "A"
+            },
+            "chapter": 25,
+            "replies": 4,
+            "spoiler": {
+                "page": 121,
+                "ratio": 0.4700
+            },
+            "week_no": 1,
+            "ref_page": 121,
+            "created_at": "2026-10-08T18:32:06.040744+00:00",
+            "quote_text": "…olhos de cigana oblíqua e dissimulada.",
+            "quote_color": "#B6ACE4",
+            "same_passage": 7
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c600008",
+            "liked": false,
+            "likes": 0,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100003",
+                "me": true,
+                "host": false,
+                "name": "Marina",
+                "color": "#FED170",
+                "initial": "M"
+            },
+            "chapter": 32,
+            "replies": 3,
+            "spoiler": {
+                "page": 152,
+                "ratio": 0.5900
+            },
+            "week_no": 2,
+            "ref_page": 152,
+            "created_at": "2026-10-07T18:32:06.040744+00:00",
+            "quote_text": "Capitu era Capitu, isto é, uma criatura mui particular, mais mulher do que eu era homem.",
+            "quote_color": "#FFC1C6",
+            "same_passage": 1
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c600007",
+            "liked": false,
+            "likes": 0,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100009",
+                "me": false,
+                "host": false,
+                "name": "Fê",
+                "color": "#F2A815",
+                "initial": "F"
+            },
+            "chapter": 25,
+            "replies": 0,
+            "spoiler": {
+                "page": 121,
+                "ratio": 0.4700
+            },
+            "week_no": 1,
+            "ref_page": 121,
+            "created_at": "2026-10-07T12:32:06.040744+00:00",
+            "quote_text": "olhos de cigana obliqua e dissimulada...",
+            "quote_color": "#F2A815",
+            "same_passage": 7
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c600006",
+            "liked": false,
+            "likes": 0,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100007",
+                "me": false,
+                "host": false,
+                "name": "Carol",
+                "color": "#FFC1C6",
+                "initial": "C"
+            },
+            "chapter": 25,
+            "replies": 0,
+            "spoiler": {
+                "page": 121,
+                "ratio": 0.4700
+            },
+            "week_no": 1,
+            "ref_page": 121,
+            "created_at": "2026-10-07T06:32:06.040744+00:00",
+            "quote_text": "OLHOS DE CIGANA OBLÍQUA E DISSIMULADA",
+            "quote_color": "#FFC1C6",
+            "same_passage": 7
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c600005",
+            "liked": false,
+            "likes": 0,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100006",
+                "me": false,
+                "host": false,
+                "name": "Bia",
+                "color": "#058CD7",
+                "initial": "B"
+            },
+            "chapter": 25,
+            "replies": 0,
+            "spoiler": {
+                "page": 121,
+                "ratio": 0.4700
+            },
+            "week_no": 1,
+            "ref_page": 121,
+            "created_at": "2026-10-07T00:32:06.040744+00:00",
+            "quote_text": "olhos de cigana, oblíqua e dissimulada",
+            "quote_color": "#058CD7",
+            "same_passage": 7
+        }
+    ],
+    "unread": 3,
+    "members": [
+        {
+            "me": false,
+            "color": "#FFFAF1",
+            "ratio": 0.7800,
+            "initial": "R",
+            "user_id": "00000000-0000-7000-8000-00000c100005"
+        },
+        {
+            "me": false,
+            "color": "#ABCF82",
+            "ratio": 0.6700,
+            "initial": "J",
+            "user_id": "00000000-0000-7000-8000-00000c100002"
+        },
+        {
+            "me": false,
+            "color": "#B6ACE4",
+            "ratio": 0.6400,
+            "initial": "A",
+            "user_id": "00000000-0000-7000-8000-00000c100001"
+        },
+        {
+            "me": false,
+            "color": "#FFC1C6",
+            "ratio": 0.6300,
+            "initial": "L",
+            "user_id": "00000000-0000-7000-8000-00000c100004"
+        },
+        {
+            "me": true,
+            "color": "#FED170",
+            "ratio": 0.6200,
+            "initial": "M",
+            "user_id": "00000000-0000-7000-8000-00000c100003"
+        },
+        {
+            "me": false,
+            "color": "#058CD7",
+            "ratio": 0.5800,
+            "initial": "B",
+            "user_id": "00000000-0000-7000-8000-00000c100006"
+        },
+        {
+            "me": false,
+            "color": "#FFC1C6",
+            "ratio": 0.5500,
+            "initial": "C",
+            "user_id": "00000000-0000-7000-8000-00000c100007"
+        },
+        {
+            "me": false,
+            "color": "#FFFAF1",
+            "ratio": 0.4600,
+            "initial": "D",
+            "user_id": "00000000-0000-7000-8000-00000c100008"
+        },
+        {
+            "me": false,
+            "color": "#F2A815",
+            "ratio": 0.4000,
+            "initial": "F",
+            "user_id": "00000000-0000-7000-8000-00000c100009"
+        },
+        {
+            "me": false,
+            "color": "#ABCF82",
+            "ratio": 0.3800,
+            "initial": "G",
+            "user_id": "00000000-0000-7000-8000-00000c100010"
+        },
+        {
+            "me": false,
+            "color": "#058CD7",
+            "ratio": 0.2000,
+            "initial": "H",
+            "user_id": "00000000-0000-7000-8000-00000c100011"
+        }
+    ],
+    "reading": {
+        "id": "00000000-0000-7000-8000-00000c300001",
+        "isbns": [
+            "9788508140912",
+            "9788535902778"
+        ],
+        "pages": 256,
+        "title": "Dom Casmurro",
+        "weeks": 6,
+        "author": "Machado de Assis",
+        "isbn13": "9788535902778",
+        "work_id": "00000000-0000-7000-8000-00000c0a0002",
+        "cover_ref": "ol:8231432",
+        "edition_id": "00000000-0000-7000-8000-00000c0a0003",
+        "weeks_list": [
+            {
+                "no": 1,
+                "to": 25,
+                "new": 0,
+                "from": 1,
+                "comments": 48,
+                "question": {
+                    "id": "00000000-0000-7000-8000-00000c500001",
+                    "new": 0,
+                    "body": "O que vocês acharam do começo?",
+                    "likes": 0,
+                    "author": {
+                        "id": "00000000-0000-7000-8000-00000c100001",
+                        "me": false,
+                        "host": true,
+                        "name": "Ana",
+                        "color": "#B6ACE4",
+                        "initial": "A"
+                    },
+                    "status": "discussed",
+                    "replies": 44,
+                    "week_no": 1,
+                    "position": 1,
+                    "host_note": null
+                },
+                "to_label": null,
+                "from_label": null
+            },
+            {
+                "no": 2,
+                "to": 50,
+                "new": 3,
+                "from": 26,
+                "comments": 15,
+                "question": {
+                    "id": "00000000-0000-7000-8000-00000c500002",
+                    "new": 3,
+                    "body": "Bentinho é um narrador confiável?",
+                    "likes": 0,
+                    "author": {
+                        "id": "00000000-0000-7000-8000-00000c100001",
+                        "me": false,
+                        "host": true,
+                        "name": "Ana",
+                        "color": "#B6ACE4",
+                        "initial": "A"
+                    },
+                    "status": "open",
+                    "replies": 12,
+                    "week_no": 2,
+                    "position": 1,
+                    "host_note": null
+                },
+                "to_label": null,
+                "from_label": null
+            },
+            {
+                "no": 3,
+                "to": 75,
+                "new": 0,
+                "from": 51,
+                "comments": 0,
+                "question": null,
+                "to_label": null,
+                "from_label": null
+            },
+            {
+                "no": 4,
+                "to": 100,
+                "new": 0,
+                "from": 76,
+                "comments": 0,
+                "question": null,
+                "to_label": null,
+                "from_label": null
+            },
+            {
+                "no": 5,
+                "to": 125,
+                "new": 0,
+                "from": 101,
+                "comments": 0,
+                "question": null,
+                "to_label": null,
+                "from_label": null
+            },
+            {
+                "no": 6,
+                "to": 148,
+                "new": 0,
+                "from": 126,
+                "comments": 0,
+                "question": null,
+                "to_label": null,
+                "from_label": null
+            }
+        ],
+        "current_week": {
+            "no": 2,
+            "to": 50,
+            "from": 26,
+            "to_label": null,
+            "from_label": null
+        }
+    },
+    "my_progress": 0.6200,
+    "next_meeting": {
+        "id": "00000000-0000-7000-8000-00000c400002",
+        "mine": "vou",
+        "mode": "online",
+        "weeks": 6,
+        "agenda": {
+            "no": 2,
+            "to": 50,
+            "from": 26,
+            "to_label": null,
+            "from_label": null
+        },
+        "counts": {
+            "vou": 8,
+            "talvez": 3,
+            "nao_vou": 0
+        },
+        "ends_at": "2026-10-14T00:30:00+00:00",
+        "week_no": 2,
+        "location": null,
+        "timezone": "America/Sao_Paulo",
+        "starts_at": "2026-10-13T23:00:00+00:00"
+    },
+    "group_progress": 0.5373
+}

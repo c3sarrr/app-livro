@@ -1,0 +1,80 @@
+[
+    {
+        "id": "00000000-0000-7000-8000-00000c200001",
+        "me": {
+            "color": "#FED170",
+            "initial": "M"
+        },
+        "name": "Leitoras de Capitu",
+        "role": "member",
+        "color": "#FFC1C6",
+        "unread": 3,
+        "privacy": "invite",
+        "reading": {
+            "id": "00000000-0000-7000-8000-00000c300001",
+            "isbns": [
+                "9788508140912",
+                "9788535902778"
+            ],
+            "pages": 256,
+            "title": "Dom Casmurro",
+            "weeks": 6,
+            "author": "Machado de Assis",
+            "isbn13": "9788535902778",
+            "work_id": "00000000-0000-7000-8000-00000c0a0002",
+            "cover_ref": "ol:8231432",
+            "edition_id": "00000000-0000-7000-8000-00000c0a0003",
+            "current_week": {
+                "no": 2,
+                "to": 50,
+                "from": 26,
+                "to_label": null,
+                "from_label": null
+            }
+        },
+        "category": "Clássicos brasileiros",
+        "my_progress": 0.6200,
+        "next_meeting": {
+            "id": "00000000-0000-7000-8000-00000c400002",
+            "mine": "vou",
+            "mode": "online",
+            "weeks": 6,
+            "agenda": {
+                "no": 2,
+                "to": 50,
+                "from": 26,
+                "to_label": null,
+                "from_label": null
+            },
+            "counts": {
+                "vou": 8,
+                "talvez": 3,
+                "nao_vou": 0
+            },
+            "ends_at": "2026-10-14T00:30:00+00:00",
+            "week_no": 2,
+            "location": null,
+            "timezone": "America/Sao_Paulo",
+            "starts_at": "2026-10-13T23:00:00+00:00"
+        },
+        "participants": [
+            {
+                "color": "#B6ACE4",
+                "initial": "A"
+            },
+            {
+                "color": "#ABCF82",
+                "initial": "J"
+            },
+            {
+                "color": "#FFC1C6",
+                "initial": "L"
+            }
+        ],
+        "members_count": 11,
+        "group_progress": 0.5373,
+        "name_highlight": "Capitu",
+        "last_activity_at": "2026-10-09T18:12:06.040744+00:00",
+        "spoiler_protection": true
+    }
+]

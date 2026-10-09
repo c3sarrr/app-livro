@@ -1,0 +1,148 @@
+{
+    "members": [
+        {
+            "id": "00000000-0000-7000-8000-00000c100005",
+            "me": false,
+            "host": false,
+            "name": "Rafa",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#FFFAF1",
+            "ratio": 0.7800,
+            "initial": "R"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100002",
+            "me": false,
+            "host": false,
+            "name": "Júlia",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#ABCF82",
+            "ratio": 0.6700,
+            "initial": "J"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100001",
+            "me": false,
+            "host": true,
+            "name": "Ana",
+            "role": "owner",
+            "rsvp": "vou",
+            "color": "#B6ACE4",
+            "ratio": 0.6400,
+            "initial": "A"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100004",
+            "me": false,
+            "host": false,
+            "name": "Lu",
+            "role": "member",
+            "rsvp": "talvez",
+            "color": "#FFC1C6",
+            "ratio": 0.6300,
+            "initial": "L"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100003",
+            "me": true,
+            "host": false,
+            "name": "Marina",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#FED170",
+            "ratio": 0.6200,
+            "initial": "M"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100006",
+            "me": false,
+            "host": false,
+            "name": "Bia",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#058CD7",
+            "ratio": 0.5800,
+            "initial": "B"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100007",
+            "me": false,
+            "host": false,
+            "name": "Carol",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#FFC1C6",
+            "ratio": 0.5500,
+            "initial": "C"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100008",
+            "me": false,
+            "host": false,
+            "name": "Dani",
+            "role": "member",
+            "rsvp": "talvez",
+            "color": "#FFFAF1",
+            "ratio": 0.4600,
+            "initial": "D"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100009",
+            "me": false,
+            "host": false,
+            "name": "Fê",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#F2A815",
+            "ratio": 0.4000,
+            "initial": "F"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100010",
+            "me": false,
+            "host": false,
+            "name": "Gabi",
+            "role": "member",
+            "rsvp": "vou",
+            "color": "#ABCF82",
+            "ratio": 0.3800,
+            "initial": "G"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c100011",
+            "me": false,
+            "host": false,
+            "name": "Helô",
+            "role": "member",
+            "rsvp": "talvez",
+            "color": "#058CD7",
+            "ratio": 0.2000,
+            "initial": "H"
+        }
+    ],
+    "next_meeting": {
+        "id": "00000000-0000-7000-8000-00000c400002",
+        "mine": "vou",
+        "mode": "online",
+        "weeks": 6,
+        "agenda": {
+            "no": 2,
+            "to": 50,
+            "from": 26,
+            "to_label": null,
+            "from_label": null
+        },
+        "counts": {
+            "vou": 8,
+            "talvez": 3,
+            "nao_vou": 0
+        },
+        "ends_at": "2026-10-14T00:30:00+00:00",
+        "week_no": 2,
+        "location": null,
+        "timezone": "America/Sao_Paulo",
+        "starts_at": "2026-10-13T23:00:00+00:00"
+    }
+}

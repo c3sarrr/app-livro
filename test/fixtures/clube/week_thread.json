@@ -1,0 +1,105 @@
+{
+    "week": {
+        "no": 2,
+        "to": 50,
+        "from": 26,
+        "to_label": null,
+        "from_label": null
+    },
+    "replies": [
+        {
+            "id": "00000000-0000-7000-8000-00000c700001",
+            "body": "Acho que não. Ele conta tudo velho, sozinho e cheio de ciúme. A memória dele já chega torta.",
+            "liked": true,
+            "likes": 9,
+            "quote": null,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100002",
+                "me": false,
+                "host": false,
+                "name": "Júlia",
+                "color": "#ABCF82",
+                "initial": "J"
+            },
+            "replies": 2,
+            "spoiler": {
+                "page": 149,
+                "ratio": 0.5800
+            },
+            "parent_id": null,
+            "created_at": "2026-10-09T16:32:06.040744+00:00"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c700002",
+            "body": "Repara que quem fala dos “olhos de cigana” é o José Dias, não o Bentinho. Ele só repete.",
+            "liked": true,
+            "likes": 6,
+            "quote": {
+                "page": 121,
+                "text": "olhos de cigana oblíqua e dissimulada.",
+                "color": "#B6ACE4"
+            },
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100001",
+                "me": false,
+                "host": true,
+                "name": "Ana",
+                "color": "#B6ACE4",
+                "initial": "A"
+            },
+            "replies": 0,
+            "spoiler": {
+                "page": 154,
+                "ratio": 0.6000
+            },
+            "parent_id": null,
+            "created_at": "2026-10-09T17:32:06.040744+00:00"
+        },
+        {
+            "id": "00000000-0000-7000-8000-00000c700005",
+            "body": "Narrador de memória é sempre suspeito. Mas eu gosto de duvidar junto com ele.",
+            "liked": true,
+            "likes": 4,
+            "quote": null,
+            "author": {
+                "id": "00000000-0000-7000-8000-00000c100004",
+                "me": false,
+                "host": false,
+                "name": "Lu",
+                "color": "#FFC1C6",
+                "initial": "L"
+            },
+            "replies": 0,
+            "spoiler": {
+                "page": 141,
+                "ratio": 0.5500
+            },
+            "parent_id": null,
+            "created_at": "2026-10-09T17:57:06.040744+00:00"
+        }
+    ],
+    "question": {
+        "id": "00000000-0000-7000-8000-00000c500002",
+        "new": 3,
+        "body": "Bentinho é um narrador confiável?",
+        "likes": 0,
+        "author": {
+            "id": "00000000-0000-7000-8000-00000c100001",
+            "me": false,
+            "host": true,
+            "name": "Ana",
+            "color": "#B6ACE4",
+            "initial": "A"
+        },
+        "status": "open",
+        "replies": 12,
+        "week_no": 2,
+        "position": 1,
+        "host_note": null
+    },
+    "next_cursor": {
+        "id": "00000000-0000-7000-8000-00000c700005",
+        "likes": 4,
+        "created_at": "2026-10-09T17:57:06.040744+00:00"
+    }
+}
