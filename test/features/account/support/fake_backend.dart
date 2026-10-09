@@ -75,8 +75,12 @@ typedef Resposta = (int, Object?);
 /// Supabase de mentira. Respostas por "MÉTODO /caminho" (sem a query); o padrão responde como o
 /// servidor local responderia a um login de e-mail e às chamadas da conta.
 final class FakeBackend {
-  FakeBackend({Map<String, Resposta>? respostas, this.offline = false})
-    : respostas = {..._padrao, ...?respostas};
+  FakeBackend({
+    Map<String, Resposta>? respostas,
+    this.offline = false,
+    Map<String, Map<String, String>>? cabecalhos,
+  }) : respostas = {..._padrao, ...?respostas},
+       cabecalhos = {...?cabecalhos};
 
   static final Map<String, Resposta> _padrao = {
     'POST /auth/v1/otp': (200, <String, Object?>{}),
@@ -97,6 +101,9 @@ final class FakeBackend {
   };
 
   final Map<String, Resposta> respostas;
+
+  /// Cabeçalhos a mais na resposta, por "MÉTODO /caminho" (G21: o `content-range` da contagem).
+  final Map<String, Map<String, String>> cabecalhos;
 
   /// Sem rede: todo pedido falha com `ClientException`.
   bool offline;
@@ -179,6 +186,7 @@ final class _HttpDeMentira extends http.BaseClient {
         // o Auth atual responde com a versão da API (erros com `code` em texto)
         if (req.url.path.startsWith('/auth/v1'))
           'x-supabase-api-version': '2024-01-01',
+        ...?_b.cabecalhos['${req.method} ${req.url.path}'],
       },
     );
   }
