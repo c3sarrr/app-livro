@@ -26,6 +26,7 @@ import '../../../core/data/model/nullable.dart';
 import '../../../core/data/model/record_meta.dart';
 import '../annotations/domain/annotation.dart';
 import '../annotations/domain/highlight_overlap.dart';
+import '../annotations/domain/note_rules.dart';
 import '../annotations/ink/highlight_desk.dart' show DeskHighlight;
 import '../domain/anchoring.dart';
 import '../domain/locator.dart';
@@ -247,10 +248,7 @@ final class ReaderAnnotations extends ChangeNotifier
   }
 
   /// A ordem de criação (o id desempata).
-  static int _older(Annotation x, Annotation y) {
-    final c = x.meta.createdAt.compareTo(y.meta.createdAt);
-    return c != 0 ? c : x.id.compareTo(y.id);
-  }
+  static int _older(Annotation x, Annotation y) => olderFirst(x, y);
 
   /// O grifo sob [s] (o mais novo, se houver mais de um).
   PaintedHighlight? highlightAt(ReaderSpot s) {
@@ -269,16 +267,7 @@ final class ReaderAnnotations extends ChangeNotifier
   static Annotation? _firstNote(
     Iterable<Annotation> rows,
     Set<String> parents,
-  ) {
-    Annotation? first;
-    for (final a in rows) {
-      if (a.kind != AnnotationKind.note || !parents.contains(a.parentId)) {
-        continue;
-      }
-      if (first == null || _older(a, first) < 0) first = a;
-    }
-    return first;
-  }
+  ) => firstNoteOf(rows, parents);
 
   /// A nota que fica no grifo que [r] vai virar com [color] e [style] (D-138): a mais antiga dos grifos que ele
   /// une ou cobre inteiros (os que encolhem ficam com as suas); `null` = nenhuma (ou o item não está aberto).
@@ -550,43 +539,47 @@ final class ReaderAnnotations extends ChangeNotifier
   });
 
   Future<void> _saveNote(String highlightId, String t) async {
-    final parent = await _dao.byId(highlightId);
-    if (parent == null || parent.meta.isDeleted) return;
-    final note = _firstNote(await _dao.forBook(userBookId), {highlightId});
-    if (t.isEmpty) {
-      if (note != null) {
+    final rows = await _dao.forBook(userBookId);
+    switch (planNote(rows, await _dao.byId(highlightId), t)) {
+      case null:
+        return;
+      case NoteDelete(:final note):
         await _write(
           note.id,
           (v, at) => note.copyWith(meta: note.meta.deleted(at, v)),
         );
-      }
-      return;
+      case NoteEdit(:final note, :final text):
+        await _write(
+          note.id,
+          (v, at) => note.copyWith(
+            noteText: Nullable(text),
+            meta: note.meta.edited(at, v),
+          ),
+        );
+      case NoteCreate(:final parent, :final text):
+        final who = await owner();
+        final id = _ids.next();
+        await _write(
+          id,
+          (v, at) => Annotation(
+            id: id,
+            meta: RecordMeta(
+              userId: who,
+              createdAt: at,
+              updatedAt: at,
+              version: v,
+            ),
+            userBookId: userBookId,
+            kind: AnnotationKind.note,
+            parentId: parent.id,
+            groupId: parent.groupId,
+            anchor: parent.anchor,
+            refPage: parent.refPage,
+            chapterIndex: parent.chapterIndex,
+            noteText: text,
+          ),
+        );
     }
-    if (note != null) {
-      await _write(
-        note.id,
-        (v, at) =>
-            note.copyWith(noteText: Nullable(t), meta: note.meta.edited(at, v)),
-      );
-      return;
-    }
-    final who = await owner();
-    final id = _ids.next();
-    await _write(
-      id,
-      (v, at) => Annotation(
-        id: id,
-        meta: RecordMeta(userId: who, createdAt: at, updatedAt: at, version: v),
-        userBookId: userBookId,
-        kind: AnnotationKind.note,
-        parentId: highlightId,
-        groupId: parent.groupId,
-        anchor: parent.anchor,
-        refPage: parent.refPage,
-        chapterIndex: parent.chapterIndex,
-        noteText: t,
-      ),
-    );
   }
 
   /// A última cor usada (D-130); amarelo sem histórico, com um valor estranho ou se a leitura falhar (relatado).
