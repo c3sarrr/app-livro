@@ -94,9 +94,14 @@ class BillingController extends Notifier<ProView> {
   _Life _life = _Life();
   Future<void> _queue = Future.value();
 
-  /// A conta configurada no RevenueCat (nula = nenhuma).
+  /// A conta do app (nula = convidado).
   String? _user;
-  bool _configured = false;
+
+  /// A conta com que o RevenueCat está agora (nula = nenhuma: o Grátis que nunca comprou não fala com ele).
+  String? _storeUser;
+
+  /// O SDK já foi configurado nesta execução (depois, trocar de conta é `logIn`).
+  bool _sdkConfigured = false;
   StreamSubscription<ProCustomer>? _updates;
   Future<void>? _activation;
 
@@ -119,7 +124,8 @@ class BillingController extends Notifier<ProView> {
       _updates = null;
     });
     _user = null;
-    _configured = false;
+    _storeUser = null;
+    _sdkConfigured = false;
     _activation = null;
     _retryOnResume = false;
     _busy = false;
@@ -143,49 +149,99 @@ class BillingController extends Notifier<ProView> {
     });
   }
 
+  BillingStoreMemory get _memory => ref.read(billingStoreMemoryProvider);
+
+  Future<bool> _usedStore(String owner) async {
+    try {
+      return await _memory.used(owner);
+    } on Object {
+      return false;
+    }
+  }
+
   Future<void> _onAccount(AccountView view, _Life life) async {
     switch (view) {
       case MemberView(:final userId, :final summary):
         final serverPro = summary?.pro ?? false;
         if (userId != _user) {
-          await _signIn(userId, serverPro, life);
+          _user = userId;
+          _retryOnResume = false;
+          // R1 e G22.7: o RevenueCat entra com a conta Pro ou com a que já comprou ou restaurou neste aparelho;
+          // o Grátis que nunca comprou só quando age (comprar, restaurar, a tela técnica)
+          if (serverPro || await _usedStore(userId)) {
+            await _connect(userId, serverPro, life, loading: true);
+            return;
+          }
+          if (_storeUser != null) {
+            // a conta anterior sai do RevenueCat
+            _storeUser = null;
+            await _gateway.logOut();
+          }
+          if (!life.alive || _user != userId) return;
+          state = ProReady(customer: ProCustomer.none, serverPro: serverPro);
           return;
         }
         final s = state;
         if (s is ProReady && s.serverPro != serverPro) {
           state = s.copyWith(serverPro: serverPro);
         }
-      case GuestView():
-        if (_user != null) {
-          _user = null;
-          _retryOnResume = false;
-          state = const ProUnavailable();
-          await _gateway.logOut();
-        } else {
-          state = const ProUnavailable();
+        // virou Pro (comprou em outro aparelho): o estado da loja chega à tela
+        if (serverPro && _storeUser != userId) {
+          await _connect(userId, serverPro, life);
         }
+      case GuestView():
+        final connected = _storeUser != null;
+        _user = null;
+        _storeUser = null;
+        _retryOnResume = false;
+        state = const ProUnavailable();
+        if (connected) await _gateway.logOut();
       case AccountLoading():
         break;
     }
   }
 
-  Future<void> _signIn(String userId, bool serverPro, _Life life) async {
-    _user = userId;
-    _retryOnResume = false;
-    state = const ProLoading();
+  /// O RevenueCat com a conta [userId]: a 1ª vez configura; depois, `logIn` (R1).
+  Future<void> _connect(
+    String userId,
+    bool serverPro,
+    _Life life, {
+    bool loading = false,
+  }) async {
+    if (loading) state = const ProLoading();
     final gateway = _gateway;
     final ProCustomer customer;
-    if (_configured) {
+    if (_sdkConfigured) {
       customer = await gateway.logIn(userId);
     } else {
       await gateway.configure(appUserId: userId);
-      _configured = true;
+      _sdkConfigured = true;
       customer = await gateway.customer();
     }
+    _storeUser = userId;
     if (!life.alive || _user != userId) return;
     _updates ??= gateway.customerUpdates().listen(_onCustomer);
-    state = ProReady(customer: customer, serverPro: serverPro);
+    final s = state;
+    state = s is ProReady
+        ? s.copyWith(customer: customer)
+        : ProReady(customer: customer, serverPro: serverPro);
     _maybeActivate();
+  }
+
+  /// A conta comprou ou restaurou neste aparelho: daqui em diante o RevenueCat entra com ela ao abrir o app.
+  Future<void> _remember(String user) async {
+    try {
+      await _memory.markUsed(user);
+    } on Object {
+      // sem o banco do aparelho: o RevenueCat entra de novo na próxima ação
+    }
+  }
+
+  /// Uma ação da pessoa precisa da loja: o RevenueCat entra com a conta agora.
+  Future<void> _ensureStore(String user) async {
+    if (_storeUser == user) return;
+    final s = state;
+    await _connect(user, s is ProReady && s.serverPro, _life);
   }
 
   void _onCustomer(ProCustomer c) {
@@ -280,6 +336,8 @@ class BillingController extends Notifier<ProView> {
   /// que já assina → restaura (R5).
   Future<void> purchase(ProPackage package) => _action((user) async {
     try {
+      await _ensureStore(user);
+      await _remember(user);
       switch (await _gateway.purchase(package.id)) {
         case Purchased(:final customer):
           _setCustomer(user, customer);
@@ -306,6 +364,8 @@ class BillingController extends Notifier<ProView> {
 
   Future<void> _restore(String user) async {
     try {
+      await _ensureStore(user);
+      await _remember(user);
       final c = await _gateway.restore();
       _setCustomer(user, c);
       if (c.active) {
@@ -342,7 +402,9 @@ class BillingController extends Notifier<ProView> {
 
   /// Os pacotes da offering `default` (a tela técnica). Sem conta ou sem a loja: nenhum.
   Future<List<ProPackage>> packages() async {
-    if (_user == null || state is! ProReady) return const [];
+    final user = _user;
+    if (user == null || state is! ProReady) return const [];
+    await _ensureStore(user);
     return _gateway.packages();
   }
 

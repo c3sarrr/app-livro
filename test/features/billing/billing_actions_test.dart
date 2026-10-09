@@ -20,15 +20,18 @@ void main() {
   late List<Uri> abertas;
   late bool abre;
   late ProviderContainer c;
+  late MemoriaFalsa memoria;
 
   Future<void> iniciar(
     AccountView inicial, {
     TargetPlatform plataforma = TargetPlatform.android,
   }) async {
     conta = ContaFalsa(inicial);
+    memoria = MemoriaFalsa();
     c = ProviderContainer(
       overrides: [
         accountControllerProvider.overrideWith(() => conta),
+        billingStoreMemoryProvider.overrideWithValue(memoria),
         billingGatewayProvider.overrideWithValue(loja),
         proServerApiProvider.overrideWithValue(servidor),
         billingSleepProvider.overrideWithValue((_) async {}),
@@ -71,6 +74,25 @@ void main() {
         expect(pronto().serverPro, isTrue);
       },
     );
+
+    test('numa conta Grátis que nunca usou a loja: configura o RevenueCat só agora, e o aparelho lembra', () async {
+      await iniciar(membro(contaA));
+      expect(loja.chamadas, isEmpty);
+      await ctrl().purchase(mensal);
+      expect(loja.chamadas, [
+        'configure:$contaA',
+        'customer',
+        r'purchase:$rc_monthly',
+      ]);
+      expect(memoria.usadas, {contaA});
+    });
+
+    test('restaurar também configura antes e lembra', () async {
+      await iniciar(membro(contaA));
+      await ctrl().restore();
+      expect(loja.chamadas, ['configure:$contaA', 'customer', 'restore']);
+      expect(memoria.usadas, {contaA});
+    });
 
     test('fechou a folha da loja: volta sem aviso', () async {
       await iniciar(membro(contaA));

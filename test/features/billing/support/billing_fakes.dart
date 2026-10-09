@@ -5,6 +5,7 @@ import 'dart:collection';
 import 'package:app_leitura/features/account/application/account_controller.dart';
 import 'package:app_leitura/features/account/domain/account_summary.dart';
 import 'package:app_leitura/features/billing/application/billing_controller.dart';
+import 'package:app_leitura/features/billing/application/billing_providers.dart';
 import 'package:app_leitura/features/billing/data/billing_gateway.dart';
 import 'package:app_leitura/features/billing/data/pro_server_api.dart';
 import 'package:app_leitura/features/billing/domain/billing_models.dart';
@@ -214,4 +215,16 @@ final class BillingFalso extends BillingController {
     final s = state;
     if (s is ProReady) state = s.copyWith(notice: () => null);
   }
+}
+
+/// A lembrança do aparelho de quem já comprou ou restaurou (em memória).
+final class MemoriaFalsa implements BillingStoreMemory {
+  MemoriaFalsa([Set<String>? usadas]) : usadas = usadas ?? {};
+  final Set<String> usadas;
+
+  @override
+  Future<bool> used(String owner) async => usadas.contains(owner);
+
+  @override
+  Future<void> markUsed(String owner) async => usadas.add(owner);
 }

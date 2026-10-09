@@ -17,6 +17,8 @@ import 'package:app_leitura/features/account/application/account_providers.dart'
 import 'package:app_leitura/features/account/data/local_library.dart';
 import 'package:app_leitura/features/account/data/native_sign_in.dart';
 import 'package:app_leitura/features/account/data/store_age_signals.dart';
+import 'package:app_leitura/features/billing/application/billing_controller.dart';
+import 'package:app_leitura/features/billing/application/billing_providers.dart';
 import 'package:app_leitura/features/clubs/application/clubs_providers.dart';
 import 'package:app_leitura/features/clubs/application/publishers.dart';
 import 'package:app_leitura/features/clubs/application/stats_provider.dart';
@@ -36,6 +38,8 @@ import 'package:supabase_flutter/supabase_flutter.dart'
     show OtpType, SupabaseClient;
 
 import '../../support/personal_builders.dart';
+import '../billing/support/billing_fakes.dart'
+    show ContaFalsa, LojaFalsa, MemoriaFalsa, membro, proDaLoja;
 import 'support/account_fakes.dart';
 import 'support/fake_backend.dart';
 
@@ -80,6 +84,14 @@ const Set<String> permitidosG21 = {
   'POST /rest/v1/rpc/publish_my_stats',
   // o aceite das regras da comunidade (D-222)
   'POST /rest/v1/rpc/accept_terms',
+};
+
+/// G22 (docs/progresso/G22.md §2, D-229): o Pro. Só depois de uma ação de compra (comprar, restaurar) ou do "conferir
+/// agora" da tela técnica; o pedido não leva nada além da sessão: o servidor busca o estado da própria conta no
+/// RevenueCat. O Grátis que não compra não fala com o RevenueCat (o SDK nem é configurado).
+const Set<String> permitidosG22 = {
+  'POST /functions/v1/revenuecat-sync',
+  'POST /rest/v1/rpc/my_entitlement',
 };
 
 void main() {
@@ -178,6 +190,7 @@ void main() {
   });
 
   _semClube();
+  _pro();
 }
 
 /// G21.6: um Grátis com conta e sem clube.
@@ -280,3 +293,57 @@ void _semClube() => test('G21: Grátis com conta e sem clube — ler, grifar e a
 
 void debugPrintPedidos(FakeBackend b) =>
     debugPrint('[privacidade] pedidos do Grátis: ${b.caminhos.join(', ')}');
+
+/// G22.5: um Grátis com conta que não compra, e depois restaura.
+void _pro() => test('G22: Grátis com conta e sem compra — entrar e voltar ao app não chamam o RevenueCat nem o servidor do Pro; restaurar chama só o permitido, sem corpo', () async {
+  final backend = FakeBackend(
+    respostas: {
+      'POST /functions/v1/revenuecat-sync': (
+        200,
+        {'pro': true, 'active_until': '2026-11-12T15:00:00+00:00'},
+      ),
+    },
+  );
+  final client = backend.client();
+  addTearDown(client.dispose);
+  await client.auth.verifyOTP(
+    email: emailTeste,
+    token: '123456',
+    type: OtpType.email,
+  );
+  final loja = LojaFalsa();
+  final conta = ContaFalsa(membro(contaTeste));
+  final c = ProviderContainer(
+    overrides: [
+      supabaseClientProvider.overrideWithValue(client),
+      accountControllerProvider.overrideWith(() => conta),
+      billingGatewayProvider.overrideWithValue(loja),
+      billingStoreMemoryProvider.overrideWithValue(MemoriaFalsa()),
+      billingSleepProvider.overrideWithValue((_) async {}),
+    ],
+  );
+  addTearDown(c.dispose);
+  c.listen(billingControllerProvider, (_, _) {});
+  backend.pedidos.clear();
+
+  // entrar (o resumo Grátis) e voltar ao app
+  await pumpEventQueue();
+  c.read(billingControllerProvider.notifier).resumed();
+  await pumpEventQueue();
+  expect(
+    loja.chamadas,
+    isEmpty,
+    reason: 'o Grátis sem compra não fala com o RevenueCat',
+  );
+  expect(backend.pedidos, isEmpty);
+
+  // restaurar (uma ação da pessoa): a loja, e o servidor só com a sessão
+  loja.cliente = proDaLoja;
+  conta.proNoServidor = true;
+  await c.read(billingControllerProvider.notifier).restore();
+  await pumpEventQueue();
+  expect(loja.chamadas.first, 'configure:$contaTeste');
+  expect(backend.caminhos, ['POST /functions/v1/revenuecat-sync']);
+  expect(backend.caminhos.every(permitidosG22.contains), isTrue);
+  expect(backend.pedidos.single.body, anyOf(isEmpty, '{}'));
+});

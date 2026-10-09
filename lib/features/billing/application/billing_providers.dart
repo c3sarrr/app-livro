@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart' show LaunchMode, launchUrl;
 
 import '../../../core/config/server_providers.dart';
+import '../../../core/data/database/daos/kv_dao.dart';
+import '../../../core/data/database/local_database.dart';
 import '../data/billing_gateway.dart';
 import '../data/pro_server_api.dart';
 import '../data/revenuecat_gateway.dart';
@@ -79,4 +81,34 @@ final billingLauncherProvider = Provider<Future<bool> Function(Uri)>(
 /// Os pacotes da offering `default` para a tela técnica (relidos a cada vez que ela abre).
 final proPackagesProvider = FutureProvider.autoDispose<List<ProPackage>>(
   (ref) => ref.read(billingControllerProvider.notifier).packages(),
+);
+
+/// O aparelho lembra as contas que já compraram ou restauraram nele (G22.7): só essas, e as que o servidor diz Pro,
+/// configuram o RevenueCat ao entrar. O Grátis que nunca comprou não fala com o RevenueCat até agir.
+abstract interface class BillingStoreMemory {
+  Future<bool> used(String owner);
+  Future<void> markUsed(String owner);
+}
+
+/// No `kv` do aparelho (`pro.loja.<dono>`).
+final class KvBillingStoreMemory implements BillingStoreMemory {
+  KvBillingStoreMemory(this.kv);
+
+  final Future<KvDao> Function() kv;
+
+  static String _key(String owner) => 'pro.loja.$owner';
+
+  @override
+  Future<bool> used(String owner) async =>
+      await (await kv()).get(_key(owner)) != null;
+
+  @override
+  Future<void> markUsed(String owner) async =>
+      (await kv()).set(_key(owner), '1');
+}
+
+final billingStoreMemoryProvider = Provider<BillingStoreMemory>(
+  (ref) => KvBillingStoreMemory(
+    () async => KvDao(await ref.read(localDatabaseProvider.future)),
+  ),
 );

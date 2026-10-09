@@ -1,10 +1,14 @@
-// G22.3 — o estado do Pro (docs/progresso/G22.md §3): a conta configura o RevenueCat (R1), a tela mostra o Pro da
-// loja e o do servidor, e a ativação (R2) confere no servidor com o recuo até ele confirmar. Sem chave, nada.
+// G22.3 — o estado do Pro (docs/progresso/G22.md §3): a conta configura o RevenueCat (R1) — o Grátis que nunca
+// comprou neste aparelho só quando age (G22.7: o Grátis sem compra não fala com o RevenueCat) —, a tela mostra o Pro
+// da loja e o do servidor, e a ativação (R2) confere no servidor com o recuo até ele confirmar. Sem chave, nada.
 import 'package:app_leitura/core/config/server_providers.dart';
+import 'package:app_leitura/core/data/database/app_database.dart';
+import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/features/account/application/account_controller.dart';
 import 'package:app_leitura/features/billing/application/billing_controller.dart';
 import 'package:app_leitura/features/billing/application/billing_providers.dart';
 import 'package:app_leitura/features/billing/domain/billing_models.dart';
+import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +21,7 @@ void main() {
   late ContaFalsa conta;
   late List<Duration> esperas;
   late ProviderContainer c;
+  late MemoriaFalsa memoria;
 
   /// O recuo da ativação (R2): 1, 2, 4, 8, 16 e 29 s.
   const recuo = [1, 2, 4, 8, 16, 29];
@@ -25,13 +30,16 @@ void main() {
     AccountView inicial, {
     bool comLoja = true,
     Future<void> Function(Duration)? esperar,
+    Set<String> usadas = const {},
   }) {
     conta = ContaFalsa(inicial);
+    memoria = MemoriaFalsa({...usadas});
     final cc = ProviderContainer(
       overrides: [
         accountControllerProvider.overrideWith(() => conta),
         billingGatewayProvider.overrideWithValue(comLoja ? loja : null),
         proServerApiProvider.overrideWithValue(servidor),
+        billingStoreMemoryProvider.overrideWithValue(memoria),
         billingSleepProvider.overrideWithValue(
           esperar ??
               (d) async {
@@ -69,21 +77,39 @@ void main() {
     expect(loja.chamadas, isEmpty);
   });
 
-  test('entrar: configura com o id do Supabase; a tela tem o Pro da loja e o do servidor', () async {
+  test('Grátis que nunca usou a loja neste aparelho: o RevenueCat fica quieto; a tela tem o Grátis do servidor', () async {
     c = container(membro(contaA));
     await pumpEventQueue();
-    expect(loja.chamadas, ['configure:$contaA', 'customer']);
+    expect(loja.chamadas, isEmpty);
     expect(pronto().customer, ProCustomer.none);
     expect(pronto().serverPro, isFalse);
     expect(pronto().activating, isFalse);
   });
 
+  test('Pro no servidor: configura com o id do Supabase e a tela tem o Pro da loja', () async {
+    loja.cliente = proDaLoja;
+    c = container(membro(contaA, pro: true));
+    await pumpEventQueue();
+    expect(loja.chamadas, ['configure:$contaA', 'customer']);
+    expect(pronto().customer, proDaLoja);
+    expect(pronto().serverPro, isTrue);
+  });
+
+  test(
+    'a conta já comprou ou restaurou neste aparelho: configura ao entrar',
+    () async {
+      c = container(membro(contaA), usadas: {contaA});
+      await pumpEventQueue();
+      expect(loja.chamadas, ['configure:$contaA', 'customer']);
+    },
+  );
+
   test(
     'trocar de conta é logIn com a nova; sair é logOut e indisponível',
     () async {
-      c = container(membro(contaA));
+      c = container(membro(contaA, pro: true));
       await pumpEventQueue();
-      conta.mudar(membro(contaB));
+      conta.mudar(membro(contaB, pro: true));
       await pumpEventQueue();
       conta.mudar(const GuestView(canSignIn: true));
       await pumpEventQueue();
@@ -97,12 +123,27 @@ void main() {
     },
   );
 
-  test('o resumo da conta novo (o servidor virou Pro) chega à tela', () async {
+  test('trocar para uma conta Grátis que nunca usou a loja: sai do RevenueCat da anterior', () async {
+    c = container(membro(contaA, pro: true));
+    await pumpEventQueue();
+    conta.mudar(membro(contaB));
+    await pumpEventQueue();
+    expect(loja.chamadas, ['configure:$contaA', 'customer', 'logOut']);
+    expect(pronto().customer, ProCustomer.none);
+    // e a volta para uma conta que usa a loja é logIn (o SDK já está configurado)
+    conta.mudar(membro(contaA, pro: true));
+    await pumpEventQueue();
+    expect(loja.chamadas.last, 'logIn:$contaA');
+  });
+
+  test('o servidor virou Pro (comprou em outro aparelho): configura e o estado chega à tela', () async {
     c = container(membro(contaA));
     await pumpEventQueue();
+    loja.cliente = proDaLoja;
     conta.mudar(membro(contaA, pro: true));
     await pumpEventQueue();
     expect(pronto().serverPro, isTrue);
+    expect(pronto().customer, proDaLoja);
     expect(loja.chamadas, ['configure:$contaA', 'customer']);
   });
 
@@ -115,7 +156,7 @@ void main() {
         (pro: true, activeUntil: proAte),
       ]);
       final vistos = <bool>[];
-      c = container(membro(contaA));
+      c = container(membro(contaA), usadas: {contaA});
       c.listen(billingControllerProvider, (_, n) {
         if (n is ProReady) vistos.add(n.activating);
       });
@@ -133,7 +174,7 @@ void main() {
     test('o conferir agora já confirma: sem recuo', () async {
       loja.cliente = proDaLoja;
       servidor.aoConferir = (pro: true, activeUntil: proAte);
-      c = container(membro(contaA));
+      c = container(membro(contaA), usadas: {contaA});
       conta.proNoServidor = true;
       await pumpEventQueue();
       expect(servidor.chamadas, ['syncNow']);
@@ -145,7 +186,7 @@ void main() {
       loja.cliente = proDaLoja;
       servidor.falhaAoConferir = Exception('502');
       servidor.respostas.add((pro: true, activeUntil: proAte));
-      c = container(membro(contaA));
+      c = container(membro(contaA), usadas: {contaA});
       conta.proNoServidor = true;
       await pumpEventQueue();
       expect(servidor.chamadas, ['syncNow', 'current']);
@@ -154,7 +195,7 @@ void main() {
 
     test('nunca confirma: para depois de ≈ 60 s com o aviso, e tenta de novo ao voltar ao app', () async {
       loja.cliente = proDaLoja;
-      c = container(membro(contaA));
+      c = container(membro(contaA), usadas: {contaA});
       await pumpEventQueue();
       expect(esperas, [for (final s in recuo) Duration(seconds: s)]);
       expect(
@@ -179,7 +220,7 @@ void main() {
     });
 
     test('voltar ao app sem ativação pendente não chama o servidor', () async {
-      c = container(membro(contaA));
+      c = container(membro(contaA), usadas: {contaA});
       await pumpEventQueue();
       c.read(billingControllerProvider.notifier).resumed();
       await pumpEventQueue();
@@ -191,6 +232,7 @@ void main() {
       var primeira = true;
       c = container(
         membro(contaA),
+        usadas: {contaA},
         esperar: (d) async {
           esperas.add(d);
           if (primeira) {
@@ -204,7 +246,8 @@ void main() {
       // a ativação da A parou na 1ª espera: nenhum `current`, nenhuma releitura
       expect(servidor.chamadas, ['syncNow']);
       expect(conta.releituras, 0);
-      expect(loja.chamadas.last, 'logIn:$contaB');
+      // a B nunca usou a loja: o RevenueCat sai da A e fica quieto
+      expect(loja.chamadas.last, 'logOut');
       expect(pronto().activating, isFalse);
       expect(pronto().notice, isNull);
     });
@@ -225,7 +268,7 @@ void main() {
     );
 
     test('a loja avisa que virou Pro (compra em outro aparelho) e o servidor ainda não: ativa', () async {
-      c = container(membro(contaA));
+      c = container(membro(contaA), usadas: {contaA});
       await pumpEventQueue();
       servidor.aoConferir = (pro: true, activeUntil: proAte);
       conta.proNoServidor = true;
@@ -310,5 +353,15 @@ void main() {
       expect(cc.read(billingGatewayProvider), isNull);
       expect(cc.read(proServerApiProvider), isNull);
     });
+  });
+
+  test('a lembrança do aparelho fica no kv, por conta', () async {
+    final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
+    addTearDown(db.close);
+    final m = KvBillingStoreMemory(() async => KvDao(db));
+    expect(await m.used(contaA), isFalse);
+    await m.markUsed(contaA);
+    expect(await m.used(contaA), isTrue);
+    expect(await m.used(contaB), isFalse);
   });
 }
