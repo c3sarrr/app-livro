@@ -5,7 +5,10 @@
 // leitor limpo repagina com a caixa (R11); recolhida, a faixa aparece e abre com um toque (D-184). G18.6: a alça para
 // na tinta e cresce (D-186), recolher e abrir, apagar com a pílula e o Desfazer (D-185); o Voltar grava como o Concluir
 // (D-42); o rascunho guardado traz a nota (D-166); a nota que não cabe vai inteira para a página seguinte (R12); Noite.
-// O teto de 256 KiB avisa na pílula por 2 s (D-191).
+// O teto de 256 KiB avisa na pílula por 2 s (D-191). Abrir o livro com a nota no capítulo: a 1ª página já sai com a
+// caixa e a tinta que chega depois não repagina; sem a nota, repagina; o modo anotação espera (revisão 7).
+import 'dart:async';
+
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
@@ -15,6 +18,8 @@ import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:app_leitura/features/reader/application/annotation_session.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/application/reader_ink.dart'
+    show InkSource;
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
 import 'package:app_leitura/features/reader/layout/paginator.dart';
@@ -24,6 +29,7 @@ import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../fixtures/mundo_2026_09_20.dart' show mundoReferencia;
 import '../../../support/app_text_finder.dart';
 import '../../../support/canvas.dart';
 import '../../../support/dados_t20.dart' show depsDaTela20;
@@ -347,6 +353,189 @@ void main() {
     }
   });
 
+  /// O leitor no mundo da 24b (a nota à mão na pág. 159) com a tinta do leitor demorando a chegar.
+  Future<_TintaDemorada> comTintaDemorada(WidgetTester tester) async {
+    final mundo = await livroDaTela24b();
+    addTearDown(mundo.close);
+    final tinta = _TintaDemorada(
+      DriftInkRepository(
+        mundo.db,
+        mundo.versioning,
+        now: () => mundoReferencia.agora,
+      ),
+    );
+    setCanvasView(tester, logical: const Size(390, 844));
+    await precacheTela24(tester);
+    await abrirLeitor(
+      tester,
+      mundo,
+      deps: (t) => depsDaTela20(t, mundo, ink: tinta),
+    );
+    await esperarBancoL22(tester);
+    expect(tinta.esperando, isTrue, reason: 'a tinta do leitor ainda chega');
+    return tinta;
+  }
+
+  /// A página do layout (cada leitura de `current` embrulha a mesma): repaginar faz outra.
+  ReaderPage folha(WidgetTester tester) =>
+      (_doc(tester).current as PageSnapshot).page;
+
+  /// O capítulo assentado (a página do cache vira a do layout completo): a mesma página por 3 voltas.
+  Future<ReaderPage> assentada(WidgetTester tester) async {
+    var p = folha(tester);
+    var iguais = 0;
+    for (var i = 0; iguais < 3 && i < 40; i++) {
+      await esperarBancoL22(tester);
+      final q = folha(tester);
+      iguais = identical(p, q) ? iguais + 1 : 0;
+      p = q;
+    }
+    expect(iguais, 3, reason: 'o capítulo assenta');
+    return p;
+  }
+
+  InkSource tintaNaTela(WidgetTester tester) =>
+      tester.widget<ReaderPageView>(find.byType(ReaderPageView)).ink!;
+
+  testWidgets(
+    'abrir o livro com a nota no capítulo (revisão 7): a 1ª página já sai com a caixa e os desenhos, mesmo com a tinta '
+    'ainda chegando (e repaginar no meio não tira o espaço); quando a tinta chega com as mesmas notas, nada repagina',
+    (tester) async {
+      final tinta = await comTintaDemorada(tester);
+      final atual = _doc(tester).current;
+      expect(spacesOf(atual), hasLength(1));
+      expect(tintaNaTela(tester).notesOn(atual), hasLength(1));
+      expect(tintaNaTela(tester).drawingsOn(atual), isNotEmpty);
+      // repaginar com a tinta ainda chegando: os espaços com que o livro abriu ficam
+      await tester.runAsync(() => (_doc(tester) as SpacedDocument).respace());
+      final pagina = await assentada(tester);
+      expect(spacesOf(_doc(tester).current), hasLength(1));
+      tinta.soltar();
+      await esperarBancoL22(tester);
+      expect(tinta.esperando, isFalse);
+      expect(
+        identical(await assentada(tester), pagina),
+        isTrue,
+        reason: 'as mesmas notas: o livro não repagina',
+      );
+      expect(spacesOf(_doc(tester).current), hasLength(1));
+      expect(tintaNaTela(tester).notesOn(_doc(tester).current), hasLength(1));
+    },
+  );
+
+  testWidgets(
+    'a tinta do leitor chega sem a nota (o rascunho a apagou ao abrir — D-166): o livro repagina sem o espaço',
+    (tester) async {
+      final tinta = await comTintaDemorada(tester);
+      expect(spacesOf(_doc(tester).current), hasLength(1));
+      tinta
+        ..vazia = true
+        ..soltar();
+      await assentada(tester);
+      expect(spacesOf(_doc(tester).current), isEmpty);
+      expect(tintaNaTela(tester).notesOn(_doc(tester).current), isEmpty);
+    },
+  );
+
+  testWidgets(
+    'o modo anotação pedido com a tinta ainda chegando espera por ela e pela repaginação: abre na página nova',
+    (tester) async {
+      final tinta = await comTintaDemorada(tester);
+      await entrarNoModoAnotacao(tester);
+      expect(find.byType(AnnotationMode), findsNothing, reason: 'espera');
+      tinta
+        ..vazia = true
+        ..soltar();
+      for (
+        var i = 0;
+        i < 40 && find.byType(AnnotationMode).evaluate().isEmpty;
+        i++
+      ) {
+        await esperarBancoL22(tester);
+      }
+      await _quadros(tester);
+      final s = sessaoNaTela(tester);
+      expect(s.notes, isEmpty);
+      expect(spacesOf(_doc(tester).current), isEmpty);
+      expect(spacesOf(s.page!), isEmpty);
+    },
+  );
+
+  testWidgets('a tinta que muda no banco enquanto o modo anotação abre (depois da 1ª leitura dela) só repagina o livro depois '
+      'que ele sai', (tester) async {
+    final mundo = await livroDaTela24b();
+    addTearDown(mundo.close);
+    // a próxima pergunta pela conta espera (o modo para no meio da abertura)
+    Completer<void>? portao;
+    setCanvasView(tester, logical: const Size(390, 844));
+    await precacheTela24(tester);
+    await abrirLeitor(
+      tester,
+      mundo,
+      deps: (t) => depsDaTela20(
+        t,
+        mundo,
+        owner: () async {
+          final p = portao;
+          if (p != null) {
+            portao = null;
+            await p.future;
+          }
+          return mundo.leitor;
+        },
+      ),
+    );
+    await esperarBancoL22(tester);
+    final nota = spacesOf(_doc(tester).current).single;
+    double altura() => spacesOf(_doc(tester).current).single.rect.height;
+    await tester.tapAt(const Offset(195, 420));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 150));
+    await _quadros(tester, 6);
+    final segurar = portao = Completer<void>();
+    await tester.tap(_key('r20.bottomIsland.tools.annotate'));
+    await esperarBancoL22(tester);
+    expect(find.byType(AnnotationMode), findsNothing);
+    expect(portao, isNull, reason: 'o modo parou na conta');
+    // outro aparelho recolhe a nota
+    await tester.runAsync(
+      () => DriftInkRepository(
+        mundo.db,
+        mundo.versioning,
+        now: () => mundoReferencia.agora,
+      ).setCollapsed(mundo.leitor, nota.id, true),
+    );
+    await esperarBancoL22(tester);
+    expect(altura(), nota.rect.height, reason: 'espera o modo sair');
+    segurar.complete();
+    for (
+      var i = 0;
+      i < 40 && find.byType(AnnotationMode).evaluate().isEmpty;
+      i++
+    ) {
+      await esperarBancoL22(tester);
+    }
+    await _quadros(tester);
+    expect(find.byType(AnnotationMode), findsOneWidget);
+    expect(altura(), nota.rect.height);
+    // ao sair, repagina com a faixa
+    await tester.tap(_key('ann.done'));
+    for (var i = 0; i < 2; i++) {
+      await esperarBancoL22(tester);
+      await _quadros(tester);
+    }
+    expect(find.byType(AnnotationMode), findsNothing);
+    expect(
+      altura(),
+      closeTo(
+        stripFlowHeight(
+          (_doc(tester).current as PageSnapshot).typography.lineHeight,
+        ),
+        0.01,
+      ),
+    );
+  });
+
   testWidgets('o Voltar grava a nota como o Concluir (D-42)', (tester) async {
     final s = await espaco(tester);
     final nota = await notaComTinta(
@@ -538,3 +727,62 @@ void main() {
 
 /// A nota criada no teste: a camada e a âncora.
 typedef SessionNoteRef = ({String id, int at});
+
+/// A tinta do leitor que demora a chegar: o rascunho (o 1º passo da leitura da tinta) espera [soltar].
+final class _TintaDemorada implements InkRepository {
+  _TintaDemorada(this._real);
+
+  final InkRepository _real;
+  final _portao = Completer<void>();
+  var _pedido = false;
+
+  /// O banco sem tinta nenhuma (o rascunho recuperado apagou a nota).
+  var vazia = false;
+
+  /// A tinta do leitor pediu o rascunho e espera.
+  bool get esperando => _pedido && !_portao.isCompleted;
+
+  void soltar() => _portao.complete();
+
+  @override
+  Future<bool> recoverDraft(String owner, String userBookId) async {
+    _pedido = true;
+    await _portao.future;
+    return _real.recoverDraft(owner, userBookId);
+  }
+
+  @override
+  Future<List<SavedDrawing>> drawingsOfBook(String userBookId) async =>
+      vazia ? const [] : _real.drawingsOfBook(userBookId);
+
+  @override
+  Future<List<SavedNote>> notesOfBook(String userBookId) async =>
+      vazia ? const [] : _real.notesOfBook(userBookId);
+
+  @override
+  Future<void> setCollapsed(String owner, String layerId, bool collapsed) =>
+      _real.setCollapsed(owner, layerId, collapsed);
+
+  @override
+  Future<void> commit(String owner, String userBookId, InkChanges c) =>
+      _real.commit(owner, userBookId, c);
+
+  @override
+  Future<void> saveDraft(
+    String owner,
+    String userBookId,
+    InkChanges c, {
+    required String session,
+  }) => _real.saveDraft(owner, userBookId, c, session: session);
+
+  @override
+  Future<List<InkChanges>> draftsOf(String owner, String userBookId) =>
+      _real.draftsOf(owner, userBookId);
+
+  @override
+  Future<void> clearDraft(
+    String owner,
+    String userBookId, {
+    required String session,
+  }) => _real.clearDraft(owner, userBookId, session: session);
+}

@@ -281,6 +281,25 @@ void main() {
       expect(sem.page.alive, isFalse);
     });
 
+    test(
+      'abre já com os espaços das notas (a abertura não pisca — revisão 7)',
+      () async {
+        final meio = livro.index.spine[2].chars ~/ 2;
+        await livro.guardarPosicao(2, meio);
+        final sem = await abrir();
+        expect(spacesOf(sem.current), isEmpty);
+        final shown = sem.current.shown!;
+        final at = sem.anchors.textOf(2)!.indexOf('. ', shown.from) + 1;
+        expect(at, inInclusiveRange(shown.from + 1, shown.to));
+        final corte = SpaceCut(at: at, height: 206, id: 'n1');
+        final d = await EpubReaderDocument.open(
+          livro.deps(espacos: (spine, t) => spine == 2 ? [corte] : const []),
+        );
+        addTearDown(d.dispose);
+        expect(spacesOf(d.current).map((s) => s.id), ['n1']);
+      },
+    );
+
     test('a página do modo guarda o espaço que não cabe no resto dela; o texto de baixo sai (R3)', () async {
       final meio = livro.index.spine[2].chars ~/ 2;
       await livro.guardarPosicao(2, meio);

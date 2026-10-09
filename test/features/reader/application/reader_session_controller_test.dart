@@ -17,6 +17,7 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/model/record_meta.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
+import 'package:app_leitura/features/reader/annotations/ink_repository.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
 import 'package:app_leitura/features/reader/application/reading_speed_source.dart';
@@ -40,6 +41,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pdfrx/pdfrx.dart' show pdfrxInitialize;
 
+import '../../../support/fake_ink_repository.dart';
 import '../../../support/fake_reader.dart';
 import '../../../support/load_fonts.dart';
 import '../../../support/personal_builders.dart';
@@ -75,6 +77,9 @@ final class _Sessao {
   /// G14: a próxima pergunta pela conta espera por este sinal (uma vez) — a gravação parada no meio.
   Completer<void>? donoEspera;
   Future<double> Function(AppDatabase db, String userId)? velocidade;
+
+  /// G18: onde a tinta do livro está (sem isto, o banco do livro).
+  InkRepository? tinta;
 
   ReaderSessionController controller() {
     final c = ReaderSessionController(
@@ -114,6 +119,7 @@ final class _Sessao {
         pdfInitialize: pdfInitialize,
         speedOf: velocidade ?? readingSpeedOf,
         onError: (e, _) => erros.add(e),
+        inkRepository: tinta,
       ),
     );
     return c;
@@ -1323,6 +1329,56 @@ void main() {
   });
 
   group('G18', () {
+    test('abre com os espaços das notas do arquivo de agora, lidas antes do 1º layout (a abertura não pisca — '
+        'revisão 7); sem conseguir lê-las, abre sem elas e relata', () async {
+      await h.livro.guardarPosicao(2, h.livro.index.spine[2].chars ~/ 2);
+      final c0 = await aberto();
+      final d0 = doc(c0);
+      expect(c0.takeOpeningInk(d0)!.signature, '');
+      final shown = d0.current.shown!;
+      final at = d0.anchors!.textOf(shown.unit)!.indexOf('. ', shown.from) + 1;
+      expect(at, inInclusiveRange(shown.from + 1, shown.to));
+      final camada = camadaTeste(40, livro: h.livro.userBookId).copyWith(
+        anchor: EpubAnchor(
+          sha: h.livro.index.contentSha256,
+          spine: shown.unit,
+          start: at,
+          end: at,
+          quote: const TextQuote(exact: ''),
+          refPage: 1,
+        ),
+        collapsed: false,
+      );
+      h.tinta = FakeInkRepository(
+        notes: [
+          (
+            layer: camada,
+            annotation: desenhoTeste(
+              41,
+              livro: h.livro.userBookId,
+              camada: camada,
+            ),
+          ),
+        ],
+      );
+      final c = await aberto();
+      expect(spacesOf(doc(c).current).map((s) => s.id), [idTeste(40)]);
+      // a tela leva a tinta lida (uma vez, só a do livro aberto)
+      expect(c.takeOpeningInk(d0), isNull);
+      final tinta = c.takeOpeningInk(doc(c))!;
+      expect(tinta.signature, '${idTeste(40)}:${shown.unit}:$at:3:0');
+      expect(tinta.notes.single.layer.id, idTeste(40));
+      expect(c.takeOpeningInk(doc(c)), isNull);
+      expect(h.erros, isEmpty);
+      // o banco da tinta falha: o livro abre sem os espaços (a tinta do leitor os traz depois) e a falha é relatada
+      h.tinta = _TintaQueFalha();
+      final c2 = await aberto();
+      expect(c2.state, isA<ReaderReady>());
+      expect(spacesOf(doc(c2).current), isEmpty);
+      expect(c2.takeOpeningInk(doc(c2)), isNull);
+      expect(h.erros.single, isA<StateError>());
+    });
+
     test('respace: repagina o livro aberto com os espaços; a falha inesperada vai pelo caminho das viradas (relatada, '
         'o aviso)', () async {
       final c = await aberto();
@@ -1336,4 +1392,11 @@ void main() {
       expect(h.erros.single, isA<StateError>());
     });
   });
+}
+
+/// G18: a tinta cujo banco falha.
+final class _TintaQueFalha implements InkRepository {
+  @override
+  dynamic noSuchMethod(Invocation invocation) =>
+      throw StateError('banco da tinta');
 }

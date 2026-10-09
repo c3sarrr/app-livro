@@ -27,6 +27,7 @@ import 'package:app_leitura/features/reader/content/content_failure.dart';
 import 'package:app_leitura/features/reader/content/epub_book.dart';
 import 'package:app_leitura/features/reader/layout/layout_scheduler.dart';
 import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/scheduler.dart' show Priority;
 
@@ -150,6 +151,7 @@ final class LivroNaEstante {
     LayoutScheduler? scheduler,
     ReadingPositionKeeper? keeper,
     EpubSearchRunner? busca,
+    SpaceCutsOf? espacos,
   }) => EpubDocumentDeps(
     book: book,
     index: index,
@@ -160,6 +162,7 @@ final class LivroNaEstante {
     loader: (s) async => chapterOf(epub, s),
     images: (href) async => readImageOf(epub, href),
     search: busca ?? buscaNaHora,
+    spaces: espacos,
   );
 
   /// O que a sessão de leitura usa, sobre este livro: capítulos lidos na hora (sem isolate), o tempo sem o
@@ -177,10 +180,11 @@ final class LivroNaEstante {
     ReaderClubSource club = const NoReaderClub(),
     Duration Function(DateTime utc)? utcOffsetAt,
     InkRepository? ink,
+    Future<String> Function()? owner,
   }) => ReaderDeps(
     db: db,
     versioning: versioning,
-    owner: () async => leitor,
+    owner: owner ?? () async => leitor,
     booksDir: () async => dir,
     indexBook:
         indexar ??

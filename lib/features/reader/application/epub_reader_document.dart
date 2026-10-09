@@ -34,6 +34,7 @@ final class EpubDocumentDeps {
     this.images,
     this.search,
     this.devicePixelRatio = 1,
+    this.spaces,
   });
 
   final UserBook book;
@@ -57,6 +58,9 @@ final class EpubDocumentDeps {
 
   /// Densidade da tela: as imagens são decodificadas na largura da caixa do texto × ela.
   final double devicePixelRatio;
+
+  /// G18: os espaços das notas à mão já no 1º layout (a abertura não pisca — revisão 7).
+  final SpaceCutsOf? spaces;
 }
 
 final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
@@ -77,6 +81,7 @@ final class EpubReaderDocument implements ReaderDocument, SpacedDocument {
       scheduler: d.scheduler,
       cache: d.cache,
       imageOf: images.imageOf,
+      spaces: d.spaces,
     );
     try {
       await reopen(pager, d.keeper);

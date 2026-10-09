@@ -5,6 +5,7 @@
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
+import 'package:app_leitura/features/reader/annotations/ink_repository.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 
@@ -57,11 +58,17 @@ double velocidadeDaPrancha(LivroNaEstante livro) {
 
 /// As dependências do leitor no relógio do mundo (20/09/2026 20:00 em São Paulo), sem o tempo andar, e com a
 /// velocidade da prancha.
-Future<ReaderDeps> depsDaTela20(LeitorNaTela t, LivroNaEstante livro) async =>
-    livro.readerDeps(
-      awake: t.awake,
-      onError: (e, _) => t.erros.add(e),
-      now: () => mundoReferencia.agora,
-      elapsed: () => Duration.zero,
-      speedOf: (AppDatabase _, String _) async => velocidadeDaPrancha(livro),
-    );
+Future<ReaderDeps> depsDaTela20(
+  LeitorNaTela t,
+  LivroNaEstante livro, {
+  InkRepository? ink,
+  Future<String> Function()? owner,
+}) async => livro.readerDeps(
+  awake: t.awake,
+  onError: (e, _) => t.erros.add(e),
+  now: () => mundoReferencia.agora,
+  elapsed: () => Duration.zero,
+  speedOf: (AppDatabase _, String _) async => velocidadeDaPrancha(livro),
+  ink: ink,
+  owner: owner,
+);

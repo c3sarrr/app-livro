@@ -183,8 +183,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   Future<void>? _respacing;
   bool _respacePending = false;
 
-  /// A 1ª leitura da tinta do livro (o modo anotação espera por ela: as notas e os desenhos da página).
+  /// A 1ª leitura da tinta do livro (o modo anotação espera por ela: as notas e os desenhos da página) e se ela já
+  /// acabou.
   Future<void>? _inkLoading;
+  bool _inkLoaded = false;
 
   /// O modo anotação (tela 22 — G16): a sessão sobre o retrato da página. [_annOpen] fica `false` enquanto a camada
   /// sai (o texto sobe 30 px); [_annStarting] e [_annSaving] seguram toques repetidos.
@@ -352,6 +354,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           now: c.deps.now,
           onError: c.deps.onError,
         );
+    // G18 (revisão 7): a tinta começa com a que o livro leu antes do 1º layout — a 1ª página já pinta as notas e os
+    // desenhos
+    final opening = c.takeOpeningInk(doc);
     _ink = anchors == null || notes == null
         ? null
         : ReaderInk(
@@ -362,17 +367,22 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             anchors: anchors,
             annotations: notes,
             onError: c.deps.onError,
+            opening: opening,
           );
     // G18 (R11): o paginador abre os espaços das notas à mão; quando elas mudam (salvas, abertas, apagadas), o
-    // capítulo repagina
+    // capítulo repagina. O livro abriu com os espaços das notas lidas antes do 1º layout (revisão 7): eles valem até
+    // a tinta chegar, e ela só repagina se as notas dela forem outras
     final ink = _ink;
     _notesSignature = '';
     _respacePending = false;
+    _inkLoaded = false;
     if (doc case final SpacedDocument spaced when ink != null) {
-      spaced.spaces = ink.cutsOf;
+      _notesSignature = opening?.signature ?? '';
       ink.addListener(() => _inkChanged(ink, spaced));
     }
-    _inkLoading = _ink?.load();
+    _inkLoading = ink?.load().whenComplete(() {
+      if (identical(_ink, ink)) _inkLoaded = true;
+    });
     _chrome = ReaderChrome(
       db: c.deps.db,
       userBookId: widget.bookId,
@@ -442,11 +452,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// A tinta mudou: com as notas do livro diferentes, o documento repagina (os espaços); a tela refaz a semântica.
   void _inkChanged(ReaderInk ink, SpacedDocument doc) {
     if (!identical(ink, _ink)) return;
+    // a tinta chegou (ou mudou): os espaços passam a ser os dela
+    doc.spaces = ink.cutsOf;
     final signature = ink.notesSignature;
     if (signature != _notesSignature) {
       _notesSignature = signature;
-      // com o modo anotação na tela (ou abrindo), espera ele sair
-      if (_ann != null || _annStarting) {
+      // com o modo anotação na tela (ou abrindo, depois da 1ª leitura da tinta), espera ele sair; antes dela, o modo
+      // que abre espera a tinta e esta repaginação
+      if (_ann != null || (_annStarting && _inkLoaded)) {
         _respacePending = true;
       } else {
         _respace(doc);

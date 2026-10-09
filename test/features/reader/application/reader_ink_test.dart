@@ -503,6 +503,80 @@ void main() {
       },
     );
 
+    test('a abertura do livro (revisão 7): a tinta lida antes do 1º layout dá os mesmos cortes e a mesma assinatura '
+        'da tinta do leitor (as notas do arquivo de agora; a de outro arquivo e a de tinta quebrada de fora, sem '
+        'relatar); o leitor começa com ela: as notas e os desenhos antes de ler o banco', () async {
+      await saveDrawing(10, _range(0, 17));
+      await salvarNota(20);
+      await salvarNota(22, at: _text.length, recolhida: true);
+      await salvarNota(24, sha: 'f' * 64, spine: 99);
+      await salvarNota(26, at: 10);
+      final l = (await InkLayersDao(db).byIds([idTeste(26)])).single;
+      await InkLayersDao(db).upsert(
+        l.copyWith(
+          strokesB64: 'Qk5LMQIA',
+          meta: RecordMeta(
+            userId: usuarioTeste,
+            createdAt: l.meta.createdAt,
+            updatedAt: l.meta.updatedAt,
+            version: Hlc(l.meta.version.ms + 1, 0, 'aparelhoA'),
+          ),
+        ),
+      );
+      final abertura = await readOpeningInk(repo, idTeste(1), shaTeste);
+      expect(errors, isEmpty);
+      const tp = ReaderTypography();
+      expect(
+        abertura.signature,
+        '${idTeste(20)}:$_spine:33:3:0|'
+        '${idTeste(22)}:$_spine:${_text.length}:3:1',
+      );
+      expect(noteCutsOf(abertura.spaces, 99, tp), isEmpty);
+      expect(noteCutsOf(abertura.spaces, _spine + 1, tp), isEmpty);
+      // a tinta lida: só a das notas com lugar e legíveis
+      expect(abertura.noteStrokes.keys, [idTeste(20), idTeste(22)]);
+      // o leitor que começa com ela já tem as notas e os desenhos, antes de ler o banco
+      final comeco = ReaderInk(
+        db: db,
+        repository: repo,
+        owner: owner,
+        userBookId: idTeste(1),
+        anchors: _Anchors(),
+        annotations: annotations,
+        onError: (e, _) => errors.add(e),
+        opening: abertura,
+      );
+      addTearDown(comeco.dispose);
+      expect(comeco.notesSignature, abertura.signature);
+      // a tinta lida não é lida de novo
+      expect(
+        identical(
+          comeco.notes.first.strokes,
+          abertura.noteStrokes[idTeste(20)]!.$2,
+        ),
+        isTrue,
+      );
+      expect(
+        comeco.notes.first.strokes.single.points.first.x,
+        closeTo(0.1, 1e-4),
+      );
+      expect(comeco.drawingsOn(_Pagina()).single.saved.layerId, idTeste(10));
+      // a camada quebrada é relatada por ele (uma vez)
+      expect(errors.single, isA<Bnk1Failure>());
+      // e lido o banco, a mesma coisa
+      await annotations.load();
+      await ink.load();
+      expect(abertura.signature, ink.notesSignature);
+      expect(noteCutsOf(abertura.spaces, _spine, tp), ink.cutsOf(_spine, tp));
+      expect(noteCutsOf(abertura.spaces, _spine, tp), hasLength(2));
+      // sem tinta: nada a abrir
+      final vazia = await readOpeningInk(repo, idTeste(9), shaTeste);
+      expect(vazia.signature, '');
+      expect(vazia.drawings, isEmpty);
+      expect(vazia.notes, isEmpty);
+      expect(vazia.spaces, isEmpty);
+    });
+
     test('a nota sem lugar (outro arquivo, item ainda não aberto) não aparece nem entra nos cortes', () async {
       await salvarNota(20, sha: 'f' * 64, spine: 99);
       await annotations.load();

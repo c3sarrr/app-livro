@@ -22,7 +22,8 @@ import '../../../core/data/database/versioning.dart';
 import '../../../core/data/ids/uuid_v7.dart';
 import '../../../core/data/model/record_meta.dart';
 import '../../library/domain/user_book.dart';
-import '../annotations/ink_repository.dart' show InkRepository;
+import '../annotations/ink_repository.dart'
+    show DriftInkRepository, InkRepository;
 import '../content/content_failure.dart';
 import '../content/ref_pages.dart' show refPageVersion;
 import '../domain/bookmark.dart';
@@ -41,6 +42,7 @@ import 'pdf_reader_document.dart';
 import 'reader_club_source.dart';
 import 'reader_document.dart';
 import 'reader_errors.dart';
+import 'reader_ink.dart' show OpeningInk, noteCutsOf, readOpeningInk;
 import 'reading_position_keeper.dart';
 import 'reading_session_tracker.dart';
 import 'reading_session_tracker.dart' as sessions show minutesToday;
@@ -356,6 +358,9 @@ class ReaderSessionController extends ChangeNotifier {
       }
     }
     if (index.layout == 'fixed') return ReaderFailure.fixedLayout;
+    // G18 (revisão 7): a tinta antes do 1º layout — a página abre já com os espaços das notas
+    final opening = await _readOpeningInk(sha);
+    final spaces = opening?.spaces;
     final keeper = ReadingPositionKeeper(
       db: deps.db,
       versioning: deps.versioning,
@@ -366,7 +371,7 @@ class ReaderSessionController extends ChangeNotifier {
       onError: deps.onError,
     );
     try {
-      return await EpubReaderDocument.open(
+      final doc = await EpubReaderDocument.open(
         EpubDocumentDeps(
           book: book,
           index: index,
@@ -383,11 +388,48 @@ class ReaderSessionController extends ChangeNotifier {
           images: deps.imageLoader?.call(path),
           search: deps.searchRunner,
           devicePixelRatio: v.devicePixelRatio,
+          spaces: spaces == null
+              ? null
+              : (spine, t) => noteCutsOf(spaces, spine, t),
         ),
       );
+      _firstInk = (doc: doc, ink: opening);
+      return doc;
     } on Object {
       keeper.dispose();
       rethrow;
+    }
+  }
+
+  /// G18 (revisão 7): a tinta lida antes do 1º layout de [doc], para o leitor começar com ela (uma vez: depois,
+  /// `null`).
+  OpeningInk? takeOpeningInk(ReaderDocument doc) {
+    final o = _firstInk;
+    if (o == null || !identical(o.doc, doc)) return null;
+    _firstInk = null;
+    return o.ink;
+  }
+
+  ({ReaderDocument doc, OpeningInk? ink})? _firstInk;
+
+  /// A tinta do livro para o 1º layout; sem conseguir lê-la, o livro abre sem ela (a tinta do leitor repagina quando
+  /// chegar) e a falha é relatada.
+  Future<OpeningInk?> _readOpeningInk(String sha) async {
+    try {
+      return await readOpeningInk(
+        deps.inkRepository ??
+            DriftInkRepository(
+              deps.db,
+              deps.versioning,
+              now: deps.now,
+              onError: deps.onError,
+            ),
+        userBookId,
+        sha,
+      );
+    } on Object catch (e, st) {
+      deps.onError(e, st);
+      return null;
     }
   }
 
@@ -909,6 +951,7 @@ class ReaderSessionController extends ChangeNotifier {
     final tracker = _tracker;
     doc.changes.removeListener(_pageChanged);
     _doc = null;
+    _firstInk = null;
     _tracker = null;
     _lastMark = null;
     _backTimer?.cancel();
@@ -954,6 +997,7 @@ class ReaderSessionController extends ChangeNotifier {
   void dispose() {
     _disposed = true;
     _opening++;
+    _firstInk = null;
     final doc = _doc;
     final tracker = _tracker;
     doc?.changes.removeListener(_pageChanged);
