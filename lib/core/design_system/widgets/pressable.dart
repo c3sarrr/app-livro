@@ -16,6 +16,7 @@ class Pressable extends StatefulWidget {
     this.hint,
     this.enabled = true,
     this.checked,
+    this.exclusive = true,
     this.onLongPress,
     this.customActions,
   });
@@ -39,6 +40,10 @@ class Pressable extends StatefulWidget {
   /// Opção de um grupo (radio — a fonte, o papel, a entrelinha e as margens da folha de ajustes, G14): marcada ou
   /// não; o nó vira uma opção num grupo exclusivo, não um botão.
   final bool? checked;
+
+  /// Com [checked]: `true` = opção de um grupo exclusivo (radio); `false` = caixa de seleção (as cores do filtro da
+  /// tela 25 — G19).
+  final bool exclusive;
 
   /// Pressão longa (tirar uma favorita — G17, D-175).
   final VoidCallback? onLongPress;
@@ -77,7 +82,9 @@ class _PressableState extends State<Pressable> {
       button: !widget.isLink && widget.checked == null,
       link: widget.isLink,
       checked: widget.checked,
-      inMutuallyExclusiveGroup: widget.checked == null ? null : true,
+      inMutuallyExclusiveGroup: widget.checked == null
+          ? null
+          : widget.exclusive,
       label: widget.semanticsLabel,
       toggled: widget.toggled,
       selected: widget.selected,

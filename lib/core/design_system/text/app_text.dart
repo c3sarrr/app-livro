@@ -617,6 +617,57 @@ class RenderAppText extends RenderBox {
   @visibleForTesting
   bool get debugDidExceedMaxLines => _final.didExceedMaxLines;
 
+  /// G19: as caixas do trecho [start, end) do texto puro, uma por linha, em coordenadas LOCAIS e na posição em que
+  /// [paint] põe os glifos: [left]–[right] (sem os brancos do fim da linha), o topo e o pé da linha (alturas exatas,
+  /// como o CSS) e a baseline exata. Para pintar por baixo ou por cima de um trecho (o fundo do grifo, a tinta).
+  List<
+    ({double left, double right, double top, double bottom, double baseline})
+  >
+  rangeBoxes(int start, int end) {
+    final p = _final;
+    final dx = _dx;
+    final text = _spanAt(_paintWidth)
+        .toPlainText(includeSemanticsLabels: false);
+    final metrics = p.computeLineMetrics();
+    final ranges = _lineRanges(p, text, metrics.length);
+    final out =
+        <
+          ({
+            double left,
+            double right,
+            double top,
+            double bottom,
+            double baseline,
+          })
+        >[];
+    var top = 0.0;
+    for (var l = 0; l < metrics.length; l++) {
+      final h = metrics[l].ascent + metrics[l].descent;
+      var a = math.max(start, ranges[l].start);
+      var e = math.min(end, ranges[l].end);
+      while (e > a && text[e - 1] == ' ') {
+        e--;
+      }
+      while (a < e && text[a] == '\n') {
+        a++;
+      }
+      if (a < e) {
+        final boxes = p.getBoxesForRange(a, e);
+        if (boxes.isNotEmpty) {
+          out.add((
+            left: dx + boxes.map((b) => b.left).reduce(math.min),
+            right: dx + boxes.map((b) => b.right).reduce(math.max),
+            top: top,
+            bottom: top + h,
+            baseline: top + metrics[l].ascent,
+          ));
+        }
+      }
+      top += h;
+    }
+    return out;
+  }
+
   /// Linhas visíveis em coordenadas GLOBAIS (já com a correção _dx): texto (sem espaços finais), início, fim, baseline.
   /// A baseline é a EXATA (topo da linha = soma das alturas exatas das linhas anteriores + ascent), que é onde
   /// [paint] coloca os glifos.
