@@ -12,6 +12,8 @@ import 'package:app_leitura/features/highlights/application/highlights_controlle
 import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
 import 'package:app_leitura/features/highlights/application/highlights_repository.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
+import 'package:app_leitura/features/home/data/home_sources.dart'
+    show ClubTicketSource;
 import 'package:app_leitura/features/home/data/local_home_repository.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/application/reader_providers.dart';
@@ -90,6 +92,7 @@ Future<LeitorNaTela> abrirAppComLivro(
   RelogioG20? relogio,
   Size tela = const Size(390, 844),
   List<Override> overrides = const [],
+  ClubTicketSource? clube,
 }) async {
   final r = relogio ?? RelogioG20();
   setCanvasView(tester, logical: tela);
@@ -106,6 +109,7 @@ Future<LeitorNaTela> abrirAppComLivro(
             owner: () async => livro.leitor,
             utcOffsetAt: (_) => Duration.zero,
             debounce: Duration.zero,
+            club: clube,
           ),
         ),
         homeAccountUserProvider.overrideWithValue(null),

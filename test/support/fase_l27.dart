@@ -69,7 +69,11 @@ Future<LivroNaEstante> livroDaTela27() async {
   return livro;
 }
 
-Future<ReaderDeps> depsDaTela27(LeitorNaTela t, LivroNaEstante livro) async {
+Future<ReaderDeps> depsDaTela27(
+  LeitorNaTela t,
+  LivroNaEstante livro, {
+  ReaderClubSource clube = const ClubeDoMundo(),
+}) async {
   final d = await depsDaTela20(t, livro);
   return livro.readerDeps(
     awake: t.awake,
@@ -77,7 +81,7 @@ Future<ReaderDeps> depsDaTela27(LeitorNaTela t, LivroNaEstante livro) async {
     now: d.now,
     elapsed: d.elapsed,
     speedOf: d.speedOf,
-    club: const ClubeDoMundo(),
+    club: clube,
     utcOffsetAt: (_) => mundoReferencia.fuso,
   );
 }
@@ -98,13 +102,14 @@ Future<LeitorNaTela> abrirTela27(
   LivroNaEstante livro, {
   bool golden = false,
   bool marcadas = false,
+  ReaderClubSource clube = const ClubeDoMundo(),
 }) async {
   setCanvasView(tester, logical: const Size(390, 844));
   final t = await abrirLeitor(
     tester,
     livro,
     golden: golden,
-    deps: (t) => depsDaTela27(t, livro),
+    deps: (t) => depsDaTela27(t, livro, clube: clube),
   );
   await tester.tapAt(const Offset(195, 420));
   await tester.pump();
