@@ -19,6 +19,7 @@ import '../../../core/design_system/text/app_text.dart';
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_strokes.dart';
 import '../../../core/design_system/tokens/app_typography.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import 'reader_chrome_scope.dart';
 
 /// A roda do arquivo (L23 nº da roda).
@@ -353,42 +354,44 @@ class _ColorPickerState extends State<ColorPicker> {
           )
         : AppText(hex, key: _k('.hex.value'), style: codeStyle, maxLines: 1);
 
-    final hexBox = Semantics(
-      key: _k('.hex'),
-      container: true,
-      textField: true,
-      label: 'Código da cor',
-      value: hex,
-      onTap: _editing ? null : _startEditing,
-      child: ExcludeSemantics(
-        excluding: !_editing,
-        child: GestureDetector(
-          excludeFromSemantics: true,
-          behavior: HitTestBehavior.opaque,
-          onTap: _editing ? null : _startEditing,
-          child: Container(
-            height: _hexHeight,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(
-              color: p.well,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.fromBorderSide(line),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  key: _k('.hex.swatch'),
-                  width: 18,
-                  height: 18,
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.fromBorderSide(line),
+    final hexBox = TapTarget(
+      child: Semantics(
+        key: _k('.hex'),
+        container: true,
+        textField: true,
+        label: 'Código da cor',
+        value: hex,
+        onTap: _editing ? null : _startEditing,
+        child: ExcludeSemantics(
+          excluding: !_editing,
+          child: GestureDetector(
+            excludeFromSemantics: true,
+            behavior: HitTestBehavior.opaque,
+            onTap: _editing ? null : _startEditing,
+            child: Container(
+              height: _hexHeight,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: p.well,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.fromBorderSide(line),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    key: _k('.hex.swatch'),
+                    width: 18,
+                    height: 18,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.fromBorderSide(line),
+                    ),
                   ),
-                ),
-                const SizedBox(width: 9),
-                if (_editing) Expanded(child: code) else code,
-              ],
+                  const SizedBox(width: 9),
+                  if (_editing) Expanded(child: code) else code,
+                ],
+              ),
             ),
           ),
         ),

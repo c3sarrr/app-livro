@@ -28,6 +28,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../annotations/domain/pen_presets.dart';
 import '../annotations/ink/ink_stroke.dart';
 import '../annotations/ink/ink_units.dart';
@@ -566,33 +567,36 @@ class PenPanel extends StatelessWidget {
               Positioned(
                 left: place(favs.length).dx,
                 top: place(favs.length).dy,
-                child: Pressable(
-                  key: const ValueKey('$_k.favorites.add'),
-                  semanticsLabel: 'Salvar a cor atual nas favoritas',
-                  enabled: !known,
-                  onTap: session.addFavorite,
-                  child: CustomPaint(
-                    painter: DashedStadiumPainter(
-                      color: known
-                          ? p.border.withValues(
-                              alpha: p.border.a * _disabledAlpha,
-                            )
-                          : p.border,
-                    ),
-                    child: SizedBox.square(
-                      dimension: 34,
-                      child: Center(
-                        child: AppSvg(
-                          AppIconsLeitor.plus,
-                          key: const ValueKey('$_k.favorites.add.icon'),
-                          size: 14,
-                          color: p.night || known
-                              ? p.title.withValues(
-                                  alpha:
-                                      p.title.a * (known ? _disabledAlpha : 1),
-                                )
-                              : null,
-                          opacity: scope.a < 1 ? scope.a : null,
+                child: TapTarget(
+                  child: Pressable(
+                    key: const ValueKey('$_k.favorites.add'),
+                    semanticsLabel: 'Salvar a cor atual nas favoritas',
+                    enabled: !known,
+                    onTap: session.addFavorite,
+                    child: CustomPaint(
+                      painter: DashedStadiumPainter(
+                        color: known
+                            ? p.border.withValues(
+                                alpha: p.border.a * _disabledAlpha,
+                              )
+                            : p.border,
+                      ),
+                      child: SizedBox.square(
+                        dimension: 34,
+                        child: Center(
+                          child: AppSvg(
+                            AppIconsLeitor.plus,
+                            key: const ValueKey('$_k.favorites.add.icon'),
+                            size: 14,
+                            color: p.night || known
+                                ? p.title.withValues(
+                                    alpha:
+                                        p.title.a *
+                                        (known ? _disabledAlpha : 1),
+                                  )
+                                : null,
+                            opacity: scope.a < 1 ? scope.a : null,
+                          ),
                         ),
                       ),
                     ),
@@ -618,34 +622,36 @@ class PenPanel extends StatelessWidget {
     final name = penColorName(hex);
     final id =
         (first ? _favoriteIds[hex.toUpperCase()] : null) ?? '${index + 1}';
-    return Pressable(
-      key: ValueKey('$_k.favorites.$id'),
-      semanticsLabel: name ?? 'Cor ${hex.toUpperCase()}',
-      checked: selected,
-      onTap: () => session.setPenColor(hex),
-      onLongPress: () => session.removeFavorite(hex),
-      customActions: {
-        const CustomSemanticsAction(label: 'Tirar das favoritas'): () =>
-            session.removeFavorite(hex),
-      },
-      child: SizedBox.square(
-        dimension: 34,
-        child: DecoratedBox(
-          key: ValueKey('$_k.favorites.$id.dot'),
-          decoration: BoxDecoration(
-            color: scope.tint(Color(argbOfHex(hex.toUpperCase()))),
-            shape: BoxShape.circle,
-            border: Border.all(width: AppStrokes.regular, color: p.border),
-            // a marcada: o aro de 2,5 claro e o de tinta por fora (`box-shadow: 0 0 0 2.5px, 0 0 0 4px`)
-            boxShadow: selected
-                ? [
-                    BoxShadow(color: p.border, spreadRadius: 4),
-                    BoxShadow(
-                      color: scope.tint(AppColors.surface),
-                      spreadRadius: 2.5,
-                    ),
-                  ]
-                : null,
+    return TapTarget(
+      child: Pressable(
+        key: ValueKey('$_k.favorites.$id'),
+        semanticsLabel: name ?? 'Cor ${hex.toUpperCase()}',
+        checked: selected,
+        onTap: () => session.setPenColor(hex),
+        onLongPress: () => session.removeFavorite(hex),
+        customActions: {
+          const CustomSemanticsAction(label: 'Tirar das favoritas'): () =>
+              session.removeFavorite(hex),
+        },
+        child: SizedBox.square(
+          dimension: 34,
+          child: DecoratedBox(
+            key: ValueKey('$_k.favorites.$id.dot'),
+            decoration: BoxDecoration(
+              color: scope.tint(Color(argbOfHex(hex.toUpperCase()))),
+              shape: BoxShape.circle,
+              border: Border.all(width: AppStrokes.regular, color: p.border),
+              // a marcada: o aro de 2,5 claro e o de tinta por fora (`box-shadow: 0 0 0 2.5px, 0 0 0 4px`)
+              boxShadow: selected
+                  ? [
+                      BoxShadow(color: p.border, spreadRadius: 4),
+                      BoxShadow(
+                        color: scope.tint(AppColors.surface),
+                        spreadRadius: 2.5,
+                      ),
+                    ]
+                  : null,
+            ),
           ),
         ),
       ),

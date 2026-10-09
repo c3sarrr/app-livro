@@ -15,6 +15,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../application/toc_view.dart';
 import 'reader_chrome_palette.dart';
 
@@ -212,26 +213,28 @@ class _Card extends StatelessWidget {
           Positioned(
             right: 6 + AppStrokes.regular,
             top: 6 + AppStrokes.regular,
-            child: Pressable(
-              onTap: () => onRibbon(c),
-              toggled: c.marked,
-              semanticsLabel: c.marked
-                  ? 'Tirar a marca da página ${c.page}'
-                  : 'Marcar a página ${c.page}',
-              child: SizedBox(
-                key: ValueKey('$id.ribbon'),
-                width: 44,
-                height: 44,
-                child: Center(
-                  child: AppSvg(
-                    c.marked
-                        ? AppIconsLeitor.ribbonCoral
-                        : (p.night
-                              ? AppIconsLeitor.ribbonEmptyNight
-                              : AppIconsLeitor.ribbonEmpty),
-                    key: ValueKey('$id.ribbon.icon'),
-                    size: 20,
-                    height: 22,
+            child: TapTarget(
+              child: Pressable(
+                onTap: () => onRibbon(c),
+                toggled: c.marked,
+                semanticsLabel: c.marked
+                    ? 'Tirar a marca da página ${c.page}'
+                    : 'Marcar a página ${c.page}',
+                child: SizedBox(
+                  key: ValueKey('$id.ribbon'),
+                  width: 44,
+                  height: 44,
+                  child: Center(
+                    child: AppSvg(
+                      c.marked
+                          ? AppIconsLeitor.ribbonCoral
+                          : (p.night
+                                ? AppIconsLeitor.ribbonEmptyNight
+                                : AppIconsLeitor.ribbonEmpty),
+                      key: ValueKey('$id.ribbon.icon'),
+                      size: 20,
+                      height: 22,
+                    ),
                   ),
                 ),
               ),

@@ -19,6 +19,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../application/annotation_session.dart' show AnnotationTool;
 import 'reader_chrome_scope.dart';
 
@@ -222,24 +223,26 @@ class ToolPanelLayer extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        Pressable(
-          key: ValueKey('$id.close'),
-          semanticsLabel: 'Fechar ajustes',
-          onTap: onClose,
-          child: NeoBox(
-            width: 44,
-            height: 44,
-            color: p.well,
-            border: line,
-            radius: BorderRadius.circular(22),
-            child: Center(
-              child: AppSvg(
-                AppIconsLeitor.close,
-                key: ValueKey('$id.close.icon'),
-                size: 18,
-                // o arquivo só tem o traço escuro: no Noite, tingido com a cor das letras da ilha
-                color: p.night ? p.title : null,
-                opacity: scope.a < 1 ? scope.a : null,
+        TapTarget(
+          child: Pressable(
+            key: ValueKey('$id.close'),
+            semanticsLabel: 'Fechar ajustes',
+            onTap: onClose,
+            child: NeoBox(
+              width: 44,
+              height: 44,
+              color: p.well,
+              border: line,
+              radius: BorderRadius.circular(22),
+              child: Center(
+                child: AppSvg(
+                  AppIconsLeitor.close,
+                  key: ValueKey('$id.close.icon'),
+                  size: 18,
+                  // o arquivo só tem o traço escuro: no Noite, tingido com a cor das letras da ilha
+                  color: p.night ? p.title : null,
+                  opacity: scope.a < 1 ? scope.a : null,
+                ),
               ),
             ),
           ),

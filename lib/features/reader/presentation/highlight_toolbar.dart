@@ -17,6 +17,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../annotations/domain/annotation.dart' show HighlightStyle;
 import 'reader_chrome_palette.dart';
 
@@ -80,34 +81,36 @@ class HighlightToolbar extends StatelessWidget {
       Widget body,
     ) {
       const out = toolbarMarkGap + AppStrokes.regular;
-      return Pressable(
-        key: ValueKey(key),
-        semanticsLabel: label,
-        // só com um grifo existente a barra diz qual cor é a dele (D-132)
-        selected: m == null ? null : on,
-        hint: on ? toolbarRemoveHint : null,
-        onTap: onTap,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            SizedBox.square(dimension: toolbarSwatch, child: body),
-            if (on)
-              Positioned(
-                key: ValueKey('$key.marked'),
-                left: -out,
-                top: -out,
-                width: toolbarSwatch + 2 * out,
-                height: toolbarSwatch + 2 * out,
-                child: IgnorePointer(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.fromBorderSide(line),
+      return TapTarget(
+        child: Pressable(
+          key: ValueKey(key),
+          semanticsLabel: label,
+          // só com um grifo existente a barra diz qual cor é a dele (D-132)
+          selected: m == null ? null : on,
+          hint: on ? toolbarRemoveHint : null,
+          onTap: onTap,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              SizedBox.square(dimension: toolbarSwatch, child: body),
+              if (on)
+                Positioned(
+                  key: ValueKey('$key.marked'),
+                  left: -out,
+                  top: -out,
+                  width: toolbarSwatch + 2 * out,
+                  height: toolbarSwatch + 2 * out,
+                  child: IgnorePointer(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.fromBorderSide(line),
+                      ),
                     ),
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       );
     }

@@ -21,6 +21,7 @@ import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/circle_icon_button.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../application/book_search.dart';
 import '../application/reader_document.dart';
 import 'reader_chrome_palette.dart';
@@ -290,59 +291,65 @@ class _BookSearchPanelState extends State<BookSearchPanel> {
               child: Row(
                 spacing: 10,
                 children: [
-                  CircleIconButton(
-                    key: const ValueKey('leitor.busca.fechar'),
-                    size: 44,
-                    color: p.well,
-                    border: side,
-                    icon: AppSvg(
-                      p.night
-                          ? AppIconsLeitor.arrowLeftNight
-                          : AppIconsLeitor.arrowLeft,
-                      size: 20,
+                  TapTarget(
+                    child: CircleIconButton(
+                      key: const ValueKey('leitor.busca.fechar'),
+                      size: 44,
+                      color: p.well,
+                      border: side,
+                      icon: AppSvg(
+                        p.night
+                            ? AppIconsLeitor.arrowLeftNight
+                            : AppIconsLeitor.arrowLeft,
+                        size: 20,
+                      ),
+                      semanticsLabel: 'Fechar a busca',
+                      onTap: widget.onClose,
                     ),
-                    semanticsLabel: 'Fechar a busca',
-                    onTap: widget.onClose,
                   ),
                   Expanded(
                     child: Material(
                       type: MaterialType.transparency,
-                      child: TextField(
-                        key: const ValueKey('leitor.busca.campo'),
-                        controller: _field,
-                        autofocus: true,
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        textInputAction: TextInputAction.search,
-                        onChanged: (q) {
-                          widget.session.type(q);
-                          setState(() {});
-                        },
-                        style: AppTextStyles.readerSearchField.copyWith(
-                          color: p.title,
-                        ),
-                        cursorColor: p.title,
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Buscar no livro',
-                          hintStyle: AppTextStyles.readerSearchField.copyWith(
-                            color: p.muted,
+                      child: TapTarget(
+                        child: TextField(
+                          key: const ValueKey('leitor.busca.campo'),
+                          controller: _field,
+                          autofocus: true,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          textInputAction: TextInputAction.search,
+                          onChanged: (q) {
+                            widget.session.type(q);
+                            setState(() {});
+                          },
+                          style: AppTextStyles.readerSearchField.copyWith(
+                            color: p.title,
+                          ),
+                          cursorColor: p.title,
+                          decoration: InputDecoration.collapsed(
+                            hintText: 'Buscar no livro',
+                            hintStyle: AppTextStyles.readerSearchField.copyWith(
+                              color: p.muted,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                   if (_field.text.isNotEmpty)
-                    Pressable(
-                      key: const ValueKey('leitor.busca.limpar'),
-                      semanticsLabel: 'Limpar a busca',
-                      onTap: () => setState(_clear),
-                      child: SizedBox.square(
-                        dimension: 44,
-                        child: Center(
-                          child: AppSvg(
-                            AppIconsLeitor.close,
-                            size: 20,
-                            color: p.title,
+                    TapTarget(
+                      child: Pressable(
+                        key: const ValueKey('leitor.busca.limpar'),
+                        semanticsLabel: 'Limpar a busca',
+                        onTap: () => setState(_clear),
+                        child: SizedBox.square(
+                          dimension: 44,
+                          child: Center(
+                            child: AppSvg(
+                              AppIconsLeitor.close,
+                              size: 20,
+                              color: p.title,
+                            ),
                           ),
                         ),
                       ),

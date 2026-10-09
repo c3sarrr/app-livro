@@ -19,6 +19,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/circle_icon_button.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../application/toc_view.dart';
 import 'reader_chrome_palette.dart';
 import 'reader_overlays.dart' show readerFade;
@@ -427,19 +428,21 @@ class _Header extends StatelessWidget {
               ),
             ),
           ),
-          CircleIconButton(
-            key: ValueKey('$pre.sheet.close'),
-            size: 44,
-            color: p.well,
-            border: BorderSide(width: AppStrokes.regular, color: p.border),
-            icon: AppSvg(
-              AppIconsLeitor.closeRound,
-              key: ValueKey('$pre.sheet.close.icon'),
-              size: 18,
-              color: p.night ? p.title : null,
+          TapTarget(
+            child: CircleIconButton(
+              key: ValueKey('$pre.sheet.close'),
+              size: 44,
+              color: p.well,
+              border: BorderSide(width: AppStrokes.regular, color: p.border),
+              icon: AppSvg(
+                AppIconsLeitor.closeRound,
+                key: ValueKey('$pre.sheet.close.icon'),
+                size: 18,
+                color: p.night ? p.title : null,
+              ),
+              semanticsLabel: 'Fechar',
+              onTap: onClose,
             ),
-            semanticsLabel: 'Fechar',
-            onTap: onClose,
           ),
         ],
       ),
@@ -575,26 +578,29 @@ class _Tab extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    container: true,
+  Widget build(BuildContext context) => TapTarget(
     role: SemanticsRole.tab,
-    selected: on,
-    label: label,
-    excludeSemantics: true,
-    onTap: onTap,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      excludeFromSemantics: true,
+    child: Semantics(
+      container: true,
+      role: SemanticsRole.tab,
+      selected: on,
+      label: label,
+      excludeSemantics: true,
       onTap: onTap,
-      child: NeoBox(
-        key: ValueKey(id),
-        color: on ? brand : null,
-        border: BorderSide(
-          width: AppStrokes.regular,
-          color: on ? palette.border : const Color(0x00000000),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        excludeFromSemantics: true,
+        onTap: onTap,
+        child: NeoBox(
+          key: ValueKey(id),
+          color: on ? brand : null,
+          border: BorderSide(
+            width: AppStrokes.regular,
+            color: on ? palette.border : const Color(0x00000000),
+          ),
+          radius: BorderRadius.circular(999),
+          child: Center(child: child),
         ),
-        radius: BorderRadius.circular(999),
-        child: Center(child: child),
       ),
     ),
   );

@@ -12,6 +12,7 @@ import '../../../core/design_system/tokens/app_strokes.dart';
 import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../../reader/presentation/reader_chrome_palette.dart';
 import '../application/highlights_controller.dart';
 import 'highlight_more_sheet.dart';
@@ -61,46 +62,48 @@ class _HighlightExportSheetState extends State<HighlightExportSheet> {
   }) {
     final p = widget.palette;
     final line = BorderSide(width: AppStrokes.regular, color: p.border);
-    return Pressable(
-      checked: on,
-      semanticsLabel: pro ? '$label, PRO' : label,
-      onTap: onTap,
-      child: NeoBox(
-        key: ValueKey('hl.export.formats.$key'),
-        height: 44,
-        color: on ? widget.brand : p.island,
-        border: line,
-        radius: BorderRadius.circular(999),
-        shadow: on ? AppShadows.hard2 : null,
-        shadowColor: p.shadow,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 6,
-          children: [
-            AppText(
-              label,
-              style: AppTextStyles.readerNoteButton.copyWith(color: p.title),
-              maxLines: 1,
-            ),
-            if (pro)
-              NeoBox(
-                key: const ValueKey('hl.export.formats.pdf.pro'),
-                height: 20,
-                color: AppColors.ink,
-                radius: BorderRadius.circular(999),
-                padding: const EdgeInsets.symmetric(horizontal: 7),
-                child: Center(
-                  child: AppText(
-                    'PRO',
-                    style: AppTextStyles.hlPill.copyWith(
-                      color: AppColors.paper,
+    return TapTarget(
+      child: Pressable(
+        checked: on,
+        semanticsLabel: pro ? '$label, PRO' : label,
+        onTap: onTap,
+        child: NeoBox(
+          key: ValueKey('hl.export.formats.$key'),
+          height: 44,
+          color: on ? widget.brand : p.island,
+          border: line,
+          radius: BorderRadius.circular(999),
+          shadow: on ? AppShadows.hard2 : null,
+          shadowColor: p.shadow,
+          padding: const EdgeInsets.symmetric(horizontal: 14),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 6,
+            children: [
+              AppText(
+                label,
+                style: AppTextStyles.readerNoteButton.copyWith(color: p.title),
+                maxLines: 1,
+              ),
+              if (pro)
+                NeoBox(
+                  key: const ValueKey('hl.export.formats.pdf.pro'),
+                  height: 20,
+                  color: AppColors.ink,
+                  radius: BorderRadius.circular(999),
+                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  child: Center(
+                    child: AppText(
+                      'PRO',
+                      style: AppTextStyles.hlPill.copyWith(
+                        color: AppColors.paper,
+                      ),
+                      maxLines: 1,
                     ),
-                    maxLines: 1,
                   ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

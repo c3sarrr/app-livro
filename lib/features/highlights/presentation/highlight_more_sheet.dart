@@ -13,6 +13,7 @@ import '../../../core/design_system/tokens/app_strokes.dart';
 import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../../reader/annotations/domain/annotation.dart';
 import '../../reader/domain/locator.dart';
 import '../../reader/domain/reader_settings.dart';
@@ -190,39 +191,41 @@ class HighlightMoreSheet extends StatelessWidget {
           ),
         ),
         for (final s in swatches)
-          Pressable(
-            semanticsLabel: s.label,
-            selected: s.hex == current,
-            // a marcada não faz nada (para apagar há o Apagar)
-            onTap: s.hex == current ? () {} : () => onColor(s.hex),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                NeoBox(
-                  key: ValueKey('hl.more.colors.${s.key}'),
-                  width: toolbarSwatch,
-                  height: toolbarSwatch,
-                  color: hexColor(s.hex),
-                  border: line,
-                  radius: BorderRadius.circular(toolbarSwatch / 2),
-                ),
-                if (s.hex == current)
-                  Positioned(
-                    key: ValueKey('hl.more.colors.${s.key}.marked'),
-                    left: -out,
-                    top: -out,
-                    width: toolbarSwatch + 2 * out,
-                    height: toolbarSwatch + 2 * out,
-                    child: IgnorePointer(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.fromBorderSide(line),
+          TapTarget(
+            child: Pressable(
+              semanticsLabel: s.label,
+              selected: s.hex == current,
+              // a marcada não faz nada (para apagar há o Apagar)
+              onTap: s.hex == current ? () {} : () => onColor(s.hex),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  NeoBox(
+                    key: ValueKey('hl.more.colors.${s.key}'),
+                    width: toolbarSwatch,
+                    height: toolbarSwatch,
+                    color: hexColor(s.hex),
+                    border: line,
+                    radius: BorderRadius.circular(toolbarSwatch / 2),
+                  ),
+                  if (s.hex == current)
+                    Positioned(
+                      key: ValueKey('hl.more.colors.${s.key}.marked'),
+                      left: -out,
+                      top: -out,
+                      width: toolbarSwatch + 2 * out,
+                      height: toolbarSwatch + 2 * out,
+                      child: IgnorePointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.fromBorderSide(line),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
       ],

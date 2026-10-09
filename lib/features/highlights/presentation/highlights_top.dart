@@ -14,6 +14,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 
 const BorderSide _line = BorderSide(
   width: AppStrokes.regular,
@@ -216,23 +217,25 @@ class _HighlightsSearchState extends State<HighlightsSearch> {
                 child: Center(
                   child: Material(
                     type: MaterialType.transparency,
-                    child: TextField(
-                      key: const ValueKey('hl.search.field'),
-                      controller: _field,
-                      focusNode: _focus,
-                      autocorrect: false,
-                      enableSuggestions: false,
-                      maxLines: 1,
-                      textInputAction: TextInputAction.search,
-                      onChanged: (q) {
-                        widget.onQuery(q);
-                        setState(() {});
-                      },
-                      style: AppTextStyles.hlSearch,
-                      cursorColor: AppColors.ink,
-                      decoration: InputDecoration.collapsed(
-                        hintText: searchHint,
-                        hintStyle: AppTextStyles.hlSearchPlaceholder,
+                    child: TapTarget(
+                      child: TextField(
+                        key: const ValueKey('hl.search.field'),
+                        controller: _field,
+                        focusNode: _focus,
+                        autocorrect: false,
+                        enableSuggestions: false,
+                        maxLines: 1,
+                        textInputAction: TextInputAction.search,
+                        onChanged: (q) {
+                          widget.onQuery(q);
+                          setState(() {});
+                        },
+                        style: AppTextStyles.hlSearch,
+                        cursorColor: AppColors.ink,
+                        decoration: InputDecoration.collapsed(
+                          hintText: searchHint,
+                          hintStyle: AppTextStyles.hlSearchPlaceholder,
+                        ),
                       ),
                     ),
                   ),
@@ -240,18 +243,20 @@ class _HighlightsSearchState extends State<HighlightsSearch> {
               ),
             ),
             if (typed)
-              Pressable(
-                semanticsLabel: 'Limpar busca',
-                onTap: _clear,
-                child: NeoBox(
-                  key: const ValueKey('hl.search.clear'),
-                  width: 28,
-                  height: 28,
-                  color: AppColors.paper,
-                  border: _line,
-                  radius: BorderRadius.circular(14),
-                  child: const Center(
-                    child: AppSvg(AppIconsLeitor.closeRound, size: 14),
+              TapTarget(
+                child: Pressable(
+                  semanticsLabel: 'Limpar busca',
+                  onTap: _clear,
+                  child: NeoBox(
+                    key: const ValueKey('hl.search.clear'),
+                    width: 28,
+                    height: 28,
+                    color: AppColors.paper,
+                    border: _line,
+                    radius: BorderRadius.circular(14),
+                    child: const Center(
+                      child: AppSvg(AppIconsLeitor.closeRound, size: 14),
+                    ),
                   ),
                 ),
               ),

@@ -11,6 +11,7 @@ import '../../../core/design_system/tokens/app_strokes.dart';
 import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import 'color_picker.dart';
 import 'note_sheet.dart' show noteSheetMargin;
 import 'reader_chrome_palette.dart';
@@ -56,22 +57,24 @@ class _OtherColorSheetState extends State<OtherColorSheet> {
       Offset? shadow,
       VoidCallback onTap,
     ) => Expanded(
-      child: Pressable(
-        key: ValueKey(key),
-        semanticsLabel: label,
-        onTap: onTap,
-        child: NeoBox(
-          height: 44,
-          color: fill,
-          border: line,
-          radius: BorderRadius.circular(999),
-          shadow: shadow,
-          shadowColor: p.shadow,
-          child: Center(
-            child: AppText(
-              label,
-              style: AppTextStyles.readerNoteButton.copyWith(color: p.title),
-              maxLines: 1,
+      child: TapTarget(
+        child: Pressable(
+          key: ValueKey(key),
+          semanticsLabel: label,
+          onTap: onTap,
+          child: NeoBox(
+            height: 44,
+            color: fill,
+            border: line,
+            radius: BorderRadius.circular(999),
+            shadow: shadow,
+            shadowColor: p.shadow,
+            child: Center(
+              child: AppText(
+                label,
+                style: AppTextStyles.readerNoteButton.copyWith(color: p.title),
+                maxLines: 1,
+              ),
             ),
           ),
         ),

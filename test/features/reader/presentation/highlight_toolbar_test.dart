@@ -399,11 +399,20 @@ void main() {
       );
       // a marcada apaga: o leitor de tela avisa
       expect(
-        tester.getSemantics(_key('r21.toolbar.colors.yellow')).hint,
+        tester
+            .getSemantics(_key('r21.toolbar.colors.yellow'))
+            .getSemanticsData()
+            .hint,
         toolbarRemoveHint,
       );
       expect(toolbarRemoveHint, 'Apaga o grifo');
-      expect(tester.getSemantics(_key('r21.toolbar.colors.pink')).hint, '');
+      expect(
+        tester
+            .getSemantics(_key('r21.toolbar.colors.pink'))
+            .getSemanticsData()
+            .hint,
+        '',
+      );
       await montar(
         tester,
         marcado: (color: '#FED170', style: HighlightStyle.underline),
@@ -411,7 +420,10 @@ void main() {
       expect(_key('r21.toolbar.colors.underline.marked'), findsOneWidget);
       expect(_key('r21.toolbar.colors.yellow.marked'), findsNothing);
       expect(
-        tester.getSemantics(_key('r21.toolbar.colors.underline')).hint,
+        tester
+            .getSemantics(_key('r21.toolbar.colors.underline'))
+            .getSemanticsData()
+            .hint,
         toolbarRemoveHint,
       );
       await montar(

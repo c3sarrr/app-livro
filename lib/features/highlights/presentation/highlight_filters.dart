@@ -16,6 +16,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../../reader/annotations/domain/annotation_stats.dart';
 import '../domain/card_filters.dart';
 import 'highlight_card.dart' show hexColor;
@@ -174,82 +175,86 @@ class HighlightColorFilters extends StatelessWidget {
     final on = marked.contains(c.hex);
     final id = 'hl.filters.colors.${c.key}';
     const out = colorRingGap + AppStrokes.regular;
-    return Pressable(
-      checked: on,
-      exclusive: false,
-      semanticsLabel: c.label,
-      onTap: () => onColor(c.hex),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          NeoBox(
-            key: ValueKey(id),
-            width: colorSwatch,
-            height: colorSwatch,
-            color: hexColor(c.hex),
-            border: _line,
-            radius: BorderRadius.circular(colorSwatch / 2),
-          ),
-          if (on)
-            Positioned(
-              key: ValueKey('$id.marked'),
-              left: -out,
-              top: -out,
-              width: colorSwatch + 2 * out,
-              height: colorSwatch + 2 * out,
-              child: const IgnorePointer(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.fromBorderSide(_line),
+    return TapTarget(
+      child: Pressable(
+        checked: on,
+        exclusive: false,
+        semanticsLabel: c.label,
+        onTap: () => onColor(c.hex),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            NeoBox(
+              key: ValueKey(id),
+              width: colorSwatch,
+              height: colorSwatch,
+              color: hexColor(c.hex),
+              border: _line,
+              radius: BorderRadius.circular(colorSwatch / 2),
+            ),
+            if (on)
+              Positioned(
+                key: ValueKey('$id.marked'),
+                left: -out,
+                top: -out,
+                width: colorSwatch + 2 * out,
+                height: colorSwatch + 2 * out,
+                child: const IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.fromBorderSide(_line),
+                    ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _clubOnly() => Pressable(
-    toggled: clubOnly,
-    semanticsLabel: 'Só do clube',
-    onTap: () => onClubOnly(!clubOnly),
-    child: NeoBox(
-      key: const ValueKey('hl.filters.clubOnly'),
-      height: 44,
-      color: clubOnly ? AppColors.blush : AppColors.surface,
-      border: _line,
-      radius: BorderRadius.circular(999),
-      shadow: clubOnly ? const Offset(2, 2) : null,
-      padding: const EdgeInsets.fromLTRB(9, 0, 12, 0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 6,
-        children: [
-          NeoBox(
-            key: const ValueKey('hl.filters.clubOnly.circle'),
-            width: 26,
-            height: 26,
-            color: AppColors.blush,
-            border: _line,
-            radius: BorderRadius.circular(13),
-            child: const Center(
-              child: AppSvg(
-                AppIconsLeitor.people,
-                key: ValueKey('hl.filters.clubOnly.icon'),
-                size: 15,
+  Widget _clubOnly() => TapTarget(
+    child: Pressable(
+      toggled: clubOnly,
+      semanticsLabel: 'Só do clube',
+      onTap: () => onClubOnly(!clubOnly),
+      child: NeoBox(
+        key: const ValueKey('hl.filters.clubOnly'),
+        height: 44,
+        color: clubOnly ? AppColors.blush : AppColors.surface,
+        border: _line,
+        radius: BorderRadius.circular(999),
+        shadow: clubOnly ? const Offset(2, 2) : null,
+        padding: const EdgeInsets.fromLTRB(9, 0, 12, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          spacing: 6,
+          children: [
+            NeoBox(
+              key: const ValueKey('hl.filters.clubOnly.circle'),
+              width: 26,
+              height: 26,
+              color: AppColors.blush,
+              border: _line,
+              radius: BorderRadius.circular(13),
+              child: const Center(
+                child: AppSvg(
+                  AppIconsLeitor.people,
+                  key: ValueKey('hl.filters.clubOnly.icon'),
+                  size: 15,
+                ),
               ),
             ),
-          ),
-          Flexible(
-            child: AppText(
-              'Só do clube',
-              style: AppTextStyles.hlClubOnly,
-              maxLines: 1,
+            Flexible(
+              child: AppText(
+                'Só do clube',
+                style: AppTextStyles.hlClubOnly,
+                maxLines: 1,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

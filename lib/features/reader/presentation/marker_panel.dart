@@ -25,6 +25,7 @@ import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/pressable.dart';
 import '../annotations/domain/annotation.dart' show FillHeight, HighlightStyle;
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../annotations/domain/highlight_band.dart';
 import '../annotations/domain/pen_presets.dart';
 import '../annotations/ink/ink_stroke.dart' show argbOfHex;
@@ -704,54 +705,56 @@ class MarkerPanel extends StatelessWidget {
                   (FillHeight.high, 'high', 16.0),
                 ])
                   Expanded(
-                    child: Pressable(
-                      key: ValueKey('$_k.heights.$id'),
-                      semanticsLabel: fillHeightNames[h],
-                      checked: h == pen.highlighterHeight,
-                      enabled: enabled,
-                      onTap: () => session.setHighlighterHeight(h),
-                      child: Container(
-                        height: 35,
-                        decoration: BoxDecoration(
-                          color: h == pen.highlighterHeight
-                              ? scope.tint(scope.brand)
-                              : null,
-                          border: h == pen.highlighterHeight
-                              ? Border.fromBorderSide(line)
-                              : null,
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: ExcludeSemantics(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 6,
-                            children: [
-                              Container(
-                                key: ValueKey('$_k.heights.$id.sample'),
-                                width: 16,
-                                height: sample,
-                                decoration: BoxDecoration(
-                                  color: marker,
-                                  border: Border.all(
-                                    width: 1.2,
-                                    color: p.border,
+                    child: TapTarget(
+                      child: Pressable(
+                        key: ValueKey('$_k.heights.$id'),
+                        semanticsLabel: fillHeightNames[h],
+                        checked: h == pen.highlighterHeight,
+                        enabled: enabled,
+                        onTap: () => session.setHighlighterHeight(h),
+                        child: Container(
+                          height: 35,
+                          decoration: BoxDecoration(
+                            color: h == pen.highlighterHeight
+                                ? scope.tint(scope.brand)
+                                : null,
+                            border: h == pen.highlighterHeight
+                                ? Border.fromBorderSide(line)
+                                : null,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: ExcludeSemantics(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 6,
+                              children: [
+                                Container(
+                                  key: ValueKey('$_k.heights.$id.sample'),
+                                  width: 16,
+                                  height: sample,
+                                  decoration: BoxDecoration(
+                                    color: marker,
+                                    border: Border.all(
+                                      width: 1.2,
+                                      color: p.border,
+                                    ),
+                                    borderRadius: BorderRadius.circular(2),
                                   ),
-                                  borderRadius: BorderRadius.circular(2),
                                 ),
-                              ),
-                              AppText(
-                                fillHeightNames[h]!,
-                                style: h == pen.highlighterHeight
-                                    ? AppTextStyles.annHeightOptionActive
-                                          .copyWith(
-                                            color: scope.tint(AppColors.ink),
-                                          )
-                                    : AppTextStyles.annHeightOption.copyWith(
-                                        color: p.muted,
-                                      ),
-                                maxLines: 1,
-                              ),
-                            ],
+                                AppText(
+                                  fillHeightNames[h]!,
+                                  style: h == pen.highlighterHeight
+                                      ? AppTextStyles.annHeightOptionActive
+                                            .copyWith(
+                                              color: scope.tint(AppColors.ink),
+                                            )
+                                      : AppTextStyles.annHeightOption.copyWith(
+                                          color: p.muted,
+                                        ),
+                                  maxLines: 1,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

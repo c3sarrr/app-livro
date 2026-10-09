@@ -245,7 +245,10 @@ void main() {
         tester.getSemantics(chave('toc.sheet.tabs')).role,
         SemanticsRole.tabBar,
       );
-      expect(tester.getSemantics(chave('toc.sheet.close')).label, 'Fechar');
+      expect(
+        tester.getSemantics(chave('toc.sheet.close')).getSemanticsData().label,
+        'Fechar',
+      );
       h.dispose();
     },
   );

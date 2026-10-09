@@ -19,6 +19,7 @@ import '../../../core/design_system/widgets/app_svg.dart';
 import '../../../core/design_system/widgets/circle_icon_button.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
 import '../../../core/design_system/widgets/pressable.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import '../domain/reader_settings.dart';
 import 'reader_chrome_palette.dart';
 import 'reader_controls.dart' show readerControlsLayout;
@@ -509,19 +510,21 @@ class _Sheet extends StatelessWidget {
                             maxLines: 1,
                           ),
                         ),
-                        CircleIconButton(
-                          key: const ValueKey('rs.sheet.close'),
-                          size: 44,
-                          color: p.well,
-                          border: line,
-                          icon: AppSvg(
-                            AppIconsLeitor.closeRound,
-                            key: const ValueKey('rs.sheet.close.icon'),
-                            size: 18,
-                            color: p.night ? p.title : null,
+                        TapTarget(
+                          child: CircleIconButton(
+                            key: const ValueKey('rs.sheet.close'),
+                            size: 44,
+                            color: p.well,
+                            border: line,
+                            icon: AppSvg(
+                              AppIconsLeitor.closeRound,
+                              key: const ValueKey('rs.sheet.close.icon'),
+                              size: 18,
+                              color: p.night ? p.title : null,
+                            ),
+                            semanticsLabel: 'Fechar',
+                            onTap: onClose,
                           ),
-                          semanticsLabel: 'Fechar',
-                          onTap: onClose,
                         ),
                       ],
                     ),
@@ -1079,41 +1082,43 @@ class _Segmented<T> extends StatelessWidget {
                 child: Builder(
                   builder: (context) {
                     final on = v == value;
-                    return Pressable(
-                      key: ValueKey('$id.$sid'),
-                      checked: on,
-                      onTap: () => onPick(v),
-                      child: NeoBox(
-                        height: 37,
-                        color: on ? brand : null,
-                        border: BorderSide(
-                          width: AppStrokes.regular,
-                          color: on ? p.border : const Color(0x00000000),
-                        ),
-                        radius: BorderRadius.circular(999),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          spacing: 7,
-                          children: [
-                            AppSvg(
-                              icon,
-                              key: ValueKey('$id.$sid.icon'),
-                              size: 18,
-                              // no Noite, tingido com o título; sobre a brand fica a tinta do arquivo
-                              color: !on && p.night ? p.title : null,
-                            ),
-                            AppText(
-                              text,
-                              style:
-                                  (on
-                                          ? AppTextStyles.readerSheetOptionOn
-                                          : AppTextStyles.readerSheetOption)
-                                      .copyWith(
-                                        color: on ? AppColors.ink : p.title,
-                                      ),
-                              maxLines: 1,
-                            ),
-                          ],
+                    return TapTarget(
+                      child: Pressable(
+                        key: ValueKey('$id.$sid'),
+                        checked: on,
+                        onTap: () => onPick(v),
+                        child: NeoBox(
+                          height: 37,
+                          color: on ? brand : null,
+                          border: BorderSide(
+                            width: AppStrokes.regular,
+                            color: on ? p.border : const Color(0x00000000),
+                          ),
+                          radius: BorderRadius.circular(999),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            spacing: 7,
+                            children: [
+                              AppSvg(
+                                icon,
+                                key: ValueKey('$id.$sid.icon'),
+                                size: 18,
+                                // no Noite, tingido com o título; sobre a brand fica a tinta do arquivo
+                                color: !on && p.night ? p.title : null,
+                              ),
+                              AppText(
+                                text,
+                                style:
+                                    (on
+                                            ? AppTextStyles.readerSheetOptionOn
+                                            : AppTextStyles.readerSheetOption)
+                                        .copyWith(
+                                          color: on ? AppColors.ink : p.title,
+                                        ),
+                                maxLines: 1,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
