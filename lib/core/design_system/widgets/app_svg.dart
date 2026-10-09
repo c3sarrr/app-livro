@@ -12,8 +12,12 @@ import '../tokens/app_icons.dart';
 Future<void> preloadAppIcons([Iterable<String> assets = AppIcons.all]) =>
     Future.wait(assets.map(_precache));
 
-Future<Object?> _precache(String asset) {
-  final loader = appSvgLoader(asset);
+Future<Object?> _precache(String asset) => preloadAppSvg(asset);
+
+/// Pré-carrega [asset] com a troca [colors] (a chave de cache do [AppSvg] com essas cores): as variantes de cores
+/// fixas, como o Laço do Noite (D-190).
+Future<Object?> preloadAppSvg(String asset, {Map<Color, Color>? colors}) {
+  final loader = appSvgLoader(asset, colors: colors);
   return svg.cache.putIfAbsent(
     loader.cacheKey(null),
     () => loader.loadBytes(null),

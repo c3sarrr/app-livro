@@ -45,6 +45,12 @@ class ToolShelf extends StatelessWidget {
   /// O miolo do Laço no Noite (D-190): o [lassoFill] já composto sobre o `#FFFAF1` dos objetos, opaco.
   static const Color lassoFillNight = Color(0xFFE5DFEC);
 
+  /// As variantes sem cor do usuário que o `main()` pré-carrega com os ícones (F12 12.4): o Laço do Noite (D-190).
+  static Future<void> preload() => preloadAppSvg(
+    AppIllustrationsLeitor.toolLasso,
+    colors: {lassoFill: lassoFillNight},
+  );
+
   static const List<(AnnotationTool, String, String)> _tools = [
     (AnnotationTool.pen, 'pen', 'Caneta'),
     (AnnotationTool.marker, 'marker', 'Marca-texto'),

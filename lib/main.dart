@@ -17,6 +17,7 @@ import 'features/account/application/account_providers.dart';
 import 'features/account/data/secure_session_storage.dart';
 import 'features/catalog/application/catalog_auto_update.dart';
 import 'features/library/presentation/incoming_books.dart';
+import 'features/reader/presentation/tool_shelf.dart' show ToolShelf;
 
 /// Licença SIL OFL 1.1 das fontes do arquivo (Bricolage Grotesque, Figtree,
 /// Instrument Serif), distribuída junto das fontes em `assets/fonts/`.
@@ -44,6 +45,8 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
     ...AppIconsLeitor.all,
     ...AppIllustrationsLeitor.plain,
   ]);
+  // D-190: e o Laço do Noite (a 1ª vez que o modo anotação abre no Noite)
+  await ToolShelf.preload();
   final server = await connectServer(AppEnv.fromDefines());
   runApp(
     ProviderScope(

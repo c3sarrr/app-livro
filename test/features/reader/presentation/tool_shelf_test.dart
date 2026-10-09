@@ -11,6 +11,7 @@ import 'package:app_leitura/features/reader/application/annotation_session.dart'
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:app_leitura/features/reader/presentation/tool_shelf.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart' show svg;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../reference/leitor/reference_layout_22_modo_anotacao.dart';
@@ -179,6 +180,30 @@ void main() {
           expect(ca, cb, reason: '$tool $on');
         }
       }
+    },
+  );
+
+  testWidgets(
+    'D-190: o Laço do Noite entra no cache no começo do app (a chave do AppSvg), sem piscar na 1ª vez',
+    (tester) async {
+      svg.cache.clear();
+      await tester.runAsync(ToolShelf.preload);
+      final (asset, colors) = ToolShelf.art(
+        AnnotationTool.lasso,
+        on: false,
+        brand: _brand,
+        ink: _tinta,
+        night: true,
+      );
+      final loader = appSvgLoader(asset, colors: colors);
+      var loadedAgain = false;
+      await tester.runAsync(
+        () => svg.cache.putIfAbsent(loader.cacheKey(null), () {
+          loadedAgain = true;
+          return loader.loadBytes(null);
+        }),
+      );
+      expect(loadedAgain, isFalse);
     },
   );
 
