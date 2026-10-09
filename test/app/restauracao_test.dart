@@ -6,9 +6,12 @@
 // - a 25 restaurada sobre o leitor: tocar num cartão ainda leva ao trecho (R5);
 // - restaurado no meio do modo anotação: a leitura limpa e a tinta gravada (D-166).
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
+import 'package:app_leitura/features/highlights/application/highlights_exit.dart';
+import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
 import 'package:app_leitura/features/highlights/presentation/highlights_screen.dart';
 import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/mundo_2026_09_20.dart';
@@ -160,6 +163,33 @@ void main() {
           _rodape(tester),
           depois,
           reason: 'abre na posição gravada, sem saltar de novo',
+        );
+      },
+    );
+
+    testWidgets(
+      'R5: a saída da 25 que chega antes de o livro abrir espera por ele',
+      (tester) async {
+        final p41 = mundoReferencia.anotacoes.firstWhere(
+          (a) => a.refPage == 41,
+        );
+        setCanvasView(tester, logical: const Size(390, 844));
+        await abrirLeitor(tester, livro, esperar: false);
+        await tester.pump();
+        await tester.pump();
+        expect(find.byType(ReaderScreen), findsOneWidget);
+        expect(_k('r19.footer'), findsNothing, reason: 'o livro ainda abre');
+        ProviderScope.containerOf(tester.element(find.byType(ReaderScreen)))
+            .read(highlightsExitBusProvider)
+            .post(livro.userBookId, HighlightsOpenAt(p41.id, page: 41));
+        await esperarLeitor(tester);
+        await _quadros(tester, 60);
+        await _banco(tester);
+        await _quadros(tester, 30);
+        expect(
+          _k('leitor.voltarDoLink'),
+          findsOneWidget,
+          reason: 'saltou para o trecho quando o livro abriu',
         );
       },
     );
