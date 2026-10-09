@@ -158,7 +158,9 @@ select is(private.moderation_snapshot() -> 1 ->> 'sla_breached', 'false', 'dentr
 select is(private.moderation_snapshot() -> 2 ->> 'content', 'Clube da Ana', 'o clube denunciado');
 select is(private.queue_moderation_digest(), 2, 'um e-mail para cada pessoa que modera');
 select is((select array_agg(payload - 'oldest' order by user_id) from private.email_outbox where template = 'moderation_digest'),
-  array['{"open": 3, "breached": 1}'::jsonb, '{"open": 3, "breached": 1}'::jsonb], 'as contagens no e-mail');
+  -- G22 (D-48): o payload ganhou quantas contas comuns tiveram compra sandbox (aqui, nenhuma)
+  array['{"open": 3, "breached": 1, "sandbox_accounts": 0}'::jsonb,
+        '{"open": 3, "breached": 1, "sandbox_accounts": 0}'::jsonb], 'as contagens no e-mail');
 select is((select count(*)::int from cron.job where jobname = 'booknest-moderacao-diaria' and schedule = '0 12 * * *'), 1,
   'o agendamento diário às 9h de Brasília');
 select is((select count(*)::int from private.email_outbox where template = 'moderation_digest' and payload ? 'oldest'), 2,
