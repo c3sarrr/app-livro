@@ -9,6 +9,9 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000b', 'bia@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000c', 'caio@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000d', 'duda@exemplo.com');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 -- G06.0: o social exige a faixa etária registrada (migration social_exige_faixa); aqui são adultos
 insert into private.account_age (user_id, band, source)
 select id, '18_plus', 'birthdate' from auth.users on conflict (user_id) do nothing;
@@ -85,6 +88,9 @@ reset role;
 -- =====================================================================================
 select lives_ok($$ insert into auth.users (id, email) values ('00000000-0000-7000-8000-00000000000e', 'feio.silva@exemplo.com') $$,
   'cadastro com termo proibido antes do @ não falha');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 select is((select display_name from public.profiles where id = '00000000-0000-7000-8000-00000000000e'), 'Leitor',
   'o nome provisório vira "Leitor"');
 
@@ -136,6 +142,9 @@ create function pg_temp.sub(p_store text, p_otid text, p_status text default 'ac
 $$;
 insert into auth.users (id, email) values ('00000000-0000-7000-8000-0000000000a2', 'ana2@exemplo.com'),
                                           ('00000000-0000-7000-8000-0000000000a3', 'ana3@exemplo.com');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 select private.rc_apply_subscriber('00000000-0000-7000-8000-0000000000a2', pg_temp.sub('play_store', 'GPA.9'));
 select is(private.rc_apply_subscriber('00000000-0000-7000-8000-0000000000a3', pg_temp.sub('play_store', 'GPA.9')) ->> 'pro', 'true',
   'compra restaurada em outra conta: o novo dono vira Pro');
@@ -207,6 +216,9 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-000000000072', null),
   ('00000000-0000-7000-8000-000000000073', 'ivo@exemplo.com'),
   ('00000000-0000-7000-8000-000000000074', 'jo@exemplo.com');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 insert into billing.entitlements (user_id, entitlement, active_until)
 select u, 'pro', now() - interval '13 months' from unnest(array['00000000-0000-7000-8000-000000000071', '00000000-0000-7000-8000-000000000072',
   '00000000-0000-7000-8000-000000000073', '00000000-0000-7000-8000-000000000074']::uuid[]) u;

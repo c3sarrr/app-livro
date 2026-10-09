@@ -6,7 +6,9 @@ select plan(8);
 select set_eq($$ select jobname || ' ' || schedule from cron.job where jobname like 'booknest-%' $$,
   $$ values ('booknest-particoes-sessoes 7 3 * * *'), ('booknest-acesso-sync */15 * * * *'), ('booknest-retencao 17 6 * * *'),
             ('booknest-email-sender */5 * * * *'), ('booknest-purge-storage 37 4 * * *'), ('booknest-limpeza-cota 47 3 * * *'),
-            ('booknest-push-sender * * * * *'), ('booknest-lembrete-encontros 5 * * * *'), ('booknest-poda-notificacoes 57 3 * * *') $$,
+            ('booknest-push-sender * * * * *'), ('booknest-lembrete-encontros 5 * * * *'), ('booknest-poda-notificacoes 57 3 * * *'),
+            -- G21.2 (D-221): o e-mail do dia da moderação, às 9h de Brasília
+            ('booknest-moderacao-diaria 0 12 * * *') $$,
   'as 9 rotinas do Anexo 02 §8 (+ push e lembrete) agendadas com nome e horário');
 select is((select command from cron.job where jobname = 'booknest-retencao'), 'select private.run_retention()', 'a retenção chama run_retention');
 

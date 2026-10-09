@@ -10,6 +10,9 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-0000000000b2', 'julia@exemplo.com'),
   ('00000000-0000-7000-8000-0000000000c3', 'caio@exemplo.com'),
   ('00000000-0000-7000-8000-0000000000d4', 'rafa@exemplo.com');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 insert into private.account_age (user_id, band, source)
 select id, '18_plus', 'birthdate' from auth.users on conflict (user_id) do nothing;
 insert into billing.entitlements (user_id, entitlement, active_until)

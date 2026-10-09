@@ -112,7 +112,11 @@ select set_eq($$ select papel || ' ' || objeto from privilegios_de_funcao $$,
        'public.share_highlight(uuid, text, text, integer, integer, numeric)', 'public.my_clubs()',
        'public.club_overview(uuid)', 'public.week_thread(uuid, integer, text, uuid, jsonb, integer)',
        'public.meeting_overview(uuid)', 'public.club_members_overview(uuid)', 'public.club_post_summaries(uuid[])',
-       'private.quote_key(text)']) f $$,
+       'private.quote_key(text)',
+       -- G21.2 (D-222): os termos
+       'public.my_terms()', 'public.accept_terms(text)',
+       -- G21.2 (D-225): a política do canal club:<id> em realtime.messages
+       'private.club_topic_member(text)']) f $$,
   'funções: anon e PUBLIC não executam nada; authenticated só as RPCs e as funções usadas pela RLS');
 
 -- ---------------------------------------------------------------- esquemas

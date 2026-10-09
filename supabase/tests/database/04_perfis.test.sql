@@ -8,6 +8,9 @@ insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000b', 'bia@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000c', 'caio@exemplo.com');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 -- G06.0: o social exige a faixa etária registrada (migration social_exige_faixa); aqui são adultos
 insert into private.account_age (user_id, band, source)
 select id, '18_plus', 'birthdate' from auth.users on conflict (user_id) do nothing;
@@ -30,6 +33,9 @@ select is((select display_name from public.profiles where id = '00000000-0000-70
 insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-0000000000e1', repeat('x', 70) || '@exemplo.com'),
   ('00000000-0000-7000-8000-0000000000e2', null);
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 select is((select char_length(display_name) from public.profiles where id = '00000000-0000-7000-8000-0000000000e1'), 60,
   'e-mail com mais de 60 caracteres antes do @ não derruba o cadastro (nome cortado em 60)');
 select is((select display_name from public.profiles where id = '00000000-0000-7000-8000-0000000000e2'), 'Leitor',

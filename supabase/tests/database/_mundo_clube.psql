@@ -161,3 +161,7 @@ select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700002', 6, 1);
 select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700003', 2, 3);
 select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700004', 1, 5);
 select pg_temp.curtir('reply', '00000000-0000-7000-8000-00000c700005', 4, 4);
+
+-- G21.2 (D-222): todas aceitaram os termos (publicar exige)
+insert into private.terms_acceptances (user_id, version)
+select pg_temp.leitora(n), private.terms_version() from generate_series(1, 11) n on conflict do nothing;

@@ -6,6 +6,9 @@ select plan(11);
 insert into auth.users (id, email) values
   ('00000000-0000-7000-8000-00000000000a', 'ana@exemplo.com'),
   ('00000000-0000-7000-8000-00000000000b', 'bia@exemplo.com');
+-- G21.2 (D-222): publicar exige os termos aceitos; aqui todos aceitaram a versão atual
+insert into private.terms_acceptances (user_id, version) select id, private.terms_version() from auth.users
+on conflict do nothing;
 create function pg_temp.como(p uuid) returns void language sql as $$
   select set_config('request.jwt.claims', json_build_object('sub', p, 'role', 'authenticated')::text, true)
 $$;
