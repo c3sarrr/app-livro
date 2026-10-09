@@ -32,4 +32,10 @@ abstract final class AppRoutes {
 
   /// Galeria do design system (F01) — somente em debug.
   static const designSystem = '/_ds';
+
+  /// G22: a tela técnica do Pro (o paywall ainda sem design — D-230) — somente em debug. [motivo] = o gatilho que
+  /// a abriu (`PaywallReason.name`).
+  static const proTecnico = '/_pro';
+  static String proTecnicoCom(String motivo) =>
+      '$proTecnico?motivo=${Uri.encodeQueryComponent(motivo)}';
 }

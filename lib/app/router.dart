@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../features/account/presentation/account_block.dart';
 import '../features/account/presentation/onboarding_screen.dart';
 import '../features/account/presentation/sign_in_screen.dart';
+import '../features/billing/presentation/paywall_home_hook.dart';
 import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/highlights/presentation/highlights_screen.dart';
 import '../features/home/presentation/home_screen.dart';
@@ -59,7 +60,8 @@ GoRouter createRouter({
         pageBuilder: (context, state, shell) =>
             _page(state, MainShell(shell: shell), restorationId: 'abas.pagina'),
         branches: [
-          tab(AppRoutes.inicio, const HomeScreen()),
+          // G22 (R7): o gancho dos gatilhos do paywall envolve a Início sem mudar a tela
+          tab(AppRoutes.inicio, const PaywallHomeHook(child: HomeScreen())),
           // G09 (D-87): até o design da Biblioteca, o placeholder ganha o bloco mínimo de importar (D-21).
           tab(
             AppRoutes.biblioteca,

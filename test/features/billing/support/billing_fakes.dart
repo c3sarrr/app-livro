@@ -4,6 +4,7 @@ import 'dart:collection';
 
 import 'package:app_leitura/features/account/application/account_controller.dart';
 import 'package:app_leitura/features/account/domain/account_summary.dart';
+import 'package:app_leitura/features/billing/application/billing_controller.dart';
 import 'package:app_leitura/features/billing/data/billing_gateway.dart';
 import 'package:app_leitura/features/billing/data/pro_server_api.dart';
 import 'package:app_leitura/features/billing/domain/billing_models.dart';
@@ -131,15 +132,17 @@ final class ServidorProFalso implements ProServerApi {
   }
 }
 
-AccountSummary resumo(String id, {bool pro = false}) => AccountSummary(
-  id: id,
-  handle: 'leitora',
-  displayName: 'Leitora',
-  isPrivate: false,
-  handleProvisional: false,
-  ageBand: null,
-  pro: pro,
-);
+AccountSummary resumo(String id, {bool pro = false, int outrasSessoes = 0}) =>
+    AccountSummary(
+      id: id,
+      handle: 'leitora',
+      displayName: 'Leitora',
+      isPrivate: false,
+      handleProvisional: false,
+      ageBand: null,
+      pro: pro,
+      otherSessions: outrasSessoes,
+    );
 
 /// A conta de mentira: o estado é o que o teste põe; `refresh` relê o resumo com o Pro do "servidor".
 final class ContaFalsa extends AccountController {
@@ -168,7 +171,44 @@ final class ContaFalsa extends AccountController {
   }
 }
 
-MemberView membro(String id, {bool pro = false}) => MemberView(
-  userId: id,
-  summary: resumo(id, pro: pro),
-);
+MemberView membro(String id, {bool pro = false, int outrasSessoes = 0}) =>
+    MemberView(
+      userId: id,
+      summary: resumo(id, pro: pro, outrasSessoes: outrasSessoes),
+    );
+
+/// O estado do Pro fixo (as telas e o gancho), contando as voltas ao app.
+final class BillingFalso extends BillingController {
+  BillingFalso(this.inicial);
+  final ProView inicial;
+  int retomadas = 0;
+  final acoes = <String>[];
+
+  @override
+  ProView build() => inicial;
+
+  void mudar(ProView v) => state = v;
+
+  @override
+  void resumed() => retomadas++;
+
+  @override
+  Future<void> purchase(ProPackage package) async =>
+      acoes.add('comprar:${package.id}');
+
+  @override
+  Future<void> restore() async => acoes.add('restaurar');
+
+  @override
+  Future<void> manage() async => acoes.add('gerenciar');
+
+  @override
+  Future<void> activate() async => acoes.add('conferir');
+
+  @override
+  void clearNotice() {
+    acoes.add('limpar');
+    final s = state;
+    if (s is ProReady) state = s.copyWith(notice: () => null);
+  }
+}

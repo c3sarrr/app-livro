@@ -30,6 +30,19 @@ void main() {
     );
   });
 
+  test('G22 (R7): as outras sessões ativas da conta; sem o campo (o servidor antigo), nenhuma', () {
+    expect(
+      AccountSummary.fromJson({...contaJson(), 'other_sessions': 2})
+          .otherSessions,
+      2,
+    );
+    expect(AccountSummary.fromJson(contaJson()).otherSessions, 0);
+    expect(
+      AccountSummary.fromJson({...contaJson(), 'other_sessions': 1}),
+      isNot(AccountSummary.fromJson(contaJson())),
+    );
+  });
+
   group('normalizeHandle', () {
     test('minúsculas, sem @ e sem espaços nas pontas', () {
       expect(normalizeHandle('Ana.Lima'), 'ana.lima');
