@@ -89,6 +89,8 @@ class PageLayoutCache extends Table {
   TextColumn get viewport => text()();
   IntColumn get fontsVersion => integer().named('fonts_version')();
   BlobColumn get breaks => blob()();
+
+  /// O último uso (gravar ou ler — R11 da G20): o livro guarda até 4 combinações e a de uso mais antigo sai.
   TextColumn get createdAt =>
       text().named('created_at').map(const InstantConverter())();
 }

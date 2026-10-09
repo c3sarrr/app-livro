@@ -877,6 +877,7 @@ final class BookPager {
         settingsHash: settingsHash,
         viewport: viewportKey(_t, key.devicePixelRatio),
         fontsVersion: readerFontsVersion,
+        now: _now(),
       );
       return b != null && b.sha == index.contentSha256 ? b : null;
     } on Object {

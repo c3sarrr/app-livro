@@ -134,4 +134,76 @@ void main() {
       containsPair('s', {'1': '120:206.00'}),
     );
   });
+
+  group('R11 (G20): até 4 combinações por livro; a de uso mais antigo sai', () {
+    Future<void> gravar(String settings, int dia, {String? outro}) => dao.put(
+      userBookId: outro ?? livro,
+      settingsHash: settings,
+      viewport: '390x844@3',
+      fontsVersion: 1,
+      breaks: breaks,
+      now: DateTime.utc(2026, 10, dia),
+    );
+    Future<Set<String>> guardadas([String? outro]) async => {
+      for (final r in await (db.select(
+        db.pageLayoutCache,
+      )..where((t) => t.userBookId.equals(outro ?? livro))).get())
+        r.settingsHash,
+    };
+
+    test('a 5ª combinação tira a mais antiga', () async {
+      for (final (i, h) in ['a', 'b', 'c', 'd', 'e'].indexed) {
+        await gravar(h, 1 + i);
+      }
+      expect(await guardadas(), {'b', 'c', 'd', 'e'});
+    });
+
+    test('ler marca o uso: a lida fica, sai a seguinte mais antiga', () async {
+      for (final (i, h) in ['a', 'b', 'c', 'd'].indexed) {
+        await gravar(h, 1 + i);
+      }
+      expect(
+        await dao.get(
+          userBookId: livro,
+          settingsHash: 'a',
+          viewport: '390x844@3',
+          fontsVersion: 1,
+          now: DateTime.utc(2026, 10, 9),
+        ),
+        isNotNull,
+      );
+      await gravar('e', 10);
+      expect(await guardadas(), {'a', 'c', 'd', 'e'});
+    });
+
+    test('ler sem o relógio não marca o uso', () async {
+      for (final (i, h) in ['a', 'b', 'c', 'd'].indexed) {
+        await gravar(h, 1 + i);
+      }
+      await ler(settings: 'a');
+      await gravar('e', 10);
+      expect(await guardadas(), {'b', 'c', 'd', 'e'});
+    });
+
+    test('regravar a mesma combinação não conta como outra', () async {
+      for (final (i, h) in ['a', 'b', 'c', 'd'].indexed) {
+        await gravar(h, 1 + i);
+      }
+      await gravar('a', 11);
+      expect(await guardadas(), {'a', 'b', 'c', 'd'});
+    });
+
+    test('outro livro não conta no teto do primeiro', () async {
+      final outro = idTeste(2);
+      for (final (i, h) in ['a', 'b', 'c', 'd'].indexed) {
+        await gravar(h, 1 + i);
+      }
+      for (final (i, h) in ['p', 'q', 'r'].indexed) {
+        await gravar(h, 5 + i, outro: outro);
+      }
+      expect(await guardadas(), {'a', 'b', 'c', 'd'});
+      expect(await guardadas(outro), {'p', 'q', 'r'});
+      expect(PageLayoutCacheDao.perBook, 4);
+    });
+  });
 }

@@ -145,11 +145,15 @@ final class PageLayoutCacheDao {
 
   final AppDatabase _db;
 
+  /// R11 (G20): até 4 combinações por livro (ajustes + tela + versão das fontes); a de uso mais antigo sai.
+  static const int perBook = 4;
+
   Future<PageBreaks?> get({
     required String userBookId,
     required String settingsHash,
     required String viewport,
     required int fontsVersion,
+    DateTime? now,
   }) async {
     final r =
         await (_db.select(_db.pageLayoutCache)..where(
@@ -160,7 +164,19 @@ final class PageLayoutCacheDao {
                   t.fontsVersion.equals(fontsVersion),
             ))
             .getSingleOrNull();
-    return r == null ? null : PageBreaks.decode(r.breaks);
+    if (r == null) return null;
+    // ler marca o uso (a coluna `created_at` guarda o último uso — R11)
+    if (now != null) {
+      await (_db.update(_db.pageLayoutCache)..where(
+            (t) =>
+                t.userBookId.equals(userBookId) &
+                t.settingsHash.equals(settingsHash) &
+                t.viewport.equals(viewport) &
+                t.fontsVersion.equals(fontsVersion),
+          ))
+          .write(PageLayoutCacheCompanion(createdAt: Value(now.toUtc())));
+    }
+    return PageBreaks.decode(r.breaks);
   }
 
   Future<void> put({
@@ -170,18 +186,29 @@ final class PageLayoutCacheDao {
     required int fontsVersion,
     required PageBreaks breaks,
     required DateTime now,
-  }) => _db
-      .into(_db.pageLayoutCache)
-      .insertOnConflictUpdate(
-        PageLayoutCacheCompanion(
-          userBookId: Value(userBookId),
-          settingsHash: Value(settingsHash),
-          viewport: Value(viewport),
-          fontsVersion: Value(fontsVersion),
-          breaks: Value(Uint8List.fromList(breaks.encode())),
-          createdAt: Value(now.toUtc()),
-        ),
-      );
+  }) async {
+    await _db
+        .into(_db.pageLayoutCache)
+        .insertOnConflictUpdate(
+          PageLayoutCacheCompanion(
+            userBookId: Value(userBookId),
+            settingsHash: Value(settingsHash),
+            viewport: Value(viewport),
+            fontsVersion: Value(fontsVersion),
+            breaks: Value(Uint8List.fromList(breaks.encode())),
+            createdAt: Value(now.toUtc()),
+          ),
+        );
+    await _trim(userBookId);
+  }
+
+  /// Fica com as [perBook] combinações de uso mais recente do livro.
+  Future<void> _trim(String userBookId) => _db.customStatement(
+    'DELETE FROM page_layout_cache WHERE user_book_id = ?1 AND rowid NOT IN ('
+    'SELECT rowid FROM page_layout_cache WHERE user_book_id = ?1 '
+    'ORDER BY created_at DESC LIMIT $perBook)',
+    [userBookId],
+  );
 
   /// Tudo do livro (o arquivo mudou).
   Future<void> deleteBook(String userBookId) => (_db.delete(
