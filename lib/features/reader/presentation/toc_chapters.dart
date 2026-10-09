@@ -5,10 +5,13 @@
 // abre com o cartão atual a 378,4 do topo dela (L27: sete linhas acima); numa lista baixa, o cartão fica inteiro acima
 // do esmaecido de baixo (D-154); uma vez por abertura: trocar de aba e voltar deixa a lista onde estava. Sem numeral
 // em nenhuma linha, a coluna do numeral some. Numeral ou página mais largos que a coluna transbordam no espaço ao lado,
-// inteiros, como no HTML da prancha (D-157). O índice que não se leu deixa só a moldura.
+// inteiros, como no HTML da prancha (D-157). O índice que não se leu deixa só a moldura. A lista monta sob demanda
+// (G20, R12): só as linhas à vista e as vizinhas; a abertura vai à altura estimada e, com o cartão montado, ao lugar
+// exato.
 import 'dart:math' as math;
 
-import 'package:flutter/rendering.dart' show OverflowBoxFit;
+import 'package:flutter/rendering.dart'
+    show OverflowBoxFit, RenderAbstractViewport, ScrollCacheExtent;
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/painters/chromium_dash.dart';
@@ -36,6 +39,9 @@ const double tocFadeBottom = 40;
 
 /// A lista começa 6 acima da caixa dela (`margin-top: -6px`), recortada.
 const double tocListLift = 6;
+
+/// Quanto da lista fica montado além do que se vê, em cima e embaixo (R12, G20).
+const double tocListCache = 600;
 
 /// A borda fina dos símbolos, da pílula e do "lido" (1,3).
 const double _thin = 1.3;
@@ -70,9 +76,12 @@ class _TocChaptersState extends State<TocChapters> {
   late final ScrollController _scroll = ScrollController(
     initialScrollOffset: widget.offset ?? 0,
   );
-  final GlobalKey _list = GlobalKey();
   final GlobalKey _current = GlobalKey();
   late bool _placed = widget.offset != null;
+
+  /// Passos da altura inicial: com a lista sob demanda (R12, G20) o cartão atual pode não estar montado — a rolagem
+  /// vai à altura estimada (a média das linhas montadas) e, com o cartão montado, ao lugar exato.
+  int _steps = 0;
 
   @override
   void initState() {
@@ -102,18 +111,65 @@ class _TocChaptersState extends State<TocChapters> {
   /// inteiro acima do esmaecido de baixo; dentro dos limites da rolagem.
   void _place() {
     if (!mounted || _placed || !_scroll.hasClients) return;
-    _placed = true;
-    final card = _current.currentContext?.findRenderObject();
-    final list = _list.currentContext?.findRenderObject();
-    if (card is! RenderBox || list is! RenderBox) return;
-    final top = card.localToGlobal(Offset.zero, ancestor: list).dy;
     final pos = _scroll.position;
+    final rows = widget.view.rows;
+    final at = rows.indexWhere((r) => r.current);
+    final card = _current.currentContext?.findRenderObject();
+    if (at < 0 || _steps >= 4) {
+      _placed = true;
+      return;
+    }
+    _steps++;
+    if (card is! RenderBox || !card.attached) {
+      // longe do que está montado: a altura estimada pela média das linhas, e o lugar exato no quadro seguinte
+      final mean = (pos.maxScrollExtent + pos.viewportDimension) / rows.length;
+      final to = (mean * at - tocCurrentTop).clamp(
+        pos.minScrollExtent,
+        pos.maxScrollExtent,
+      );
+      _scroll.jumpTo(to);
+      _later();
+      return;
+    }
+    final top = RenderAbstractViewport.of(card)
+        .getOffsetToReveal(card, 0)
+        .offset;
     final want = math.max(
       top - tocCurrentTop,
       top + card.size.height + tocFadeBottom - pos.viewportDimension,
     );
     final to = want.clamp(pos.minScrollExtent, pos.maxScrollExtent);
-    if (to != pos.pixels) _scroll.jumpTo(to);
+    if ((to - pos.pixels).abs() < 0.01) {
+      _placed = true;
+      return;
+    }
+    // a lista sob demanda pode corrigir as linhas de cima ao rolar: confere de novo no quadro seguinte
+    _scroll.jumpTo(to);
+    _later();
+  }
+
+  Widget _row(TocView v, bool numerals, int i) {
+    final r = v.rows[i];
+    final p = widget.palette;
+    if (r.kind == TocRowKind.part) {
+      return _PartRow(row: r, palette: p, onTap: widget.onChapter);
+    }
+    if (r.current) {
+      return _CurrentCard(
+        anchor: _current,
+        row: r,
+        refPage: v.refPage,
+        numerals: numerals,
+        palette: p,
+        onTap: widget.onChapter,
+      );
+    }
+    return _ChapterRow(
+      row: r,
+      numerals: numerals,
+      palette: p,
+      onTap: widget.onChapter,
+    );
   }
 
   @override
@@ -147,40 +203,29 @@ class _TocChaptersState extends State<TocChapters> {
                           left: 0,
                           right: 0,
                           bottom: 0,
-                          child: SingleChildScrollView(
-                            controller: _scroll,
-                            padding: const EdgeInsets.symmetric(horizontal: 14),
-                            child: KeyedSubtree(
-                              key: const ValueKey('toc.sheet.chapters.list'),
-                              child: Column(
-                                key: _list,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  for (final r in v.rows)
-                                    if (r.kind == TocRowKind.part)
-                                      _PartRow(
-                                        row: r,
-                                        palette: p,
-                                        onTap: widget.onChapter,
-                                      )
-                                    else if (r.current)
-                                      _CurrentCard(
-                                        anchor: _current,
-                                        row: r,
-                                        refPage: v.refPage,
-                                        numerals: numerals,
-                                        palette: p,
-                                        onTap: widget.onChapter,
-                                      )
-                                    else
-                                      _ChapterRow(
-                                        row: r,
-                                        numerals: numerals,
-                                        palette: p,
-                                        onTap: widget.onChapter,
-                                      ),
-                                ],
+                          // R12 (G20): a lista monta sob demanda — com 5.000 capítulos, só as linhas à vista
+                          child: KeyedSubtree(
+                            key: const ValueKey('toc.sheet.chapters.list'),
+                            child: CustomScrollView(
+                              controller: _scroll,
+                              // as linhas vizinhas montadas: a rolagem sem espera e as linhas logo abaixo da dobra (a
+                              // prancha tem as do XXXIII ao XXXVII sob o esmaecido)
+                              scrollCacheExtent: const ScrollCacheExtent.pixels(
+                                tocListCache,
                               ),
+                              slivers: [
+                                SliverPadding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 14,
+                                  ),
+                                  sliver: SliverList(
+                                    delegate: SliverChildBuilderDelegate(
+                                      (context, i) => _row(v, numerals, i),
+                                      childCount: v.rows.length,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

@@ -42,7 +42,9 @@ import 'load_fonts.dart';
 import 'pump_reader.dart';
 import 'reader_harness.dart';
 
-Finder _key(String k) => find.byKey(ValueKey<String>(k));
+/// As linhas da lista sob o esmaecido de baixo (a prancha tem do XXXIII ao XXXVII) ficam montadas mas fora do que se
+/// vê (a lista sob demanda — R12, G20): o finder as vê também.
+Finder _key(String k) => find.byKey(ValueKey<String>(k), skipOffstage: false);
 
 /// O clube do mundo de referência ("Leitoras de Capitu", quinta 24/09, meta cap. L) — no app a fonte é vazia (D-149).
 final class ClubeDoMundo implements ReaderClubSource {
@@ -128,7 +130,12 @@ PageSnapshot _pagina(WidgetTester tester) =>
 /// O AppText de [id] cujo texto começa pela 1ª linha esperada (a aba Marcadas tem o nome e o número em dois textos).
 RenderAppText _texto(WidgetTester tester, String id, String primeira) {
   final todos = find
-      .descendant(of: _key(id), matching: find.byType(AppText), matchRoot: true)
+      .descendant(
+        of: _key(id),
+        matching: find.byType(AppText, skipOffstage: false),
+        matchRoot: true,
+        skipOffstage: false,
+      )
       .evaluate()
       .toList();
   for (final e in todos) {

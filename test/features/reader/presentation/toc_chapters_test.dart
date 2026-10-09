@@ -369,12 +369,11 @@ void main() {
     tester,
   ) async {
     await montarSumario(tester, view: vista(n: 30, atual: 12));
-    final lista = tester.getRect(chave('toc.sheet.chapters.list'));
     final atual = tester.getRect(chave('toc.sheet.chapters.ch13.link'));
-    expect(
-      atual.top - lista.top,
-      moreOrLessEquals(12 * 51.2 + 6, epsilon: 0.01),
-    );
+    // a linha de cima encosta no respiro de 6 do cartão; as 12 de cima, de 51,2, ficam acima (a lista sob demanda
+    // não monta as que estão longe — R12)
+    final acima = tester.getRect(chave('toc.sheet.chapters.ch12.link'));
+    expect(atual.top - acima.bottom, moreOrLessEquals(6, epsilon: 0.01));
     expect(
       _rolagem(tester).pixels,
       moreOrLessEquals(12 * 51.2 + 6 - 378.4, epsilon: 0.01),
@@ -391,6 +390,34 @@ void main() {
       await montarSumario(tester, view: vista(n: 30, atual: 29));
       final p = _rolagem(tester);
       expect(p.pixels, p.maxScrollExtent);
+    },
+  );
+
+  testWidgets(
+    'R12 (G20): com 5.000 capítulos só as linhas à vista e as vizinhas montam; o atual a 378,4; rola até o começo',
+    (tester) async {
+      await montarSumario(tester, view: vista(n: 5000, atual: 2500));
+      int montadas() => find
+          .byWidgetPredicate(
+            (w) =>
+                w.key is ValueKey<String> &&
+                RegExp(r'^toc\.sheet\.chapters\.ch\d+\.link$')
+                    .hasMatch((w.key! as ValueKey<String>).value),
+          )
+          .evaluate()
+          .length;
+      expect(montadas(), lessThan(40));
+      final atual = tester.getRect(chave('toc.sheet.chapters.ch2501.link'));
+      final topo = tester.getRect(chave('toc.sheet.chapters')).top;
+      expect(atual.top - (topo - 6), moreOrLessEquals(378.4, epsilon: 0.01));
+      // as de cima existem: rolar até o começo chega à 1ª linha, sem montar as 5.000
+      _rolagem(tester).jumpTo(_rolagem(tester).minScrollExtent);
+      await tester.pump();
+      await tester.pump();
+      _rolagem(tester).jumpTo(_rolagem(tester).minScrollExtent);
+      await tester.pump();
+      expect(chave('toc.sheet.chapters.ch1.link'), findsOneWidget);
+      expect(montadas(), lessThan(40));
     },
   );
 

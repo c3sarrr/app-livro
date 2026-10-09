@@ -191,7 +191,13 @@ void main() {
       await _abrirSumario(tester);
       // no Gutenberg todas as entradas são folhas: a folha c + 5 é a entrada c + 5 (páginas adiante — um capítulo
       // que começa na mesma página não guarda volta, D-119)
-      await tester.ensureVisible(_key('toc.sheet.chapters.ch${c + 6}'));
+      // a linha montada logo abaixo da dobra (a lista sob demanda — R12)
+      await tester.ensureVisible(
+        find.byKey(
+          ValueKey<String>('toc.sheet.chapters.ch${c + 6}'),
+          skipOffstage: false,
+        ),
+      );
       await tester.pump();
       await tester.tap(_key('toc.sheet.chapters.ch${c + 6}'));
       await _fechou(tester);

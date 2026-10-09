@@ -10,7 +10,10 @@
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/design_system/widgets/count_badge.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/application/toc_view.dart'
+    show TocRow;
 import 'package:app_leitura/features/reader/presentation/reader_page_view.dart';
+import 'package:app_leitura/features/reader/presentation/toc_chapters.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -125,20 +128,30 @@ Future<void> _grifar(WidgetTester tester, {int n = 6}) async {
   await _quadros(tester, 10);
 }
 
+/// As linhas do sumário aberto, pela vista da folha (a lista monta sob demanda — R12: só as linhas à vista estão na
+/// árvore).
+List<TocRow> _linhas(WidgetTester tester) =>
+    tester.widget<TocChapters>(find.byType(TocChapters)).view.rows;
+
 /// A linha "você está aqui" do sumário aberto: (o numeral dela, a ordem dela entre as linhas numeradas — 1, 2, …).
 (String, int) _capituloDoSumario(WidgetTester tester) {
   final aqui = _chaves(RegExp(r'^toc\.sheet\.chapters\.ch(\d+)\.youAreHere$'))
       .single
       .group(1)!;
-  final numerados = [
-    for (final m in _chaves(
-      RegExp(r'^toc\.sheet\.chapters\.ch(\d+)\.numeral$'),
-    ))
-      m.group(1)!,
+  final linhas = _linhas(tester);
+  final atual = linhas.singleWhere((r) => r.current);
+  expect(
+    atual.chapter! + 1,
+    int.parse(aqui),
+    reason: 'o cartão na tela é o atual',
+  );
+  final numeradas = [
+    for (final r in linhas)
+      if (r.numeral != null) r,
   ];
   return (
     textosEm(tester, 'toc.sheet.chapters.ch$aqui.numeral'),
-    numerados.indexOf(aqui) + 1,
+    numeradas.indexOf(atual) + 1,
   );
 }
 
@@ -237,16 +250,14 @@ void main() {
         reason: 'o numeral do leitor convertido = a ordem entre os numerados',
       );
       expect(
-        _chaves(RegExp(r'^toc\.sheet\.chapters\.ch\d+\.numeral$')),
+        [
+          for (final r in _linhas(tester))
+            if (r.numeral != null) r,
+        ],
         hasLength(total),
         reason: 'o M do "Cap. N de M" = as linhas numeradas do sumário',
       );
-      final paginas = [
-        for (final m in _chaves(
-          RegExp(r'^toc\.sheet\.chapters\.(ch\d+)\.page$'),
-        ))
-          int.parse(textosEm(tester, 'toc.sheet.chapters.${m.group(1)}.page')),
-      ];
+      final paginas = [for (final r in _linhas(tester)) ?r.page];
       expect(paginas, isNotEmpty);
       for (var i = 1; i < paginas.length; i++) {
         expect(
