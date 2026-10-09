@@ -3,7 +3,9 @@
 // Espaço (D-58): a Caneta ativa com o corpo na `brand`; a inativa com o corpo `#FFFAF1`; nas duas, a faixa e a ponta
 // na cor da tinta (a troca de cor do SVG — `AppSvg.colors`). O Marca-texto, a faixa e a ponta na cor dele (R28, G17).
 // As outras só sobem. No Noite, os objetos ficam como no
-// Creme (D-167 17). Para o leitor de tela, um grupo de opções "Ferramentas de anotação" com a marcada.
+// Creme (D-167 17), menos o miolo do Laço, que no arquivo é translúcido e escureceria: ele sai opaco, já composto
+// sobre o claro dos objetos (D-190). Para o leitor de tela, um grupo de opções "Ferramentas de anotação" com a
+// marcada.
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/tokens/app_colors.dart';
@@ -37,6 +39,12 @@ class ToolShelf extends StatelessWidget {
   final Color marker;
   final ValueChanged<AnnotationTool> onTool;
 
+  /// O miolo do Laço no arquivo: `rgba(182,172,228,.35)` (o lavanda a 35 %).
+  static const Color lassoFill = Color(0x59B6ACE4);
+
+  /// O miolo do Laço no Noite (D-190): o [lassoFill] já composto sobre o `#FFFAF1` dos objetos, opaco.
+  static const Color lassoFillNight = Color(0xFFE5DFEC);
+
   static const List<(AnnotationTool, String, String)> _tools = [
     (AnnotationTool.pen, 'pen', 'Caneta'),
     (AnnotationTool.marker, 'marker', 'Marca-texto'),
@@ -50,13 +58,14 @@ class ToolShelf extends StatelessWidget {
     ),
   ];
 
-  /// O desenho de [tool] (ativa ou não) e as cores trocadas nele.
+  /// O desenho de [tool] (ativa ou não) e as cores trocadas nele; [night] no Noite.
   static (String, Map<Color, Color>?) art(
     AnnotationTool tool, {
     required bool on,
     required Color brand,
     required Color ink,
     Color marker = AppColors.sun,
+    bool night = false,
   }) => switch (tool) {
     AnnotationTool.pen when on => (
       AppIllustrationsLeitor.toolPenActive,
@@ -77,7 +86,10 @@ class ToolShelf extends StatelessWidget {
       marker == AppColors.sun ? null : {AppColors.sun: marker},
     ),
     AnnotationTool.eraser => (AppIllustrationsLeitor.toolEraser, null),
-    AnnotationTool.lasso => (AppIllustrationsLeitor.toolLasso, null),
+    AnnotationTool.lasso => (
+      AppIllustrationsLeitor.toolLasso,
+      night ? {lassoFill: lassoFillNight} : null,
+    ),
     AnnotationTool.line => (AppIllustrationsLeitor.toolLine, null),
   };
 
@@ -106,6 +118,7 @@ class ToolShelf extends StatelessWidget {
                     brand: brand,
                     ink: ink,
                     marker: marker,
+                    night: scope.palette.night,
                   );
                   return SizedBox(
                     key: ValueKey('$id#slot'),

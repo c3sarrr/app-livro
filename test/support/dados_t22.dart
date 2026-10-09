@@ -185,8 +185,8 @@ Future<LeitorNaTela> abrirTela22(
   return t;
 }
 
-/// As ilustrações da prateleira, ativas e não, com as cores do mundo (a `brand` padrão e a tinta coral): o
-/// flutter_svg carrega de forma assíncrona e, sem isto, o golden sai sem os objetos.
+/// As ilustrações da prateleira, ativas e não, em Creme e no Noite, com as cores do mundo (a `brand` padrão e a
+/// tinta coral): o flutter_svg carrega de forma assíncrona e, sem isto, o golden sai sem os objetos.
 Future<void> precacheTela22(
   WidgetTester tester, {
   Color brand = AppColors.lavender,
@@ -194,13 +194,16 @@ Future<void> precacheTela22(
 }) async {
   for (final tool in AnnotationTool.values) {
     for (final on in const [false, true]) {
-      final (asset, colors) = ToolShelf.art(
-        tool,
-        on: on,
-        brand: brand,
-        ink: ink,
-      );
-      await precacheSvgs(tester, [asset], colors: colors);
+      for (final night in const [false, true]) {
+        final (asset, colors) = ToolShelf.art(
+          tool,
+          on: on,
+          brand: brand,
+          ink: ink,
+          night: night,
+        );
+        await precacheSvgs(tester, [asset], colors: colors);
+      }
     }
   }
 }

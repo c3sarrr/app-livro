@@ -1,7 +1,8 @@
 // G16.6 — a prateleira de ferramentas (L22c): os 6 objetos nos lugares da prancha, a ativa 12 px acima (a caixa de
 // layout fica); desenho de ativa só na Caneta e no Espaço (D-58) — a Caneta ativa com a `brand` e a tinta trocadas
 // no SVG, a inativa com o corpo `#FFFAF1` e a tinta; as outras só sobem; no Noite, os objetos como no Creme
-// (D-167 17); o grupo de opções "Ferramentas de anotação" para o leitor de tela e o toque.
+// (D-167 17), menos o Laço, com o preenchimento opaco já composto sobre o claro dos objetos (D-190); o grupo de
+// opções "Ferramentas de anotação" para o leitor de tela e o toque.
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_illustrations_leitor.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
@@ -13,7 +14,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../reference/leitor/reference_layout_22_modo_anotacao.dart';
+import '../../../support/capture.dart';
 import '../../../support/pecas_l22.dart';
+import '../../../support/precache_svgs.dart';
 
 const _brand = Color(0xFF058CD7);
 const _tinta = Color(0xFFFF552E);
@@ -109,13 +112,116 @@ void main() {
     },
   );
 
-  testWidgets('Noite (D-167 17): os objetos como no Creme', (tester) async {
-    await montar(tester, papel: ReaderPaper.noite);
-    final ativa = arte(tester, 'ann.toolShelf.pen');
-    expect(ativa.asset, AppIllustrationsLeitor.toolPenActive);
-    expect(ativa.colors, {AppColors.lavender: _brand, AppColors.flame: _tinta});
-    conferirGeometriaL22(tester, kRef22.idsOfSection('ann.toolShelf'));
-  });
+  testWidgets(
+    'Noite (D-167 17): os objetos como no Creme; o Laço com o preenchimento opaco (D-190)',
+    (tester) async {
+      await montar(tester, papel: ReaderPaper.noite);
+      final ativa = arte(tester, 'ann.toolShelf.pen');
+      expect(ativa.asset, AppIllustrationsLeitor.toolPenActive);
+      expect(ativa.colors, {
+        AppColors.lavender: _brand,
+        AppColors.flame: _tinta,
+      });
+      expect(arte(tester, 'ann.toolShelf.eraser').colors, isNull);
+      final laco = arte(tester, 'ann.toolShelf.lasso');
+      expect(laco.asset, AppIllustrationsLeitor.toolLasso);
+      expect(laco.colors, {const Color(0x59B6ACE4): const Color(0xFFE5DFEC)});
+      conferirGeometriaL22(tester, kRef22.idsOfSection('ann.toolShelf'));
+      // no Creme, o Laço do arquivo
+      await montar(tester);
+      expect(arte(tester, 'ann.toolShelf.lasso').colors, isNull);
+    },
+  );
+
+  test(
+    'D-190: o Laço no Noite, ativo ou não; as outras ferramentas não mudam',
+    () {
+      for (final on in const [false, true]) {
+        final (noite, trocas) = ToolShelf.art(
+          AnnotationTool.lasso,
+          on: on,
+          brand: _brand,
+          ink: _tinta,
+          night: true,
+        );
+        expect(noite, AppIllustrationsLeitor.toolLasso);
+        expect(trocas, {ToolShelf.lassoFill: ToolShelf.lassoFillNight});
+        expect(
+          ToolShelf.art(
+            AnnotationTool.lasso,
+            on: on,
+            brand: _brand,
+            ink: _tinta,
+          ),
+          (AppIllustrationsLeitor.toolLasso, null),
+        );
+      }
+      // o lavanda a 35 % do arquivo, já composto sobre o #FFFAF1 dos objetos
+      expect(ToolShelf.lassoFill, const Color(0x59B6ACE4));
+      expect(ToolShelf.lassoFillNight, const Color(0xFFE5DFEC));
+      for (final tool in AnnotationTool.values) {
+        if (tool == AnnotationTool.lasso) continue;
+        for (final on in const [false, true]) {
+          final (a, ca) = ToolShelf.art(
+            tool,
+            on: on,
+            brand: _brand,
+            ink: _tinta,
+            night: true,
+          );
+          final (b, cb) = ToolShelf.art(
+            tool,
+            on: on,
+            brand: _brand,
+            ink: _tinta,
+          );
+          expect(a, b, reason: '$tool $on');
+          expect(ca, cb, reason: '$tool $on');
+        }
+      }
+    },
+  );
+
+  testWidgets(
+    'D-190: no Noite, o miolo do Laço sai #E5DFEC sobre o papel escuro (a troca acha a cor do arquivo)',
+    (tester) async {
+      final (asset, noite) = ToolShelf.art(
+        AnnotationTool.lasso,
+        on: false,
+        brand: _brand,
+        ink: _tinta,
+        night: true,
+      );
+      await precacheSvgs(tester, [asset], colors: noite);
+      await precacheSvgs(tester, [asset]);
+      const chave = ValueKey('laco');
+      Future<List<int>> miolo(Map<Color, Color>? cores) async {
+        await tester.pumpWidget(
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Center(
+              child: RepaintBoundary(
+                key: chave,
+                child: ColoredBox(
+                  color: const Color(0xFF1A1714),
+                  child: AppSvg(asset, size: 50, height: 70, colors: cores),
+                ),
+              ),
+            ),
+          ),
+        );
+        final imagem = await captureAt(tester, find.byKey(chave));
+        final px = await rgbaOf(tester, imagem);
+        // o centro da elipse (25, 15), a 3×
+        final i = (45 * imagem.width + 75) * 4;
+        return px.sublist(i, i + 4);
+      }
+
+      expect(await miolo(noite), [0xE5, 0xDF, 0xEC, 0xFF]);
+      // sem a troca, o preenchimento translúcido deixa o escuro passar
+      expect((await miolo(null))[0], lessThan(0x80));
+    },
+  );
 
   testWidgets(
     'semântica: "Ferramentas de anotação" com as 6 opções e a marcada; o toque escolhe',
