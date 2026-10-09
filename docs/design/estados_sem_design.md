@@ -216,3 +216,54 @@ bolinha de 14 na cor do clube, com a borda de tinta, e o nome; depois "Fechar".
 
 O ponto que o arquivo já desenha aparece com notificações não lidas; o toque continua como hoje (a tela das
 notificações vem pela Trilha T).
+
+## G22 — o Pro com o RevenueCat (docs/progresso/G22.md §5)
+
+O paywall não está em nenhum arquivo de design (Anexo 04 §7): até ele chegar, a compra fica numa tela técnica que só
+existe na depuração, e o Perfil ganha o mínimo para restaurar e gerenciar (D-231). Tudo com os primitivos acima.
+
+### Aba Perfil — o Pro no bloco da conta (D-231)
+
+Abaixo do indicador da sincronização (G06), só com conta e com a compra disponível nesta versão (a chave do
+RevenueCat no env). Sem a chave, ou enquanto o RevenueCat é configurado para a conta, nada aparece.
+
+| Estado | Conteúdo |
+|---|---|
+| Grátis | "Plano: Grátis" · "Restaurar compras" |
+| Pro que renova | "Pro até 12/11/2026 · renova automaticamente" · "Restaurar compras" · "Gerenciar assinatura" |
+| Pro com a renovação desligada | "Pro até 12/11/2026 · renovação desligada" · os mesmos botões |
+| Problema no pagamento (carência) | "Pro · problema no pagamento. Atualize na loja até 15/11." · os mesmos botões |
+| Pro concedido sem data de fim | "Pro" · os mesmos botões |
+| Ativando (R2) | "Ativando o Pro…"; os botões esperam |
+| Sem rede, depois da expiração + 3 dias (R8) | como Grátis |
+| Depuração | também "Assinar (tela técnica)" |
+
+As datas são as do fuso do aparelho. A pílula da última ação (`AccountNotice`; as falhas em `flame`):
+
+| Caso | Texto |
+|---|---|
+| Compra pendente | "Pagamento em análise. O Pro liga quando a loja aprovar." |
+| Sem rede | "Sem conexão. Tente de novo." |
+| Outra falha | "Não deu certo. Tente de novo." |
+| Restaurou | "Compras restauradas." |
+| Nada a restaurar | "Nenhuma assinatura encontrada nesta conta da loja." |
+| O servidor não confirmou em ≈ 60 s | "O Pro ainda não chegou ao servidor. A sincronização liga assim que ele confirmar." |
+| Sem a página de gestão da loja (Android) | "Gerencie a assinatura em Play Store › Pagamentos e assinaturas" |
+| Sem a página de gestão da loja (iOS) | "Gerencie a assinatura em Ajustes › seu nome › Assinaturas" |
+
+### A tela técnica `/_pro` (só na depuração)
+
+O paywall de trabalho, sem design: não vai para o build de produção, e os gatilhos (R7) só a abrem na depuração.
+Convidado: só "Entrar para assinar.". Com conta, de cima para baixo:
+- o motivo, quando um gatilho a abriu ("Marco: 10 livros", "Marco: 50 grifos", "Marco: 30 dias seguidos",
+  "2º aparelho", "Perfil de outra pessoa", "2º clube", "Estatísticas completas"), com "Agora não";
+- os pacotes da loja: o período, o preço da loja, a economia do anual ("Economize 33 %", só quando o anual sai mais
+  barato que 12 meses) e o teste grátis ("7 dias grátis, depois R$ 9,99/mês", só para quem é elegível); cada um
+  com "Assinar";
+- o texto das lojas antes dos botões: "Assinatura com renovação automática: {preço} por {mês|ano}. A cobrança é
+  feita na sua conta da {Google Play|App Store} e renova até você cancelar, pelo menos 24 horas antes do fim do
+  período, em Gerenciar assinatura.";
+- "Termos de Uso" e "Política de Privacidade" (do env; vazios: "Publicação pendente (Q9).");
+- "Restaurar compras" e "Gerenciar assinatura";
+- o Pro da loja e o do servidor lado a lado, e "Conferir agora";
+- o simulador dos gatilhos: um botão por gatilho e "Zerar o limite de 7 dias".

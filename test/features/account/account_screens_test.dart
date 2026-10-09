@@ -12,6 +12,7 @@ import 'package:app_leitura/features/account/domain/auth_status.dart';
 import 'package:app_leitura/features/account/presentation/account_block.dart';
 import 'package:app_leitura/features/account/presentation/onboarding_screen.dart';
 import 'package:app_leitura/features/account/presentation/sign_in_screen.dart';
+import 'package:app_leitura/features/billing/application/billing_controller.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +25,7 @@ import '../../support/canvas.dart';
 import '../../support/load_fonts.dart';
 import '../../support/personal_builders.dart';
 import '../../support/pump_app.dart';
+import '../billing/support/billing_fakes.dart' show BillingFalso, proDaLoja;
 import 'support/account_fakes.dart';
 import 'support/account_finders.dart';
 import 'support/fake_backend.dart';
@@ -173,6 +175,23 @@ void main() {
     },
   );
 
+  testWidgets('G22: o convidado não ganha nada do Pro no bloco (R1)', (
+    tester,
+  ) async {
+    await abrirPerfil(
+      tester,
+      AccountHarness(),
+      extras: [
+        billingControllerProvider.overrideWith(
+          () => BillingFalso(const ProUnavailable()),
+        ),
+      ],
+    );
+    expect(botao('Entrar ou criar conta'), findsOneWidget);
+    expect(botao('Restaurar compras'), findsNothing);
+    expect(textoComecando('Plano'), findsNothing);
+  });
+
   group('com conta', () {
     AccountHarness logado() {
       final x = AccountHarness(
@@ -219,6 +238,27 @@ void main() {
         texto('Sem conexão: 3 alterações esperando para ir à nuvem.'),
         findsOneWidget,
       );
+    });
+
+    testWidgets('G22 (D-231): o Pro no bloco da conta, abaixo do indicador', (
+      tester,
+    ) async {
+      await abrirPerfil(
+        tester,
+        logado(),
+        extras: [
+          billingControllerProvider.overrideWith(
+            () => BillingFalso(ProReady(customer: proDaLoja, serverPro: true)),
+          ),
+        ],
+      );
+      expect(texto('@ana.lima'), findsOneWidget);
+      expect(
+        texto('Pro até 12/11/2026 · renova automaticamente'),
+        findsOneWidget,
+      );
+      expect(botao('Restaurar compras'), findsOneWidget);
+      expect(botao('Gerenciar assinatura'), findsOneWidget);
     });
 
     testWidgets('G06: sair com alterações não enviadas avisa antes de apagar', (

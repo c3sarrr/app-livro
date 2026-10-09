@@ -8,6 +8,7 @@ import '../../../app/routes.dart';
 import '../application/account_controller.dart';
 import '../domain/account_failure.dart';
 import 'account_widgets.dart';
+import 'pro_rows.dart';
 import 'sync_indicator.dart';
 
 enum _Confirm { none, signOut, delete, eraseHidden }
@@ -180,6 +181,8 @@ class _AccountBlockState extends ConsumerState<AccountBlock> {
       else
         AccountText(m.problem?.message ?? 'Carregando a conta…', muted: true),
       const SyncIndicator(),
+      // G22 (D-231): o Pro (o estado, restaurar e gerenciar) até o design do Perfil
+      const ProRows(),
       if (m.needsOnboarding)
         AccountButton(
           'Concluir cadastro',

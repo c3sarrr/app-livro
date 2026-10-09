@@ -49,6 +49,9 @@ final class ProReady extends ProView {
   /// O aviso da última ação (a pílula); a tela o limpa depois de mostrar.
   final String? notice;
 
+  /// O aviso é de falha (a tela o mostra como erro).
+  bool get noticeIsError => notice == offlineNotice || notice == failedNotice;
+
   ProReady copyWith({
     ProCustomer? customer,
     bool? serverPro,
@@ -75,6 +78,9 @@ final class ProReady extends ProView {
 
 /// R2: as esperas entre as conferências no servidor (≈ 60 s ao todo).
 const activationBackoff = [1, 2, 4, 8, 16, 29];
+
+const offlineNotice = 'Sem conexão. Tente de novo.';
+const failedNotice = 'Não deu certo. Tente de novo.';
 
 const notConfirmedNotice =
     'O Pro ainda não chegou ao servidor. A sincronização liga assim que ele confirmar.';
@@ -247,9 +253,6 @@ class BillingController extends Notifier<ProView> {
 
   // ------------------------------------------------------------------ as ações (R3, R5, R6)
 
-  static const _offline = 'Sem conexão. Tente de novo.';
-  static const _failed = 'Não deu certo. Tente de novo.';
-
   /// Uma ação por vez, só com conta (R1) e a loja pronta.
   Future<void> _action(Future<void> Function(String user) run) async {
     final user = _user;
@@ -291,9 +294,9 @@ class BillingController extends Notifier<ProView> {
     } on AlreadySubscribed {
       await _restore(user);
     } on BillingOffline {
-      _notice(user, _offline);
+      _notice(user, offlineNotice);
     } on BillingFailure {
-      _notice(user, _failed);
+      _notice(user, failedNotice);
     }
   });
 
@@ -311,9 +314,9 @@ class BillingController extends Notifier<ProView> {
         _notice(user, 'Nenhuma assinatura encontrada nesta conta da loja.');
       }
     } on BillingOffline {
-      _notice(user, _offline);
+      _notice(user, offlineNotice);
     } on BillingFailure {
-      _notice(user, _failed);
+      _notice(user, failedNotice);
     }
   }
 
@@ -332,7 +335,7 @@ class BillingController extends Notifier<ProView> {
     }
     _notice(
       user,
-      manageInstruction(ref.read(billingPlatformProvider)) ?? _failed,
+      manageInstruction(ref.read(billingPlatformProvider)) ?? failedNotice,
     );
   });
 
