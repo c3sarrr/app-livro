@@ -178,6 +178,14 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   /// G18: a assinatura das notas à mão do livro com que o documento foi paginado (muda → repagina).
   String _notesSignature = '';
 
+  /// G18: a repaginação pelos espaços em curso, e se uma ficou esperando o modo anotação sair (ele mostra a página
+  /// congelada: repaginar no meio mataria a página dele).
+  Future<void>? _respacing;
+  bool _respacePending = false;
+
+  /// A 1ª leitura da tinta do livro (o modo anotação espera por ela: as notas e os desenhos da página).
+  Future<void>? _inkLoading;
+
   /// O modo anotação (tela 22 — G16): a sessão sobre o retrato da página. [_annOpen] fica `false` enquanto a camada
   /// sai (o texto sobe 30 px); [_annStarting] e [_annSaving] seguram toques repetidos.
   _Annotating? _ann;
@@ -359,11 +367,12 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     // capítulo repagina
     final ink = _ink;
     _notesSignature = '';
+    _respacePending = false;
     if (doc case final SpacedDocument spaced when ink != null) {
       spaced.spaces = ink.cutsOf;
       ink.addListener(() => _inkChanged(ink, spaced));
     }
-    unawaited(_ink?.load());
+    _inkLoading = _ink?.load();
     _chrome = ReaderChrome(
       db: c.deps.db,
       userBookId: widget.bookId,
@@ -436,9 +445,36 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final signature = ink.notesSignature;
     if (signature != _notesSignature) {
       _notesSignature = signature;
-      unawaited(doc.respace());
+      // com o modo anotação na tela (ou abrindo), espera ele sair
+      if (_ann != null || _annStarting) {
+        _respacePending = true;
+      } else {
+        _respace(doc);
+      }
     }
     if (mounted) setState(() {});
+  }
+
+  void _respace(SpacedDocument doc) {
+    final c = _c;
+    if (c == null) return;
+    _respacePending = false;
+    final r = _respacing = c.respace(doc);
+    unawaited(
+      r.whenComplete(() {
+        if (identical(_respacing, r)) _respacing = null;
+      }),
+    );
+  }
+
+  /// O modo saiu: a repaginação que esperava por ele.
+  void _respaceIfPending() {
+    if (!_respacePending) return;
+    if (_doc case final SpacedDocument doc) {
+      _respace(doc);
+    } else {
+      _respacePending = false;
+    }
   }
 
   /// D-184: o toque na faixa de uma nota recolhida a abre (grava o recolhida; o capítulo repagina).
@@ -838,6 +874,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     }
     _annStarting = true;
     try {
+      // a tinta do livro lida e a repaginação pelos espaços acabada: a página do modo é a de agora, com as notas
+      await _inkLoading;
+      final respacing = _respacing;
+      if (respacing != null) await respacing;
       final owner = await c.deps.owner();
       final store = PenPresetsStore(
         c.deps.db,
@@ -891,25 +931,27 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
         highlights: highlightAreasOn(page, highlights, inkHighlights),
         pageSource: pageSource,
         page: page,
-        // as notas à mão da página e os espaços do resto do capítulo (o layout de baixo os leva em conta)
+        // as notas à mão do item da página (as que a página mostra e as que o leitor passou para outra — R12: no modo,
+        // o espaço fica no pé — R3) e os espaços do resto do capítulo (o layout de baixo os leva em conta)
         notes: [
           if (pageSource != null)
-            for (final n in ink.notesOn(page))
-              SessionNote(
-                id: n.id,
-                unit: n.unit,
-                at: n.at,
-                lines: n.lines,
-                collapsed: n.collapsed,
-                strokes: [for (final x in n.strokes) SessionStroke(0, x)],
-                createdAt: n.createdAt,
-                saved: (
-                  layerId: n.id,
-                  annotationId: n.annotationId,
+            for (final n in ink.notes)
+              if (n.unit == shown.unit)
+                SessionNote(
+                  id: n.id,
+                  unit: n.unit,
+                  at: n.at,
+                  lines: n.lines,
+                  collapsed: n.collapsed,
+                  strokes: [for (final x in n.strokes) SessionStroke(0, x)],
                   createdAt: n.createdAt,
-                  groupId: n.groupId,
+                  saved: (
+                    layerId: n.id,
+                    annotationId: n.annotationId,
+                    createdAt: n.createdAt,
+                    groupId: n.groupId,
+                  ),
                 ),
-              ),
         ],
         otherCuts: spaced == null
             ? const []
@@ -953,6 +995,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       c.deps.onError(e, st);
     } finally {
       _annStarting = false;
+      // o modo não abriu: a repaginação que esperava por ele vai agora
+      if (_ann == null) _respaceIfPending();
     }
   }
 
@@ -996,6 +1040,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     setState(() => _ann = null);
     a.session.dispose();
     a.pageSource?.dispose();
+    _respaceIfPending();
     _holdBack();
     _systemUi(
       immersive:

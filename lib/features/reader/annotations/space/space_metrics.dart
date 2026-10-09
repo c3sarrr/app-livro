@@ -18,6 +18,10 @@ const double openerMarginBottom = 24;
 /// A faixa recolhida (D-184): a altura de uma linha do texto, com margens 10/10.
 const double stripMargin = 10;
 
+/// A borda tracejada da caixa e da faixa: as peças e a tinta se medem por dentro dela (o `position: absolute` do
+/// arquivo).
+const double noteBorder = 1.5;
+
 /// D-41: de 1 a 12 linhas.
 const int minSpaceLines = 1;
 const int maxSpaceLines = 12;
@@ -49,9 +53,9 @@ List<double> noteRulesY(int n) => [
   for (var k = 1; k < n; k++) noteFirstRuleTop + noteLinePx * k,
 ];
 
-/// D-186: as linhas da menor caixa que contém a tinta que desce até [inkBottom] (px a partir do topo da caixa).
+/// D-186: as linhas da menor caixa que contém a tinta que desce até [inkBottom] (px a partir do topo da caixa por
+/// dentro da borda — onde a tinta vive): a de n linhas tem 42·n + 24 − 2·1,5 por dentro.
 int linesForInk(double inkBottom) =>
-    ((inkBottom - noteFirstRuleTop) / noteLinePx - 1e-9).ceil().clamp(
-      minSpaceLines,
-      maxSpaceLines,
-    );
+    ((inkBottom - (noteBoxExtra - 2 * noteBorder)) / noteLinePx - 1e-9)
+        .ceil()
+        .clamp(minSpaceLines, maxSpaceLines);

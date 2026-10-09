@@ -22,6 +22,7 @@ import 'package:app_leitura/features/reader/layout/display_page.dart';
 import 'package:app_leitura/features/reader/layout/space_cut.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_canvas.dart';
 import 'package:app_leitura/features/reader/presentation/annotation_mode.dart';
+import 'package:app_leitura/features/reader/presentation/hand_note.dart';
 import 'package:app_leitura/features/reader/presentation/ink_latency_meter.dart';
 import 'package:app_leitura/features/reader/presentation/space_opener.dart';
 import 'package:app_leitura/features/reader/presentation/tool_shelf.dart';
@@ -129,6 +130,12 @@ final class _Fonte implements AnnotationPageSource {
     paginas.add(p);
     return p;
   }
+
+  @override
+  ({DisplayPage page, void Function() dispose})? tallPageWith(
+    List<SpaceCut> cuts,
+    double extra,
+  ) => null;
 
   @override
   List<PageHighlight> highlightsOn(DisplayPage page) => const [];
@@ -729,6 +736,77 @@ void main() {
         expect(find.byType(SpaceOpener), findsNothing);
         expect(sessao.notes.single.lines, 3);
         expect(sessao.tool, AnnotationTool.pen);
+      },
+    );
+
+    testWidgets(
+      'com o Espaço ativo, o poço abre o painel da última ferramenta de tinta (§3); o Espaço continua',
+      (tester) async {
+        await montar(tester, fonte: _Fonte());
+        await tester.tap(chave('ann.toolShelf.space'));
+        await tester.pump();
+        await tester.tap(chave('ann.island.colorWell'));
+        await tester.pumpAndSettle();
+        expect(sessao.panel.value, (
+          kind: PanelKind.pen,
+          from: AnnotationTool.pen,
+        ));
+        expect(sessao.tool, AnnotationTool.space);
+      },
+    );
+
+    testWidgets(
+      'na volta do batente, os controles das notas e o abridor andam com a página pintada (D-165)',
+      (tester) async {
+        await montar(tester, fonte: _Fonte());
+        double dy() =>
+            tester.widget<HandNoteLayer>(find.byType(HandNoteLayer)).dy;
+        final a = await tester.startGesture(const Offset(100, 400));
+        final b = await tester.startGesture(const Offset(200, 400));
+        await a.moveBy(const Offset(0, 90));
+        await b.moveBy(const Offset(0, 90));
+        await tester.pump();
+        final puxado = dy();
+        expect(puxado, greaterThan(30));
+        await a.up();
+        await b.up();
+        await tester.pump();
+        expect(sessao.panOffset, 0);
+        expect(
+          dy(),
+          closeTo(puxado, 1e-9),
+          reason: 'a volta começa de onde estava',
+        );
+        await tester.pump(const Duration(milliseconds: 110));
+        expect(dy(), allOf(greaterThan(30), lessThan(puxado)));
+        await tester.pump(const Duration(milliseconds: 120));
+        expect(dy(), 30);
+      },
+    );
+
+    testWidgets(
+      'a página sobe com 2 dedos até o pé da nota que passa da borda de mesa (D-165, R3)',
+      (tester) async {
+        await montar(tester, fonte: _Fonte());
+        await tester.tap(chave('ann.toolShelf.space'));
+        await tester.pump();
+        sessao
+          ..pointerDown(dedo(fresta + 2, 0))
+          ..pointerMove(dedo(fresta + 20, 8))
+          ..pointerMove(dedo(topo + 3 * 35.25 - 2 + 30, 16))
+          ..pointerUp(dedo(topo + 3 * 35.25 + 30, 32));
+        await tester.pump();
+        final id = sessao.notes.single.id;
+        sessao
+          ..dragNoteHandle(id, 42 * 9)
+          ..endNoteHandle(id);
+        await tester.pump();
+        expect(sessao.notes.single.lines, 12);
+        expect(sessao.contentBottom, closeTo(109.25 + 42 * 12 + 80, 1e-9));
+        expect(
+          sessao.panLimit,
+          closeTo(109.25 + 42 * 12 + 80 + 30 - (844 - deskEdgeHeight), 1e-9),
+        );
       },
     );
 

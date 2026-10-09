@@ -260,8 +260,9 @@ void main() {
         after: antes.copyWith(lines: 5, collapsed: true),
       )..apply(c);
       expect((c.note('nova')!.lines, c.note('nova')!.collapsed), (5, true));
-      final escrever = AddNoteStroke('nova', n(20))..apply(c);
-      expect(c.note('nova')!.strokes.map((s) => s.id), [20]);
+      // o traço recortado na borda pode virar mais de um pedaço (R6): um passo só
+      final escrever = AddNoteStroke('nova', [n(20), n(21)])..apply(c);
+      expect(c.note('nova')!.strokes.map((s) => s.id), [20, 21]);
       expect(c.noteOfStroke(20), 'nova');
       escrever.revert(c);
       expect(c.note('nova')!.strokes, isEmpty);
@@ -332,7 +333,7 @@ void main() {
             order: 3,
           ),
         )
-        ..push(AddNoteStroke('salva', n(12)));
+        ..push(AddNoteStroke('salva', [n(12)]));
       h.undo(); // a nota
       ({double dx, double dy})? desloca(String id, List<SessionStroke> _) =>
           id == 'camada-onda' || id == 'movido' ? (dx: 0, dy: 100) : null;

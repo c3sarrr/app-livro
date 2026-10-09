@@ -14,9 +14,12 @@
 // - 2 dedos: a página sobe e desce, com o batente (D-165); ao soltar, volta para dentro dos limites (a tela anima).
 // - G18: o Espaço (R1–R9) — o dedo entre as linhas abre o abridor (a costura depois da frase — D-181), o arrasto
 //   conta as linhas (1–12 — D-41) e, ao soltar, nasce a nota à mão aberta e a Caneta volta (D-187). A página do modo
-//   é refeita com os espaços (`AnnotationPageSource` — R3) e cada desenho anda com as palavras dele. O traço que
-//   começa dentro da caixa é da nota (R6, unidade da nota); a alça (D-186), recolher (D-184) e apagar (D-185) são
-//   passos do desfazer. Sem a fonte da página, o Espaço não abre (como antes, D-163).
+//   é refeita com os espaços (`AnnotationPageSource` — R3; o espaço que não cabe fica no pé dela, e a página sobe com
+//   2 dedos até ele) e cada desenho anda com as palavras dele — também os que passam do pé, escondidos (pela página
+//   mais alta), e o Concluir os ancora nelas. O traço que começa dentro da caixa é da nota (R6, unidade da nota),
+//   recortado na borda; o Laço dela move só dentro dela; a nota cheia (256 KiB) não leva mais tinta. A alça (D-186),
+//   recolher (D-184) e apagar (D-185) são passos do desfazer (outro passo no meio do arrasto da alça o acaba). Sem a
+//   fonte da página, o Espaço não abre (como antes, D-163).
 // - G17: os ajustes da caneta e do marca-texto (telas 23 e 23b) gravam o `pen_presets` na hora; os arrastos, ao soltar
 //   (R6); as favoritas (D-175); a cor de cada ferramenta e o painel aberto (R1, R2, R4).
 // - O Concluir grava as mudanças da sessão numa transação: os desenhos novos e mudados com a âncora refeita sobre o
@@ -85,6 +88,10 @@ typedef SpaceOpening = ({SpaceSeam seam, int lines, InkOffset finger});
 
 /// O dedo precisa andar isto (px) para o abridor aparecer: um toque sem arrastar não abre nada (R2).
 const double spaceDragSlop = 8;
+
+/// O limite dos 2 dedos (D-165) com o fim da página em [bottom] (na tela) e a borda de mesa em [deskTop].
+double _limitOf(double bottom, double deskTop) =>
+    panLimit(lastLineBottom: bottom, deskTop: deskTop);
 
 /// O painel de ajustes aberto (telas 23 e 23b — G17).
 enum PanelKind { pen, marker }
@@ -263,10 +270,29 @@ final class AnnotationSession extends ChangeNotifier {
       HighlightDesk(List.unmodifiable(deskHighlights ?? const [])),
       pageNotes,
     );
-    _cutsSignature = _baseSignature = spaceSignature(_cuts());
-    _basePage = _page;
+    _cutsSignature = _baseSignature = _signatureOf(_cuts());
+    // a página do leitor sem o espaço de uma nota dela (o leitor o passou para a seguinte — R12): no modo o espaço
+    // fica no pé (R3), e a página do modo é refeita já
+    final start = _page;
+    final shown = start?.shown;
+    final missing =
+        start != null &&
+        shown != null &&
+        pageNotes.any(
+          (n) =>
+              n.unit == shown.unit &&
+              n.at > shown.from &&
+              n.at <= shown.to &&
+              !spacesOf(start).any((s) => s.id == n.id),
+        );
+    _basePage = missing ? null : start;
+    _anchorGeometry = _geometry;
     _initialDesk = _copy.desk;
     _history = InkHistory(_copy);
+    if (missing) {
+      _cutsSignature = '';
+      _relayoutIfNeeded();
+    }
     live.addListener(() {
       liveMarker.value = switch (live.value) {
         LiveMarker(:final stroke) => stroke,
@@ -336,13 +362,20 @@ final class AnnotationSession extends ChangeNotifier {
   final Set<String> _managed = {};
   final Map<String, SessionNote> _initialNotes = {};
 
-  /// A assinatura dos espaços da página de agora (refaz a página quando ela muda).
+  /// A assinatura dos espaços da página de agora, com quem é cada um (refaz a página quando ela muda).
   String _cutsSignature = '';
 
-  /// A página com que a sessão começou e os espaços dela: sem mudança de espaço, é ela que o modo mostra (a de hoje —
-  /// as telas 22 e 23 não mudam).
+  /// A página com que a sessão começou e os espaços dela: sem mudança de espaço (os mesmos, das mesmas notas), é ela
+  /// que o modo mostra (a de hoje — as telas 22 e 23 não mudam).
   late final DisplayPage? _basePage;
   late final String _baseSignature;
+
+  /// As linhas da página do modo com as que passaram do pé da tela (a mesma página, mais alta): os desenhos cujas
+  /// palavras desceram além do pé andam com elas, escondidos, e o Concluir os ancora nelas (R3).
+  late InkPageGeometry _anchorGeometry;
+
+  /// Os desenhos cujas palavras estão além do pé da tela: não aparecem nem são alcançados (R3).
+  Set<String> _offPage = const {};
 
   /// O arrasto do Espaço: a fresta, onde o dedo começou e se o abridor já apareceu.
   SpaceSeam? _seam;
@@ -413,8 +446,20 @@ final class AnnotationSession extends ChangeNotifier {
   double _panOffset = 0;
   bool _panning = false;
 
-  /// Quanto a página pode subir (a tela calcula: a última linha passando da borda de mesa — D-165).
-  double panLimit = 0;
+  /// O topo da borda de mesa na tela (a tela informa): com ele, o limite da página sai da página de agora — a nota que
+  /// cresce além do pé da tela também sobe (G18, R3).
+  double? deskTop;
+  double _panLimit = 0;
+
+  /// Quanto a página pode subir: até o fim dela (a última linha ou o pé da última nota) passar do topo da borda de
+  /// mesa (D-165); sem a borda, o que foi dado.
+  double get panLimit {
+    final top = deskTop;
+    if (top == null) return _panLimit;
+    return _limitOf(contentBottom + textShift, top);
+  }
+
+  set panLimit(double v) => _panLimit = v;
 
   bool _failed = false;
   bool _saving = false;
@@ -468,9 +513,10 @@ final class AnnotationSession extends ChangeNotifier {
         : const <int>{};
     return [
       for (final d in _copy.drawings)
-        for (final s in d.strokes)
-          if (!_pendingStrokes.contains(s.id) && !moving.contains(s.id))
-            s.stroke,
+        if (!_offPage.contains(d.id))
+          for (final s in d.strokes)
+            if (!_pendingStrokes.contains(s.id) && !moving.contains(s.id))
+              s.stroke,
     ];
   }
 
@@ -505,6 +551,19 @@ final class AnnotationSession extends ChangeNotifier {
       else
         n,
   ];
+
+  /// Até onde a página do modo vai: a base da última linha ou o pé do último espaço (a nota que passa do pé da tela
+  /// — R3); a página sobe com 2 dedos até ele passar do topo da borda de mesa (D-165).
+  double get contentBottom {
+    var bottom = _geometry.lines.isEmpty ? 0.0 : _geometry.lines.last.bottom;
+    final page = _page;
+    if (page != null) {
+      for (final s in spacesOf(page)) {
+        bottom = math.max(bottom, s.rect.bottom);
+      }
+    }
+    return bottom;
+  }
 
   /// O bloco de [id] na página do modo (com as margens), ou `null`.
   Rect? _blockOf(String id) {
@@ -622,22 +681,55 @@ final class AnnotationSession extends ChangeNotifier {
     ];
   }
 
-  /// Os espaços mudaram: a página do modo é refeita e cada desenho anda com as palavras dele (R3).
+  /// A assinatura dos espaços [cuts] com a nota de cada um: a mesma âncora e altura de outra nota não é a mesma
+  /// página (o espaço leva o id dela).
+  static String _signatureOf(List<SpaceCut> cuts) =>
+      ([...cuts]..sort(
+            (a, b) =>
+                a.at != b.at ? a.at.compareTo(b.at) : a.id.compareTo(b.id),
+          ))
+          .map((c) => '${c.id}@${c.at}:${c.height.toStringAsFixed(2)}')
+          .join(',');
+
+  /// Os espaços mudaram: a página do modo é refeita e cada desenho anda com as palavras dele (R3) — também os que
+  /// passam do pé da tela (pela mesma página mais alta: até a soma dos espaços e uma linha a mais por espaço).
   void _relayoutIfNeeded() {
     final source = pageSource;
     if (source == null) return;
     final cuts = _cuts();
-    final signature = spaceSignature(cuts);
+    final signature = _signatureOf(cuts);
     if (signature == _cutsSignature) return;
     _cutsSignature = signature;
     final base = _basePage;
     final next = base != null && signature == _baseSignature
         ? base
         : source.pageWith(cuts);
-    final old = _geometry;
+    var extra = (cuts.length + 1) * _lineHeight;
+    for (final c in cuts) {
+      extra += c.height;
+    }
+    final tall = source.tallPageWith(cuts, extra);
+    final where = tall?.page ?? next;
+    // onde cada desenho se prendia: nas linhas da tela; os escondidos, nas de baixo do pé
+    final oldVisible = _geometry;
+    final oldTall = _anchorGeometry;
+    final oldOff = _offPage;
+    final places = <String, ({int unit, DrawingPlace place})?>{};
+    ({int unit, DrawingPlace place})? placeBefore(
+      String id,
+      List<SessionStroke> strokes,
+    ) => places.putIfAbsent(id, () {
+      if (strokes.isEmpty) return null;
+      final g = oldOff.contains(id) ? oldTall : oldVisible;
+      final p = placeDrawing(
+        drawingBox([for (final s in strokes) s.stroke]),
+        g,
+      );
+      return p == null ? null : (unit: g.lines[p.line].unit, place: p);
+    });
     final shifts = <String, ({double dx, double dy})?>{};
     ({double dx, double dy})? shift(String id, List<SessionStroke> strokes) =>
-        shifts.putIfAbsent(id, () => _shiftOf(strokes, old, next));
+        shifts.putIfAbsent(id, () => _shiftOf(placeBefore(id, strokes), where));
     _copy.remap(shift);
     _history.remap(shift);
     for (final e in _initialStrokes.entries.toList()) {
@@ -650,25 +742,27 @@ final class AnnotationSession extends ChangeNotifier {
     }
     _page = next;
     _geometry = inkGeometryOf(next);
+    _anchorGeometry = tall == null ? _geometry : inkGeometryOf(tall.page);
+    tall?.dispose();
+    // os desenhos cujas palavras não estão mais na tela (passaram do pé)
+    _offPage = {
+      for (final d in _copy.drawings)
+        if (places[d.id] case (:final unit, :final place))
+          if (next.boxesOf(unit, place.from, place.to).isEmpty) d.id,
+    };
     _highlights = List.unmodifiable(source.highlightsOn(next));
     selection.value = null;
     _repaint();
   }
 
-  /// O deslocamento de um desenho: o trecho dele na página velha (`placeDrawing`) e o mesmo trecho na nova — mesma
-  /// letra, mesmo trecho: só anda.
+  /// O deslocamento de um desenho: o trecho dele na página velha ([at], de `placeDrawing`) e o mesmo trecho na nova
+  /// [next] — mesma letra, mesmo trecho: só anda.
   static ({double dx, double dy})? _shiftOf(
-    List<SessionStroke> strokes,
-    InkPageGeometry old,
+    ({int unit, DrawingPlace place})? at,
     DisplayPage next,
   ) {
-    if (strokes.isEmpty) return null;
-    final place = placeDrawing(
-      drawingBox([for (final s in strokes) s.stroke]),
-      old,
-    );
-    if (place == null) return null;
-    final unit = old.lines[place.line].unit;
+    if (at == null) return null;
+    final (:unit, :place) = at;
     final frame = placedFrame([
       for (final b in next.boxesOf(unit, place.from, place.to))
         (
@@ -683,6 +777,10 @@ final class AnnotationSession extends ChangeNotifier {
     final dy = frame.baseline - place.frame.baseline;
     return dx == 0 && dy == 0 ? null : (dx: dx, dy: dy);
   }
+
+  /// [v] entre [lo] e [hi] (sem limite quando a faixa não existe — a seleção maior que a caixa).
+  static double _within(double v, double lo, double hi) =>
+      lo > hi ? v : v.clamp(lo, hi).toDouble();
 
   /// R7 (D-186): a alça da nota [id] andou [dy] px desde o toque: as linhas mudam de 42 em 42, de 1 a 12, sem subir
   /// além da última linha escrita; a página acompanha.
@@ -1009,7 +1107,16 @@ final class AnnotationSession extends ChangeNotifier {
         }
         final from = _moveFrom!;
         final wasDragging = sel.dragging;
-        selection.value = sel.movedBy(at.x - from.x, at.y - from.y);
+        var dx = at.x - from.x;
+        var dy = at.y - from.y;
+        // R6: a tinta da nota anda só dentro da caixa
+        final frame = sel.note == null ? null : noteInkFrame(sel.note!);
+        if (frame != null) {
+          final b = sel.bounds;
+          dx = _within(dx, frame.left - b.left, frame.right - b.right);
+          dy = _within(dy, frame.top - b.top, frame.bottom - b.bottom);
+        }
+        selection.value = sel.movedBy(dx, dy);
         if (wasDragging != selection.value!.dragging) _repaint();
       case null:
         break;
@@ -1177,7 +1284,22 @@ final class AnnotationSession extends ChangeNotifier {
       _addStroke(s);
       return;
     }
-    _push(AddNoteStroke(note, SessionStroke(_nextStroke++, toNote(s, box))));
+    // recortado na borda; a nota que passaria do teto da camada (256 KiB) não leva mais tinta
+    final pieces = [for (final p in clipToFrame(s, box)) toNote(p, box)];
+    final n = _copy.note(note);
+    if (pieces.isEmpty ||
+        n == null ||
+        !fitsBnk1([
+          for (final x in n.strokes) x.stroke,
+          ...pieces,
+        ], Bnk1Unit.box)) {
+      return;
+    }
+    _push(
+      AddNoteStroke(note, [
+        for (final p in pieces) SessionStroke(_nextStroke++, p),
+      ]),
+    );
   }
 
   /// R20: a largura do marca-texto = a faixa da altura escolhida na letra da linha mais perto do toque.
@@ -1275,7 +1397,10 @@ final class AnnotationSession extends ChangeNotifier {
 
   /// O traço [s] entra no desenho que ele toca (D-162) ou começa outro; o desenho que passaria de 256 KiB fecha.
   void _addStroke(InkStroke s) {
-    final drawings = _copy.drawings.toList();
+    final drawings = [
+      for (final d in _copy.drawings)
+        if (!_offPage.contains(d.id)) d,
+    ];
     final touched = touchedDrawing(strokeBox(s), [
       for (final d in drawings)
         (
@@ -1320,6 +1445,7 @@ final class AnnotationSession extends ChangeNotifier {
   void _eraseAlong(InkOffset a, InkOffset b) {
     var changed = false;
     for (final d in _copy.drawings) {
+      if (_offPage.contains(d.id)) continue;
       for (final s in d.strokes) {
         if (_pendingStrokes.contains(s.id)) continue;
         if (eraserTouchesStroke(a, b, s.stroke)) {
@@ -1423,6 +1549,7 @@ final class AnnotationSession extends ChangeNotifier {
       return;
     }
     for (final d in _copy.drawings) {
+      if (_offPage.contains(d.id)) continue;
       for (final s in d.strokes) {
         if (lassoSelects(s.stroke, polygon)) {
           picked.add(s.id);
@@ -1603,6 +1730,8 @@ final class AnnotationSession extends ChangeNotifier {
 
   void _changed() {
     _unsaved = true;
+    // um passo no meio de um arrasto da alça (outro dedo recolheu, apagou, desfez): o arrasto acaba ali
+    _handleDrag = null;
     _relayoutIfNeeded();
     final sel = selection.value;
     if (sel != null && sel.note != null) {
@@ -1629,10 +1758,11 @@ final class AnnotationSession extends ChangeNotifier {
 
   // ---- o que o Concluir grava -----------------------------------------------------------------------------------
 
-  /// A linha da página que contém o caractere [offset] do item [unit].
+  /// A linha da página que contém o caractere [offset] do item [unit] (com as de além do pé, que vêm depois — R3).
   int? _lineOf(int unit, int offset) {
-    for (var i = 0; i < geometry.lines.length; i++) {
-      final l = geometry.lines[i];
+    final g = _anchorGeometry;
+    for (var i = 0; i < g.lines.length; i++) {
+      final l = g.lines[i];
       if (l.unit == unit && offset >= l.from && offset < l.to) return i;
     }
     return null;
@@ -1641,8 +1771,9 @@ final class AnnotationSession extends ChangeNotifier {
   /// G18: a linha onde a âncora [at] de [unit] está (a de cima da costura): a última que começa antes dela.
   int? _lineAbove(int unit, int at) {
     int? found;
-    for (var i = 0; i < geometry.lines.length; i++) {
-      final l = geometry.lines[i];
+    final g = _anchorGeometry;
+    for (var i = 0; i < g.lines.length; i++) {
+      final l = g.lines[i];
       if (l.unit == unit && l.from < at) found = i;
     }
     return found;
@@ -1671,9 +1802,11 @@ final class AnnotationSession extends ChangeNotifier {
       if (saved != null && listEquals(strokes, _initialStrokes[d.id])) {
         continue;
       }
-      final place = placeDrawing(drawingBox(strokes), geometry);
+      // o escondido além do pé: pelas linhas de baixo (as palavras dele — R3)
+      final g = _offPage.contains(d.id) ? _anchorGeometry : geometry;
+      final place = placeDrawing(drawingBox(strokes), g);
       if (place == null) continue;
-      final unit = geometry.lines[place.line].unit;
+      final unit = g.lines[place.line].unit;
       final text = anchors.textOf(unit);
       if (text == null) continue;
       final where = anchors.placeOf(unit, place.from);

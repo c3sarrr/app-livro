@@ -67,6 +67,59 @@ void main() {
     expect(minLinesFor(const []), 1);
   });
 
+  test('o traço que sai da caixa é recortado na borda (R6): os pedaços de dentro, com o ponto da borda', () {
+    const quadro = Rect.fromLTWH(29.5, 435.58, 331, 147);
+    InkStroke fino(List<(double, double, double, int)> pts) => InkStroke(
+      tool: InkTool.pen.code,
+      tip: 0,
+      argb: 0xFFFF552E,
+      widthCentiMm: 0,
+      points: [for (final (x, y, p, t) in pts) InkPoint(x, y, p, t)],
+    );
+    // desce e sai pelo pé; volta por baixo, entra, e sai pela direita
+    final r = clipToFrame(
+      fino([
+        (100, 500, 0.2, 0),
+        (100, 620, 0.6, 10),
+        (200, 560, 0.4, 20),
+        (400, 560, 0.8, 30),
+      ]),
+      quadro,
+    );
+    expect(r, hasLength(2));
+    final pe = quadro.bottom;
+    final u = (pe - 500) / 120;
+    expect(r[0].points, hasLength(2));
+    expect(r[0].points[0], const InkPoint(100, 500, 0.2, 0));
+    expect(r[0].points[1].x, closeTo(100, 1e-9));
+    expect(r[0].points[1].y, closeTo(pe, 1e-9));
+    expect(r[0].points[1].pressure, closeTo(0.2 + 0.4 * u, 1e-9));
+    expect(r[0].points[1].tMs, (10 * u).round());
+    final v = (620 - pe) / 60;
+    expect(r[1].points, hasLength(3));
+    expect(r[1].points[0].x, closeTo(100 + 100 * v, 1e-9));
+    expect(r[1].points[0].y, closeTo(pe, 1e-9));
+    expect(r[1].points[1], const InkPoint(200, 560, 0.4, 20));
+    expect(r[1].points[2].x, closeTo(quadro.right, 1e-9));
+    expect(r[1].points[2].y, closeTo(560, 1e-9));
+    // tudo dentro: o mesmo traço; tudo fora: nada; o ponto solto conta pelo lugar dele
+    final dentro = fino([(40, 450, 0.5, 0), (60, 530, 0.5, 8)]);
+    expect(clipToFrame(dentro, quadro), [dentro]);
+    expect(
+      clipToFrame(fino([(10, 10, 0.5, 0), (20, 20, 0.5, 8)]), quadro),
+      isEmpty,
+    );
+    expect(clipToFrame(fino([(40, 450, 0.5, 0)]), quadro), hasLength(1));
+    expect(clipToFrame(fino([(10, 450, 0.5, 0)]), quadro), isEmpty);
+    // com largura: a tinta inteira fica por dentro (a borda menos a metade dela)
+    final grosso = traco([(100, 500), (100, 620)]);
+    final meia = dpOfCentiMm(120) / 2;
+    expect(
+      clipToFrame(grosso, quadro).single.points.last.y,
+      closeTo(pe - meia, 1e-9),
+    );
+  });
+
   test('o traço é da nota quando o 1º ponto cai na caixa (R6)', () {
     expect(startsInside(traco([(30, 440), (30, 300)]), caixa), isTrue);
     expect(startsInside(traco([(30, 300), (30, 440)]), caixa), isFalse);

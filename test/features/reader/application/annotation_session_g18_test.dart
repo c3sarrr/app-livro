@@ -5,6 +5,7 @@
 //   desfazer volta tudo e o desenho salvo intocado não é regravado;
 // - a tinta que começa na caixa é da nota (R6); a alça para na tinta (D-186); recolher; apagar com a pílula (D-185).
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/data/ids/uuid_v7.dart';
@@ -12,6 +13,7 @@ import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_commands.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/annotations/ink/ink_units.dart';
 import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
 import 'package:app_leitura/features/reader/application/annotation_page_source.dart';
@@ -53,14 +55,32 @@ final class _Ancoras implements AnnotationAnchors {
       (refPage: 159, chapterIndex: 31);
 }
 
-/// A página do modo montada de novo com os espaços (alta: o pé da tela).
+/// A página do modo montada de novo com os espaços, até [altura] (2000: o parágrafo inteiro); como a do documento, o
+/// espaço que não cabe fica nela (R3). A alta ([tallPageWith]) é a mesma com mais [altas] px embaixo.
 final class _Fonte implements AnnotationPageSource {
+  _Fonte({this.altura = 2000});
+
+  final double altura;
   final List<List<LaidBlock>> montados = [];
   final List<List<SpaceCut>> pedidos = [];
+  final List<double> altas = [];
 
   @override
   DisplayPage pageWith(List<SpaceCut> cuts) {
     pedidos.add(cuts);
+    return _montar(cuts, altura);
+  }
+
+  @override
+  ({DisplayPage page, void Function() dispose}) tallPageWith(
+    List<SpaceCut> cuts,
+    double extra,
+  ) {
+    altas.add(extra);
+    return (page: _montar(cuts, altura + extra), dispose: () {});
+  }
+
+  PageSnapshot _montar(List<SpaceCut> cuts, double h) {
     final blocks = BlockLayouter(t).layoutAll(
       [
         ParagraphBlock([TextRun(_texto)], BlockStyle.none),
@@ -69,9 +89,13 @@ final class _Fonte implements AnnotationPageSource {
       cuts: cuts,
     );
     montados.add(blocks);
+    final paginas = ChapterPaginator(h, keepSpaces: true);
+    for (final b in blocks) {
+      paginas.add(b);
+    }
     return PageSnapshot(
       spine: _unit,
-      page: paginateChapter(blocks, 2000).first,
+      page: paginas.finish().first,
       blockOf: (b) => blocks[b],
       typography: t,
       item: ParsedItem(
@@ -136,6 +160,7 @@ void main() {
     timers = _Timers();
   });
   tearDown(() => fonte.dispose());
+  _Fonte fontePadrao() => fonte;
 
   /// Onde [trecho] começa no texto (os trechos da D-160 estão com NBSP).
   int onde(String trecho) {
@@ -181,7 +206,9 @@ void main() {
   AnnotationSession abrir({
     List<PageDrawing> Function(DisplayPage p)? desenhos,
     List<SessionNote> notas = const [],
+    _Fonte? daPagina,
   }) {
+    final fonte = daPagina ?? fontePadrao();
     final page = fonte.pageWith([
       for (final n in notas)
         SpaceCut(
@@ -644,6 +671,163 @@ void main() {
       arrastar(s, [p.dy, p.dy], x: p.dx);
       expect(s.notes.single.strokes, isEmpty);
       expect(s.changes().deletedNotes, {'espaco-1'});
+    });
+  });
+
+  group('revisão independente (G18)', () {
+    test('a nota que não cabe no resto da página do modo fica nela (R3); a página sobe até o pé dela (D-165)', () {
+      final y = fresta(abrir());
+      final baixa = _Fonte(altura: y + 100);
+      addTearDown(baixa.dispose);
+      final s = abrir(daPagina: baixa);
+      final nota = abrirNota(s);
+      final caixa = s.noteBox(nota.id);
+      expect(caixa, isNotNull, reason: 'a caixa fica na página do modo');
+      expect(caixa!.top, closeTo(y + noteMarginTop, 1e-3));
+      expect(
+        s.geometry.lines.last.bottom,
+        closeTo(y, 1e-3),
+        reason: 'o texto de baixo saiu até o Concluir',
+      );
+      expect(s.contentBottom, closeTo(y + noteFlowHeight(3), 1e-3));
+    });
+
+    test('a alça em curso acaba com qualquer passo (recolher e abrir): a nota não fica presa nas linhas dela', () {
+      final s = abrir();
+      final nota = abrirNota(s);
+      s.dragNoteHandle(nota.id, 42 * 2);
+      expect(s.notes.single.lines, 5);
+      // outro dedo recolhe e abre no meio do arrasto (a alça sai da tela sem o fim do arrasto)
+      s
+        ..toggleNote(nota.id)
+        ..toggleNote(nota.id);
+      expect(s.notes.single.lines, 3);
+      s.endNoteHandle(nota.id);
+      expect(s.notes.single.lines, 3);
+      expect(s.noteBox(nota.id)!.height, noteBoxHeight(3));
+    });
+
+    test('o desenho cujas palavras passam do pé da tela anda com elas, escondido; o Concluir o ancora nelas (R3)', () {
+      final grande = abrir();
+      final fluido = caixas(grande.page!, 'fluido misterioso').first;
+      final baixa = _Fonte(altura: fluido.rect.bottom + 1);
+      addTearDown(baixa.dispose);
+      final s = abrir(daPagina: baixa);
+      expect(caixas(s.page!, 'fluido misterioso'), isNotEmpty);
+      // um traço novo sobre "fluido misterioso"
+      final y = fluido.baseline - 4;
+      s
+        ..pointerDown(_touch(1, fluido.rect.left, y + 30, 0))
+        ..pointerMove(_touch(1, fluido.rect.left + 40, y + 30, 8))
+        ..pointerMove(_touch(1, fluido.rect.right, y + 30, 16))
+        ..pointerUp(_touch(1, fluido.rect.right, y + 30, 24));
+      expect(s.drawings, hasLength(1));
+      abrirNota(s);
+      expect(
+        caixas(s.page!, 'fluido misterioso'),
+        isEmpty,
+        reason: 'passou do pé',
+      );
+      expect(s.visibleStrokes, isEmpty, reason: 'foi junto, escondido');
+      expect(baixa.altas, isNotEmpty);
+      expect(s.changes().layers.single.range.start, onde('fluido misterioso'));
+      // desfazer a nota: as palavras e o desenho voltam
+      s.undo();
+      expect(s.visibleStrokes.single.points.first.y, closeTo(y, 1e-6));
+    });
+
+    test('apagar a nota salva e abrir outra igual na mesma fresta: a nova tem caixa (a página não volta à de começo)', () {
+      final s = abrir(
+        notas: [
+          SessionNote(
+            id: 'espaco-1',
+            unit: _unit,
+            at: _ancora,
+            lines: 3,
+            collapsed: false,
+            strokes: const [],
+            createdAt: DateTime.utc(2026, 9, 20),
+          ),
+        ],
+      );
+      s.deleteNote('espaco-1');
+      final nova = abrirNota(s);
+      expect(nova.id, isNot('espaco-1'));
+      expect(s.noteBox(nova.id), isNotNull);
+      expect(spacesOf(s.page!).single.id, nova.id);
+    });
+
+    test('a tinta que sai da caixa é recortada na borda (R6): a alça não conta o que não aparece; a Borracha não a '
+        'alcança fora', () {
+      final s = abrir();
+      final nota = abrirNota(s);
+      final caixa = s.noteBox(nota.id)!;
+      final tinta = s.noteInkFrame(nota.id)!;
+      arrastar(s, [caixa.top + 30, caixa.top + 100, caixa.bottom + 200], x: 80);
+      final traco = s.notes.single.strokes.single.stroke;
+      final meia = dpOfCentiMm(traco.widthCentiMm) / 2;
+      for (final p in traco.points) {
+        expect(p.y * noteLinePx + meia, lessThanOrEqualTo(tinta.height + 1e-9));
+      }
+      s.dragNoteHandle(nota.id, 0);
+      expect(s.notes.single.lines, 3, reason: 'a tinta escondida não conta');
+      s.endNoteHandle(nota.id);
+      s.setTool(AnnotationTool.eraser);
+      arrastar(s, [caixa.bottom + 150, caixa.bottom + 151], x: 80);
+      expect(s.notes.single.strokes, hasLength(1));
+    });
+
+    test('o Laço não leva a tinta da nota para fora da caixa (R6)', () {
+      final s = abrir();
+      final nota = abrirNota(s);
+      final caixa = s.noteBox(nota.id)!;
+      final tinta = s.noteInkFrame(nota.id)!;
+      arrastar(s, [caixa.top + 100, caixa.top + 102], x: 100);
+      s.setTool(AnnotationTool.lasso);
+      s.pointerDown(_touch(1, 90, caixa.top + 90 + 30, 0));
+      for (final (x, y) in [(115.0, 90.0), (115.0, 115.0), (90.0, 115.0)]) {
+        s.pointerMove(_touch(1, x, caixa.top + y + 30, 8));
+      }
+      s.pointerUp(_touch(1, 90, caixa.top + 115 + 30, 16));
+      expect(s.selection.value!.note, nota.id);
+      // arrastar 200 px para baixo: para na borda
+      s
+        ..pointerDown(_touch(1, 100, caixa.top + 101 + 30, 20))
+        ..pointerMove(_touch(1, 100, caixa.top + 301 + 30, 28))
+        ..pointerUp(_touch(1, 100, caixa.top + 301 + 30, 36));
+      final traco = s.notes.single.strokes.single.stroke;
+      final meia = dpOfCentiMm(traco.widthCentiMm) / 2;
+      final fundo = traco.points.map((p) => p.y * noteLinePx).reduce(math.max);
+      expect(fundo + meia, closeTo(tinta.height, 1e-6));
+    });
+
+    test('a nota cheia (256 KiB) não aceita mais traços: o Concluir não quebra; nem vira desenho sobre o texto', () {
+      // 65 531 pontos parados: 19 + 4·n bytes = 262 143, 1 a menos que o teto
+      final enorme = InkStroke(
+        tool: InkTool.pen.code,
+        tip: 0,
+        argb: 0xFFFF552E,
+        widthCentiMm: 120,
+        points: List.filled(65531, const InkPoint(0.5, 0.5, 0.5, 0)),
+      );
+      expect(fitsBnk1([enorme], Bnk1Unit.box), isTrue);
+      final s = abrir(
+        notas: [
+          SessionNote(
+            id: 'espaco-1',
+            unit: _unit,
+            at: _ancora,
+            lines: 3,
+            collapsed: false,
+            strokes: [SessionStroke(0, enorme)],
+            createdAt: DateTime.utc(2026, 9, 20),
+          ),
+        ],
+      );
+      final caixa = s.noteBox('espaco-1')!;
+      arrastar(s, [caixa.top + 30, caixa.top + 40], x: 80);
+      expect(s.notes.single.strokes, hasLength(1));
+      expect(s.drawings, isEmpty);
     });
   });
 }

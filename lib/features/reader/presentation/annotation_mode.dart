@@ -142,6 +142,10 @@ class _AnnotationModeState extends State<AnnotationMode>
   );
   OpenPanel? _shown;
 
+  /// O deslocamento dos 2 dedos que o canvas pinta (com a volta do batente): os controles das notas e o abridor
+  /// andam com ele.
+  final ValueNotifier<double> _pan = ValueNotifier(0);
+
   /// O medidor criado aqui (com o define), que o modo liga e desliga.
   final InkLatencyMeter? _ownMeter = inkLatencyMeterOn
       ? InkLatencyMeter()
@@ -189,6 +193,7 @@ class _AnnotationModeState extends State<AnnotationMode>
     _text.dispose();
     _frame.dispose();
     _panel.dispose();
+    _pan.dispose();
     super.dispose();
   }
 
@@ -238,13 +243,14 @@ class _AnnotationModeState extends State<AnnotationMode>
     if (!s.setTool(t)) widget.onSoon();
   }
 
-  /// O poço abre o painel da ferramenta de tinta em uso; com um painel aberto, fecha (R2).
+  /// O poço abre o painel da ferramenta de tinta em uso (com o Espaço, o da última de tinta — G18 §3); com um painel
+  /// aberto, fecha (R2).
   void _well() {
     final s = widget.session;
     if (s.panel.value != null) {
       s.closePanel();
     } else {
-      s.openPanel(s.tool);
+      s.openPanel(s.tool == AnnotationTool.space ? s.inkTool : s.tool);
     }
   }
 
@@ -311,6 +317,7 @@ class _AnnotationModeState extends State<AnnotationMode>
         semanticsLabel: widget.semanticsLabel,
         enter: _enter,
         meter: widget.meter ?? _ownMeter,
+        pan: _pan,
       ),
     );
     return AnimatedBuilder(
@@ -318,6 +325,7 @@ class _AnnotationModeState extends State<AnnotationMode>
         _text,
         _frame,
         _panel,
+        _pan,
         s,
         s.opening,
         s.noteDeleted,
@@ -336,8 +344,9 @@ class _AnnotationModeState extends State<AnnotationMode>
         final openerArea = s.openerArea;
         final deleted = s.noteDeleted.value;
         final night = widget.paper == ReaderPaper.noite;
-        // onde o texto está agora: os 30 px da entrada e o deslocamento dos 2 dedos
-        final textDy = s.textShift * _enter.value + s.panOffset;
+        // onde o texto está agora: os 30 px da entrada e o deslocamento dos 2 dedos (o pintado: na volta do batente,
+        // o mesmo do canvas — D-165)
+        final textDy = s.textShift * _enter.value + _pan.value;
         return IgnorePointer(
           key: const ValueKey('ann.mode'),
           // entrando, saindo ou gravando (o que viesse agora não entraria na gravação)

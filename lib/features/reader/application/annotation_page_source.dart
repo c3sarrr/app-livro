@@ -9,6 +9,13 @@ abstract interface class AnnotationPageSource {
   /// A página com os espaços [cuts] (os da sessão e os do capítulo que ela não mexe).
   DisplayPage pageWith(List<SpaceCut> cuts);
 
+  /// A mesma página com [extra] px a mais embaixo, só para achar onde foram as palavras que passaram do pé da tela
+  /// (os desenhos andam com elas, escondidos — R3); [dispose] logo depois. `null` = sem ela (os desenhos ficam).
+  ({DisplayPage page, void Function() dispose})? tallPageWith(
+    List<SpaceCut> cuts,
+    double extra,
+  );
+
   /// As áreas dos grifos da página [page] (as caixas das letras; a mancha nos à mão de fundo).
   List<PageHighlight> highlightsOn(DisplayPage page);
 

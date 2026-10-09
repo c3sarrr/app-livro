@@ -1,7 +1,8 @@
 // G18 — a página do modo anotação com os espaços (R3): a do documento (o EPUB), refeita a partir do mesmo começo
 // da página congelada até o pé da tela (o que passa fica escondido até o Concluir), e as áreas dos grifos nela (a
 // Borracha). Guarda só as duas últimas páginas montadas (a de agora e a de antes, que a tela ainda pode estar
-// pintando); as outras são descartadas na hora, e o resto quando o modo acaba.
+// pintando); as outras são descartadas na hora, e o resto quando o modo acaba. A página alta (a mesma, com as linhas
+// que passaram do pé) é de quem pede: só para achar as palavras dos desenhos escondidos.
 import '../annotations/domain/annotation.dart' show HighlightStyle;
 import '../annotations/ink/ink_geometry.dart' show InkRect;
 import '../application/annotation_page_source.dart';
@@ -82,6 +83,13 @@ final class ModePageSource implements AnnotationPageSource {
     }
     return made.page;
   }
+
+  @override
+  ({DisplayPage page, void Function() dispose})? tallPageWith(
+    List<SpaceCut> cuts,
+    double extra,
+  ) =>
+      document.pageWithSpaces(base, cuts, contentHeight: contentHeight + extra);
 
   @override
   List<PageHighlight> highlightsOn(DisplayPage page) =>

@@ -23,7 +23,6 @@ import '../../../core/design_system/tokens/app_strokes.dart';
 import '../annotations/ink/gesture_arbiter.dart';
 import '../annotations/ink/ink_geometry.dart' show InkOffset;
 import '../annotations/ink/ink_stroke.dart' show InkStroke;
-import '../annotations/ink/ink_tools.dart' show panLimit;
 import '../application/annotation_session.dart';
 import '../layout/display_page.dart';
 import 'hand_note.dart';
@@ -79,9 +78,15 @@ class AnnotationCanvas extends StatefulWidget {
     this.inkHighlights = const [],
     this.enter = kAlwaysCompleteAnimation,
     this.meter,
+    this.pan,
   });
 
   final AnnotationSession session;
+
+  /// O deslocamento pintado dos 2 dedos (o da sessão; ao soltar além do limite, anima até ele — D-165). Quem monta
+  /// pode dar o dele, para pôr outras coisas no mesmo lugar da página (os controles das notas — G18); sem ele, o
+  /// canvas usa um próprio.
+  final ValueNotifier<double>? pan;
 
   /// O medidor de latência do S4 (só com `--dart-define=BOOKNEST_MEDIR_TINTA=true`): recebe o tempo de cada evento.
   final InkLatencyMeter? meter;
@@ -117,7 +122,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   );
 
   /// O deslocamento pintado (o da sessão; ao soltar fora do limite, anima até ele).
-  final ValueNotifier<double> _pan = ValueNotifier(0);
+  late final ValueNotifier<double> _pan = widget.pan ?? ValueNotifier(0);
   double _backFrom = 0;
   double _backTo = 0;
 
@@ -172,7 +177,7 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   void dispose() {
     widget.session.removeListener(_sessionChanged);
     _back.dispose();
-    _pan.dispose();
+    if (widget.pan == null) _pan.dispose();
     _pictures.dispose();
     _dragged.dispose();
     super.dispose();
@@ -208,14 +213,9 @@ class _AnnotationCanvasState extends State<AnnotationCanvas>
   Widget build(BuildContext context) {
     final s = widget.session;
     final size = MediaQuery.sizeOf(context);
-    // a página sobe até a base da última linha passar do topo da borda de mesa (D-165)
-    final lines = s.geometry.lines;
-    s.panLimit = lines.isEmpty
-        ? 0
-        : panLimit(
-            lastLineBottom: lines.last.bottom + s.textShift,
-            deskTop: size.height - deskEdgeHeight,
-          );
+    // a página sobe até a base da última linha passar do topo da borda de mesa (D-165); G18: com a nota que passa do
+    // pé da tela, até o pé dela (R3) — a sessão calcula com a página de agora
+    s.deskTop = size.height - deskEdgeHeight;
     return Semantics(
       container: true,
       label: widget.semanticsLabel,

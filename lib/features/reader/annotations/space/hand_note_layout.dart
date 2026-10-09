@@ -5,6 +5,8 @@ import 'dart:ui';
 
 import 'space_metrics.dart';
 
+export 'space_metrics.dart' show noteBorder;
+
 /// O abridor: a área, a costura (4 para dentro, 1 acima, 2,5 de altura), as bolinhas de 10 nas pontas, o rastro
 /// (24 de largura, do topo da área até 18 acima da base), o dedo (42, centrado no x dele, na borda de baixo) e o
 /// lugar do chip (a 14 da esquerda, 28 de altura, no meio da área — a largura é a do texto).
@@ -27,9 +29,6 @@ OpenerParts openerLayout(Rect area, double fingerX) => (
   finger: Rect.fromCircle(center: Offset(fingerX, area.bottom), radius: 21),
   chip: Rect.fromLTWH(area.left + 14, area.center.dy - 14, 0, 28),
 );
-
-/// A borda tracejada da caixa e da faixa: as peças se medem por dentro dela (o `position: absolute` do arquivo).
-const double noteBorder = 1.5;
 
 /// A caixa da nota à mão de [lines] linhas [box] (a caixa com a borda, sem as margens). Por dentro da borda: a
 /// etiqueta (a 14 da esquerda, 13 acima; 24 de altura — a largura é a do texto), as pautas (a 12 dos lados, 1,5), os

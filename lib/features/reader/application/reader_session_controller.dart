@@ -755,6 +755,17 @@ class ReaderSessionController extends ChangeNotifier {
     return relayout == null ? null : (relayout: relayout);
   }
 
+  /// G18: repagina [doc] (o livro aberto) com os espaços novos das notas à mão; a falha vai pelo caminho das viradas
+  /// (danificado → o aviso; inesperada → relatada e o aviso), como a dos ajustes.
+  Future<void> respace(SpacedDocument doc) async {
+    if (_closed || _disposed || !identical(_doc, doc)) return;
+    try {
+      await doc.respace();
+    } on Object catch (e, st) {
+      if (identical(_doc, doc)) _navFailed(e, st);
+    }
+  }
+
   /// Repagina [doc] com [t] fora da fila: a mais nova passa na frente e só ela relata falha.
   Future<void> _retype(ReaderDocument doc, ReaderTypography t) {
     final gen = ++_retypes;

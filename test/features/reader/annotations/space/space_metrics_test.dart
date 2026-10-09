@@ -39,12 +39,16 @@ void main() {
     expect(noteRulesY(12), hasLength(11));
   });
 
-  test('linhas escritas (D-186): a menor caixa que contém a tinta', () {
+  test('linhas escritas (D-186): a menor caixa que contém a tinta (por dentro da borda: 42·n + 24 − 3)', () {
     expect(linesForInk(0), 1);
-    expect(linesForInk(64), 1); // até a 1ª pauta
-    expect(linesForInk(64.5), 2);
-    expect(linesForInk(103.2), 2); // a tinta da 24b
-    expect(linesForInk(106.01), 3);
+    expect(
+      linesForInk(63),
+      1,
+    ); // a caixa de 1 linha mede 66 com a borda; a tinta vive em 63
+    expect(linesForInk(63.01), 2);
+    expect(linesForInk(103.2), 2);
+    expect(linesForInk(105), 2);
+    expect(linesForInk(105.01), 3);
     expect(linesForInk(600), 12);
   });
 }

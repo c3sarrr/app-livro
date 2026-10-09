@@ -1321,4 +1321,19 @@ void main() {
       );
     });
   });
+
+  group('G18', () {
+    test('respace: repagina o livro aberto com os espaços; a falha inesperada vai pelo caminho das viradas (relatada, '
+        'o aviso)', () async {
+      final c = await aberto();
+      final d = doc(c) as SpacedDocument;
+      await c.respace(d);
+      expect(c.state, isA<ReaderReady>());
+      expect(h.erros, isEmpty);
+      d.spaces = (spine, t) => throw StateError('espaços');
+      await c.respace(d);
+      expect((c.state as ReaderFailed).failure, ReaderFailure.unexpected);
+      expect(h.erros.single, isA<StateError>());
+    });
+  });
 }

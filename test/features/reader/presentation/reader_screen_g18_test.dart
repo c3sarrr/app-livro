@@ -402,6 +402,77 @@ void main() {
     },
   );
 
+  testWidgets('a nota que o leitor passou para a página seguinte (R12) entra na sessão da página de cima: a caixa no pé '
+      'dela (R3), e a mesma fresta não abre outra (R5)', (tester) async {
+    final s = await espaco(tester);
+    final limpo = _doc(tester).current as PageSnapshot;
+    final fundo = limpo.typography.topInset + limpo.typography.contentHeight;
+    final l = s.geometry.lines.lastWhere(
+      (x) =>
+          x.bottom + s.textShift + 2 < 660 &&
+          x.bottom + noteFlowHeight(3) > fundo,
+    );
+    final nota = await notaComTinta(tester, s, l);
+    await tester.tap(_key('ann.done'));
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    expect(
+      spacesOf(_doc(tester).current).map((x) => x.id),
+      isNot(contains(nota.id)),
+    );
+    // de novo no modo, na mesma página
+    await entrarNoModoAnotacao(tester);
+    final s2 = _sessao(tester);
+    expect(s2.notes.map((n) => n.id), [nota.id]);
+    expect(s2.noteBox(nota.id), isNotNull);
+    await tester.tap(_key('ann.toolShelf.space'));
+    await tester.pump();
+    final fresta = l.bottom + s2.textShift;
+    await tracarL22(tester, [
+      Offset(dedoDaTela24, fresta + 2),
+      Offset(dedoDaTela24, fresta + 20),
+      Offset(dedoDaTela24, fresta + 120),
+    ]);
+    expect(s2.notes, hasLength(1));
+  });
+
+  testWidgets('com o modo aberto, a tinta que muda no banco (outro aparelho) não repagina o livro: a página do modo fica viva; '
+      'ao sair, repagina', (tester) async {
+    final mundo = await livroDaTela24b();
+    addTearDown(mundo.close);
+    await abrirTela24b(tester, mundo);
+    final s = sessaoNaTela(tester);
+    final id = s.notes.single.id;
+    final pagina = s.page!;
+    await tester.runAsync(
+      () => DriftInkRepository(
+        mundo.db,
+        mundo.versioning,
+      ).setCollapsed(mundo.leitor, id, true),
+    );
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    expect(pagina.alive, isTrue, reason: 'a página do modo não morre');
+    expect(
+      spacesOf(_doc(tester).current).singleWhere((x) => x.id == id).rect.height,
+      closeTo(noteFlowHeight(3), 1e-3),
+      reason: 'o leitor limpo espera o modo sair',
+    );
+    // sair sem mudanças: o livro repagina com a faixa
+    await tester.tap(_key('ann.done'));
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    await esperarBancoL22(tester);
+    await _quadros(tester);
+    expect(find.byType(AnnotationMode), findsNothing);
+    expect(
+      spacesOf(_doc(tester).current).singleWhere((x) => x.id == id).rect.height,
+      closeTo(stripFlowHeight(s.geometry.lineHeight), 1e-3),
+    );
+  });
+
   testWidgets('Noite (R14): a caixa e o abridor com as cores do Noite', (
     tester,
   ) async {

@@ -111,6 +111,12 @@ final class _Fonte implements AnnotationPageSource {
   ]);
 
   @override
+  ({DisplayPage page, void Function() dispose})? tallPageWith(
+    List<SpaceCut> cuts,
+    double extra,
+  ) => null;
+
+  @override
   List<PageHighlight> highlightsOn(DisplayPage page) => const [];
 
   @override

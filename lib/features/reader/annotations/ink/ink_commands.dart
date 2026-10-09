@@ -555,17 +555,19 @@ final class DeleteNote extends InkCommand {
 
 /// G18 — um traço novo na nota [noteId] (na unidade dela).
 final class AddNoteStroke extends InkCommand {
-  AddNoteStroke(this.noteId, this.stroke);
+  AddNoteStroke(this.noteId, this.strokes);
 
   final String noteId;
-  final SessionStroke stroke;
+
+  /// O traço, ou os pedaços dele quando a borda da caixa o recortou (R6): um passo só.
+  final List<SessionStroke> strokes;
   SessionNote? _before;
 
   @override
   void apply(InkWorkingCopy w) {
     final n = w.note(noteId);
     _before = n;
-    if (n != null) w._putNote(n.copyWith(strokes: [...n.strokes, stroke]));
+    if (n != null) w._putNote(n.copyWith(strokes: [...n.strokes, ...strokes]));
   }
 
   @override

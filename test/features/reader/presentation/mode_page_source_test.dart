@@ -129,6 +129,27 @@ void main() {
     expect(doc.descartadas, hasLength(4));
   });
 
+  test('a página alta (as palavras que passam do pé — R3): a altura do modo mais o extra; quem pede descarta; não fica '
+      'guardada', () {
+    final doc = _Doc();
+    final f = ModePageSource(document: doc, base: base, contentHeight: 700);
+    final alta = f.tallPageWith(const [corte], 300)!;
+    expect(doc.pedidos.single.$1, same(base));
+    expect(doc.pedidos.single.$3, 1000);
+    alta.dispose();
+    expect(doc.descartadas, ['p1']);
+    f.dispose();
+    expect(doc.descartadas, ['p1']);
+    expect(
+      ModePageSource(
+        document: _Doc()..semPagina = true,
+        base: base,
+        contentHeight: 700,
+      ).tallPageWith(const [corte], 300),
+      isNull,
+    );
+  });
+
   test('sem a página do documento, a congelada (nada a descartar)', () {
     final doc = _Doc()..semPagina = true;
     final f = ModePageSource(document: doc, base: base, contentHeight: 700);
