@@ -33,6 +33,20 @@ export function montar(template: string, payload: Record<string, unknown>): Emai
         assunto: 'Seus dados estão prontos',
         texto: 'A exportação dos seus dados terminou. Abra o app para baixar.',
       };
+    case 'moderation_digest': {
+      // D-221: o e-mail do dia para quem modera (o painel tem o resto)
+      const abertas = Number(payload.open ?? 0);
+      const passaram = Number(payload.breached ?? 0);
+      const quantas = `${abertas} ${abertas === 1 ? 'denúncia aberta' : 'denúncias abertas'}`;
+      return {
+        assunto: `${quantas} na moderação`,
+        texto: `Há ${quantas} desde ${dataBr(payload.oldest)}.\n` +
+          (passaram > 0
+            ? `${passaram} ${passaram === 1 ? 'passou' : 'passaram'} do prazo de 24 h.\n`
+            : 'Nenhuma passou do prazo de 24 h.\n') +
+          'Abra o painel de moderação para decidir.',
+      };
+    }
     default:
       return null;
   }

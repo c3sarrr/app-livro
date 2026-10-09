@@ -15,11 +15,11 @@ RevenueCat → Storage → Auth, imediato).
 
 Limites conhecidos:
 
-- A página responde igual para e-mail com e sem conta (não revela quem usa o BookNest). A rota
-  `/auth/v1/otp` do Supabase, chamada direto (fora da página, com `create_user: false`), ainda diferencia;
-  se isso importar, o pedido do código passa por uma Edge Function que responde sempre igual (G25).
-- A função `delete-account` confere a sessão no Auth (`getUser`): um token de sessão já encerrada não
-  exclui a conta. Não exige login recente (`iat`) — o código do e-mail já é um login recente na página.
+- A página responde igual para e-mail com e sem conta (não revela quem usa o BookNest). A rota `/auth/v1/otp`
+  do Supabase, chamada direto (fora da página, com `create_user: false`), ainda diferencia; se isso importar,
+  o pedido do código passa por uma Edge Function que responde sempre igual (G25).
+- A função `delete-account` confere a sessão no Auth (`getUser`): um token de sessão já encerrada não exclui a
+  conta. Não exige login recente (`iat`) — o código do e-mail já é um login recente na página.
 
 Para publicar (pendente da **Q9 — hospedagem/domínio**):
 

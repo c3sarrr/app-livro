@@ -72,3 +72,13 @@ Deno.test('modelos: data do purge no fuso de Brasília', () => {
   );
   assertEquals(montar('nao_existe', {}), null);
 });
+
+Deno.test('modelos: o e-mail do dia da moderação (D-221) com as abertas, as atrasadas e a data da mais antiga', () => {
+  const m = montar('moderation_digest', { open: 3, breached: 1, oldest: '2026-10-08T12:00:00Z' })!;
+  assertEquals(m.assunto, '3 denúncias abertas na moderação');
+  assertEquals(m.texto.includes('desde 08/10/2026'), true);
+  assertEquals(m.texto.includes('1 passou do prazo de 24 h'), true);
+  const uma = montar('moderation_digest', { open: 1, breached: 0, oldest: '2026-10-08T12:00:00Z' })!;
+  assertEquals(uma.assunto, '1 denúncia aberta na moderação');
+  assertEquals(uma.texto.includes('Nenhuma passou do prazo de 24 h'), true);
+});

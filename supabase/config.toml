@@ -434,6 +434,8 @@ verify_jwt = false
 verify_jwt = false
 [functions.push-sender]
 verify_jwt = false
+[functions.moderacao]
+verify_jwt = true
 
 [analytics]
 # BookNest: desligado no ambiente local (economiza memória do WSL; não é usado nos testes).

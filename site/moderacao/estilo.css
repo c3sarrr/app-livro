@@ -1,0 +1,151 @@
+/* O painel interno da moderação, no estilo do app: papel, tinta, borda preta e sombra dura. */
+:root {
+  --papel: #f7f0e3;
+  --tinta: #1a1714;
+  --tinta-suave: #5b544b;
+  --superficie: #fffaf1;
+  --sol: #fed170;
+  --rubor: #ffc1c6;
+  --chama: #ff552e;
+  --lavanda: #b6ace4;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--papel);
+  color: var(--tinta);
+  font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+}
+h1 {
+  font-size: 30px;
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+h2 {
+  font-size: 18px;
+  margin: 24px 0 8px;
+}
+p {
+  margin: 0 0 12px;
+}
+.suave {
+  color: var(--tinta-suave);
+}
+label {
+  display: block;
+  font-weight: 700;
+  margin: 16px 0 6px;
+}
+input[type='email'],
+input[type='text'] {
+  width: 100%;
+  padding: 12px 14px;
+  font: inherit;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1.5px solid var(--tinta);
+  border-radius: 14px;
+}
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+button {
+  font: inherit;
+  font-weight: 800;
+  min-height: 44px;
+  padding: 10px 18px;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1.5px solid var(--tinta);
+  border-radius: 999px;
+  box-shadow: 2px 2px 0 var(--tinta);
+  cursor: pointer;
+}
+button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+button.principal {
+  background: var(--lavanda);
+}
+button.perigo {
+  background: var(--rubor);
+}
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.fila {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+.item {
+  background: var(--superficie);
+  border: 1.5px solid var(--tinta);
+  border-radius: 18px;
+  box-shadow: 3px 3px 0 var(--tinta);
+  padding: 14px 16px 16px;
+}
+.item.vencida {
+  border-color: var(--chama);
+  box-shadow: 3px 3px 0 var(--chama);
+}
+.cabeca {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+.cabeca span {
+  border: 1.5px solid var(--tinta);
+  border-radius: 999px;
+  padding: 2px 10px;
+  background: var(--papel);
+}
+.cabeca .atrasada {
+  background: var(--chama);
+  color: var(--superficie);
+  border-color: var(--chama);
+}
+.texto {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-left: 4px solid var(--sol);
+  background: var(--papel);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.rotulo {
+  font-size: 13px;
+}
+.aviso {
+  margin-top: 20px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--tinta);
+  border-radius: 14px;
+  background: var(--sol);
+}
+.aviso.erro {
+  background: var(--rubor);
+}
