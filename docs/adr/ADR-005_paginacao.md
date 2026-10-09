@@ -91,6 +91,9 @@ fatias de ≤ 4 ms (Anexo 03 §12).
   120 s depois da última (a regra do tempo automático, D-95), em segundo plano e ao sair do leitor. Sem
   permissão especial (só a tela, não a CPU); Android, iOS e desktop.
 
+- `integration_test` e `flutter_driver` (SDK, só desenvolvimento — G20, R9): a medição dos orçamentos do Anexo 03
+  §12 no aparelho (`integration_test/leitor_orcamentos_test.dart`, em `--profile`, na G26).
+
 ## Alternativas consideradas
 
 - **`StrutStyle` com `forceStrutHeight`**: testado — também sai com passo 35,00 (o arredondamento é da linha).

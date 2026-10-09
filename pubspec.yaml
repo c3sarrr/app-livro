@@ -68,6 +68,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # G20 (R9): o teste de aparelho dos orçamentos do Anexo 03 §12 (só desenvolvimento — ADR-005)
+  integration_test:
+    sdk: flutter
+  flutter_driver:
+    sdk: flutter
   build_runner: ^2.16.1
   drift_dev: ^2.35.1
 
