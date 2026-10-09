@@ -3,6 +3,7 @@ import 'dart:ui' show SemanticsAction;
 import 'package:app_leitura/app/router.dart';
 import 'package:app_leitura/core/design_system/widgets/pressable.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
+import 'package:app_leitura/features/highlights/presentation/highlights_screen.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
 import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
@@ -28,8 +29,12 @@ Finder _placeholder(String title) =>
     find.byWidgetPredicate((w) => w is PlaceholderScreen && w.title == title);
 
 /// O destino de cada toque: o placeholder da rota; o "Continuar lendo" abre o leitor de verdade (G11).
-Finder _destino(String title) =>
-    title == 'Leitor' ? find.byType(ReaderScreen) : _placeholder(title);
+Finder _destino(String title) => switch (title) {
+  'Leitor' => find.byType(ReaderScreen),
+  // G19: a tela 25 de verdade
+  'Grifos e notas' => find.byType(HighlightsScreen),
+  _ => _placeholder(title),
+};
 
 /// Aparelho 390×844 com as áreas seguras do iPhone (47/34): a Início rola de verdade.
 Future<void> _device(WidgetTester tester) async {
@@ -69,7 +74,7 @@ Future<void> _back(WidgetTester tester) async {
 const _pushRows = <(String, String, String)>[
   ('header.bell', '/notificacoes', 'Notificações'),
   ('hero.cta', '/leitor/dom-casmurro', 'Leitor'),
-  ('hero.notesButton', '/livro/dom-casmurro/destaques', 'Destaques e notas'),
+  ('hero.notesButton', '/livro/dom-casmurro/destaques', 'Grifos e notas'),
   ('alsoReading.card1', '/livro/mrs-dalloway', 'Livro'),
   ('alsoReading.card2', '/livro/orgulho-e-preconceito', 'Livro'),
   ('forYou.seeAll', '/para-voce', 'Para você'),

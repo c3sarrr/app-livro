@@ -14,9 +14,16 @@ abstract final class AppRoutes {
   // Destinos (placeholders; usados na F12).
   static const notificacoes = '/notificacoes';
   static const paraVoce = '/para-voce';
-  static String leitor(String bookId) => '/leitor/$bookId';
+
+  /// G19 (R13): [goTo] = o id de uma anotação para o leitor saltar logo depois de abrir (`?ir=`).
+  static String leitor(String bookId, {String? goTo}) => goTo == null
+      ? '/leitor/$bookId'
+      : '/leitor/$bookId?ir=${Uri.encodeQueryComponent(goTo)}';
   static String livro(String bookId) => '/livro/$bookId';
-  static String destaques(String bookId) => '/livro/$bookId/destaques';
+
+  /// G19: a tela 25; [fromReader] = aberta pelo botão Grifos do leitor (`?de=leitor` — as saídas voltam a ele).
+  static String destaques(String bookId, {bool fromReader = false}) =>
+      '/livro/$bookId/destaques${fromReader ? '?de=leitor' : ''}';
   static String discussao(String clubId) => '/clube/$clubId/discussao';
 
   /// Conta (G05, D-69): login e conclusão do cadastro (idade e @), em tela cheia.

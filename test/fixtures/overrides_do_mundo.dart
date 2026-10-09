@@ -4,6 +4,8 @@
 import 'dart:async';
 
 import 'package:app_leitura/core/preferences/brand_preference.dart';
+import 'package:app_leitura/features/highlights/application/highlights_controller.dart';
+import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/reader/application/reader_providers.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
@@ -30,9 +32,15 @@ final Override leitorDoMundo = readerDepsProvider.overrideWith(
   (ref) => Completer<ReaderDeps>().future,
 );
 
+/// G19: a tela 25 fica no topo (sem banco) — os testes dela trocam pelo mundo no banco (`depsDaTela25`).
+final Override destaquesDoMundo = highlightsDepsProvider.overrideWith(
+  (ref) => Completer<HighlightsDeps>().future,
+);
+
 final List<Override> overridesDoMundo = List.unmodifiable([
   relogioDoMundo,
   repositorioDoMundo,
   brandDoMundo,
   leitorDoMundo,
+  destaquesDoMundo,
 ]);

@@ -6,6 +6,7 @@ import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/features/account/presentation/account_block.dart';
+import 'package:app_leitura/features/highlights/presentation/highlights_screen.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
 import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
@@ -146,7 +147,9 @@ void main() {
         ),
         (
           AppRoutes.destaques('dom-casmurro'),
-          _placeholder('Destaques e notas'),
+          find.byWidgetPredicate(
+            (w) => w is HighlightsScreen && w.bookId == 'dom-casmurro',
+          ),
           {'bookId': 'dom-casmurro'},
         ),
         (AppRoutes.paraVoce, _placeholder('Para você'), <String, String>{}),
@@ -176,6 +179,11 @@ void main() {
       expect(AppRoutes.leitor('x'), '/leitor/x');
       expect(AppRoutes.livro('x'), '/livro/x');
       expect(AppRoutes.destaques('x'), '/livro/x/destaques');
+      expect(
+        AppRoutes.destaques('x', fromReader: true),
+        '/livro/x/destaques?de=leitor',
+      );
+      expect(AppRoutes.leitor('x', goTo: 'a b'), '/leitor/x?ir=a+b');
       expect(AppRoutes.discussao('y'), '/clube/y/discussao');
     },
   );

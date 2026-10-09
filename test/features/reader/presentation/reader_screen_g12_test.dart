@@ -14,6 +14,7 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
+import 'package:app_leitura/features/highlights/presentation/highlights_screen.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/application/pdf_reader_document.dart';
 import 'package:app_leitura/features/reader/application/reader_document.dart';
@@ -293,38 +294,27 @@ void main() {
   );
 
   testWidgets(
-    'Grifos: "Chega numa próxima fase" por 2 s, 12 acima da ilha; anunciado (a Fonte abre a folha — G14; o Sumário, a do sumário — G15; Anotar, o modo anotação — G16)',
+    'Grifos abre a tela 25 por cima, com ?de=leitor (G19 — antes, o aviso da D-118); Voltar devolve o leitor com os controles',
     (tester) async {
-      tester.platformDispatcher.accessibilityFeaturesTestValue =
-          const FakeAccessibilityFeatures(accessibleNavigation: true);
-      addTearDown(
-        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
-      );
       setCanvasView(tester, logical: const Size(390, 844));
       await abrirLeitor(tester, livro);
       await _abrirControles(tester);
-      tester.takeAnnouncements();
-      for (final t in const ['notes']) {
-        await tester.tap(_key('r20.bottomIsland.tools.$t'));
-        await tester.pump();
-        expect(findAppText(readerSoonText), findsOneWidget, reason: t);
-        expect(tester.takeAnnouncements().map((a) => a.message), [
-          readerSoonText,
-        ], reason: t);
-        final aviso = tester.getRect(_key('leitor.aviso'));
-        final ilha = tester.getRect(_key('r20.bottomIsland'));
-        expect(aviso.bottom, closeTo(ilha.top - 12, 0.01));
-        expect(aviso.center.dx, closeTo(195, 0.01));
-        await tester.pump(const Duration(milliseconds: 1900));
-        expect(findAppText(readerSoonText), findsOneWidget);
-        await tester.pump(const Duration(milliseconds: 100));
-        expect(findAppText(readerSoonText), findsNothing, reason: '2 s');
-        expect(
-          _key('r20.topIsland'),
-          findsOneWidget,
-          reason: 'os controles ficam',
-        );
-      }
+      await tester.tap(_key('r20.bottomIsland.tools.notes'));
+      await _quadros(tester, 40);
+      expect(find.byType(HighlightsScreen), findsOneWidget);
+      expect(
+        routerOf(tester).state.uri.toString(),
+        '/livro/${livro.userBookId}/destaques?de=leitor',
+      );
+      expect(findAppText(readerSoonText), findsNothing);
+      await tester.tap(_key('hl.topBar.back'));
+      await _quadros(tester, 40);
+      expect(find.byType(HighlightsScreen), findsNothing);
+      expect(
+        _key('r20.topIsland'),
+        findsOneWidget,
+        reason: 'os controles ficam',
+      );
     },
   );
 

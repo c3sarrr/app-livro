@@ -10,10 +10,11 @@ void main() {
   String data(DateTime em, {bool ano = false}) =>
       cardDate(em, now: agora, offsetAt: fuso, withYear: ano);
 
-  test('hoje e ontem no fuso', () {
+  // o dia anterior já tem a data, como o arquivo (o grifo da pág. 152, de 19/09, mostra "19 set" no dia 20)
+  test('hoje no fuso; ontem já é a data', () {
     expect(data(DateTime.utc(2026, 9, 20, 22, 41)), 'hoje'); // 19:41 SP
     expect(data(DateTime.utc(2026, 9, 21, 1)), 'hoje'); // 22:00 SP do mesmo dia
-    expect(data(DateTime.utc(2026, 9, 20, 2, 59)), 'ontem'); // 19/09 23:59 SP
+    expect(data(DateTime.utc(2026, 9, 20, 2, 59)), '19 set'); // 19/09 23:59 SP
     expect(data(DateTime.utc(2026, 9, 20, 3)), 'hoje'); // 20/09 00:00 SP
     expect(data(DateTime.utc(2026, 9, 19, 2, 59)), '18 set'); // 18/09 23:59 SP
   });
@@ -45,7 +46,7 @@ void main() {
     );
   });
 
-  test('com o ano sempre (exportação), sem hoje/ontem', () {
+  test('com o ano sempre (exportação), sem hoje', () {
     expect(data(DateTime.utc(2026, 9, 2, 22, 30), ano: true), '2 set 2026');
     expect(data(DateTime.utc(2026, 9, 20, 22, 41), ano: true), '20 set 2026');
   });

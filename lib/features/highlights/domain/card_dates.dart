@@ -1,5 +1,6 @@
-// G19.1 — as datas dos cartões da tela 25 (R5), no fuso do aparelho: "hoje", "ontem", "2 set" e, de outro ano,
-// "2 set 2025". A exportação pede sempre o ano ("2 set 2026"). Dart puro.
+// G19.1 — as datas dos cartões da tela 25 (R5), no fuso do aparelho: "hoje", "2 set" e, de outro ano, "2 set 2025"
+// (o dia anterior já tem a data, como o arquivo: "19 set" no dia 20). A exportação pede sempre o ano ("2 set 2026").
+// Dart puro.
 const List<String> _months = [
   'jan',
   'fev',
@@ -30,10 +31,7 @@ String cardDate(
   final today = _local(now, offsetAt);
   final day = DateTime.utc(d.year, d.month, d.day);
   final t0 = DateTime.utc(today.year, today.month, today.day);
-  if (!withYear) {
-    if (day == t0) return 'hoje';
-    if (day == t0.subtract(const Duration(days: 1))) return 'ontem';
-  }
+  if (!withYear && day == t0) return 'hoje';
   final base = '${d.day} ${_months[d.month - 1]}';
   return withYear || d.year != today.year ? '$base ${d.year}' : base;
 }

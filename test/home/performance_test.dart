@@ -16,6 +16,11 @@ import 'package:app_leitura/core/design_system/painters/top_border_crescent_pain
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
+import 'package:app_leitura/core/data/clock/hlc.dart';
+import 'package:app_leitura/features/highlights/presentation/highlight_card.dart'
+    show HandNotePainter;
+import 'package:app_leitura/features/highlights/presentation/ink_thumbnail.dart';
+import 'package:app_leitura/features/reader/annotations/domain/ink_layer.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/presentation/covers/senhora_mini_cover.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
@@ -54,6 +59,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/mundo_2026_09_20.dart';
 import '../support/canvas.dart';
 import '../support/fake_ink_repository.dart';
 import '../support/load_fonts.dart';
@@ -572,6 +578,31 @@ void main() {
       );
     });
 
+    test(
+      'HandNotePainter (a camada, a versão dela, a escala, o cache) — G19',
+      () {
+        final cache = InkThumbnailCache();
+        final nota = mundoReferencia.camadas.firstWhere(
+          (l) => l.kind == InkLayerKind.space,
+        );
+        final outra = mundoReferencia.camadas.firstWhere(
+          (l) => l.kind == InkLayerKind.overText,
+        );
+        final editada = nota.copyWith(
+          meta: nota.meta.edited(
+            nota.meta.updatedAt.add(const Duration(minutes: 1)),
+            Hlc(nota.meta.version.ms + 60000, 0, nota.meta.version.deviceId),
+          ),
+        );
+        _expectRepaintsOnlyOnChange(() => HandNotePainter(nota, cache, 3), {
+          'layer': () => HandNotePainter(outra, cache, 3),
+          'version': () => HandNotePainter(editada, cache, 3),
+          'dpr': () => HandNotePainter(nota, cache, 2),
+          'cache': () => HandNotePainter(nota, InkThumbnailCache(), 3),
+        });
+      },
+    );
+
     test('TocProgressRingPainter (progresso) — G15', () {
       _expectRepaintsOnlyOnChange(
         () => const TocProgressRingPainter(progress: 0.4),
@@ -609,6 +640,7 @@ void main() {
         'PenPreviewPainter',
         'MarkerSamplePainter',
         'OpenerPainter',
+        'HandNotePainter',
       });
     });
   });

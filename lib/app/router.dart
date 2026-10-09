@@ -6,6 +6,7 @@ import '../features/account/presentation/account_block.dart';
 import '../features/account/presentation/onboarding_screen.dart';
 import '../features/account/presentation/sign_in_screen.dart';
 import '../features/home/presentation/debug/design_system_screen.dart';
+import '../features/highlights/presentation/highlights_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/library/presentation/library_import_block.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
@@ -78,11 +79,27 @@ GoRouter createRouter({
       GoRoute(
         path: '/leitor/:bookId',
         parentNavigatorKey: rootNavigatorKey,
-        pageBuilder: (context, state) =>
-            _page(state, ReaderScreen(bookId: state.pathParameters['bookId']!)),
+        pageBuilder: (context, state) => _page(
+          state,
+          ReaderScreen(
+            bookId: state.pathParameters['bookId']!,
+            goTo: state.uri.queryParameters['ir'],
+          ),
+        ),
       ),
       fullScreen('/livro/:bookId', 'Livro'),
-      fullScreen('/livro/:bookId/destaques', 'Destaques e notas'),
+      // G19: a tela 25 de verdade (grifos e notas do livro); `?de=leitor` = aberta pelo leitor (R13)
+      GoRoute(
+        path: '/livro/:bookId/destaques',
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => _page(
+          state,
+          HighlightsScreen(
+            bookId: state.pathParameters['bookId']!,
+            fromReader: state.uri.queryParameters['de'] == 'leitor',
+          ),
+        ),
+      ),
       fullScreen(AppRoutes.paraVoce, 'Para você'),
       fullScreen('/clube/:clubId/discussao', 'Discussão'),
       GoRoute(

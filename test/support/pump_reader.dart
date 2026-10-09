@@ -6,6 +6,8 @@ import 'dart:async';
 import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/app/routes.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_leitor.dart';
+import 'package:app_leitura/features/highlights/application/highlights_controller.dart';
+import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
 import 'package:app_leitura/features/reader/application/reader_providers.dart';
 import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
 import 'package:app_leitura/features/scanner/presentation/scanner_camera.dart';
@@ -37,7 +39,8 @@ GoRouter routerOf(WidgetTester tester) =>
 
 /// Monta o app, empurra o leitor do [livro] e espera a página (ou o estado final, se [esperar] = false não
 /// espera nada). [deps] troca as dependências (ex.: um Future que demora); [golden] põe a raiz do app num
-/// `RepaintBoundary` (`goldenRootKey`) para a captura.
+/// `RepaintBoundary` (`goldenRootKey`) para a captura. [destaques] = as dependências da tela 25 (sem elas, a tela
+/// fica no topo, sem banco); [ir] = o `?ir=` da rota (G19).
 Future<LeitorNaTela> abrirLeitor(
   WidgetTester tester,
   LivroNaEstante livro, {
@@ -45,6 +48,8 @@ Future<LeitorNaTela> abrirLeitor(
   bool esperar = true,
   List<Override> overrides = const [],
   bool golden = false,
+  HighlightsDeps? destaques,
+  String? ir,
 }) async {
   final t = LeitorNaTela(livro);
   await precacheAppIcons(tester);
@@ -67,6 +72,11 @@ Future<LeitorNaTela> abrirLeitor(
               ),
         ),
         readerSystemUiProvider.overrideWithValue(t.ui),
+        highlightsDepsProvider.overrideWith(
+          (ref) => destaques == null
+              ? Completer<HighlightsDeps>().future
+              : Future.value(destaques),
+        ),
         ...overrides,
       ],
       child: golden
@@ -75,7 +85,9 @@ Future<LeitorNaTela> abrirLeitor(
     ),
   );
   await tester.pumpAndSettle();
-  unawaited(routerOf(tester).push<void>(AppRoutes.leitor(livro.userBookId)));
+  unawaited(
+    routerOf(tester).push<void>(AppRoutes.leitor(livro.userBookId, goTo: ir)),
+  );
   if (esperar) await esperarLeitor(tester);
   return t;
 }

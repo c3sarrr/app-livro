@@ -25,6 +25,10 @@
 // Marca-texto, Espaço, o poço de cor e o 2º toque na ativa mostram o aviso (D-163). A tinta salva aparece na página
 // (`ReaderInk`, junto dos grifos); o rascunho de uma sessão que morreu é gravado ao abrir o livro (D-166) e o do modo
 // aberto vai ao banco quando o app vai para o segundo plano.
+// G19.8 — Grifos (R13): o botão abre a tela 25 por cima e espera a saída dela — tocar num cartão fecha os controles e
+// salta para o 1º item dele, com a volta (D-151/D-126); o grifo sem lugar vai à página dele com "Esse trecho não
+// está mais aqui" (D-199); "Continuar lendo" fecha os controles; Voltar não muda nada. Aberto com `?ir=` (pela
+// Início), o leitor salta para a anotação logo depois de abrir, e a volta leva à posição de leitura.
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -37,7 +41,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/routes.dart';
+import '../../../core/data/database/daos/annotation_daos.dart';
 import '../../../core/preferences/brand_preference.dart';
+import '../../highlights/application/highlights_exit.dart';
 import '../../shell/presentation/main_shell.dart';
 import '../annotations/domain/annotation.dart' show HighlightStyle;
 import '../annotations/ink/ink_commands.dart' show SessionNote, SessionStroke;
@@ -97,11 +103,17 @@ const SystemUiOverlayStyle readerNightOverlayStyle = SystemUiOverlayStyle(
   systemNavigationBarContrastEnforced: false,
 );
 
+/// O aviso do grifo que não tem mais lugar no texto (D-199).
+const String readerOrphanText = 'Esse trecho não está mais aqui';
+
 class ReaderScreen extends ConsumerStatefulWidget {
-  const ReaderScreen({super.key, required this.bookId});
+  const ReaderScreen({super.key, required this.bookId, this.goTo});
 
   /// `user_books.id` do livro na estante.
   final String bookId;
+
+  /// G19 (R13): a anotação para onde saltar logo depois de abrir (`?ir=` — a tela 25 aberta pela Início).
+  final String? goTo;
 
   @override
   ConsumerState<ReaderScreen> createState() => _ReaderScreenState();
@@ -114,6 +126,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   ReaderViewport? _viewport;
   bool _started = false;
   bool _depsFailed = false;
+
+  /// O salto do `?ir=` já foi feito (só na 1ª abertura).
+  bool _wentTo = false;
   bool _showOpening = false;
   Timer? _openingTimer;
   bool _immersive = false;
@@ -300,6 +315,13 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       // a página apareceu: conta como leitura e liga a tela acesa (depois, só toques e o ciclo de vida)
       _openingTimer?.cancel();
       _c!.setVisible(true);
+      final goTo = widget.goTo;
+      if (goTo != null && !_wentTo) {
+        _wentTo = true;
+        WidgetsBinding.instance.addPostFrameCallback(
+          (_) => unawaited(_jumpToAnnotation(goTo)),
+        );
+      }
     }
     if (state is ReaderOpening && before != null && before is! ReaderOpening) {
       _armOpening();
@@ -858,9 +880,52 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           unawaited(_openAnnotation());
         }
       case ReaderTool.notes:
-        // Grifos → G19 (D-118)
-        _showToast(readerSoonText);
+        // Grifos (G19): a tela 25
+        unawaited(_openHighlights());
     }
+  }
+
+  /// Grifos (R13): a tela 25 por cima; a saída dela diz o que fazer.
+  Future<void> _openHighlights() async {
+    _dismissUndo();
+    final r = await context.push<Object?>(
+      AppRoutes.destaques(widget.bookId, fromReader: true),
+    );
+    if (!mounted) return;
+    switch (r) {
+      case HighlightsOpenAt(:final annotationId, :final page):
+        _setControls(false);
+        await _jumpToAnnotation(annotationId, page: page);
+      case HighlightsContinue():
+        _setControls(false);
+      default:
+        break;
+    }
+  }
+
+  /// Salta para a anotação [id] (o trecho dela, com a volta — D-151/D-126). Sem o capítulo dela aberto (outra
+  /// edição do arquivo: o lugar depende do texto), vai antes à página dela e tenta de novo; sem lugar no texto, fica
+  /// na página com o aviso da D-199. [page] = a página, se a anotação nem existe mais.
+  Future<void> _jumpToAnnotation(String id, {int? page}) async {
+    final c = _c;
+    if (c == null) return;
+    final timed = !MediaQuery.accessibleNavigationOf(context);
+    final notes = _annotations;
+    final a = notes?.byId(id) ?? await AnnotationsDao(c.deps.db).byId(id);
+    if (!mounted || !identical(c, _c)) return;
+    var place = a == null ? null : notes?.placeOf(a);
+    if (place == null) {
+      final p = a?.refPage ?? page;
+      if (p != null) await c.jumpToPage(p, timed: timed);
+      if (!mounted || !identical(c, _c) || notes == null) return;
+      // a página abriu o capítulo: o trecho pode voltar ao texto (D-199 só se não voltar)
+      place = a == null ? null : notes.placeOf(a);
+      if (place == null) {
+        _showToast(readerOrphanText);
+        return;
+      }
+    }
+    await c.jumpTo((spine: place.unit, offset: place.from), timed: timed);
   }
 
   // ---- modo anotação (G16) ------------------------------------------------------------------------------
