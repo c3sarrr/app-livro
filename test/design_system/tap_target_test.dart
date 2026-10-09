@@ -4,6 +4,7 @@
 // ele.
 import 'package:app_leitura/core/design_system/widgets/pressable.dart';
 import 'package:app_leitura/core/design_system/widgets/tap_target.dart';
+import 'package:flutter/gestures.dart' show TapGestureRecognizer;
 import 'package:flutter/semantics.dart' show SemanticsAction, SemanticsRole;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -303,8 +304,42 @@ void main() {
       final a = tester.getRect(_id('a'));
       await tester.tapAt(a.centerRight + const Offset(9, 0));
       expect(toques, isEmpty);
+      await tester.pumpWidget(_tela(Offstage(child: _caixa('a', toques))));
+      await tester.tapAt(a.centerRight + const Offset(9, 0));
+      await tester.tapAt(a.center);
+      expect(toques, isEmpty);
     },
   );
+
+  testWidgets('um link no texto ao lado fica com o toque dele', (tester) async {
+    final toques = <String>[];
+    var link = 0;
+    final reconhecedor = TapGestureRecognizer()..onTap = () => link++;
+    addTearDown(reconhecedor.dispose);
+    await tester.pumpWidget(
+      _tela(
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _caixa('a', toques),
+            Text.rich(
+              TextSpan(
+                text: 'ver',
+                recognizer: reconhecedor,
+                style: const TextStyle(fontSize: 28, height: 1),
+              ),
+              key: const ValueKey('link'),
+            ),
+          ],
+        ),
+      ),
+    );
+    final a = tester.getRect(_id('a'));
+    expect(tester.getRect(find.byKey(const ValueKey('link'))).left, a.right);
+    await tester.tapAt(a.centerRight + const Offset(4, 0));
+    expect(link, 1);
+    expect(toques, isEmpty);
+  });
 
   testWidgets('os guias de toque passam com o alvo e falham sem ele', (
     tester,

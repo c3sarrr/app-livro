@@ -2,7 +2,8 @@
 // tema, preenchimento `brand` até a posição terminando numa onda, botão 28 e o balão "pág. N" com bico. Arrastar
 // move o botão, o preenchimento e o balão (a página sob o dedo) sem navegar; soltar — ou tocar no trilho — salta
 // para essa página quando ela é outra (D-22, D-119). Para o leitor de tela é um `slider` "Posição no livro" com o
-// valor "página X de Y" e passos de 1 % do livro, pelo menos 1 página (D-124); botão e balão ficam de fora.
+// valor "página X de Y" e passos de 1 % do livro, pelo menos 1 página (D-124); botão e balão ficam de fora. O toque e o
+// nó têm 48 de altura por dentro do trilho de 26 (G20, R7).
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -13,6 +14,7 @@ import '../../../core/design_system/tokens/app_shadows.dart';
 import '../../../core/design_system/tokens/app_strokes.dart';
 import '../../../core/design_system/tokens/app_typography.dart';
 import '../../../core/design_system/widgets/neo_box.dart';
+import '../../../core/design_system/widgets/tap_target.dart';
 import 'reader_chrome_scope.dart';
 
 /// Onda do fim do preenchimento: o caminho do arquivo (`M0 0H5Q9.5 2.5 5 5Q0.5 7.5 5 10Q9.5 12.5 5 15H0Z`, viewBox
@@ -118,119 +120,122 @@ class _ScrubberState extends State<Scrubber> {
     final step = scrubberStep(total);
     final up = math.min(total, widget.page + step);
     final down = math.max(1, widget.page - step);
-    return Semantics(
-      container: true,
-      slider: true,
-      label: 'Posição no livro',
-      value: 'página ${widget.page} de $total',
-      increasedValue: up == widget.page ? null : 'página $up de $total',
-      decreasedValue: down == widget.page ? null : 'página $down de $total',
-      onIncrease: up == widget.page ? null : () => widget.onJump(up),
-      onDecrease: down == widget.page ? null : () => widget.onJump(down),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        excludeFromSemantics: true,
-        onHorizontalDragStart: (d) =>
-            setState(() => _drag = _fractionAt(d.localPosition.dx)),
-        onHorizontalDragUpdate: (d) =>
-            setState(() => _drag = _fractionAt(d.localPosition.dx)),
-        onHorizontalDragEnd: (_) => _release(_drag ?? _rest),
-        onHorizontalDragCancel: () => setState(() => _drag = null),
-        onTapUp: (d) => _release(_fractionAt(d.localPosition.dx)),
-        child: SizedBox(
-          key: const ValueKey('r20.bottomIsland.scrubber'),
-          height: 26,
-          child: LayoutBuilder(
-            builder: (context, c) {
-              final w = c.maxWidth;
-              final inner = math.max(0.0, w - 2 * AppStrokes.regular);
-              final x = f * w;
-              return Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 5,
-                    height: 16,
-                    child: NeoBox(
-                      key: const ValueKey('r20.bottomIsland.scrubber.track'),
-                      border: BorderSide(
-                        width: AppStrokes.regular,
-                        color: p.border,
-                      ),
-                      radius: BorderRadius.circular(999),
-                      clip: true,
-                      child: CustomPaint(
-                        painter: HatchPainter(
-                          stripe: p.hatch,
-                          base: p.hatchBase,
+    // G20 (R7): a barra de 26 recebe o toque e o nó com 48 de altura, por dentro (o desenho não muda)
+    return TapTarget(
+      child: Semantics(
+        container: true,
+        slider: true,
+        label: 'Posição no livro',
+        value: 'página ${widget.page} de $total',
+        increasedValue: up == widget.page ? null : 'página $up de $total',
+        decreasedValue: down == widget.page ? null : 'página $down de $total',
+        onIncrease: up == widget.page ? null : () => widget.onJump(up),
+        onDecrease: down == widget.page ? null : () => widget.onJump(down),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          excludeFromSemantics: true,
+          onHorizontalDragStart: (d) =>
+              setState(() => _drag = _fractionAt(d.localPosition.dx)),
+          onHorizontalDragUpdate: (d) =>
+              setState(() => _drag = _fractionAt(d.localPosition.dx)),
+          onHorizontalDragEnd: (_) => _release(_drag ?? _rest),
+          onHorizontalDragCancel: () => setState(() => _drag = null),
+          onTapUp: (d) => _release(_fractionAt(d.localPosition.dx)),
+          child: SizedBox(
+            key: const ValueKey('r20.bottomIsland.scrubber'),
+            height: 26,
+            child: LayoutBuilder(
+              builder: (context, c) {
+                final w = c.maxWidth;
+                final inner = math.max(0.0, w - 2 * AppStrokes.regular);
+                final x = f * w;
+                return Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      top: 5,
+                      height: 16,
+                      child: NeoBox(
+                        key: const ValueKey('r20.bottomIsland.scrubber.track'),
+                        border: BorderSide(
+                          width: AppStrokes.regular,
+                          color: p.border,
                         ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: SizedBox(
-                            key: const ValueKey(
-                              'r20.bottomIsland.scrubber.fill',
-                            ),
-                            width: f * inner,
-                            height: double.infinity,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Positioned.fill(
-                                  child: ColoredBox(color: brand),
-                                ),
-                                Positioned(
-                                  top: 0,
-                                  bottom: 0,
-                                  right: -5,
-                                  width: 10,
-                                  child: CustomPaint(
-                                    key: const ValueKey(
-                                      'r20.bottomIsland.scrubber.fill.wave',
-                                    ),
-                                    painter: FillWavePainter(
-                                      fill: brand,
-                                      stroke: p.border,
+                        radius: BorderRadius.circular(999),
+                        clip: true,
+                        child: CustomPaint(
+                          painter: HatchPainter(
+                            stripe: p.hatch,
+                            base: p.hatchBase,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: SizedBox(
+                              key: const ValueKey(
+                                'r20.bottomIsland.scrubber.fill',
+                              ),
+                              width: f * inner,
+                              height: double.infinity,
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Positioned.fill(
+                                    child: ColoredBox(color: brand),
+                                  ),
+                                  Positioned(
+                                    top: 0,
+                                    bottom: 0,
+                                    right: -5,
+                                    width: 10,
+                                    child: CustomPaint(
+                                      key: const ValueKey(
+                                        'r20.bottomIsland.scrubber.fill.wave',
+                                      ),
+                                      painter: FillWavePainter(
+                                        fill: brand,
+                                        stroke: p.border,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: x - 14,
-                    top: -1,
-                    width: 28,
-                    height: 28,
-                    child: ExcludeSemantics(
-                      child: NeoBox(
-                        key: const ValueKey('r20.bottomIsland.scrubber.knob'),
-                        color: p.island,
-                        border: BorderSide(width: 2, color: p.border),
-                        radius: BorderRadius.circular(14),
-                        shadow: AppShadows.hard2,
-                        shadowColor: p.shadow,
+                    Positioned(
+                      left: x - 14,
+                      top: -1,
+                      width: 28,
+                      height: 28,
+                      child: ExcludeSemantics(
+                        child: NeoBox(
+                          key: const ValueKey('r20.bottomIsland.scrubber.knob'),
+                          color: p.island,
+                          border: BorderSide(width: 2, color: p.border),
+                          radius: BorderRadius.circular(14),
+                          shadow: AppShadows.hard2,
+                          shadowColor: p.shadow,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: x,
-                    bottom: 30,
-                    child: ExcludeSemantics(
-                      child: FractionalTranslation(
-                        translation: const Offset(-0.5, 0),
-                        child: _Bubble(label: 'pág. $shown'),
+                    Positioned(
+                      left: x,
+                      bottom: 30,
+                      child: ExcludeSemantics(
+                        child: FractionalTranslation(
+                          translation: const Offset(-0.5, 0),
+                          child: _Bubble(label: 'pág. $shown'),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

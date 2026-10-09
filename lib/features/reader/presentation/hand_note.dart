@@ -671,35 +671,41 @@ class _HandleState extends State<_Handle> {
         borderRadius: BorderRadius.circular(2),
       ),
     );
-    return Semantics(
-      key: const ValueKey('ann.page.handNote.handle'),
-      container: true,
-      button: true,
-      label: noteHandleLabel,
-      onIncrease: () => _step(noteLinePx),
-      onDecrease: () => _step(-noteLinePx),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        excludeFromSemantics: true,
-        onVerticalDragDown: (d) => _from = d.globalPosition.dy,
-        onVerticalDragUpdate: (d) {
-          final from = _from;
-          if (from == null) return;
-          widget.session.dragNoteHandle(widget.id, d.globalPosition.dy - from);
-        },
-        onVerticalDragEnd: (_) => _end(),
-        onVerticalDragCancel: _end,
-        child: Container(
-          key: const ValueKey('ann.page.handNote.handle.box'),
-          decoration: BoxDecoration(
-            color: c.button,
-            border: Border.all(width: noteBorder, color: c.line),
-            borderRadius: BorderRadius.circular(11),
-            boxShadow: [BoxShadow(color: c.line, offset: AppShadows.hard2)],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [bar('bar1'), const SizedBox(height: 3), bar('bar2')],
+    // G20 (R7): a alça de 52 × 22 recebe o toque e o nó com 48 de altura, por dentro
+    return TapTarget(
+      child: Semantics(
+        key: const ValueKey('ann.page.handNote.handle'),
+        container: true,
+        button: true,
+        label: noteHandleLabel,
+        onIncrease: () => _step(noteLinePx),
+        onDecrease: () => _step(-noteLinePx),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          excludeFromSemantics: true,
+          onVerticalDragDown: (d) => _from = d.globalPosition.dy,
+          onVerticalDragUpdate: (d) {
+            final from = _from;
+            if (from == null) return;
+            widget.session.dragNoteHandle(
+              widget.id,
+              d.globalPosition.dy - from,
+            );
+          },
+          onVerticalDragEnd: (_) => _end(),
+          onVerticalDragCancel: _end,
+          child: Container(
+            key: const ValueKey('ann.page.handNote.handle.box'),
+            decoration: BoxDecoration(
+              color: c.button,
+              border: Border.all(width: noteBorder, color: c.line),
+              borderRadius: BorderRadius.circular(11),
+              boxShadow: [BoxShadow(color: c.line, offset: AppShadows.hard2)],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [bar('bar1'), const SizedBox(height: 3), bar('bar2')],
+            ),
           ),
         ),
       ),

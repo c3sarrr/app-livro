@@ -323,9 +323,10 @@ void main() {
       tester.semantics.performAction(slider, SemanticsAction.increase);
       tester.semantics.performAction(slider, SemanticsAction.decrease);
       expect(saltos, [162, 156]);
-      // botão e balão ficam de fora (o rótulo é só "Posição no livro", sem "pág. 159")
-      expect(no.label, 'Posição no livro');
-      expect(no.mergeAllDescendantsIntoThisNode, isFalse);
+      // botão e balão ficam de fora (o rótulo é só "Posição no livro", sem "pág. 159"); o nó é o do alvo de 48 da
+      // G20 (R7), que junta o slider
+      expect(no.getSemanticsData().label, 'Posição no livro');
+      expect(no.rect.height, 48);
 
       // na última página não aumenta; num livro curto o passo é 1
       await montar(tester, page: 256, progression: 1);

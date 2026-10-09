@@ -47,9 +47,10 @@ final List<String> _contraste = [];
 /// As falhas do teste em curso (todas as telas dele, para ver a lista inteira de uma vez).
 final List<String> _falhas = [];
 
-/// Os alvos de toque menores que [minimo] (o guia do Flutter, `MinimumTapTargetGuideline`, com uma folga a mais: um nó
-/// cortado pela borda de uma lista rolável — a linha do sumário meio fora da folha — está "rolado para fora", como o guia
-/// já trata a borda da tela).
+/// Os alvos de toque menores que [minimo] — a regra do guia do Flutter (`MinimumTapTargetGuideline`), refeita aqui com
+/// duas folgas a mais: um nó cortado pela borda de uma lista rolável (a linha do sumário meio fora da folha) está
+/// "rolado para fora", como o guia já trata a borda da tela; e os controles deslizantes também contam (o guia só olha
+/// o toque e o toque longo).
 List<String> _pequenos(WidgetTester tester, double minimo) {
   final out = <String>[];
   for (final view in tester.binding.renderViews) {
@@ -87,8 +88,11 @@ List<String> _pequenos(WidgetTester tester, double minimo) {
       if (n.isMergedIntoParent) return;
       final data = n.getSemanticsData();
       if (data.flagsCollection.isHidden) return;
+      // os controles deslizantes (aumentar/diminuir) também são alvos: a barra de posição, a espessura, o brilho
       if (!data.hasAction(SemanticsAction.tap) &&
-          !data.hasAction(SemanticsAction.longPress)) {
+          !data.hasAction(SemanticsAction.longPress) &&
+          !data.hasAction(SemanticsAction.increase) &&
+          !data.hasAction(SemanticsAction.decrease)) {
         return;
       }
       if (data.flagsCollection.isLink) return;
@@ -195,6 +199,13 @@ void _bordas(WidgetTester tester, String tela) {
       final r = tester.hitTestOnBinding(global);
       if (!r.path.any((e) => identical(e.target, a))) {
         _falhas.add('$tela [borda] "$nome" $lado: o toque não chega');
+      } else if (!r.path.any(
+        (e) => e.target is RenderPointerListener && _dentro(e.target, a),
+      )) {
+        // chegou ao alvo, mas a ninguém que age dentro dele (a borda de uma caixa em volta de um campo)
+        _falhas.add(
+          '$tela [borda] "$nome" $lado: o toque não chega a quem age',
+        );
       }
     }
   }
@@ -319,6 +330,26 @@ Set<String> _rotulos(WidgetTester tester) {
   return out;
 }
 
+/// [o] é [alvo] ou fica dentro dele.
+bool _dentro(Object o, RenderObject alvo) {
+  if (o is! RenderObject) return false;
+  for (RenderObject? p = o; p != null; p = p.parent) {
+    if (identical(p, alvo)) return true;
+  }
+  return false;
+}
+
+/// Onde o guia do Flutter, como ele é, não passa e por quê (a regra refeita em [_pequenos] confere essas telas).
+const Map<String, String> _guiaComMotivo = {
+  '23 android': 'um nó na borda da tela (x 0, y −7), cortado por ela: o guia não o trata como fora da tela',
+  '27 android': 'a linha do sumário cortada pela borda da lista (7,5 de altura à vista): rolada para fora',
+  '27 iOS': 'a linha do sumário cortada pela borda da lista (7,5 de altura à vista): rolada para fora',
+};
+
+/// O resultado dos guias do Flutter como eles são (`androidTapTargetGuideline`, `iOSTapTargetGuideline`), por tela:
+/// vai para o relatório ao lado da regra refeita em [_pequenos].
+final List<String> _guiasDoFlutter = [];
+
 /// Os três guias de toque (reprovam), os rótulos do arquivo e o contraste (só medido).
 Future<void> _guias(WidgetTester tester, String tela) async {
   await _quadros(tester, 4);
@@ -333,6 +364,24 @@ Future<void> _guias(WidgetTester tester, String tela) async {
   for (final (nome, minimo) in [('android 48', 48.0), ('iOS 44', 44.0)]) {
     for (final f in _pequenos(tester, minimo)) {
       _falhas.add('$tela [$nome] $f');
+    }
+  }
+  for (final (nome, guia) in [
+    ('android', androidTapTargetGuideline),
+    ('iOS', iOSTapTargetGuideline),
+  ]) {
+    final g = await guia.evaluate(tester);
+    final porque = _guiaComMotivo['$tela $nome'];
+    _guiasDoFlutter.add(
+      '| $tela | $nome | ${g.passed ? 'passa' : 'não passa — ${porque ?? '?'}'} |',
+    );
+    if (!g.passed) {
+      // ignore: avoid_print
+      print('G20GUIA $tela $nome ${g.reason?.replaceAll('\n', ' | ')}');
+      // o guia como ele é reprova nas telas sem um motivo conhecido (a regra refeita em [_pequenos] cobre essas)
+      if (porque == null) {
+        _falhas.add('$tela [guia do Flutter, $nome] ${g.reason}');
+      }
     }
   }
   final r = await labeledTapTargetGuideline.evaluate(tester);
@@ -515,6 +564,10 @@ void main() {
       '${_textosBaixos.isEmpty ? 'Nenhum.\n' : '| Tela | Texto | Cores | Razão | Mínimo (tamanho) |\n|---|---|---|---|---|\n${_textosBaixos.values.join('\n')}\n'}'
       '\n## Os nós do leitor de tela (o guia do Flutter)\n\n'
       '${_contraste.isEmpty ? 'Nenhum.\n' : _contraste.join('\n')}',
+    );
+    File('tools/medicao/tmp/guias_g20.md').writeAsStringSync(
+      '# Os guias de alvo de toque do Flutter, como eles são (G20, R6)\n\n'
+      '| Tela | Guia | Resultado |\n|---|---|---|\n${_guiasDoFlutter.join('\n')}\n',
     );
   });
 

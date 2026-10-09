@@ -199,15 +199,23 @@ final class PageLayoutCacheDao {
             createdAt: Value(now.toUtc()),
           ),
         );
-    await _trim(userBookId);
+    await _trim(userBookId, settingsHash, viewport, fontsVersion);
   }
 
-  /// Fica com as [perBook] combinações de uso mais recente do livro.
-  Future<void> _trim(String userBookId) => _db.customStatement(
-    'DELETE FROM page_layout_cache WHERE user_book_id = ?1 AND rowid NOT IN ('
-    'SELECT rowid FROM page_layout_cache WHERE user_book_id = ?1 '
-    'ORDER BY created_at DESC LIMIT $perBook)',
-    [userBookId],
+  /// Fica com as [perBook] combinações de uso mais recente do livro: a recém-gravada e as outras mais novas (no mesmo
+  /// instante, a gravada por último).
+  Future<void> _trim(
+    String userBookId,
+    String settingsHash,
+    String viewport,
+    int fontsVersion,
+  ) => _db.customStatement(
+    'DELETE FROM page_layout_cache WHERE user_book_id = ?1 '
+    'AND NOT (settings_hash = ?2 AND viewport = ?3 AND fonts_version = ?4) '
+    'AND rowid NOT IN (SELECT rowid FROM page_layout_cache WHERE user_book_id = ?1 '
+    'AND NOT (settings_hash = ?2 AND viewport = ?3 AND fonts_version = ?4) '
+    'ORDER BY created_at DESC, rowid DESC LIMIT ${perBook - 1})',
+    [userBookId, settingsHash, viewport, fontsVersion],
   );
 
   /// Tudo do livro (o arquivo mudou).

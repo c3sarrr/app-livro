@@ -1,12 +1,13 @@
 // G20.3 (R3) — o Voltar do sistema por camadas: cada Voltar fecha só a camada de cima. Uma linha da matriz por
 // teste, cada camada aberta pelo auxiliar da fase dela (o mundo de referência no banco do leitor):
 // - Rótulos (23b) → o painel do marca-texto; painel da caneta ou do marca-texto (23/23b) → o modo anotação;
-// - modo anotação (22) → Concluir (grava — D-42) e a leitura limpa;
+// - modo anotação (22), também com a nota à mão aberta (24b) → Concluir (grava — D-42) e a leitura limpa;
 // - folha da nota → a barra do grifo; Outra cor → a barra do grifo;
 // - busca → os controles; ajustes (26) → os controles (D-142); sumário (27) → os controles;
 // - controles (20) → a leitura limpa (D-117); seleção (21) → a leitura limpa;
 // - leitura limpa → sai do leitor e grava (D-113);
-// - 25: Mais opções → a lista; aberta pelo leitor → o leitor na mesma página (D-195); aberta pela Início → a Início.
+// - 25: Mais opções, Exportar e a folha da nota → a lista; aberta pelo leitor → o leitor na mesma página (D-195);
+//   aberta pela Início → a Início.
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/features/highlights/presentation/highlights_screen.dart';
@@ -22,6 +23,7 @@ import '../../../support/dados_t20.dart';
 import '../../../support/dados_t21.dart';
 import '../../../support/dados_t22.dart';
 import '../../../support/dados_t23.dart';
+import '../../../support/dados_t24.dart' show abrirTela24b, livroDaTela24b;
 import '../../../support/dados_t25.dart';
 import '../../../support/fase_l20.dart';
 import '../../../support/fase_l25.dart';
@@ -92,6 +94,19 @@ void main() {
       await _voltar(tester);
       expect(_k('ann.markerPanel'), findsNothing);
       expect(_k('ann.mode'), findsOneWidget);
+    });
+
+    testWidgets('a nota à mão aberta (24b) → Concluir: a leitura limpa', (
+      tester,
+    ) async {
+      final livro = await livroDaTela24b();
+      addTearDown(livro.close);
+      await abrirTela24b(tester, livro);
+      expect(_k('ann.mode'), findsOneWidget);
+      await _voltar(tester);
+      await _banco(tester);
+      expect(_k('ann.mode'), findsNothing);
+      expect(find.byType(ReaderScreen), findsOneWidget);
     });
 
     testWidgets(
@@ -261,6 +276,34 @@ void main() {
         expect(_rodape(tester), pagina);
       },
     );
+
+    testWidgets('a 25: Exportar → a lista; a folha da nota → a lista', (
+      tester,
+    ) async {
+      final livro = await livroDaTela25();
+      addTearDown(livro.close);
+      await abrirTela25(tester, livro, tela: const Size(390, 844));
+      await tester.tap(_k('hl.topBar.export'));
+      await tester.pumpAndSettle();
+      expect(_k('hl.export.title'), findsOneWidget);
+      await _voltar(tester);
+      expect(_k('hl.export.title'), findsNothing);
+      expect(find.byType(HighlightsScreen), findsOneWidget);
+      await tester.ensureVisible(_k('hl.list.card2.head.more'));
+      await tester.pumpAndSettle();
+      await tester.tap(_k('hl.list.card2.head.more'));
+      await tester.pump();
+      await tester.tap(_k('hl.more.note'));
+      await tester.pump();
+      expect(_k('leitor.nota.campo'), findsOneWidget);
+      await _voltar(tester);
+      expect(_k('leitor.nota.campo'), findsNothing);
+      expect(
+        find.byType(HighlightsScreen),
+        findsOneWidget,
+        reason: 'um Voltar só fecha a folha',
+      );
+    });
 
     testWidgets('a 25 pela Início → a Início', (tester) async {
       final livro = await livroDaTela25();

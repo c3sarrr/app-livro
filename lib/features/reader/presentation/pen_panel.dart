@@ -435,85 +435,90 @@ class PenPanel extends StatelessWidget {
                   widthOfSlider((x - AppStrokes.regular) / inner),
                   save: save,
                 );
-                return Semantics(
-                  slider: true,
-                  label: 'Espessura',
-                  value: widthSpoken(pen.penWidthMm),
-                  increasedValue: spoken(pen.penWidthMm + 0.1),
-                  decreasedValue: spoken(pen.penWidthMm - 0.1),
-                  onIncrease: () => session.setPenWidth(
-                    ((pen.penWidthMm + 0.1) * 10).round().clamp(3, 40) / 10,
-                  ),
-                  onDecrease: () => session.setPenWidth(
-                    ((pen.penWidthMm - 0.1) * 10).round().clamp(3, 40) / 10,
-                  ),
-                  child: GestureDetector(
-                    key: const ValueKey('$_k.size.slider'),
-                    excludeFromSemantics: true,
-                    behavior: HitTestBehavior.opaque,
-                    onHorizontalDragDown: (d) => at(d.localPosition.dx),
-                    // o 1º trecho do arrasto chega no começo (`DragStartBehavior.start`), não num update
-                    onHorizontalDragStart: (d) => at(d.localPosition.dx),
-                    onHorizontalDragUpdate: (d) => at(d.localPosition.dx),
-                    onHorizontalDragEnd: (_) =>
-                        session.setPenWidth(session.presets.penWidthMm),
-                    onHorizontalDragCancel: () =>
-                        session.setPenWidth(session.presets.penWidthMm),
-                    child: SizedBox(
-                      height: 16,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned.fill(
-                            child: Container(
-                              clipBehavior: Clip.antiAlias,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(999),
-                                border: Border.fromBorderSide(line),
-                              ),
-                              child: CustomPaint(
-                                painter: HatchPainter(
-                                  stripe: p.hatch,
-                                  base: p.hatchBase,
+                // G20 (R7): o trilho de 16 recebe o toque e o nó com 48 de altura, por dentro
+                return TapTarget(
+                  child: Semantics(
+                    slider: true,
+                    label: 'Espessura',
+                    value: widthSpoken(pen.penWidthMm),
+                    increasedValue: spoken(pen.penWidthMm + 0.1),
+                    decreasedValue: spoken(pen.penWidthMm - 0.1),
+                    onIncrease: () => session.setPenWidth(
+                      ((pen.penWidthMm + 0.1) * 10).round().clamp(3, 40) / 10,
+                    ),
+                    onDecrease: () => session.setPenWidth(
+                      ((pen.penWidthMm - 0.1) * 10).round().clamp(3, 40) / 10,
+                    ),
+                    child: GestureDetector(
+                      key: const ValueKey('$_k.size.slider'),
+                      excludeFromSemantics: true,
+                      behavior: HitTestBehavior.opaque,
+                      onHorizontalDragDown: (d) => at(d.localPosition.dx),
+                      // o 1º trecho do arrasto chega no começo (`DragStartBehavior.start`), não num update
+                      onHorizontalDragStart: (d) => at(d.localPosition.dx),
+                      onHorizontalDragUpdate: (d) => at(d.localPosition.dx),
+                      onHorizontalDragEnd: (_) =>
+                          session.setPenWidth(session.presets.penWidthMm),
+                      onHorizontalDragCancel: () =>
+                          session.setPenWidth(session.presets.penWidthMm),
+                      child: SizedBox(
+                        height: 16,
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned.fill(
+                              child: Container(
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(999),
+                                  border: Border.fromBorderSide(line),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    key: const ValueKey('$_k.size.slider.fill'),
-                                    width: t * inner,
-                                    decoration: BoxDecoration(
-                                      color: scope.tint(scope.brand),
-                                      borderRadius:
-                                          const BorderRadius.horizontal(
-                                            left: Radius.circular(999),
-                                          ),
+                                child: CustomPaint(
+                                  painter: HatchPainter(
+                                    stripe: p.hatch,
+                                    base: p.hatchBase,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      key: const ValueKey(
+                                        '$_k.size.slider.fill',
+                                      ),
+                                      width: t * inner,
+                                      decoration: BoxDecoration(
+                                        color: scope.tint(scope.brand),
+                                        borderRadius:
+                                            const BorderRadius.horizontal(
+                                              left: Radius.circular(999),
+                                            ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            key: const ValueKey('$_k.size.slider.knob'),
-                            left: AppStrokes.regular + t * inner - 14,
-                            top: 8 - 14,
-                            width: 28,
-                            height: 28,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: p.island,
-                                shape: BoxShape.circle,
-                                border: Border.all(width: 2, color: p.border),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: p.shadow,
-                                    offset: const Offset(2, 2),
-                                  ),
-                                ],
+                            Positioned(
+                              key: const ValueKey('$_k.size.slider.knob'),
+                              left: AppStrokes.regular + t * inner - 14,
+                              top: 8 - 14,
+                              width: 28,
+                              height: 28,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: p.island,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(width: 2, color: p.border),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: p.shadow,
+                                      offset: const Offset(2, 2),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

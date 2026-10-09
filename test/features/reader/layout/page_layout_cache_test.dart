@@ -185,6 +185,18 @@ void main() {
       expect(await guardadas(), {'b', 'c', 'd', 'e'});
     });
 
+    test(
+      'no mesmo instante, a gravada por último fica (o desempate)',
+      () async {
+        for (final h in ['a', 'b', 'c', 'd', 'e']) {
+          await gravar(h, 1);
+        }
+        final ficaram = await guardadas();
+        expect(ficaram, hasLength(4));
+        expect(ficaram, contains('e'), reason: 'a recém-gravada não some');
+      },
+    );
+
     test('regravar a mesma combinação não conta como outra', () async {
       for (final (i, h) in ['a', 'b', 'c', 'd'].indexed) {
         await gravar(h, 1 + i);

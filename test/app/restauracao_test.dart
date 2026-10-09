@@ -198,7 +198,11 @@ void main() {
       'R5: a 25 restaurada sobre o leitor — o cartão ainda leva ao trecho',
       (tester) async {
         setCanvasView(tester, logical: const Size(390, 844));
-        await abrirLeitor(tester, livro, destaques: depsDaTela25(livro));
+        final t = await abrirLeitor(
+          tester,
+          livro,
+          destaques: depsDaTela25(livro),
+        );
         await tester.tapAt(const Offset(195, 420));
         await _quadros(tester, 12);
         await tester.tap(_k('r20.bottomIsland.tools.notes'));
@@ -206,6 +210,9 @@ void main() {
         await _fecharEReabrir(tester);
         await esperarTela25(tester, assentar: false);
         expect(find.byType(HighlightsScreen), findsOneWidget);
+        // o leitor restaurado embaixo da 25 não está na tela: não acende a tela (nem conta o tempo)
+        await _banco(tester);
+        expect(t.awake.log.last, 'off');
         await tester.dragUntilVisible(
           hl('hl.list.card3.body.quote'),
           hl('hl.scroll'),

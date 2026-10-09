@@ -927,13 +927,26 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen>
   /// Grifos (R13): a tela 25 por cima. A posição grava antes de ela abrir — o "você parou aqui" é a página de agora
   /// (R2); a saída dela chega pelo canal (R5).
   Future<void> _openHighlights() async {
-    _dismissUndo();
-    await _c?.cover();
-    if (!mounted) return;
-    unawaited(
-      context.push<void>(AppRoutes.destaques(widget.bookId, fromReader: true)),
-    );
+    // dois toques enquanto a posição grava abririam duas 25: a 2ª espera a 1ª fechar
+    if (_openingHighlights) return;
+    _openingHighlights = true;
+    try {
+      _dismissUndo();
+      await _c?.cover();
+      if (!mounted) return;
+      await context.push<void>(
+        AppRoutes.destaques(widget.bookId, fromReader: true),
+      );
+    } finally {
+      _openingHighlights = false;
+    }
   }
+
+  bool _openingHighlights = false;
+
+  /// O retângulo de cada desenho da página (os traços não mudam sem trocar a lista): sem refazer o caminho a cada
+  /// quadro.
+  final Expando<Rect> _drawingBounds = Expando('desenho');
 
   /// Outra tela cobriu o leitor ou saiu de cima dele: o tempo pausa e volta (Anexo 03 §8) — vale também restaurado,
   /// quando ninguém esperou o `push`.
@@ -1134,12 +1147,20 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen>
         '${AnnotationIsland.colorName(Color(session.color), pen: true)}.',
       );
       // R8 (G20): trocar de ferramenta ou de cor é anunciado ("Marca-texto, amarelo"; a Borracha só com o nome)
+      // a troca muda a cor e a ferramenta em passos (sair do Laço para o Marca-texto): compara-se depois dela, uma vez
       var heard = (session.tool, session.color);
+      var pending = false;
       session.addListener(() {
-        final now = (session.tool, session.color);
-        if (now == heard) return;
-        heard = now;
-        _announce(AnnotationIsland.toolAnnouncement(now.$1, Color(now.$2)));
+        if (pending) return;
+        pending = true;
+        scheduleMicrotask(() {
+          pending = false;
+          if (!mounted) return;
+          final now = (session.tool, session.color);
+          if (now == heard) return;
+          heard = now;
+          _announce(AnnotationIsland.toolAnnouncement(now.$1, Color(now.$2)));
+        });
       });
     } on Object catch (e, st) {
       c.deps.onError(e, st);
@@ -1630,7 +1651,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen>
             for (final d in ink.drawingsOn(doc.current))
               if (d.strokes.isNotEmpty)
                 Positioned.fromRect(
-                  rect: inkBounds(d.strokes),
+                  rect: _drawingBounds[d.strokes] ??= inkBounds(d.strokes),
                   child: IgnorePointer(
                     child: Semantics(
                       container: true,

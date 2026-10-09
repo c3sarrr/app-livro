@@ -177,7 +177,9 @@ class RenderTapTargetScope extends RenderProxyBox {
       hitTestChildren(atEdge, position: edge);
       // coberto na borda (a ilha embaixo do painel da busca)
       if (!atEdge.path.any((e) => identical(e.target, target))) continue;
-      // o toque vai ao alvo como se fosse na borda do desenho (com os pais, as rolagens e as molduras de cima)
+      // o toque vai ao alvo como se fosse na borda do desenho (com os pais, as rolagens e as molduras de cima). O
+      // evento continua com a posição do dedo: quem usa a posição (um controle deslizante) recebe um ponto fora do
+      // desenho — a barra de posição só usa o x, que fica dentro dela
       return super.hitTest(result, position: edge);
     }
     return super.hitTest(result, position: position);
@@ -210,6 +212,8 @@ class RenderTapTargetScope extends RenderProxyBox {
     }
     for (final e in probe.path) {
       final h = e.target;
+      // um link no texto (um trecho com reconhecedor) é outro que pega toques
+      if (h is TextSpan && h.recognizer != null) return true;
       if (h is! RenderObject || identical(h, this) || chain.containsKey(h)) {
         continue;
       }
@@ -246,7 +250,9 @@ class RenderTapTargetScope extends RenderProxyBox {
     return true;
   }
 
-  /// [later] é pintado depois de [earlier] (por cima): os dois são filhos de [parent].
+  /// [later] é pintado depois de [earlier] (por cima): os dois são filhos de [parent]. Vale a ordem dos filhos (a
+  /// pilha, o `Overlay`); num viewport com centro os slivers de antes do centro pintam ao contrário — o app não põe alvos
+  /// que crescem em slivers que se sobrepõem.
   static bool _paintsAfter(
     RenderObject parent,
     RenderObject later,

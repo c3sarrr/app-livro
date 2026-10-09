@@ -433,7 +433,16 @@ void main() {
     );
     expect(h.awake.log.last, 'off');
     h.agora += const Duration(minutes: 1); // a 25 por cima: não conta
+    // o app volta do segundo plano com a 25 ainda por cima: a tela não fica acesa por causa do leitor
+    await c.lifecycle(AppLifecycleState.hidden);
+    await c.lifecycle(AppLifecycleState.resumed);
+    expect(
+      h.awake.log.last,
+      'off',
+      reason: 'coberto, o leitor não acende a tela',
+    );
     c.setVisible(true);
+    expect(h.awake.log.last, 'on');
     h.agora += const Duration(seconds: 10);
     await c.close();
     expect(await h.segundos(), [40]);

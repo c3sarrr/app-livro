@@ -52,6 +52,8 @@ final class LocalHomeRepository implements HomeRepository {
   /// Falha de "Para você" ou do Clube: a seção some e a Início continua (D-81, D-80).
   final void Function(Object error, StackTrace stack) _onSourceError;
 
+  final _NumeralsCache _numeralsCache = _NumeralsCache();
+
   static void _report(Object e, StackTrace st) => FlutterError.reportError(
     FlutterErrorDetails(exception: e, stack: st, library: 'inicio'),
   );
@@ -191,7 +193,7 @@ final class LocalHomeRepository implements HomeRepository {
     final local = utc.add(offset);
     final today = DateTime.utc(local.year, local.month, local.day);
     final data = await db.transaction(
-      () => _Reader(db, owner, _utcOffsetAt).read(utc, today),
+      () => _Reader(db, owner, _utcOffsetAt, _numeralsCache).read(utc, today),
     );
 
     final reading = data.books.where((b) => b.status == 'reading').toList()
@@ -457,9 +459,16 @@ final class _Data {
       (b.refPagesTotal == null ? null : b.refPagesTotal! * refPageChars);
 }
 
+/// Os numerais do livro do herói e a chave do índice de onde vieram (G20, D-206): vale entre os recálculos.
+final class _NumeralsCache {
+  (String, List<String?>)? last;
+}
+
 /// As consultas de um instantâneo (todas dentro da mesma transação).
 final class _Reader {
-  _Reader(this._db, this._owner, this._utcOffsetAt);
+  _Reader(this._db, this._owner, this._utcOffsetAt, this._cache);
+
+  final _NumeralsCache _cache;
 
   final AppDatabase _db;
   final String _owner;
@@ -505,13 +514,28 @@ final class _Reader {
   }
 
   /// Os numerais dos capítulos do livro; índice ilegível → nenhum (o herói conta pelo `chapters_total`, como
-  /// antes da G20 — D-85).
+  /// antes da G20 — D-85). Ficam guardados enquanto o índice é o mesmo (o livro, o arquivo e quando foi feito): a
+  /// Início recalcula a cada página gravada e não relê o índice inteiro.
   Future<List<String?>> _numerals(String userBookId) async {
+    final rows = await _all(
+      'SELECT content_sha256, built_at FROM book_content_index WHERE user_book_id = ?1',
+      [userBookId],
+    );
+    final key = rows.isEmpty
+        ? '$userBookId|-'
+        : '$userBookId|${rows.first.data['content_sha256']}|${rows.first.data['built_at']}';
+    final cached = _cache.last;
+    if (cached != null && cached.$1 == key) return cached.$2;
+    List<String?> numerals;
     try {
-      return chapterNumerals(await BookContentIndexDao(_db).byBook(userBookId));
+      numerals = chapterNumerals(
+        await BookContentIndexDao(_db).byBook(userBookId),
+      );
     } on Object {
-      return const [];
+      numerals = const [];
     }
+    _cache.last = (key, numerals);
+    return numerals;
   }
 
   Future<List<QueryRow>> _all(String sql, List<Object> args) => _db

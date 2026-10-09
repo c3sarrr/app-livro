@@ -201,12 +201,13 @@ class _LabelsSheetState extends State<LabelsSheet> {
           ),
         ),
         Expanded(
-          child: TapTarget(
-            child: NeoBox(
-              color: p.well,
-              border: line,
-              radius: BorderRadius.circular(14),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+          child: NeoBox(
+            color: p.well,
+            border: line,
+            radius: BorderRadius.circular(14),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+            // o alvo é o campo: o toque na borda da caixa chega a ele e o foca
+            child: TapTarget(
               child: Semantics(
                 label: 'Rótulo do $name',
                 child: Material(

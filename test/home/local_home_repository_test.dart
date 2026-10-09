@@ -322,6 +322,38 @@ void main() {
       expect((h2.chapter, h2.totalChapters), (null, null));
     });
 
+    test('G20 (D-206): os numerais ficam guardados enquanto o índice é o mesmo; o índice refeito conta de novo', () async {
+      final livro = _livro(
+        1,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 8),
+        capitulos: 153,
+      );
+      await gravar([livro]);
+      await BookContentIndexDao(db).upsert(
+        livro.id,
+        indexEpubFile(domCasmurroEpub, shaDoLivroTeste(1)),
+        builtAt: t0Teste,
+      );
+      await ReadingPositionsDao(db)
+          .upsert(_posicao(livro, progresso: 0.2, capitulo: 33));
+      expect((await repo.read(_agora)).continueReading!.chapter, 32);
+      // o sumário mexido por fora, sem o índice ser refeito: a Início não relê o índice a cada recálculo
+      await db.customStatement(
+        "UPDATE book_content_index SET toc_json = '[]' WHERE user_book_id = ?",
+        [livro.id],
+      );
+      final guardado = (await repo.read(_agora)).continueReading!;
+      expect((guardado.chapter, guardado.totalChapters), (32, 148));
+      // o índice refeito (outro built_at): conta pelo índice novo — sem sumário, pelas 153 entradas do livro
+      await db.customStatement(
+        "UPDATE book_content_index SET built_at = '2026-10-02T00:00:00.000Z' WHERE user_book_id = ?",
+        [livro.id],
+      );
+      final novo = (await repo.read(_agora)).continueReading!;
+      expect((novo.chapter, novo.totalChapters), (34, 153));
+    });
+
     test('sem capítulos (PDF): capítulo nulo; sem sessões, o tempo restante usa 1.000 car./min (D-97)', () async {
       await gravar([
         _livro(
@@ -438,8 +470,11 @@ void main() {
           status: ShelfStatus.reading,
           aberto: _local(10, 5, 8),
           paginas: 40,
+          capitulos: 12,
         );
         await gravar([a]);
+        await ReadingPositionsDao(db)
+            .upsert(_posicao(a, progresso: 0, capitulo: 4));
         await db.customStatement(
           "INSERT INTO book_content_index (user_book_id, content_sha256, ref_page_version, spine_json, "
           "char_counts_json, toc_json, ref_pages_json, built_at) VALUES (?, 'x', 1, '{\"items\": 3}', '[]', "
@@ -447,10 +482,10 @@ void main() {
           [a.id],
         );
         // 40 × 1.500 ÷ 1.000 = 60 min
-        expect(
-          (await repo.read(_agora)).continueReading!.timeLeft,
-          const Duration(minutes: 60),
-        );
+        final h = (await repo.read(_agora)).continueReading!;
+        expect(h.timeLeft, const Duration(minutes: 60));
+        // o "Cap. N de M" volta ao de antes da G20: a folha do sumário e o total do livro
+        expect((h.chapter, h.totalChapters), (5, 12));
       },
     );
 

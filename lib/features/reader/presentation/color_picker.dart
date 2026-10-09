@@ -268,61 +268,64 @@ class _ColorPickerState extends State<ColorPicker> {
     final brightness = LayoutBuilder(
       builder: (context, c) {
         final w = c.maxWidth;
-        return Semantics(
-          key: _k('.brightness'),
-          slider: true,
-          label: 'Brilho',
-          value: '$percent %',
-          increasedValue: pct(_hsv.v + brightnessStep),
-          decreasedValue: pct(_hsv.v - brightnessStep),
-          onIncrease: () => _bright(_hsv.v + brightnessStep, end: true),
-          onDecrease: () => _bright(_hsv.v - brightnessStep, end: true),
-          child: _tracked(
-            GestureDetector(
-              excludeFromSemantics: true,
-              behavior: HitTestBehavior.opaque,
-              onHorizontalDragDown: (d) =>
-                  _down(() => _bright(_brightnessAt(d.localPosition.dx, w))),
-              onHorizontalDragStart: (d) =>
-                  _bright(_brightnessAt(d.localPosition.dx, w)),
-              onHorizontalDragUpdate: (d) =>
-                  _bright(_brightnessAt(d.localPosition.dx, w)),
-              onHorizontalDragEnd: (_) => _bright(_hsv.v, end: true),
-              onHorizontalDragCancel: _cancel,
-              child: SizedBox(
-                height: _track,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned.fill(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.fromBorderSide(line),
-                          gradient: LinearGradient(
-                            colors: [
-                              scope.tint(AppColors.ink),
-                              scope.tint(full),
-                            ],
+        // G20 (R7): o trilho de 16 recebe o toque e o nó com 48 de altura, por dentro
+        return TapTarget(
+          child: Semantics(
+            key: _k('.brightness'),
+            slider: true,
+            label: 'Brilho',
+            value: '$percent %',
+            increasedValue: pct(_hsv.v + brightnessStep),
+            decreasedValue: pct(_hsv.v - brightnessStep),
+            onIncrease: () => _bright(_hsv.v + brightnessStep, end: true),
+            onDecrease: () => _bright(_hsv.v - brightnessStep, end: true),
+            child: _tracked(
+              GestureDetector(
+                excludeFromSemantics: true,
+                behavior: HitTestBehavior.opaque,
+                onHorizontalDragDown: (d) =>
+                    _down(() => _bright(_brightnessAt(d.localPosition.dx, w))),
+                onHorizontalDragStart: (d) =>
+                    _bright(_brightnessAt(d.localPosition.dx, w)),
+                onHorizontalDragUpdate: (d) =>
+                    _bright(_brightnessAt(d.localPosition.dx, w)),
+                onHorizontalDragEnd: (_) => _bright(_hsv.v, end: true),
+                onHorizontalDragCancel: _cancel,
+                child: SizedBox(
+                  height: _track,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Positioned.fill(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(999),
+                            border: Border.fromBorderSide(line),
+                            gradient: LinearGradient(
+                              colors: [
+                                scope.tint(AppColors.ink),
+                                scope.tint(full),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      key: _k('.brightness.knob'),
-                      // de −3 a +3 das pontas de dentro do trilho (o `right: −3px` do arquivo)
-                      left: _knobStart() + _hsv.v * _knobTravel(w),
-                      top: (_track - _knob) / 2,
-                      width: _knob,
-                      height: _knob,
-                      child: _Dot(
-                        color: color,
-                        ring: surface,
-                        edge: p.border,
-                        shadow: p.shadow,
+                      Positioned(
+                        key: _k('.brightness.knob'),
+                        // de −3 a +3 das pontas de dentro do trilho (o `right: −3px` do arquivo)
+                        left: _knobStart() + _hsv.v * _knobTravel(w),
+                        top: (_track - _knob) / 2,
+                        width: _knob,
+                        height: _knob,
+                        child: _Dot(
+                          color: color,
+                          ring: surface,
+                          edge: p.border,
+                          shadow: p.shadow,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

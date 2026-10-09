@@ -480,8 +480,12 @@ class ReaderSessionController extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Outra tela cobre o leitor ([setVisible] `false`): voltar do segundo plano não acende a tela por ele.
+  bool _hidden = false;
+
   /// A página está (ou deixou de estar) na tela.
   void setVisible(bool visible) {
+    _hidden = !visible;
     unawaited(_tracker?.setVisible(visible));
     if (visible) {
       _awake?.touch();
@@ -514,7 +518,7 @@ class ReaderSessionController extends ChangeNotifier {
         s == AppLifecycleState.resumed || s == AppLifecycleState.inactive;
     await _tracker?.setForeground(foreground);
     if (foreground) {
-      _awake?.touch();
+      if (!_hidden) _awake?.touch();
     } else {
       _awake?.stop();
       await _doc?.flush();
