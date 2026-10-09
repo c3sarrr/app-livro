@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart' show immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../account/application/account_controller.dart';
+import '../../social/domain/social_failure.dart' show SocialOffline;
 import '../data/billing_gateway.dart';
 import '../domain/billing_models.dart';
 import '../domain/billing_rules.dart';
@@ -337,6 +338,40 @@ class BillingController extends Notifier<ProView> {
       user,
       manageInstruction(ref.read(billingPlatformProvider)) ?? failedNotice,
     );
+  });
+
+  /// Os pacotes da offering `default` (a tela técnica). Sem conta ou sem a loja: nenhum.
+  Future<List<ProPackage>> packages() async {
+    if (_user == null || state is! ProReady) return const [];
+    return _gateway.packages();
+  }
+
+  /// "Conferir agora" da tela técnica: o servidor busca o estado da conta no RevenueCat (D-229); se o Pro do servidor
+  /// mudou, o resumo da conta é relido (o sync segue pela G06).
+  Future<void> checkNow() => _action((user) async {
+    final server = ref.read(proServerApiProvider)!;
+    try {
+      final r = await server.syncNow();
+      final s = state;
+      if (_user != user || s is! ProReady) return;
+      if (r.pro != s.serverPro) {
+        await ref.read(accountControllerProvider.notifier).refresh();
+        final now = state;
+        if (_user == user && now is ProReady) {
+          state = now.copyWith(serverPro: r.pro);
+        }
+      }
+      _notice(
+        user,
+        r.pro
+            ? 'O servidor confirmou o Pro.'
+            : 'O servidor não tem o Pro desta conta.',
+      );
+    } on SocialOffline {
+      _notice(user, offlineNotice);
+    } on Object {
+      _notice(user, failedNotice);
+    }
   });
 
   /// O app voltou ao primeiro plano: a ativação que não confirmou tenta de novo (R2).

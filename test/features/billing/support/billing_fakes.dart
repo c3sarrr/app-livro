@@ -203,7 +203,10 @@ final class BillingFalso extends BillingController {
   Future<void> manage() async => acoes.add('gerenciar');
 
   @override
-  Future<void> activate() async => acoes.add('conferir');
+  Future<void> activate() async => acoes.add('ativar');
+
+  @override
+  Future<void> checkNow() async => acoes.add('conferir');
 
   @override
   void clearNotice() {

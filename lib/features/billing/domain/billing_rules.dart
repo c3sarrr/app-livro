@@ -77,3 +77,11 @@ String? manageInstruction(TargetPlatform platform) => switch (platform) {
     'Gerencie a assinatura em Ajustes › seu nome › Assinaturas',
   _ => null,
 };
+
+/// O texto que as lojas exigem antes do botão de assinar (§5). Os textos finais passam por advogado (G25).
+String storeDisclosure(ProPackage p, TargetPlatform platform) {
+  final periodo = p.period == ProPeriod.month ? 'mês' : 'ano';
+  final loja = platform == TargetPlatform.iOS ? 'App Store' : 'Google Play';
+  return 'Assinatura com renovação automática: ${p.priceString} por $periodo. A cobrança é feita na sua conta da '
+      '$loja e renova até você cancelar, pelo menos 24 horas antes do fim do período, em Gerenciar assinatura.';
+}

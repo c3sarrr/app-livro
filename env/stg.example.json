@@ -10,6 +10,8 @@
   "CATALOG_URL": "<endereço do Worker do catálogo — quando houver conta Cloudflare (D-75)>",
   "REVENUECAT_PUBLIC_KEY_ANDROID": "<chave pública goog_… — G07>",
   "REVENUECAT_PUBLIC_KEY_IOS": "<chave pública appl_… — G07>",
+  "TERMS_URL": "<endereço dos Termos de Uso publicados — Q9, G25>",
+  "PRIVACY_URL": "<endereço da Política de Privacidade publicada — Q9, G25>",
   "SENTRY_DSN": "<DSN — G24 (Q8)>",
   "POSTHOG_KEY": "<chave pública — G24 (Q8, opt-in)>"
 }

@@ -246,4 +246,28 @@ void main() {
       expect(manageInstruction(TargetPlatform.windows), isNull);
     });
   });
+
+  group('o texto das lojas antes do botão (§5)', () {
+    test('Android, mensal', () {
+      expect(
+        storeDisclosure(
+          pacote(ProPeriod.month, 9.99, r'R$ 9,99'),
+          TargetPlatform.android,
+        ),
+        r'Assinatura com renovação automática: R$ 9,99 por mês. A cobrança é feita na sua conta da Google Play '
+        'e renova até você cancelar, pelo menos 24 horas antes do fim do período, em Gerenciar assinatura.',
+      );
+    });
+
+    test('iOS, anual', () {
+      expect(
+        storeDisclosure(
+          pacote(ProPeriod.year, 79.99, r'R$ 79,99'),
+          TargetPlatform.iOS,
+        ),
+        r'Assinatura com renovação automática: R$ 79,99 por ano. A cobrança é feita na sua conta da App Store '
+        'e renova até você cancelar, pelo menos 24 horas antes do fim do período, em Gerenciar assinatura.',
+      );
+    });
+  });
 }

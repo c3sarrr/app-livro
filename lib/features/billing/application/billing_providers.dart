@@ -10,6 +10,8 @@ import '../../../core/config/server_providers.dart';
 import '../data/billing_gateway.dart';
 import '../data/pro_server_api.dart';
 import '../data/revenuecat_gateway.dart';
+import '../domain/billing_models.dart';
+import 'billing_controller.dart';
 
 /// A chave do RevenueCat para este build, ou nenhuma.
 String? billingKeyFor({
@@ -72,4 +74,9 @@ final billingPlatformProvider = Provider<TargetPlatform>(
 final billingLauncherProvider = Provider<Future<bool> Function(Uri)>(
   (ref) =>
       (uri) => launchUrl(uri, mode: LaunchMode.externalApplication),
+);
+
+/// Os pacotes da offering `default` para a tela técnica (relidos a cada vez que ela abre).
+final proPackagesProvider = FutureProvider.autoDispose<List<ProPackage>>(
+  (ref) => ref.read(billingControllerProvider.notifier).packages(),
 );

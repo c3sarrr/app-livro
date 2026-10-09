@@ -5,7 +5,10 @@ import 'package:go_router/go_router.dart';
 import '../features/account/presentation/account_block.dart';
 import '../features/account/presentation/onboarding_screen.dart';
 import '../features/account/presentation/sign_in_screen.dart';
+import '../features/billing/application/paywall_triggers.dart'
+    show PaywallReason;
 import '../features/billing/presentation/paywall_home_hook.dart';
+import '../features/billing/presentation/pro_tech_screen.dart';
 import '../features/home/presentation/debug/design_system_screen.dart';
 import '../features/highlights/presentation/highlights_screen.dart';
 import '../features/home/presentation/home_screen.dart';
@@ -127,6 +130,20 @@ GoRouter createRouter({
           parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (context, state) =>
               _page(state, const DesignSystemScreen()),
+        ),
+      // G22 (D-230): o paywall de trabalho, sem design — só na depuração
+      if (kDebugMode)
+        GoRoute(
+          path: AppRoutes.proTecnico,
+          parentNavigatorKey: rootNavigatorKey,
+          pageBuilder: (context, state) => _page(
+            state,
+            ProTechScreen(
+              reason: PaywallReason.fromName(
+                state.uri.queryParameters['motivo'],
+              ),
+            ),
+          ),
         ),
     ],
   );

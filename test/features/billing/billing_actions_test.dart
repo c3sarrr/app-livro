@@ -6,6 +6,7 @@ import 'package:app_leitura/features/account/application/account_controller.dart
 import 'package:app_leitura/features/billing/application/billing_controller.dart';
 import 'package:app_leitura/features/billing/application/billing_providers.dart';
 import 'package:app_leitura/features/billing/domain/billing_models.dart';
+import 'package:app_leitura/features/social/domain/social_failure.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -234,5 +235,33 @@ void main() {
         );
       },
     );
+  });
+
+  group('conferir agora (a tela técnica)', () {
+    test('o servidor confirma o Pro: relê o resumo e avisa', () async {
+      await iniciar(membro(contaA));
+      servidor.aoConferir = (pro: true, activeUntil: proAte);
+      conta.proNoServidor = true;
+      await ctrl().checkNow();
+      await pumpEventQueue();
+      expect(servidor.chamadas, ['syncNow']);
+      expect(conta.releituras, 1);
+      expect(pronto().serverPro, isTrue);
+      expect(pronto().notice, 'O servidor confirmou o Pro.');
+    });
+
+    test('o servidor diz o mesmo de antes: não relê', () async {
+      await iniciar(membro(contaA));
+      await ctrl().checkNow();
+      expect(conta.releituras, 0);
+      expect(pronto().notice, 'O servidor não tem o Pro desta conta.');
+    });
+
+    test('sem rede', () async {
+      await iniciar(membro(contaA));
+      servidor.falhaAoConferir = const SocialOffline();
+      await ctrl().checkNow();
+      expect(pronto().notice, 'Sem conexão. Tente de novo.');
+    });
   });
 }

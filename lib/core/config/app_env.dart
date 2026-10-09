@@ -16,6 +16,8 @@ final class AppEnv {
     this.catalogUrl = '',
     this.revenuecatKeyAndroid = '',
     this.revenuecatKeyIos = '',
+    this.termsUrl = '',
+    this.privacyUrl = '',
   });
 
   /// Lê os `--dart-define`.
@@ -38,6 +40,8 @@ final class AppEnv {
       'REVENUECAT_PUBLIC_KEY_ANDROID',
     ),
     revenuecatKeyIos: String.fromEnvironment('REVENUECAT_PUBLIC_KEY_IOS'),
+    termsUrl: String.fromEnvironment('TERMS_URL'),
+    privacyUrl: String.fromEnvironment('PRIVACY_URL'),
   );
 
   /// Deep link de retorno do login pelo navegador (Apple no Android — D-67).
@@ -65,6 +69,14 @@ final class AppEnv {
   /// (`goog_…`, `appl_…`) na G27. Qual vale em cada build: `billingKeyFor` (`billing_providers.dart`).
   final String revenuecatKeyAndroid;
   final String revenuecatKeyIos;
+
+  /// Os Termos de Uso e a Política de Privacidade publicados (G22, a tela técnica do Pro; a publicação é a Q9 e os
+  /// textos finais, a G25). Vazios ou com o modelo `<…>`: ainda não publicados.
+  final String termsUrl;
+  final String privacyUrl;
+
+  /// O endereço publicado, ou nenhum.
+  static Uri? publishedUrl(String v) => _filled(v) ? Uri.tryParse(v) : null;
 
   static bool _filled(String v) => v.isNotEmpty && !v.startsWith('<');
 
