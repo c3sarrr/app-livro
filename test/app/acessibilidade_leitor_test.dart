@@ -342,8 +342,6 @@ bool _dentro(Object o, RenderObject alvo) {
 /// Onde o guia do Flutter, como ele é, não passa e por quê (a regra refeita em [_pequenos] confere essas telas).
 const Map<String, String> _guiaComMotivo = {
   '23 android': 'um nó na borda da tela (x 0, y −7), cortado por ela: o guia não o trata como fora da tela',
-  '27 android': 'a linha do sumário cortada pela borda da lista (7,5 de altura à vista): rolada para fora',
-  '27 iOS': 'a linha do sumário cortada pela borda da lista (7,5 de altura à vista): rolada para fora',
 };
 
 /// O resultado dos guias do Flutter como eles são (`androidTapTargetGuideline`, `iOSTapTargetGuideline`), por tela:

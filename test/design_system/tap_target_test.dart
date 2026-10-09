@@ -277,6 +277,88 @@ void main() {
     },
   );
 
+  testWidgets(
+    'no desenho de um alvo, o toque é dele, mesmo quando quem age é a linha em volta (o vizinho perto não o leva)',
+    (tester) async {
+      final toques = <String>[];
+      var linha = 0;
+      await tester.pumpWidget(
+        _tela(
+          GestureDetector(
+            onTap: () => linha++,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // o alvo sem gesto próprio: quem age é a linha
+                const TapTarget(
+                  child: SizedBox(
+                    key: ValueKey('a'),
+                    width: 28,
+                    height: 28,
+                    child: ColoredBox(color: Color(0xFF000000)),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                _caixa('b', toques),
+              ],
+            ),
+          ),
+        ),
+      );
+      final a = tester.getRect(_id('a'));
+      final b = tester.getRect(_id('b'));
+      // o ponto está no desenho de 'a' e na área nova de 'b' (que começa 10 antes dele)
+      final p = Offset(a.right - 2, a.center.dy);
+      expect(p.dx, greaterThan(b.left - 10));
+      await tester.tapAt(p);
+      expect(toques, isEmpty);
+      expect(linha, 1);
+    },
+  );
+
+  testWidgets(
+    'a borda do desenho coberta: o toque na área nova, fora do que cobre, não vai a ninguém',
+    (tester) async {
+      final toques = <String>[];
+      var capa = 0;
+      await tester.pumpWidget(
+        _tela(
+          SizedBox(
+            width: 120,
+            height: 120,
+            child: Stack(
+              children: [
+                Positioned(left: 46, top: 46, child: _caixa('a', toques)),
+                // cobre a borda esquerda do desenho (x 40 a 60), não o ponto do toque
+                Positioned(
+                  left: 40,
+                  top: 0,
+                  width: 20,
+                  bottom: 0,
+                  child: GestureDetector(
+                    onTap: () => capa++,
+                    child: const ColoredBox(color: Color(0xFFFFFFFF)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      final a = tester.getRect(_id('a'));
+      final pai = tester.getTopLeft(find.byType(Stack).first);
+      // 8 à esquerda do desenho, 2 fora da capa
+      final p = Offset(a.left - 8, a.center.dy);
+      expect(p.dx, lessThan(pai.dx + 40));
+      await tester.tapAt(p);
+      expect(toques, isEmpty);
+      expect(capa, 0, reason: 'o toque fora da capa não vai para ela');
+      // o lado de fora, sem capa: o alvo
+      await tester.tapAt(a.centerRight + const Offset(9, 0));
+      expect(toques, ['a']);
+    },
+  );
+
   testWidgets('o hitLimit corta a área de toque; o nó continua com 48', (
     tester,
   ) async {
@@ -284,14 +366,17 @@ void main() {
     final h = tester.ensureSemantics();
     await tester.pumpWidget(
       _tela(
-        _caixa('a', toques, limite: const EdgeInsets.fromLTRB(10, 0, 10, 10)),
+        _caixa('a', toques, limite: const EdgeInsets.fromLTRB(4, 0, 10, 10)),
       ),
     );
     final a = tester.getRect(_id('a'));
     await tester.tapAt(Offset(a.center.dx, a.top - 4)); // acima: o limite é 0
+    // à esquerda: o limite é 4
+    await tester.tapAt(Offset(a.left - 7, a.center.dy));
     await tester.tapAt(Offset(a.center.dx, a.bottom + 8));
     await tester.tapAt(Offset(a.right + 9, a.center.dy));
-    expect(toques, ['a', 'a']);
+    await tester.tapAt(Offset(a.left - 3, a.center.dy));
+    expect(toques, ['a', 'a', 'a']);
     expect(tester.getSemantics(_id('a')).rect.size, const Size(48, 48));
     h.dispose();
   });

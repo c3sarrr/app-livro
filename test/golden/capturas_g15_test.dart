@@ -102,11 +102,27 @@ void main() {
     final livro = (await tester.runAsync(() => _livro(ReaderPaper.creme)))!;
     addTearDown(() => tester.runAsync(livro.close));
     await abrirTela27(tester, livro, golden: true);
-    // o cap. CXXXVIII no meio da lista
-    await Scrollable.ensureVisible(
-      tester.element(find.byKey(const ValueKey('toc.sheet.chapters.ch138'))),
-      alignment: 0.5,
+    // o cap. CXXXVIII no meio da lista. A lista monta sob demanda (R12, G20): rola até a linha existir
+    final ch138 = find.byKey(
+      const ValueKey('toc.sheet.chapters.ch138'),
+      skipOffstage: false,
     );
+    final rolagem = tester
+        .state<ScrollableState>(
+          find.descendant(
+            of: find.byKey(const ValueKey('toc.sheet.chapters')),
+            matching: find.byType(Scrollable),
+          ),
+        )
+        .position;
+    while (ch138.evaluate().isEmpty &&
+        rolagem.pixels < rolagem.maxScrollExtent) {
+      rolagem.jumpTo(
+        (rolagem.pixels + 400).clamp(0, rolagem.maxScrollExtent).toDouble(),
+      );
+      await tester.pump();
+    }
+    await Scrollable.ensureVisible(tester.element(ch138), alignment: 0.5);
     await tester.pump();
     final numeral = find.descendant(
       of: find.byKey(const ValueKey('toc.sheet.chapters.ch138.numeral')),
