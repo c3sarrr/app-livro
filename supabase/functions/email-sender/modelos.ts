@@ -34,17 +34,28 @@ export function montar(template: string, payload: Record<string, unknown>): Emai
         texto: 'A exportação dos seus dados terminou. Abra o app para baixar.',
       };
     case 'moderation_digest': {
-      // D-221: o e-mail do dia para quem modera (o painel tem o resto)
+      // D-221: o e-mail do dia para quem modera (o painel tem o resto). D-48: e quantas contas comuns (fora da
+      // lista de contas de teste) tiveram compra sandbox nas últimas 24 h, sem dizer quais.
       const abertas = Number(payload.open ?? 0);
       const passaram = Number(payload.breached ?? 0);
+      const sandbox = Number(payload.sandbox_accounts ?? 0);
       const quantas = `${abertas} ${abertas === 1 ? 'denúncia aberta' : 'denúncias abertas'}`;
-      return {
-        assunto: `${quantas} na moderação`,
-        texto: `Há ${quantas} desde ${dataBr(payload.oldest)}.\n` +
+      const denuncias = abertas > 0
+        ? `Há ${quantas} desde ${dataBr(payload.oldest)}.\n` +
           (passaram > 0
             ? `${passaram} ${passaram === 1 ? 'passou' : 'passaram'} do prazo de 24 h.\n`
             : 'Nenhuma passou do prazo de 24 h.\n') +
-          'Abra o painel de moderação para decidir.',
+          'Abra o painel de moderação para decidir.'
+        : 'Nenhuma denúncia aberta.';
+      const contas = sandbox === 1 ? '1 conta comum' : `${sandbox} contas comuns`;
+      const linhaSandbox = sandbox === 1
+        ? `${contas} teve compra de teste (sandbox) nas últimas 24 h. Confira se é da revisão das lojas e, se ` +
+          'for, coloque-a na lista de contas de teste.'
+        : `${contas} tiveram compra de teste (sandbox) nas últimas 24 h. Confira se são da revisão das lojas e, ` +
+          'se forem, coloque-as na lista de contas de teste.';
+      return {
+        assunto: abertas > 0 || sandbox <= 0 ? `${quantas} na moderação` : `${contas} com compra de teste`,
+        texto: sandbox > 0 ? `${denuncias}\n${linhaSandbox}` : denuncias,
       };
     }
     default:

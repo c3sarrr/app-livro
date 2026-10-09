@@ -82,3 +82,45 @@ Deno.test('modelos: o e-mail do dia da moderação (D-221) com as abertas, as at
   assertEquals(uma.assunto, '1 denúncia aberta na moderação');
   assertEquals(uma.texto.includes('Nenhuma passou do prazo de 24 h'), true);
 });
+
+Deno.test('modelos: o e-mail do dia sem compra sandbox fica como era (D-48)', () => {
+  const m = montar('moderation_digest', {
+    open: 2,
+    breached: 1,
+    oldest: '2026-10-08T12:00:00Z',
+    sandbox_accounts: 0,
+  })!;
+  assertEquals(m.assunto, '2 denúncias abertas na moderação');
+  assertEquals(m.texto.includes('sandbox'), false);
+});
+
+Deno.test('modelos: só compra sandbox de conta comum (D-48): o assunto e o texto dela', () => {
+  const m = montar('moderation_digest', { open: 0, breached: 0, oldest: null, sandbox_accounts: 3 })!;
+  assertEquals(m.assunto, '3 contas comuns com compra de teste');
+  assertEquals(
+    m.texto,
+    'Nenhuma denúncia aberta.\n' +
+      '3 contas comuns tiveram compra de teste (sandbox) nas últimas 24 h. Confira se são da revisão das lojas ' +
+      'e, se forem, coloque-as na lista de contas de teste.',
+  );
+  const uma = montar('moderation_digest', { open: 0, breached: 0, oldest: null, sandbox_accounts: 1 })!;
+  assertEquals(uma.assunto, '1 conta comum com compra de teste');
+});
+
+Deno.test('modelos: denúncia e compra sandbox no mesmo dia: o assunto das denúncias e as duas partes', () => {
+  const m = montar('moderation_digest', {
+    open: 1,
+    breached: 0,
+    oldest: '2026-10-08T12:00:00Z',
+    sandbox_accounts: 1,
+  })!;
+  assertEquals(m.assunto, '1 denúncia aberta na moderação');
+  assertEquals(m.texto.includes('Nenhuma passou do prazo de 24 h'), true);
+  assertEquals(
+    m.texto.endsWith(
+      '1 conta comum teve compra de teste (sandbox) nas últimas 24 h. Confira se é da revisão das lojas ' +
+        'e, se for, coloque-a na lista de contas de teste.',
+    ),
+    true,
+  );
+});
