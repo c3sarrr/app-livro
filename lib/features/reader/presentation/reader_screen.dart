@@ -51,9 +51,9 @@ import '../annotations/domain/annotation.dart' show HighlightStyle;
 import '../annotations/ink/ink_commands.dart' show SessionNote, SessionStroke;
 import '../annotations/ink_repository.dart';
 import '../application/annotation_session.dart';
+import '../application/highlight_labels_store.dart';
 import '../application/ink_page_geometry.dart';
 import '../application/pdf_reader_document.dart';
-import '../application/highlight_labels_store.dart';
 import '../application/pen_presets_store.dart';
 import '../application/reader_annotations.dart';
 import '../application/reader_chrome.dart';
@@ -69,8 +69,6 @@ import 'annotation_island.dart' show AnnotationIsland;
 import 'annotation_mode.dart';
 import 'book_search_panel.dart';
 import 'bottom_island.dart';
-import 'highlight_toolbar.dart';
-import 'ink_painter.dart' show inkBounds;
 import 'hand_note.dart'
     show
         drawingInkLabel,
@@ -78,6 +76,8 @@ import 'hand_note.dart'
         noteInkLabel,
         noteOpenInReaderLabel,
         placedNotes;
+import 'highlight_toolbar.dart';
+import 'ink_painter.dart' show inkBounds;
 import 'labels_sheet.dart';
 import 'mode_page_source.dart';
 import 'note_sheet.dart';
