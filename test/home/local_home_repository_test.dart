@@ -26,6 +26,7 @@ import '../fixtures/mundo_2026_09_20.dart';
 import '../fixtures/telas/inicio.dart';
 import '../fixtures/telas/t20.dart';
 import '../support/personal_builders.dart';
+import '../support/reader_harness.dart' show domCasmurroEpub;
 
 /// São Paulo (sem horário de verão).
 const Duration _sp = Duration(hours: -3);
@@ -289,6 +290,36 @@ void main() {
         ('D', 0.0),
         ('C', 0.0),
       ]);
+    });
+
+    test('G20 (D-206): com o índice do livro, "Cap. 32 de 148" pela numeração do livro (não as 153 entradas)', () async {
+      final livro = _livro(
+        1,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 8),
+        capitulos: 153,
+      );
+      await gravar([livro]);
+      await BookContentIndexDao(db).upsert(
+        livro.id,
+        indexEpubFile(domCasmurroEpub, shaDoLivroTeste(1)),
+        builtAt: t0Teste,
+      );
+      await ReadingPositionsDao(db)
+          .upsert(_posicao(livro, progresso: 0.2, capitulo: 33));
+      final h = (await repo.read(_agora)).continueReading!;
+      expect((h.chapter, h.totalChapters), (32, 148));
+      // na abertura (antes do cap. I) a pílula some
+      await ReadingPositionsDao(db).upsert(
+        _posicao(
+          livro,
+          progresso: 0.01,
+          capitulo: 1,
+          em: t0Teste.add(const Duration(minutes: 1)),
+        ),
+      );
+      final h2 = (await repo.read(_agora)).continueReading!;
+      expect((h2.chapter, h2.totalChapters), (null, null));
     });
 
     test('sem capítulos (PDF): capítulo nulo; sem sessões, o tempo restante usa 1.000 car./min (D-97)', () async {

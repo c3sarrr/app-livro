@@ -14,6 +14,7 @@ import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../support/personal_builders.dart';
+import '../../../support/reader_harness.dart' show domCasmurroEpub;
 
 const Duration _sp = Duration(hours: -3);
 Duration _fuso(DateTime _) => _sp;
@@ -630,4 +631,25 @@ void main() {
       expect(chapterLabels(_indice(toc: const [])), isEmpty);
     });
   });
+
+  group(
+    'G20: os numerais dos capítulos (o "Cap. N de M" da Início — D-206)',
+    () {
+      test('o Dom Casmurro real: 148 numerados (I…CXLVIII) entre as folhas do sumário', () {
+        final index = indexEpubFile(domCasmurroEpub, 'a' * 64);
+        final n = chapterNumerals(index);
+        expect(n, hasLength(index.chaptersTotal!));
+        final numerados = n.whereType<String>().toList();
+        expect(numerados, hasLength(148));
+        expect(numerados.first, 'I');
+        expect(numerados[31], 'XXXII');
+        expect(numerados.last, 'CXLVIII');
+      });
+
+      test('sem índice ou sem sumário, nenhum', () {
+        expect(chapterNumerals(null), isEmpty);
+        expect(chapterNumerals(_indice(toc: const [])), isEmpty);
+      });
+    },
+  );
 }

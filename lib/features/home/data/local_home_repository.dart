@@ -10,9 +10,12 @@ import 'package:flutter/foundation.dart' show FlutterError, FlutterErrorDetails;
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/codecs.dart';
+import '../../../core/data/database/daos/content_daos.dart';
+import '../../reader/application/toc_view.dart' show chapterNumerals;
 import '../../reader/content/ref_pages.dart' show refPageChars;
 import '../../reader/domain/reading_speed.dart';
 import '../../scanner/application/scanned_shelf.dart' show unknownAuthor;
+import '../domain/home_chapter.dart';
 import '../domain/models.dart';
 import 'home_repository.dart';
 import 'home_sources.dart';
@@ -161,6 +164,24 @@ final class LocalHomeRepository implements HomeRepository {
     return next.difference(local) + const Duration(seconds: 1);
   }
 
+  /// O herói "Continuar lendo": o capítulo pela numeração do livro (D-206).
+  ContinueReading _continue(_ShelfBook hero, _Data data) {
+    final ch = homeChapter(
+      data.heroNumerals,
+      chapterIndex: hero.chapterIndex,
+      chaptersTotal: hero.chaptersTotal,
+    );
+    return ContinueReading(
+      book: hero.book,
+      chapter: ch?.chapter,
+      totalChapters: ch?.total,
+      progress: hero.progress,
+      timeLeft: _timeLeft(hero, data),
+      highlightsCount: data.heroAnnotations,
+      format: _formatOf(hero.format),
+    );
+  }
+
   /// Um instantâneo coerente (uma transação) para o "agora" [now].
   Future<HomeSnapshot> read(DateTime now) async {
     final db = await _database();
@@ -208,21 +229,7 @@ final class LocalHomeRepository implements HomeRepository {
       ),
       // O cabeçalho vem da conta, por cima (home_providers — D-84).
       user: guest,
-      continueReading: hero == null
-          ? null
-          : ContinueReading(
-              book: hero.book,
-              chapter: hero.chapterIndex == null || hero.chaptersTotal == null
-                  ? null
-                  : hero.chapterIndex! + 1,
-              totalChapters: hero.chapterIndex == null
-                  ? null
-                  : hero.chaptersTotal,
-              progress: hero.progress,
-              timeLeft: _timeLeft(hero, data),
-              highlightsCount: data.heroAnnotations,
-              format: _formatOf(hero.format),
-            ),
+      continueReading: hero == null ? null : _continue(hero, data),
       alsoReading: List.unmodifiable([
         for (final b in reading.skip(1))
           AlsoReadingItem(book: b.book, progress: b.progress),
@@ -418,6 +425,7 @@ final class _Data {
     required this.books,
     required this.days,
     required this.heroAnnotations,
+    required this.heroNumerals,
     required this.highlightsToday,
     required this.indexedChars,
     required this.charsPerMinute,
@@ -430,6 +438,9 @@ final class _Data {
   /// 'AAAA-MM-DD' local → soma do dia.
   final Map<String, _Day> days;
   final int heroAnnotations;
+
+  /// G20 (D-206): o numeral de cada capítulo do livro do herói (vazio sem índice ou sem herói).
+  final List<String?> heroNumerals;
   final int highlightsToday;
 
   /// Caracteres dos itens lineares de cada livro com índice (id → total).
@@ -490,6 +501,16 @@ final class _Reader {
       return total > 0 ? total : null;
     } on Object {
       return null;
+    }
+  }
+
+  /// Os numerais dos capítulos do livro; índice ilegível → nenhum (o herói conta pelo `chapters_total`, como
+  /// antes da G20 — D-85).
+  Future<List<String?>> _numerals(String userBookId) async {
+    try {
+      return chapterNumerals(await BookContentIndexDao(_db).byBook(userBookId));
+    } on Object {
+      return const [];
     }
   }
 
@@ -578,6 +599,10 @@ final class _Reader {
             'WHERE user_id = ?1 AND user_book_id = ?2 AND deleted_at IS NULL',
             [_owner, reading.first.id],
           )).single.read<int>('n');
+    // G20 (D-206): os numerais dos capítulos do livro do herói, para o "Cap. N de M"
+    final heroNumerals = reading.isEmpty
+        ? const <String?>[]
+        : await _numerals(reading.first.id);
 
     // Grifos de hoje: só os criados de anteontem (UTC) para cá vêm do banco — o prefixo da data é o mesmo em
     // todos os formatos aceitos; o dia local de cada um é decidido aqui.
@@ -602,6 +627,7 @@ final class _Reader {
       books: books,
       days: days,
       heroAnnotations: heroAnnotations,
+      heroNumerals: heroNumerals,
       highlightsToday: highlightsToday,
       indexedChars: indexed,
       charsPerMinute: personalSpeed([for (final s in samples) s.$2]),

@@ -492,6 +492,22 @@ List<String?> chapterLabels(BookIndex? index) {
   return out;
 }
 
+/// G20 (D-206): o numeral de cada capítulo (folha) pelo índice dele, como o leitor mostra (D-150/D-155/D-156); sem
+/// numeral, `null`; sem índice ou sumário, nenhum. O "Cap. N de M" da Início conta por eles.
+List<String?> chapterNumerals(BookIndex? index) {
+  if (index == null || index.toc.isEmpty) return const [];
+  final out = <String?>[];
+  for (final r in _rows(_Places(index), (spine: 0, offset: 0), const [])) {
+    final c = r.chapter;
+    if (r.kind != TocRowKind.chapter || c == null) continue;
+    while (out.length <= c) {
+      out.add(null);
+    }
+    out[c] = r.numeral;
+  }
+  return out;
+}
+
 String _chapterLabel(TocRow r) =>
     r.numeral == null ? r.title : 'cap. ${r.numeral} · ${r.title}';
 
