@@ -240,16 +240,20 @@ void main() {
 
   test('os 4 números (R10): só os agregados vão', () async {
     final (b, c) = await servidorSocial(
-      respostas: {'POST /rest/v1/rpc/publish_my_stats': (204, null)},
+      respostas: {'POST /rest/v1/rpc/publish_my_stats': (200, true)},
     );
     addTearDown(c.dispose);
-    await SupabaseProfileRepository(c).publishStats(
-      const ProfileNumbers(
-        booksReadTotal: 12,
-        booksReadYear: 3,
-        readingNow: 1,
-        streakDays: 6,
+    expect(
+      await SupabaseProfileRepository(c).publishStats(
+        const ProfileNumbers(
+          booksReadTotal: 12,
+          booksReadYear: 3,
+          readingNow: 1,
+          streakDays: 6,
+        ),
       ),
+      isTrue,
+      reason: 'o servidor gravou',
     );
     expect(b.caminhos, ['POST /rest/v1/rpc/publish_my_stats']);
     expect(b.pedidos.single.json, {

@@ -216,8 +216,12 @@ void main() {
     await BookContentIndexDao(db)
         .upsert(livro, _indice(), builtAt: DateTime.utc(2026, 9, 20));
     final clube = _Clube(
-      () async =>
-          (name: 'Leitoras de Capitu', nextMeeting: null, goalChapter: 2),
+      () async => (
+        name: 'Leitoras de Capitu',
+        nextMeeting: null,
+        goalChapter: 2,
+        goalLabel: null,
+      ),
     );
     final t = toc(club: clube);
     await _ate(() => t.view?.club != null);

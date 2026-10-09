@@ -6,7 +6,11 @@ import 'dart:io' show IOException;
 
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart'
-    show PostgrestException, SupabaseClient;
+    show
+        AuthException,
+        AuthRetryableFetchException,
+        PostgrestException,
+        SupabaseClient;
 
 import '../domain/social_failure.dart';
 
@@ -34,6 +38,12 @@ Future<T> socialCall<T>(
     rethrow;
   } on PostgrestException catch (e) {
     throw socialFailureOf(e.code, e.message);
+  } on AuthRetryableFetchException {
+    // a renovação do login (antes do pedido) não alcançou o servidor
+    throw const SocialOffline();
+  } on AuthException {
+    // o login foi recusado (revogado, vencido sem volta)
+    throw const SocialNeedsAccount();
   } on TimeoutException {
     throw const SocialOffline();
   } on IOException {

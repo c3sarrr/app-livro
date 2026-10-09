@@ -1,5 +1,7 @@
 // G21.3 — o tempo real dos clubes (D-225): avisos seguidos viram uma releitura; trocar os clubes ouvidos abre e
 // fecha os canais certos; fechar não deixa canal aberto nem aviso saindo. (O relógio é o falso do `testWidgets`.)
+import 'dart:async';
+
 import 'package:app_leitura/features/clubs/data/club_pings.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -8,9 +10,13 @@ final class _Canais {
   final Map<String, void Function()> abertos = {};
   final List<String> fechados = [];
 
+  /// Fechar um canal espera isto (o servidor demora a responder).
+  Completer<void>? fecharDevagar;
+
   Future<void> Function() abrir(String topic, void Function() onPing) {
     abertos[topic] = onPing;
     return () async {
+      if (fecharDevagar case final f?) await f.future;
       abertos.remove(topic);
       fechados.add(topic);
     };
@@ -115,4 +121,22 @@ void main() {
       'club:00000000-0000-7000-8000-00000c200001',
     );
   });
+
+  testWidgets(
+    'fechar enquanto troca os clubes: o canal novo não abre depois de fechado',
+    (t) async {
+      final canais = _Canais();
+      final pings = ClubPings(canais.abrir);
+      await pings.watch({'c1'});
+      final devagar = canais.fecharDevagar = Completer<void>();
+      final troca = pings.watch({
+        'c2',
+      }); // fecha o c1 (devagar) e depois abriria o c2
+      final fim = pings.close();
+      devagar.complete();
+      await troca;
+      await fim;
+      expect(canais.abertos, isEmpty);
+    },
+  );
 }

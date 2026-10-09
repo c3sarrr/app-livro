@@ -365,35 +365,74 @@ void main() {
     );
   });
 
-  group('faixa do clube (D-149)', () {
-    ReaderClubGoal clube(int meta, {DateTime? encontro}) =>
-        (name: 'Leitoras de Capitu', nextMeeting: encontro, goalChapter: meta);
+  group('faixa do clube (D-149; G21: R2, D-214)', () {
+    ReaderClubGoal clube(int meta, {DateTime? encontro, String? rotulo}) => (
+      name: 'Leitoras de Capitu',
+      nextMeeting: encontro,
+      goalChapter: meta,
+      goalLabel: rotulo,
+    );
 
-    test('nome e o próximo encontro no fuso; meta pelo numeral; "falta 1"; na meta e depois, só a meta', () {
-      final v = _view(clube: clube(4, encontro: DateTime.utc(2026, 9, 25, 1)));
+    test('R2: a meta é o N-º capítulo numerado, com o numeral do livro; o "faltam" conta do mesmo jeito', () {
+      // as folhas: I, II, "Sem lugar" (sem numeral) e III; a posição está no II
+      final v = _view(clube: clube(3, encontro: DateTime.utc(2026, 9, 25, 1)));
       // 25/09 01:00 UTC = quinta 24/09 22:00 em São Paulo
       expect(v.club!.kicker, 'LEITORAS DE CAPITU · QUI 24/9');
-      expect(v.club!.goal, 'Até o cap. III · faltam 2');
+      expect(
+        v.club!.goal,
+        'Até o cap. III · falta 1',
+        reason: 'a folha sem numeral não conta',
+      );
       // o leitor de tela: o nome como é, o dia por extenso, sem os pontos do meio
       expect(
         v.club!.spoken,
-        'Leitoras de Capitu, quinta 24/9, Até o cap. III, faltam 2',
+        'Leitoras de Capitu, quinta 24/9, Até o cap. III, falta 1',
       );
       expect(
         _view(clube: clube(2)).club!.spoken,
         'Leitoras de Capitu, Até o cap. II',
       );
-      expect(
-        _view(clube: clube(3)).club!.goal,
-        'Até o cap. 3 · falta 1',
-        reason: 'a meta sem numeral vai em número',
-      );
       expect(_view(clube: clube(3)).club!.kicker, 'LEITORAS DE CAPITU');
       expect(_view(clube: clube(2)).club!.goal, 'Até o cap. II');
       expect(_view(clube: clube(1)).club!.goal, 'Até o cap. I');
+      expect(
+        _view(clube: clube(4)).club!.goal,
+        'Até o cap. 4 · faltam 2',
+        reason: 'além da numeração do livro, o número do clube',
+      );
       expect(_view(clube: clube(9)).club!.goal, 'Até o cap. 9 · faltam 7');
       expect(_view().club, isNull);
     });
+
+    test(
+      'livro sem numeração: a N-ª folha, com o rótulo do clube ou o número',
+      () {
+        final semNumero = _indice(
+          toc: const [
+            TocPoint(
+              title: 'Prólogo',
+              spine: 0,
+              offset: 0,
+              depth: 0,
+              leaf: true,
+            ),
+            TocPoint(title: 'Meio', spine: 1, offset: 0, depth: 0, leaf: true),
+            TocPoint(title: 'Fim', spine: 2, offset: 0, depth: 0, leaf: true),
+          ],
+        );
+        expect(
+          _view(
+            index: semNumero,
+            clube: clube(3, rotulo: 'Fim'),
+          ).club!.goal,
+          'Até o cap. Fim · falta 1',
+        );
+        expect(
+          _view(index: semNumero, clube: clube(3)).club!.goal,
+          'Até o cap. 3 · falta 1',
+        );
+      },
+    );
 
     test('antes do 1º capítulo, falta a meta inteira', () {
       final v = _view(
@@ -413,6 +452,24 @@ void main() {
         clube: clube(2),
       );
       expect(v.club!.goal, 'Até o cap. II · faltam 2');
+    });
+
+    test('com o Dom Casmurro real no XXXII: "Até o cap. L · faltam 18" (a prancha 27)', () {
+      final index = indexEpubFile(domCasmurroEpub, 'a' * 64);
+      final c = chapterNumerals(index).indexOf('XXXII');
+      final p = index.toc.where((t) => t.leaf).elementAt(c);
+      final v = buildTocView(
+        bookTitle: 'Dom Casmurro',
+        index: index,
+        at: (spine: p.spine!, offset: p.offset!),
+        refPage: 159,
+        annotations: const [],
+        bookmarks: const [],
+        club: clube(50),
+        now: _agora,
+        utcOffsetAt: _fuso,
+      );
+      expect(v.club!.goal, 'Até o cap. L · faltam 18');
     });
   });
 

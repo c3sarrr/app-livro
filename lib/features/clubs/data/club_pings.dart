@@ -57,6 +57,8 @@ final class ClubPings {
         in _closers.keys.where((k) => !clubIds.contains(k)).toList()) {
       await _stop(id);
     }
+    // fechou enquanto os outros fechavam: nada novo abre
+    if (_closed) return;
     for (final id in clubIds.where((k) => !_closers.containsKey(k))) {
       _closers[id] = _open(clubTopic(id), () => _ping(id));
     }

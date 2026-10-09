@@ -14,6 +14,8 @@
 // No EPUB a posição é o caractere global; no PDF, a página. O índice que não se leu não vira "sem sumário".
 import 'dart:math' as math;
 
+import '../../clubs/domain/club_rules.dart'
+    show clubChapterLabel, clubChapterOf;
 import '../annotations/domain/annotation.dart';
 import '../annotations/domain/annotation_stats.dart';
 import '../content/book_index.dart';
@@ -405,10 +407,27 @@ TocClubStrip _club(
     kicker = '$name · ${_weekdays[local.weekday - 1]} $day';
     said = '${g.name}, ${_weekdaysSpoken[local.weekday - 1]} $day';
   }
-  final i = g.goalChapter - 1;
-  final numeral = i >= 0 && i < leaves.length ? leaves[i].numeral : null;
-  final meta = 'Até o cap. ${numeral ?? g.goalChapter}';
-  final left = g.goalChapter - ((current ?? -1) + 1);
+  // R2 (D-214): o cap. N do clube é o N-º capítulo numerado do livro, com o numeral dele; o "faltam" conta do
+  // mesmo jeito (antes do 1º numerado, falta a meta inteira)
+  final numerals = <String?>[];
+  for (final r in leaves) {
+    final c = r.chapter;
+    if (c == null) continue;
+    while (numerals.length <= c) {
+      numerals.add(null);
+    }
+    numerals[c] = r.numeral;
+  }
+  final meta =
+      'Até o cap. ${clubChapterLabel(numerals, g.goalChapter, clubLabel: g.goalLabel)}';
+  final mine =
+      clubChapterOf(
+        numerals,
+        chapterIndex: current,
+        chaptersTotal: numerals.length,
+      ) ??
+      0;
+  final left = g.goalChapter - mine;
   final goal = left <= 0
       ? meta
       : '$meta · ${left == 1 ? 'falta 1' : 'faltam $left'}';

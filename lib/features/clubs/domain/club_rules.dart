@@ -81,13 +81,13 @@ ClubCard? ticketClub(List<ClubCard> clubs, ShelfBookId? reading) {
   return nearestFirst(scheduled).first;
 }
 
-/// R7: a semana está aberta para mim? Até a semana atual, e as que eu já alcancei pelo meu cap. do clube; as outras
-/// dizem "Abre quando você chegar lá".
+/// R7: a semana está aberta para mim? As que eu já alcancei pelo meu cap. do clube, mais a atual; as outras (à
+/// frente de mim, mesmo antes da atual) dizem "Abre quando você chegar lá".
 bool weekOpenFor(
   ClubWeekRange week, {
   required int currentWeek,
   int? myChapter,
-}) => week.no <= currentWeek || (myChapter != null && week.from <= myChapter);
+}) => week.no == currentWeek || (myChapter != null && week.from <= myChapter);
 
 /// R8 (D-218): o post ou a resposta está à frente de mim (fica borrado)? Pela minha posição no aparelho ([myRatio],
 /// mais nova que a publicada). Com a proteção do clube desligada, nada fica à frente.

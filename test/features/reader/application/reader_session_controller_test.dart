@@ -81,6 +81,10 @@ final class _Sessao {
   /// G18: onde a tinta do livro está (sem isto, o banco do livro).
   InkRepository? tinta;
 
+  /// G21 (R9): cada saída do leitor, com a posição gravada naquele momento; [saidaFalha] = o aviso falha.
+  final saidas = <(String, int?)>[];
+  bool saidaFalha = false;
+
   ReaderSessionController controller() {
     final c = ReaderSessionController(
       userBookId: livro.userBookId,
@@ -120,6 +124,11 @@ final class _Sessao {
         speedOf: velocidade ?? readingSpeedOf,
         onError: (e, _) => erros.add(e),
         inkRepository: tinta,
+        onLeave: (id) async {
+          if (saidaFalha) throw StateError('sem rede');
+          final pos = await ReadingPositionsDao(livro.db).forBook(id);
+          saidas.add((id, (pos?.locator as EpubLocator?)?.offset));
+        },
       ),
     );
     return c;
@@ -391,6 +400,60 @@ void main() {
     final c = await aberto();
     expect(c.state, isA<ReaderReady>());
   });
+
+  test('G21 (R9): sair do leitor (segundo plano ou fechar) avisa depois de gravar a posição; inativo e a 25, não', () async {
+    final c = await aberto();
+    c.setVisible(true);
+    expect(await c.turn(PageDirection.forward), isTrue);
+    await c.lifecycle(AppLifecycleState.inactive);
+    await c.cover();
+    expect(
+      h.saidas,
+      isEmpty,
+      reason: 'a central de controle e a 25 por cima não são sair',
+    );
+    // o ciclo de verdade do Flutter: inativo → escondido → pausado, e de volta pausado → escondido → inativo
+    await c.lifecycle(AppLifecycleState.hidden);
+    await c.lifecycle(AppLifecycleState.paused);
+    await pumpEventQueue();
+    expect(h.saidas, [(h.livro.userBookId, doc(c).mark.offset)]);
+    await c.lifecycle(AppLifecycleState.hidden);
+    await c.lifecycle(AppLifecycleState.inactive);
+    await c.lifecycle(AppLifecycleState.resumed);
+    await pumpEventQueue();
+    expect(
+      h.saidas,
+      hasLength(1),
+      reason: 'uma saída por ida ao segundo plano',
+    );
+    expect(await c.turn(PageDirection.forward), isTrue);
+    final ultima = doc(c).mark.offset;
+    await c.close();
+    await pumpEventQueue();
+    expect(h.saidas.last, (h.livro.userBookId, ultima));
+    expect(h.saidas, hasLength(2));
+    await c.close();
+    await pumpEventQueue();
+    expect(
+      h.saidas,
+      hasLength(2),
+      reason: 'fechar de novo devolve o mesmo fechamento',
+    );
+  });
+
+  test(
+    'G21: a saída que falha vai para o relatório e não atrapalha o fechar',
+    () async {
+      h.saidaFalha = true;
+      final c = await aberto();
+      await c.close();
+      await pumpEventQueue();
+      expect(h.erros, [isA<StateError>()]);
+      final pos = await ReadingPositionsDao(h.livro.db)
+          .forBook(h.livro.userBookId);
+      expect(pos, isNotNull, reason: 'a posição gravou antes');
+    },
+  );
 
   test('tempo, posição e tela acesa: visível conta; segundo plano pausa, grava e solta a tela', () async {
     final c = await aberto();

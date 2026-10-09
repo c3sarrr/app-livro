@@ -54,13 +54,18 @@ enum QuestionStatus {
       values.firstWhere((s) => s.code == code);
 }
 
+/// A cor de quem ficou sem cor (uma leitora de antes da G21, até o servidor pintar): a do papel, da paleta.
+const String clubFaceFallbackColor = '#FFFAF1';
+
 /// Um avatar: a inicial e a cor.
 @immutable
 final class ClubFace {
   const ClubFace({required this.initial, required this.color});
 
-  factory ClubFace.fromJson(Json j) =>
-      ClubFace(initial: j['initial']! as String, color: j['color']! as String);
+  factory ClubFace.fromJson(Json j) => ClubFace(
+    initial: j['initial']! as String,
+    color: j['color'] as String? ?? clubFaceFallbackColor,
+  );
 
   final String initial;
   final String color;

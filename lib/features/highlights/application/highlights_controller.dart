@@ -4,7 +4,7 @@
 // (D-193) e a exportação (D-194, R12).
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show ChangeNotifier;
+import 'package:flutter/foundation.dart' show ChangeNotifier, setEquals;
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/daos/content_daos.dart';
@@ -15,6 +15,7 @@ import '../../reader/annotations/domain/annotation.dart';
 import '../../reader/annotations/domain/annotation_stats.dart';
 import '../../reader/annotations/domain/ink_layer.dart';
 import '../../reader/application/toc_view.dart' show chapterLabels;
+import '../../social/domain/social_failure.dart';
 import '../domain/card_filters.dart';
 import '../domain/card_text.dart';
 import '../domain/highlight_card.dart';
@@ -24,6 +25,7 @@ import 'card_text_source.dart';
 import 'highlights_club_source.dart';
 import 'highlights_file_sink.dart';
 import 'highlights_repository.dart';
+import 'highlights_share.dart';
 
 enum ExportFormat { markdown, csv }
 
@@ -39,6 +41,8 @@ final class HighlightsDeps {
     required this.files,
     required this.onError,
     this.searchDelay = const Duration(milliseconds: 200),
+    this.clubUpdates,
+    this.share,
   });
 
   final AppDatabase db;
@@ -54,6 +58,12 @@ final class HighlightsDeps {
 
   /// R7: a busca espera a pessoa parar de digitar.
   final Duration searchDelay;
+
+  /// G21.5: o chip ao vivo (D-225); `null` = sem conta (o chip do cache fica como está).
+  final ClubChipUpdates? clubUpdates;
+
+  /// G21.5: compartilhar no clube (§5); `null` = sem conta ("Entre na sua conta para compartilhar.").
+  final HighlightsShare? share;
 }
 
 final class HighlightsState {
@@ -166,6 +176,8 @@ final class HighlightsController extends ChangeNotifier {
   HighlightsState get state => _state;
 
   StreamSubscription<BookItems>? _sub;
+  StreamSubscription<void>? _chipSub;
+  Set<String> _followed = const {};
   CardTextSource _texts = const AnchorOnlyCardTextSource();
   List<String?> _labels = const [];
   Set<String>? _hits;
@@ -209,11 +221,8 @@ final class HighlightsController extends ChangeNotifier {
     try {
       final cards = buildCards(b.items);
       final texts = await _texts.textsFor(cards);
-      final clubs = <String, ClubChip>{};
-      for (final id in {for (final c in cards) ?c.clubPostId}) {
-        final chip = await deps.club.clubOf(id);
-        if (chip != null) clubs[id] = chip;
-      }
+      final shared = {for (final c in cards) ?c.clubPostId};
+      final clubs = await _chips(shared);
       final q = _state.filters.query;
       final hits = q.trim().isEmpty
           ? null
@@ -233,6 +242,7 @@ final class HighlightsController extends ChangeNotifier {
         clubs: clubs,
       );
       _rebuild();
+      _follow(shared);
     } on Object catch (e, st) {
       deps.onError(e, st);
       // sem a lista, a tela não fica carregando para sempre
@@ -240,6 +250,131 @@ final class HighlightsController extends ChangeNotifier {
         _set(_state.copyWith(loading: false));
       }
     }
+  }
+
+  Future<Map<String, ClubChip>> _chips(Set<String> postIds) async {
+    final clubs = <String, ClubChip>{};
+    for (final id in postIds) {
+      final chip = await deps.club.clubOf(id);
+      if (chip != null) clubs[id] = chip;
+    }
+    return clubs;
+  }
+
+  /// G21.5 (D-225): acompanha os posts compartilhados que estão na lista; um aviso relê os chips.
+  void _follow(Set<String> postIds) {
+    final live = deps.clubUpdates;
+    if (live == null || _disposed || setEquals(postIds, _followed)) return;
+    _followed = postIds;
+    unawaited(_chipSub?.cancel());
+    _chipSub = postIds.isEmpty
+        ? null
+        : live
+              .follow(postIds)
+              .listen((_) => unawaited(_reloadChips()), onError: deps.onError);
+  }
+
+  Future<void> _reloadChips() async {
+    try {
+      final clubs = await _chips({for (final c in _state.cards) ?c.clubPostId});
+      _set(_state.copyWith(clubs: clubs));
+    } on Object catch (e, st) {
+      deps.onError(e, st);
+    }
+  }
+
+  // --- compartilhar no clube (§5) -----------------------------------------------------------------------------
+
+  /// A opção aparece: o cartão tem um grifo com o trecho (caso 7).
+  bool canShare(HighlightCard c) => shareableHighlight(c) != null;
+
+  /// "Já está em Leitoras de Capitu" (caso 6); `null` = o cartão não foi compartilhado.
+  String? sharedLabel(HighlightCard c) {
+    final id = c.clubPostId;
+    return id == null ? null : alreadySharedText(_state.clubs[id]?.name);
+  }
+
+  /// O primeiro passo do "Compartilhar no clube": a pílula, a folha dos termos, a escolha do clube ou, com um clube
+  /// só, compartilhar direto.
+  Future<ShareStep> startShare(HighlightCard c) async {
+    final share = deps.share;
+    if (share == null) return const ShareNotice(shareSignInText);
+    if (sharedLabel(c) case final already?) return ShareNotice(already);
+    if (!canShare(c)) return const ShareNotice(shareFailedText);
+    try {
+      final clubs = await share.clubsFor(userBookId);
+      if (clubs.isEmpty) return const ShareNotice(shareNoClubText);
+      final t = await share.terms();
+      if (!t.accepted) return ShareNeedsTerms(t.version, clubs);
+      return await _pick(c, clubs);
+    } on Object catch (e, st) {
+      return _failed(e, st);
+    }
+  }
+
+  /// "Aceitar e continuar" na folha "Antes de publicar".
+  Future<ShareStep> acceptTerms(HighlightCard c, ShareNeedsTerms step) async {
+    final share = deps.share;
+    if (share == null) return const ShareNotice(shareSignInText);
+    try {
+      await share.acceptTerms(step.version);
+    } on SocialTermsRequired {
+      // a versão mudou entre ler e aceitar: a folha volta com a nova
+      try {
+        final t = await share.terms();
+        return ShareNeedsTerms(t.version, step.clubs);
+      } on Object catch (e, st) {
+        return _failed(e, st);
+      }
+    } on Object catch (e, st) {
+      return _failed(e, st);
+    }
+    return _pick(c, step.clubs);
+  }
+
+  Future<ShareStep> _pick(HighlightCard c, List<ShareClub> clubs) =>
+      clubs.length == 1
+      ? shareTo(c, clubs.single)
+      : Future.value(ShareChoose(clubs));
+
+  /// Publica o grifo do cartão em [club]; o id do post volta para o grifo (o chip e o "Só do clube").
+  Future<ShareStep> shareTo(HighlightCard c, ShareClub club) async {
+    final share = deps.share;
+    final h = shareableHighlight(c);
+    if (share == null) return const ShareNotice(shareSignInText);
+    if (h == null) return const ShareNotice(shareFailedText);
+    final String postId;
+    try {
+      postId = await share.share(club, h);
+    } on SocialTermsRequired {
+      try {
+        final t = await share.terms();
+        return ShareNeedsTerms(t.version, [club]);
+      } on Object catch (e, st) {
+        return _failed(e, st);
+      }
+    } on Object catch (e, st) {
+      return _failed(e, st);
+    }
+    try {
+      await deps.repository.markShared(h.id, postId);
+    } on Object catch (e, st) {
+      // publicado: só o chip não aparece neste aparelho
+      deps.onError(e, st);
+    }
+    return ShareNotice(sharedText(club.name));
+  }
+
+  ShareStep _failed(Object e, StackTrace st) => switch (e) {
+    SocialNeedsAccount() => const ShareNotice(shareSignInText),
+    SocialOffline() => const ShareNotice(shareOfflineText),
+    SocialFailure() => const ShareNotice(shareFailedText),
+    _ => _reported(e, st),
+  };
+
+  ShareStep _reported(Object e, StackTrace st) {
+    deps.onError(e, st);
+    return const ShareNotice(shareFailedText);
   }
 
   /// [filtered] = a lista mudou por um filtro ou pela busca (o anúncio).
@@ -401,6 +536,7 @@ final class HighlightsController extends ChangeNotifier {
     _disposed = true;
     _searchTimer?.cancel();
     unawaited(_sub?.cancel());
+    unawaited(_chipSub?.cancel());
     super.dispose();
   }
 }

@@ -9,6 +9,8 @@ import '../../../core/data/database/local_sql.dart' show deviceIdKey;
 import '../../../core/sync/sync_providers.dart' show localVersioningProvider;
 import '../../account/application/account_providers.dart'
     show localLibraryProvider;
+import '../../clubs/application/club_sources.dart' show ClubsReaderClubSource;
+import '../../clubs/application/clubs_providers.dart';
 import '../../home/application/home_providers.dart' show clockProvider;
 import '../../library/application/library_import.dart'
     show bookImporterProvider, booksDirProvider;
@@ -65,5 +67,13 @@ final readerDepsProvider = FutureProvider<ReaderDeps>((ref) async {
     screenAwake: ref.watch(screenAwakeProvider),
     deviceId: await KvDao(db).get(deviceIdKey),
     now: ref.watch(clockProvider),
+    // G21.5: a faixa do sumário (27) do clube que lê o livro, do cache
+    club: ClubsReaderClubSource(ref.watch(clubsCacheProvider)),
+    // G21.6 (R9): a posição do livro de um clube vai para o clube ao sair
+    onLeave: (id) async {
+      final owner = ref.read(socialOwnerProvider);
+      if (owner == null) return;
+      await ref.read(progressPublisherProvider)?.publish(owner, id);
+    },
   );
 });

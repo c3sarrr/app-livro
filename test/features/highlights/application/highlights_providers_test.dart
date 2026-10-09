@@ -1,6 +1,6 @@
 // G19.2 — a tela 25 ligada ao app: o provedor monta as dependências com o banco local, o versionamento, a conta ativa,
-// o texto dos cartões pelo arquivo do livro neste aparelho, nenhum clube (até a G21), o relógio do app, o fuso e a
-// folha de compartilhar. E o que a 25 devolve ao leitor (R13) compara por valor.
+// o texto dos cartões pelo arquivo do livro neste aparelho, o clube (G21: o chip do cache da conta; sem servidor, nem
+// ao vivo nem compartilhar), o relógio do app, o fuso e a folha de compartilhar. E o que a 25 devolve ao leitor (R13) compara por valor.
 import 'dart:io';
 
 import 'package:app_leitura/core/data/clock/hlc.dart';
@@ -11,8 +11,10 @@ import 'package:app_leitura/core/data/database/versioning.dart';
 import 'package:app_leitura/core/sync/sync_providers.dart';
 import 'package:app_leitura/features/account/application/account_providers.dart';
 import 'package:app_leitura/features/account/data/local_library.dart';
+import 'package:app_leitura/features/clubs/application/club_sources.dart'
+    show ClubsHighlightsClubSource;
+import 'package:app_leitura/features/clubs/application/clubs_providers.dart';
 import 'package:app_leitura/features/highlights/application/card_text_source.dart';
-import 'package:app_leitura/features/highlights/application/highlights_club_source.dart';
 import 'package:app_leitura/features/highlights/application/highlights_exit.dart';
 import 'package:app_leitura/features/highlights/application/highlights_file_sink.dart';
 import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
@@ -26,7 +28,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../fixtures/mundo_2026_09_20.dart';
 
 void main() {
-  test('highlightsDepsProvider: banco, conta ativa, texto pelo arquivo, sem clube, relógio, fuso e compartilhar', () async {
+  test('highlightsDepsProvider: banco, conta ativa, texto pelo arquivo, o clube do cache, relógio, fuso e compartilhar', () async {
     final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
     addTearDown(db.close);
     final raiz = Directory.systemTemp.createTempSync('booknest_g19_deps_');
@@ -39,6 +41,7 @@ void main() {
         localVersioningProvider.overrideWith((ref) async => versioning),
         booksDirProvider.overrideWithValue(() async => raiz),
         clockProvider.overrideWithValue(() => DateTime.utc(2026, 10, 9)),
+        socialOwnerProvider.overrideWithValue(null),
       ],
     );
     addTearDown(c.dispose);
@@ -46,11 +49,14 @@ void main() {
     expect(deps.db, same(db));
     expect(deps.repository.db, same(db));
     expect(deps.now(), DateTime.utc(2026, 10, 9));
-    expect(deps.club, isA<NoHighlightsClub>());
+    expect(deps.club, isA<ClubsHighlightsClubSource>());
     expect(
       await deps.club.clubOf(mundoReferencia.clube.postCompartilhadoId),
       isNull,
+      reason: 'convidado: nenhum chip',
     );
+    expect(deps.clubUpdates, isNull, reason: 'sem servidor');
+    expect(deps.share, isNull, reason: 'sem servidor');
     expect(deps.files, isA<ShareHighlightsFileSink>());
     expect(deps.searchDelay, const Duration(milliseconds: 200));
     expect(

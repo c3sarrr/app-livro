@@ -11,6 +11,7 @@ import 'package:app_leitura/features/highlights/application/highlights_club_sour
 import 'package:app_leitura/features/highlights/application/highlights_controller.dart';
 import 'package:app_leitura/features/highlights/application/highlights_file_sink.dart';
 import 'package:app_leitura/features/highlights/application/highlights_repository.dart';
+import 'package:app_leitura/features/highlights/application/highlights_share.dart';
 import 'package:app_leitura/features/highlights/domain/highlight_card.dart';
 
 import '../fixtures/mundo_2026_09_20.dart';
@@ -116,6 +117,7 @@ HighlightsDeps depsDaTela25(
   HighlightsClubSource clube = const ClubeDaTela25(),
   List<Object>? erros,
   Duration espera = const Duration(milliseconds: 200),
+  HighlightsShare? compartilhar,
 }) => HighlightsDeps(
   db: livro.db,
   repository: HighlightsRepository(
@@ -132,4 +134,5 @@ HighlightsDeps depsDaTela25(
   onError: (e, st) =>
       erros == null ? Error.throwWithStackTrace(e, st) : erros.add(e),
   searchDelay: espera,
+  share: compartilhar,
 );

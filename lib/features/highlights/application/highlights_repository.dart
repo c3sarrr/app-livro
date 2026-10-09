@@ -167,6 +167,24 @@ final class HighlightsRepository {
     return true;
   }
 
+  /// G21.5 (D-217): o grifo [highlightId] foi para o post [postId] do clube (o chip e o "Só do clube"); `false` se ele
+  /// não existe mais.
+  Future<bool> markShared(String highlightId, String postId) async {
+    final a = await _dao.byId(highlightId);
+    if (a == null || a.meta.isDeleted) return false;
+    await _write(
+      'annotations',
+      a.id,
+      (v, at) => _dao.upsert(
+        a.copyWith(
+          sharedClubPostId: Nullable(postId),
+          meta: a.meta.edited(at, v),
+        ),
+      ),
+    );
+    return true;
+  }
+
   /// A nota do grifo [highlightId] (D-131/D-138).
   Future<void> saveNote(
     String userBookId,

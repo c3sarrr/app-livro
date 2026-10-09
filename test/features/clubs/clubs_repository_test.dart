@@ -72,6 +72,27 @@ void main() {
       expect(b.pedidos.last.json, containsPair('p_limit', 30));
     });
 
+    test('o servidor ignorou a 2ª publicação no mesmo minuto: false (o app não marca)', () async {
+      final (_, r) = await _repo({_rpc('publish_progress'): (200, false)});
+      expect(
+        await r.publishProgress(_clube, ratio: 0.62, chapter: 32),
+        isFalse,
+      );
+    });
+
+    test('club_post_summaries: mais de 200 posts vão em idas de 200', () async {
+      final (b, r) = await _repo({
+        _rpc('club_post_summaries'): (200, <Object?>[]),
+      });
+      await r.postSummaries([
+        for (var i = 0; i < 250; i++) 'p${i.toString().padLeft(3, '0')}',
+      ]);
+      expect(b.pedidos.map((p) => ((p.json! as Map)['p_ids'] as List).length), [
+        200,
+        50,
+      ]);
+    });
+
     test(
       'club_post_summaries: sem ids não vai; ids repetidos vão uma vez',
       () async {
@@ -223,10 +244,10 @@ void main() {
 
     test('o progresso (R9): a fração e o capítulo do clube — a página não vai; marcar como lido', () async {
       final (b, r) = await _repo({
-        _rpc('publish_progress'): (204, null),
+        _rpc('publish_progress'): (200, true),
         _rpc('mark_club_read'): (204, null),
       });
-      await r.publishProgress(_clube, ratio: 0.62, chapter: 32);
+      expect(await r.publishProgress(_clube, ratio: 0.62, chapter: 32), isTrue);
       await r.markRead(_clube);
       expect(b.pedidos.first.json, {
         'p_club': _clube,

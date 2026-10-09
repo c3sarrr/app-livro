@@ -6,6 +6,7 @@ import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
+import 'package:app_leitura/features/highlights/application/highlights_share.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:flutter/material.dart' show TextField;
 import 'package:flutter/widgets.dart';
@@ -73,18 +74,20 @@ void main() {
     },
   );
 
-  testWidgets('cartão 8 (só desenhos): Compartilhar, Apagar e Fechar', (
-    tester,
-  ) async {
-    await abrirTela25(tester, livro);
-    await _mais(tester, 8);
-    expect(_visto(tester, 'hl.more.title'), 'pág. 159 · 2 DESENHOS');
-    expect(hl('hl.more.note'), findsNothing);
-    expect(hl('hl.more.colors'), findsNothing);
-    for (final b in ['share', 'delete', 'close']) {
-      expect(hl('hl.more.$b'), findsOneWidget, reason: b);
-    }
-  });
+  testWidgets(
+    'cartão 8 (só desenhos): Apagar e Fechar — sem texto, sem Compartilhar (G21 §5)',
+    (tester) async {
+      await abrirTela25(tester, livro);
+      await _mais(tester, 8);
+      expect(_visto(tester, 'hl.more.title'), 'pág. 159 · 2 DESENHOS');
+      expect(hl('hl.more.note'), findsNothing);
+      expect(hl('hl.more.colors'), findsNothing);
+      expect(hl('hl.more.share'), findsNothing);
+      for (final b in ['delete', 'close']) {
+        expect(hl('hl.more.$b'), findsOneWidget, reason: b);
+      }
+    },
+  );
 
   testWidgets('cartão 1 (sem nota): "Escrever nota"', (tester) async {
     await abrirTela25(tester, livro);
@@ -156,19 +159,47 @@ void main() {
   );
 
   testWidgets(
-    'Compartilhar no clube: a folha fecha e "Chega numa próxima fase" fica 2 s (D-118)',
+    'Compartilhar no clube sem conta (G21 §5): a folha fecha e "Entre na sua conta para compartilhar." fica 2 s',
     (tester) async {
       await abrirTela25(tester, livro);
-      await _mais(tester, 5);
+      final n =
+          cartoes25(tester).indexWhere(
+            (v) =>
+                shareableHighlight(v.card) != null && v.card.clubPostId == null,
+          ) +
+          1;
+      await _mais(tester, n);
       await tester.tap(hl('hl.more.share'));
       await tester.pump();
       expect(hl('hl.more'), findsNothing);
       expect(
         appText25(tester, 'leitor.aviso', '').span.toPlainText(),
-        'Chega numa próxima fase',
+        'Entre na sua conta para compartilhar.',
       );
       await tester.pump(const Duration(seconds: 2));
       expect(hl('leitor.aviso'), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'o cartão já compartilhado: "Já está em Leitoras de Capitu", apagado (G21 §5, caso 6)',
+    (tester) async {
+      await abrirTela25(tester, livro);
+      final n =
+          cartoes25(tester).indexWhere((v) => v.card.clubPostId != null) + 1;
+      expect(n, greaterThan(0));
+      await _mais(tester, n);
+      expect(
+        appText25(tester, 'hl.more.share', '').span.toPlainText(),
+        'Já está em Leitoras de Capitu',
+      );
+      await tester.tap(hl('hl.more.share'));
+      await tester.pump();
+      expect(
+        hl('hl.more'),
+        findsOneWidget,
+        reason: 'apagado: o toque não faz nada',
+      );
     },
   );
 

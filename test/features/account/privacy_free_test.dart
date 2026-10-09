@@ -2,17 +2,38 @@
 // para login/sessão e perfil. Os livros, grifos, notas, sessões e a data de nascimento NUNCA saem do
 // aparelho. O teste passa pela pilha real (controller → gateway/API → cliente do Supabase) e grava
 // cada pedido HTTP; qualquer endpoint fora da lista ou qualquer dado pessoal no pedido reprova.
+import 'dart:io';
+
+import 'package:app_leitura/core/data/clock/hlc.dart';
+import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
+import 'package:app_leitura/core/data/database/local_database.dart';
+import 'package:app_leitura/core/data/database/versioning.dart';
+import 'package:app_leitura/core/sync/sync_providers.dart';
 import 'package:app_leitura/features/account/application/account_controller.dart';
 import 'package:app_leitura/features/account/application/account_providers.dart';
+import 'package:app_leitura/features/account/data/local_library.dart';
 import 'package:app_leitura/features/account/data/native_sign_in.dart';
 import 'package:app_leitura/features/account/data/store_age_signals.dart';
+import 'package:app_leitura/features/clubs/application/clubs_providers.dart';
+import 'package:app_leitura/features/clubs/application/publishers.dart';
+import 'package:app_leitura/features/clubs/application/stats_provider.dart';
+import 'package:app_leitura/features/clubs/data/clubs_cache.dart';
+import 'package:app_leitura/features/highlights/application/highlights_controller.dart';
+import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
+import 'package:app_leitura/features/home/application/home_providers.dart'
+    show clockProvider;
+import 'package:app_leitura/features/library/application/library_import.dart'
+    show booksDirProvider;
+import 'package:app_leitura/features/social/application/social_providers.dart';
+import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart' show debugPrint;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show OtpType, SupabaseClient;
 
 import '../../support/personal_builders.dart';
 import 'support/account_fakes.dart';
@@ -41,6 +62,24 @@ const Set<String> permitidos = {
   'PATCH /rest/v1/profiles',
   'POST /functions/v1/export-data',
   'POST /functions/v1/delete-account',
+};
+
+/// G21.6 (docs/progresso/G21.md §6): o social do Grátis — só o que ele publica, e as leituras sem dado pessoal.
+const Set<String> permitidosG21 = {
+  // leituras que não levam dado pessoal: os meus clubes (o ticket), os resumos do chip da 25 (os ids dos posts),
+  // os termos e a contagem do sininho (sem as linhas)
+  'POST /rest/v1/rpc/my_clubs',
+  'POST /rest/v1/rpc/club_post_summaries',
+  'POST /rest/v1/rpc/my_terms',
+  'HEAD /rest/v1/notifications',
+  // só depois do toque em Compartilhar: o trecho, a cor, a página e o capítulo do clube (a nota fica — D-217)
+  'POST /rest/v1/rpc/share_highlight',
+  // só do livro de um clube, ao sair do leitor (R9): a fração e o capítulo do clube
+  'POST /rest/v1/rpc/publish_progress',
+  // os 4 números agregados do perfil, uma vez por dia (R10)
+  'POST /rest/v1/rpc/publish_my_stats',
+  // o aceite das regras da comunidade (D-222)
+  'POST /rest/v1/rpc/accept_terms',
 };
 
 void main() {
@@ -137,7 +176,107 @@ void main() {
     }
     debugPrintPedidos(backend);
   });
+
+  _semClube();
 }
+
+/// G21.6: um Grátis com conta e sem clube.
+void _semClube() => test('G21: Grátis com conta e sem clube — ler, grifar e abrir a 25 não chamam nada; o ciclo do app só lê e publica os números', () async {
+  final backend = FakeBackend(
+    respostas: {
+      'POST /rest/v1/rpc/my_clubs': (200, <Object?>[]),
+      'HEAD /rest/v1/notifications': (200, null),
+      'POST /rest/v1/rpc/publish_my_stats': (200, true),
+    },
+    cabecalhos: {
+      'HEAD /rest/v1/notifications': {'content-range': '*/0'},
+    },
+  );
+  final client = backend.client();
+  addTearDown(client.dispose);
+  await client.auth.verifyOTP(
+    email: emailTeste,
+    token: '123456',
+    type: OtpType.email,
+  );
+  final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
+  addTearDown(db.close);
+  final raiz = Directory.systemTemp.createTempSync('booknest_g21_priv_');
+  addTearDown(() => raiz.deleteSync(recursive: true));
+
+  const titulo = 'Memórias Póstumas de Brás Cubas';
+  const trecho = 'Ao verme que primeiro roeu as frias carnes';
+  final livro = livroTeste(1, dono: contaTeste, title: titulo);
+  await UserBooksDao(db).upsert(livro);
+  await ReadingPositionsDao(db)
+      .upsert(posicaoTeste(livro.id, dono: contaTeste));
+
+  final cache = ClubsCache(() async => db);
+  final c = ProviderContainer(
+    overrides: [
+      supabaseClientProvider.overrideWithValue(client),
+      socialOwnerProvider.overrideWithValue(contaTeste),
+      localDatabaseProvider.overrideWith((ref) async => db),
+      localLibraryProvider.overrideWith((ref) async => LocalLibrary(db)),
+      localVersioningProvider.overrideWith(
+        (ref) async => LocalVersioning(db, HlcClock(deviceId: 'aparelhoX')),
+      ),
+      booksDirProvider.overrideWithValue(() async => raiz),
+      clockProvider.overrideWithValue(() => DateTime.utc(2026, 10, 9, 12)),
+      clubsCacheProvider.overrideWithValue(cache),
+      statsPublisherProvider.overrideWith(
+        (ref) => StatsPublisher(
+          profiles: ref.watch(profileRepositoryProvider)!,
+          cache: cache,
+          database: () async => db,
+          streak: () async => 4,
+          now: () => DateTime.utc(2026, 10, 9, 12),
+        ),
+      ),
+    ],
+  );
+  addTearDown(c.dispose);
+  backend.pedidos.clear();
+
+  // o ciclo do app (abrir, voltar): os clubes, o sininho e os números do perfil
+  await c.read(clubsSyncProvider)!.refresh(contaTeste);
+  await c.read(statsPublisherProvider)!.publishIfDue(contaTeste);
+  expect(backend.caminhos, [
+    'POST /rest/v1/rpc/my_clubs',
+    'HEAD /rest/v1/notifications',
+    'POST /rest/v1/rpc/publish_my_stats',
+  ]);
+  expect(backend.caminhos.every(permitidosG21.contains), isTrue);
+  expect((backend.pedidos.last.json! as Map).keys.toSet(), {
+    'p_books_read_total',
+    'p_books_read_year',
+    'p_reading_now',
+    'p_streak_days',
+  }, reason: 'só os 4 números agregados');
+
+  backend.pedidos.clear();
+  // ler: sair do leitor (o livro não é de clube — R9)
+  expect(
+    await c.read(progressPublisherProvider)!.publish(contaTeste, livro.id),
+    0,
+  );
+  // grifar: o grifo fica no aparelho
+  await AnnotationsDao(db)
+      .upsert(grifoTeste(10, livro: livro.id, dono: contaTeste, exato: trecho));
+  // abrir a 25 (o chip ao vivo e o compartilhar ligados)
+  final deps = await c.read(highlightsDepsProvider.future);
+  expect(deps.clubUpdates, isNotNull);
+  expect(deps.share, isNotNull);
+  final h = HighlightsController(deps: deps, userBookId: livro.id);
+  await h.load();
+  for (var i = 0; i < 100 && h.state.loading; i++) {
+    await Future<void>.delayed(const Duration(milliseconds: 10));
+  }
+  expect(h.state.cards, hasLength(1));
+  h.dispose();
+  await pumpEventQueue();
+  expect(backend.pedidos, isEmpty, reason: 'nada novo: ${backend.caminhos}');
+});
 
 void debugPrintPedidos(FakeBackend b) =>
     debugPrint('[privacidade] pedidos do Grátis: ${b.caminhos.join(', ')}');

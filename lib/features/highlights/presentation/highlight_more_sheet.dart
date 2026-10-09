@@ -1,7 +1,9 @@
 // G19.7 — as folhas da tela 25 (D-192; D-23: não desenhadas, no padrão da folha da nota — D-131): o véu e o cartão a
 // 14 das bordas, raio 28, borda 1,5 e sombra dura, com as cores das ilhas do Creme. "Mais opções" de um cartão
 // (R11): no alto "pág. N · ‹rótulo da R4›" e o começo do trecho; Editar/Escrever nota e Trocar cor (só em cartão com
-// grifo), Compartilhar no clube, Apagar e Fechar. A nota abre a `NoteSheet` do leitor.
+// grifo), Compartilhar no clube, Apagar e Fechar. A nota abre a `NoteSheet` do leitor. G21 (§5): sem texto (tinta, o
+// marca-texto à mão), sem Compartilhar; já compartilhado, "Já está em Leitoras de Capitu" (apagado, não publica de
+// novo).
 import 'dart:math' as math;
 
 import 'package:flutter/rendering.dart' show SemanticsRole;
@@ -152,9 +154,17 @@ class HighlightMoreSheet extends StatelessWidget {
     required this.onShare,
     required this.onDelete,
     required this.onClose,
+    this.canShare = true,
+    this.sharedLabel,
   });
 
   final HighlightCard card;
+
+  /// G21: o cartão tem texto para ir ao clube (caso 7 da §5).
+  final bool canShare;
+
+  /// G21: "Já está em Leitoras de Capitu" (caso 6); `null` = ainda não foi.
+  final String? sharedLabel;
 
   /// O texto do cartão (o começo vai numa linha, com "…").
   final String excerpt;
@@ -273,12 +283,13 @@ class HighlightMoreSheet extends StatelessWidget {
             if (current != null && h.kind == AnnotationKind.highlight)
               _colors(p, current),
           ],
-          sheetButton(
-            p,
-            'hl.more.share',
-            'Compartilhar no clube',
-            onTap: onShare,
-          ),
+          if (canShare || sharedLabel != null)
+            sheetButton(
+              p,
+              'hl.more.share',
+              sharedLabel ?? 'Compartilhar no clube',
+              onTap: sharedLabel == null ? onShare : null,
+            ),
           sheetButton(p, 'hl.more.delete', 'Apagar', onTap: onDelete),
           sheetButton(p, 'hl.more.close', 'Fechar', onTap: onClose),
         ],

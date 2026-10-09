@@ -55,12 +55,16 @@ final class ClubsCache {
   /// com encontro, a chave sai (o ticket some). Roda ao guardar os clubes e ao sair do leitor (o herói pode ter
   /// mudado).
   Future<void> refreshTicket(String owner) async {
-    final club = ticketClub(await clubs(owner), await readingBook(owner));
-    if (club == null) {
-      await _remove(ticketKey(owner));
-    } else {
-      await _write(ticketKey(owner), jsonEncode(ticketJson(club)));
-    }
+    final db = await _database();
+    // numa transação: guardar os clubes e sair do leitor ao mesmo tempo não deixam o ticket velho por cima
+    await db.transaction(() async {
+      final club = ticketClub(await clubs(owner), await readingBook(owner));
+      if (club == null) {
+        await _remove(ticketKey(owner));
+      } else {
+        await _write(ticketKey(owner), jsonEncode(ticketJson(club)));
+      }
+    });
   }
 
   /// O herói da Início — o livro em leitura com a atividade mais recente (a mesma ordem da Início): a edição e o

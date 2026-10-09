@@ -141,4 +141,15 @@ void main() {
       expect(Rsvp.of(null), isNull);
     },
   );
+
+  test('uma leitora sem cor (membro de antes da G21) não derruba os clubes: a cor do papel', () {
+    final f = ClubFace.fromJson(const {'initial': 'A', 'color': null});
+    expect((f.initial, f.color), ('A', clubFaceFallbackColor));
+    final c = (fixture('my_clubs')! as List).single as Map<String, Object?>;
+    final semCor = {
+      ...c,
+      'me': {'initial': 'M', 'color': null},
+    };
+    expect(clubCardsFromJson([semCor]).single.me!.color, clubFaceFallbackColor);
+  });
 }

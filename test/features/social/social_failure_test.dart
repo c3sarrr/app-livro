@@ -5,7 +5,8 @@ import 'dart:async';
 import 'package:app_leitura/features/social/data/social_call.dart';
 import 'package:app_leitura/features/social/domain/social_failure.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show PostgrestException;
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show AuthApiException, AuthRetryableFetchException, PostgrestException;
 
 import 'support/social_backend.dart';
 
@@ -150,6 +151,25 @@ void main() {
               throw const PostgrestException(message: 'blocked', code: 'P0001'),
         ),
         throwsA(isA<SocialBlocked>()),
+      );
+    });
+
+    test('a renovação do login sem rede: SocialOffline; o login recusado: SocialNeedsAccount', () async {
+      final (_, c) = await servidorSocial();
+      addTearDown(c.dispose);
+      await expectLater(
+        socialCall(c, () => throw AuthRetryableFetchException()),
+        throwsA(isA<SocialOffline>()),
+      );
+      await expectLater(
+        socialCall(
+          c,
+          () => throw const AuthApiException(
+            'Invalid Refresh Token',
+            statusCode: '400',
+          ),
+        ),
+        throwsA(isA<SocialNeedsAccount>()),
       );
     });
 

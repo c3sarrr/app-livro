@@ -2,6 +2,7 @@
 // Tudo precisa de conta e de rede; os erros viram `SocialFailure`. O que o Grátis manda está na lista do
 // privacy_free_test (só depois de um toque, ou o progresso do livro de um clube — §6).
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:supabase_flutter/supabase_flutter.dart' show SupabaseClient;
 
@@ -83,8 +84,9 @@ abstract interface class ClubsRepository {
   Future<void> joinPublic(String clubId);
   Future<void> leave(String clubId);
 
-  /// R9 (D-216): a fração e o capítulo do clube; o servidor ignora a 2ª no mesmo minuto.
-  Future<void> publishProgress(
+  /// R9 (D-216): a fração e o capítulo do clube. `false`: o servidor ignorou (a 2ª no mesmo minuto) — não marque como
+  /// publicada.
+  Future<bool> publishProgress(
     String clubId, {
     required double ratio,
     required int? chapter,
@@ -174,16 +176,25 @@ final class SupabaseClubsRepository implements ClubsRepository {
   @override
   Future<List<PostSummary>> postSummaries(Iterable<String> postIds) async {
     final ids = postIds.toSet().toList()..sort();
-    if (ids.isEmpty) return const [];
-    return _call(
-      'club_post_summaries',
-      {'p_ids': ids},
-      (r) => [
-        for (final s in (r as List<Object?>?) ?? const <Object?>[])
-          PostSummary.fromJson(_asMap(s)),
-      ],
-    );
+    final out = <PostSummary>[];
+    // o servidor aceita até [summariesPerCall] por ida
+    for (var i = 0; i < ids.length; i += summariesPerCall) {
+      out.addAll(
+        await _call(
+          'club_post_summaries',
+          {'p_ids': ids.sublist(i, math.min(i + summariesPerCall, ids.length))},
+          (r) => [
+            for (final s in (r as List<Object?>?) ?? const <Object?>[])
+              PostSummary.fromJson(_asMap(s)),
+          ],
+        ),
+      );
+    }
+    return out;
   }
+
+  /// Quantos ids o `club_post_summaries` aceita numa ida.
+  static const int summariesPerCall = 200;
 
   @override
   Future<String> createClub(NewClub c) {
@@ -253,7 +264,7 @@ final class SupabaseClubsRepository implements ClubsRepository {
   );
 
   @override
-  Future<void> publishProgress(
+  Future<bool> publishProgress(
     String clubId, {
     required double ratio,
     required int? chapter,
@@ -261,7 +272,7 @@ final class SupabaseClubsRepository implements ClubsRepository {
     'p_club': clubId,
     'p_ratio': ratio,
     'p_chapter': chapter,
-  }, (_) {});
+  }, (r) => r == true);
 
   @override
   Future<void> markRead(String clubId) =>

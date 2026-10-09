@@ -12,6 +12,7 @@ import '../../../core/preferences/brand_preference.dart';
 import '../../account/application/account_controller.dart';
 import '../../account/application/account_providers.dart';
 import '../../catalog/application/catalog_providers.dart';
+import '../../clubs/application/clubs_providers.dart';
 import '../data/cached_club_ticket_source.dart';
 import '../data/catalog_for_you_source.dart';
 import '../data/home_repository.dart';
@@ -51,11 +52,21 @@ Stream<void> appResumes() {
   return c.stream;
 }
 
+/// G21.5 (D-212): as notificações não lidas da conta, do cache do social (o ponto do sininho); sem conta, 0.
+final homeUnreadNotificationsProvider = StreamProvider<int>((ref) {
+  final owner = ref.watch(socialOwnerProvider);
+  if (owner == null) return Stream.value(0);
+  return ref.watch(clubsCacheProvider).watchNotifications(owner);
+});
+
 /// Cabeçalho da Início vindo da conta (D-84) — só para a fonte real: a fixture (fonte síncrona, D-09) traz o
 /// usuário do arquivo no próprio instantâneo (`null` = não troca).
 final homeAccountUserProvider = Provider<UserSummary?>((ref) {
   if (ref.watch(homeRepositoryProvider) is SyncHomeRepository) return null;
-  return homeUserOf(ref.watch(accountControllerProvider));
+  return homeUserOf(
+    ref.watch(accountControllerProvider),
+    unread: ref.watch(homeUnreadNotificationsProvider).value ?? 0,
+  );
 });
 
 /// Erro da fonte depois de já haver dados: a tela continua com os dados e o erro vai para o relatório de
@@ -69,18 +80,22 @@ final homeErrorReporterProvider =
     );
 
 /// Cabeçalho a partir da conta (D-84): primeiro nome do perfil e a inicial; sem conta (ou antes do perfil
-/// chegar), convidado. Notificações chegam na G21.
-UserSummary homeUserOf(AccountView view) {
+/// chegar), convidado. [unread] = as notificações não lidas (G21, D-212: o ponto do sininho).
+UserSummary homeUserOf(AccountView view, {int unread = 0}) {
   final name = switch (view) {
     MemberView(:final summary?) => summary.displayName.trim(),
     _ => '',
   };
-  if (name.isEmpty) return LocalHomeRepository.guest;
+  if (name.isEmpty) {
+    return unread > 0
+        ? UserSummary(unreadNotifications: unread)
+        : LocalHomeRepository.guest;
+  }
   final first = name.split(RegExp(r'\s+')).first;
   return UserSummary(
     firstName: first,
     initial: String.fromCharCode(first.runes.first).toUpperCase(),
-    unreadNotifications: 0,
+    unreadNotifications: unread,
   );
 }
 

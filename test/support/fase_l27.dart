@@ -57,6 +57,7 @@ final class ClubeDoMundo implements ReaderClubSource {
       name: '${c.nomePrefixo} ${c.nomeDestaque}',
       nextMeeting: c.proximoEncontro,
       goalChapter: c.metaCapitulo,
+      goalLabel: null,
     );
   }
 }

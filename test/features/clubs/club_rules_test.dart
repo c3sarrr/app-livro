@@ -169,11 +169,21 @@ void main() {
     });
   });
 
-  test('R7 a semana aberta: até a atual, e as que eu já alcancei', () {
+  test('R7 a semana aberta: as que eu já alcancei e a atual; a que está entre mim e a atual, fechada', () {
+    const w1 = ClubWeekRange(no: 1, from: 1, to: 25);
+    const w2 = ClubWeekRange(no: 2, from: 26, to: 50);
     const w3 = ClubWeekRange(no: 3, from: 51, to: 75);
     expect(weekOpenFor(w3, currentWeek: 2, myChapter: 32), isFalse);
     expect(weekOpenFor(w3, currentWeek: 2, myChapter: 51), isTrue);
     expect(weekOpenFor(w3, currentWeek: 3), isTrue);
+    // atrasada: no cap. 10 (semana 1) com a semana 3 em curso — a 2 é spoiler
+    expect(weekOpenFor(w1, currentWeek: 3, myChapter: 10), isTrue);
+    expect(weekOpenFor(w2, currentWeek: 3, myChapter: 10), isFalse);
+    expect(
+      weekOpenFor(w2, currentWeek: 3),
+      isFalse,
+      reason: 'sem progresso, só a atual',
+    );
   });
 
   test('R8 o spoiler: à frente de mim e com a proteção ligada', () {

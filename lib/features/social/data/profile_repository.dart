@@ -13,8 +13,9 @@ abstract interface class ProfileRepository {
   /// Muda o meu perfil (só os campos dados; o @ muda pela conta — G05).
   Future<void> updateMine({String? displayName, String? bio, bool? isPrivate});
 
-  /// R10 (D-216): os 4 números agregados; o servidor ignora a 2ª vez no mesmo minuto.
-  Future<void> publishStats(ProfileNumbers numbers);
+  /// R10 (D-216): os 4 números agregados. `false`: o servidor ignorou (a 2ª no mesmo minuto, ou a conta acabou de
+  /// nascer) — não marque como publicados.
+  Future<bool> publishStats(ProfileNumbers numbers);
 }
 
 final class SupabaseProfileRepository implements ProfileRepository {
@@ -78,16 +79,18 @@ final class SupabaseProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<void> publishStats(ProfileNumbers n) => socialCall(
+  Future<bool> publishStats(ProfileNumbers n) => socialCall(
     _client,
-    () => _client.rpc<Object?>(
-      'publish_my_stats',
-      params: {
-        'p_books_read_total': n.booksReadTotal,
-        'p_books_read_year': n.booksReadYear,
-        'p_reading_now': n.readingNow,
-        'p_streak_days': n.streakDays,
-      },
-    ),
+    () async =>
+        await _client.rpc<Object?>(
+          'publish_my_stats',
+          params: {
+            'p_books_read_total': n.booksReadTotal,
+            'p_books_read_year': n.booksReadYear,
+            'p_reading_now': n.readingNow,
+            'p_streak_days': n.streakDays,
+          },
+        ) ==
+        true,
   );
 }

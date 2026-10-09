@@ -26,6 +26,7 @@ import '../../reader/presentation/reader_overlays.dart';
 import '../application/highlights_controller.dart';
 import '../application/highlights_exit.dart';
 import '../application/highlights_providers.dart';
+import '../application/highlights_share.dart';
 import '../domain/card_dates.dart';
 import '../domain/card_filters.dart';
 import '../domain/highlight_card.dart';
@@ -34,6 +35,7 @@ import 'highlight_card.dart';
 import 'highlight_export_sheet.dart';
 import 'highlight_filters.dart';
 import 'highlight_more_sheet.dart';
+import 'highlight_share_sheets.dart';
 import 'highlights_end.dart';
 import 'highlights_top.dart';
 import 'ink_thumbnail.dart';
@@ -62,6 +64,20 @@ final class _Note extends _Sheet {
 
 final class _Export extends _Sheet {
   const _Export();
+}
+
+/// G21.5: "Antes de publicar" (os termos — D-222).
+final class _Terms extends _Sheet {
+  const _Terms(this.card, this.step);
+  final HighlightCard card;
+  final ShareNeedsTerms step;
+}
+
+/// G21.5: "Compartilhar em…" (mais de um clube lê o livro).
+final class _ShareTo extends _Sheet {
+  const _ShareTo(this.card, this.clubs);
+  final HighlightCard card;
+  final List<ShareClub> clubs;
 }
 
 class HighlightsScreen extends ConsumerStatefulWidget {
@@ -93,6 +109,7 @@ class _HighlightsScreenState extends ConsumerState<HighlightsScreen> {
   int _lastResults = 0;
   String? _topGroup;
   bool _exporting = false;
+  bool _sharing = false;
   _Sheet? _sheet;
   String? _toast;
   Timer? _toastTimer;
@@ -309,9 +326,29 @@ class _HighlightsScreenState extends ConsumerState<HighlightsScreen> {
     if (await c.saveNote(card, text) && mounted) _closeSheet();
   }
 
-  void _shareToClub() {
+  /// G21.5 (§5): um passo por vez (o 2º toque, enquanto o 1º publica, não faz nada).
+  Future<void> _share(
+    HighlightCard card,
+    Future<ShareStep> Function(HighlightsController c) step,
+  ) async {
+    final c = _c;
+    if (c == null || _sharing) return;
+    _sharing = true;
     _closeSheet();
-    _showToast(readerSoonText);
+    try {
+      final next = await step(c);
+      if (!mounted) return;
+      switch (next) {
+        case ShareNotice(:final text):
+          _showToast(text);
+        case final ShareNeedsTerms t:
+          setState(() => _sheet = _Terms(card, t));
+        case ShareChoose(:final clubs):
+          setState(() => _sheet = _ShareTo(card, clubs));
+      }
+    } finally {
+      _sharing = false;
+    }
   }
 
   /// Um arquivo por vez (o 2º toque no Exportar, enquanto o 1º entrega, não faz nada).
@@ -513,7 +550,9 @@ class _HighlightsScreenState extends ConsumerState<HighlightsScreen> {
         palette: p,
         onNote: () => setState(() => _sheet = _Note(card)),
         onColor: (hex) => unawaited(_recolor(card, hex)),
-        onShare: _shareToClub,
+        canShare: c.canShare(card),
+        sharedLabel: c.sharedLabel(card),
+        onShare: () => unawaited(_share(card, (c) => c.startShare(card))),
         onDelete: () => unawaited(_delete(card)),
         onClose: _closeSheet,
       ),
@@ -523,6 +562,19 @@ class _HighlightsScreenState extends ConsumerState<HighlightsScreen> {
         brand: brand,
         onCancel: _closeSheet,
         onSave: (text) => unawaited(_saveNote(card, text)),
+      ),
+      _Terms(:final card, :final step) => HighlightTermsSheet(
+        palette: p,
+        brand: brand,
+        onAccept: () =>
+            unawaited(_share(card, (c) => c.acceptTerms(card, step))),
+        onLater: _closeSheet,
+      ),
+      _ShareTo(:final card, :final clubs) => HighlightShareToSheet(
+        clubs: clubs,
+        palette: p,
+        onPick: (club) => unawaited(_share(card, (c) => c.shareTo(card, club))),
+        onClose: _closeSheet,
       ),
       _Export() => HighlightExportSheet(
         title: c.state.title,

@@ -1,11 +1,14 @@
 // G15.2 (D-149) — o clube que lê este livro, para a faixa do sumário (tela 27): nome, próximo encontro e a meta em
-// capítulo (contado de 1). A G21 liga aos clubes; até lá, nenhum — a faixa some, como o ticket da Início (D-80).
+// capítulo (contado de 1). A G21 liga aos clubes (`ClubsReaderClubSource`): a meta é o fim da semana atual, no número
+// do clube (R2, D-214).
 
-/// A meta do clube para a faixa: "LEITORAS DE CAPITU · QUI 24/9" e "Até o cap. L · faltam 18".
+/// A meta do clube para a faixa: "LEITORAS DE CAPITU · QUI 24/9" e "Até o cap. L · faltam 18". [goalChapter] = o cap.
+/// do clube (o N-º capítulo numerado do livro); [goalLabel] = o rótulo do clube para livro sem numeração.
 typedef ReaderClubGoal = ({
   String name,
   DateTime? nextMeeting,
   int goalChapter,
+  String? goalLabel,
 });
 
 abstract interface class ReaderClubSource {
@@ -13,7 +16,7 @@ abstract interface class ReaderClubSource {
   Future<ReaderClubGoal?> goalFor(String owner, String userBookId);
 }
 
-/// Nenhum clube (até a G21).
+/// Nenhum clube (o convidado, ou sem servidor).
 final class NoReaderClub implements ReaderClubSource {
   const NoReaderClub();
 

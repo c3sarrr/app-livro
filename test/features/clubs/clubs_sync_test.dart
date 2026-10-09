@@ -18,12 +18,16 @@ const _dona = 'dona';
 
 final class _Clubes implements ClubsRepository {
   SocialFailure? falha;
+
+  /// Chamado no meio da ida (a conta sai ou troca enquanto o servidor responde).
+  void Function()? durante;
   Object? clubes = fixture('my_clubs');
   final pedidosDeResumo = <List<String>>[];
   List<PostSummary> resumos = const [];
 
   @override
   Future<MyClubs> myClubs() async {
+    durante?.call();
     if (falha case final f?) throw f;
     return (cards: clubCardsFromJson(clubes), json: jsonEncode(clubes));
   }
@@ -59,13 +63,20 @@ void main() {
   late _Clubes clubes;
   late _Sininho sininho;
   late ClubsSync sync;
+  var daVez = _dona;
 
   setUp(() {
+    daVez = _dona;
     db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
     cache = ClubsCache(() async => db);
     clubes = _Clubes();
     sininho = _Sininho();
-    sync = ClubsSync(clubs: clubes, notifications: sininho, cache: cache);
+    sync = ClubsSync(
+      clubs: clubes,
+      notifications: sininho,
+      cache: cache,
+      isCurrent: (o) => o == daVez,
+    );
   });
   tearDown(() => db.close());
 
@@ -119,5 +130,27 @@ void main() {
     expect((await cache.posts(_dona)).keys, [
       'p1',
     ], reason: 'sem rede, o chip fica');
+  });
+
+  test('a conta saiu (ou trocou) enquanto o servidor respondia: nada vai para o cache da antiga (D-68)', () async {
+    clubes.durante = () => daVez = 'outra';
+    expect(await sync.refresh(_dona), isA<SocialNeedsAccount>());
+    expect(await cache.clubs(_dona), isEmpty);
+    expect(await cache.notifications(_dona), 0);
+    final ticket =
+        await (db.select(db.socialCache)
+              ..where((t) => t.key.equals(ClubsCache.ticketKey(_dona))))
+            .getSingleOrNull();
+    expect(ticket, isNull);
+    clubes.resumos = const [
+      PostSummary(
+        id: 'p1',
+        clubId: 'c1',
+        clubName: 'Leitoras de Capitu',
+        replies: 3,
+      ),
+    ];
+    expect(await sync.refreshPosts(_dona, ['p1']), isA<SocialNeedsAccount>());
+    expect(await cache.posts(_dona), isEmpty);
   });
 }

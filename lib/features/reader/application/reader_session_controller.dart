@@ -128,6 +128,7 @@ final class ReaderDeps {
     this.utcOffsetAt = readerUtcOffset,
     this.onError = reportReaderError,
     this.inkRepository,
+    this.onLeave,
   });
 
   final AppDatabase db;
@@ -178,6 +179,10 @@ final class ReaderDeps {
 
   /// Onde a tinta grava (G16); `null` = no banco ([db], com [versioning]). Os testes trocam (a falha ao salvar).
   final InkRepository? inkRepository;
+
+  /// G21 (R9, D-216): saiu do leitor (fechou, ou o app foi para o segundo plano), com a posição já gravada — a
+  /// posição do livro de um clube vai para o clube. Não segura a saída; a falha vai para o [onError].
+  final Future<void> Function(String userBookId)? onLeave;
 }
 
 class ReaderSessionController extends ChangeNotifier {
@@ -516,13 +521,32 @@ class ReaderSessionController extends ChangeNotifier {
   Future<void> lifecycle(AppLifecycleState s) async {
     final foreground =
         s == AppLifecycleState.resumed || s == AppLifecycleState.inactive;
+    // a saída é a passagem para o segundo plano (escondido → pausado → escondido de novo na volta: uma só)
+    final leaving = !foreground && _foreground;
+    _foreground = foreground;
     await _tracker?.setForeground(foreground);
     if (foreground) {
       if (!_hidden) _awake?.touch();
     } else {
       _awake?.stop();
       await _doc?.flush();
+      if (leaving && _doc != null) _left();
     }
+  }
+
+  /// O app estava no primeiro plano (o [lifecycle] anterior).
+  bool _foreground = true;
+
+  /// Avisa a saída ([ReaderDeps.onLeave]) sem esperar.
+  void _left() {
+    final leave = deps.onLeave;
+    if (leave == null) return;
+    unawaited(
+      leave(userBookId).then<void>(
+        (_) {},
+        onError: (Object e, StackTrace st) => deps.onError(e, st),
+      ),
+    );
   }
 
   /// Vira; `false` = começo/fim do livro, ou não deu (a falha vira o aviso da D-21).
@@ -989,12 +1013,14 @@ class ReaderSessionController extends ChangeNotifier {
     _closed = true;
     _backTimer?.cancel();
     _awake?.stop();
+    final opened = _doc != null;
     try {
       await _doc?.flush();
       await _tracker?.close();
     } on Object catch (e, st) {
       deps.onError(e, st);
     }
+    if (opened) _left();
   }
 
   void _set(ReaderState s) {
