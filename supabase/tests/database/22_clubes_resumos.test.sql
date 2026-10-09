@@ -3,7 +3,7 @@
 -- presenças, a mesma meta). O bloqueio some com o que a pessoa escreveu e as contagens descem junto (D-223).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(53);
+select plan(55);
 \ir _mundo_clube.psql
 
 create function pg_temp.como(p uuid) returns void language sql as $$
@@ -122,6 +122,16 @@ select is(public.club_overview('00000000-0000-7000-8000-00000c200001') -> 'share
 select is(public.my_clubs() -> 0 ->> 'members_count', '11', 'as leitoras continuam 11 (bloqueio não tira do clube)');
 
 -- ---------------------------------------------------------------- quem não é do clube
+-- R5: quem nunca publicou não entra na média do grupo (uma 12ª leitora acabou de entrar), mas conta como leitora
+reset role;
+insert into auth.users (id, email) values (pg_temp.leitora(12), 'nova@mundo.clube');
+insert into public.club_members (club_id, user_id) values ('00000000-0000-7000-8000-00000c200001', pg_temp.leitora(12));
+set local role authenticated;
+select pg_temp.como(pg_temp.leitora(3));
+select is((public.my_clubs() -> 0 ->> 'group_progress')::numeric, 0.5373,
+  'a recém-chegada sem progresso não puxa o grupo para baixo (R5)');
+select is(public.my_clubs() -> 0 ->> 'members_count', '12', 'mas já conta entre as leitoras');
+
 select pg_temp.como('00000000-0000-7000-8000-0000000000ff');
 select throws_ok($$ select public.club_overview('00000000-0000-7000-8000-00000c200001') $$, '42501', 'not_member',
   'quem não é do clube não vê a 04');
