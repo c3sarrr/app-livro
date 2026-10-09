@@ -1,6 +1,8 @@
 // G19.7 — Exportar (D-194, R12) pela rota real, no mundo de referência: a folha com o livro e quantos itens vão, os
 // três formatos (Markdown marcado; o PDF do Pro avisa e não muda a escolha), o arquivo entregue pela folha de
 // compartilhar (nome, tipo e conteúdo), o erro que deixa a folha aberta e o livro sem nada para exportar.
+import 'dart:async';
+
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -113,6 +115,28 @@ void main() {
       expect('\r\n'.allMatches(f.content), hasLength(7));
     },
   );
+
+  testWidgets('dois toques seguidos em Exportar entregam um arquivo só', (
+    tester,
+  ) async {
+    final arquivos = ArquivosDeTeste();
+    await abrirTela25(
+      tester,
+      livro,
+      deps: depsDaTela25(livro, arquivos: arquivos),
+    );
+    await _abrir(tester);
+    // a folha de compartilhar do sistema fica aberta: o 2º toque chega com a 1ª entrega no ar
+    final segurar = arquivos.segurar = Completer<void>();
+    await tester.tap(hl('hl.export.go'));
+    await tester.pump();
+    await tester.tap(hl('hl.export.go'));
+    await tester.pump();
+    segurar.complete();
+    await banco25(tester, voltas: 2);
+    expect(arquivos.feitos, hasLength(1));
+    expect(hl('hl.export'), findsNothing);
+  });
 
   testWidgets('Exportar em Markdown (o padrão) entrega o .md', (tester) async {
     final arquivos = ArquivosDeTeste();

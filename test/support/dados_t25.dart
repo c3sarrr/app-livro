@@ -2,6 +2,8 @@
 // da tela 19 e a posição na pág. 159) com as 12 anotações e as 4 camadas de tinta (a de hoje também: a tela 25 mostra
 // os itens de hoje), e as dependências da tela com as fontes da fixture: os trechos literais de cada cartão
 // (`cartoesDaTela25` — D-49), o clube do mundo (no app, nenhum até a G21 — R8), o relógio e o fuso do mundo.
+import 'dart:async';
+
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
 import 'package:app_leitura/features/highlights/application/card_text_source.dart';
@@ -91,12 +93,16 @@ final class ArquivosDeTeste implements HighlightsFileSink {
   final List<({String fileName, String content, String mimeType})> feitos = [];
   bool falhar = false;
 
+  /// Segura a entrega até completar (como a folha de compartilhar do sistema, que fica aberta).
+  Completer<void>? segurar;
+
   @override
   Future<void> share({
     required String fileName,
     required String content,
     required String mimeType,
   }) async {
+    if (segurar case final s?) await s.future;
     if (falhar) throw StateError('disco cheio');
     feitos.add((fileName: fileName, content: content, mimeType: mimeType));
   }
@@ -122,6 +128,8 @@ HighlightsDeps depsDaTela25(
   now: () => mundoReferencia.agora,
   utcOffsetAt: (_) => mundoReferencia.fuso,
   files: arquivos ?? ArquivosDeTeste(),
-  onError: (e, _) => (erros ?? <Object>[]).add(e),
+  // sem a lista [erros], um erro derruba o teste (nada é engolido)
+  onError: (e, st) =>
+      erros == null ? Error.throwWithStackTrace(e, st) : erros.add(e),
   searchDelay: espera,
 );

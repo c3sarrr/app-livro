@@ -93,6 +93,47 @@ void main() {
     expect(pedidos.single, orderedEquals([...pedidos.single]..sort()));
   });
 
+  test('dois pedidos ao mesmo tempo: o livro abre uma vez, e os dois saem com o texto', () async {
+    var aberturas = 0;
+    final f = EpubCardTextSource(
+      path: caminho,
+      sha: outroSha,
+      spineTexts: (p, s) async {
+        aberturas++;
+        await Future<void>.delayed(const Duration(milliseconds: 30));
+        return isolateSpineTexts(p, s);
+      },
+    );
+    final r = await Future.wait([f.textsFor(cartoes), f.textsFor(cartoes)]);
+    expect(aberturas, 1);
+    for (final x in r) {
+      expect(
+        plano(x.byGroup[cartoes[7].groupId]!),
+        contains('[fluido misterioso]'),
+      );
+    }
+  });
+
+  test(
+    'um cartão com trechos em dois itens do livro fica no item do 1º trecho',
+    () async {
+      final p3 = cartoes[0].highlight!;
+      final p41 = cartoes[2].highlight!;
+      expect(
+        (p3.anchor as EpubAnchor).spine,
+        isNot((p41.anchor as EpubAnchor).spine),
+        reason: 'os dois trechos em itens diferentes',
+      );
+      final junto = buildCards([p3, p41.copyWith(groupId: p3.groupId)]);
+      expect(junto.single.items, hasLength(2));
+      final f = EpubCardTextSource(path: caminho, sha: outroSha);
+      final so = await f.textsFor([cartoes[0]]);
+      final r = await f.textsFor(junto);
+      expect(plano(r.byGroup[p3.groupId]!), plano(so.byGroup[p3.groupId]!));
+      expect(r.orphans, isEmpty);
+    },
+  );
+
   test(
     'âncora de outro arquivo que não volta: sem lugar, com o texto da citação',
     () async {

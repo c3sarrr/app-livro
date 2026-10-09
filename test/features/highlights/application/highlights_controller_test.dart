@@ -1,6 +1,8 @@
 // G19.2 — o controlador da tela 25: o livro, a posição, os cartões e as entradas, as contagens e a fileira de cores;
 // os filtros; a busca com espera (a última tecla vence); apagar com Desfazer; a cor e a nota; a exportação; os erros.
 
+import 'dart:async';
+
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/annotation_daos.dart';
@@ -17,6 +19,8 @@ import 'package:app_leitura/features/highlights/domain/highlight_card.dart';
 import 'package:app_leitura/features/highlights/domain/list_entries.dart';
 import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
+import 'package:drift/drift.dart'
+    show QueryExecutor, QueryInterceptor, ApplyInterceptor;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,6 +36,32 @@ final class _Fonte implements CardTextSource {
     pedidos++;
     final r = await const AnchorOnlyCardTextSource().textsFor(cards);
     return CardTexts(r.byGroup, orfaos);
+  }
+}
+
+/// Segura a próxima consulta da busca (FTS) que tiver [palavra] até [soltar]: a busca fica "no ar".
+final class _Portao extends QueryInterceptor {
+  String? palavra;
+  final Completer<void> _solta = Completer<void>();
+  int presas = 0;
+
+  void soltar() => _solta.complete();
+
+  @override
+  Future<List<Map<String, Object?>>> runSelect(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) async {
+    final p = palavra;
+    if (p != null &&
+        statement.contains('MATCH') &&
+        args.any((a) => a is String && a.contains(p))) {
+      palavra = null;
+      presas++;
+      await _solta.future;
+    }
+    return executor.runSelect(statement, args);
   }
 }
 
@@ -67,6 +97,7 @@ void main() {
   late List<Object> erros;
   late _Arquivos arquivos;
   late _Fonte fonte;
+  late _Portao portao;
   final m = mundoReferencia;
   final livro = m.domCasmurro.id;
   final cartoes = buildCards(itensDoMundo());
@@ -102,7 +133,11 @@ void main() {
   setUp(() async {
     erros = [];
     arquivos = _Arquivos();
-    db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
+    portao = _Portao();
+    db = AppDatabase(
+      NativeDatabase.memory().interceptWith(portao),
+      withSyncQueue: false,
+    );
     await UserBooksDao(db).upsert(m.domCasmurro);
     await ReadingPositionsDao(db).upsert(m.posicao(Slugs.domCasmurro));
     for (final l in m.camadas) {
@@ -222,6 +257,129 @@ void main() {
     expect(c.state.visibleCards, 0);
     c.clearFilters();
     expect(c.state.visibleCards, 8);
+  });
+
+  test(
+    'busca: os achados de uma busca velha que chegam atrasados não valem',
+    () async {
+      portao.palavra = 'ressaca';
+      c.setQuery('ressaca');
+      await ate(() => portao.presas == 1);
+      c.setQuery('ópera');
+      await ate(() => c.state.visibleCards == 1);
+      portao.soltar();
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      expect(curto(), ['p41', 'c3', 'p159*']);
+    },
+  );
+
+  test('busca: "Limpar filtros" com a busca no ar fica com todos', () async {
+    portao.palavra = 'ressaca';
+    c.setQuery('ressaca');
+    await ate(() => portao.presas == 1);
+    c.clearFilters();
+    expect(c.state.visibleCards, 8);
+    portao.soltar();
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+    expect(c.state.visibleCards, 8);
+    expect(c.state.filters.isDefault, isTrue);
+  });
+
+  test(
+    'o banco muda duas vezes e a 1ª leitura chega depois: fica a 2ª',
+    () async {
+      c.setQuery('opera');
+      await ate(() => c.state.visibleCards == 1);
+      final p41 = itemDoMundo(41, AnnotationKind.highlight);
+      Annotation nota(String fim) => Annotation(
+        id: '0199a7c4-2f00-7a10-8b20-000000000$fim',
+        meta: p41.meta,
+        userBookId: livro,
+        kind: AnnotationKind.note,
+        parentId: p41.id,
+        groupId: p41.groupId,
+        anchor: p41.anchor,
+        refPage: 41,
+        chapterIndex: p41.chapterIndex,
+        noteText: 'nota $fim',
+      );
+      portao.palavra = 'opera';
+      await AnnotationsDao(db).upsert(nota('777'));
+      await ate(() => portao.presas == 1);
+      await AnnotationsDao(db).upsert(nota('778'));
+      await ate(() => c.state.items.length == 14);
+      portao.soltar();
+      await Future<void>.delayed(const Duration(milliseconds: 100));
+      expect(c.state.items, hasLength(14));
+      expect(c.state.cards[2].notes, hasLength(2));
+    },
+  );
+
+  test(
+    'a releitura do banco com uma busca que já foi apagada: fica a lista toda',
+    () async {
+      c.setQuery('opera');
+      await ate(() => c.state.visibleCards == 1);
+      final p41 = itemDoMundo(41, AnnotationKind.highlight);
+      portao.palavra = 'opera';
+      await AnnotationsDao(db).upsert(
+        Annotation(
+          id: '0199a7c4-2f00-7a10-8b20-000000000779',
+          meta: p41.meta,
+          userBookId: livro,
+          kind: AnnotationKind.note,
+          parentId: p41.id,
+          groupId: p41.groupId,
+          anchor: p41.anchor,
+          refPage: 41,
+          chapterIndex: p41.chapterIndex,
+          noteText: 'nota nova',
+        ),
+      );
+      await ate(() => portao.presas == 1);
+      c.setQuery('');
+      expect(c.state.visibleCards, 8);
+      portao.soltar();
+      await ate(() => c.state.items.length == 13);
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      expect(c.state.filters.query, '');
+      expect(c.state.visibleCards, 8);
+    },
+  );
+
+  test('cartão com 2 grifos e a nota no 2º: editar a nota grava nela (não cria outra no 1º)', () async {
+    final p6 = cartoes[1].highlight!;
+    final p3 = itemDoMundo(3, AnnotationKind.highlight);
+    final antes = Annotation(
+      id: '0199a7c4-2f00-7a10-8b20-000000000780',
+      meta: p3.meta,
+      userBookId: livro,
+      kind: AnnotationKind.highlight,
+      groupId: p6.groupId,
+      source: p3.source,
+      anchor: p3.anchor,
+      refPage: p3.refPage,
+      chapterIndex: p3.chapterIndex,
+      color: p3.color,
+      style: p3.style,
+      fillHeight: p3.fillHeight,
+    );
+    await AnnotationsDao(db).upsert(antes);
+    await ate(() => c.state.items.length == 13);
+    final cartao = c.state.cards.firstWhere((x) => x.groupId == p6.groupId);
+    expect(cartao.highlight!.id, antes.id, reason: 'o 1º grifo do cartão');
+    expect(await c.saveNote(cartao, 'editada'), isTrue);
+    await ate(
+      () => c.state.cards
+          .firstWhere((x) => x.groupId == p6.groupId)
+          .notes
+          .any((n) => n.noteText == 'editada'),
+    );
+    final notas = c.state.cards
+        .firstWhere((x) => x.groupId == p6.groupId)
+        .notes;
+    expect(notas, hasLength(1));
+    expect((notas.single.parentId, notas.single.noteText), (p6.id, 'editada'));
   });
 
   test('apagar o cartão 7 com Desfazer; dispensar', () async {

@@ -80,24 +80,16 @@ final class EpubCardTextSource implements CardTextSource {
   final SpineTexts spineTexts;
   final Map<int, String> _cache = {};
 
+  /// A leitura em curso: um pedido por vez (o 2º espera o 1º e só lê o que faltar — o livro não abre duas vezes).
+  Future<void> _reading = Future<void>.value();
+
   @override
   Future<CardTexts> textsFor(List<HighlightCard> cards) async {
     final p = path;
     if (p == null) return const AnchorOnlyCardTextSource().textsFor(cards);
-    final need = <int>{
-      for (final c in cards)
-        for (final a in markedItems(c))
-          if (a.anchor case EpubAnchor(:final spine)
-              when !_cache.containsKey(spine))
-            spine,
-    };
-    if (need.isNotEmpty) {
-      try {
-        _cache.addAll(await spineTexts(p, need.toList()..sort()));
-      } on Object {
-        return const AnchorOnlyCardTextSource().textsFor(cards);
-      }
-    }
+    final read = _reading.then((_) => _read(p, cards));
+    _reading = read;
+    if (!await read) return const AnchorOnlyCardTextSource().textsFor(cards);
     final byGroup = <String, List<CardSpan>>{};
     final orphans = <String>{};
     for (final c in cards) {
@@ -128,5 +120,23 @@ final class EpubCardTextSource implements CardTextSource {
       byGroup[c.groupId] = cardSpans(text, marks);
     }
     return CardTexts(byGroup, orphans);
+  }
+
+  /// Lê os itens de [cards] que faltam no cache; `false` = não deu para ler o arquivo.
+  Future<bool> _read(String p, List<HighlightCard> cards) async {
+    final need = <int>{
+      for (final c in cards)
+        for (final a in markedItems(c))
+          if (a.anchor case EpubAnchor(:final spine)
+              when !_cache.containsKey(spine))
+            spine,
+    };
+    if (need.isEmpty) return true;
+    try {
+      _cache.addAll(await spineTexts(p, need.toList()..sort()));
+      return true;
+    } on Object {
+      return false;
+    }
   }
 }
