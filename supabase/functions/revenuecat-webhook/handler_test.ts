@@ -166,3 +166,38 @@ Deno.test('conta que não existe mais no app (unknown_user): ignorada com 200, s
   assertEquals([r.status, (await r.json()).status], [200, 'ignorado']);
   assertEquals(chamadas.at(-1), 'fim:evt-1:ok');
 });
+
+// ------------------------------------------------------------ G22.1: a matriz do Anexo 04 §9 (o fluxo de cada evento)
+Deno.test('cada evento da matriz busca e aplica o estado da conta (o tipo não decide nada)', async () => {
+  for (
+    const tipo of [
+      'INITIAL_PURCHASE', // compra mensal ou anual; teste grátis
+      'RENEWAL',
+      'CANCELLATION', // renovação desligada; reembolso (o refunded_at vem no estado)
+      'UNCANCELLATION',
+      'EXPIRATION',
+      'BILLING_ISSUE', // carência e nova tentativa de cobrança
+      'PRODUCT_CHANGE', // mensal → anual
+    ]
+  ) {
+    const { handler, chamadas } = fakes();
+    const r = await handler(pedido(evento(tipo)));
+    assertEquals([tipo, r.status], [tipo, 200]);
+    assertEquals(chamadas, ['inicio:evt-1', `assinante:${USUARIO}`, `aplicar:${USUARIO}:1`, 'fim:evt-1:ok']);
+  }
+});
+
+Deno.test('restaurar em outro aparelho, a mesma conta: dois eventos, o mesmo estado aplicado à mesma conta', async () => {
+  const aplicados: string[] = [];
+  const { handler } = fakes({
+    aplicar: (u, subs) => {
+      aplicados.push(`${u}:${JSON.stringify(subs)}`);
+      return Promise.resolve({ pro: true });
+    },
+  });
+  const outro = { api_version: '1.0', event: { ...evento('INITIAL_PURCHASE').event, id: 'evt-2' } };
+  assertEquals((await handler(pedido(evento('RENEWAL')))).status, 200);
+  assertEquals((await handler(pedido(outro))).status, 200);
+  assertEquals(aplicados.length, 2);
+  assertEquals(aplicados[0], aplicados[1]);
+});

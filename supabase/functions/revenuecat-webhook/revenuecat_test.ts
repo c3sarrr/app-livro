@@ -106,3 +106,74 @@ Deno.test('promocional sem data de fim e lojas que o app não vende', () => {
   assertEquals(lista[0].ends_at, '9999-12-31T23:59:59Z');
   assertEquals(normalizarAssinante(null), []);
 });
+
+// ------------------------------------------------------------ G22.1: a matriz do Anexo 04 §9 (o estado de cada caso)
+Deno.test('compra anual na App Store (produção): ativa, renova, período normal', () => {
+  const a = normalizarAssinatura('booknest_pro_anual', {
+    ...base,
+    store: 'app_store',
+    store_transaction_id: '2000000111',
+    expires_date: '2027-09-20T12:00:00Z',
+  }, AGORA)!;
+  assertEquals([a.store, a.status, a.will_renew, a.period_type, a.environment], [
+    'app_store',
+    'active',
+    true,
+    'normal',
+    'production',
+  ]);
+});
+
+Deno.test('Test Store do RevenueCat (D-228): a compra é sandbox e a cadeia é produto + compra original', () => {
+  const a = normalizarAssinatura('booknest_pro_mensal', {
+    ...base,
+    store: 'test_store',
+    period_type: 'trial',
+    is_sandbox: true,
+    store_transaction_id: null,
+    expires_date: '2026-10-11T12:00:00Z',
+  }, AGORA)!;
+  assertEquals([a.store, a.environment, a.period_type, a.status], [
+    'test_store',
+    'sandbox',
+    'trial',
+    'active',
+  ]);
+  assertEquals(a.original_transaction_id, 'booknest_pro_mensal@2026-08-20T12:00:00Z');
+});
+
+Deno.test('teste grátis no Play: período trial, a cadeia pelo id da transação original', () => {
+  const a = normalizarAssinatura('booknest_pro:mensal', {
+    ...base,
+    period_type: 'trial',
+    is_sandbox: true,
+    store_transaction_id: 'GPA.9999-0000-1111-22222',
+    expires_date: '2026-10-11T12:00:00Z',
+  }, AGORA)!;
+  assertEquals([a.period_type, a.status, a.environment], ['trial', 'active', 'sandbox']);
+  assertEquals(a.original_transaction_id, 'GPA.9999-0000-1111-22222');
+});
+
+Deno.test('trocar mensal → anual (PRODUCT_CHANGE): o mensal sai, o anual fica ativo', () => {
+  const lista = normalizarAssinante({
+    subscriptions: {
+      'booknest_pro:mensal': {
+        ...base,
+        expires_date: '2026-10-03T12:00:00Z',
+        unsubscribe_detected_at: '2026-10-03T12:00:00Z',
+      },
+      'booknest_pro:anual': {
+        ...base,
+        purchase_date: '2026-10-03T12:00:00Z',
+        original_purchase_date: '2026-10-03T12:00:00Z',
+        store_transaction_id: 'GPA.5555-6666-7777-88888',
+        expires_date: '2027-10-03T12:00:00Z',
+      },
+    },
+  }, AGORA);
+  const porProduto = Object.fromEntries(lista.map((a) => [a.product_id, [a.status, a.will_renew]]));
+  assertEquals(porProduto, {
+    'booknest_pro:mensal': ['expired', false],
+    'booknest_pro:anual': ['active', true],
+  });
+});
