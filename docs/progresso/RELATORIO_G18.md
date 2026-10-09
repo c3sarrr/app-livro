@@ -94,14 +94,57 @@ Nenhuma decisão mudou sem você. Os desvios estão na seção "Desvios" do `G18
 - na página do modo, o espaço que não cabe fica no pé dela (no leitor limpo ele vai para a página seguinte, R12);
 - a nota cheia (256 KiB) não aceita mais traços: o traço some ao soltar.
 
+## Pendências resolvidas (08/10/2026)
+
+Você pediu para arrumar as pendências. Antes do código, perguntei as duas decisões novas:
+- **D-190:** no Noite, o Laço da prateleira fica como no Creme — o miolo `#E5DFEC` opaco, com o traço tracejado
+  escuro.
+- **D-191:** quando o teto de 256 KiB recusa um gesto, aparece a pílula de 2 s: "Seleção grande demais para mover"
+  ou "A nota está cheia".
+
+| Pendência | Como ficou |
+|---|---|
+| O Laço da prateleira no Noite | Como no Creme (D-190), com o miolo `#E5DFEC`. No Creme ele sai `#E1D9E4`, porque lá o papel fica por baixo do lavanda translúcido; são poucos níveis de diferença. O app já abre com ele pronto, sem piscar na 1ª vez |
+| O teto de 256 KiB sem aviso | A pílula de 2 s (D-191), no lugar do "Chega numa próxima fase", lida pelo leitor de tela |
+| Abrir o livro com nota no capítulo | A tinta do livro é lida antes da 1ª página: ela já sai com o espaço, a caixa e os desenhos, e nada repagina depois. O modo anotação pedido nesse meio-tempo espera a tinta |
+| Achado 17 da G17 (D-180) | No Noite, o Marca-texto de cores ou larguras diferentes que se cruzam: vale o de cima, também durante o traço e dentro da nota à mão. Sem camada e sem operações de caminho |
+| Latência no celular | Continua pendente: o Samsung está no cabo, mas sem a depuração USB ligada o PC não o enxerga |
+
+Os commits:
+- `dbf2c20` (D-190) e `b0d88ac` (o Laço pré-carregado);
+- `eaeb960` (D-191);
+- `bdfed75` (a abertura);
+- `954ca45` (o achado 17) e `e2595e1` (a borda dos cruzamentos);
+- `2540c5c` (o que a mutação achou);
+- o dos documentos.
+
+Evidências e a revisão das correções: `G18.md`, seção "Pendências resolvidas".
+
+Números depois das correções:
+- `flutter analyze` sem problemas; `flutter test`: **2.629 verdes** (+7 pulados; eram 2.609).
+- **Cobertura** dos arquivos de `lib/` mexidos nas correções: **97,6 %**. O menor é o `main.dart` (65,6 %: a abertura
+  do app e a ligação ao servidor, fora dos testes desde antes; a linha nova está coberta).
+- **Mutação:** **40/40** trocas derrubadas pelos testes. Na 1ª rodada passaram 2; os testes ganharam o que faltava e
+  elas caíram na 2ª.
+- **gitleaks:** os commits das pendências e as pastas tocadas, sem vazamento.
+
+Uma revisão independente leu as correções e fez 8 achados: corrigi 7 com teste e deixei 1 de propósito (o aviso
+lido pelo leitor de tela quando a pílula da falha ao salvar está na frente). As suspeitas ficaram registradas.
+
+Um dos achados mudou a técnica do achado 17:
+- o 1º jeito recortava o traço de baixo com operações de caminho, e isso custava até 0,66 s por quadro num rabisco
+  longo sobre outro;
+- o jeito novo desfaz a diferença com uma 2ª diferença da mesma cor: no mesmo rabisco, 2,9 ms para montar e 8 ms
+  para pintar, no pior caso (no PC);
+- na borda do traço de cima ficava uma linha escura de 1 px. A correção com a borda seca a clareou, mas sem camada
+  ela não some de todo — vale olhar no celular.
+
 ## Pendências
 
-- **Abrir o livro com nota no capítulo:** a página aparece um instante sem a caixa e logo depois o texto desce (as
-  notas chegam depois do 1º layout). Para tirar isso, o livro precisa ler as notas antes de montar a 1ª página.
-- **Latência no celular:** pendente da G16. Com o celular no cabo, eu rodo a medição: uns 20 traços seus no modo
-  anotação.
-- **Achado 17 da G17:** no Noite, traços do Marca-texto de cores diferentes que se cruzam (D-180).
-- **O Laço da prateleira no Noite:** fica para o design.
 - **G26, no celular:** TalkBack e VoiceOver no abridor, na caixa e na faixa, e a caneta do aparelho na nota.
+- **A conferir no celular:** a costura de 1 px na borda dos cruzamentos do Marca-texto no Noite (inerente a pintar
+  sem camada, como os fundos da D-180).
+- **Latência no celular** (da G16): ligue a depuração USB do Samsung (Configurações → Opções do desenvolvedor →
+  Depuração USB) e aceite o aviso "Permitir depuração USB?" no celular; aí eu rodo a medição com uns 20 traços seus.
 
-✅ FASE G18 concluída — aguardando sua aprovação para iniciar a FASE G19.
+✅ FASE G18 concluída, com as pendências resolvidas — aguardando sua aprovação para iniciar a FASE G19.
