@@ -1,0 +1,53 @@
+{
+ "gerado_por": "tools/fonts/build_fonts.py (CONJUNTO=inicio2)",
+ "arquivos": [
+  {
+   "arquivo": "Bricolage14-ExtraBold.ttf",
+   "bytes": 54308
+  },
+  {
+   "arquivo": "Bricolage14Ext-ExtraBold.ttf",
+   "bytes": 27868
+  },
+  {
+   "arquivo": "Bricolage14Vi-ExtraBold.ttf",
+   "bytes": 14768
+  },
+  {
+   "arquivo": "Bricolage32-ExtraBold.ttf",
+   "bytes": 54244
+  },
+  {
+   "arquivo": "Bricolage32Ext-ExtraBold.ttf",
+   "bytes": 27832
+  },
+  {
+   "arquivo": "Bricolage32Vi-ExtraBold.ttf",
+   "bytes": 14744
+  },
+  {
+   "arquivo": "Literata15-Regular.ttf",
+   "bytes": 57112
+  },
+  {
+   "arquivo": "Literata15Ext-Regular.ttf",
+   "bytes": 54496
+  },
+  {
+   "arquivo": "Literata15Vi-Regular.ttf",
+   "bytes": 14788
+  },
+  {
+   "arquivo": "Literata22-Regular.ttf",
+   "bytes": 57136
+  },
+  {
+   "arquivo": "Literata22Ext-Regular.ttf",
+   "bytes": 54504
+  },
+  {
+   "arquivo": "Literata22Vi-Regular.ttf",
+   "bytes": 14788
+  }
+ ]
+}

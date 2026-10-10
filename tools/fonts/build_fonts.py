@@ -24,11 +24,17 @@ Novidades da v2:
   O padrão da variável é wght 400 = o peso usado na tela 26.
 - Atkinson Hyperlegible: estática no arquivo → só conversão (Regular 400 e Bold 700, latin + latin-ext).
 - Instrument Serif: as estáticas da v1 já cobrem (Regular/Italic, latin/latin-ext).
-Uso: python3 tools/fonts/build_fonts.py   (requer fonttools e brotli)
+T02 (CONJUNTO=inicio2): só as instâncias que as 6 pranchas da Início e da revisão pedem e o app ainda não tem —
+Bricolage 14 (63) e 32 (62), Literata 15 e 22 em 400 (62 e 61) — dos MESMOS binários (o arquivo da Início embute
+os mesmos latin; a Figtree latin-ext e a Instrument Serif latin embutidas = as de originais_v2, sha256 iguais).
+Manifesto próprio (tools/fonts/fontes_inicio2.json); o do leitor fica como está. A Instrument Serif é estática
+(qualquer tamanho), a Figtree 800 já existe e a Bricolage 11 usa a 12 (o eixo opsz começa em 12).
+Uso: [CONJUNTO=inicio2] python3 tools/fonts/build_fonts.py   (requer fonttools e brotli)
 """
 import io
 import json
 import os
+import sys
 
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.scaleUpem import scale_upem
@@ -36,9 +42,12 @@ from fontTools.varLib import instancer
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
+sys.path.insert(0, os.path.join(RAIZ, 'tools', 'medicao'))
+from conjunto import NOME, caminho  # noqa: E402
+
 ARQ = os.path.join(RAIZ, 'handoff_v2', 'referencia', 'fontes_do_arquivo')
 EXT = os.path.join(AQUI, 'originais_v2')
-OUT = os.path.join(RAIZ, 'assets', 'fonts')
+OUT = caminho('fontesSaida')
 HI_UPEM = 10000
 
 # sufixo de família por subconjunto (v1: '', Ext, Vi)
@@ -49,6 +58,9 @@ UI_SUBSETS = ('latin', 'latin-ext', 'vietnamese')
 BRICOLAGE_OPSZ = [15.5, 17, 23]                       # novos (12…42 já existem desde a v1)
 # Literata usada nas telas 19–27b: peso → tamanhos (opsz = tamanho)
 LITERATA = {400: [15.5, 16, 16.5, 17, 18, 20.5, 26], 500: [15, 17, 19, 25]}
+# T02 — Início e revisão (só o que falta no app)
+BRICOLAGE_OPSZ_INICIO2 = [14, 32]
+LITERATA_INICIO2 = {400: [15, 22]}
 LABEL = {400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold', 800: 'ExtraBold'}
 
 
@@ -141,7 +153,46 @@ def avancos_do_hvar(estatica, path, coords):
     estatica['hhea'].advanceWidthMax = max(a for a, _ in hmtx.metrics.values())
 
 
+def bricolage(tamanhos, log):
+    """Bricolage — wght 800, 1 família por opsz e por subconjunto."""
+    for opsz in tamanhos:
+        for sub in UI_SUBSETS:
+            g = instance(src('Bricolage', sub), {'wght': 800, 'opsz': opsz})
+            fam = f'Bricolage{num(opsz)}{SFX[sub]}'
+            finalize(g, fam, 'ExtraBold', 800)
+            save(g, f'{fam}-ExtraBold.ttf', log)
+
+
+def literata(pesos, log):
+    """Literata estática — 1 família por tamanho (opsz = tamanho), pesos dentro dela."""
+    for w, tamanhos in pesos.items():
+        for t in tamanhos:
+            for sub in UI_SUBSETS:
+                g = instance(src('Literata', sub), {'wght': w, 'opsz': t})
+                fam = f'Literata{num(t)}{SFX[sub]}'
+                finalize(g, fam, LABEL[w], w)
+                save(g, f'{fam}-{LABEL[w]}.ttf', log)
+
+
+def manifesto(log):
+    with open(caminho('fontesManifesto'), 'w', encoding='utf-8', newline='\n') as f:
+        json.dump({'gerado_por': 'tools/fonts/build_fonts.py' + (f' (CONJUNTO={NOME})' if NOME == 'inicio2' else ''),
+                   'arquivos': log}, f, ensure_ascii=False, indent=1)
+        f.write('\n')
+    print(f'{len(log)} arquivos')
+
+
+def main_inicio2():
+    os.makedirs(OUT, exist_ok=True)
+    log = []
+    bricolage(BRICOLAGE_OPSZ_INICIO2, log)
+    literata(LITERATA_INICIO2, log)
+    manifesto(log)
+
+
 def main():
+    if NOME == 'inicio2':
+        return main_inicio2()
     os.makedirs(OUT, exist_ok=True)
     log = []
     # Figtree 800 (latin + latin-ext)
@@ -150,20 +201,9 @@ def main():
         finalize(g, f'Figtree{SFX[sub]}', 'ExtraBold', 800)
         save(g, f'Figtree{SFX[sub]}-ExtraBold.ttf', log)
     # Bricolage — wght 800, 1 família por opsz e por subconjunto
-    for opsz in BRICOLAGE_OPSZ:
-        for sub in UI_SUBSETS:
-            g = instance(src('Bricolage', sub), {'wght': 800, 'opsz': opsz})
-            fam = f'Bricolage{num(opsz)}{SFX[sub]}'
-            finalize(g, fam, 'ExtraBold', 800)
-            save(g, f'{fam}-ExtraBold.ttf', log)
+    bricolage(BRICOLAGE_OPSZ, log)
     # Literata estática — 1 família por tamanho (opsz = tamanho), pesos 400/500 dentro dela
-    for w, tamanhos in LITERATA.items():
-        for t in tamanhos:
-            for sub in UI_SUBSETS:
-                g = instance(src('Literata', sub), {'wght': w, 'opsz': t})
-                fam = f'Literata{num(t)}{SFX[sub]}'
-                finalize(g, fam, LABEL[w], w)
-                save(g, f'{fam}-{LABEL[w]}.ttf', log)
+    literata(LITERATA, log)
     # Literata variável (normal e itálico, todos os subconjuntos do arquivo) — só conversão
     for estilo, subs in (('normal', ('latin', 'latin-ext', 'vietnamese', 'cyrillic', 'cyrillic-ext', 'greek', 'greek-ext')),
                          ('italic', ('latin', 'latin-ext', 'vietnamese', 'cyrillic', 'cyrillic-ext', 'greek', 'greek-ext'))):
@@ -179,10 +219,7 @@ def main():
         for sub in subs:
             g = TTFont(src(chave, sub))
             save(g, f'AtkinsonHyperlegible{SFX[sub]}-{LABEL[w]}.ttf', log)
-    with open(os.path.join(AQUI, 'fontes_leitor.json'), 'w', encoding='utf-8', newline='\n') as f:
-        json.dump({'gerado_por': 'tools/fonts/build_fonts.py', 'arquivos': log}, f, ensure_ascii=False, indent=1)
-        f.write('\n')
-    print(f'{len(log)} arquivos')
+    manifesto(log)
 
 
 if __name__ == '__main__':
