@@ -648,6 +648,30 @@ void main() {
     );
   });
 
+  test('mutação (M23): a loja com o Pro "ativo" e o período vencido, sem carência, não ativa; com a carência, ativa', () async {
+    loja.cliente = ProCustomer(
+      active: true,
+      activeUntil: agora.subtract(const Duration(hours: 1)),
+      store: 'testStore',
+    );
+    c = container(membro(contaA), usadas: {contaA});
+    await pumpEventQueue();
+    expect(servidor.chamadas, isEmpty);
+    servidor.aoConferir = (pro: true, activeUntil: proAte);
+    conta.proNoServidor = true;
+    loja.avisar(
+      ProCustomer(
+        active: true,
+        activeUntil: agora.subtract(const Duration(hours: 1)),
+        billingIssue: true,
+        graceUntil: agora.add(const Duration(days: 2)),
+        store: 'testStore',
+      ),
+    );
+    await pumpEventQueue();
+    expect(servidor.chamadas, ['syncNow']);
+  });
+
   group('a chave pelo env (o build de produção não usa a da Test Store)', () {
     test('a da plataforma', () {
       expect(
