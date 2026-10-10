@@ -141,7 +141,8 @@ abstract final class HomeFormatters {
   static String reviewKicker(int highlights, int minutes) =>
       'REVISÃO · ${countLabel(highlights, 'GRIFO', 'GRIFOS')} · $minutes MIN';
 
-  /// De onde vêm os grifos da revisão: "De Dom Casmurro, Quincas Borba e Iracema.".
+  /// De onde vêm os grifos da revisão: "De Dom Casmurro, Quincas Borba e Iracema.". Só a revisão visível chega
+  /// aqui, com ao menos um livro: a vazia some antes ([HomeSnapshot.visibleReview]).
   static String reviewSubtitle(List<String> bookTitles) {
     assert(bookTitles.isNotEmpty, 'a revisão tem ao menos um livro');
     final last = bookTitles.last;

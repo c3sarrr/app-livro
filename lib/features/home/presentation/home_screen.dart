@@ -143,7 +143,7 @@ class _HomeSections extends ConsumerWidget {
       homeSnapshotProvider.select(
         (s) => (
           also: s.alsoReading.isNotEmpty,
-          review: s.dailyReview != null,
+          review: s.visibleReview != null,
           forYou: s.forYou != null,
           club: s.club != null,
           recent: s.recent.isNotEmpty,

@@ -37,7 +37,9 @@ final class _ComRevisao implements SyncHomeRepository {
   final DailyReview? revisao;
 
   @override
-  HomeSnapshot snapshot(DateTime now) {
+  HomeSnapshot snapshot(DateTime now) => comRevisao(revisao, now);
+
+  HomeSnapshot comRevisao(DailyReview? revisao, DateTime now) {
     final s = TelaInicio01.snapshot(now);
     return HomeSnapshot(
       now: s.now,
@@ -271,6 +273,47 @@ void main() {
       expect(findAppText('De Iracema.'), findsOneWidget);
     },
   );
+
+  test('revisão vazia: sem livros ou sem grifos é "sem revisão" (pendência 4 da T03); a cheia passa inteira', () {
+    const semLivros = DailyReview(highlights: 5, minutes: 2, bookTitles: []);
+    const semGrifos = DailyReview(
+      highlights: 0,
+      minutes: 0,
+      bookTitles: ['Iracema'],
+    );
+    expect((semLivros.isEmpty, semGrifos.isEmpty), (true, true));
+    expect(TelaInicio01.revisao.isEmpty, isFalse);
+    HomeSnapshot com(DailyReview? r) =>
+        const _ComRevisao(null).comRevisao(r, TelaInicio01.agora);
+    expect(com(semLivros).visibleReview, isNull);
+    expect(com(semGrifos).visibleReview, isNull);
+    expect(com(null).visibleReview, isNull);
+    expect(com(TelaInicio01.revisao).visibleReview, same(TelaInicio01.revisao));
+  });
+
+  for (final (nome, vazia) in [
+    (
+      'sem livros',
+      const DailyReview(highlights: 5, minutes: 2, bookTitles: []),
+    ),
+    (
+      'sem grifos',
+      const DailyReview(highlights: 0, minutes: 0, bookTitles: ['Iracema']),
+    ),
+  ]) {
+    testWidgets(
+      'revisão $nome: a seção some com o seu gap, igual à sem revisão (nunca chega ao subtítulo nem a "0 GRIFOS")',
+      (tester) async {
+        await _abrir(tester, trocar: true);
+        final semRevisao = retanguloDeLayout(tester, 'i01.forYou');
+        await _abrir(tester, trocar: true, revisao: vazia);
+        expect(tester.takeException(), isNull);
+        expect(find.byType(ReviewSection), findsNothing);
+        expect(find.textContaining('GRIFO'), findsNothing);
+        expect(retanguloDeLayout(tester, 'i01.forYou'), semRevisao);
+      },
+    );
+  }
 
   testWidgets(
     'L01a5 semântica: a seção "Seus grifos de hoje", o link "Revisar"; a arte e o ícone fora',

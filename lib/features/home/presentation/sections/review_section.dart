@@ -18,8 +18,8 @@ import '../../domain/models.dart';
 
 /// Seção 6 da prancha 01 — "Seus grifos de hoje" (L01a5): cartão `#FFFAF1`, borda 1,5, raio 28, sombra dura 4/4,
 /// padding 16 e linha (gap 14, centralizada) com a arte 104 × 112 e o texto (gap 4) — 350 × 165,15. Só existe com o
-/// baralho do dia: com dados reais `dailyReview` é `null` até a T05 e a seção some (D-247). "Revisar" fica sem ação
-/// até a T05 (D-243 b).
+/// baralho do dia: com dados reais `dailyReview` é `null` até a T05 e a seção some (D-247); vazio, também some
+/// ([HomeSnapshot.visibleReview]). "Revisar" fica sem ação até a T05 (D-243 b).
 class ReviewSection extends ConsumerWidget {
   const ReviewSection({super.key, this.onReviewTap});
 
@@ -28,7 +28,9 @@ class ReviewSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final review = ref.watch(homeSnapshotProvider.select((s) => s.dailyReview));
+    final review = ref.watch(
+      homeSnapshotProvider.select((s) => s.visibleReview),
+    );
     if (review == null) return const SizedBox.shrink();
     // <section aria-label="Seus grifos de hoje"> (convenção §5.1 do prompt mestre).
     return Semantics(

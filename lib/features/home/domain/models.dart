@@ -285,8 +285,12 @@ class DailyReview {
   final int highlights;
   final int minutes;
 
-  /// Livros de onde os grifos vêm, na ordem do subtítulo (ao menos um).
+  /// Livros de onde os grifos vêm, na ordem do subtítulo.
   final List<String> bookTitles;
+
+  /// Nada a revisar: sem grifos ou sem livros de onde eles venham. Uma revisão vazia é "sem revisão" — o cartão
+  /// some como no `null` (pendência 4 da T03): nunca "REVISÃO · 0 GRIFOS" nem o subtítulo sem livro.
+  bool get isEmpty => highlights == 0 || bookTitles.isEmpty;
 }
 
 @immutable
@@ -319,6 +323,10 @@ class HomeSnapshot {
 
   /// `null` → o cartão "Seus grifos de hoje" some (com dados reais até a T05 — D-247).
   final DailyReview? dailyReview;
+
+  /// A revisão que a Início mostra: `null` sem baralho (D-247) ou com o baralho vazio ([DailyReview.isEmpty]).
+  DailyReview? get visibleReview =>
+      dailyReview == null || dailyReview!.isEmpty ? null : dailyReview;
 
   /// `null` → a seção some (D-81).
   final ForYou? forYou;
