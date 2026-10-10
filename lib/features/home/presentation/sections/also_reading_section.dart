@@ -6,40 +6,49 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/design_system/painters/ring_progress_painter.dart';
 import '../../../../core/design_system/text/app_text.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
+import '../../../../core/design_system/tokens/app_icons_inicio.dart';
 import '../../../../core/design_system/tokens/app_radii.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
+import '../../../../core/design_system/widgets/app_svg.dart';
+import '../../../../core/design_system/widgets/circle_icon_button.dart';
 import '../../../../core/design_system/widgets/count_badge.dart';
 import '../../../../core/design_system/widgets/neo_box.dart';
+import '../../../../core/design_system/widgets/pill.dart';
 import '../../../../core/design_system/widgets/pressable.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
 import '../covers/book_cover.dart';
+import '../covers/bras_cubas_hat_cover.dart';
 import '../covers/mrs_dalloway_cover.dart';
 import '../covers/pride_prejudice_cover.dart';
 
-/// Seção 4 — "Também lendo" (F06): coluna com gap 30 (grande porque as capas sobem 22 px para dentro dele)
-/// entre o cabeçalho (título + contador, gap 8, centralizados) e a grade de 2 colunas iguais com gap 12
-/// (cards de 169). Altura: 22 + 30 + 123,6 = 175,6. Nada recorta a grade nem os cards.
+/// Seção 4 — "Também lendo" (F06; prancha 01, L01a3): coluna com gap 30 (grande porque as capas sobem 22 px para
+/// dentro dele) entre o cabeçalho (título + contador, gap 8, centralizados) e a grade de 2 colunas iguais com gap 12
+/// (cards de 169). O livro de papel ganha a pílula "Papel · …" (D-252/D-253): 22 + 30 + 153,81 = 205,81 na 01; sem
+/// livro de papel, 175,6 como na v1. Nada recorta a grade nem os cards.
 class AlsoReadingSection extends ConsumerWidget {
-  const AlsoReadingSection({super.key, this.onBookTap});
+  const AlsoReadingSection({super.key, this.onBookTap, this.onStartReadingTap});
 
-  /// Card tocado (ligado a `/livro/:bookId` na F12).
+  /// Card (ou a capa do livro de papel sem página) tocado (ligado a `/livro/:bookId` na F12).
   final ValueChanged<Book>? onBookTap;
+
+  /// O "play" do livro de papel sem página (D-253): a Início passa o "sem ação" até o cronômetro da T04 (D-243 b).
+  final ValueChanged<Book>? onStartReadingTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(homeSnapshotProvider.select((s) => s.alsoReading));
     assert(
       items.every((i) => i.book.cover is PhotoCover) ||
-          (items.length == 2 &&
-              items[0].book.cover ==
-                  const DesignedCover(CoverArt.mrsDalloway) &&
-              items[1].book.cover ==
-                  const DesignedCover(CoverArt.pridePrejudice)),
-      'As artes de capa do arquivo nesta seção: Mrs. Dalloway (card 1) e Orgulho e Preconceito (card 2).',
+          _arts(items.take(2)) ==
+              (CoverArt.mrsDalloway, CoverArt.pridePrejudice) ||
+          _arts(items.take(2)) == (CoverArt.brasCubas, CoverArt.pridePrejudice),
+      'As artes de capa do arquivo nesta seção: Mrs. Dalloway (v1) ou Brás Cubas (01) no card 1 e Orgulho e '
+      'Preconceito no card 2.',
     );
     final onBookTap = this.onBookTap;
+    final onStartReadingTap = this.onStartReadingTap;
     // <section aria-label="Também lendo"> (convenção §5.1 do prompt mestre).
     return Semantics(
       container: true,
@@ -77,100 +86,198 @@ class AlsoReadingSection extends ConsumerWidget {
               ),
             ],
           ),
-          Row(
-            key: const ValueKey('alsoReading.grid'),
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 12,
-            children: [
-              // Até 2 cartões (o contador mostra todos — D-85); com 1, o cartão fica na metade, como no arquivo.
-              for (final (i, item) in items.take(2).indexed)
-                Expanded(
-                  child: _BookCard(
-                    id: 'alsoReading.card${i + 1}',
-                    item: item,
-                    onTap: onBookTap == null
-                        ? null
-                        : () => onBookTap(item.book),
+          // `display: grid` estica os itens à altura da linha: um card com a pílula "Papel" e outro sem ficam iguais.
+          IntrinsicHeight(
+            child: Row(
+              key: const ValueKey('alsoReading.grid'),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 12,
+              children: [
+                // Até 2 cartões (o contador mostra todos — D-85); com 1, o cartão fica na metade, como no arquivo.
+                for (final (i, item) in items.take(2).indexed)
+                  Expanded(
+                    child: _BookCard(
+                      id: 'alsoReading.card${i + 1}',
+                      item: item,
+                      onTap: onBookTap == null
+                          ? null
+                          : () => onBookTap(item.book),
+                      onStartReading: onStartReadingTap == null
+                          ? null
+                          : () => onStartReadingTap(item.book),
+                    ),
                   ),
-                ),
-              if (items.length == 1) const Expanded(child: SizedBox()),
-            ],
+                if (items.length == 1) const Expanded(child: SizedBox()),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
+
+  static (CoverArt?, CoverArt?) _arts(Iterable<AlsoReadingItem> items) {
+    CoverArt? art(AlsoReadingItem? i) => switch (i?.book.cover) {
+      DesignedCover(:final art) => art,
+      _ => null,
+    };
+    return (art(items.elementAtOrNull(0)), art(items.elementAtOrNull(1)));
+  }
 }
 
-/// Card 169 × 123,6 (= 1,5 + 59 + 12 + 35,6 + 14 + 1,5): fundo `#FFFAF1`, borda 1,5, raio 22, padding
-/// 0/14/14 (sem padding no topo), sem sombra e sem recorte — a capa passa por cima da borda. O card inteiro
-/// é o `<a>`: sem `semanticsLabel`, o nome do link é o texto do card, como no navegador.
+/// Card de 169 (= 1,5 + 59 + 12 + texto + 14 + 1,5; o texto é 35,6 sem a pílula e 65,81 com ela): fundo `#FFFAF1`,
+/// borda 1,5, raio 22, padding 0/14/14 (sem padding no topo), sem sombra e sem recorte — a capa passa por cima da
+/// borda. O e-book e o papel com página são um `<a>` inteiro (sem `semanticsLabel`: o nome é o texto do card, como no
+/// navegador) com o anel; o papel sem página (D-253) é um `<div>`: a capa é o link (o título inteiro como nome) e o
+/// "play" é um botão.
 class _BookCard extends StatelessWidget {
-  const _BookCard({required this.id, required this.item, required this.onTap});
+  const _BookCard({
+    required this.id,
+    required this.item,
+    required this.onTap,
+    required this.onStartReading,
+  });
 
   /// Prefixo das Keys: `alsoReading.card1` / `alsoReading.card2`.
   final String id;
   final AlsoReadingItem item;
   final VoidCallback? onTap;
+  final VoidCallback? onStartReading;
 
   @override
   Widget build(BuildContext context) {
-    return Pressable(
-      isLink: true, // <a href>
-      onTap: onTap,
-      child: NeoBox(
-        key: ValueKey(id),
-        color: AppColors.surface,
-        border: const BorderSide(width: 1.5, color: AppColors.ink),
-        radius: BorderRadius.circular(AppRadii.cardM),
-        padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          spacing: 12,
-          children: [
-            // align-items: flex-end + space-between; a linha mede 59 (81 − 22 da capa).
-            SizedBox(
-              key: ValueKey('$id.top'),
-              height: 59,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  _CoverSlot(id: '$id.cover', book: item.book),
-                  // margin-top 12 → o anel ocupa 58 e, alinhado embaixo, começa 13 abaixo do topo da linha.
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: _Ring(id: '$id.ring', progress: item.progress),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              key: ValueKey('$id.textBlock'),
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              spacing: 2,
+    final paper = item.format == BookFormat.physical;
+    final play = paper && item.paperPage == null;
+    final cover = _CoverSlot(id: '$id.cover', book: item.book);
+    final card = NeoBox(
+      key: ValueKey(id),
+      color: AppColors.surface,
+      border: const BorderSide(width: 1.5, color: AppColors.ink),
+      radius: BorderRadius.circular(AppRadii.cardM),
+      padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 12,
+        children: [
+          // align-items: flex-end + space-between; a linha mede 59 (81 − 22 da capa).
+          SizedBox(
+            key: ValueKey('$id.top'),
+            height: 59,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // white-space: nowrap + text-overflow: ellipsis ("Orgulho e Precon…").
-                AppText(
-                  item.book.title,
-                  key: ValueKey('$id.title'),
-                  style: AppTextStyles.title15,
-                  maxLines: 1,
-                  ellipsis: true,
-                ),
-                AppText(
-                  item.book.author,
-                  key: ValueKey('$id.author'),
-                  style: AppTextStyles.body13Muted,
-                  maxLines: 1,
-                  ellipsis: true,
+                if (play)
+                  // <a aria-label="Memórias Póstumas de Brás Cubas">: a capa leva à página do livro.
+                  Pressable(
+                    isLink: true,
+                    semanticsLabel: item.book.title,
+                    onTap: onTap,
+                    child: cover,
+                  )
+                else
+                  cover,
+                // margin-top 12 → o anel (ou o "play") ocupa 58 e, alinhado embaixo, começa 13 abaixo do topo.
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: play
+                      ? CircleIconButton(
+                          key: ValueKey('$id.play'),
+                          size: 46,
+                          color: AppColors.ink,
+                          border: const BorderSide(
+                            width: 1.5,
+                            color: AppColors.ink,
+                          ),
+                          icon: AppSvg(
+                            AppIconsInicio.play,
+                            size: 18,
+                            key: ValueKey('$id.play.icon'),
+                          ),
+                          onTap: onStartReading,
+                          semanticsLabel: HomeFormatters.startReadingAria(
+                            item.book,
+                          ),
+                        )
+                      : _Ring(id: '$id.ring', progress: item.progress),
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+          Column(
+            key: ValueKey('$id.textBlock'),
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 2,
+            children: [
+              // white-space: nowrap + text-overflow: ellipsis ("Orgulho e Precon…"); o título curto quando há
+              // ("Brás Cubas").
+              AppText(
+                HomeFormatters.bookTitleShort(item.book),
+                key: ValueKey('$id.title'),
+                style: AppTextStyles.title15,
+                maxLines: 1,
+                ellipsis: true,
+              ),
+              AppText(
+                item.book.author,
+                key: ValueKey('$id.author'),
+                style: AppTextStyles.body13Muted,
+                maxLines: 1,
+                ellipsis: true,
+              ),
+              if (paper)
+                Padding(
+                  padding: const EdgeInsets.only(top: 6), // margin-top: 6
+                  child: Align(
+                    alignment: Alignment.centerLeft, // align-self: flex-start
+                    child: _PaperMeta(id: '$id.meta', item: item),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+    return play
+        ? card
+        : Pressable(
+            isLink: true, // <a href>
+            onTap: onTap,
+            child: card,
+          );
+  }
+}
+
+/// "Papel · 3h 40min" / "Papel · pág. 344" (D-252/D-253): fundo `#F7F0E3`, borda 1,2 `#E2D7C4`, raio 999, padding
+/// 3/8/3/6, o livro de papel 12 e o texto Figtree 11,5/700 com gap 4, centralizados (22,21 de altura).
+class _PaperMeta extends StatelessWidget {
+  const _PaperMeta({required this.id, required this.item});
+
+  final String id;
+  final AlsoReadingItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pill(
+      key: ValueKey(id),
+      padding: const EdgeInsets.fromLTRB(6, 3, 8, 3),
+      color: AppColors.paper,
+      border: const BorderSide(width: 1.2, color: AppColors.markerRowBorder),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4,
+        children: [
+          AppSvg(AppIconsInicio.bookPaper, size: 12, key: ValueKey('$id.icon')),
+          AppText(
+            HomeFormatters.paperMeta(
+              page: item.paperPage,
+              readTime: item.readTime,
+            ),
+            style: AppTextStyles.paperMeta,
+          ),
+        ],
       ),
     );
   }
@@ -191,6 +298,10 @@ class _CoverSlot extends StatelessWidget {
     final (cover, degrees) = switch (book.cover) {
       DesignedCover(art: CoverArt.mrsDalloway) => (
         const MrsDallowayCover(),
+        -4.0,
+      ),
+      DesignedCover(art: CoverArt.brasCubas) => (
+        const BrasCubasHatCover(),
         -4.0,
       ),
       DesignedCover(art: CoverArt.pridePrejudice) => (

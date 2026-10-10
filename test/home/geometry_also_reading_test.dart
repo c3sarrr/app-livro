@@ -104,10 +104,13 @@ void main() {
       expect(column.crossAxisAlignment, CrossAxisAlignment.stretch);
       expect(column.mainAxisSize, MainAxisSize.min);
       expect(column.spacing, 30);
-      expect(column.children.map((w) => w.key), const [
-        ValueKey('alsoReading.header'),
-        ValueKey('alsoReading.grid'),
-      ]);
+      expect(column.children, hasLength(2));
+      expect(column.children.first.key, const ValueKey('alsoReading.header'));
+      // T03: a grade dentro de um IntrinsicHeight (o stretch do `display: grid` — cartões da mesma altura)
+      expect(
+        (column.children.last as IntrinsicHeight).child!.key,
+        const ValueKey('alsoReading.grid'),
+      );
 
       final header = tester.widget<Row>(
         find.byKey(const ValueKey('alsoReading.header')),
@@ -171,14 +174,14 @@ void main() {
   );
 
   testWidgets(
-    '6.2 grade e cards: Row(start, gap 12) [Expanded > Pressable(link) > NeoBox 169×123,6 (padding 0/14/14)] ×2; coluna do card (stretch, gap 12): linha 59 + bloco 35,6',
+    '6.2 grade e cards: IntrinsicHeight > Row(stretch, gap 12) [Expanded > Pressable(link) > NeoBox 169×123,6 (padding 0/14/14)] ×2; coluna do card (stretch, gap 12): linha 59 + bloco 35,6',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
       final grid = tester.widget<Row>(
         find.byKey(const ValueKey('alsoReading.grid')),
       );
-      expect(grid.crossAxisAlignment, CrossAxisAlignment.start);
+      expect(grid.crossAxisAlignment, CrossAxisAlignment.stretch);
       expect(grid.spacing, 12);
       expect(grid.children, hasLength(2));
       expect(grid.clipBehavior, Clip.none); // a capa vaza para cima

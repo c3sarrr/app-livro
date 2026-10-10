@@ -43,6 +43,10 @@ class HomeScreen extends ConsumerWidget {
   /// idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
   static void onSearch() {}
 
+  /// "Play" do livro de papel sem página (`alsoReading.cardN.play`, prancha 01): o cronômetro é da T04 — D-243 b: o
+  /// elemento fica idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
+  static void onStartReading(Book book) {}
+
   /// "Mais opções para …" (`recent.rowN.more`): o arquivo não define o menu, então o toque não abre nada.
   /// TODO(produto): definir o menu do livro (compartilhar, remover da lista…) antes de implementar.
   static void onMoreOptions(Book book) {}
@@ -179,7 +183,16 @@ class _HomeSections extends ConsumerWidget {
           ),
         ),
       ),
-      if (layout.also) (3, _gutter(AlsoReadingSection(onBookTap: openBook))),
+      if (layout.also)
+        (
+          3,
+          _gutter(
+            AlsoReadingSection(
+              onBookTap: openBook,
+              onStartReadingTap: HomeScreen.onStartReading,
+            ),
+          ),
+        ),
       (4, _gutter(const ReadingDayCard())),
       // O carrossel vai até as bordas (F08).
       if (layout.forYou)

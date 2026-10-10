@@ -348,25 +348,40 @@ List<String> texto01(
     final esperadas = composto ? e.linesAll : e.lines;
     if (esperadas.isEmpty) continue;
     final List<AppTextLine> got;
+    RenderAppText? render;
     try {
-      got = composto
-          ? linhasCompostas01(tester, id, prancha: prancha)
-          : linhas01(tester, id, esperadas.first.text);
+      if (composto) {
+        got = linhasCompostas01(tester, id, prancha: prancha);
+      } else {
+        render =
+            _textoDe(tester, id, esperadas.first.text).renderObject!
+                as RenderAppText;
+        got = _noCanvas(render);
+      }
     } on StateError catch (x) {
       falhas.add('$id: ${x.message}');
       continue;
     }
+    // `text-overflow: ellipsis`: a prancha mede o texto inteiro ("Orgulho e Preconceito", até 351,4) e mostra
+    // "Orgulho e Precon…"; o app tem o prefixo visível e o "…" pintado. A linha confere pelo prefixo, a baseline e o
+    // início (o ponto do corte tem teste próprio na fase).
+    final cortada =
+        (render?.debugDidExceedMaxLines ?? false) &&
+        got.length == 1 &&
+        esperadas.length == 1;
     final g = got.map((l) => l.text).toList();
     final x = esperadas.map((l) => l.text).toList();
-    if (g.join('|') != x.join('|')) {
-      falhas.add('$id: $g ≠ $x');
+    if (cortada
+        ? !(x.single.startsWith(g.single) && g.single.length < x.single.length)
+        : g.join('|') != x.join('|')) {
+      falhas.add('$id: $g ≠ $x${cortada ? ' (cortada)' : ''}');
       continue;
     }
     for (var i = 0; i < got.length; i++) {
       final r = esperadas[i];
       if ((got[i].baseline - r.baseline).abs() > 0.5 ||
           (got[i].left - r.left).abs() > 1 ||
-          (got[i].right - r.right).abs() > 1) {
+          (!cortada && (got[i].right - r.right).abs() > 1)) {
         falhas.add(
           '$id[$i] "${r.text}": baseline ${got[i].baseline.toStringAsFixed(2)}/${r.baseline}, '
           '${got[i].left.toStringAsFixed(2)}–${got[i].right.toStringAsFixed(2)} ≠ ${r.left}–${r.right}',

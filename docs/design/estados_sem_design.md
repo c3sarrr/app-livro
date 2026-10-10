@@ -369,3 +369,13 @@ Convidado: só "Entrar para assinar.". Com conta, de cima para baixo:
 - "Restaurar compras" e "Gerenciar assinatura";
 - o Pro da loja e o do servidor lado a lado, e "Conferir agora";
 - o simulador dos gatilhos: um botão por gatilho e "Zerar o limite de 7 dias".
+
+## T03 — a Início nova (prancha 01, D-243 b)
+
+Elementos da prancha 01 que aparecem **idênticos ao desenho e sem ação** até a fase que lhes dá destino
+(`docs/progresso/T03.md` §5). O toque não faz nada (nem navega, nem avisa); cada linha tem teste na fase dela.
+
+| Elemento | Na T03 | Ganha ação | Teste |
+|---|---|---|---|
+| Lupa do cabeçalho (`header.search`, link "Buscar livros") | `HomeScreen.onSearch`, sem ação | C14 (a busca não tem prancha) | `test/home/inicio01/cabecalho_test.dart` |
+| "Play" do livro de papel sem página (`alsoReading.cardN.play`, botão "Iniciar leitura de …") | `HomeScreen.onStartReading`, sem ação | T04 (começa a sessão do cronômetro — D-247) | `test/home/inicio01/tambem_lendo_test.dart` |

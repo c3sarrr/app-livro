@@ -1164,6 +1164,16 @@ abstract final class AppTextStyles {
     color: AppColors.paper,
   );
 
+  /// i01.alsoReading.cardN.meta ("Papel · 3h 40min"): Figtree 11,5/700.
+  static final TextStyle paperMeta = AppFonts.figtree(11.5, FontWeight.w700);
+
+  /// i01.alsoReading.card1.cover.title ("Brás / Cubas"): Instrument Serif 11, `lh 0,95`, `#FED170`.
+  static final TextStyle coverTitle11Sun = AppFonts.serif(
+    11,
+    height: 0.95,
+    color: AppColors.sun,
+  );
+
   /// max(101 ÷ 96, 153 ÷ 144): o `slice` da capa do herói.
   static const double _coverEyeScale = 153 / 144;
 }
