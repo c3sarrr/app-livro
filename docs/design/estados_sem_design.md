@@ -132,11 +132,11 @@ O caminho "com dados" do arquivo não muda.
 | Convidado (D-84) | cabeçalho: "Boa noite" (sem vírgula, sem a linha do nome) · círculo `sun` com o ícone de pessoa no lugar da inicial · sininho sem o ponto |
 | Meta do dia batida (D-83) | "Meta de hoje cumprida." no lugar de "Faltam N min para fechar a meta de hoje." |
 | Selo alcançado (D-83) | "Selo de **N dias** conquistado" no lugar de "Mais N dias para o selo de N dias" |
-| Exemplar físico (D-85; T03: D-255) | Recém-chegados: "Autor · Papel" (a prancha 01 desenha o "Papel" da Senhora; até a T03 era "Físico") |
+| Exemplar físico (D-85; T03: D-252…D-255) | Recém-chegados: "Autor · Papel" (a prancha 01 desenha o "Papel" da Senhora; até a T03 era "Físico") · herói: o selo "PAPEL" (D-254) e "Continuar lendo" leva à página do livro (D-123) · Também lendo: com página registrada, o anel e "Papel · pág. N"; sem página, a capa é o link, o "play" (sem ação até a T04) e "Papel · Xh YYmin" do tempo já lido — sem sessão, só "Papel" (D-252, D-253) |
 | Livro real sem foto (D-79) | capa gerada na moldura da seção: cor de fundo, forma (sol, arco, anel ou linhas) e título em Instrument Serif + autor em maiúsculas, derivados do livro (sempre a mesma para o mesmo livro); miniatura só com cor e forma; trocada pela foto quando ela chega |
 | Livro real com título longo | herói: título em até 3 linhas e autor em 1; Para você: título em até 2 linhas e autor em 1; Recém-chegados: título e subtítulo em até 2 linhas — com "…" |
 | Também lendo com 1 livro | o cartão fica na metade da largura, como os dois do arquivo; o contador mostra o total de livros em leitura (até 2 cartões) |
-| Livro sem capítulos / sem estimativa | sem a pílula "Cap. N de M"; sem o "~Xh YYmin" |
+| Livro sem página de referência / sem estimativa | sem a pílula "pág. N de M" (o selo "E-BOOK"/"PDF"/"PAPEL" fica — D-254; até a T03, a pílula "Cap. N de M" da v1); sem o "~Xh YYmin" |
 | Carregando (D-85) | cabeçalho (conta + relógio) · depois de 400 ms, "Carregando sua estante…" (Figtree 14 `inkPlum`, centralizado) |
 | Erro (D-85) | cabeçalho · "Não deu para abrir sua estante." (Figtree 15/700) · pílula "Tentar de novo" |
 
@@ -381,3 +381,7 @@ Elementos da prancha 01 que aparecem **idênticos ao desenho e sem ação** até
 | "Play" do livro de papel sem página (`alsoReading.cardN.play`, botão "Iniciar leitura de …") | `HomeScreen.onStartReading`, sem ação | T04 (começa a sessão do cronômetro — D-247) | `test/home/inicio01/tambem_lendo_test.dart` |
 | "Ler agora" do "Seu dia de leitura" (`today.readNow`, link "Iniciar leitura (cronômetro)") | `HomeScreen.onReadNow`, sem ação | T04 (o cronômetro) | `test/home/inicio01/seu_dia_test.dart` |
 | "Revisar" do cartão "Seus grifos de hoje" (`review.cta`, link "Revisar"); o cartão em si não é link na prancha | `HomeScreen.onReview`, sem ação; com dados reais o cartão nem aparece (D-247) | T05 (a revisão do dia, rota `/revisao`) | `test/home/inicio01/revisao_test.dart` |
+| ⋯ dos recém-chegados (`recent.rowN.more`, botão "Mais opções para …") | `HomeScreen.onMoreOptions`, sem ação (como desde a F12) | C20 | `test/home/inicio01/recem_chegados_test.dart`, `test/home/touch_home_test.dart` |
+
+Os quatro primeiros também estão em `test/home/touch_home_test.dart` no app inteiro (o toque não muda a rota, não
+empilha nada, não abre diálogo, folha nem menu).
