@@ -83,6 +83,27 @@ Deno.test('a conta que não existe mais no app (unknown_user) → 404', async ()
   assertEquals((await handler(pedido('jwt-valido'))).status, 404);
 });
 
+Deno.test('revisão (m1): a conta excluída com o JWT ainda válido → 404 já na cota, sem ir ao RevenueCat', async () => {
+  // a cota grava em private.quota_usage, que tem chave estrangeira para auth.users: o banco recusa com 23503
+  const e = Object.assign(
+    new Error('insert or update on table "quota_usage" violates foreign key constraint'),
+    {
+      code: '23503',
+    },
+  );
+  const { handler, chamadas } = fakes({ cota: () => Promise.reject(e) });
+  const r = await handler(pedido('jwt-valido'));
+  assertEquals([r.status, (await r.json()).erro], [404, 'conta_inexistente']);
+  assertEquals(chamadas.filter((c) => c.startsWith('assinante')), []);
+});
+
+Deno.test('revisão (m1): a cota falha por outro motivo → 500 tratado, sem ir ao RevenueCat', async () => {
+  const { handler, chamadas } = fakes({ cota: () => Promise.reject(new Error('conexão caiu')) });
+  const r = await handler(pedido('jwt-valido'));
+  assertEquals([r.status, (await r.json()).erro], [500, 'falha_na_cota']);
+  assertEquals(chamadas.filter((c) => c.startsWith('assinante')), []);
+});
+
 Deno.test('assinante sem assinatura: aplica a lista vazia (tira o Pro)', async () => {
   let aplicadas = -1;
   const { handler } = fakes({

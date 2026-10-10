@@ -24,7 +24,15 @@ export function criarHandler(d: Dependencias) {
     if (metodo) return metodo;
     const usuario = await usuarioDoPedido(req, d.verificarJwt);
     if (!usuario) return erro(401, 'nao_autenticado');
-    if (!(await d.cota(usuario))) return erro(429, 'limite_diario');
+    let dentroDaCota: boolean;
+    try {
+      dentroDaCota = await d.cota(usuario);
+    } catch (e) {
+      // a conta excluída com o JWT ainda válido: a cota grava com chave estrangeira para auth.users (revisão, m1)
+      if ((e as { code?: string } | null)?.code === '23503') return erro(404, 'conta_inexistente');
+      return erro(500, 'falha_na_cota');
+    }
+    if (!dentroDaCota) return erro(429, 'limite_diario');
     const buscadoEm = new Date(agora());
     let assinante: Awaited<ReturnType<Dependencias['assinante']>>;
     try {

@@ -187,6 +187,41 @@ Deno.test('cada evento da matriz busca e aplica o estado da conta (o tipo não d
   }
 });
 
+Deno.test('revisão (m4): o banco falha ao aplicar (outro motivo) → 500 com o erro gravado (o RevenueCat reenvia)', async () => {
+  const { handler, chamadas } = fakes({
+    aplicar: () => Promise.reject(new Error('deadlock detected')),
+  });
+  assertEquals((await handler(pedido(evento()))).status, 500);
+  assertEquals(chamadas.at(-1), 'fim:evt-1:deadlock detected');
+});
+
+Deno.test('revisão (m4): evento da Test Store → aplicado como sandbox da Test Store', async () => {
+  const aplicadas: string[] = [];
+  const { handler } = fakes({
+    assinante: () =>
+      Promise.resolve({
+        subscriptions: {
+          booknest_pro_mensal: {
+            store: 'test_store',
+            purchase_date: '2026-10-09T12:00:00Z',
+            expires_date: '2099-01-01T00:00:00Z',
+            period_type: 'trial',
+            is_sandbox: true,
+          },
+        },
+      }),
+    aplicar: (_u, subs) => {
+      aplicadas.push(...subs.map((s) => `${s.store}:${s.environment}:${s.period_type}`));
+      return Promise.resolve({ pro: true });
+    },
+  });
+  const r = await handler(
+    pedido({ api_version: '1.0', event: { ...evento('INITIAL_PURCHASE').event, store: 'TEST_STORE' } }),
+  );
+  assertEquals(r.status, 200);
+  assertEquals(aplicadas, ['test_store:sandbox:trial']);
+});
+
 Deno.test('restaurar em outro aparelho, a mesma conta: dois eventos, o mesmo estado aplicado à mesma conta', async () => {
   const aplicados: string[] = [];
   const { handler } = fakes({
