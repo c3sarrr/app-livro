@@ -8,6 +8,7 @@ import '../../../../core/design_system/painters/top_border_crescent_painter.dart
 import '../../../../core/design_system/text/app_text.dart';
 import '../../../../core/design_system/tokens/app_colors.dart';
 import '../../../../core/design_system/tokens/app_icons.dart';
+import '../../../../core/design_system/tokens/app_icons_inicio.dart';
 import '../../../../core/design_system/tokens/app_radii.dart';
 import '../../../../core/design_system/tokens/app_shadows.dart';
 import '../../../../core/design_system/tokens/app_strokes.dart';
@@ -15,6 +16,7 @@ import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/design_system/widgets/app_svg.dart';
 import '../../../../core/design_system/widgets/neo_box.dart';
 import '../../../../core/design_system/widgets/pill.dart';
+import '../../../../core/design_system/widgets/pressable.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
@@ -30,53 +32,87 @@ class ReadingDayCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final day = ref.watch(homeSnapshotProvider.select((s) => s.readingDay));
     final weekColor = ref.watch(homeThemeProvider.select((t) => t.weekColor));
-    // <section aria-label="Seu dia de leitura"> (convenção §5.1 do prompt mestre).
-    return Semantics(
-      container: true,
-      explicitChildNodes: true,
-      label: 'Seu dia de leitura',
-      child: NeoBox(
-        key: const ValueKey('today'),
-        color: AppColors.sun,
-        border: const BorderSide(width: 1.5, color: AppColors.ink),
-        radius: BorderRadius.circular(AppRadii.card),
-        shadow: AppShadows.hard4,
-        clip: true,
-        // Stack = padding box (dentro da borda): referência dos círculos absolutos. Sem recorte próprio —
-        // o único recorte é o do cartão (padding box com raio interno 26,5).
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            // Primeiros na Stack → pintados atrás do conteúdo.
-            const Positioned(
-              right: -46,
-              top: -46,
-              child: _DecoCircle(id: 'today.decoCircleLarge', size: 153),
-            ),
-            const Positioned(
-              right: -20,
-              top: -20,
-              child: _DecoCircle(id: 'today.decoCircleSmall', size: 101),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18),
-              child: Column(
-                mainAxisSize: MainAxisSize.min, // altura auto do CSS
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                spacing: 16,
-                children: [
-                  _Header(streakDays: day.streakDays),
-                  _GoalRow(day: day),
-                  _WeekCard(day: day, weekColor: weekColor),
-                  _Footer(day: day),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+    return _dayCard(
+      day: day,
+      weekColor: weekColor,
+      goalRow: _GoalRow(day: day),
     );
   }
+}
+
+/// Seção 5 da prancha 01 — "Seu dia de leitura" (L01a4): o cartão da v1 com a coluna da meta nova — a frase, o
+/// "Ler agora" (pílula tinta 40, sem ação até a T04 — D-243 b) e as pílulas "2 sessões" e "2 destaques". A linha da
+/// meta mede 125,8 (a coluna passa o mostrador) → 414,6 (a v1 tinha 400,8).
+class TodaySection extends ConsumerWidget {
+  const TodaySection({super.key, this.onReadNowTap});
+
+  /// "Ler agora" (`today.readNow`): a Início passa o "sem ação" até o cronômetro da T04.
+  final VoidCallback? onReadNowTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final day = ref.watch(homeSnapshotProvider.select((s) => s.readingDay));
+    final weekColor = ref.watch(homeThemeProvider.select((t) => t.weekColor));
+    return _dayCard(
+      day: day,
+      weekColor: weekColor,
+      goalRow: _GoalRow01(day: day, onReadNowTap: onReadNowTap),
+    );
+  }
+}
+
+/// O cartão "Seu dia de leitura" com a linha da meta [goalRow] (a da v1 ou a da 01).
+Widget _dayCard({
+  required ReadingDay day,
+  required Color weekColor,
+  required Widget goalRow,
+}) {
+  // <section aria-label="Seu dia de leitura"> (convenção §5.1 do prompt mestre).
+  return Semantics(
+    container: true,
+    explicitChildNodes: true,
+    label: 'Seu dia de leitura',
+    child: NeoBox(
+      key: const ValueKey('today'),
+      color: AppColors.sun,
+      border: const BorderSide(width: 1.5, color: AppColors.ink),
+      radius: BorderRadius.circular(AppRadii.card),
+      shadow: AppShadows.hard4,
+      clip: true,
+      // Stack = padding box (dentro da borda): referência dos círculos absolutos. Sem recorte próprio —
+      // o único recorte é o do cartão (padding box com raio interno 26,5).
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // Primeiros na Stack → pintados atrás do conteúdo.
+          const Positioned(
+            right: -46,
+            top: -46,
+            child: _DecoCircle(id: 'today.decoCircleLarge', size: 153),
+          ),
+          const Positioned(
+            right: -20,
+            top: -20,
+            child: _DecoCircle(id: 'today.decoCircleSmall', size: 101),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // altura auto do CSS
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              spacing: 16,
+              children: [
+                _Header(streakDays: day.streakDays),
+                goalRow,
+                _WeekCard(day: day, weekColor: weekColor),
+                _Footer(day: day),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 /// Círculo decorativo `aria-hidden` em content-box: 150 + 2 × 1,5 = 153 e 98 + 3 = 101. Só a borda
@@ -172,10 +208,6 @@ class _GoalRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final remaining = HomeFormatters.remainingGoal(
-      day.goalMinutes,
-      day.readMinutes,
-    );
     return Row(
       key: const ValueKey('today.goalRow'),
       spacing: 18,
@@ -188,25 +220,7 @@ class _GoalRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             spacing: 10,
             children: [
-              // line-height 1,3; `text-wrap: pretty` do arquivo. Em 390: "Faltam 12 min para fechar" /
-              // "a meta de hoje." (igual ao guloso — o "a" estouraria os 181 por 5,55). Em 360 o guloso deixaria
-              // a viúva "hoje." e o pretty reequilibra: "Faltam 12 min" / "para fechar a meta" / "de hoje."
-              // (referência medida w360; corrigido na G00).
-              AppText.rich(
-                TextSpan(
-                  text: remaining.before,
-                  style: AppTextStyles.goalSentence,
-                  children: [
-                    TextSpan(
-                      text: remaining.strong,
-                      style: AppTextStyles.goalSentenceStrong,
-                    ),
-                    TextSpan(text: remaining.after),
-                  ],
-                ),
-                key: const ValueKey('today.goalText.sentence'),
-                textWrap: AppTextWrap.pretty,
-              ),
+              _goalSentence(day),
               // flex-wrap: wrap com gap 6 nos dois sentidos (em 360 o segundo chip desce).
               Wrap(
                 key: const ValueKey('today.chips'),
@@ -235,6 +249,126 @@ class _GoalRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// line-height 1,3; `text-wrap: pretty` do arquivo. Em 390: "Faltam 12 min para fechar" / "a meta de hoje." (igual
+/// ao guloso — o "a" estouraria os 181 por 5,55). Em 360 o guloso deixaria a viúva "hoje." e o pretty reequilibra:
+/// "Faltam 12 min" / "para fechar a meta" / "de hoje." (referência medida w360; corrigido na G00).
+Widget _goalSentence(ReadingDay day) {
+  final remaining = HomeFormatters.remainingGoal(
+    day.goalMinutes,
+    day.readMinutes,
+  );
+  return AppText.rich(
+    TextSpan(
+      text: remaining.before,
+      style: AppTextStyles.goalSentence,
+      children: [
+        TextSpan(
+          text: remaining.strong,
+          style: AppTextStyles.goalSentenceStrong,
+        ),
+        TextSpan(text: remaining.after),
+      ],
+    ),
+    key: const ValueKey('today.goalText.sentence'),
+    textWrap: AppTextWrap.pretty,
+  );
+}
+
+/// Linha da meta da prancha 01 (gap 18, centralizada): o dial 112 e a coluna (gap 10) com a frase, o "Ler agora" e
+/// as pílulas "N sessões" / "N destaques" (125,8 de altura: o dial fica a y + 6,9).
+class _GoalRow01 extends StatelessWidget {
+  const _GoalRow01({required this.day, required this.onReadNowTap});
+
+  final ReadingDay day;
+  final VoidCallback? onReadNowTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      key: const ValueKey('today.goalRow'),
+      spacing: 18,
+      children: [
+        _GoalDial(readMinutes: day.readMinutes, goalMinutes: day.goalMinutes),
+        Expanded(
+          child: Column(
+            key: const ValueKey('today.goalText'),
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            spacing: 10,
+            children: [
+              _goalSentence(day),
+              Align(
+                alignment: Alignment.centerLeft, // align-self: flex-start
+                child: _ReadNow(onTap: onReadNowTap),
+              ),
+              // flex-wrap: wrap com gap 6 nos dois sentidos (as duas pílulas têm a mesma altura).
+              Wrap(
+                key: const ValueKey('today.chips'),
+                spacing: 6,
+                runSpacing: 6,
+                children: [
+                  _Chip(
+                    id: 'today.chip.sessions',
+                    label: HomeFormatters.sessionsLabel(day.sessionsToday),
+                  ),
+                  _Chip(
+                    id: 'today.chip.highlights',
+                    label: HomeFormatters.countLabel(
+                      day.highlightsToday,
+                      'destaque',
+                      'destaques',
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// "Ler agora": `<a aria-label="Iniciar leitura (cronômetro)">` — pílula tinta 40, padding 0/14/0/11, o cronômetro
+/// 17 amarelo e "Ler agora" Figtree 14/800 → 700 `#F7F0E3`, gap 7 (109,69 de largura).
+class _ReadNow extends StatelessWidget {
+  const _ReadNow({required this.onTap});
+
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      isLink: true,
+      semanticsLabel: HomeFormatters.readNowAria,
+      onTap: onTap,
+      child: NeoBox(
+        key: const ValueKey('today.readNow'),
+        height: 40,
+        color: AppColors.ink,
+        radius: BorderRadius.circular(AppRadii.pill),
+        padding: const EdgeInsets.fromLTRB(11, 0, 14, 0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 7,
+          children: [
+            const AppSvg(
+              AppIconsInicio.stopwatch,
+              size: 17,
+              key: ValueKey('today.readNow.icon'),
+            ),
+            AppText(
+              'Ler agora',
+              key: const ValueKey('today.readNow.label'),
+              style: AppTextStyles.cta14OnInk,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
