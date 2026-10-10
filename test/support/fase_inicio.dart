@@ -13,10 +13,14 @@ import 'dart:ui' as ui;
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_illustrations_inicio.dart';
+import 'package:app_leitura/core/design_system/tokens/app_spacing.dart';
 import 'package:app_leitura/core/preferences/brand_preference.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
+import 'package:app_leitura/features/shell/presentation/bottom_fade.dart';
+import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
+import 'package:app_leitura/features/shell/presentation/scanner_fab.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,6 +82,7 @@ Future<void> abrirSecoes01(
   Set<String> larguraTotal = const {},
   List<Override> overrides = const [],
   SyncHomeRepository repositorio = const RepositorioT01(),
+  List<Widget> camadas = const [],
 }) async {
   assert(!inicioNoApp, 'depois da troca, use o app (abrirInicio01)');
   setCanvasView(tester, logical: prancha.canvas);
@@ -121,6 +126,7 @@ Future<void> abrirSecoes01(
                         width: prancha.sections[id]!.width,
                         child: w,
                       ),
+                  ...camadas,
                 ],
               ),
             ),
@@ -131,6 +137,43 @@ Future<void> abrirSecoes01(
   );
   await tester.pumpAndSettle();
 }
+
+/// O degradê, a barra e o FAB do Scanner como o `MainShell` os põe (os três `Positioned` dele, na mesma ordem):
+/// presos ao pé do canvas de [largura], o degradê pintado antes da barra e o FAB depois dela. `bottom` da barra =
+/// `MainShell.navBottom` sem área segura (30, a D-02). Até a troca: depois dela o arnês monta o próprio shell.
+List<Widget> barraDoShell01({
+  required double largura,
+  int currentIndex = 0,
+  ValueChanged<int>? onSelect,
+  VoidCallback? onScanner,
+}) => [
+  const Positioned(
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 150,
+    child: IgnorePointer(child: BottomFade(key: ValueKey('bottomFade'))),
+  ),
+  Positioned(
+    left: AppSpacing.navSide,
+    right: AppSpacing.navSide,
+    bottom: AppSpacing.navBottomMin,
+    height: AppSpacing.navHeight,
+    child: FloatingNavBar(
+      key: const ValueKey('nav'),
+      currentIndex: currentIndex,
+      onSelect: onSelect,
+      onScanner: onScanner,
+    ),
+  ),
+  Positioned(
+    left: (largura - ScannerFab.size) / 2,
+    bottom: ScannerFab.bottom(AppSpacing.navBottomMin),
+    width: ScannerFab.size,
+    height: ScannerFab.size,
+    child: ScannerFab(key: const ValueKey('nav.scanner.fab'), onTap: onScanner),
+  ),
+];
 
 // ---- retângulos sem os giros ---------------------------------------------------------------------------------
 
