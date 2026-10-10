@@ -71,3 +71,5 @@ __pycache__/
 .dev.vars
 # G21: saída da extração das pranchas do clube (regenerável)
 tools/medicao/pranchas_clube/
+# T02: saída da extração das pranchas da Início e da revisão (regenerável, D-242)
+tools/medicao/pranchas_inicio2/
