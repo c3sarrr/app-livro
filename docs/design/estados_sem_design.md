@@ -256,7 +256,9 @@ As datas são as do fuso do aparelho. A pílula da última ação (`AccountNotic
 O paywall de trabalho, sem design: não vai para o build de produção, e os gatilhos (R7) só a abrem na depuração.
 Convidado: só "Entrar para assinar.". Com conta, de cima para baixo:
 - o motivo, quando um gatilho a abriu ("Marco: 10 livros", "Marco: 50 grifos", "Marco: 30 dias seguidos",
-  "2º aparelho", "Perfil de outra pessoa", "2º clube", "Estatísticas completas"), com "Agora não";
+  "2º aparelho", "Perfil de outra pessoa", "2º clube", "Estatísticas completas"), com "Agora não". Aberta por um
+  gatilho, os pacotes só aparecem depois do toque em **"Ver os planos"** (o RevenueCat só entra quando a pessoa age —
+  G22.7, revisão);
 - os pacotes da loja: o período, o preço da loja, a economia do anual ("Economize 33 %", só quando o anual sai mais
   barato que 12 meses) e o teste grátis ("7 dias grátis, depois R$ 9,99/mês", só para quem é elegível); cada um
   com "Assinar";

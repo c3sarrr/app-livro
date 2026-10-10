@@ -21,17 +21,26 @@ import '../domain/billing_models.dart';
 import '../domain/billing_rules.dart';
 import 'paywall_home_hook.dart' show paywallPresenterProvider;
 
-class ProTechScreen extends ConsumerWidget {
+class ProTechScreen extends ConsumerStatefulWidget {
   const ProTechScreen({super.key, this.reason});
 
   /// O gatilho que abriu a tela (R7), se foi um.
   final PaywallReason? reason;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProTechScreen> createState() => _ProTechScreenState();
+}
+
+class _ProTechScreenState extends ConsumerState<ProTechScreen> {
+  /// Os pacotes são lidos (e o RevenueCat entra) só quando a pessoa age: aberta por ela, direto; aberta por um
+  /// gatilho, depois do toque em "Ver os planos" (revisão, m6).
+  late bool _plans = widget.reason == null;
+
+  @override
+  Widget build(BuildContext context) {
     final account = ref.watch(accountControllerProvider);
     final view = ref.watch(billingControllerProvider);
-    final motivo = reason;
+    final motivo = widget.reason;
     final children = <Widget>[
       const AccountHeading('Pro (tela técnica)'),
       if (motivo != null) ...[
@@ -41,7 +50,6 @@ class ProTechScreen extends ConsumerWidget {
       ...switch ((account, view)) {
         (MemberView(:final userId), final ProReady ready) => _ready(
           context,
-          ref,
           userId,
           ready,
         ),
@@ -78,12 +86,7 @@ class ProTechScreen extends ConsumerWidget {
     );
   }
 
-  List<Widget> _ready(
-    BuildContext context,
-    WidgetRef ref,
-    String owner,
-    ProReady view,
-  ) {
+  List<Widget> _ready(BuildContext context, String owner, ProReady view) {
     final controller = ref.read(billingControllerProvider.notifier);
     final platform = ref.watch(billingPlatformProvider);
     final env = ref.watch(appEnvProvider);
@@ -91,27 +94,34 @@ class ProTechScreen extends ConsumerWidget {
     final waiting = view.activating;
     final notice = view.notice;
     return [
-      ...ref
-          .watch(proPackagesProvider)
-          .when(
-            data: (pacotes) =>
-                _packages(pacotes, platform, controller, waiting),
-            loading: () => const [
-              AccountText('Lendo os pacotes…', muted: true),
-            ],
-            error: (e, _) => [
-              AccountText(
-                'Não deu para ler os pacotes (${e is BillingFailure ? e.code : 'erro'}).',
-                muted: true,
-              ),
-              AccountButton(
-                'Tentar de novo',
-                onTap: () => ref.invalidate(proPackagesProvider),
-              ),
-            ],
-          ),
-      ..._link(ref, 'Termos de Uso', env.termsUrl),
-      ..._link(ref, 'Política de Privacidade', env.privacyUrl),
+      if (!_plans)
+        AccountButton(
+          'Ver os planos',
+          tone: AccountButtonTone.primary,
+          onTap: () => setState(() => _plans = true),
+        )
+      else
+        ...ref
+            .watch(proPackagesProvider)
+            .when(
+              data: (pacotes) =>
+                  _packages(pacotes, platform, controller, waiting),
+              loading: () => const [
+                AccountText('Lendo os pacotes…', muted: true),
+              ],
+              error: (e, _) => [
+                AccountText(
+                  'Não deu para ler os pacotes (${e is BillingFailure ? e.code : 'erro'}).',
+                  muted: true,
+                ),
+                AccountButton(
+                  'Tentar de novo',
+                  onTap: () => ref.invalidate(proPackagesProvider),
+                ),
+              ],
+            ),
+      ..._link('Termos de Uso', env.termsUrl),
+      ..._link('Política de Privacidade', env.privacyUrl),
       AccountButton(
         'Restaurar compras',
         onTap: waiting ? null : controller.restore,
@@ -136,7 +146,7 @@ class ProTechScreen extends ConsumerWidget {
       for (final r in PaywallReason.values)
         AccountButton(
           'Disparar: ${r.label}',
-          onTap: () => unawaited(_fire(context, ref, owner, r)),
+          onTap: () => unawaited(_fire(context, owner, r)),
         ),
       AccountButton(
         'Zerar o limite de 7 dias',
@@ -187,7 +197,7 @@ class ProTechScreen extends ConsumerWidget {
     ];
   }
 
-  List<Widget> _link(WidgetRef ref, String titulo, String url) {
+  List<Widget> _link(String titulo, String url) {
     final uri = AppEnv.publishedUrl(url);
     if (uri == null) {
       return [AccountText('$titulo: Publicação pendente (Q9).', muted: true)];
@@ -202,7 +212,6 @@ class ProTechScreen extends ConsumerWidget {
 
   Future<void> _fire(
     BuildContext context,
-    WidgetRef ref,
     String owner,
     PaywallReason reason,
   ) async {

@@ -39,7 +39,15 @@ import 'package:supabase_flutter/supabase_flutter.dart'
 
 import '../../support/personal_builders.dart';
 import '../billing/support/billing_fakes.dart'
-    show ContaFalsa, LojaFalsa, MemoriaFalsa, membro, proDaLoja;
+    show
+        ContaFalsa,
+        LojaFalsa,
+        MemoriaFalsa,
+        ServidorProFalso,
+        agora,
+        membro,
+        mensal,
+        proDaLoja;
 import 'support/account_fakes.dart';
 import 'support/fake_backend.dart';
 
@@ -191,6 +199,7 @@ void main() {
 
   _semClube();
   _pro();
+  _proCancelou();
 }
 
 /// G21.6: um Grátis com conta e sem clube.
@@ -312,7 +321,8 @@ void _pro() => test('G22: Grátis com conta e sem compra — entrar e voltar ao 
     type: OtpType.email,
   );
   final loja = LojaFalsa();
-  final conta = ContaFalsa(membro(contaTeste));
+  // como o AccountController de verdade: a conta chega primeiro sem o resumo (revisão, m7)
+  final conta = ContaFalsa(const MemberView(userId: contaTeste));
   final c = ProviderContainer(
     overrides: [
       supabaseClientProvider.overrideWithValue(client),
@@ -320,13 +330,16 @@ void _pro() => test('G22: Grátis com conta e sem compra — entrar e voltar ao 
       billingGatewayProvider.overrideWithValue(loja),
       billingStoreMemoryProvider.overrideWithValue(MemoriaFalsa()),
       billingSleepProvider.overrideWithValue((_) async {}),
+      clockProvider.overrideWithValue(() => agora),
     ],
   );
   addTearDown(c.dispose);
   c.listen(billingControllerProvider, (_, _) {});
   backend.pedidos.clear();
 
-  // entrar (o resumo Grátis) e voltar ao app
+  // entrar (sem o resumo, depois o resumo Grátis) e voltar ao app
+  await pumpEventQueue();
+  conta.mudar(membro(contaTeste));
   await pumpEventQueue();
   c.read(billingControllerProvider.notifier).resumed();
   await pumpEventQueue();
@@ -346,4 +359,42 @@ void _pro() => test('G22: Grátis com conta e sem compra — entrar e voltar ao 
   expect(backend.caminhos, ['POST /functions/v1/revenuecat-sync']);
   expect(backend.caminhos.every(permitidosG22.contains), isTrue);
   expect(backend.pedidos.single.body, anyOf(isEmpty, '{}'));
+});
+
+/// G22.7 (revisão, I3): um Grátis abre a folha da loja e fecha sem comprar; na próxima abertura do app, o RevenueCat
+/// fica quieto.
+void _proCancelou() => test('G22: Grátis que fechou a folha da loja sem comprar — na próxima abertura o app não chama o RevenueCat', () async {
+  final memoria = MemoriaFalsa();
+  ProviderContainer abrir(LojaFalsa loja) {
+    final c = ProviderContainer(
+      overrides: [
+        accountControllerProvider.overrideWith(
+          () => ContaFalsa(membro(contaTeste)),
+        ),
+        billingGatewayProvider.overrideWithValue(loja),
+        proServerApiProvider.overrideWithValue(ServidorProFalso()),
+        billingStoreMemoryProvider.overrideWithValue(memoria),
+        billingSleepProvider.overrideWithValue((_) async {}),
+        clockProvider.overrideWithValue(() => agora),
+      ],
+    );
+    addTearDown(c.dispose);
+    c.listen(billingControllerProvider, (_, _) {});
+    return c;
+  }
+
+  final antes = LojaFalsa();
+  final c = abrir(antes);
+  await pumpEventQueue();
+  await c.read(billingControllerProvider.notifier).purchase(mensal);
+  expect(antes.chamadas, contains(r'purchase:$rc_monthly'));
+
+  final depois = LojaFalsa();
+  abrir(depois);
+  await pumpEventQueue();
+  expect(
+    depois.chamadas,
+    isEmpty,
+    reason: 'fechar a folha não é comprar: o RevenueCat não entra sozinho',
+  );
 });

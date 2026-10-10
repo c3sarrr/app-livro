@@ -7,9 +7,12 @@ import 'package:app_leitura/core/config/server_providers.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
 import 'package:app_leitura/features/account/application/account_controller.dart';
+import 'package:app_leitura/features/account/domain/account_failure.dart';
 import 'package:app_leitura/features/billing/application/billing_controller.dart';
 import 'package:app_leitura/features/billing/application/billing_providers.dart';
 import 'package:app_leitura/features/billing/domain/billing_models.dart';
+import 'package:app_leitura/features/home/application/home_providers.dart'
+    show clockProvider;
 import 'package:drift/native.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +51,7 @@ void main() {
                 esperas.add(d);
               },
         ),
+        clockProvider.overrideWithValue(() => agora),
       ],
     );
     addTearDown(cc.dispose);
@@ -184,14 +188,14 @@ void main() {
       expect(conta.releituras, 1);
     });
 
-    test('o conferir agora falha (RevenueCat fora do ar): o recuo continua pelo servidor', () async {
+    test('o conferir agora falha (RevenueCat fora do ar): o recuo tenta o conferir agora e lê o servidor', () async {
       loja.cliente = proDaLoja;
       servidor.falhaAoConferir = Exception('502');
       servidor.respostas.add((pro: true, activeUntil: proAte));
       c = container(membro(contaA), usadas: {contaA});
       conta.proNoServidor = true;
       await pumpEventQueue();
-      expect(servidor.chamadas, ['syncNow', 'current']);
+      expect(servidor.chamadas, ['syncNow', 'syncNow', 'current']);
       expect(conta.releituras, 1);
     });
 
@@ -356,6 +360,192 @@ void main() {
       await pumpEventQueue();
       expect(servidor.chamadas, ['syncNow']);
       expect(conta.releituras, 1);
+    });
+  });
+
+  group('revisão independente (G22.7)', () {
+    test('I1: a conta chega sem o resumo e depois Pro: não ativa enquanto não sabe o Pro do servidor', () async {
+      loja.cliente = proDaLoja;
+      c = container(const MemberView(userId: contaA), usadas: {contaA});
+      await pumpEventQueue();
+      expect(pronto().customer, proDaLoja);
+      expect(servidor.chamadas, isEmpty);
+      conta.mudar(membro(contaA, pro: true));
+      await pumpEventQueue();
+      expect(servidor.chamadas, isEmpty);
+      expect(pronto().serverPro, isTrue);
+    });
+
+    test(
+      'I1: sem o resumo e depois Grátis no servidor com a loja Pro: aí ativa',
+      () async {
+        loja.cliente = proDaLoja;
+        servidor.aoConferir = (pro: true, activeUntil: proAte);
+        c = container(const MemberView(userId: contaA), usadas: {contaA});
+        await pumpEventQueue();
+        expect(servidor.chamadas, isEmpty);
+        conta.proNoServidor = true;
+        conta.mudar(membro(contaA));
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['syncNow']);
+        expect(conta.releituras, 1);
+        expect(pronto().serverPro, isTrue);
+      },
+    );
+
+    test(
+      'I1: o resumo que não chegou (servidor fora) não vira Grátis',
+      () async {
+        loja.cliente = proDaLoja;
+        c = container(membro(contaA, pro: true));
+        await pumpEventQueue();
+        conta.mudar(
+          const MemberView(userId: contaA, problem: ServerFailure('fora')),
+        );
+        await pumpEventQueue();
+        expect(pronto().serverPro, isTrue);
+        expect(servidor.chamadas, isEmpty);
+      },
+    );
+
+    test('I2: a assinatura cancelada venceu com o app fechado: voltar relê a loja e não ativa', () async {
+      loja.cliente = ProCustomer(
+        active: true,
+        activeUntil: agora.subtract(const Duration(hours: 1)),
+        store: 'testStore',
+      );
+      c = container(membro(contaA, pro: true));
+      await pumpEventQueue();
+      servidor.respostas.add((pro: false, activeUntil: null));
+      loja.clientes.add(ProCustomer.none);
+      c.read(billingControllerProvider.notifier).resumed();
+      await pumpEventQueue();
+      expect(servidor.chamadas, isEmpty);
+      expect(pronto().customer.active, isFalse);
+    });
+
+    test('I2: o servidor diz que não e a loja relida também: para sem aviso e sem nova tentativa', () async {
+      loja.clientes.addAll([proDaLoja, ProCustomer.none]);
+      c = container(membro(contaA), usadas: {contaA});
+      await pumpEventQueue();
+      expect(servidor.chamadas, ['syncNow']);
+      expect(esperas, isEmpty);
+      expect(pronto().activating, isFalse);
+      expect(pronto().notice, isNull);
+      expect(pronto().customer.active, isFalse);
+      servidor.chamadas.clear();
+      c.read(billingControllerProvider.notifier).resumed();
+      await pumpEventQueue();
+      expect(servidor.chamadas, isEmpty);
+    });
+
+    test(
+      'I2: a loja avisa que deixou de ser Pro no meio do recuo: para sem aviso',
+      () async {
+        loja.cliente = proDaLoja;
+        var primeira = true;
+        c = container(
+          membro(contaA),
+          usadas: {contaA},
+          esperar: (d) async {
+            esperas.add(d);
+            if (primeira) {
+              primeira = false;
+              loja.avisar(ProCustomer.none);
+            }
+          },
+        );
+        await pumpEventQueue();
+        expect(esperas, hasLength(1));
+        expect(pronto().activating, isFalse);
+        expect(pronto().notice, isNull);
+      },
+    );
+
+    test(
+      'm2: o conferir agora falhou: o recuo tenta o conferir agora de novo',
+      () async {
+        loja.cliente = proDaLoja;
+        servidor.falhaAoConferir = Exception('502');
+        var primeira = true;
+        c = container(
+          membro(contaA),
+          usadas: {contaA},
+          esperar: (d) async {
+            esperas.add(d);
+            if (primeira) {
+              primeira = false;
+              servidor
+                ..falhaAoConferir = null
+                ..aoConferir = (pro: true, activeUntil: proAte);
+            }
+          },
+        );
+        conta.proNoServidor = true;
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['syncNow', 'syncNow']);
+        expect(conta.releituras, 1);
+      },
+    );
+
+    test(
+      'I4: a ativação da conta anterior, parada no recuo, não segura a da nova',
+      () async {
+        loja.cliente = proDaLoja;
+        final segura = Completer<void>();
+        var primeira = true;
+        c = container(
+          membro(contaA),
+          usadas: {contaA, contaB},
+          esperar: (d) async {
+            esperas.add(d);
+            if (primeira) {
+              primeira = false;
+              await segura.future;
+            }
+          },
+        );
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['syncNow']);
+        servidor.aoConferir = (pro: true, activeUntil: proAte);
+        conta.proNoServidor = true;
+        conta.mudar(membro(contaB));
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['syncNow', 'syncNow']);
+        expect(conta.releituras, 1);
+        segura.complete();
+        await pumpEventQueue();
+        // a da A sai na volta do recuo, sem reler nada
+        expect(conta.releituras, 1);
+        expect(servidor.chamadas, ['syncNow', 'syncNow']);
+      },
+    );
+
+    test(
+      'I4: um aviso da loja que não é da conta de agora é ignorado',
+      () async {
+        loja.cliente = proDaLoja;
+        c = container(membro(contaA, pro: true), usadas: {contaA});
+        await pumpEventQueue();
+        loja.cliente = ProCustomer.none;
+        conta.mudar(
+          membro(contaB),
+        ); // a B nunca usou a loja: o RevenueCat sai da A
+        await pumpEventQueue();
+        expect(loja.chamadas.last, 'logOut');
+        loja.avisar(proDaLoja);
+        await pumpEventQueue();
+        expect(pronto().customer, ProCustomer.none);
+        expect(servidor.chamadas, isEmpty);
+      },
+    );
+
+    test('m3: a loja não conecta ao entrar (sem rede): a tela sai do "Configurando" com o Pro do servidor', () async {
+      loja.falhaAoConectar = const BillingOffline();
+      c = container(membro(contaA, pro: true));
+      await pumpEventQueue();
+      expect(pronto().serverPro, isTrue);
+      expect(pronto().customer, ProCustomer.none);
     });
   });
 

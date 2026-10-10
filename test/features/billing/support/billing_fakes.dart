@@ -13,6 +13,9 @@ import 'package:app_leitura/features/billing/domain/billing_models.dart';
 const contaA = '0199a7c4-2f00-7a10-8b20-0000000000aa';
 const contaB = '0199a7c4-2f00-7a10-8b20-0000000000bb';
 
+/// O relógio dos testes (`clockProvider`): antes do fim do Pro da loja.
+final agora = DateTime.utc(2026, 10, 10, 12);
+
 final proAte = DateTime.utc(2026, 11, 12, 15);
 final proDaLoja = ProCustomer(
   active: true,
@@ -55,6 +58,15 @@ final class LojaFalsa implements BillingGateway {
   /// Segura a compra até completar (o toque duplo).
   Completer<void>? segurarCompra;
 
+  /// Segura a configuração até completar (trocar de conta no meio de uma ação).
+  Completer<void>? segurarConfigure;
+
+  /// A falha da próxima configuração (sem rede ao entrar).
+  BillingFailure? falhaAoConectar;
+
+  /// As próximas respostas de `customer` (vazio = [cliente]): a loja relida diz outra coisa.
+  final clientes = Queue<ProCustomer>();
+
   final _mudancas = StreamController<ProCustomer>.broadcast(sync: true);
 
   void avisar(ProCustomer c) {
@@ -63,8 +75,12 @@ final class LojaFalsa implements BillingGateway {
   }
 
   @override
-  Future<void> configure({required String appUserId}) async =>
-      chamadas.add('configure:$appUserId');
+  Future<void> configure({required String appUserId}) async {
+    chamadas.add('configure:$appUserId');
+    await segurarConfigure?.future;
+    final f = falhaAoConectar;
+    if (f != null) throw f;
+  }
 
   @override
   Future<ProCustomer> logIn(String appUserId) async {
@@ -102,6 +118,7 @@ final class LojaFalsa implements BillingGateway {
   @override
   Future<ProCustomer> customer() async {
     chamadas.add('customer');
+    if (clientes.isNotEmpty) cliente = clientes.removeFirst();
     return cliente;
   }
 

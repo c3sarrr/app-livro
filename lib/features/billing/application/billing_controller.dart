@@ -2,13 +2,15 @@
 // (R1); a tela mostra o Pro da loja (rápido, com o cache do SDK) e o sync segue o do servidor (`my_account.pro`, G06).
 // Quando a loja diz Pro e o servidor não, a ativação (R2) confere no servidor ("conferir agora", D-229) e espera
 // com recuo até ele confirmar; confirmado, o resumo da conta é relido e o sync liga. Trocar de conta no meio para
-// tudo o que era da conta antiga (D-68).
+// tudo o que era da conta antiga (D-68): as mudanças da conta e as ações na loja passam por uma fila só.
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/foundation.dart'
+    show FlutterError, FlutterErrorDetails, immutable;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../account/application/account_controller.dart';
+import '../../home/application/home_providers.dart' show clockProvider;
 import '../../social/domain/social_failure.dart' show SocialOffline;
 import '../data/billing_gateway.dart';
 import '../data/pro_server_api.dart' show ServerPro;
@@ -104,7 +106,16 @@ class BillingController extends Notifier<ProView> {
   /// O SDK já foi configurado nesta execução (depois, trocar de conta é `logIn`).
   bool _sdkConfigured = false;
   StreamSubscription<ProCustomer>? _updates;
+
+  /// A ativação em andamento e de qual conta (a da conta anterior não segura a da nova).
   Future<void>? _activation;
+  String? _activationUser;
+
+  /// O resumo da conta já chegou: antes dele, o Pro do servidor é desconhecido e nada ativa (revisão, I1).
+  bool _serverKnown = false;
+
+  /// O último Pro do servidor que o resumo trouxe (a tela sai do "Configurando" com ele se a loja falhar).
+  bool _lastServerPro = false;
 
   /// A ativação não confirmou: tenta de novo ao voltar ao app (R2).
   bool _retryOnResume = false;
@@ -134,6 +145,9 @@ class BillingController extends Notifier<ProView> {
     _storeUser = null;
     _sdkConfigured = false;
     _activation = null;
+    _activationUser = null;
+    _serverKnown = false;
+    _lastServerPro = false;
     _retryOnResume = false;
     _resumeCheck = null;
     _busy = false;
@@ -146,15 +160,43 @@ class BillingController extends Notifier<ProView> {
     return now is MemberView ? const ProLoading() : const ProUnavailable();
   }
 
-  void _enqueue(AccountView view, _Life life) {
+  /// A fila: as mudanças da conta e as ações na loja, uma de cada vez (sair no meio de um restaurar espera ele
+  /// terminar e então tira a conta do RevenueCat — revisão, I4).
+  Future<T> _serial<T>(Future<T> Function() run) {
+    final done = Completer<T>();
     _queue = _queue.then((_) async {
-      if (!life.alive) return;
       try {
-        await _onAccount(view, life);
-      } on BillingFailure {
-        // sem rede ou a loja fora: a tela fica como estava; a próxima mudança da conta tenta de novo
+        done.complete(await run());
+      } on Object catch (e, st) {
+        done.completeError(e, st);
       }
     });
+    return done.future;
+  }
+
+  void _enqueue(AccountView view, _Life life) {
+    unawaited(
+      _serial(() async {
+        if (!life.alive) return;
+        try {
+          await _onAccount(view, life);
+        } on Object catch (e, st) {
+          // sem rede ou a loja fora: a tela não fica presa em "Configurando" (revisão, m3); a próxima ação tenta de
+          // novo
+          if (e is! BillingFailure) {
+            FlutterError.reportError(
+              FlutterErrorDetails(exception: e, stack: st, library: 'pro'),
+            );
+          }
+          if (life.alive && _user != null && state is ProLoading) {
+            state = ProReady(
+              customer: ProCustomer.none,
+              serverPro: _lastServerPro,
+            );
+          }
+        }
+      }),
+    );
   }
 
   BillingStoreMemory get _memory => ref.read(billingStoreMemoryProvider);
@@ -170,10 +212,15 @@ class BillingController extends Notifier<ProView> {
   Future<void> _onAccount(AccountView view, _Life life) async {
     switch (view) {
       case MemberView(:final userId, :final summary):
-        final serverPro = summary?.pro ?? false;
+        // sem o resumo (ainda carregando ou o servidor fora), o Pro do servidor é desconhecido (revisão, I1)
+        final known = summary != null;
+        if (known) _lastServerPro = summary.pro;
         if (userId != _user) {
           _user = userId;
           _retryOnResume = false;
+          _serverKnown = known;
+          if (!known) _lastServerPro = false;
+          final serverPro = _lastServerPro;
           // R1 e G22.7: o RevenueCat entra com a conta Pro ou com a que já comprou ou restaurou neste aparelho;
           // o Grátis que nunca comprou só quando age (comprar, restaurar, a tela técnica)
           if (serverPro || await _usedStore(userId)) {
@@ -189,6 +236,9 @@ class BillingController extends Notifier<ProView> {
           state = ProReady(customer: ProCustomer.none, serverPro: serverPro);
           return;
         }
+        if (!known) return;
+        _serverKnown = true;
+        final serverPro = summary.pro;
         final s = state;
         if (s is ProReady && s.serverPro != serverPro) {
           state = s.copyWith(serverPro: serverPro);
@@ -196,12 +246,15 @@ class BillingController extends Notifier<ProView> {
         // virou Pro (comprou em outro aparelho): o estado da loja chega à tela
         if (serverPro && _storeUser != userId) {
           await _connect(userId, serverPro, life);
+          return;
         }
+        _maybeActivate();
       case GuestView():
         final connected = _storeUser != null;
         _user = null;
         _storeUser = null;
         _retryOnResume = false;
+        _serverKnown = false;
         state = const ProUnavailable();
         if (connected) await _gateway.logOut();
       case AccountLoading():
@@ -236,7 +289,8 @@ class BillingController extends Notifier<ProView> {
     _maybeActivate();
   }
 
-  /// A conta comprou ou restaurou neste aparelho: daqui em diante o RevenueCat entra com ela ao abrir o app.
+  /// A conta comprou ou restaurou uma assinatura neste aparelho: daqui em diante o RevenueCat entra com ela ao abrir o
+  /// app. Fechar a folha, uma compra que falha ou um restaurar sem nada não marcam (revisão, I3).
   Future<void> _remember(String user) async {
     try {
       await _memory.markUsed(user);
@@ -254,48 +308,111 @@ class BillingController extends Notifier<ProView> {
 
   void _onCustomer(ProCustomer c) {
     final s = state;
-    if (s is! ProReady) return;
+    // um aviso que não é da conta de agora (o SDK ainda com a anterior) não entra (revisão, I4)
+    if (s is! ProReady || _user == null || _storeUser != _user) return;
     state = s.copyWith(customer: c);
     _maybeActivate();
   }
 
-  /// R2: a loja diz Pro e o servidor não.
+  /// A loja diz Pro agora: ativa e dentro do período (ou da carência). O `CustomerInfo` guardado pode estar velho
+  /// (revisão, I2).
+  bool _storeSaysPro(ProCustomer c) {
+    if (!c.active) return false;
+    final until = c.activeUntil;
+    if (until == null) return true;
+    final now = ref.read(clockProvider)().toUtc();
+    final grace = c.graceUntil;
+    return until.isAfter(now) || (grace != null && grace.isAfter(now));
+  }
+
+  /// R2: a loja diz Pro e o servidor (sabido) não.
   void _maybeActivate() {
     final s = state;
-    if (s is ProReady && s.customer.active && !s.serverPro) {
+    if (_serverKnown &&
+        s is ProReady &&
+        !s.serverPro &&
+        _storeSaysPro(s.customer)) {
       unawaited(activate());
     }
   }
 
-  /// A ativação (R2): o "conferir agora" e o `my_entitlement` com recuo. Uma por vez.
+  /// A ativação (R2): o "conferir agora" e o `my_entitlement` com recuo. Uma por vez e por conta.
   Future<void> activate() {
     final user = _user;
     if (user == null) return Future.value();
-    return _activation ??= _activate(
-      user,
-      _life,
-    ).whenComplete(() => _activation = null);
+    final running = _activation;
+    if (running != null && _activationUser == user) return running;
+    final f = _activate(user, _life);
+    _activation = f;
+    _activationUser = user;
+    unawaited(
+      f.whenComplete(() {
+        if (identical(_activation, f)) {
+          _activation = null;
+          _activationUser = null;
+        }
+      }),
+    );
+    return f;
   }
 
   Future<void> _activate(String user, _Life life) async {
     _activationRuns++;
     bool current() => life.alive && _user == user;
     final s = state;
-    if (s is! ProReady) return;
+    if (s is! ProReady || !_storeSaysPro(s.customer)) return;
     _retryOnResume = false;
     state = s.copyWith(activating: true, notice: () => null);
     final server = ref.read(proServerApiProvider)!;
     final sleep = ref.read(billingSleepProvider);
     var confirmed = false;
-    try {
-      confirmed = (await server.syncNow()).pro;
-    } on Object {
-      // o RevenueCat fora do ar ou o limite do dia: o webhook ainda pode chegar
+    var synced = false; // o "conferir agora" já respondeu
+    var storeRechecked = false;
+
+    Future<void> syncNow() async {
+      try {
+        confirmed = (await server.syncNow()).pro;
+        synced = true;
+      } on Object {
+        // o RevenueCat fora do ar, a cota ou sem rede: a próxima volta do recuo tenta de novo (revisão, m2)
+      }
     }
+
+    // a loja ainda diz Pro? (o servidor respondeu que não; o CustomerInfo guardado pode estar velho — revisão, I2)
+    Future<bool> stillPro() async {
+      final now = state;
+      if (now is ProReady && !_storeSaysPro(now.customer)) return false;
+      if (!synced || storeRechecked || _storeUser != user) return true;
+      storeRechecked = true;
+      try {
+        final c = await _gateway.customer();
+        if (!current()) return true;
+        _setCustomer(user, c);
+        return _storeSaysPro(c);
+      } on Object {
+        return true; // sem a loja: segue o recuo
+      }
+    }
+
+    void stopQuietly() {
+      final r = state;
+      if (r is ProReady) state = r.copyWith(activating: false);
+    }
+
+    await syncNow();
     for (final seconds in activationBackoff) {
       if (confirmed || !current()) break;
+      if (!await stillPro()) {
+        if (current()) stopQuietly();
+        return;
+      }
+      if (!current()) break;
       await sleep(Duration(seconds: seconds));
       if (!current()) break;
+      if (!synced) {
+        await syncNow();
+        if (synced) continue;
+      }
       try {
         confirmed = (await server.current()).pro;
       } on Object {
@@ -304,12 +421,21 @@ class BillingController extends Notifier<ProView> {
     }
     if (!current()) return;
     if (confirmed) {
-      await ref.read(accountControllerProvider.notifier).refresh();
+      try {
+        await ref.read(accountControllerProvider.notifier).refresh();
+      } on Object {
+        // o resumo relido falhou: a próxima mudança da conta traz o Pro
+      }
       if (!current()) return;
       final r = state;
       if (r is ProReady) state = r.copyWith(activating: false, serverPro: true);
       return;
     }
+    if (!await stillPro()) {
+      if (current()) stopQuietly();
+      return;
+    }
+    if (!current()) return;
     _retryOnResume = true;
     final r = state;
     if (r is ProReady) {
@@ -319,16 +445,25 @@ class BillingController extends Notifier<ProView> {
 
   // ------------------------------------------------------------------ as ações (R3, R5, R6)
 
-  /// Uma ação por vez, só com conta (R1) e a loja pronta.
-  Future<void> _action(Future<void> Function(String user) run) async {
+  /// Uma ação por vez, só com conta (R1) e a loja pronta, na fila com as mudanças da conta.
+  Future<void> _action(Future<void> Function(String user) run) {
     final user = _user;
-    if (_busy || user == null || state is! ProReady) return;
+    if (_busy || user == null || state is! ProReady) return Future.value();
     _busy = true;
-    try {
-      await run(user);
-    } finally {
-      _busy = false;
-    }
+    final life = _life;
+    return _serial(() async {
+      try {
+        if (!life.alive || _user != user || state is! ProReady) return;
+        await run(user);
+      } on Object catch (e, st) {
+        FlutterError.reportError(
+          FlutterErrorDetails(exception: e, stack: st, library: 'pro'),
+        );
+        _notice(user, failedNotice);
+      } finally {
+        _busy = false;
+      }
+    });
   }
 
   void _notice(String user, String text) {
@@ -346,14 +481,15 @@ class BillingController extends Notifier<ProView> {
   Future<void> purchase(ProPackage package) => _action((user) async {
     try {
       await _ensureStore(user);
-      await _remember(user);
       switch (await _gateway.purchase(package.id)) {
         case Purchased(:final customer):
+          await _remember(user);
           _setCustomer(user, customer);
           _maybeActivate();
         case PurchaseCancelled():
           break;
         case PurchasePending():
+          await _remember(user);
           _notice(
             user,
             'Pagamento em análise. O Pro liga quando a loja aprovar.',
@@ -375,10 +511,10 @@ class BillingController extends Notifier<ProView> {
     final runs = _activationRuns;
     try {
       await _ensureStore(user);
-      await _remember(user);
       final c = await _gateway.restore();
       _setCustomer(user, c);
       if (c.active) {
+        await _remember(user);
         // D-236: confere no servidor mesmo com o resumo dizendo Pro — o período pode ter vencido e a renovação ainda
         // não ter chegado pelo webhook. Se a conexão com a loja de agora já conferiu, não repete.
         if (_activationRuns == runs) unawaited(activate());
@@ -413,11 +549,14 @@ class BillingController extends Notifier<ProView> {
   });
 
   /// Os pacotes da offering `default` (a tela técnica). Sem conta ou sem a loja: nenhum.
-  Future<List<ProPackage>> packages() async {
+  Future<List<ProPackage>> packages() {
     final user = _user;
-    if (user == null || state is! ProReady) return const [];
-    await _ensureStore(user);
-    return _gateway.packages();
+    if (user == null || state is! ProReady) return Future.value(const []);
+    return _serial(() async {
+      if (_user != user) return const <ProPackage>[];
+      await _ensureStore(user);
+      return _gateway.packages();
+    });
   }
 
   /// "Conferir agora" da tela técnica: o servidor busca o estado da conta no RevenueCat (D-229); se o Pro do servidor
@@ -448,26 +587,39 @@ class BillingController extends Notifier<ProView> {
     }
   });
 
-  /// O app voltou ao primeiro plano: a ativação que não confirmou tenta de novo (R2). Sem ela, e com a loja dizendo
-  /// Pro, o servidor é conferido uma vez: se o período dele venceu (a renovação ainda não chegou pelo webhook), ativa
-  /// (D-236).
+  /// O app voltou ao primeiro plano. Se a loja dizia Pro (ou a ativação não confirmou), a loja é relida — o
+  /// `CustomerInfo` guardado pode estar velho (revisão, I2) — e, com ela ainda dizendo Pro: a ativação pendente tenta
+  /// de novo (R2), ou o servidor é conferido uma vez e, se o período dele venceu (a renovação ainda não chegou pelo
+  /// webhook), ativa (D-236).
   void resumed() {
     final user = _user;
-    if (user == null) return;
+    final s = state;
+    if (user == null || s is! ProReady || _resumeCheck != null) return;
+    if (!_retryOnResume && !s.customer.active) return;
+    final check = _checkOnResume(user, _life);
+    _resumeCheck = check;
+    unawaited(check.whenComplete(() => _resumeCheck = null));
+  }
+
+  Future<void> _checkOnResume(String user, _Life life) async {
+    bool current() => life.alive && _user == user;
+    if (_storeUser != user) return;
+    final ProCustomer c;
+    try {
+      c = await _gateway.customer();
+    } on Object {
+      return; // sem a loja: a próxima volta confere de novo
+    }
+    if (!current() || _storeUser != user) return;
+    _setCustomer(user, c);
+    if (!_storeSaysPro(c)) {
+      _retryOnResume = false;
+      return;
+    }
     if (_retryOnResume) {
       unawaited(activate());
       return;
     }
-    final s = state;
-    if (s is ProReady && s.customer.active && _resumeCheck == null) {
-      _resumeCheck = _checkOnResume(
-        user,
-        _life,
-      ).whenComplete(() => _resumeCheck = null);
-    }
-  }
-
-  Future<void> _checkOnResume(String user, _Life life) async {
     final ServerPro r;
     try {
       r = await ref.read(proServerApiProvider)!.current();
@@ -475,7 +627,12 @@ class BillingController extends Notifier<ProView> {
       return; // sem rede: a próxima volta confere de novo
     }
     final s = state;
-    if (!life.alive || _user != user || s is! ProReady || r.pro) return;
+    if (!current() || s is! ProReady) return;
+    _serverKnown = true;
+    if (r.pro) {
+      if (!s.serverPro) state = s.copyWith(serverPro: true);
+      return;
+    }
     state = s.copyWith(serverPro: false);
     _maybeActivate();
   }

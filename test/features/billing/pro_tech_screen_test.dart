@@ -43,6 +43,7 @@ void main() {
     AppEnv env = const AppEnv(),
     String inicial = '/_pro',
     bool apresentadorDeVerdade = false,
+    void Function()? aoLerPacotes,
   }) async {
     pro = BillingFalso(
       estado ?? ProReady(customer: proDaLoja, serverPro: true),
@@ -75,7 +76,10 @@ void main() {
         overrides: [
           accountControllerProvider.overrideWith(() => ContaFalsa(conta)),
           billingControllerProvider.overrideWith(() => pro),
-          proPackagesProvider.overrideWith((ref) async => pacotes),
+          proPackagesProvider.overrideWith((ref) async {
+            aoLerPacotes?.call();
+            return pacotes;
+          }),
           appEnvProvider.overrideWithValue(env),
           billingPlatformProvider.overrideWithValue(TargetPlatform.android),
           billingLauncherProvider.overrideWithValue((uri) async {
@@ -187,6 +191,32 @@ void main() {
     expect(texto('Marco: 10 livros'), findsOneWidget);
     await tocar(tester, 'Agora não');
     expect(find.text('Início'), findsOneWidget);
+  });
+
+  testWidgets(
+    'revisão (m6): aberta por um gatilho, os pacotes (e o RevenueCat) só depois do toque',
+    (tester) async {
+      var lidos = 0;
+      await montar(
+        tester,
+        inicial: '/_pro?motivo=books10',
+        aoLerPacotes: () => lidos++,
+      );
+      expect(lidos, 0);
+      expect(botao('Assinar o mensal'), findsNothing);
+      await tocar(tester, 'Ver os planos');
+      expect(lidos, 1);
+      expect(botao('Assinar o mensal'), findsOneWidget);
+    },
+  );
+
+  testWidgets('aberta pela pessoa (sem gatilho), os pacotes vêm direto', (
+    tester,
+  ) async {
+    var lidos = 0;
+    await montar(tester, aoLerPacotes: () => lidos++);
+    expect(lidos, 1);
+    expect(botao('Ver os planos'), findsNothing);
   });
 
   testWidgets('o convidado vê só "Entrar para assinar." (R1)', (tester) async {

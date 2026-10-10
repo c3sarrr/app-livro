@@ -6,6 +6,8 @@ import 'package:app_leitura/features/account/application/account_controller.dart
 import 'package:app_leitura/features/billing/application/billing_controller.dart';
 import 'package:app_leitura/features/billing/application/billing_providers.dart';
 import 'package:app_leitura/features/billing/domain/billing_models.dart';
+import 'package:app_leitura/features/home/application/home_providers.dart'
+    show clockProvider;
 import 'package:app_leitura/features/social/domain/social_failure.dart';
 import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,6 +42,7 @@ void main() {
           abertas.add(uri);
           return abre;
         }),
+        clockProvider.overrideWithValue(() => agora),
       ],
     );
     addTearDown(c.dispose);
@@ -75,11 +78,14 @@ void main() {
       },
     );
 
-    test('numa conta Grátis que nunca usou a loja: configura o RevenueCat só agora, e o aparelho lembra', () async {
+    test('numa conta Grátis que nunca usou a loja: configura o RevenueCat só agora, e o aparelho lembra quem comprou', () async {
       await iniciar(membro(contaA));
       expect(loja.chamadas, isEmpty);
+      loja.compra = Purchased(proDaLoja);
+      servidor.aoConferir = (pro: true, activeUntil: proAte);
+      conta.proNoServidor = true;
       await ctrl().purchase(mensal);
-      expect(loja.chamadas, [
+      expect(loja.chamadas.take(3), [
         'configure:$contaA',
         'customer',
         r'purchase:$rc_monthly',
@@ -87,11 +93,57 @@ void main() {
       expect(memoria.usadas, {contaA});
     });
 
-    test('restaurar também configura antes e lembra', () async {
+    test(
+      'restaurar também configura antes e lembra quem tinha assinatura',
+      () async {
+        await iniciar(membro(contaA));
+        loja.cliente = proDaLoja;
+        servidor.aoConferir = (pro: true, activeUntil: proAte);
+        conta.proNoServidor = true;
+        await ctrl().restore();
+        expect(loja.chamadas, ['configure:$contaA', 'customer', 'restore']);
+        expect(memoria.usadas, {contaA});
+      },
+    );
+
+    test('I3: fechar a folha da loja não marca a conta: na próxima abertura o RevenueCat fica quieto', () async {
+      await iniciar(membro(contaA));
+      loja.compra = const PurchaseCancelled();
+      await ctrl().purchase(mensal);
+      expect(memoria.usadas, isEmpty);
+    });
+
+    test(
+      'I3: uma compra que falha também não marca; o pagamento pendente marca',
+      () async {
+        await iniciar(membro(contaA));
+        loja.compra = const StoreUnavailable();
+        await ctrl().purchase(mensal);
+        expect(memoria.usadas, isEmpty);
+        loja.compra = const PurchasePending();
+        await ctrl().purchase(mensal);
+        expect(memoria.usadas, {contaA});
+      },
+    );
+
+    test('I3: restaurar sem assinatura na loja não marca', () async {
       await iniciar(membro(contaA));
       await ctrl().restore();
-      expect(loja.chamadas, ['configure:$contaA', 'customer', 'restore']);
-      expect(memoria.usadas, {contaA});
+      expect(memoria.usadas, isEmpty);
+    });
+
+    test('I4: sair no meio do restaurar: o restaurar termina e a conta antiga sai do RevenueCat', () async {
+      await iniciar(membro(contaA));
+      final segura = loja.segurarConfigure = Completer<void>();
+      final restaurando = ctrl().restore();
+      await pumpEventQueue();
+      conta.mudar(const GuestView(canSignIn: true));
+      await pumpEventQueue();
+      segura.complete();
+      await restaurando;
+      await pumpEventQueue();
+      expect(loja.chamadas.last, 'logOut');
+      expect(c.read(billingControllerProvider), isA<ProUnavailable>());
     });
 
     test('fechou a folha da loja: volta sem aviso', () async {
