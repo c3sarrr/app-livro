@@ -2,6 +2,7 @@
 // altura de linha exata, recuo pelo `PlaceholderSpan` com a conversão de posições, layout em pedaços com as
 // mesmas linhas do inteiro, regras do estilo BookNest (recuo, alinhamento, citação, lista), títulos e objetos
 // na grade de linhas.
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/features/reader/content/content_blocks.dart';
@@ -132,6 +133,128 @@ void main() {
         expect(b.lines[i].top, closeTo(i * 35.26, 1e-4));
       }
       expect(b.height, closeTo(b.lines.length * 35.26, 1e-4));
+    });
+
+    test('T01 — as letras caem na baseline exata do layout (o SkParagraph pinta em floor(ascent + 0,5) do topo '
+        'arredondado da linha; com a baseline do LineMetrics elas desciam 0,5–0,83 px), em todos os tamanhos', () async {
+      // só letras sem descendente: o pé da tinta é a baseline (o "o" passa uns centésimos)
+      const texto =
+          'amor e mais amor no meio da noite e o mar bate na areia da tarde '
+          'sem medo de amar o que ela tem nos olhos e o vento leva tudo ';
+      for (final (passo, entrelinha) in const [
+        (1, ReaderLineSpacing.justo),
+        (4, ReaderLineSpacing.medio),
+        (7, ReaderLineSpacing.solto),
+      ]) {
+        final ty = ReaderTypography.fromSettings(
+          ReaderSettings(
+            id: usuarioTeste,
+            meta: metaTeste(),
+            fontStep: passo,
+            lineSpacing: entrelinha,
+          ),
+          viewportWidth: 390,
+          viewportHeight: 844,
+        );
+        final b =
+            montar([_p(texto * 3)], com: BlockLayouter(ty)).single as LaidText;
+        const topo = 40.37; // fracionário, como as páginas
+        final rec = ui.PictureRecorder();
+        final c = ui.Canvas(rec)
+          ..scale(3)
+          ..drawRect(
+            const ui.Rect.fromLTWH(0, 0, 400, 800),
+            ui.Paint()..color = const ui.Color(0xFFFFFFFF),
+          );
+        paintTextLines(c, b, 0, b.lines.length - 1, left: 0, top: topo);
+        final img = await rec.endRecording().toImage(1200, 2400);
+        final bytes = (await img.toByteData())!;
+        img.dispose();
+        double tinta(int x, int y) =>
+            255.0 - bytes.getUint8((y * 1200 + x) * 4); // canal R, fundo branco
+        for (final l in b.lines) {
+          final base = topo + l.baseline;
+          // o perfil da tinta pelas linhas de pixel; o pé = onde cai abaixo da metade do máximo
+          final ys = [
+            for (var y = ((base - 4) * 3).floor(); y < (base + 3) * 3; y++) y,
+          ];
+          final perfil = [
+            for (final y in ys)
+              [for (var x = 30; x < 900; x++) tinta(x, y)]
+                  .reduce((a, b) => a + b),
+          ];
+          final meio = perfil.reduce(math.max) / 2;
+          double? pe;
+          for (var i = perfil.length - 1; i > 0; i--) {
+            if (perfil[i - 1] >= meio && perfil[i] < meio) {
+              final f = (perfil[i - 1] - meio) / (perfil[i - 1] - perfil[i]);
+              pe = (ys[i - 1] + 0.5 + f) / 3;
+              break;
+            }
+          }
+          // ±1/6 px: o arredondamento da baseline ao pixel do aparelho a 3× (mais o "o", uns centésimos)
+          expect(
+            pe,
+            closeTo(base, 0.2),
+            reason: 'passo $passo, linha ${l.top}',
+          );
+        }
+      }
+    });
+
+    test('T01 — o "•" da lista cai na mesma altura das letras da 1ª linha do item (a mesma baseline dos glifos)', () async {
+      for (final passo in const [1, 4, 7]) {
+        final ty = ReaderTypography.fromSettings(
+          ReaderSettings(id: usuarioTeste, meta: metaTeste(), fontStep: passo),
+          viewportWidth: 390,
+          viewportHeight: 844,
+        );
+        // o item começa com o próprio "•" no texto: as duas bolinhas, a da margem e a da linha, têm o mesmo estilo
+        final b =
+            montar([
+                  const ListItemBlock([
+                    TextRun('$listBullet amor no mar'),
+                  ], BlockStyle(listDepth: 1)),
+                ], com: BlockLayouter(ty)).single
+                as LaidText;
+        const topo = 40.37;
+        final rec = ui.PictureRecorder();
+        final c = ui.Canvas(rec)
+          ..scale(3)
+          ..drawRect(
+            const ui.Rect.fromLTWH(0, 0, 400, 300),
+            ui.Paint()..color = const ui.Color(0xFFFFFFFF),
+          );
+        paintTextLines(c, b, 0, 0, left: 0, top: topo);
+        final img = await rec.endRecording().toImage(1200, 900);
+        final bytes = (await img.toByteData())!;
+        img.dispose();
+        final w = b.bullet!.maxIntrinsicWidth;
+        // o centro vertical da tinta numa faixa de x (px lógicos), nas linhas de pixel da 1ª linha
+        double centro(double x0, double x1) {
+          final l = b.lines.first;
+          var soma = 0.0, peso = 0.0;
+          for (
+            var y = ((topo + l.top) * 3).floor();
+            y < (topo + l.top + l.height) * 3;
+            y++
+          ) {
+            for (var x = (x0 * 3).floor(); x < (x1 * 3).ceil(); x++) {
+              final t = 255.0 - bytes.getUint8((y * 1200 + x) * 4);
+              soma += t * (y + 0.5);
+              peso += t;
+            }
+          }
+          return soma / peso / 3;
+        }
+
+        final margem = centro(
+          b.bulletCenter - w / 2 - 1,
+          b.bulletCenter + w / 2 + 1,
+        );
+        final daLinha = centro(b.left, b.left + w);
+        expect(margem, closeTo(daLinha, 0.1), reason: 'passo $passo');
+      }
     });
 
     test('recuo = U+FFFC no Paragraph: as posições do parágrafo e do texto canônico se convertem', () {

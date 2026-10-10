@@ -144,6 +144,8 @@ final class PageSnapshot implements DisplayPage, PageWithSpaces {
       orElse: () => last,
     );
     final piece = l.block.pieces[l.line.piece];
+    // o meio da linha dentro do pedaço (o `pieceBaseline` é a baseline dos glifos — T01; difere da do LineMetrics
+    // em menos de 1 px, e o meio continua dentro da faixa da linha)
     final y = l.line.pieceBaseline - l.line.ascent + l.line.height / 2;
     final pos = piece.paragraph.getPositionForOffset(ui.Offset(p.dx - l.x0, y));
     final at = l.block

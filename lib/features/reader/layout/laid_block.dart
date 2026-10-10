@@ -25,6 +25,14 @@ const double sceneRuleThickness = 3;
 /// Marcador de item de lista, pendurado na margem (D-96).
 const String listBullet = '•';
 
+/// T01 — onde o SkParagraph põe as letras da linha [m] dentro do `Paragraph`: no topo da linha (a soma das alturas
+/// arredondadas das anteriores, `baseline + descent − height`, com o `height` arredondado) mais o `ascent`
+/// arredondado ao pixel lógico (`TextLine::buildTextBlob` pinta em `floor(baseline + 0,5)`, como a `AppText`
+/// anota). A `m.baseline` fica `round(altura) − altura` acima disso (0,26 px no padrão): desenhar a linha por ela
+/// punha as letras 0,5–0,83 px abaixo da baseline exata.
+double glyphBaselineOf(ui.LineMetrics m) =>
+    m.baseline + m.descent - m.height + (m.ascent + 0.5).floorToDouble();
+
 /// Uma linha com a posição exata no bloco e o pedaço de texto que ela cobre no texto canônico do item.
 final class LaidLine {
   const LaidLine({
@@ -48,7 +56,8 @@ final class LaidLine {
   final int start;
   final int end;
 
-  /// Pedaço (`Paragraph`) que desenha esta linha e a baseline dela dentro dele (a do SkParagraph).
+  /// Pedaço (`Paragraph`) que desenha esta linha e a baseline dela dentro dele: onde o SkParagraph põe as letras
+  /// ([glyphBaselineOf]).
   final int piece;
   final double pieceBaseline;
 
@@ -607,7 +616,7 @@ final class _TextTask extends BlockLayoutTask {
           start: i == 0 && first ? start : s,
           end: e,
           piece: pieceIndex,
-          pieceBaseline: m.baseline,
+          pieceBaseline: glyphBaselineOf(m),
         ),
       );
       _y += h;
@@ -754,13 +763,14 @@ void paintTextLines(
       ..drawParagraph(p, ui.Offset(x, dy))
       ..restore();
     if (i == 0 && b.bullet != null) {
+      // o "•" pela mesma baseline dos glifos das letras (T01, R1)
       final bp = b.bullet!;
       final bl = bp.computeLineMetrics().first;
       c.drawParagraph(
         bp,
         ui.Offset(
           left + b.bulletCenter - bp.maxIntrinsicWidth / 2,
-          base + line.baseline - bl.baseline,
+          base + line.baseline - glyphBaselineOf(bl),
         ),
       );
     }
