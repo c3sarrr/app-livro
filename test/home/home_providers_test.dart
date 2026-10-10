@@ -40,6 +40,7 @@ class _FakeRepository implements SyncHomeRepository {
       continueReading: base.continueReading,
       alsoReading: base.alsoReading,
       readingDay: base.readingDay,
+      dailyReview: base.dailyReview,
       forYou: base.forYou,
       club: base.club,
       recent: base.recent,

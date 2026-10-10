@@ -194,6 +194,11 @@ class _Row extends StatelessWidget {
         AppTextStyles.tagSand,
         AppColors.tagSandBg,
       ),
+      RecentStatus.read => (
+        HomeFormatters.recentStatusLabel(item.status),
+        AppTextStyles.tagRead,
+        AppColors.tagReadBg,
+      ),
     };
     final Widget cover = switch (book.cover) {
       DesignedCover(art: CoverArt.frankenstein) => FrankensteinMiniCover(

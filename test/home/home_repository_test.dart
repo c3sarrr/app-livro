@@ -28,6 +28,7 @@ void main() {
         'ClubParticipant',
         'BookClub',
         'RecentItem',
+        'DailyReview',
         'HomeSnapshot',
       ]);
       expect(CoverArt.values.map((e) => e.name), [
@@ -40,8 +41,18 @@ void main() {
         'frankenstein',
         'oAlienista',
         'senhora',
+        // T03: as artes da prancha 01
+        'brasCubas',
+        'esauEJaco',
+        'memorialDeAires',
+        'casaDePensao',
       ]);
-      expect(RecentStatus.values.map((e) => e.name), ['wantToRead', 'isNew']);
+      // T03 (D-255): "Lido"
+      expect(RecentStatus.values.map((e) => e.name), [
+        'wantToRead',
+        'isNew',
+        'read',
+      ]);
       // G08 (D-85): exemplar físico escaneado.
       expect(BookFormat.values.map((e) => e.name), ['epub', 'pdf', 'physical']);
     });
@@ -83,12 +94,13 @@ void main() {
             .map((m) => m.group(0))
             .toList();
         expect(nonFinal, isEmpty, reason: nonFinal.join('\n'));
-        // 1 + 3 (capas) + 5 + 3 + 7 + 2 + 4 + 7 + 2 + 2 + 12 + 3 + 9 campos, na ordem das classes
+        // 1 + 3 (capas) + 5 + 3 + 9 + 5 + 4 + 8 + 2 + 2 + 12 + 3 + 3 + 10 campos, na ordem das classes
         // (G08: capa desenhada/foto e `shelfIsEmpty`; G09: a capa do arquivo — `fileSha`, D-90; G12: o formato do
-        // "Continuar lendo" — o físico vai à página do livro, D-123).
+        // "Continuar lendo" — o físico vai à página do livro, D-123; T03: a página do herói, o livro de papel do
+        // Também lendo, as sessões de hoje e a revisão do dia — D-252…D-254, D-247).
         expect(
           RegExp(r'^  final ', multiLine: true).allMatches(source).length,
-          60,
+          70,
         );
       },
     );
@@ -132,7 +144,7 @@ void main() {
           timeLeft: Duration(minutes: 1),
           highlightsCount: 0,
         ),
-        AlsoReadingItem(book: book, progress: 0.1),
+        AlsoReadingItem(book: book, progress: 0.1, format: BookFormat.epub),
         ForYou(reasonAuthor: 'A', items: [book]),
         ClubParticipant(initial: 'A', color: AppColors.lavender),
         RecentItem(
@@ -325,8 +337,9 @@ void main() {
         ];
         expect(books, hasLength(9));
         expect(books.map((b) => b.id).toSet(), hasLength(9));
+        // as 9 artes da v1 (as da prancha 01 são da fixture t01)
         expect(books.map((b) => b.cover).toSet(), {
-          for (final a in CoverArt.values) DesignedCover(a),
+          for (final a in CoverArt.values.take(9)) DesignedCover(a),
         });
       },
     );

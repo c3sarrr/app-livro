@@ -17,6 +17,7 @@ import 'package:app_leitura/features/library/domain/user_book.dart';
 import 'package:app_leitura/features/reader/annotations/domain/annotation.dart';
 import 'package:app_leitura/features/reader/content/book_index.dart';
 import 'package:app_leitura/features/reader/content/ref_pages.dart';
+import 'package:app_leitura/features/reader/domain/locator.dart';
 import 'package:app_leitura/features/reader/domain/reading_position.dart';
 import 'package:app_leitura/features/reader/domain/reading_session.dart';
 import 'package:drift/native.dart';
@@ -30,6 +31,9 @@ import '../support/reader_harness.dart' show domCasmurroEpub;
 
 /// São Paulo (sem horário de verão).
 const Duration _sp = Duration(hours: -3);
+
+/// Outra conta no mesmo aparelho (as linhas dela não contam).
+const String _outroDono = 'a1b2c3d4-0000-4000-8000-000000000001';
 
 /// Segunda 05/10/2026, 20:00 em São Paulo.
 final DateTime _agora = DateTime.utc(2026, 10, 5, 23);
@@ -73,12 +77,16 @@ ReadingPosition _posicao(
   UserBook livro, {
   required double progresso,
   int capitulo = 0,
+  int pagina = 1,
   DateTime? em,
 }) => ReadingPosition(
   id: livro.id,
   meta: metaTeste(em: em ?? t0Teste, userId: livro.meta.userId),
-  locator: localizadorTeste(),
-  refPage: 1,
+  // livro de papel: a T04 define o localizador; aqui, um objeto qualquer (o banco só exige JSON de objeto)
+  locator: livro.format == BookFileFormat.physical
+      ? RawLocator({'type': 'paper', 'page': pagina})
+      : localizadorTeste(pagina: pagina),
+  refPage: pagina,
   chapterIndex: capitulo,
   progression: progresso,
 );
@@ -91,6 +99,7 @@ ReadingSession _sessao(
   int? paginas,
   String dono = usuarioTeste,
   bool apagada = false,
+  SessionSource origem = SessionSource.auto,
 }) => ReadingSession(
   id: idTeste(5000 + _sessoes++),
   meta: metaTeste(em: inicio, userId: dono, apagado: apagada),
@@ -99,7 +108,7 @@ ReadingSession _sessao(
   endedAt: inicio.add(Duration(seconds: segundos)),
   activeSeconds: segundos,
   pagesViewed: paginas,
-  source: SessionSource.auto,
+  source: origem,
 );
 
 /// Espera curta das gravações em rajada nos testes (a do app é 300 ms).
@@ -191,11 +200,17 @@ void main() {
       expect(s.forYou, isNull);
       expect(s.club, isNull);
       expect(s.recent, isEmpty);
+      expect(
+        s.dailyReview,
+        isNull,
+        reason: 'D-247: a revisão só na fixture até a T05',
+      );
       final d = s.readingDay;
       expect(
         [d.goalMinutes, d.readMinutes, d.streakDays, d.pagesToday],
         [30, 0, 0, 0],
       );
+      expect(d.sessionsToday, 0);
       expect([d.highlightsToday, d.badgeTargetDays], [0, 7]);
       expect(d.week.map((w) => w.date), [
         for (var dia = 29; dia <= 30; dia++) DateTime(2026, 9, dia),
@@ -623,8 +638,8 @@ void main() {
     });
   });
 
-  group('recém-chegados (D-85)', () {
-    test('só nunca abertos, fora lidos, abandonados e os que já estão em leitura (cada livro aparece uma vez — G08.6)', () async {
+  group('recém-chegados (D-85, D-255)', () {
+    test('só nunca abertos, "quero ler" ou "lido"; fora abandonados e os que já estão em leitura (cada livro aparece uma vez — G08.6)', () async {
       await gravar([
         _livro(1, titulo: 'Quero', adicionado: _local(10, 1, 9)),
         _livro(
@@ -661,6 +676,7 @@ void main() {
       ]);
       final s = await repo.read(_agora);
       expect(s.recent.map((x) => (x.book.title, x.status, x.format)), [
+        ('Lido', RecentStatus.read, BookFormat.epub),
         ('Quero', RecentStatus.isNew, BookFormat.epub),
         ('PDF', RecentStatus.isNew, BookFormat.pdf),
       ]);
@@ -935,26 +951,218 @@ void main() {
       expect(emitidos, hasLength(2));
     });
 
-    test(
-      'um livro que deixa de ser "quero ler" sai dos recém-chegados',
-      () async {
-        final b = _livro(1, titulo: 'X');
-        await gravar([b]);
-        final emitidos = <HomeSnapshot>[];
-        final sub = repo.watch(() => _agora).listen(emitidos.add);
-        addTearDown(sub.cancel);
-        await _assentar();
-        await gravar([
-          b.copyWith(
-            status: ShelfStatus.finished,
-            meta: metaTeste(em: t0Teste.add(const Duration(minutes: 1))),
-            finishedAt: Nullable(_local(10, 5, 9)),
+    test('um livro marcado como lido vira "Lido" (D-255); abandonado, sai dos recém-chegados', () async {
+      final b = _livro(1, titulo: 'X');
+      await gravar([b]);
+      final emitidos = <HomeSnapshot>[];
+      final sub = repo.watch(() => _agora).listen(emitidos.add);
+      addTearDown(sub.cancel);
+      await _assentar();
+      expect(emitidos.last.recent.single.status, RecentStatus.wantToRead);
+      await gravar([
+        b.copyWith(
+          status: ShelfStatus.finished,
+          meta: metaTeste(em: t0Teste.add(const Duration(minutes: 1))),
+          finishedAt: Nullable(_local(10, 5, 9)),
+        ),
+      ]);
+      await _assentar();
+      expect(emitidos.last.recent.single.status, RecentStatus.read);
+      await gravar([
+        b.copyWith(
+          status: ShelfStatus.abandoned,
+          meta: metaTeste(em: t0Teste.add(const Duration(minutes: 2))),
+        ),
+      ]);
+      await _assentar();
+      expect(emitidos.last.recent, isEmpty);
+    });
+  });
+
+  group('T03 — a Início 01 (D-252…D-255)', () {
+    test('herói: "pág. X de Y" = página da posição e total do livro; sem um dos dois, nulo (D-254)', () async {
+      final comTudo = _livro(
+        1,
+        titulo: 'Com tudo',
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 9),
+        paginas: 256,
+      );
+      await gravar([comTudo]);
+      await ReadingPositionsDao(db)
+          .upsert(_posicao(comTudo, progresso: 0.62113, pagina: 159));
+      var h = (await repo.read(_agora)).continueReading!;
+      expect(
+        (h.refPage, h.refPagesTotal, h.format),
+        (159, 256, BookFormat.epub),
+      );
+
+      // sem total de páginas de referência (livro sem índice ainda): a página fica, o total não
+      await gravar([comTudo.copyWith(refPagesTotal: const Nullable(null))]);
+      h = (await repo.read(_agora)).continueReading!;
+      expect((h.refPage, h.refPagesTotal), (159, null));
+
+      // sem posição (nunca aberto no app, mas "lendo"): nem a página
+      final semPosicao = _livro(
+        2,
+        titulo: 'Papel sem posição',
+        formato: BookFileFormat.physical,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 10),
+        paginas: 300,
+      );
+      await gravar([semPosicao]);
+      h = (await repo.read(_agora)).continueReading!;
+      expect(h.book.title, 'Papel sem posição');
+      expect(
+        (h.refPage, h.refPagesTotal, h.format),
+        (null, 300, BookFormat.physical),
+      );
+    });
+
+    test('Também lendo: formato; papel com página → página e progresso; papel sem página → tempo já lido; '
+        'e-book sem nada disso (D-252, D-253)', () async {
+      final heroi = _livro(
+        1,
+        titulo: 'Herói',
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 19),
+      );
+      final papelSemPagina = _livro(
+        2,
+        titulo: 'Papel sem página',
+        formato: BookFileFormat.physical,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 8),
+      );
+      final papelComPagina = _livro(
+        3,
+        titulo: 'Papel com página',
+        formato: BookFileFormat.physical,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 4, 8),
+        paginas: 425,
+      );
+      final ebook = _livro(
+        4,
+        titulo: 'E-book',
+        status: ShelfStatus.reading,
+        aberto: _local(10, 3, 8),
+      );
+      final papelSemSessao = _livro(
+        5,
+        titulo: 'Papel sem sessão',
+        formato: BookFileFormat.physical,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 2, 8),
+      );
+      await gravar([
+        heroi,
+        papelSemPagina,
+        papelComPagina,
+        ebook,
+        papelSemSessao,
+      ]);
+      await ReadingPositionsDao(db)
+          .upsert(_posicao(papelComPagina, progresso: 0.81, pagina: 344));
+      await ReadingPositionsDao(db)
+          .upsert(_posicao(ebook, progresso: 0.34, pagina: 68));
+      await sessoes([
+        // 3h 40min 59s em sessões de dias diferentes e de qualquer origem (D-252)
+        _sessao(papelSemPagina, _local(9, 20, 21), segundos: 2 * 3600),
+        _sessao(
+          papelSemPagina,
+          _local(10, 5, 7),
+          segundos: 100 * 60 + 59,
+          origem: SessionSource.timer,
+        ),
+        // não contam: apagada e de outro dono
+        _sessao(papelSemPagina, _local(10, 1, 7), segundos: 999, apagada: true),
+        _sessao(
+          papelSemPagina,
+          _local(10, 1, 8),
+          segundos: 999,
+          dono: _outroDono,
+        ),
+        // as do e-book e as do papel com página não aparecem no cartão
+        _sessao(ebook, _local(10, 3, 8), segundos: 600),
+        _sessao(papelComPagina, _local(10, 4, 8), segundos: 600),
+      ]);
+      final a = (await repo.read(_agora)).alsoReading;
+      expect(
+        a.map(
+          (x) => (x.book.title, x.format, x.paperPage, x.readTime, x.progress),
+        ),
+        [
+          (
+            'Papel sem página',
+            BookFormat.physical,
+            null,
+            const Duration(hours: 3, minutes: 40, seconds: 59),
+            0.0,
           ),
-        ]);
-        await _assentar();
-        expect(emitidos.last.recent, isEmpty);
-      },
-    );
+          ('Papel com página', BookFormat.physical, 344, null, 0.81),
+          ('E-book', BookFormat.epub, null, null, 0.34),
+          ('Papel sem sessão', BookFormat.physical, null, null, 0.0),
+        ],
+      );
+    });
+
+    test('"N sessões": as que começaram hoje no fuso do aparelho, sem as apagadas nem as de outro dono', () async {
+      final b = _livro(
+        1,
+        status: ShelfStatus.reading,
+        aberto: _local(10, 5, 9),
+      );
+      await gravar([b]);
+      await sessoes([
+        _sessao(b, _local(10, 5, 0, 30), segundos: 60), // 03:30 UTC: hoje
+        _sessao(
+          b,
+          _local(10, 5, 19),
+          segundos: 15,
+          origem: SessionSource.timer,
+        ),
+        // 23:50 de ontem até 00:20 de hoje: conta no dia em que começou
+        _sessao(b, _local(10, 4, 23, 50), segundos: 1800),
+        _sessao(b, _local(10, 5, 12), segundos: 600, apagada: true),
+        _sessao(b, _local(10, 5, 13), segundos: 600, dono: _outroDono),
+      ]);
+      expect((await repo.read(_agora)).readingDay.sessionsToday, 2);
+    });
+
+    test('recém-chegados: "Lido" vale mais que "Novo"; o lido já aberto não entra (D-255)', () async {
+      await gravar([
+        _livro(
+          1,
+          titulo: 'Lido de hoje',
+          status: ShelfStatus.finished,
+          adicionado: _local(10, 5, 9),
+        ),
+        _livro(
+          2,
+          titulo: 'Lido antigo',
+          formato: BookFileFormat.physical,
+          status: ShelfStatus.finished,
+          adicionado: _local(9, 1, 9),
+        ),
+        _livro(
+          3,
+          titulo: 'Lido no app',
+          status: ShelfStatus.finished,
+          adicionado: _local(10, 5, 10),
+          aberto: _local(10, 5, 11),
+        ),
+      ]);
+      expect(
+        (await repo.read(_agora)).recent
+            .map((x) => (x.book.title, x.status, x.format)),
+        [
+          ('Lido de hoje', RecentStatus.read, BookFormat.epub),
+          ('Lido antigo', RecentStatus.read, BookFormat.physical),
+        ],
+      );
+    });
   });
 
   group('mundo de referência no banco (D-34, D-60)', () {

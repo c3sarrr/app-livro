@@ -17,13 +17,20 @@ enum CoverArt {
   frankenstein,
   oAlienista,
   senhora,
+
+  /// Prancha 01 (T03): o Brás Cubas de cartola do Também lendo e as 3 recomendações do Para você.
+  brasCubas,
+  esauEJaco,
+  memorialDeAires,
+  casaDePensao,
 }
 
-/// Formato do livro (rótulo "EPUB"/"PDF"/"Físico" só no formatador). `physical` = exemplar escaneado (D-85).
+/// Formato do livro (rótulos "EPUB"/"PDF"/"Papel" e o selo "E-BOOK"/"PDF"/"PAPEL" só no formatador).
+/// `physical` = livro de papel (exemplar escaneado — D-85).
 enum BookFormat { epub, pdf, physical }
 
-/// Situação de um livro recém-chegado (rótulo "Quero ler"/"Novo" só no formatador).
-enum RecentStatus { wantToRead, isNew }
+/// Situação de um livro recém-chegado (rótulo "Quero ler"/"Novo"/"Lido" só no formatador — D-88, D-255).
+enum RecentStatus { wantToRead, isNew, read }
 
 /// Capa de um livro: a arte desenhada do arquivo ([DesignedCover], só a fixture) ou a foto real
 /// ([PhotoCover], D-79). Sem foto disponível, a seção desenha a capa gerada a partir do título e do autor.
@@ -111,6 +118,8 @@ class ContinueReading {
     this.timeLeft,
     required this.highlightsCount,
     this.format = BookFormat.epub,
+    this.refPage,
+    this.refPagesTotal,
   });
 
   final Book book;
@@ -128,16 +137,35 @@ class ContinueReading {
   /// Tempo estimado para terminar o livro; `null` sem sessões para estimar (o rótulo some — D-85).
   final Duration? timeLeft;
   final int highlightsCount;
+
+  /// Página de referência atual e total (G10) — a pílula "pág. 159 de 256"; sem um dos dois, a pílula some
+  /// (D-254).
+  final int? refPage;
+  final int? refPagesTotal;
 }
 
 @immutable
 class AlsoReadingItem {
-  const AlsoReadingItem({required this.book, required this.progress});
+  const AlsoReadingItem({
+    required this.book,
+    required this.progress,
+    required this.format,
+    this.paperPage,
+    this.readTime,
+  });
 
   final Book book;
 
   /// Fração lida (0–1).
   final double progress;
+  final BookFormat format;
+
+  /// Livro de papel: a página registrada (o cartão mostra o anel e "Papel · pág. N" — D-253); `null` = sem
+  /// página (o "play" e o tempo já lido).
+  final int? paperPage;
+
+  /// Livro de papel: o tempo já lido, a soma das sessões do livro (D-252); `null` = nenhuma sessão.
+  final Duration? readTime;
 }
 
 @immutable
@@ -165,6 +193,7 @@ class ReadingDay {
     required this.streakDays,
     required this.pagesToday,
     required this.highlightsToday,
+    required this.sessionsToday,
     required this.week,
     required this.badgeTargetDays,
   });
@@ -174,6 +203,9 @@ class ReadingDay {
   final int streakDays;
   final int pagesToday;
   final int highlightsToday;
+
+  /// Sessões de leitura que começaram hoje (dia local) — "2 sessões".
+  final int sessionsToday;
 
   /// Segunda → hoje (7 dias).
   final List<WeekDayStat> week;
@@ -251,6 +283,23 @@ class RecentItem {
   final RecentStatus status;
 }
 
+/// A revisão dos grifos do dia ("Seus grifos de hoje"). Só a fixture tem até a T05 (D-247).
+@immutable
+class DailyReview {
+  const DailyReview({
+    required this.highlights,
+    required this.minutes,
+    required this.bookTitles,
+  });
+
+  /// Grifos do baralho do dia e o tempo estimado ("5 GRIFOS · 2 MIN").
+  final int highlights;
+  final int minutes;
+
+  /// Livros de onde os grifos vêm, na ordem do subtítulo (ao menos um).
+  final List<String> bookTitles;
+}
+
 @immutable
 class HomeSnapshot {
   const HomeSnapshot({
@@ -259,6 +308,7 @@ class HomeSnapshot {
     required this.continueReading,
     required this.alsoReading,
     required this.readingDay,
+    required this.dailyReview,
     required this.forYou,
     required this.club,
     required this.recent,
@@ -277,6 +327,9 @@ class HomeSnapshot {
 
   /// Existe sempre (zerado sem leitura — D-78).
   final ReadingDay readingDay;
+
+  /// `null` → o cartão "Seus grifos de hoje" some (com dados reais até a T05 — D-247).
+  final DailyReview? dailyReview;
 
   /// `null` → a seção some (D-81).
   final ForYou? forYou;
@@ -297,6 +350,7 @@ class HomeSnapshot {
     continueReading: continueReading,
     alsoReading: alsoReading,
     readingDay: readingDay,
+    dailyReview: dailyReview,
     forYou: forYou,
     club: club,
     recent: recent,

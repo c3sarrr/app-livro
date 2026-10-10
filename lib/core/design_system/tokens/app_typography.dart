@@ -381,6 +381,13 @@ abstract final class AppTextStyles {
     color: AppColors.tagLavenderFg,
   );
 
+  /// recent.rowN.tag "Lido" (prancha 01, D-255)
+  static final TextStyle tagRead = AppFonts.figtree(
+    12,
+    FontWeight.w700,
+    color: AppColors.tagReadFg,
+  );
+
   /// recent.row2.tag
   static final TextStyle tagSand = AppFonts.figtree(
     12,

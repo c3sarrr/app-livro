@@ -36,6 +36,7 @@ ReadingDay _dia({int lidos = 0, int meta = 30, int seq = 0, int selo = 7}) =>
       streakDays: seq,
       pagesToday: 0,
       highlightsToday: 0,
+      sessionsToday: 0,
       week: [
         for (var d = 14; d <= 20; d++)
           WeekDayStat(
@@ -62,6 +63,7 @@ HomeSnapshot _vazia({
   continueReading: lendo,
   alsoReading: tambem,
   readingDay: dia ?? _dia(),
+  dailyReview: null,
   forYou: paraVoce,
   club: null,
   recent: recentes,
@@ -199,7 +201,7 @@ void main() {
         findsOneWidget,
       );
       expect(_key('recent'), findsOneWidget);
-      expect(findAppText('Machado de Assis · Físico'), findsOneWidget);
+      expect(findAppText('Machado de Assis · Papel'), findsOneWidget);
       expect(findAppText('Quero ler'), findsOneWidget);
       expect(
         find.descendant(
@@ -336,7 +338,13 @@ void main() {
                 progress: 0.4,
                 highlightsCount: 0,
               ),
-              tambem: const [AlsoReadingItem(book: b, progress: 0.1)],
+              tambem: const [
+                AlsoReadingItem(
+                  book: b,
+                  progress: 0.1,
+                  format: BookFormat.epub,
+                ),
+              ],
               paraVoce: const ForYou(
                 reasonAuthor: 'Clarice Lispector',
                 items: [

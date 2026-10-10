@@ -146,6 +146,10 @@ abstract final class AppColors {
   static const Color tagLavenderFg = Color(0xFF3B2D86);
   static const Color tagSandBg = Color(0xFFEFE7D7);
 
+  /// Pílula "Lido" dos Recém-chegados (prancha 01, D-255).
+  static const Color tagReadBg = Color(0xFFE1EDD0);
+  static const Color tagReadFg = Color(0xFF2E5314);
+
   // Translúcidas
 
   /// rgba(0,0,0,.22) lombada Dom Casmurro.

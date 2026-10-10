@@ -181,6 +181,27 @@ final class LocalHomeRepository implements HomeRepository {
       timeLeft: _timeLeft(hero, data),
       highlightsCount: data.heroAnnotations,
       format: _formatOf(hero.format),
+      // D-254: a página de referência da posição e o total do livro (cada um some sozinho)
+      refPage: hero.refPage,
+      refPagesTotal: hero.refPagesTotal,
+    );
+  }
+
+  /// Um livro do Também lendo (D-252, D-253): o de papel com página registrada mostra a página e o anel; o de
+  /// papel sem página, o tempo já lido (a soma das sessões do livro).
+  AlsoReadingItem _alsoReading(_ShelfBook b, _Data data) {
+    final format = _formatOf(b.format);
+    final paperPage = format == BookFormat.physical ? b.refPage : null;
+    final seconds = data.secondsByBook[b.id];
+    return AlsoReadingItem(
+      book: b.book,
+      progress: b.progress,
+      format: format,
+      paperPage: paperPage,
+      readTime:
+          format == BookFormat.physical && paperPage == null && seconds != null
+          ? Duration(seconds: seconds)
+          : null,
     );
   }
 
@@ -199,11 +220,15 @@ final class LocalHomeRepository implements HomeRepository {
     final reading = data.books.where((b) => b.status == 'reading').toList()
       ..sort(_byLastOpened);
     final hero = reading.isEmpty ? null : reading.first;
-    // Recém-chegados: nunca abertos e ainda "quero ler" — um livro em leitura já está em Continue lendo /
-    // Também lendo e não se repete aqui (G08.6; antes, um exemplar físico "lendo" aparecia nos dois).
+    // Recém-chegados: nunca abertos, "quero ler" ou "lido" (D-255) — um livro em leitura já está em Continue
+    // lendo / Também lendo e não se repete aqui (G08.6; antes, um exemplar físico "lendo" aparecia nos dois).
     final recent =
         data.books
-            .where((b) => b.lastOpenedAt == null && b.status == 'want_to_read')
+            .where(
+              (b) =>
+                  b.lastOpenedAt == null &&
+                  (b.status == 'want_to_read' || b.status == 'finished'),
+            )
             .toList()
           ..sort((a, b) {
             final c = b.addedAt.compareTo(a.addedAt);
@@ -233,10 +258,11 @@ final class LocalHomeRepository implements HomeRepository {
       user: guest,
       continueReading: hero == null ? null : _continue(hero, data),
       alsoReading: List.unmodifiable([
-        for (final b in reading.skip(1))
-          AlsoReadingItem(book: b.book, progress: b.progress),
+        for (final b in reading.skip(1)) _alsoReading(b, data),
       ]),
       readingDay: _readingDay(data, today),
+      // D-247: o baralho do dia nasce na T05; até lá o cartão da revisão some com dados reais
+      dailyReview: null,
       forYou: forYou,
       club: club,
       recent: List.unmodifiable([
@@ -244,8 +270,11 @@ final class LocalHomeRepository implements HomeRepository {
           RecentItem(
             book: b.book,
             format: _formatOf(b.format),
-            // D-88: "Novo" para quem chegou hoje ou nos 6 dias anteriores (a janela da D-82); depois "Quero ler"
-            status: today.difference(_localDay(b.addedAt)).inDays < newDays
+            // D-255: "Lido" vale mais que tudo; D-88: "Novo" para quem chegou hoje ou nos 6 dias anteriores (a
+            // janela da D-82); depois "Quero ler"
+            status: b.status == 'finished'
+                ? RecentStatus.read
+                : today.difference(_localDay(b.addedAt)).inDays < newDays
                 ? RecentStatus.isNew
                 : RecentStatus.wantToRead,
           ),
@@ -333,6 +362,7 @@ final class LocalHomeRepository implements HomeRepository {
       streakDays: streak,
       pagesToday: data.days[key(today)]?.pages ?? 0,
       highlightsToday: data.highlightsToday,
+      sessionsToday: data.days[key(today)]?.sessions ?? 0,
       week: List.unmodifiable(week),
       badgeTargetDays: data.badgeTargetDays ?? defaultBadgeTargetDays,
     );
@@ -379,6 +409,7 @@ final class _ShelfBook {
       status = r.read<String>('status'),
       chaptersTotal = r.readNullable<int>('chapters_total'),
       refPagesTotal = r.readNullable<int>('ref_pages_total'),
+      refPage = r.readNullable<int>('ref_page'),
       coverRef = r.readNullable<String>('cover_ref'),
       isbn13 = r.readNullable<String>('isbn13'),
       contentSha256 = r.readNullable<String>('content_sha256'),
@@ -398,6 +429,9 @@ final class _ShelfBook {
   final String status;
   final int? chaptersTotal;
   final int? refPagesTotal;
+
+  /// Página de referência da posição (`null` sem posição).
+  final int? refPage;
   final String? coverRef;
   final String? isbn13;
   final String? contentSha256;
@@ -419,13 +453,14 @@ final class _ShelfBook {
   );
 }
 
-/// Segundos e páginas de um dia local.
-typedef _Day = ({int seconds, int pages});
+/// Segundos, páginas e sessões de um dia local.
+typedef _Day = ({int seconds, int pages, int sessions});
 
 final class _Data {
   _Data({
     required this.books,
     required this.days,
+    required this.secondsByBook,
     required this.heroAnnotations,
     required this.heroNumerals,
     required this.highlightsToday,
@@ -439,6 +474,9 @@ final class _Data {
 
   /// 'AAAA-MM-DD' local → soma do dia.
   final Map<String, _Day> days;
+
+  /// Livro → segundos lidos (todas as sessões, de qualquer dia — D-252); sem sessão, o livro não aparece.
+  final Map<String, int> secondsByBook;
   final int heroAnnotations;
 
   /// G20 (D-206): o numeral de cada capítulo do livro do herói (vazio sem índice ou sem herói).
@@ -554,7 +592,8 @@ final class _Reader {
         'SELECT b.id, b.title, b.author_display, b.format, b.status, b.chapters_total, '
         'b.ref_pages_total, b.cover_ref, b.isbn13, b.content_sha256, b.added_at, b.last_opened_at, '
         'b.started_at, '
-        'p.chapter_index, CAST(p.progression AS REAL) AS progression, p.updated_at AS position_at '
+        'p.chapter_index, p.ref_page, CAST(p.progression AS REAL) AS progression, '
+        'p.updated_at AS position_at '
         'FROM user_books b LEFT JOIN reading_positions p '
         'ON p.id = b.id AND p.user_id = b.user_id AND p.deleted_at IS NULL '
         'WHERE b.user_id = ?1 AND b.deleted_at IS NULL',
@@ -586,6 +625,7 @@ final class _Reader {
     // Sessões somadas por dia local aqui, não no SQL: o `date()` do SQLite não lê todos os formatos que o
     // servidor manda e usaria um fuso só para todas (revisão da G08).
     final days = <String, _Day>{};
+    final secondsByBook = <String, int>{};
     final samples = <(DateTime, SpeedSample)>[];
     for (final r in await _all(
       'SELECT started_at, active_seconds, pages_viewed, user_book_id FROM reading_sessions '
@@ -601,13 +641,16 @@ final class _Reader {
       days[day] = (
         seconds: (d?.seconds ?? 0) + seconds,
         pages: (d?.pages ?? 0) + pages,
+        sessions: (d?.sessions ?? 0) + 1,
       );
+      final book = r.read<String>('user_book_id');
+      secondsByBook[book] = (secondsByBook[book] ?? 0) + seconds;
       samples.add((
         start,
         (
           activeSeconds: seconds,
           pagesViewed: pages,
-          charsPerRefPage: perRefPage(r.read<String>('user_book_id')),
+          charsPerRefPage: perRefPage(book),
         ),
       ));
     }
@@ -650,6 +693,7 @@ final class _Reader {
     return _Data(
       books: books,
       days: days,
+      secondsByBook: secondsByBook,
       heroAnnotations: heroAnnotations,
       heroNumerals: heroNumerals,
       highlightsToday: highlightsToday,

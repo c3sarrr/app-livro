@@ -18,6 +18,7 @@ ReadingDay _dia({int lidos = 0, int meta = 30, int seq = 0, int selo = 7}) =>
       streakDays: seq,
       pagesToday: 0,
       highlightsToday: 0,
+      sessionsToday: 0,
       week: const [],
       badgeTargetDays: selo,
     );
@@ -67,6 +68,7 @@ void main() {
           continueReading: null,
           alsoReading: const [],
           readingDay: _dia(),
+          dailyReview: null,
           forYou: null,
           club: null,
           recent: const [],
@@ -88,6 +90,7 @@ void main() {
         continueReading: null,
         alsoReading: const [],
         readingDay: _dia(),
+        dailyReview: null,
         forYou: null,
         club: null,
         recent: const [],
@@ -111,8 +114,8 @@ void main() {
   });
 
   group('textos novos', () {
-    test('exemplar físico: "Físico" (D-85)', () {
-      expect(HomeFormatters.formatLabel(BookFormat.physical), 'Físico');
+    test('livro de papel: "Papel" (D-85; nome da prancha 01 — D-255)', () {
+      expect(HomeFormatters.formatLabel(BookFormat.physical), 'Papel');
       expect(
         HomeFormatters.recentSubtitle(
           const RecentItem(
@@ -121,7 +124,7 @@ void main() {
             status: RecentStatus.wantToRead,
           ),
         ),
-        'Clarice Lispector · Físico',
+        'Clarice Lispector · Papel',
       );
     });
 

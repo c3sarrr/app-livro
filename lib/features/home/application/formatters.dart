@@ -78,6 +78,29 @@ abstract final class HomeFormatters {
   static String chapterLabel(int chapter, int totalChapters) =>
       'Cap. $chapter de $totalChapters';
 
+  /// Página de referência no herói (D-254): "pág. 159 de 256".
+  static String pageLabel(int page, int totalPages) =>
+      'pág. $page de $totalPages';
+
+  /// Selo do formato no herói (D-254): "E-BOOK" · "PDF" · "PAPEL".
+  static String formatBadge(BookFormat format) => switch (format) {
+    BookFormat.epub => 'E-BOOK',
+    BookFormat.pdf => 'PDF',
+    BookFormat.physical => 'PAPEL',
+  };
+
+  /// Pílula do livro de papel no Também lendo (D-252, D-253): com página, "Papel · pág. 344"; sem página, o
+  /// tempo já lido ("Papel · 3h 40min"); sem nenhuma sessão, só "Papel".
+  static String paperMeta({int? page, Duration? readTime}) {
+    final label = formatLabel(BookFormat.physical);
+    if (page != null) return '$label · pág. $page';
+    if (readTime != null) return '$label · ${durationLabel(readTime)}';
+    return label;
+  }
+
+  /// Título onde a prancha abrevia ("Brás Cubas"); sem título curto, o título.
+  static String bookTitleShort(Book book) => book.shortTitle ?? book.title;
+
   /// 0,62 → "62%".
   static String percent(double progress) => '${(progress * 100).round()}%';
 
@@ -110,6 +133,22 @@ abstract final class HomeFormatters {
   /// "24 páginas", "2 destaques", "12 dias" (singular só para 1).
   static String countLabel(int count, String singular, String plural) =>
       '$count ${count == 1 ? singular : plural}';
+
+  /// Sessões de hoje: "2 sessões" · "1 sessão".
+  static String sessionsLabel(int sessions) =>
+      countLabel(sessions, 'sessão', 'sessões');
+
+  /// Cabeçalho do cartão da revisão: "REVISÃO · 5 GRIFOS · 2 MIN".
+  static String reviewKicker(int highlights, int minutes) =>
+      'REVISÃO · ${countLabel(highlights, 'GRIFO', 'GRIFOS')} · $minutes MIN';
+
+  /// De onde vêm os grifos da revisão: "De Dom Casmurro, Quincas Borba e Iracema.".
+  static String reviewSubtitle(List<String> bookTitles) {
+    assert(bookTitles.isNotEmpty, 'a revisão tem ao menos um livro');
+    final last = bookTitles.last;
+    final rest = bookTitles.sublist(0, bookTitles.length - 1);
+    return rest.isEmpty ? 'De $last.' : 'De ${rest.join(', ')} e $last.';
+  }
 
   /// "Mais " + **"2 dias"** + " para o selo de 14 dias"; selo alcançado → "Selo de " + **"14 dias"** +
   /// " conquistado" (D-83 — estado que o arquivo não desenha).
@@ -169,21 +208,22 @@ abstract final class HomeFormatters {
   static String userProgressLabel(double progress) =>
       'Você em ${percent(progress)}';
 
-  /// "EPUB" · "PDF" · "Físico" (exemplar escaneado — D-85).
+  /// "EPUB" · "PDF" · "Papel" (livro de papel — D-255; a v1 dizia "Físico").
   static String formatLabel(BookFormat format) => switch (format) {
     BookFormat.epub => 'EPUB',
     BookFormat.pdf => 'PDF',
-    BookFormat.physical => 'Físico',
+    BookFormat.physical => 'Papel',
   };
 
   /// "Mary Shelley · EPUB".
   static String recentSubtitle(RecentItem item) =>
       '${item.book.author} · ${formatLabel(item.format)}';
 
-  /// "Quero ler" · "Novo".
+  /// "Quero ler" · "Novo" · "Lido" (D-255).
   static String recentStatusLabel(RecentStatus status) => switch (status) {
     RecentStatus.wantToRead => 'Quero ler',
     RecentStatus.isNew => 'Novo',
+    RecentStatus.read => 'Lido',
   };
 
   /// 24/09/2026 → "QUI".
@@ -213,6 +253,16 @@ abstract final class HomeFormatters {
   /// "Destaques e notas deste livro (14)".
   static String highlightsAria(int highlightsCount) =>
       'Destaques e notas deste livro ($highlightsCount)';
+
+  /// A lupa do cabeçalho (sem ação até a busca ter prancha — D-243 b).
+  static const String searchAria = 'Buscar livros';
+
+  /// "Ler agora" do Seu dia (sem ação até a T04 — D-247).
+  static const String readNowAria = 'Iniciar leitura (cronômetro)';
+
+  /// O "play" do livro de papel (sem ação até a T04 — D-247): "Iniciar leitura de Brás Cubas".
+  static String startReadingAria(Book book) =>
+      'Iniciar leitura de ${bookTitleShort(book)}';
 
   /// "Mais opções para Frankenstein".
   static String moreOptionsAria(Book book) => 'Mais opções para ${book.title}';

@@ -113,8 +113,16 @@ abstract final class TelaInicio {
   );
 
   static final List<AlsoReadingItem> tambemLendo = List.unmodifiable([
-    AlsoReadingItem(book: mrsDalloway, progress: _progresso(Slugs.mrsDalloway)),
-    AlsoReadingItem(book: pridePrejudice, progress: _progresso(Slugs.orgulho)),
+    AlsoReadingItem(
+      book: mrsDalloway,
+      progress: _progresso(Slugs.mrsDalloway),
+      format: _formato(Slugs.mrsDalloway),
+    ),
+    AlsoReadingItem(
+      book: pridePrejudice,
+      progress: _progresso(Slugs.orgulho),
+      format: _formato(Slugs.orgulho),
+    ),
   ]);
 
   static final ForYou paraVoce = ForYou(
@@ -158,12 +166,17 @@ abstract final class TelaInicio {
       for (final s in m.sessoes)
         if (s.startedAt.add(m.fuso).day == hoje.day) s.pagesViewed ?? 0,
     ].fold(0, (a, b) => a + b);
+    final sessoesHoje = [
+      for (final s in m.sessoes)
+        if (s.startedAt.add(m.fuso).day == hoje.day) s,
+    ].length;
     return ReadingDay(
       goalMinutes: m.metas.dailyMinutes,
       readMinutes: minutos(hoje.day),
       streakDays: sequencia,
       pagesToday: paginasHoje,
       highlightsToday: grifosHojeNaInicio,
+      sessionsToday: sessoesHoje,
       week: List.unmodifiable([
         for (final MapEntry(key: dia, value: altura) in alturaDasBarras.entries)
           WeekDayStat(
@@ -204,6 +217,7 @@ abstract final class TelaInicio {
     continueReading: continuarLendo,
     alsoReading: tambemLendo,
     readingDay: diaDeLeitura(),
+    dailyReview: null,
     forYou: paraVoce,
     club: clube(),
     recent: recentes,

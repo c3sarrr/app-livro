@@ -574,6 +574,7 @@ void main() {
               continueReading: base.continueReading,
               alsoReading: base.alsoReading,
               readingDay: base.readingDay,
+              dailyReview: base.dailyReview,
               forYou: forYou,
               club: base.club,
               recent: base.recent,

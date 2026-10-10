@@ -980,6 +980,7 @@ void main() {
                   continueReading: base.continueReading,
                   alsoReading: base.alsoReading,
                   readingDay: base.readingDay,
+                  dailyReview: base.dailyReview,
                   forYou: base.forYou,
                   club: data,
                   recent: base.recent,
