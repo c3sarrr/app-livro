@@ -26,7 +26,7 @@ void main() {
       expect(HomeFormatters.formatBadge(BookFormat.physical), 'PAPEL');
     });
 
-    test('paperMeta: página, tempo já lido ou só "Papel" (D-252, D-253)', () {
+    test('paperMeta: página, tempo já lido ou só "Papel" — sem sessão ou com menos de 1 min (D-252, D-253)', () {
       expect(HomeFormatters.paperMeta(page: 344), 'Papel · pág. 344');
       expect(
         HomeFormatters.paperMeta(readTime: const Duration(minutes: 220)),
@@ -40,9 +40,23 @@ void main() {
         ),
         'Papel · pág. 12',
       );
+      // menos de 1 min lido no total não vira "0h 00min" (D-252): só "Papel"; o 1º minuto completo já aparece
+      expect(HomeFormatters.paperMeta(readTime: Duration.zero), 'Papel');
       expect(
         HomeFormatters.paperMeta(readTime: const Duration(seconds: 59)),
-        'Papel · 0h 00min',
+        'Papel',
+      );
+      expect(
+        HomeFormatters.paperMeta(readTime: const Duration(seconds: 60)),
+        'Papel · 0h 01min',
+      );
+      // com página, a página vale mesmo com menos de 1 min
+      expect(
+        HomeFormatters.paperMeta(
+          page: 3,
+          readTime: const Duration(seconds: 20),
+        ),
+        'Papel · pág. 3',
       );
       expect(HomeFormatters.paperMeta(), 'Papel');
     });

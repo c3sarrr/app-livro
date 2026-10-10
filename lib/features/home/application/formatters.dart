@@ -86,11 +86,14 @@ abstract final class HomeFormatters {
   };
 
   /// Pílula do livro de papel no Também lendo (D-252, D-253): com página, "Papel · pág. 344"; sem página, o
-  /// tempo já lido ("Papel · 3h 40min"); sem nenhuma sessão, só "Papel".
+  /// tempo já lido ("Papel · 3h 40min"); sem nenhuma sessão ou com menos de 1 min lido, só "Papel" (nunca
+  /// "Papel · 0h 00min").
   static String paperMeta({int? page, Duration? readTime}) {
     final label = formatLabel(BookFormat.physical);
     if (page != null) return '$label · pág. $page';
-    if (readTime != null) return '$label · ${durationLabel(readTime)}';
+    if (readTime != null && readTime.inMinutes >= 1) {
+      return '$label · ${durationLabel(readTime)}';
+    }
     return label;
   }
 

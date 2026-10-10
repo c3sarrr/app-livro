@@ -371,6 +371,20 @@ void main() {
       findsOneWidget,
     );
     expect(find.byKey(const ValueKey('alsoReading.card2.meta')), findsNothing);
+    // menos de 1 min lido (uma sessão de 40 s) também é só "Papel", nunca "Papel · 0h 00min" (D-252)
+    await _abrir(
+      tester,
+      livros: [
+        _item(
+          0,
+          format: BookFormat.physical,
+          readTime: const Duration(seconds: 40),
+        ),
+        _item(1, format: BookFormat.epub),
+      ],
+    );
+    expect(findAppText('Papel'), findsOneWidget);
+    expect(find.textContaining('0h 00min'), findsNothing);
     // a grade estica os dois cartões à altura do mais alto (display: grid)
     expect(
       tester.getSize(ini('i01.alsoReading.card1')).height,
