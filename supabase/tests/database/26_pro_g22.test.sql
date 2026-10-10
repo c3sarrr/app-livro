@@ -2,7 +2,7 @@
 -- e-mail do dia (D-48), o other_sessions do my_account (R7) e a cota do "conferir agora".
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(14);
+select plan(16);
 
 create function pg_temp.conta(n integer) returns uuid language sql immutable as $$
   select ('00000000-0000-7000-8000-0000000d' || lpad(n::text, 4, '0'))::uuid
@@ -59,6 +59,27 @@ select is(public.my_account() ->> 'other_sessions', '1', 'uma outra sessão ativ
 select set_config('request.jwt.claims', json_build_object('sub', pg_temp.conta(2), 'role', 'authenticated',
   'session_id', '00000000-0000-7000-8000-00000e000003')::text, true);
 select is(public.my_account() ->> 'other_sessions', '0', 'conta com uma sessão só: nenhuma outra');
+reset role;
+
+-- D-235: com a confirmação de e-mail desligada, o Auth abre sozinho uma sessão no cadastro por código (método só
+-- "password", que o app não usa) antes de mandar o código; ela não é outro aparelho. A de outro aparelho conta.
+insert into auth.sessions (id, user_id, created_at, updated_at)
+values ('00000000-0000-7000-8000-00000e000004', pg_temp.conta(1), now(), now());
+insert into auth.mfa_amr_claims (id, session_id, created_at, updated_at, authentication_method)
+values (gen_random_uuid(), '00000000-0000-7000-8000-00000e000004', now(), now(), 'password');
+set local role authenticated;
+select set_config('request.jwt.claims', json_build_object('sub', pg_temp.conta(1), 'role', 'authenticated',
+  'session_id', '00000000-0000-7000-8000-00000e000001')::text, true);
+select is(public.my_account() ->> 'other_sessions', '1', 'a sessão só por senha (a do cadastro) não conta');
+reset role;
+insert into auth.sessions (id, user_id, created_at, updated_at)
+values ('00000000-0000-7000-8000-00000e000005', pg_temp.conta(1), now(), now());
+insert into auth.mfa_amr_claims (id, session_id, created_at, updated_at, authentication_method)
+values (gen_random_uuid(), '00000000-0000-7000-8000-00000e000005', now(), now(), 'otp');
+set local role authenticated;
+select set_config('request.jwt.claims', json_build_object('sub', pg_temp.conta(1), 'role', 'authenticated',
+  'session_id', '00000000-0000-7000-8000-00000e000001')::text, true);
+select is(public.my_account() ->> 'other_sessions', '2', 'a sessão por código de outro aparelho conta');
 reset role;
 
 -- ------------------------------------------------------------ a cota do "conferir agora"
