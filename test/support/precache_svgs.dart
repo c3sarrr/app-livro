@@ -1,6 +1,7 @@
 import 'dart:ui' show Color;
 
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,6 +24,6 @@ Future<void> precacheSvgs(
   });
 }
 
-/// Pré-cache de todos os ícones do design system (`AppIcons.all`, F01 1.5).
+/// Pré-cache de todos os ícones do design system (`AppIcons.all`, F01 1.5; T03: e os da Início nova).
 Future<void> precacheAppIcons(WidgetTester tester) =>
-    precacheSvgs(tester, AppIcons.all);
+    precacheSvgs(tester, [...AppIcons.all, ...AppIconsInicio.all]);

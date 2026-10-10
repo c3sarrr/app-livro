@@ -71,7 +71,7 @@ Rect _rect(WidgetTester tester, String id) =>
 
 Future<ProviderContainer> _pump(WidgetTester tester) async {
   setCanvasView(tester);
-  await precacheSvgs(tester, AppIcons.all);
+  await precacheAppIcons(tester);
   await tester.pumpWidget(
     ProviderScope(
       overrides: overridesDoMundo,

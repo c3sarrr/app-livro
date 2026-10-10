@@ -39,6 +39,10 @@ class HomeScreen extends ConsumerWidget {
     MediaQuery.viewPaddingOf(context).top + 15,
   );
 
+  /// Lupa do cabeçalho (`header.search`, prancha 01): a busca não tem prancha (C14) — D-243 b: o elemento fica
+  /// idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
+  static void onSearch() {}
+
   /// "Mais opções para …" (`recent.rowN.more`): o arquivo não define o menu, então o toque não abre nada.
   /// TODO(produto): definir o menu do livro (compartilhar, remover da lista…) antes de implementar.
   static void onMoreOptions(Book book) {}
@@ -104,6 +108,7 @@ class _NoData extends ConsumerWidget {
             now: now,
             onNotificationsTap: () =>
                 unawaited(context.push<void>(AppRoutes.notificacoes)),
+            onSearchTap: HomeScreen.onSearch,
           ),
         ),
         SizedBox(height: AppSpacing.sectionGaps[0]),
@@ -147,7 +152,10 @@ class _HomeSections extends ConsumerWidget {
       (
         0,
         _gutter(
-          HeaderSection(onNotificationsTap: () => push(AppRoutes.notificacoes)),
+          HeaderSection(
+            onNotificationsTap: () => push(AppRoutes.notificacoes),
+            onSearchTap: HomeScreen.onSearch,
+          ),
         ),
       ),
       (1, _gutter(const HeadlineSection())),

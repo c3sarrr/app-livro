@@ -12,7 +12,6 @@ import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
-import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
 import 'package:app_leitura/core/design_system/tokens/app_illustrations_inicio.dart';
 import 'package:app_leitura/core/preferences/brand_preference.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
@@ -62,8 +61,7 @@ List<Override> overridesDaT01() => [
 
 /// Os ícones e as ilustrações da Início nova (sem pré-cache o golden sai sem eles).
 Future<void> precacheInicio01(WidgetTester tester) async {
-  await precacheAppIcons(tester);
-  await precacheSvgs(tester, AppIconsInicio.all);
+  await precacheAppIcons(tester); // com os da Início nova (AppIconsInicio)
   await precacheSvgs(tester, AppIllustrationsInicio.all);
 }
 

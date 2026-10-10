@@ -51,7 +51,19 @@ void main() {
     expect(row.crossAxisAlignment, CrossAxisAlignment.center);
     expect(row.children, hasLength(2));
     expect(row.children.first.key, const ValueKey('header.identity'));
-    expect(row.children.last, isA<CircleIconButton>());
+    // T03 (prancha 01): à direita, o grupo das ações — a lupa e o sino, gap 8
+    final actions = row.children.last as Row;
+    expect(actions.key, const ValueKey('header.actions'));
+    expect(actions.spacing, 8);
+    expect(actions.children, hasLength(2));
+    expect(actions.children.first, isA<CircleIconButton>());
+    expect(
+      find.descendant(
+        of: find.byKey(const ValueKey('header.actions')),
+        matching: find.byType(CircleIconButton),
+      ),
+      findsNWidgets(2),
+    );
     // Identidade (44) centralizada na linha de 48 → começa em y + 2; sino colado à direita.
     final h = tester.getRect(header);
     final identity = tester.getRect(

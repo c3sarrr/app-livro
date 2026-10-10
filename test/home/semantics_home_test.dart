@@ -307,7 +307,7 @@ void main() {
   );
 
   testWidgets(
-    '12.2 toda ação da tela tem nó acionável: 1 `tap` por botão/link do mapa de toques (13 destinos + 3 "mais opções" + 5 da barra + "Ver tudo"/"Biblioteca") e nenhum nó rótulo-puro oferece ação',
+    '12.2 toda ação da tela tem nó acionável: 1 `tap` por botão/link do mapa de toques (13 destinos + 3 "mais opções" + 5 da barra + "Ver tudo"/"Biblioteca" + a lupa, sem ação — T03) e nenhum nó rótulo-puro oferece ação',
     (tester) async {
       final semantics = tester.ensureSemantics();
       await _canvas(tester);
@@ -318,10 +318,10 @@ void main() {
       for (final n in actionable) {
         byRole.putIfAbsent(_role(n), () => []).add(n.label);
       }
-      // Botões: sino, destaques e os 3 "mais opções". Links: CTA, 2 cards, "Ver tudo", 3 itens, CTA do clube,
-      // "Biblioteca", 3 linhas e os 5 itens da barra.
+      // Botões: sino, destaques e os 3 "mais opções". Links: a lupa (T03), CTA, 2 cards, "Ver tudo", 3 itens, CTA
+      // do clube, "Biblioteca", 3 linhas e os 5 itens da barra.
       expect(byRole['botão'], hasLength(5));
-      expect(byRole['link'], hasLength(1 + 2 + 1 + 3 + 1 + 1 + 3 + 5));
+      expect(byRole['link'], hasLength(1 + 1 + 2 + 1 + 3 + 1 + 1 + 3 + 5));
       expect(byRole.keys.toSet(), {'botão', 'link'});
       semantics.dispose();
     },

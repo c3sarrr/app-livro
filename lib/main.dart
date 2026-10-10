@@ -10,6 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart'
 import 'app/app.dart';
 import 'core/config/app_env.dart';
 import 'core/design_system/tokens/app_icons.dart';
+import 'core/design_system/tokens/app_icons_inicio.dart';
 import 'core/design_system/tokens/app_icons_leitor.dart';
 import 'core/design_system/tokens/app_illustrations_leitor.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
@@ -41,9 +42,10 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
   registerFontLicenses();
   await configureSystemUi();
   // F12 12.4: os 18 SVGs já estão prontos no primeiro quadro (sem "piscar" na primeira abertura); G12: e os das
-  // ilhas do leitor (a 1ª vez que os controles abrem).
+  // ilhas do leitor (a 1ª vez que os controles abrem); T03: e os da Início nova e da revisão.
   await preloadAppIcons([
     ...AppIcons.all,
+    ...AppIconsInicio.all,
     ...AppIconsLeitor.all,
     ...AppIllustrationsLeitor.plain,
   ]);

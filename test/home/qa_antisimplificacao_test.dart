@@ -8,6 +8,7 @@ import 'package:app_leitura/core/design_system/painters/top_border_crescent_pain
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -119,7 +120,7 @@ void main() {
   });
 
   testWidgets(
-    'ícones: os 18 SVGs do pacote são usados (14 na Início + 4 extrapolados D-07)',
+    'ícones: os 18 SVGs do pacote são usados (14 na Início + 4 extrapolados D-07) e a lupa da prancha 01 (T03)',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
@@ -140,9 +141,9 @@ void main() {
         '[F13 ícones] Início: ${inicio.length} · união das 4 abas: ${all.length} de ${AppIcons.all.length}',
       );
       expect(AppIcons.all.length, 18);
-      expect(all.difference(AppIcons.all.toSet()), isEmpty);
+      expect(all.difference(AppIcons.all.toSet()), {AppIconsInicio.search});
       expect(AppIcons.all.toSet().difference(all), isEmpty);
-      expect(inicio.length, 14);
+      expect(inicio.length, 15);
       // Nenhum CustomPaint desenha ícone: os pintores existentes são só os da lista abaixo.
     },
   );

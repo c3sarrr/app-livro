@@ -14,6 +14,7 @@ class CircleIconButton extends StatelessWidget {
     this.overlays = const <Widget>[],
     this.onTap,
     required this.semanticsLabel,
+    this.isLink = false,
   });
   final double size;
   final Widget icon;
@@ -24,10 +25,14 @@ class CircleIconButton extends StatelessWidget {
   final List<Widget> overlays;
   final VoidCallback? onTap;
   final String semanticsLabel;
+
+  /// Link (o `<a>` do arquivo) em vez de botão, na semântica.
+  final bool isLink;
   @override
   Widget build(BuildContext context) => Pressable(
     onTap: onTap,
     semanticsLabel: semanticsLabel,
+    isLink: isLink,
     child: NeoBox(
       width: size,
       height: size,
