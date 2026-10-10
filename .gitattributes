@@ -28,3 +28,7 @@ test/fixtures/catalogo/** -text
 test/fixtures/livros/** -text
 # G21: os arquivos HTML do design (a Início e a revisão; o clube) byte a byte, como vieram
 docs/design/referencia/** -text
+# T02: saídas da medição da Início e da revisão byte a byte (o manifesto docs/progresso/T02_hashes_saida.txt confere estes bytes)
+docs/design/medicao/** -text
+docs/design/fases/** -text
+docs/progresso/T02_hashes_saida.txt -text
