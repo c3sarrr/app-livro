@@ -29,7 +29,13 @@ Bricolage 14 (63) e 32 (62), Literata 15 e 22 em 400 (62 e 61) — dos MESMOS bi
 os mesmos latin; a Figtree latin-ext e a Instrument Serif latin embutidas = as de originais_v2, sha256 iguais).
 Manifesto próprio (tools/fonts/fontes_inicio2.json); o do leitor fica como está. A Instrument Serif é estática
 (qualquer tamanho), a Figtree 800 já existe e a Bricolage 11 usa a 12 (o eixo opsz começa em 12).
-Uso: [CONJUNTO=inicio2] python3 tools/fonts/build_fonts.py   (requer fonttools e brotli)
+T02 · D-249 (argumento v1): refaz as estáticas da Início v1 — Figtree 400–700 e Bricolage 12…42 (latin/latin-ext e,
+na Bricolage, vietnamita), os mesmos 32 arquivos e nomes de família — com os avanços do HVAR, como as da G01. A v1
+(design_handoff/ferramentas/build_fonts.py) instanciou sem isso: até 0,0528 px por linha a mais que o Chromium
+("Continuar lendo"). Origem = os binários do arquivo (iguais aos da v1 salvo a data do head); contornos e kerning saem
+idênticos, só os avanços mudam (≤ 5/10000 em). A Instrument Serif da v1 já é estática e fica como está. Manifesto:
+tools/fonts/fontes_v1.json. design_handoff/assets/fonts/ (o pacote da v1) não muda.
+Uso: [CONJUNTO=inicio2] python3 tools/fonts/build_fonts.py [v1]   (requer fonttools, brotli e uharfbuzz)
 """
 import io
 import json
@@ -61,6 +67,9 @@ LITERATA = {400: [15.5, 16, 16.5, 17, 18, 20.5, 26], 500: [15, 17, 19, 25]}
 # T02 — Início e revisão (só o que falta no app)
 BRICOLAGE_OPSZ_INICIO2 = [14, 32]
 LITERATA_INICIO2 = {400: [15, 22]}
+# T02 · D-249 — as estáticas da Início v1, refeitas com os avanços do HVAR (mesmos arquivos e famílias da v1)
+BRICOLAGE_OPSZ_V1 = [12, 18, 20, 22, 24, 26, 34, 42]
+FIGTREE_V1 = [400, 500, 600, 700]
 LABEL = {400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold', 800: 'ExtraBold'}
 
 
@@ -174,12 +183,26 @@ def literata(pesos, log):
                 save(g, f'{fam}-{LABEL[w]}.ttf', log)
 
 
-def manifesto(log):
-    with open(caminho('fontesManifesto'), 'w', encoding='utf-8', newline='\n') as f:
-        json.dump({'gerado_por': 'tools/fonts/build_fonts.py' + (f' (CONJUNTO={NOME})' if NOME == 'inicio2' else ''),
+def manifesto(log, arquivo=None, gerado_por=None):
+    with open(arquivo or caminho('fontesManifesto'), 'w', encoding='utf-8', newline='\n') as f:
+        json.dump({'gerado_por': gerado_por or
+                   'tools/fonts/build_fonts.py' + (f' (CONJUNTO={NOME})' if NOME == 'inicio2' else ''),
                    'arquivos': log}, f, ensure_ascii=False, indent=1)
         f.write('\n')
     print(f'{len(log)} arquivos')
+
+
+def main_v1():
+    """D-249: Figtree 400–700 (latin, latin-ext) e Bricolage 12…42 da v1, com os avanços do HVAR."""
+    os.makedirs(OUT, exist_ok=True)
+    log = []
+    for w in FIGTREE_V1:
+        for sub in ('latin', 'latin-ext'):
+            g = instance(src('Figtree', sub), {'wght': w})
+            finalize(g, f'Figtree{SFX[sub]}', LABEL[w], w)
+            save(g, f'Figtree{SFX[sub]}-{LABEL[w]}.ttf', log)
+    bricolage(BRICOLAGE_OPSZ_V1, log)
+    manifesto(log, os.path.join(AQUI, 'fontes_v1.json'), 'tools/fonts/build_fonts.py v1 (D-249)')
 
 
 def main_inicio2():
@@ -191,6 +214,8 @@ def main_inicio2():
 
 
 def main():
+    if sys.argv[1:] == ['v1']:
+        return main_v1()
     if NOME == 'inicio2':
         return main_inicio2()
     os.makedirs(OUT, exist_ok=True)

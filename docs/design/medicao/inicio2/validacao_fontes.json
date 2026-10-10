@@ -1,12 +1,9 @@
 {
  "resumo": {
   "linhas": 368,
-  "maxDiferenca": 0.0528,
+  "maxDiferenca": 0.01,
   "acimaDoLimite": 0,
   "limite": 0.05,
-  "limitesPorFonte": {
-   "Figtree-Bold.ttf": 0.055
-  },
   "literataVariavelMaxDiferenca": 0.0034,
   "foraDaConferencia": [
    "i01.headline (texto composto com fontes diferentes)",
@@ -36,533 +33,13 @@
  "linhas": [
   {
    "prancha": "001_inicio",
-   "id": "i01.hero.cta.label",
-   "linha": 1,
-   "texto": "Continuar lendo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 117.88,
-   "harfbuzz": 117.933,
-   "diferenca": 0.0528
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.cta.label",
-   "linha": 1,
-   "texto": "Continuar lendo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 117.88,
-   "harfbuzz": 117.933,
-   "diferenca": 0.0528
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.cta.label",
-   "linha": 1,
-   "texto": "Continuar lendo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 117.88,
-   "harfbuzz": 117.933,
-   "diferenca": 0.0528
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.newNote.note.text",
-   "linha": 1,
-   "texto": "Bento quer voltar no tempo desde a pág. 6 — e",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 279.66,
-   "harfbuzz": 279.711,
-   "diferenca": 0.0506
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.hero.title",
-   "linha": 1,
-   "texto": "Dom Casmurro",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 169.03,
-   "harfbuzz": 169.073,
-   "diferenca": 0.0428
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.title",
-   "linha": 1,
-   "texto": "Dom Casmurro",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 169.03,
-   "harfbuzz": 169.073,
-   "diferenca": 0.0428
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.title",
-   "linha": 1,
-   "texto": "Dom Casmurro",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 169.03,
-   "harfbuzz": 169.073,
-   "diferenca": 0.0428
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.title",
-   "linha": 1,
-   "texto": "Para você",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 109.35,
-   "harfbuzz": 109.392,
-   "diferenca": 0.042
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.title",
-   "linha": 1,
-   "texto": "Para você",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 109.35,
-   "harfbuzz": 109.392,
-   "diferenca": 0.042
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.title",
-   "linha": 1,
-   "texto": "Para você",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 109.35,
-   "harfbuzz": 109.392,
-   "diferenca": 0.042
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row0.subtitle",
-   "linha": 1,
-   "texto": "Mary Shelley · EPUB",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 116.78,
-   "harfbuzz": 116.822,
-   "diferenca": 0.0419
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row0.subtitle",
-   "linha": 1,
-   "texto": "Mary Shelley · EPUB",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 116.78,
-   "harfbuzz": 116.822,
-   "diferenca": 0.0419
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row0.subtitle",
-   "linha": 1,
-   "texto": "Mary Shelley · EPUB",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 116.78,
-   "harfbuzz": 116.822,
-   "diferenca": 0.0419
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row1.subtitle",
-   "linha": 1,
-   "texto": "Machado de Assis · PDF",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 138.68,
-   "harfbuzz": 138.718,
-   "diferenca": 0.0378
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row1.subtitle",
-   "linha": 1,
-   "texto": "Machado de Assis · PDF",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 138.68,
-   "harfbuzz": 138.718,
-   "diferenca": 0.0378
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row1.subtitle",
-   "linha": 1,
-   "texto": "Machado de Assis · PDF",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 138.68,
-   "harfbuzz": 138.718,
-   "diferenca": 0.0378
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.title",
-   "linha": 1,
-   "texto": "Recém-chegados",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 195.47,
-   "harfbuzz": 195.506,
-   "diferenca": 0.0364
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.title",
-   "linha": 1,
-   "texto": "Recém-chegados",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 195.47,
-   "harfbuzz": 195.506,
-   "diferenca": 0.0364
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.title",
-   "linha": 1,
-   "texto": "Recém-chegados",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 195.47,
-   "harfbuzz": 195.506,
-   "diferenca": 0.0364
-  },
-  {
-   "prancha": "061_revisao_grifo_2_de_5",
-   "id": "rv61.deck.card.note.text",
-   "linha": 1,
-   "texto": "É o livro todo nessa frase.",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 152.01,
-   "harfbuzz": 152.045,
-   "diferenca": 0.0354
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row2.subtitle",
-   "linha": 1,
-   "texto": "José de Alencar · Papel",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 134.94,
-   "harfbuzz": 134.974,
-   "diferenca": 0.0338
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row2.subtitle",
-   "linha": 1,
-   "texto": "José de Alencar · Papel",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 134.94,
-   "harfbuzz": 134.974,
-   "diferenca": 0.0338
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row2.subtitle",
-   "linha": 1,
-   "texto": "José de Alencar · Papel",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 134.94,
-   "harfbuzz": 134.974,
-   "diferenca": 0.0338
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.stats.newNote.label",
-   "linha": 1,
-   "texto": "nota nova",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 54.15,
-   "harfbuzz": 54.182,
-   "diferenca": 0.0324
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.hero.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 113.41,
-   "harfbuzz": 113.442,
-   "diferenca": 0.032
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 113.41,
-   "harfbuzz": 113.442,
-   "diferenca": 0.032
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 113.41,
-   "harfbuzz": 113.442,
-   "diferenca": 0.032
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.subtitle",
-   "linha": 1,
-   "texto": "Dom Casmurro · até o cap. 50",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 173.73,
-   "harfbuzz": 173.762,
-   "diferenca": 0.0319
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.subtitle",
-   "linha": 1,
-   "texto": "Dom Casmurro · até o cap. 50",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 173.73,
-   "harfbuzz": 173.762,
-   "diferenca": 0.0319
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.subtitle",
-   "linha": 1,
-   "texto": "Dom Casmurro · até o cap. 50",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 173.73,
-   "harfbuzz": 173.762,
-   "diferenca": 0.0319
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.card1.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item1.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item2.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card1.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item1.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item2.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card1.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item1.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item2.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 105.31,
-   "harfbuzz": 105.339,
-   "diferenca": 0.029
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.nav.library.label",
-   "linha": 1,
-   "texto": "Biblioteca",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 49.8,
-   "harfbuzz": 49.774,
-   "diferenca": -0.0261
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.nav.library.label",
-   "linha": 1,
-   "texto": "Biblioteca",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 49.8,
-   "harfbuzz": 49.774,
-   "diferenca": -0.0261
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.nav.library.label",
-   "linha": 1,
-   "texto": "Biblioteca",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 49.8,
-   "harfbuzz": 49.774,
-   "diferenca": -0.0261
-  },
-  {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.title",
-   "linha": 1,
-   "texto": "Compartilhar",
-   "fonte": "Bricolage20-ExtraBold.ttf",
-   "chromium": 126.64,
-   "harfbuzz": 126.614,
-   "diferenca": -0.026
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.tomorrow.text",
-   "linha": 1,
-   "texto": "mais 5, com “A vida é uma ópera”",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 196.2,
-   "harfbuzz": 196.226,
-   "diferenca": 0.0259
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.headline",
-   "linha": 1,
-   "texto": "Continue",
-   "fonte": "Bricolage42-ExtraBold.ttf",
-   "chromium": 170.69,
-   "harfbuzz": 170.715,
-   "diferenca": 0.0246
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.headline",
-   "linha": 1,
-   "texto": "Continue",
-   "fonte": "Bricolage42-ExtraBold.ttf",
-   "chromium": 170.69,
-   "harfbuzz": 170.715,
-   "diferenca": 0.0246
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.headline",
-   "linha": 1,
-   "texto": "Continue",
-   "fonte": "Bricolage42-ExtraBold.ttf",
-   "chromium": 170.69,
-   "harfbuzz": 170.715,
-   "diferenca": 0.0246
-  },
-  {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.toggles.note.label",
-   "linha": 1,
-   "texto": "Mostrar minha nota",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 125.34,
-   "harfbuzz": 125.364,
-   "diferenca": 0.0244
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.card2.title",
-   "linha": 1,
-   "texto": "Orgulho e Preconceito",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 154.9,
-   "harfbuzz": 154.923,
-   "diferenca": 0.023
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card2.title",
-   "linha": 1,
-   "texto": "Orgulho e Preconceito",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 154.9,
-   "harfbuzz": 154.923,
-   "diferenca": 0.023
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card2.title",
-   "linha": 1,
-   "texto": "Orgulho e Preconceito",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 154.9,
-   "harfbuzz": 154.923,
-   "diferenca": 0.023
-  },
-  {
-   "prancha": "001_inicio",
    "id": "i01.club.stub.label",
    "linha": 1,
    "texto": "ENCONTRO",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 64.62,
-   "harfbuzz": 64.64,
-   "diferenca": 0.02
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row0.title",
-   "linha": 1,
-   "texto": "Frankenstein",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 88.51,
-   "harfbuzz": 88.53,
-   "diferenca": 0.02
+   "harfbuzz": 64.63,
+   "diferenca": 0.01
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -571,18 +48,8 @@
    "texto": "ENCONTRO",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 64.62,
-   "harfbuzz": 64.64,
-   "diferenca": 0.02
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row0.title",
-   "linha": 1,
-   "texto": "Frankenstein",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 88.51,
-   "harfbuzz": 88.53,
-   "diferenca": 0.02
+   "harfbuzz": 64.63,
+   "diferenca": 0.01
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -591,878 +58,8 @@
    "texto": "ENCONTRO",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 64.62,
-   "harfbuzz": 64.64,
-   "diferenca": 0.02
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row0.title",
-   "linha": 1,
-   "texto": "Frankenstein",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 88.51,
-   "harfbuzz": 88.53,
-   "diferenca": 0.02
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.pill",
-   "linha": 1,
-   "texto": "Clube do livro",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.38,
-   "harfbuzz": 76.399,
-   "diferenca": 0.0192
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.pill",
-   "linha": 1,
-   "texto": "Clube do livro",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.38,
-   "harfbuzz": 76.399,
-   "diferenca": 0.0192
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.pill",
-   "linha": 1,
-   "texto": "Clube do livro",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.38,
-   "harfbuzz": 76.399,
-   "diferenca": 0.0192
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.hero.percent",
-   "linha": 1,
-   "texto": "62%",
-   "fonte": "Bricolage26-ExtraBold.ttf",
-   "chromium": 56.46,
-   "harfbuzz": 56.479,
-   "diferenca": 0.019
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.percent",
-   "linha": 1,
-   "texto": "62%",
-   "fonte": "Bricolage26-ExtraBold.ttf",
-   "chromium": 56.46,
-   "harfbuzz": 56.479,
-   "diferenca": 0.019
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.percent",
-   "linha": 1,
-   "texto": "62%",
-   "fonte": "Bricolage26-ExtraBold.ttf",
-   "chromium": 56.46,
-   "harfbuzz": 56.479,
-   "diferenca": 0.019
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.seeAll",
-   "linha": 1,
-   "texto": "Ver tudo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 55.99,
-   "harfbuzz": 56.008,
-   "diferenca": 0.0184
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.seeAll",
-   "linha": 1,
-   "texto": "Ver tudo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 55.99,
-   "harfbuzz": 56.008,
-   "diferenca": 0.0184
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.seeAll",
-   "linha": 1,
-   "texto": "Ver tudo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 55.99,
-   "harfbuzz": 56.008,
-   "diferenca": 0.0184
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.tomorrow.text",
-   "linha": 2,
-   "texto": "de volta — você pediu mais vezes.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 203.02,
-   "harfbuzz": 203.038,
-   "diferenca": 0.0179
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.reasonChip",
-   "linha": 1,
-   "texto": "Porque você lê Machado de Assis",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 196.28,
-   "harfbuzz": 196.297,
-   "diferenca": 0.0174
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.reasonChip",
-   "linha": 1,
-   "texto": "Porque você lê Machado de Assis",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 196.28,
-   "harfbuzz": 196.297,
-   "diferenca": 0.0174
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.reasonChip",
-   "linha": 1,
-   "texto": "Porque você lê Machado de Assis",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 196.28,
-   "harfbuzz": 196.297,
-   "diferenca": 0.0174
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row1.title",
-   "linha": 1,
-   "texto": "O Alienista",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 75.34,
-   "harfbuzz": 75.357,
-   "diferenca": 0.017
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row1.title",
-   "linha": 1,
-   "texto": "O Alienista",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 75.34,
-   "harfbuzz": 75.357,
-   "diferenca": 0.017
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row1.title",
-   "linha": 1,
-   "texto": "O Alienista",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 75.34,
-   "harfbuzz": 75.357,
-   "diferenca": 0.017
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.title",
-   "linha": 1,
-   "texto": "Leitoras de",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 112.98,
-   "harfbuzz": 112.963,
-   "diferenca": -0.0166
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.title",
-   "linha": 1,
-   "texto": "Leitoras de",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 112.98,
-   "harfbuzz": 112.963,
-   "diferenca": -0.0166
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.title",
-   "linha": 1,
-   "texto": "Leitoras de",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 112.98,
-   "harfbuzz": 112.963,
-   "diferenca": -0.0166
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.cta.label",
-   "linha": 1,
-   "texto": "Abrir discussão",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 98.62,
-   "harfbuzz": 98.636,
-   "diferenca": 0.0156
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.cta.label",
-   "linha": 1,
-   "texto": "Abrir discussão",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 98.62,
-   "harfbuzz": 98.636,
-   "diferenca": 0.0156
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.cta.label",
-   "linha": 1,
-   "texto": "Abrir discussão",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 98.62,
-   "harfbuzz": 98.636,
-   "diferenca": 0.0156
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.header.greeting",
-   "linha": 1,
-   "texto": "Boa noite,",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 58.43,
-   "harfbuzz": 58.445,
-   "diferenca": 0.0154
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.header.greeting",
-   "linha": 1,
-   "texto": "Boa noite,",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 58.43,
-   "harfbuzz": 58.445,
-   "diferenca": 0.0154
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.header.greeting",
-   "linha": 1,
-   "texto": "Boa noite,",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 58.43,
-   "harfbuzz": 58.445,
-   "diferenca": 0.0154
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.card2.meta",
-   "linha": 1,
-   "texto": "Papel · pág. 344",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 83.96,
-   "harfbuzz": 83.975,
-   "diferenca": 0.0153
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card2.meta",
-   "linha": 1,
-   "texto": "Papel · pág. 344",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 83.96,
-   "harfbuzz": 83.975,
-   "diferenca": 0.0153
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card2.meta",
-   "linha": 1,
-   "texto": "Papel · pág. 344",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 83.96,
-   "harfbuzz": 83.975,
-   "diferenca": 0.0153
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row2.tag",
-   "linha": 1,
-   "texto": "Novo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 29.44,
-   "harfbuzz": 29.455,
-   "diferenca": 0.0152
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row2.tag",
-   "linha": 1,
-   "texto": "Novo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 29.44,
-   "harfbuzz": 29.455,
-   "diferenca": 0.0152
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row2.tag",
-   "linha": 1,
-   "texto": "Novo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 29.44,
-   "harfbuzz": 29.455,
-   "diferenca": 0.0152
-  },
-  {
-   "prancha": "061_revisao_grifo_2_de_5",
-   "id": "rv61.deck.card.footer.reviewed",
-   "linha": 1,
-   "texto": "revisto 1 vez",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 67.66,
-   "harfbuzz": 67.675,
-   "diferenca": 0.0152
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item3.author",
-   "linha": 1,
-   "texto": "Aluísio Azevedo",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 93.41,
-   "harfbuzz": 93.424,
-   "diferenca": 0.0145
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item3.author",
-   "linha": 1,
-   "texto": "Aluísio Azevedo",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 93.41,
-   "harfbuzz": 93.424,
-   "diferenca": 0.0145
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item3.author",
-   "linha": 1,
-   "texto": "Aluísio Azevedo",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 93.41,
-   "harfbuzz": 93.424,
-   "diferenca": 0.0145
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.stats.less.label",
-   "linha": 1,
-   "texto": "menos vezes",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 70.44,
-   "harfbuzz": 70.454,
-   "diferenca": 0.0144
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.miniBar.title",
-   "linha": 1,
-   "texto": "Brás Cubas",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.66,
-   "harfbuzz": 76.674,
-   "diferenca": 0.014
-  },
-  {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.preview.author",
-   "linha": 1,
-   "texto": "Machado de Assis · pág. 6",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 129.19,
-   "harfbuzz": 129.204,
-   "diferenca": 0.0138
-  },
-  {
-   "prancha": "061_revisao_grifo_2_de_5",
-   "id": "rv61.deck.card.footer.when",
-   "linha": 1,
-   "texto": "Você grifou há 17 dias",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 120.26,
-   "harfbuzz": 120.274,
-   "diferenca": 0.0136
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.dial.value",
-   "linha": 1,
-   "texto": "18",
-   "fonte": "Bricolage34-ExtraBold.ttf",
-   "chromium": 31.86,
-   "harfbuzz": 31.847,
-   "diferenca": -0.013
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.dial.value",
-   "linha": 1,
-   "texto": "18",
-   "fonte": "Bricolage34-ExtraBold.ttf",
-   "chromium": 31.86,
-   "harfbuzz": 31.847,
-   "diferenca": -0.013
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.dial.value",
-   "linha": 1,
-   "texto": "18",
-   "fonte": "Bricolage34-ExtraBold.ttf",
-   "chromium": 31.86,
-   "harfbuzz": 31.847,
-   "diferenca": -0.013
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.newNote.note.text",
-   "linha": 2,
-   "texto": "eu só percebi agora.",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 120.25,
-   "harfbuzz": 120.263,
-   "diferenca": 0.013
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item1.cover.author",
-   "linha": 1,
-   "texto": "MACHADO DE ASSIS",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 78.33,
-   "harfbuzz": 78.317,
-   "diferenca": -0.0128
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item1.cover.author",
-   "linha": 1,
-   "texto": "MACHADO DE ASSIS",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 78.33,
-   "harfbuzz": 78.317,
-   "diferenca": -0.0128
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item1.cover.author",
-   "linha": 1,
-   "texto": "MACHADO DE ASSIS",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 78.33,
-   "harfbuzz": 78.317,
-   "diferenca": -0.0128
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.stats.more.value",
-   "linha": 1,
-   "texto": "2",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 13.35,
-   "harfbuzz": 13.363,
-   "diferenca": 0.0128
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.stub.day",
-   "linha": 1,
-   "texto": "24",
-   "fonte": "Bricolage42-ExtraBold.ttf",
-   "chromium": 48.24,
-   "harfbuzz": 48.227,
-   "diferenca": -0.0126
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.stub.day",
-   "linha": 1,
-   "texto": "24",
-   "fonte": "Bricolage42-ExtraBold.ttf",
-   "chromium": 48.24,
-   "harfbuzz": 48.227,
-   "diferenca": -0.0126
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.stub.day",
-   "linha": 1,
-   "texto": "24",
-   "fonte": "Bricolage42-ExtraBold.ttf",
-   "chromium": 48.24,
-   "harfbuzz": 48.227,
-   "diferenca": -0.0126
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item2.title",
-   "linha": 1,
-   "texto": "Quincas Borba",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 93.39,
-   "harfbuzz": 93.402,
-   "diferenca": 0.0124
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item3.title",
-   "linha": 1,
-   "texto": "O Cortiço",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 63.01,
-   "harfbuzz": 63.022,
-   "diferenca": 0.0124
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item3.title",
-   "linha": 1,
-   "texto": "Casa de Pensão",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 100.41,
-   "harfbuzz": 100.422,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item3.title",
-   "linha": 1,
-   "texto": "Casa de Pensão",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 100.41,
-   "harfbuzz": 100.422,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.header.name",
-   "linha": 1,
-   "texto": "Marina",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 49.51,
-   "harfbuzz": 49.522,
-   "diferenca": 0.0116
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.header.name",
-   "linha": 1,
-   "texto": "Marina",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 49.51,
-   "harfbuzz": 49.522,
-   "diferenca": 0.0116
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.header.name",
-   "linha": 1,
-   "texto": "Marina",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 49.51,
-   "harfbuzz": 49.522,
-   "diferenca": 0.0116
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.goalText.sentence",
-   "linha": 1,
-   "texto": "a meta de hoje.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 103.88,
-   "harfbuzz": 103.891,
-   "diferenca": 0.0115
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.goalText.sentence",
-   "linha": 1,
-   "texto": "a meta de hoje.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 103.88,
-   "harfbuzz": 103.891,
-   "diferenca": 0.0115
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.goalText.sentence",
-   "linha": 1,
-   "texto": "a meta de hoje.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 103.88,
-   "harfbuzz": 103.891,
-   "diferenca": 0.0115
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.review.subtitle",
-   "linha": 2,
-   "texto": "e Iracema.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 58.45,
-   "harfbuzz": 58.439,
-   "diferenca": -0.0112
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.review.subtitle",
-   "linha": 2,
-   "texto": "e Iracema.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 58.45,
-   "harfbuzz": 58.439,
-   "diferenca": -0.0112
-  },
-  {
-   "prancha": "061_revisao_grifo_2_de_5",
-   "id": "rv61.swipeHint",
-   "linha": 1,
-   "texto": "deslize o cartão para o próximo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 171.68,
-   "harfbuzz": 171.691,
-   "diferenca": 0.0112
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item3.cover.author",
-   "linha": 1,
-   "texto": "ALUÍSIO AZEVEDO",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 71.49,
-   "harfbuzz": 71.479,
-   "diferenca": -0.0108
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item3.cover.author",
-   "linha": 1,
-   "texto": "ALUÍSIO AZEVEDO",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 71.49,
-   "harfbuzz": 71.479,
-   "diferenca": -0.0108
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item3.cover.author",
-   "linha": 1,
-   "texto": "ALUÍSIO AZEVEDO",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 71.49,
-   "harfbuzz": 71.479,
-   "diferenca": -0.0108
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.stub.weekday",
-   "linha": 1,
-   "texto": "QUI",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 24.26,
-   "harfbuzz": 24.25,
-   "diferenca": -0.0104
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.stub.weekday",
-   "linha": 1,
-   "texto": "QUI",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 24.26,
-   "harfbuzz": 24.25,
-   "diferenca": -0.0104
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.stub.weekday",
-   "linha": 1,
-   "texto": "QUI",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 24.26,
-   "harfbuzz": 24.25,
-   "diferenca": -0.0104
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.card2.author",
-   "linha": 1,
-   "texto": "Jane Austen",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 72.76,
-   "harfbuzz": 72.77,
-   "diferenca": 0.0101
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card2.author",
-   "linha": 1,
-   "texto": "Jane Austen",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 72.76,
-   "harfbuzz": 72.77,
-   "diferenca": 0.0101
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card2.author",
-   "linha": 1,
-   "texto": "Jane Austen",
-   "fonte": "Figtree-Medium.ttf",
-   "chromium": 72.76,
-   "harfbuzz": 72.77,
-   "diferenca": 0.0101
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.review.title",
-   "linha": 1,
-   "texto": "Seus grifos",
-   "fonte": "Bricolage20-ExtraBold.ttf",
-   "chromium": 105.17,
-   "harfbuzz": 105.16,
-   "diferenca": -0.01
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.review.title",
-   "linha": 1,
-   "texto": "Seus grifos",
-   "fonte": "Bricolage20-ExtraBold.ttf",
-   "chromium": 105.17,
-   "harfbuzz": 105.16,
-   "diferenca": -0.01
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.groupLabel",
-   "linha": 1,
-   "texto": "Grupo em 54%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 81.12,
-   "harfbuzz": 81.13,
-   "diferenca": 0.0096
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.club.youLabel",
-   "linha": 1,
-   "texto": "Você em 62%",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 74.88,
-   "harfbuzz": 74.87,
-   "diferenca": -0.0096
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.groupLabel",
-   "linha": 1,
-   "texto": "Grupo em 54%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 81.12,
-   "harfbuzz": 81.13,
-   "diferenca": 0.0096
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.youLabel",
-   "linha": 1,
-   "texto": "Você em 62%",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 74.88,
-   "harfbuzz": 74.87,
-   "diferenca": -0.0096
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.groupLabel",
-   "linha": 1,
-   "texto": "Grupo em 54%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 81.12,
-   "harfbuzz": 81.13,
-   "diferenca": 0.0096
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.youLabel",
-   "linha": 1,
-   "texto": "Você em 62%",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 74.88,
-   "harfbuzz": 74.87,
-   "diferenca": -0.0096
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.header.avatar",
-   "linha": 1,
-   "texto": "M",
-   "fonte": "Bricolage18-ExtraBold.ttf",
-   "chromium": 17.06,
-   "harfbuzz": 17.069,
-   "diferenca": 0.0094
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.header.avatar",
-   "linha": 1,
-   "texto": "M",
-   "fonte": "Bricolage18-ExtraBold.ttf",
-   "chromium": 17.06,
-   "harfbuzz": 17.069,
-   "diferenca": 0.0094
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.header.avatar",
-   "linha": 1,
-   "texto": "M",
-   "fonte": "Bricolage18-ExtraBold.ttf",
-   "chromium": 17.06,
-   "harfbuzz": 17.069,
-   "diferenca": 0.0094
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.week.total",
-   "linha": 1,
-   "texto": "4h 00min no total",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 97.72,
-   "harfbuzz": 97.729,
-   "diferenca": 0.0092
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.total",
-   "linha": 1,
-   "texto": "4h 00min no total",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 97.72,
-   "harfbuzz": 97.729,
-   "diferenca": 0.0092
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.total",
-   "linha": 1,
-   "texto": "4h 00min no total",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 97.72,
-   "harfbuzz": 97.729,
-   "diferenca": 0.0092
+   "harfbuzz": 64.63,
+   "diferenca": 0.01
   },
   {
    "prancha": "062_revisao_fim",
@@ -1485,134 +82,24 @@
    "diferenca": 0.009
   },
   {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.stats.more.label",
-   "linha": 1,
-   "texto": "mais vezes",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 59.54,
-   "harfbuzz": 59.549,
-   "diferenca": 0.0088
-  },
-  {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.actions.stories",
-   "linha": 1,
-   "texto": "Stories",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 38.9,
-   "harfbuzz": 38.909,
-   "diferenca": 0.0088
-  },
-  {
    "prancha": "001_inicio",
-   "id": "i01.today.readNow.label",
+   "id": "i01.hero.cta.label",
    "linha": 1,
-   "texto": "Ler agora",
+   "texto": "Continuar lendo",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 60.69,
-   "harfbuzz": 60.698,
-   "diferenca": 0.0084
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.chip.highlights",
-   "linha": 1,
-   "texto": "2 destaques",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 66.45,
-   "harfbuzz": 66.458,
-   "diferenca": 0.0084
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.week.label6",
-   "linha": 1,
-   "texto": "Hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.94,
-   "harfbuzz": 23.932,
-   "diferenca": -0.0084
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.readNow.label",
-   "linha": 1,
-   "texto": "Ler agora",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 60.69,
-   "harfbuzz": 60.698,
-   "diferenca": 0.0084
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.chip.highlights",
-   "linha": 1,
-   "texto": "2 destaques",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 66.45,
-   "harfbuzz": 66.458,
-   "diferenca": 0.0084
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label6",
-   "linha": 1,
-   "texto": "Hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.94,
-   "harfbuzz": 23.932,
-   "diferenca": -0.0084
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.readNow.label",
-   "linha": 1,
-   "texto": "Ler agora",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 60.69,
-   "harfbuzz": 60.698,
-   "diferenca": 0.0084
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.chip.highlights",
-   "linha": 1,
-   "texto": "2 destaques",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 66.45,
-   "harfbuzz": 66.458,
-   "diferenca": 0.0084
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label6",
-   "linha": 1,
-   "texto": "Hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.94,
-   "harfbuzz": 23.932,
-   "diferenca": -0.0084
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.miniBar.kicker",
-   "linha": 1,
-   "texto": "LENDO · PAPEL",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 93.46,
-   "harfbuzz": 93.468,
-   "diferenca": 0.0082
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.title",
-   "linha": 1,
-   "texto": "Seu dia de",
-   "fonte": "Bricolage20-ExtraBold.ttf",
-   "chromium": 97.1,
-   "harfbuzz": 97.108,
+   "chromium": 117.88,
+   "harfbuzz": 117.888,
    "diferenca": 0.008
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.avatar1",
+   "linha": 1,
+   "texto": "J",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.08,
+   "harfbuzz": 6.072,
+   "diferenca": -0.008
   },
   {
    "prancha": "001_inicio",
@@ -1625,14 +112,44 @@
    "diferenca": 0.008
   },
   {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.title",
+   "prancha": "001_inicio",
+   "id": "i01.nav.clubs.label",
    "linha": 1,
-   "texto": "Seu dia de",
-   "fonte": "Bricolage20-ExtraBold.ttf",
-   "chromium": 97.1,
-   "harfbuzz": 97.108,
+   "texto": "Clubes",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 34.46,
+   "harfbuzz": 34.452,
+   "diferenca": -0.008
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.nav.profile.label",
+   "linha": 1,
+   "texto": "Perfil",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 26.04,
+   "harfbuzz": 26.048,
    "diferenca": 0.008
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.cta.label",
+   "linha": 1,
+   "texto": "Continuar lendo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 117.88,
+   "harfbuzz": 117.888,
+   "diferenca": 0.008
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.avatar1",
+   "linha": 1,
+   "texto": "J",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.08,
+   "harfbuzz": 6.072,
+   "diferenca": -0.008
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -1645,14 +162,44 @@
    "diferenca": 0.008
   },
   {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.title",
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.nav.clubs.label",
    "linha": 1,
-   "texto": "Seu dia de",
-   "fonte": "Bricolage20-ExtraBold.ttf",
-   "chromium": 97.1,
-   "harfbuzz": 97.108,
+   "texto": "Clubes",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 34.46,
+   "harfbuzz": 34.452,
+   "diferenca": -0.008
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.nav.profile.label",
+   "linha": 1,
+   "texto": "Perfil",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 26.04,
+   "harfbuzz": 26.048,
    "diferenca": 0.008
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.hero.cta.label",
+   "linha": 1,
+   "texto": "Continuar lendo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 117.88,
+   "harfbuzz": 117.888,
+   "diferenca": 0.008
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.avatar1",
+   "linha": 1,
+   "texto": "J",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.08,
+   "harfbuzz": 6.072,
+   "diferenca": -0.008
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -1665,194 +212,104 @@
    "diferenca": 0.008
   },
   {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.actions.copy",
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.nav.clubs.label",
    "linha": 1,
-   "texto": "Copiar texto",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 69.1,
-   "harfbuzz": 69.108,
+   "texto": "Clubes",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 34.46,
+   "harfbuzz": 34.452,
+   "diferenca": -0.008
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.nav.profile.label",
+   "linha": 1,
+   "texto": "Perfil",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 26.04,
+   "harfbuzz": 26.048,
    "diferenca": 0.008
   },
   {
-   "prancha": "001_inicio",
-   "id": "i01.today.streakPill",
+   "prancha": "061_revisao_grifo_2_de_5",
+   "id": "rv61.swipeHint",
    "linha": 1,
-   "texto": "12 dias",
+   "texto": "deslize o cartão para o próximo",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 40.24,
-   "harfbuzz": 40.232,
-   "diferenca": -0.0076
+   "chromium": 171.68,
+   "harfbuzz": 171.672,
+   "diferenca": -0.008
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.review.cta.label",
+   "id": "i01.nav.library.label",
    "linha": 1,
-   "texto": "Revisar",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 47.22,
-   "harfbuzz": 47.228,
-   "diferenca": 0.0076
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item1.title",
-   "linha": 1,
-   "texto": "Esaú e Jacó",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 75.57,
-   "harfbuzz": 75.578,
-   "diferenca": 0.0076
+   "texto": "Biblioteca",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 49.8,
+   "harfbuzz": 49.793,
+   "diferenca": -0.0074
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.streakPill",
+   "id": "i01b.nav.library.label",
    "linha": 1,
-   "texto": "12 dias",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 40.24,
-   "harfbuzz": 40.232,
-   "diferenca": -0.0076
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item1.title",
-   "linha": 1,
-   "texto": "Esaú e Jacó",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 75.57,
-   "harfbuzz": 75.578,
-   "diferenca": 0.0076
+   "texto": "Biblioteca",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 49.8,
+   "harfbuzz": 49.793,
+   "diferenca": -0.0074
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.streakPill",
+   "id": "i60.nav.library.label",
    "linha": 1,
-   "texto": "12 dias",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 40.24,
-   "harfbuzz": 40.232,
-   "diferenca": -0.0076
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.review.cta.label",
-   "linha": 1,
-   "texto": "Revisar",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 47.22,
-   "harfbuzz": 47.228,
-   "diferenca": 0.0076
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item1.title",
-   "linha": 1,
-   "texto": "Esaú e Jacó",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 75.57,
-   "harfbuzz": 75.578,
-   "diferenca": 0.0076
+   "texto": "Biblioteca",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 49.8,
+   "harfbuzz": 49.793,
+   "diferenca": -0.0074
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.review.kicker",
+   "id": "i01.club.cta.label",
    "linha": 1,
-   "texto": "REVISÃO · 5 GRIFOS · 2 MIN",
+   "texto": "Abrir discussão",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 169.06,
-   "harfbuzz": 169.053,
-   "diferenca": -0.0072
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item2.title",
-   "linha": 1,
-   "texto": "Memorial de Aires",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 115.98,
-   "harfbuzz": 115.987,
-   "diferenca": 0.0072
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.row1.tag",
-   "linha": 1,
-   "texto": "Lido",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.7,
-   "harfbuzz": 23.707,
-   "diferenca": 0.0072
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.nav.scanner.label",
-   "linha": 1,
-   "texto": "Scanner",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 41.3,
-   "harfbuzz": 41.307,
+   "chromium": 98.62,
+   "harfbuzz": 98.627,
    "diferenca": 0.0072
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row1.tag",
+   "id": "i01b.club.cta.label",
    "linha": 1,
-   "texto": "Lido",
+   "texto": "Abrir discussão",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.7,
-   "harfbuzz": 23.707,
-   "diferenca": 0.0072
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.nav.scanner.label",
-   "linha": 1,
-   "texto": "Scanner",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 41.3,
-   "harfbuzz": 41.307,
+   "chromium": 98.62,
+   "harfbuzz": 98.627,
    "diferenca": 0.0072
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.review.kicker",
+   "id": "i60.club.cta.label",
    "linha": 1,
-   "texto": "REVISÃO · 5 GRIFOS · 2 MIN",
+   "texto": "Abrir discussão",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 169.06,
-   "harfbuzz": 169.053,
-   "diferenca": -0.0072
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item2.title",
-   "linha": 1,
-   "texto": "Memorial de Aires",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 115.98,
-   "harfbuzz": 115.987,
+   "chromium": 98.62,
+   "harfbuzz": 98.627,
    "diferenca": 0.0072
   },
   {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row1.tag",
+   "prancha": "001_inicio",
+   "id": "i01.today.week.label5",
    "linha": 1,
-   "texto": "Lido",
+   "texto": "S",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.7,
-   "harfbuzz": 23.707,
-   "diferenca": 0.0072
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.nav.scanner.label",
-   "linha": 1,
-   "texto": "Scanner",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 41.3,
-   "harfbuzz": 41.307,
-   "diferenca": 0.0072
+   "chromium": 6.67,
+   "harfbuzz": 6.677,
+   "diferenca": 0.007
   },
   {
    "prancha": "001_inicio",
@@ -1862,6 +319,16 @@
    "fonte": "Figtree-Bold.ttf",
    "chromium": 5.9,
    "harfbuzz": 5.907,
+   "diferenca": 0.007
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label5",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.67,
+   "harfbuzz": 6.677,
    "diferenca": 0.007
   },
   {
@@ -1876,6 +343,16 @@
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.week.label5",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.67,
+   "harfbuzz": 6.677,
+   "diferenca": 0.007
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
    "id": "i60.club.avatar2",
    "linha": 1,
    "texto": "L",
@@ -1886,113 +363,123 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.club.stub.time",
+   "id": "i01.today.chip.highlights",
    "linha": 1,
-   "texto": "20h",
+   "texto": "2 destaques",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.36,
-   "harfbuzz": 23.353,
-   "diferenca": -0.0068
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.stub.time",
-   "linha": 1,
-   "texto": "20h",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.36,
-   "harfbuzz": 23.353,
-   "diferenca": -0.0068
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.stub.time",
-   "linha": 1,
-   "texto": "20h",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.36,
-   "harfbuzz": 23.353,
-   "diferenca": -0.0068
+   "chromium": 66.45,
+   "harfbuzz": 66.456,
+   "diferenca": 0.006
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.hero.timeLeft",
+   "id": "i01.today.week.label1",
    "linha": 1,
-   "texto": "~2h 10min",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 56.96,
-   "harfbuzz": 56.966,
-   "diferenca": 0.0064
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.timeLeft",
-   "linha": 1,
-   "texto": "~2h 10min",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 56.96,
-   "harfbuzz": 56.966,
-   "diferenca": 0.0064
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.timeLeft",
-   "linha": 1,
-   "texto": "~2h 10min",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 56.96,
-   "harfbuzz": 56.966,
-   "diferenca": 0.0064
+   "texto": "T",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.43,
+   "harfbuzz": 6.424,
+   "diferenca": -0.006
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.review.subtitle",
+   "id": "i01.review.title",
    "linha": 1,
-   "texto": "De Dom Casmurro, Quincas Borba",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 192.65,
-   "harfbuzz": 192.644,
-   "diferenca": -0.0062
+   "texto": "Seus grifos",
+   "fonte": "Bricolage20-ExtraBold.ttf",
+   "chromium": 105.17,
+   "harfbuzz": 105.164,
+   "diferenca": -0.006
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.club.cta.badge",
+   "id": "i01.club.avatar0",
    "linha": 1,
-   "texto": "3",
+   "texto": "A",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.12,
-   "harfbuzz": 6.114,
-   "diferenca": -0.0062
+   "chromium": 7.86,
+   "harfbuzz": 7.854,
+   "diferenca": -0.006
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.cta.badge",
+   "id": "i01b.today.chip.highlights",
    "linha": 1,
-   "texto": "3",
+   "texto": "2 destaques",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.12,
-   "harfbuzz": 6.114,
-   "diferenca": -0.0062
+   "chromium": 66.45,
+   "harfbuzz": 66.456,
+   "diferenca": 0.006
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label1",
+   "linha": 1,
+   "texto": "T",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.43,
+   "harfbuzz": 6.424,
+   "diferenca": -0.006
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.avatar0",
+   "linha": 1,
+   "texto": "A",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.86,
+   "harfbuzz": 7.854,
+   "diferenca": -0.006
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.review.subtitle",
+   "id": "i60.today.chip.highlights",
    "linha": 1,
-   "texto": "De Dom Casmurro, Quincas Borba",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 192.65,
-   "harfbuzz": 192.644,
-   "diferenca": -0.0062
+   "texto": "2 destaques",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 66.45,
+   "harfbuzz": 66.456,
+   "diferenca": 0.006
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.cta.badge",
+   "id": "i60.today.week.label1",
    "linha": 1,
-   "texto": "3",
+   "texto": "T",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.12,
-   "harfbuzz": 6.114,
-   "diferenca": -0.0062
+   "chromium": 6.43,
+   "harfbuzz": 6.424,
+   "diferenca": -0.006
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.review.title",
+   "linha": 1,
+   "texto": "Seus grifos",
+   "fonte": "Bricolage20-ExtraBold.ttf",
+   "chromium": 105.17,
+   "harfbuzz": 105.164,
+   "diferenca": -0.006
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.avatar0",
+   "linha": 1,
+   "texto": "A",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.86,
+   "harfbuzz": 7.854,
+   "diferenca": -0.006
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.stats.newNote.label",
+   "linha": 1,
+   "texto": "nota nova",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 54.15,
+   "harfbuzz": 54.156,
+   "diferenca": 0.006
   },
   {
    "prancha": "062_revisao_fim",
@@ -2008,336 +495,6 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.club.avatar1",
-   "linha": 1,
-   "texto": "J",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.08,
-   "harfbuzz": 6.074,
-   "diferenca": -0.0058
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.nav.clubs.label",
-   "linha": 1,
-   "texto": "Clubes",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 34.46,
-   "harfbuzz": 34.454,
-   "diferenca": -0.0058
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.avatar1",
-   "linha": 1,
-   "texto": "J",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.08,
-   "harfbuzz": 6.074,
-   "diferenca": -0.0058
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.nav.clubs.label",
-   "linha": 1,
-   "texto": "Clubes",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 34.46,
-   "harfbuzz": 34.454,
-   "diferenca": -0.0058
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.avatar1",
-   "linha": 1,
-   "texto": "J",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.08,
-   "harfbuzz": 6.074,
-   "diferenca": -0.0058
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.nav.clubs.label",
-   "linha": 1,
-   "texto": "Clubes",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 34.46,
-   "harfbuzz": 34.454,
-   "diferenca": -0.0058
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.recent.libraryLink",
-   "linha": 1,
-   "texto": "Biblioteca",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 64.19,
-   "harfbuzz": 64.196,
-   "diferenca": 0.0056
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.libraryLink",
-   "linha": 1,
-   "texto": "Biblioteca",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 64.19,
-   "harfbuzz": 64.196,
-   "diferenca": 0.0056
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.libraryLink",
-   "linha": 1,
-   "texto": "Biblioteca",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 64.19,
-   "harfbuzz": 64.196,
-   "diferenca": 0.0056
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.title",
-   "linha": 1,
-   "texto": "Também lendo",
-   "fonte": "Bricolage18-ExtraBold.ttf",
-   "chromium": 126.54,
-   "harfbuzz": 126.535,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.dial.caption",
-   "linha": 1,
-   "texto": "de 30 min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 49.84,
-   "harfbuzz": 49.845,
-   "diferenca": 0.0054
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.week.label2",
-   "linha": 1,
-   "texto": "Q",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 8.68,
-   "harfbuzz": 8.675,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.week.label3",
-   "linha": 1,
-   "texto": "Q",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 8.68,
-   "harfbuzz": 8.675,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.title",
-   "linha": 1,
-   "texto": "Também lendo",
-   "fonte": "Bricolage18-ExtraBold.ttf",
-   "chromium": 126.54,
-   "harfbuzz": 126.535,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.dial.caption",
-   "linha": 1,
-   "texto": "de 30 min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 49.84,
-   "harfbuzz": 49.845,
-   "diferenca": 0.0054
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label2",
-   "linha": 1,
-   "texto": "Q",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 8.68,
-   "harfbuzz": 8.675,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label3",
-   "linha": 1,
-   "texto": "Q",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 8.68,
-   "harfbuzz": 8.675,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.title",
-   "linha": 1,
-   "texto": "Também lendo",
-   "fonte": "Bricolage18-ExtraBold.ttf",
-   "chromium": 126.54,
-   "harfbuzz": 126.535,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.dial.caption",
-   "linha": 1,
-   "texto": "de 30 min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 49.84,
-   "harfbuzz": 49.845,
-   "diferenca": 0.0054
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label2",
-   "linha": 1,
-   "texto": "Q",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 8.68,
-   "harfbuzz": 8.675,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label3",
-   "linha": 1,
-   "texto": "Q",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 8.68,
-   "harfbuzz": 8.675,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.card2.ring.label",
-   "linha": 1,
-   "texto": "81%",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 20.32,
-   "harfbuzz": 20.315,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.week.label0",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.68,
-   "harfbuzz": 6.675,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.week.label4",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.68,
-   "harfbuzz": 6.675,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.nav.profile.label",
-   "linha": 1,
-   "texto": "Perfil",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 26.04,
-   "harfbuzz": 26.035,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card2.ring.label",
-   "linha": 1,
-   "texto": "81%",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 20.32,
-   "harfbuzz": 20.315,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label0",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.68,
-   "harfbuzz": 6.675,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label4",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.68,
-   "harfbuzz": 6.675,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.nav.profile.label",
-   "linha": 1,
-   "texto": "Perfil",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 26.04,
-   "harfbuzz": 26.035,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card2.ring.label",
-   "linha": 1,
-   "texto": "81%",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 20.32,
-   "harfbuzz": 20.315,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label0",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.68,
-   "harfbuzz": 6.675,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label4",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.68,
-   "harfbuzz": 6.675,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.nav.profile.label",
-   "linha": 1,
-   "texto": "Perfil",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 26.04,
-   "harfbuzz": 26.035,
-   "diferenca": -0.0052
-  },
-  {
-   "prancha": "001_inicio",
    "id": "i01.alsoReading.card1.cover.title",
    "linha": 1,
    "texto": "Brás",
@@ -2345,6 +502,126 @@
    "chromium": 16.34,
    "harfbuzz": 16.335,
    "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.alsoReading.card1.title",
+   "linha": 1,
+   "texto": "Brás Cubas",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.67,
+   "harfbuzz": 76.665,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.alsoReading.card1.meta",
+   "linha": 1,
+   "texto": "Papel · 3h 40min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 87.52,
+   "harfbuzz": 87.515,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.alsoReading.card2.title",
+   "linha": 1,
+   "texto": "Orgulho e Preconceito",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 154.9,
+   "harfbuzz": 154.905,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.streakPill",
+   "linha": 1,
+   "texto": "12 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 40.24,
+   "harfbuzz": 40.235,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.goalText.sentence.strong",
+   "linha": 1,
+   "texto": "12 min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.11,
+   "harfbuzz": 44.115,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.week.title",
+   "linha": 1,
+   "texto": "Esta semana",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 74.69,
+   "harfbuzz": 74.685,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.review.kicker",
+   "linha": 1,
+   "texto": "REVISÃO · 5 GRIFOS · 2 MIN",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 169.06,
+   "harfbuzz": 169.055,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item1.cover.author",
+   "linha": 1,
+   "texto": "MACHADO DE ASSIS",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 78.33,
+   "harfbuzz": 78.325,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item2.cover.author",
+   "linha": 1,
+   "texto": "MACHADO DE ASSIS",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 78.32,
+   "harfbuzz": 78.325,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row0.title",
+   "linha": 1,
+   "texto": "Frankenstein",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 88.51,
+   "harfbuzz": 88.515,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row1.title",
+   "linha": 1,
+   "texto": "O Alienista",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 75.34,
+   "harfbuzz": 75.345,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.nav.scanner.label",
+   "linha": 1,
+   "texto": "Scanner",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 41.3,
+   "harfbuzz": 41.305,
+   "diferenca": 0.005
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -2357,6 +634,126 @@
    "diferenca": -0.005
   },
   {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.card1.title",
+   "linha": 1,
+   "texto": "Brás Cubas",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.67,
+   "harfbuzz": 76.665,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.card1.meta",
+   "linha": 1,
+   "texto": "Papel · 3h 40min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 87.52,
+   "harfbuzz": 87.515,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.card2.title",
+   "linha": 1,
+   "texto": "Orgulho e Preconceito",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 154.9,
+   "harfbuzz": 154.905,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.streakPill",
+   "linha": 1,
+   "texto": "12 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 40.24,
+   "harfbuzz": 40.235,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.goalText.sentence.strong",
+   "linha": 1,
+   "texto": "12 min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.11,
+   "harfbuzz": 44.115,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.title",
+   "linha": 1,
+   "texto": "Esta semana",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 74.69,
+   "harfbuzz": 74.685,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item1.cover.author",
+   "linha": 1,
+   "texto": "MACHADO DE ASSIS",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 78.33,
+   "harfbuzz": 78.325,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item2.cover.author",
+   "linha": 1,
+   "texto": "MACHADO DE ASSIS",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 78.32,
+   "harfbuzz": 78.325,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row0.title",
+   "linha": 1,
+   "texto": "Frankenstein",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 88.51,
+   "harfbuzz": 88.515,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row1.title",
+   "linha": 1,
+   "texto": "O Alienista",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 75.34,
+   "harfbuzz": 75.345,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.miniBar.title",
+   "linha": 1,
+   "texto": "Brás Cubas",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.66,
+   "harfbuzz": 76.665,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.nav.scanner.label",
+   "linha": 1,
+   "texto": "Scanner",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 41.3,
+   "harfbuzz": 41.305,
+   "diferenca": 0.005
+  },
+  {
    "prancha": "060_inicio_grifos_de_hoje",
    "id": "i60.alsoReading.card1.cover.title",
    "linha": 1,
@@ -2365,6 +762,126 @@
    "chromium": 16.34,
    "harfbuzz": 16.335,
    "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.card1.title",
+   "linha": 1,
+   "texto": "Brás Cubas",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.67,
+   "harfbuzz": 76.665,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.card1.meta",
+   "linha": 1,
+   "texto": "Papel · 3h 40min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 87.52,
+   "harfbuzz": 87.515,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.card2.title",
+   "linha": 1,
+   "texto": "Orgulho e Preconceito",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 154.9,
+   "harfbuzz": 154.905,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.streakPill",
+   "linha": 1,
+   "texto": "12 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 40.24,
+   "harfbuzz": 40.235,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.goalText.sentence.strong",
+   "linha": 1,
+   "texto": "12 min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.11,
+   "harfbuzz": 44.115,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.week.title",
+   "linha": 1,
+   "texto": "Esta semana",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 74.69,
+   "harfbuzz": 74.685,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.review.kicker",
+   "linha": 1,
+   "texto": "REVISÃO · 5 GRIFOS · 2 MIN",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 169.06,
+   "harfbuzz": 169.055,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item1.cover.author",
+   "linha": 1,
+   "texto": "MACHADO DE ASSIS",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 78.33,
+   "harfbuzz": 78.325,
+   "diferenca": -0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item2.cover.author",
+   "linha": 1,
+   "texto": "MACHADO DE ASSIS",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 78.32,
+   "harfbuzz": 78.325,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row0.title",
+   "linha": 1,
+   "texto": "Frankenstein",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 88.51,
+   "harfbuzz": 88.515,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row1.title",
+   "linha": 1,
+   "texto": "O Alienista",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 75.34,
+   "harfbuzz": 75.345,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.nav.scanner.label",
+   "linha": 1,
+   "texto": "Scanner",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 41.3,
+   "harfbuzz": 41.305,
+   "diferenca": 0.005
   },
   {
    "prancha": "062_revisao_fim",
@@ -2378,42 +895,102 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.today.week.label5",
+   "id": "i01.alsoReading.card1.author",
    "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.67,
-   "harfbuzz": 6.675,
-   "diferenca": 0.0048
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label5",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.67,
-   "harfbuzz": 6.675,
-   "diferenca": 0.0048
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label5",
-   "linha": 1,
-   "texto": "S",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.67,
-   "harfbuzz": 6.675,
-   "diferenca": 0.0048
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.hero.pagePill",
+   "id": "i01.forYou.item1.author",
    "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 85.97,
-   "harfbuzz": 85.966,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item2.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.card1.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item1.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item2.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.card1.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item1.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item2.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 105.31,
+   "harfbuzz": 105.305,
+   "diferenca": -0.0048
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.hero.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 113.41,
+   "harfbuzz": 113.406,
    "diferenca": -0.0044
   },
   {
@@ -2427,13 +1004,23 @@
    "diferenca": -0.0044
   },
   {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.pagePill",
+   "prancha": "001_inicio",
+   "id": "i01.forYou.reasonChip",
    "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 85.97,
-   "harfbuzz": 85.966,
+   "texto": "Porque você lê Machado de Assis",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 196.28,
+   "harfbuzz": 196.284,
+   "diferenca": 0.0044
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 113.41,
+   "harfbuzz": 113.406,
    "diferenca": -0.0044
   },
   {
@@ -2448,22 +1035,22 @@
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.miniBar.time",
+   "id": "i01b.forYou.reasonChip",
    "linha": 1,
-   "texto": "08:42",
-   "fonte": "Bricolage24-ExtraBold.ttf",
-   "chromium": 63.05,
-   "harfbuzz": 63.046,
-   "diferenca": -0.0044
+   "texto": "Porque você lê Machado de Assis",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 196.28,
+   "harfbuzz": 196.284,
+   "diferenca": 0.0044
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.pagePill",
+   "id": "i60.hero.author",
    "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 85.97,
-   "harfbuzz": 85.966,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 113.41,
+   "harfbuzz": 113.406,
    "diferenca": -0.0044
   },
   {
@@ -2477,13 +1064,13 @@
    "diferenca": -0.0044
   },
   {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.toggles.handle.label",
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.reasonChip",
    "linha": 1,
-   "texto": "Mostrar meu @",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 98.83,
-   "harfbuzz": 98.834,
+   "texto": "Porque você lê Machado de Assis",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 196.28,
+   "harfbuzz": 196.284,
    "diferenca": 0.0044
   },
   {
@@ -2510,13 +1097,73 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.alsoReading.card1.title",
+   "id": "i01.header.avatar",
    "linha": 1,
-   "texto": "Brás Cubas",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.67,
-   "harfbuzz": 76.674,
+   "texto": "M",
+   "fonte": "Bricolage18-ExtraBold.ttf",
+   "chromium": 17.06,
+   "harfbuzz": 17.064,
    "diferenca": 0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.hero.timeLeft",
+   "linha": 1,
+   "texto": "~2h 10min",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 56.96,
+   "harfbuzz": 56.964,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.title",
+   "linha": 1,
+   "texto": "Seu dia de",
+   "fonte": "Bricolage20-ExtraBold.ttf",
+   "chromium": 97.1,
+   "harfbuzz": 97.096,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.dial.value",
+   "linha": 1,
+   "texto": "18",
+   "fonte": "Bricolage34-ExtraBold.ttf",
+   "chromium": 31.86,
+   "harfbuzz": 31.864,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.goalText.sentence",
+   "linha": 1,
+   "texto": "a meta de hoje.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 103.88,
+   "harfbuzz": 103.884,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.week.label6",
+   "linha": 1,
+   "texto": "Hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.94,
+   "harfbuzz": 23.936,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.seeAll",
+   "linha": 1,
+   "texto": "Ver tudo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 55.99,
+   "harfbuzz": 55.986,
+   "diferenca": -0.004
   },
   {
    "prancha": "001_inicio",
@@ -2529,14 +1176,124 @@
    "diferenca": 0.004
   },
   {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card1.title",
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item2.title",
    "linha": 1,
-   "texto": "Brás Cubas",
+   "texto": "Memorial de Aires",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.67,
-   "harfbuzz": 76.674,
+   "chromium": 115.98,
+   "harfbuzz": 115.976,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.cta.badge",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.12,
+   "harfbuzz": 6.116,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.stub.weekday",
+   "linha": 1,
+   "texto": "QUI",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 24.26,
+   "harfbuzz": 24.264,
    "diferenca": 0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row0.tag",
+   "linha": 1,
+   "texto": "Quero ler",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 51.46,
+   "harfbuzz": 51.456,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row2.tag",
+   "linha": 1,
+   "texto": "Novo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 29.44,
+   "harfbuzz": 29.436,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.header.avatar",
+   "linha": 1,
+   "texto": "M",
+   "fonte": "Bricolage18-ExtraBold.ttf",
+   "chromium": 17.06,
+   "harfbuzz": 17.064,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.timeLeft",
+   "linha": 1,
+   "texto": "~2h 10min",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 56.96,
+   "harfbuzz": 56.964,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.title",
+   "linha": 1,
+   "texto": "Seu dia de",
+   "fonte": "Bricolage20-ExtraBold.ttf",
+   "chromium": 97.1,
+   "harfbuzz": 97.096,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.dial.value",
+   "linha": 1,
+   "texto": "18",
+   "fonte": "Bricolage34-ExtraBold.ttf",
+   "chromium": 31.86,
+   "harfbuzz": 31.864,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.goalText.sentence",
+   "linha": 1,
+   "texto": "a meta de hoje.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 103.88,
+   "harfbuzz": 103.884,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label6",
+   "linha": 1,
+   "texto": "Hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.94,
+   "harfbuzz": 23.936,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.seeAll",
+   "linha": 1,
+   "texto": "Ver tudo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 55.99,
+   "harfbuzz": 55.986,
+   "diferenca": -0.004
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -2559,14 +1316,144 @@
    "diferenca": 0.004
   },
   {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card1.title",
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item2.title",
    "linha": 1,
-   "texto": "Brás Cubas",
+   "texto": "Quincas Borba",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 76.67,
-   "harfbuzz": 76.674,
+   "chromium": 93.39,
+   "harfbuzz": 93.394,
    "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item3.title",
+   "linha": 1,
+   "texto": "O Cortiço",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 63.01,
+   "harfbuzz": 63.014,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.cta.badge",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.12,
+   "harfbuzz": 6.116,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.stub.weekday",
+   "linha": 1,
+   "texto": "QUI",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 24.26,
+   "harfbuzz": 24.264,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row0.tag",
+   "linha": 1,
+   "texto": "Quero ler",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 51.46,
+   "harfbuzz": 51.456,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row2.tag",
+   "linha": 1,
+   "texto": "Novo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 29.44,
+   "harfbuzz": 29.436,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.miniBar.kicker",
+   "linha": 1,
+   "texto": "LENDO · PAPEL",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 93.46,
+   "harfbuzz": 93.464,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.header.avatar",
+   "linha": 1,
+   "texto": "M",
+   "fonte": "Bricolage18-ExtraBold.ttf",
+   "chromium": 17.06,
+   "harfbuzz": 17.064,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.hero.timeLeft",
+   "linha": 1,
+   "texto": "~2h 10min",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 56.96,
+   "harfbuzz": 56.964,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.title",
+   "linha": 1,
+   "texto": "Seu dia de",
+   "fonte": "Bricolage20-ExtraBold.ttf",
+   "chromium": 97.1,
+   "harfbuzz": 97.096,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.dial.value",
+   "linha": 1,
+   "texto": "18",
+   "fonte": "Bricolage34-ExtraBold.ttf",
+   "chromium": 31.86,
+   "harfbuzz": 31.864,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.goalText.sentence",
+   "linha": 1,
+   "texto": "a meta de hoje.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 103.88,
+   "harfbuzz": 103.884,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.week.label6",
+   "linha": 1,
+   "texto": "Hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.94,
+   "harfbuzz": 23.936,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.seeAll",
+   "linha": 1,
+   "texto": "Ver tudo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 55.99,
+   "harfbuzz": 55.986,
+   "diferenca": -0.004
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -2577,6 +1464,56 @@
    "chromium": 41.84,
    "harfbuzz": 41.844,
    "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item2.title",
+   "linha": 1,
+   "texto": "Memorial de Aires",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 115.98,
+   "harfbuzz": 115.976,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.cta.badge",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.12,
+   "harfbuzz": 6.116,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.stub.weekday",
+   "linha": 1,
+   "texto": "QUI",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 24.26,
+   "harfbuzz": 24.264,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row0.tag",
+   "linha": 1,
+   "texto": "Quero ler",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 51.46,
+   "harfbuzz": 51.456,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row2.tag",
+   "linha": 1,
+   "texto": "Novo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 29.44,
+   "harfbuzz": 29.436,
+   "diferenca": -0.004
   },
   {
    "prancha": "061_revisao_grifo_2_de_5",
@@ -2602,6 +1539,26 @@
   },
   {
    "prancha": "061_revisao_grifo_2_de_5",
+   "id": "rv61.deck.card.footer.when",
+   "linha": 1,
+   "texto": "Você grifou há 17 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 120.26,
+   "harfbuzz": 120.264,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "061_revisao_grifo_2_de_5",
+   "id": "rv61.deck.card.footer.reviewed",
+   "linha": 1,
+   "texto": "revisto 1 vez",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 67.66,
+   "harfbuzz": 67.656,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "061_revisao_grifo_2_de_5",
    "id": "rv61.actions.less",
    "linha": 1,
    "texto": "Menos vezes",
@@ -2622,12 +1579,52 @@
   },
   {
    "prancha": "062_revisao_fim",
+   "id": "rv62.summary.stats.more.value",
+   "linha": 1,
+   "texto": "2",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 13.35,
+   "harfbuzz": 13.354,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.stats.more.label",
+   "linha": 1,
+   "texto": "mais vezes",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 59.54,
+   "harfbuzz": 59.544,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "062_revisao_fim",
    "id": "rv62.summary.newNote.top.tag",
    "linha": 1,
    "texto": "personagem",
    "fonte": "Figtree-ExtraBold.ttf",
    "chromium": 63.65,
    "harfbuzz": 63.646,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.newNote.note.text",
+   "linha": 1,
+   "texto": "Bento quer voltar no tempo desde a pág. 6 — e",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 279.66,
+   "harfbuzz": 279.656,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.tomorrow.text",
+   "linha": 1,
+   "texto": "mais 5, com “A vida é uma ópera”",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 196.2,
+   "harfbuzz": 196.196,
    "diferenca": -0.004
   },
   {
@@ -2641,94 +1638,154 @@
    "diferenca": 0.004
   },
   {
-   "prancha": "001_inicio",
-   "id": "i01.club.avatar0",
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.toggles.handle.label",
    "linha": 1,
-   "texto": "A",
+   "texto": "Mostrar meu @",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.86,
-   "harfbuzz": 7.856,
+   "chromium": 98.83,
+   "harfbuzz": 98.826,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.actions.save",
+   "linha": 1,
+   "texto": "Salvar",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 34.06,
+   "harfbuzz": 34.056,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.actions.stories",
+   "linha": 1,
+   "texto": "Stories",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 38.9,
+   "harfbuzz": 38.904,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.actions.copy",
+   "linha": 1,
+   "texto": "Copiar texto",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 69.1,
+   "harfbuzz": 69.096,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.actions.more",
+   "linha": 1,
+   "texto": "Mais",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 25.42,
+   "harfbuzz": 25.416,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row1.subtitle",
+   "linha": 1,
+   "texto": "Machado de Assis · PDF",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 138.68,
+   "harfbuzz": 138.676,
    "diferenca": -0.0038
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.club.avatar0",
+   "id": "i01b.recent.row1.subtitle",
    "linha": 1,
-   "texto": "A",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.86,
-   "harfbuzz": 7.856,
+   "texto": "Machado de Assis · PDF",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 138.68,
+   "harfbuzz": 138.676,
    "diferenca": -0.0038
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.club.avatar0",
+   "id": "i60.recent.row1.subtitle",
    "linha": 1,
-   "texto": "A",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.86,
-   "harfbuzz": 7.856,
+   "texto": "Machado de Assis · PDF",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 138.68,
+   "harfbuzz": 138.676,
    "diferenca": -0.0038
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.today.footer.text.strong",
+   "id": "i01.alsoReading.title",
    "linha": 1,
-   "texto": "2 dias",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 34.75,
-   "harfbuzz": 34.746,
-   "diferenca": -0.0036
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.footer.text.strong",
-   "linha": 1,
-   "texto": "2 dias",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 34.75,
-   "harfbuzz": 34.746,
-   "diferenca": -0.0036
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.footer.text.strong",
-   "linha": 1,
-   "texto": "2 dias",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 34.75,
-   "harfbuzz": 34.746,
-   "diferenca": -0.0036
+   "texto": "Também lendo",
+   "fonte": "Bricolage18-ExtraBold.ttf",
+   "chromium": 126.54,
+   "harfbuzz": 126.544,
+   "diferenca": 0.0036
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.hero.notesButton.badge",
+   "id": "i01.forYou.title",
    "linha": 1,
-   "texto": "12",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 11.01,
-   "harfbuzz": 11.007,
-   "diferenca": -0.0034
+   "texto": "Para você",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 109.35,
+   "harfbuzz": 109.354,
+   "diferenca": 0.0036
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.hero.notesButton.badge",
+   "id": "i01b.alsoReading.title",
    "linha": 1,
-   "texto": "12",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 11.01,
-   "harfbuzz": 11.007,
-   "diferenca": -0.0034
+   "texto": "Também lendo",
+   "fonte": "Bricolage18-ExtraBold.ttf",
+   "chromium": 126.54,
+   "harfbuzz": 126.544,
+   "diferenca": 0.0036
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.title",
+   "linha": 1,
+   "texto": "Para você",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 109.35,
+   "harfbuzz": 109.354,
+   "diferenca": 0.0036
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.hero.notesButton.badge",
+   "id": "i60.alsoReading.title",
    "linha": 1,
-   "texto": "12",
+   "texto": "Também lendo",
+   "fonte": "Bricolage18-ExtraBold.ttf",
+   "chromium": 126.54,
+   "harfbuzz": 126.544,
+   "diferenca": 0.0036
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.title",
+   "linha": 1,
+   "texto": "Para você",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 109.35,
+   "harfbuzz": 109.354,
+   "diferenca": 0.0036
+  },
+  {
+   "prancha": "061_revisao_grifo_2_de_5",
+   "id": "rv61.deck.card.note.text",
+   "linha": 1,
+   "texto": "É o livro todo nessa frase.",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 11.01,
-   "harfbuzz": 11.007,
-   "diferenca": -0.0034
+   "chromium": 152.01,
+   "harfbuzz": 152.006,
+   "diferenca": -0.0036
   },
   {
    "prancha": "001_inicio",
@@ -2742,13 +1799,43 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.recent.row2.title",
+   "id": "i01.alsoReading.card2.ring.label",
    "linha": 1,
-   "texto": "Senhora",
+   "texto": "81%",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 56.88,
-   "harfbuzz": 56.883,
-   "diferenca": 0.003
+   "chromium": 20.32,
+   "harfbuzz": 20.317,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.week.label0",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.68,
+   "harfbuzz": 6.677,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.week.label4",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.68,
+   "harfbuzz": 6.677,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item3.cover.author",
+   "linha": 1,
+   "texto": "ALUÍSIO AZEVEDO",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 71.49,
+   "harfbuzz": 71.487,
+   "diferenca": -0.003
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -2762,13 +1849,43 @@
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row2.title",
+   "id": "i01b.alsoReading.card2.ring.label",
    "linha": 1,
-   "texto": "Senhora",
+   "texto": "81%",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 56.88,
-   "harfbuzz": 56.883,
-   "diferenca": 0.003
+   "chromium": 20.32,
+   "harfbuzz": 20.317,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label0",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.68,
+   "harfbuzz": 6.677,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label4",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.68,
+   "harfbuzz": 6.677,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item3.cover.author",
+   "linha": 1,
+   "texto": "ALUÍSIO AZEVEDO",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 71.49,
+   "harfbuzz": 71.487,
+   "diferenca": -0.003
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -2782,43 +1899,153 @@
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row2.title",
+   "id": "i60.alsoReading.card2.ring.label",
    "linha": 1,
-   "texto": "Senhora",
+   "texto": "81%",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 56.88,
-   "harfbuzz": 56.883,
-   "diferenca": 0.003
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.forYou.item2.cover.author",
-   "linha": 1,
-   "texto": "MACHADO DE ASSIS",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 78.32,
-   "harfbuzz": 78.317,
-   "diferenca": -0.0028
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.forYou.item2.cover.author",
-   "linha": 1,
-   "texto": "MACHADO DE ASSIS",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 78.32,
-   "harfbuzz": 78.317,
-   "diferenca": -0.0028
+   "chromium": 20.32,
+   "harfbuzz": 20.317,
+   "diferenca": -0.003
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.forYou.item2.cover.author",
+   "id": "i60.today.week.label0",
    "linha": 1,
-   "texto": "MACHADO DE ASSIS",
+   "texto": "S",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 78.32,
-   "harfbuzz": 78.317,
-   "diferenca": -0.0028
+   "chromium": 6.68,
+   "harfbuzz": 6.677,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.week.label4",
+   "linha": 1,
+   "texto": "S",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.68,
+   "harfbuzz": 6.677,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item3.cover.author",
+   "linha": 1,
+   "texto": "ALUÍSIO AZEVEDO",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 71.49,
+   "harfbuzz": 71.487,
+   "diferenca": -0.003
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.alsoReading.card2.author",
+   "linha": 1,
+   "texto": "Jane Austen",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 72.76,
+   "harfbuzz": 72.757,
+   "diferenca": -0.0029
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row0.subtitle",
+   "linha": 1,
+   "texto": "Mary Shelley · EPUB",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 116.78,
+   "harfbuzz": 116.783,
+   "diferenca": 0.0029
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.card2.author",
+   "linha": 1,
+   "texto": "Jane Austen",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 72.76,
+   "harfbuzz": 72.757,
+   "diferenca": -0.0029
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row0.subtitle",
+   "linha": 1,
+   "texto": "Mary Shelley · EPUB",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 116.78,
+   "harfbuzz": 116.783,
+   "diferenca": 0.0029
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.card2.author",
+   "linha": 1,
+   "texto": "Jane Austen",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 72.76,
+   "harfbuzz": 72.757,
+   "diferenca": -0.0029
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row0.subtitle",
+   "linha": 1,
+   "texto": "Mary Shelley · EPUB",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 116.78,
+   "harfbuzz": 116.783,
+   "diferenca": 0.0029
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.tomorrow.text",
+   "linha": 2,
+   "texto": "de volta — você pediu mais vezes.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 203.02,
+   "harfbuzz": 203.017,
+   "diferenca": -0.0029
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.title",
+   "linha": 1,
+   "texto": "Recém-chegados",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 195.47,
+   "harfbuzz": 195.473,
+   "diferenca": 0.0028
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.title",
+   "linha": 1,
+   "texto": "Recém-chegados",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 195.47,
+   "harfbuzz": 195.473,
+   "diferenca": 0.0028
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.title",
+   "linha": 1,
+   "texto": "Recém-chegados",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 195.47,
+   "harfbuzz": 195.473,
+   "diferenca": 0.0028
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.preview.author",
+   "linha": 1,
+   "texto": "Machado de Assis · pág. 6",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 129.19,
+   "harfbuzz": 129.193,
+   "diferenca": 0.0028
   },
   {
    "prancha": "061_revisao_grifo_2_de_5",
@@ -2842,53 +2069,43 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.today.week.title",
+   "id": "i01.header.name",
    "linha": 1,
-   "texto": "Esta semana",
+   "texto": "Marina",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 74.69,
-   "harfbuzz": 74.688,
-   "diferenca": -0.0024
+   "chromium": 49.51,
+   "harfbuzz": 49.512,
+   "diferenca": 0.002
   },
   {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.title",
+   "prancha": "001_inicio",
+   "id": "i01.hero.pagePill",
    "linha": 1,
-   "texto": "Esta semana",
+   "texto": "pág. 159 de 256",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 74.69,
-   "harfbuzz": 74.688,
-   "diferenca": -0.0024
+   "chromium": 85.97,
+   "harfbuzz": 85.968,
+   "diferenca": -0.002
   },
   {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.title",
+   "prancha": "001_inicio",
+   "id": "i01.hero.title",
    "linha": 1,
-   "texto": "Esta semana",
+   "texto": "Dom Casmurro",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 169.03,
+   "harfbuzz": 169.032,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.alsoReading.count",
+   "linha": 1,
+   "texto": "3",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 74.69,
-   "harfbuzz": 74.688,
-   "diferenca": -0.0024
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.stats.less.value",
-   "linha": 1,
-   "texto": "1",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 7.81,
-   "harfbuzz": 7.808,
-   "diferenca": -0.0022
-  },
-  {
-   "prancha": "062_revisao_fim",
-   "id": "rv62.summary.stats.newNote.value",
-   "linha": 1,
-   "texto": "1",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 7.81,
-   "harfbuzz": 7.808,
-   "diferenca": -0.0022
+   "chromium": 6.67,
+   "harfbuzz": 6.672,
+   "diferenca": 0.002
   },
   {
    "prancha": "001_inicio",
@@ -2898,16 +2115,6 @@
    "fonte": "InstrumentSerif-Regular.ttf",
    "chromium": 22.79,
    "harfbuzz": 22.792,
-   "diferenca": 0.002
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.today.goalText.sentence.strong",
-   "linha": 1,
-   "texto": "12 min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.11,
-   "harfbuzz": 44.112,
    "diferenca": 0.002
   },
   {
@@ -2922,6 +2129,16 @@
   },
   {
    "prancha": "001_inicio",
+   "id": "i01.review.cta.label",
+   "linha": 1,
+   "texto": "Revisar",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 47.22,
+   "harfbuzz": 47.222,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "001_inicio",
    "id": "i01.forYou.item1.cover.title",
    "linha": 1,
    "texto": "Esaú",
@@ -2929,6 +2146,16 @@
    "chromium": 35.51,
    "harfbuzz": 35.508,
    "diferenca": -0.002
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item1.title",
+   "linha": 1,
+   "texto": "Esaú e Jacó",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 75.57,
+   "harfbuzz": 75.572,
+   "diferenca": 0.002
   },
   {
    "prancha": "001_inicio",
@@ -2968,6 +2195,16 @@
    "fonte": "InstrumentSerif-Regular.ttf",
    "chromium": 62.09,
    "harfbuzz": 62.088,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.forYou.item3.title",
+   "linha": 1,
+   "texto": "Casa de Pensão",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 100.41,
+   "harfbuzz": 100.408,
    "diferenca": -0.002
   },
   {
@@ -2992,22 +2229,52 @@
   },
   {
    "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.header.name",
+   "linha": 1,
+   "texto": "Marina",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 49.51,
+   "harfbuzz": 49.512,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.pagePill",
+   "linha": 1,
+   "texto": "pág. 159 de 256",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 85.97,
+   "harfbuzz": 85.968,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.title",
+   "linha": 1,
+   "texto": "Dom Casmurro",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 169.03,
+   "harfbuzz": 169.032,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.count",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.67,
+   "harfbuzz": 6.672,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
    "id": "i01b.alsoReading.card1.cover.title",
    "linha": 2,
    "texto": "Cubas",
    "fonte": "InstrumentSerif-Regular.ttf",
    "chromium": 22.79,
    "harfbuzz": 22.792,
-   "diferenca": 0.002
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.goalText.sentence.strong",
-   "linha": 1,
-   "texto": "12 min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.11,
-   "harfbuzz": 44.112,
    "diferenca": 0.002
   },
   {
@@ -3019,6 +2286,16 @@
    "chromium": 35.51,
    "harfbuzz": 35.508,
    "diferenca": -0.002
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.forYou.item1.title",
+   "linha": 1,
+   "texto": "Esaú e Jacó",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 75.57,
+   "harfbuzz": 75.572,
+   "diferenca": 0.002
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -3041,6 +2318,56 @@
    "diferenca": -0.002
   },
   {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.miniBar.time",
+   "linha": 1,
+   "texto": "08:42",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 63.05,
+   "harfbuzz": 63.048,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.header.name",
+   "linha": 1,
+   "texto": "Marina",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 49.51,
+   "harfbuzz": 49.512,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.hero.pagePill",
+   "linha": 1,
+   "texto": "pág. 159 de 256",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 85.97,
+   "harfbuzz": 85.968,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.hero.title",
+   "linha": 1,
+   "texto": "Dom Casmurro",
+   "fonte": "Bricolage24-ExtraBold.ttf",
+   "chromium": 169.03,
+   "harfbuzz": 169.032,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.count",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 6.67,
+   "harfbuzz": 6.672,
+   "diferenca": 0.002
+  },
+  {
    "prancha": "060_inicio_grifos_de_hoje",
    "id": "i60.alsoReading.card1.cover.title",
    "linha": 2,
@@ -3048,16 +2375,6 @@
    "fonte": "InstrumentSerif-Regular.ttf",
    "chromium": 22.79,
    "harfbuzz": 22.792,
-   "diferenca": 0.002
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.goalText.sentence.strong",
-   "linha": 1,
-   "texto": "12 min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.11,
-   "harfbuzz": 44.112,
    "diferenca": 0.002
   },
   {
@@ -3072,6 +2389,16 @@
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.review.cta.label",
+   "linha": 1,
+   "texto": "Revisar",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 47.22,
+   "harfbuzz": 47.222,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
    "id": "i60.forYou.item1.cover.title",
    "linha": 1,
    "texto": "Esaú",
@@ -3079,6 +2406,16 @@
    "chromium": 35.51,
    "harfbuzz": 35.508,
    "diferenca": -0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item1.title",
+   "linha": 1,
+   "texto": "Esaú e Jacó",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 75.57,
+   "harfbuzz": 75.572,
+   "diferenca": 0.002
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -3118,6 +2455,16 @@
    "fonte": "InstrumentSerif-Regular.ttf",
    "chromium": 62.09,
    "harfbuzz": 62.088,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.forYou.item3.title",
+   "linha": 1,
+   "texto": "Casa de Pensão",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 100.41,
+   "harfbuzz": 100.408,
    "diferenca": -0.002
   },
   {
@@ -3194,6 +2541,16 @@
   },
   {
    "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.title",
+   "linha": 1,
+   "texto": "Compartilhar",
+   "fonte": "Bricolage20-ExtraBold.ttf",
+   "chromium": 126.64,
+   "harfbuzz": 126.638,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
    "id": "rv63.sheet.title.serif",
    "linha": 1,
    "texto": "grifo",
@@ -3201,6 +2558,76 @@
    "chromium": 39.09,
    "harfbuzz": 39.088,
    "diferenca": -0.002
+  },
+  {
+   "prancha": "063_revisao_imagem_compartilhar",
+   "id": "rv63.sheet.toggles.note.label",
+   "linha": 1,
+   "texto": "Mostrar minha nota",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 125.34,
+   "harfbuzz": 125.342,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.subtitle",
+   "linha": 1,
+   "texto": "Dom Casmurro · até o cap. 50",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 173.73,
+   "harfbuzz": 173.728,
+   "diferenca": -0.0019
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.subtitle",
+   "linha": 1,
+   "texto": "Dom Casmurro · até o cap. 50",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 173.73,
+   "harfbuzz": 173.728,
+   "diferenca": -0.0019
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.subtitle",
+   "linha": 1,
+   "texto": "Dom Casmurro · até o cap. 50",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 173.73,
+   "harfbuzz": 173.728,
+   "diferenca": -0.0019
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.hero.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Bricolage26-ExtraBold.ttf",
+   "chromium": 56.46,
+   "harfbuzz": 56.458,
+   "diferenca": -0.0018
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Bricolage26-ExtraBold.ttf",
+   "chromium": 56.46,
+   "harfbuzz": 56.458,
+   "diferenca": -0.0018
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.hero.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Bricolage26-ExtraBold.ttf",
+   "chromium": 56.46,
+   "harfbuzz": 56.458,
+   "diferenca": -0.0018
   },
   {
    "prancha": "061_revisao_grifo_2_de_5",
@@ -3216,32 +2643,32 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.today.week.label1",
+   "id": "i01.today.week.total",
    "linha": 1,
-   "texto": "T",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.43,
-   "harfbuzz": 6.428,
+   "texto": "4h 00min no total",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 97.72,
+   "harfbuzz": 97.718,
    "diferenca": -0.0016
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.today.week.label1",
+   "id": "i01b.today.week.total",
    "linha": 1,
-   "texto": "T",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.43,
-   "harfbuzz": 6.428,
+   "texto": "4h 00min no total",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 97.72,
+   "harfbuzz": 97.718,
    "diferenca": -0.0016
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.today.week.label1",
+   "id": "i60.today.week.total",
    "linha": 1,
-   "texto": "T",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.43,
-   "harfbuzz": 6.428,
+   "texto": "4h 00min no total",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 97.72,
+   "harfbuzz": 97.718,
    "diferenca": -0.0016
   },
   {
@@ -3255,24 +2682,94 @@
    "diferenca": -0.0016
   },
   {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.actions.save",
+   "prancha": "001_inicio",
+   "id": "i01.alsoReading.card2.meta",
    "linha": 1,
-   "texto": "Salvar",
+   "texto": "Papel · pág. 344",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 34.06,
-   "harfbuzz": 34.058,
-   "diferenca": -0.0016
+   "chromium": 83.96,
+   "harfbuzz": 83.962,
+   "diferenca": 0.0015
   },
   {
-   "prancha": "063_revisao_imagem_compartilhar",
-   "id": "rv63.sheet.actions.more",
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.alsoReading.card2.meta",
    "linha": 1,
-   "texto": "Mais",
+   "texto": "Papel · pág. 344",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 25.42,
-   "harfbuzz": 25.418,
-   "diferenca": -0.0016
+   "chromium": 83.96,
+   "harfbuzz": 83.962,
+   "diferenca": 0.0015
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.alsoReading.card2.meta",
+   "linha": 1,
+   "texto": "Papel · pág. 344",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 83.96,
+   "harfbuzz": 83.962,
+   "diferenca": 0.0015
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.title",
+   "linha": 1,
+   "texto": "Leitoras de",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 112.98,
+   "harfbuzz": 112.979,
+   "diferenca": -0.0012
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.title",
+   "linha": 1,
+   "texto": "Leitoras de",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 112.98,
+   "harfbuzz": 112.979,
+   "diferenca": -0.0012
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.title",
+   "linha": 1,
+   "texto": "Leitoras de",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 112.98,
+   "harfbuzz": 112.979,
+   "diferenca": -0.0012
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.header.greeting",
+   "linha": 1,
+   "texto": "Boa noite,",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 58.43,
+   "harfbuzz": 58.431,
+   "diferenca": 0.0011
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.header.greeting",
+   "linha": 1,
+   "texto": "Boa noite,",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 58.43,
+   "harfbuzz": 58.431,
+   "diferenca": 0.0011
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.header.greeting",
+   "linha": 1,
+   "texto": "Boa noite,",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 58.43,
+   "harfbuzz": 58.431,
+   "diferenca": 0.0011
   },
   {
    "prancha": "001_inicio",
@@ -3281,8 +2778,68 @@
    "texto": "E-BOOK",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 47.14,
-   "harfbuzz": 47.141,
-   "diferenca": 0.0012
+   "harfbuzz": 47.139,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.hero.notesButton.badge",
+   "linha": 1,
+   "texto": "12",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 11.01,
+   "harfbuzz": 11.011,
+   "diferenca": 0.001
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.dial.caption",
+   "linha": 1,
+   "texto": "de 30 min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 49.84,
+   "harfbuzz": 49.841,
+   "diferenca": 0.001
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.week.label2",
+   "linha": 1,
+   "texto": "Q",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 8.68,
+   "harfbuzz": 8.679,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.week.label3",
+   "linha": 1,
+   "texto": "Q",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 8.68,
+   "harfbuzz": 8.679,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.today.footer.text.strong",
+   "linha": 1,
+   "texto": "2 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 34.75,
+   "harfbuzz": 34.749,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.stub.time",
+   "linha": 1,
+   "texto": "20h",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.36,
+   "harfbuzz": 23.361,
+   "diferenca": 0.001
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -3291,8 +2848,68 @@
    "texto": "E-BOOK",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 47.14,
-   "harfbuzz": 47.141,
-   "diferenca": 0.0012
+   "harfbuzz": 47.139,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.hero.notesButton.badge",
+   "linha": 1,
+   "texto": "12",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 11.01,
+   "harfbuzz": 11.011,
+   "diferenca": 0.001
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.dial.caption",
+   "linha": 1,
+   "texto": "de 30 min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 49.84,
+   "harfbuzz": 49.841,
+   "diferenca": 0.001
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label2",
+   "linha": 1,
+   "texto": "Q",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 8.68,
+   "harfbuzz": 8.679,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.week.label3",
+   "linha": 1,
+   "texto": "Q",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 8.68,
+   "harfbuzz": 8.679,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.footer.text.strong",
+   "linha": 1,
+   "texto": "2 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 34.75,
+   "harfbuzz": 34.749,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.stub.time",
+   "linha": 1,
+   "texto": "20h",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.36,
+   "harfbuzz": 23.361,
+   "diferenca": 0.001
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -3301,8 +2918,68 @@
    "texto": "E-BOOK",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 47.14,
-   "harfbuzz": 47.141,
-   "diferenca": 0.0012
+   "harfbuzz": 47.139,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.hero.notesButton.badge",
+   "linha": 1,
+   "texto": "12",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 11.01,
+   "harfbuzz": 11.011,
+   "diferenca": 0.001
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.dial.caption",
+   "linha": 1,
+   "texto": "de 30 min",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 49.84,
+   "harfbuzz": 49.841,
+   "diferenca": 0.001
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.week.label2",
+   "linha": 1,
+   "texto": "Q",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 8.68,
+   "harfbuzz": 8.679,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.week.label3",
+   "linha": 1,
+   "texto": "Q",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 8.68,
+   "harfbuzz": 8.679,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.footer.text.strong",
+   "linha": 1,
+   "texto": "2 dias",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 34.75,
+   "harfbuzz": 34.749,
+   "diferenca": -0.001
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.stub.time",
+   "linha": 1,
+   "texto": "20h",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.36,
+   "harfbuzz": 23.361,
+   "diferenca": 0.001
   },
   {
    "prancha": "061_revisao_grifo_2_de_5",
@@ -3328,93 +3005,63 @@
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.recent.row0.tag",
+   "id": "i01.headline",
    "linha": 1,
-   "texto": "Quero ler",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 51.46,
-   "harfbuzz": 51.461,
-   "diferenca": 0.0008
+   "texto": "Continue",
+   "fonte": "Bricolage42-ExtraBold.ttf",
+   "chromium": 170.69,
+   "harfbuzz": 170.689,
+   "diferenca": -0.0006
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.recent.row0.tag",
+   "id": "i01b.headline",
    "linha": 1,
-   "texto": "Quero ler",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 51.46,
-   "harfbuzz": 51.461,
-   "diferenca": 0.0008
+   "texto": "Continue",
+   "fonte": "Bricolage42-ExtraBold.ttf",
+   "chromium": 170.69,
+   "harfbuzz": 170.689,
+   "diferenca": -0.0006
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.recent.row0.tag",
+   "id": "i60.headline",
    "linha": 1,
-   "texto": "Quero ler",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 51.46,
-   "harfbuzz": 51.461,
-   "diferenca": 0.0008
+   "texto": "Continue",
+   "fonte": "Bricolage42-ExtraBold.ttf",
+   "chromium": 170.69,
+   "harfbuzz": 170.689,
+   "diferenca": -0.0006
   },
   {
    "prancha": "001_inicio",
-   "id": "i01.alsoReading.count",
+   "id": "i01.forYou.item3.author",
    "linha": 1,
-   "texto": "3",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.67,
-   "harfbuzz": 6.67,
-   "diferenca": -0.0004
-  },
-  {
-   "prancha": "001_inicio",
-   "id": "i01.alsoReading.card1.meta",
-   "linha": 1,
-   "texto": "Papel · 3h 40min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 87.52,
-   "harfbuzz": 87.52,
-   "diferenca": -0.0004
+   "texto": "Aluísio Azevedo",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 93.41,
+   "harfbuzz": 93.41,
+   "diferenca": 0.0002
   },
   {
    "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.count",
+   "id": "i01b.forYou.item3.author",
    "linha": 1,
-   "texto": "3",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.67,
-   "harfbuzz": 6.67,
-   "diferenca": -0.0004
-  },
-  {
-   "prancha": "001b_inicio_lendo_agora",
-   "id": "i01b.alsoReading.card1.meta",
-   "linha": 1,
-   "texto": "Papel · 3h 40min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 87.52,
-   "harfbuzz": 87.52,
-   "diferenca": -0.0004
+   "texto": "Aluísio Azevedo",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 93.41,
+   "harfbuzz": 93.41,
+   "diferenca": 0.0002
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.count",
+   "id": "i60.forYou.item3.author",
    "linha": 1,
-   "texto": "3",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 6.67,
-   "harfbuzz": 6.67,
-   "diferenca": -0.0004
-  },
-  {
-   "prancha": "060_inicio_grifos_de_hoje",
-   "id": "i60.alsoReading.card1.meta",
-   "linha": 1,
-   "texto": "Papel · 3h 40min",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 87.52,
-   "harfbuzz": 87.52,
-   "diferenca": -0.0004
+   "texto": "Aluísio Azevedo",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 93.41,
+   "harfbuzz": 93.41,
+   "diferenca": 0.0002
   },
   {
    "prancha": "001_inicio",
@@ -3448,6 +3095,46 @@
   },
   {
    "prancha": "001_inicio",
+   "id": "i01.today.readNow.label",
+   "linha": 1,
+   "texto": "Ler agora",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 60.69,
+   "harfbuzz": 60.69,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.review.subtitle",
+   "linha": 1,
+   "texto": "De Dom Casmurro, Quincas Borba",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 192.65,
+   "harfbuzz": 192.65,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.review.subtitle",
+   "linha": 2,
+   "texto": "e Iracema.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 58.45,
+   "harfbuzz": 58.45,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.pill",
+   "linha": 1,
+   "texto": "Clube do livro",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.38,
+   "harfbuzz": 76.38,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
    "id": "i01.club.avatar3",
    "linha": 1,
    "texto": "+8",
@@ -3458,6 +3145,36 @@
   },
   {
    "prancha": "001_inicio",
+   "id": "i01.club.groupLabel",
+   "linha": 1,
+   "texto": "Grupo em 54%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 81.12,
+   "harfbuzz": 81.12,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.youLabel",
+   "linha": 1,
+   "texto": "Você em 62%",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 74.88,
+   "harfbuzz": 74.88,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.club.stub.day",
+   "linha": 1,
+   "texto": "24",
+   "fonte": "Bricolage42-ExtraBold.ttf",
+   "chromium": 48.24,
+   "harfbuzz": 48.24,
+   "diferenca": -0.0
+  },
+  {
+   "prancha": "001_inicio",
    "id": "i01.club.stub.month",
    "linha": 1,
    "texto": "SET",
@@ -3465,6 +3182,46 @@
    "chromium": 24.24,
    "harfbuzz": 24.24,
    "diferenca": -0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.libraryLink",
+   "linha": 1,
+   "texto": "Biblioteca",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 64.19,
+   "harfbuzz": 64.19,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row1.tag",
+   "linha": 1,
+   "texto": "Lido",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.7,
+   "harfbuzz": 23.7,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row2.title",
+   "linha": 1,
+   "texto": "Senhora",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 56.88,
+   "harfbuzz": 56.88,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001_inicio",
+   "id": "i01.recent.row2.subtitle",
+   "linha": 1,
+   "texto": "José de Alencar · Papel",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 134.94,
+   "harfbuzz": 134.94,
+   "diferenca": 0.0
   },
   {
    "prancha": "001b_inicio_lendo_agora",
@@ -3498,6 +3255,16 @@
   },
   {
    "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.today.readNow.label",
+   "linha": 1,
+   "texto": "Ler agora",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 60.69,
+   "harfbuzz": 60.69,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
    "id": "i01b.forYou.item2.cover.title",
    "linha": 1,
    "texto": "Quincas",
@@ -3518,6 +3285,16 @@
   },
   {
    "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.pill",
+   "linha": 1,
+   "texto": "Clube do livro",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.38,
+   "harfbuzz": 76.38,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
    "id": "i01b.club.avatar3",
    "linha": 1,
    "texto": "+8",
@@ -3528,6 +3305,36 @@
   },
   {
    "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.groupLabel",
+   "linha": 1,
+   "texto": "Grupo em 54%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 81.12,
+   "harfbuzz": 81.12,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.youLabel",
+   "linha": 1,
+   "texto": "Você em 62%",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 74.88,
+   "harfbuzz": 74.88,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.club.stub.day",
+   "linha": 1,
+   "texto": "24",
+   "fonte": "Bricolage42-ExtraBold.ttf",
+   "chromium": 48.24,
+   "harfbuzz": 48.24,
+   "diferenca": -0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
    "id": "i01b.club.stub.month",
    "linha": 1,
    "texto": "SET",
@@ -3535,6 +3342,46 @@
    "chromium": 24.24,
    "harfbuzz": 24.24,
    "diferenca": -0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.libraryLink",
+   "linha": 1,
+   "texto": "Biblioteca",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 64.19,
+   "harfbuzz": 64.19,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row1.tag",
+   "linha": 1,
+   "texto": "Lido",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.7,
+   "harfbuzz": 23.7,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row2.title",
+   "linha": 1,
+   "texto": "Senhora",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 56.88,
+   "harfbuzz": 56.88,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "001b_inicio_lendo_agora",
+   "id": "i01b.recent.row2.subtitle",
+   "linha": 1,
+   "texto": "José de Alencar · Papel",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 134.94,
+   "harfbuzz": 134.94,
+   "diferenca": 0.0
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
@@ -3568,6 +3415,46 @@
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.today.readNow.label",
+   "linha": 1,
+   "texto": "Ler agora",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 60.69,
+   "harfbuzz": 60.69,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.review.subtitle",
+   "linha": 1,
+   "texto": "De Dom Casmurro, Quincas Borba",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 192.65,
+   "harfbuzz": 192.65,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.review.subtitle",
+   "linha": 2,
+   "texto": "e Iracema.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 58.45,
+   "harfbuzz": 58.45,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.pill",
+   "linha": 1,
+   "texto": "Clube do livro",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 76.38,
+   "harfbuzz": 76.38,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
    "id": "i60.club.avatar3",
    "linha": 1,
    "texto": "+8",
@@ -3578,6 +3465,36 @@
   },
   {
    "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.groupLabel",
+   "linha": 1,
+   "texto": "Grupo em 54%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 81.12,
+   "harfbuzz": 81.12,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.youLabel",
+   "linha": 1,
+   "texto": "Você em 62%",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 74.88,
+   "harfbuzz": 74.88,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.club.stub.day",
+   "linha": 1,
+   "texto": "24",
+   "fonte": "Bricolage42-ExtraBold.ttf",
+   "chromium": 48.24,
+   "harfbuzz": 48.24,
+   "diferenca": -0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
    "id": "i60.club.stub.month",
    "linha": 1,
    "texto": "SET",
@@ -3585,6 +3502,46 @@
    "chromium": 24.24,
    "harfbuzz": 24.24,
    "diferenca": -0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.libraryLink",
+   "linha": 1,
+   "texto": "Biblioteca",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 64.19,
+   "harfbuzz": 64.19,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row1.tag",
+   "linha": 1,
+   "texto": "Lido",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.7,
+   "harfbuzz": 23.7,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row2.title",
+   "linha": 1,
+   "texto": "Senhora",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 56.88,
+   "harfbuzz": 56.88,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "060_inicio_grifos_de_hoje",
+   "id": "i60.recent.row2.subtitle",
+   "linha": 1,
+   "texto": "José de Alencar · Papel",
+   "fonte": "Figtree-Medium.ttf",
+   "chromium": 134.94,
+   "harfbuzz": 134.94,
+   "diferenca": 0.0
   },
   {
    "prancha": "061_revisao_grifo_2_de_5",
@@ -3648,6 +3605,36 @@
   },
   {
    "prancha": "062_revisao_fim",
+   "id": "rv62.summary.stats.less.value",
+   "linha": 1,
+   "texto": "1",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 7.81,
+   "harfbuzz": 7.81,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.stats.less.label",
+   "linha": 1,
+   "texto": "menos vezes",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 70.44,
+   "harfbuzz": 70.44,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.stats.newNote.value",
+   "linha": 1,
+   "texto": "1",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 7.81,
+   "harfbuzz": 7.81,
+   "diferenca": -0.0
+  },
+  {
+   "prancha": "062_revisao_fim",
    "id": "rv62.summary.newNote.note.label",
    "linha": 1,
    "texto": "NOTA NOVA · HOJE",
@@ -3655,6 +3642,16 @@
    "chromium": 109.86,
    "harfbuzz": 109.86,
    "diferenca": -0.0
+  },
+  {
+   "prancha": "062_revisao_fim",
+   "id": "rv62.summary.newNote.note.text",
+   "linha": 2,
+   "texto": "eu só percebi agora.",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 120.25,
+   "harfbuzz": 120.25,
+   "diferenca": 0.0
   },
   {
    "prancha": "063_revisao_imagem_compartilhar",

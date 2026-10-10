@@ -110,10 +110,6 @@
   "fontesSaida": "assets/fonts",
   "fontesManifesto": "tools/fonts/fontes_inicio2.json",
   "validacaoFontes": "docs/design/medicao/inicio2/validacao_fontes.json",
-  "validacaoFontesLimites": {
-   "_motivo": "T02: a Figtree-Bold.ttf é a estática da v1 (sem os avanços do HVAR, que a G01 aplicou só às fontes novas): \"Continuar lendo\" (16/700) sai 0,0528 px mais larga que o Chromium e a nota da 62 0,0506 (a G01 parou em 0,0491 com a mesma fonte). Regerar a v1 mudaria fontes e goldens que já existem — fica para decisão (relatório T02).",
-   "Figtree-Bold.ttf": 0.055
-  },
   "validacaoTrechos": true
  }
 }

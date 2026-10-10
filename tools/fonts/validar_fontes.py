@@ -137,12 +137,10 @@ def main():
                     item['variavel'] = round(wv, 3)
                     item['diferencaVariavel'] = round(wv - chrome, 4)
     res.sort(key=lambda r: -abs(r['diferenca']))
-    # T02: limite próprio de uma fonte, com o motivo no conjunto (validacaoFontesLimites); as demais, LIMITE
-    limites = {k: v for k, v in C.get('validacaoFontesLimites', {}).items() if not k.startswith('_')}
-    piores = [r for r in res if abs(r['diferenca']) > limites.get(r['fonte'], LIMITE)]
+    piores = [r for r in res if abs(r['diferenca']) > LIMITE]
     lit = [r for r in res if 'diferencaVariavel' in r]
     resumo = {'linhas': total, 'maxDiferenca': max(abs(r['diferenca']) for r in res),
-              'acimaDoLimite': len(piores), 'limite': LIMITE, **({'limitesPorFonte': limites} if limites else {}),
+              'acimaDoLimite': len(piores), 'limite': LIMITE,
               'literataVariavelMaxDiferenca': max(abs(r['diferencaVariavel']) for r in lit) if lit else None,
               'foraDaConferencia': fora}
     with open(caminho('validacaoFontes'), 'w', encoding='utf-8', newline='\n') as f:

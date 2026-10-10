@@ -1,7 +1,7 @@
 {
  "resumo": {
   "linhas": 498,
-  "maxDiferenca": 0.0491,
+  "maxDiferenca": 0.01,
   "acimaDoLimite": 0,
   "limite": 0.05,
   "literataVariavelMaxDiferenca": 0.01,
@@ -18,356 +18,6 @@
   ]
  },
  "linhas": [
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card2.body.note.text",
-   "linha": 1,
-   "texto": "É o livro todo nessa frase.",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 169.54,
-   "harfbuzz": 169.589,
-   "diferenca": 0.0491
-  },
-  {
-   "prancha": "27_sumario",
-   "id": "toc.sheet.title",
-   "linha": 1,
-   "texto": "Sumário",
-   "fonte": "Bricolage26-ExtraBold.ttf",
-   "chromium": 103.08,
-   "harfbuzz": 103.125,
-   "diferenca": 0.0454
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.title",
-   "linha": 1,
-   "texto": "Sumário",
-   "fonte": "Bricolage26-ExtraBold.ttf",
-   "chromium": 103.08,
-   "harfbuzz": 103.125,
-   "diferenca": 0.0454
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card5.body.note.text",
-   "linha": 1,
-   "texto": "Levar para o encontro de quinta.",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 215.04,
-   "harfbuzz": 215.084,
-   "diferenca": 0.0443
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.subtitle",
-   "linha": 1,
-   "texto": "Fundo · amarelo “lindo” · média",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 174.62,
-   "harfbuzz": 174.651,
-   "diferenca": 0.0312
-  },
-  {
-   "prancha": "23_ajustes_caneta",
-   "id": "pen.penPanel.subtitle",
-   "linha": 1,
-   "texto": "Esferográfica · 1,2 mm · coral",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 162.99,
-   "harfbuzz": 162.964,
-   "diferenca": -0.0263
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.tabs.chapters",
-   "linha": 1,
-   "texto": "Capítulos 148",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 88.04,
-   "harfbuzz": 88.063,
-   "diferenca": 0.0228
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.papers.night.name",
-   "linha": 1,
-   "texto": "Noite",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 30.75,
-   "harfbuzz": 30.768,
-   "diferenca": 0.018
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.fonts.figtree.sample",
-   "linha": 1,
-   "texto": "Aa",
-   "fonte": "Figtree-Regular.ttf",
-   "chromium": 30.69,
-   "harfbuzz": 30.672,
-   "diferenca": -0.0178
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.papers.sepia.name",
-   "linha": 1,
-   "texto": "Sépia",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 30.73,
-   "harfbuzz": 30.713,
-   "diferenca": -0.0172
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.bookmarks.item1.head.chapter",
-   "linha": 1,
-   "texto": "cap. I · Do título",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 86.05,
-   "harfbuzz": 86.066,
-   "diferenca": 0.0164
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.topIsland.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 101.9,
-   "harfbuzz": 101.916,
-   "diferenca": 0.0162
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.topIsland.author",
-   "linha": 1,
-   "texto": "Machado de Assis",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 101.9,
-   "harfbuzz": 101.916,
-   "diferenca": 0.0162
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.bottomIsland.tools.font",
-   "linha": 1,
-   "texto": "Fonte",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 31.7,
-   "harfbuzz": 31.716,
-   "diferenca": 0.016
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.bottomIsland.tools.font",
-   "linha": 1,
-   "texto": "Fonte",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 31.7,
-   "harfbuzz": 31.716,
-   "diferenca": 0.016
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.spacing.tight",
-   "linha": 1,
-   "texto": "Justo",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.28,
-   "harfbuzz": 33.296,
-   "diferenca": 0.0156
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.fonts.literata.caption",
-   "linha": 1,
-   "texto": "tela",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 17.83,
-   "harfbuzz": 17.815,
-   "diferenca": -0.0147
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.hint.text",
-   "linha": 1,
-   "texto": "Toque na fita no alto do leitor para marcar ou",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 264.4,
-   "harfbuzz": 264.386,
-   "diferenca": -0.0138
-  },
-  {
-   "prancha": "22_modo_anotacao",
-   "id": "ann.modePill.subtitle",
-   "linha": 1,
-   "texto": "2 dedos movem a página",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 129.48,
-   "harfbuzz": 129.492,
-   "diferenca": 0.0123
-  },
-  {
-   "prancha": "23_ajustes_caneta",
-   "id": "pen.modePill.subtitle",
-   "linha": 1,
-   "texto": "2 dedos movem a página",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 129.48,
-   "harfbuzz": 129.492,
-   "diferenca": 0.0123
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.modePill.subtitle",
-   "linha": 1,
-   "texto": "2 dedos movem a página",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 129.48,
-   "harfbuzz": 129.492,
-   "diferenca": 0.0123
-  },
-  {
-   "prancha": "24b_nota_mao",
-   "id": "hn.modePill.subtitle",
-   "linha": 1,
-   "texto": "2 dedos movem a página",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 129.48,
-   "harfbuzz": 129.492,
-   "diferenca": 0.0123
-  },
-  {
-   "prancha": "22_modo_anotacao",
-   "id": "ann.island.labels.line",
-   "linha": 1,
-   "texto": "Reta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 21.24,
-   "harfbuzz": 21.252,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "23_ajustes_caneta",
-   "id": "pen.island.labels.line",
-   "linha": 1,
-   "texto": "Reta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 21.24,
-   "harfbuzz": 21.252,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.island.labels.line",
-   "linha": 1,
-   "texto": "Reta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 21.24,
-   "harfbuzz": 21.252,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "24_abrindo_espaco",
-   "id": "sp.island.labels.line",
-   "linha": 1,
-   "texto": "Reta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 21.24,
-   "harfbuzz": 21.252,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "24b_nota_mao",
-   "id": "hn.island.labels.line",
-   "linha": 1,
-   "texto": "Reta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 21.24,
-   "harfbuzz": 21.252,
-   "diferenca": 0.012
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.bookmarks.item3.date",
-   "linha": 1,
-   "texto": "marcada hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 71.59,
-   "harfbuzz": 71.578,
-   "diferenca": -0.0117
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.colors.green.count",
-   "linha": 1,
-   "texto": "2 grifos",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 37.88,
-   "harfbuzz": 37.869,
-   "diferenca": -0.0114
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.colors.lavender.count",
-   "linha": 1,
-   "texto": "2 grifos",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 37.88,
-   "harfbuzz": 37.869,
-   "diferenca": -0.0114
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.bookmarks.item1.date",
-   "linha": 1,
-   "texto": "marcada em 2 set",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 93.52,
-   "harfbuzz": 93.509,
-   "diferenca": -0.0112
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.bookmarks.item2.head.chapter",
-   "linha": 1,
-   "texto": "cap. II · Do livro",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 84.27,
-   "harfbuzz": 84.281,
-   "diferenca": 0.0108
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.hint.text",
-   "linha": 2,
-   "texto": "desmarcar.",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 65.29,
-   "harfbuzz": 65.279,
-   "diferenca": -0.0105
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.bottomIsland.tools.annotate",
-   "linha": 1,
-   "texto": "Anotar",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 38.02,
-   "harfbuzz": 38.03,
-   "diferenca": 0.0104
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.bottomIsland.tools.annotate",
-   "linha": 1,
-   "texto": "Anotar",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 38.02,
-   "harfbuzz": 38.03,
-   "diferenca": 0.0104
-  },
   {
    "prancha": "22_modo_anotacao",
    "id": "ann.island.labels.eraser",
@@ -389,6 +39,16 @@
    "diferenca": -0.01
   },
   {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.island.labels.line",
+   "linha": 1,
+   "texto": "Reta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 21.24,
+   "harfbuzz": 21.25,
+   "diferenca": 0.01
+  },
+  {
    "prancha": "23_ajustes_caneta",
    "id": "pen.island.labels.eraser",
    "linha": 1,
@@ -407,6 +67,16 @@
    "chromium": 21.98,
    "harfbuzz": 21.97,
    "diferenca": -0.01
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.island.labels.line",
+   "linha": 1,
+   "texto": "Reta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 21.24,
+   "harfbuzz": 21.25,
+   "diferenca": 0.01
   },
   {
    "prancha": "23b_ajustes_marcatexto",
@@ -439,6 +109,16 @@
    "diferenca": -0.01
   },
   {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.island.labels.line",
+   "linha": 1,
+   "texto": "Reta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 21.24,
+   "harfbuzz": 21.25,
+   "diferenca": 0.01
+  },
+  {
    "prancha": "24_abrindo_espaco",
    "id": "sp.island.labels.eraser",
    "linha": 1,
@@ -457,6 +137,16 @@
    "chromium": 21.98,
    "harfbuzz": 21.97,
    "diferenca": -0.01
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.island.labels.line",
+   "linha": 1,
+   "texto": "Reta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 21.24,
+   "harfbuzz": 21.25,
+   "diferenca": 0.01
   },
   {
    "prancha": "24_abrindo_espaco",
@@ -489,6 +179,16 @@
    "diferenca": -0.01
   },
   {
+   "prancha": "24b_nota_mao",
+   "id": "hn.island.labels.line",
+   "linha": 1,
+   "texto": "Reta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 21.24,
+   "harfbuzz": 21.25,
+   "diferenca": 0.01
+  },
+  {
    "prancha": "26_ajustes_leitura",
    "id": "rs.sheet.size.larger",
    "linha": 1,
@@ -512,183 +212,13 @@
   },
   {
    "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.fonts.atkinson.caption",
+   "id": "rs.sheet.papers.sepia.name",
    "linha": 1,
-   "texto": "dislexia",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 35.35,
-   "harfbuzz": 35.36,
-   "diferenca": 0.0098
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.fonts.lora.caption",
-   "linha": 1,
-   "texto": "clássica",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 37.27,
-   "harfbuzz": 37.26,
-   "diferenca": -0.0097
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.colors.pink.count",
-   "linha": 1,
-   "texto": "3 grifos",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 37.66,
-   "harfbuzz": 37.651,
-   "diferenca": -0.0092
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.types.notes.count",
-   "linha": 1,
-   "texto": "2",
+   "texto": "Sépia",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.82,
-   "harfbuzz": 7.811,
-   "diferenca": -0.0089
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.bottomIsland.tools.notes",
-   "linha": 1,
-   "texto": "Grifos",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.74,
-   "harfbuzz": 33.749,
-   "diferenca": 0.0088
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.bottomIsland.tools.toc",
-   "linha": 1,
-   "texto": "Sumário",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 45.56,
-   "harfbuzz": 45.569,
-   "diferenca": 0.0088
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.bottomIsland.tools.notes",
-   "linha": 1,
-   "texto": "Grifos",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.74,
-   "harfbuzz": 33.749,
-   "diferenca": 0.0088
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.bottomIsland.tools.toc",
-   "linha": 1,
-   "texto": "Sumário",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 45.56,
-   "harfbuzz": 45.569,
-   "diferenca": 0.0088
-  },
-  {
-   "prancha": "27_sumario",
-   "id": "toc.sheet.tabs.bookmarks.count",
-   "linha": 1,
-   "texto": "3",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.79,
-   "harfbuzz": 7.781,
-   "diferenca": -0.0088
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.tabs.bookmarks.count",
-   "linha": 1,
-   "texto": "3",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.79,
-   "harfbuzz": 7.781,
-   "diferenca": -0.0088
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.fonts.figtree.caption",
-   "linha": 1,
-   "texto": "sem serifa",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 48.84,
-   "harfbuzz": 48.831,
-   "diferenca": -0.0087
-  },
-  {
-   "prancha": "19_leitor_limpo",
-   "id": "r19.footer.pageLabel",
-   "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 87.22,
-   "harfbuzz": 87.211,
-   "diferenca": -0.0086
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.footer.pageLabel",
-   "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 87.22,
-   "harfbuzz": 87.211,
-   "diferenca": -0.0086
-  },
-  {
-   "prancha": "21_selecao_texto",
-   "id": "r21.footer.pageLabel",
-   "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 87.22,
-   "harfbuzz": 87.211,
-   "diferenca": -0.0086
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.footer.pageLabel",
-   "linha": 1,
-   "texto": "pág. 159 de 256",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 87.22,
-   "harfbuzz": 87.211,
-   "diferenca": -0.0086
-  },
-  {
-   "prancha": "19_leitor_limpo",
-   "id": "r19.footer.percent",
-   "linha": 1,
-   "texto": "62%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 23.69,
-   "harfbuzz": 23.682,
-   "diferenca": -0.008
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.footer.percent",
-   "linha": 1,
-   "texto": "62%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 23.69,
-   "harfbuzz": 23.682,
-   "diferenca": -0.008
-  },
-  {
-   "prancha": "21_selecao_texto",
-   "id": "r21.footer.percent",
-   "linha": 1,
-   "texto": "62%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 23.69,
-   "harfbuzz": 23.682,
-   "diferenca": -0.008
+   "chromium": 30.73,
+   "harfbuzz": 30.72,
+   "diferenca": -0.01
   },
   {
    "prancha": "23_ajustes_caneta",
@@ -701,24 +231,14 @@
    "diferenca": -0.008
   },
   {
-   "prancha": "26b_tema_noite",
-   "id": "r20.footer.percent",
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.title",
    "linha": 1,
-   "texto": "62%",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 23.69,
-   "harfbuzz": 23.682,
-   "diferenca": -0.008
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.papers.white.name",
-   "linha": 1,
-   "texto": "Branco",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 38.63,
-   "harfbuzz": 38.638,
-   "diferenca": 0.0076
+   "texto": "Marca-texto",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 128.56,
+   "harfbuzz": 128.568,
+   "diferenca": 0.008
   },
   {
    "prancha": "27_sumario",
@@ -779,26 +299,6 @@
    "diferencaVariavel": -0.007
   },
   {
-   "prancha": "25_grifos_notas",
-   "id": "hl.types.drawings.count",
-   "linha": 1,
-   "texto": "3",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.51,
-   "harfbuzz": 7.503,
-   "diferenca": -0.0067
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.margins.narrow",
-   "linha": 1,
-   "texto": "Estreita",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 46.51,
-   "harfbuzz": 46.517,
-   "diferenca": 0.0066
-  },
-  {
    "prancha": "21_selecao_texto",
    "id": "r21.toolbar.actions.search",
    "linha": 1,
@@ -807,46 +307,6 @@
    "chromium": 36.23,
    "harfbuzz": 36.236,
    "diferenca": 0.0065
-  },
-  {
-   "prancha": "20_leitor_controles",
-   "id": "r20.bottomIsland.tools.theme",
-   "linha": 1,
-   "texto": "Tema",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 29.72,
-   "harfbuzz": 29.726,
-   "diferenca": 0.0064
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card3.head.date",
-   "linha": 1,
-   "texto": "8 set",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 27.26,
-   "harfbuzz": 27.266,
-   "diferenca": 0.0064
-  },
-  {
-   "prancha": "26b_tema_noite",
-   "id": "r20.bottomIsland.tools.theme",
-   "linha": 1,
-   "texto": "Tema",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 29.72,
-   "harfbuzz": 29.726,
-   "diferenca": 0.0064
-  },
-  {
-   "prancha": "24_abrindo_espaco",
-   "id": "sp.modePill.subtitle",
-   "linha": 1,
-   "texto": "Arraste entre as linhas",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 116.06,
-   "harfbuzz": 116.066,
-   "diferenca": 0.0061
   },
   {
    "prancha": "19_leitor_limpo",
@@ -922,16 +382,6 @@
   },
   {
    "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.island.labels.pen",
-   "linha": 1,
-   "texto": "Caneta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.06,
-   "harfbuzz": 33.066,
-   "diferenca": 0.006
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
    "id": "mk.markerPanel.styles.wavy",
    "linha": 1,
    "texto": "Ondulado",
@@ -951,16 +401,6 @@
    "diferenca": 0.006,
    "variavel": 297.415,
    "diferencaVariavel": 0.0048
-  },
-  {
-   "prancha": "24_abrindo_espaco",
-   "id": "sp.island.labels.pen",
-   "linha": 1,
-   "texto": "Caneta",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.06,
-   "harfbuzz": 33.066,
-   "diferenca": 0.006
   },
   {
    "prancha": "24b_nota_mao",
@@ -996,6 +436,16 @@
   },
   {
    "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.papers.night.name",
+   "linha": 1,
+   "texto": "Noite",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 30.75,
+   "harfbuzz": 30.756,
+   "diferenca": 0.006
+  },
+  {
+   "prancha": "26_ajustes_leitura",
    "id": "rs.sheet.spacing.medium",
    "linha": 1,
    "texto": "Médio",
@@ -1003,6 +453,16 @@
    "chromium": 37.46,
    "harfbuzz": 37.466,
    "diferenca": 0.006
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.spacing.loose",
+   "linha": 1,
+   "texto": "Solto",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 31.31,
+   "harfbuzz": 31.304,
+   "diferenca": -0.006
   },
   {
    "prancha": "26b_tema_noite",
@@ -1015,6 +475,16 @@
    "diferenca": 0.006,
    "variavel": 297.415,
    "diferencaVariavel": 0.0048
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.tabs.bookmarks.count",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.79,
+   "harfbuzz": 7.784,
+   "diferenca": -0.006
   },
   {
    "prancha": "27_sumario",
@@ -1040,23 +510,43 @@
   },
   {
    "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.bookmarks.item3.head.chapter",
+   "id": "bm.sheet.tabs.chapters",
    "linha": 1,
-   "texto": "cap. XXXII · Olhos de ressaca",
+   "texto": "Capítulos 148",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 159.21,
-   "harfbuzz": 159.204,
+   "chromium": 88.04,
+   "harfbuzz": 88.046,
+   "diferenca": 0.006
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.tabs.bookmarks.count",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.79,
+   "harfbuzz": 7.784,
    "diferenca": -0.006
   },
   {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.title",
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item2.head.chapter",
    "linha": 1,
-   "texto": "Marca-texto",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 128.56,
-   "harfbuzz": 128.566,
-   "diferenca": 0.0058
+   "texto": "cap. II · Do livro",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 84.27,
+   "harfbuzz": 84.276,
+   "diferenca": 0.006
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card2.body.note.text",
+   "linha": 1,
+   "texto": "É o livro todo nessa frase.",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 169.54,
+   "harfbuzz": 169.546,
+   "diferenca": 0.0056
   },
   {
    "prancha": "21_selecao_texto",
@@ -1099,24 +589,14 @@
    "diferenca": -0.0055
   },
   {
-   "prancha": "27_sumario",
-   "id": "toc.sheet.subtitle",
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.fonts.literata.caption",
    "linha": 1,
-   "texto": "Dom Casmurro · 148 capítulos",
+   "texto": "tela",
    "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 177.12,
-   "harfbuzz": 177.115,
-   "diferenca": -0.0054
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.subtitle",
-   "linha": 1,
-   "texto": "Dom Casmurro · 148 capítulos",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 177.12,
-   "harfbuzz": 177.115,
-   "diferenca": -0.0054
+   "chromium": 17.83,
+   "harfbuzz": 17.825,
+   "diferenca": -0.0052
   },
   {
    "prancha": "27_sumario",
@@ -1171,6 +651,16 @@
    "diferenca": 0.005
   },
   {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.subtitle",
+   "linha": 1,
+   "texto": "Fundo · amarelo “lindo” · média",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 174.62,
+   "harfbuzz": 174.625,
+   "diferenca": 0.005
+  },
+  {
    "prancha": "24_abrindo_espaco",
    "id": "sp.done",
    "linha": 1,
@@ -1192,13 +682,13 @@
   },
   {
    "prancha": "25_grifos_notas",
-   "id": "hl.list.card5.body.club.chip.replies",
+   "id": "hl.list.card5.body.note.text",
    "linha": 1,
-   "texto": "· 3 respostas",
+   "texto": "Levar para o encontro de quinta.",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 71.64,
-   "harfbuzz": 71.645,
-   "diferenca": 0.005
+   "chromium": 215.04,
+   "harfbuzz": 215.035,
+   "diferenca": -0.005
   },
   {
    "prancha": "26_ajustes_leitura",
@@ -1214,6 +704,16 @@
   },
   {
    "prancha": "27_sumario",
+   "id": "toc.sheet.subtitle",
+   "linha": 1,
+   "texto": "Dom Casmurro · 148 capítulos",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 177.12,
+   "harfbuzz": 177.125,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "27_sumario",
    "id": "toc.sheet.club.goal",
    "linha": 1,
    "texto": "Até o cap. L · faltam 18",
@@ -1221,6 +721,26 @@
    "chromium": 157.43,
    "harfbuzz": 157.425,
    "diferenca": -0.005
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.subtitle",
+   "linha": 1,
+   "texto": "Dom Casmurro · 148 capítulos",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 177.12,
+   "harfbuzz": 177.125,
+   "diferenca": 0.005
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.modePill.subtitle",
+   "linha": 1,
+   "texto": "Arraste entre as linhas",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 116.06,
+   "harfbuzz": 116.065,
+   "diferenca": 0.0049
   },
   {
    "prancha": "19_leitor_limpo",
@@ -1403,6 +923,16 @@
    "diferenca": 0.0045
   },
   {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.fonts.atkinson.caption",
+   "linha": 1,
+   "texto": "dislexia",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 35.35,
+   "harfbuzz": 35.355,
+   "diferenca": 0.0045
+  },
+  {
    "prancha": "27b_sumario_marcadas",
    "id": "bm.sheet.bookmarks.item1.excerpt",
    "linha": 3,
@@ -1415,34 +945,24 @@
    "diferencaVariavel": 0.0039
   },
   {
-   "prancha": "24b_nota_mao",
-   "id": "hn.page.handNote.hint",
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.colors.yellow.count",
    "linha": 1,
-   "texto": "puxe a alça para aumentar",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 132.33,
-   "harfbuzz": 132.334,
+   "texto": "5 grifos",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 37.95,
+   "harfbuzz": 37.954,
    "diferenca": 0.0044
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card1.head.date",
-   "linha": 1,
-   "texto": "2 set",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 26.87,
-   "harfbuzz": 26.866,
-   "diferenca": -0.0044
   },
   {
    "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.spacing.loose",
+   "id": "rs.sheet.fonts.lora.caption",
    "linha": 1,
-   "texto": "Solto",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 31.31,
-   "harfbuzz": 31.314,
-   "diferenca": 0.0044
+   "texto": "clássica",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 37.27,
+   "harfbuzz": 37.266,
+   "diferenca": -0.0044
   },
   {
    "prancha": "27_sumario",
@@ -1481,16 +1001,6 @@
    "diferencaVariavel": 0.0033
   },
   {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.heights.low",
-   "linha": 1,
-   "texto": "Baixa",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 31.32,
-   "harfbuzz": 31.316,
-   "diferenca": -0.0043
-  },
-  {
    "prancha": "19_leitor_limpo",
    "id": "r19.page.text",
    "linha": 17,
@@ -1501,6 +1011,16 @@
    "diferenca": -0.004,
    "variavel": 293.725,
    "diferencaVariavel": -0.0047
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.footer.pageLabel",
+   "linha": 1,
+   "texto": "pág. 159 de 256",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 87.22,
+   "harfbuzz": 87.216,
+   "diferenca": -0.004
   },
   {
    "prancha": "20_leitor_controles",
@@ -1516,12 +1036,72 @@
   },
   {
    "prancha": "20_leitor_controles",
+   "id": "r20.footer.pageLabel",
+   "linha": 1,
+   "texto": "pág. 159 de 256",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 87.22,
+   "harfbuzz": 87.216,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.bottomIsland.tools.font",
+   "linha": 1,
+   "texto": "Fonte",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 31.7,
+   "harfbuzz": 31.704,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.bottomIsland.tools.theme",
+   "linha": 1,
+   "texto": "Tema",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 29.72,
+   "harfbuzz": 29.724,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.bottomIsland.tools.notes",
+   "linha": 1,
+   "texto": "Grifos",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.74,
+   "harfbuzz": 33.744,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "20_leitor_controles",
    "id": "r20.bottomIsland.tools.notes.badge",
    "linha": 1,
    "texto": "12",
    "fonte": "Figtree-ExtraBold.ttf",
    "chromium": 11.15,
    "harfbuzz": 11.154,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.bottomIsland.tools.annotate",
+   "linha": 1,
+   "texto": "Anotar",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 38.02,
+   "harfbuzz": 38.016,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.bottomIsland.tools.toc",
+   "linha": 1,
+   "texto": "Sumário",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 45.56,
+   "harfbuzz": 45.564,
    "diferenca": 0.004
   },
   {
@@ -1537,6 +1117,16 @@
    "diferencaVariavel": -0.0047
   },
   {
+   "prancha": "21_selecao_texto",
+   "id": "r21.footer.pageLabel",
+   "linha": 1,
+   "texto": "pág. 159 de 256",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 87.22,
+   "harfbuzz": 87.216,
+   "diferenca": -0.004
+  },
+  {
    "prancha": "22_modo_anotacao",
    "id": "ann.page.text",
    "linha": 17,
@@ -1547,26 +1137,6 @@
    "diferenca": -0.004,
    "variavel": 293.725,
    "diferencaVariavel": -0.0047
-  },
-  {
-   "prancha": "22_modo_anotacao",
-   "id": "ann.island.labels.marker",
-   "linha": 1,
-   "texto": "Marcador",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.03,
-   "harfbuzz": 44.034,
-   "diferenca": 0.004
-  },
-  {
-   "prancha": "22_modo_anotacao",
-   "id": "ann.island.labels.space",
-   "linha": 1,
-   "texto": "Espaço",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.16,
-   "harfbuzz": 33.156,
-   "diferenca": -0.004
   },
   {
    "prancha": "23_ajustes_caneta",
@@ -1581,26 +1151,6 @@
    "diferencaVariavel": -0.0047
   },
   {
-   "prancha": "23_ajustes_caneta",
-   "id": "pen.island.labels.marker",
-   "linha": 1,
-   "texto": "Marcador",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.03,
-   "harfbuzz": 44.034,
-   "diferenca": 0.004
-  },
-  {
-   "prancha": "23_ajustes_caneta",
-   "id": "pen.island.labels.space",
-   "linha": 1,
-   "texto": "Espaço",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.16,
-   "harfbuzz": 33.156,
-   "diferenca": -0.004
-  },
-  {
    "prancha": "23b_ajustes_marcatexto",
    "id": "mk.page.text",
    "linha": 17,
@@ -1611,16 +1161,6 @@
    "diferenca": -0.004,
    "variavel": 293.725,
    "diferencaVariavel": -0.0047
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.island.labels.space",
-   "linha": 1,
-   "texto": "Espaço",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.16,
-   "harfbuzz": 33.156,
-   "diferenca": -0.004
   },
   {
    "prancha": "23b_ajustes_marcatexto",
@@ -1645,16 +1185,6 @@
    "diferencaVariavel": -0.0047
   },
   {
-   "prancha": "24_abrindo_espaco",
-   "id": "sp.island.labels.marker",
-   "linha": 1,
-   "texto": "Marcador",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.03,
-   "harfbuzz": 44.034,
-   "diferenca": 0.004
-  },
-  {
    "prancha": "24b_nota_mao",
    "id": "hn.page.textBelow",
    "linha": 9,
@@ -1667,26 +1197,6 @@
    "diferencaVariavel": -0.0047
   },
   {
-   "prancha": "24b_nota_mao",
-   "id": "hn.island.labels.marker",
-   "linha": 1,
-   "texto": "Marcador",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 44.03,
-   "harfbuzz": 44.034,
-   "diferenca": 0.004
-  },
-  {
-   "prancha": "24b_nota_mao",
-   "id": "hn.island.labels.space",
-   "linha": 1,
-   "texto": "Espaço",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.16,
-   "harfbuzz": 33.156,
-   "diferenca": -0.004
-  },
-  {
    "prancha": "25_grifos_notas",
    "id": "hl.topBar.export",
    "linha": 1,
@@ -1695,6 +1205,36 @@
    "chromium": 57.06,
    "harfbuzz": 57.064,
    "diferenca": 0.004
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.types.drawings.count",
+   "linha": 1,
+   "texto": "3",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.51,
+   "harfbuzz": 7.506,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card3.head.date",
+   "linha": 1,
+   "texto": "8 set",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 27.26,
+   "harfbuzz": 27.264,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card4.head.date",
+   "linha": 1,
+   "texto": "15 set",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 31.96,
+   "harfbuzz": 31.956,
+   "diferenca": -0.004
   },
   {
    "prancha": "25_grifos_notas",
@@ -1785,6 +1325,16 @@
    "diferenca": -0.004
   },
   {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.margins.narrow",
+   "linha": 1,
+   "texto": "Estreita",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 46.51,
+   "harfbuzz": 46.514,
+   "diferenca": 0.004
+  },
+  {
    "prancha": "26b_tema_noite",
    "id": "r20.page.text",
    "linha": 17,
@@ -1798,12 +1348,72 @@
   },
   {
    "prancha": "26b_tema_noite",
+   "id": "r20.footer.pageLabel",
+   "linha": 1,
+   "texto": "pág. 159 de 256",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 87.22,
+   "harfbuzz": 87.216,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.bottomIsland.tools.font",
+   "linha": 1,
+   "texto": "Fonte",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 31.7,
+   "harfbuzz": 31.704,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.bottomIsland.tools.theme",
+   "linha": 1,
+   "texto": "Tema",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 29.72,
+   "harfbuzz": 29.724,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.bottomIsland.tools.notes",
+   "linha": 1,
+   "texto": "Grifos",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.74,
+   "harfbuzz": 33.744,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "26b_tema_noite",
    "id": "r20.bottomIsland.tools.notes.badge",
    "linha": 1,
    "texto": "12",
    "fonte": "Figtree-ExtraBold.ttf",
    "chromium": 11.15,
    "harfbuzz": 11.154,
+   "diferenca": 0.004
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.bottomIsland.tools.annotate",
+   "linha": 1,
+   "texto": "Anotar",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 38.02,
+   "harfbuzz": 38.016,
+   "diferenca": -0.004
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.bottomIsland.tools.toc",
+   "linha": 1,
+   "texto": "Sumário",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 45.56,
+   "harfbuzz": 45.564,
    "diferenca": 0.004
   },
   {
@@ -1891,14 +1501,14 @@
    "diferenca": 0.004
   },
   {
-   "prancha": "23_ajustes_caneta",
-   "id": "pen.penPanel.title",
-   "linha": 1,
-   "texto": "Caneta",
-   "fonte": "Bricolage22-ExtraBold.ttf",
-   "chromium": 74.11,
-   "harfbuzz": 74.114,
-   "diferenca": 0.0038
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.hint.text",
+   "linha": 2,
+   "texto": "desmarcar.",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 65.29,
+   "harfbuzz": 65.286,
+   "diferenca": -0.004
   },
   {
    "prancha": "24_abrindo_espaco",
@@ -2071,6 +1681,16 @@
    "diferencaVariavel": 0.0013
   },
   {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item3.head.chapter",
+   "linha": 1,
+   "texto": "cap. XXXII · Olhos de ressaca",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 159.21,
+   "harfbuzz": 159.214,
+   "diferenca": 0.0036
+  },
+  {
    "prancha": "19_leitor_limpo",
    "id": "r19.page.text",
    "linha": 5,
@@ -2168,6 +1788,26 @@
   },
   {
    "prancha": "25_grifos_notas",
+   "id": "hl.types.all.count",
+   "linha": 1,
+   "texto": "12",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 13.51,
+   "harfbuzz": 13.514,
+   "diferenca": 0.0035
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.types.notes.count",
+   "linha": 1,
+   "texto": "2",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.82,
+   "harfbuzz": 7.816,
+   "diferenca": -0.0035
+  },
+  {
+   "prancha": "25_grifos_notas",
    "id": "hl.list.card7.head.handwritten",
    "linha": 1,
    "texto": "À MÃO",
@@ -2223,6 +1863,16 @@
    "diferenca": 0.0035,
    "variavel": 267.464,
    "diferencaVariavel": 0.004
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item2.date",
+   "linha": 1,
+   "texto": "marcada em 3 set",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 93.25,
+   "harfbuzz": 93.254,
+   "diferenca": 0.0035
   },
   {
    "prancha": "19_leitor_limpo",
@@ -2415,16 +2065,6 @@
    "diferenca": 0.0034,
    "variavel": 312.395,
    "diferencaVariavel": 0.0046
-  },
-  {
-   "prancha": "27b_sumario_marcadas",
-   "id": "bm.sheet.bookmarks.item2.date",
-   "linha": 1,
-   "texto": "marcada em 3 set",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 93.25,
-   "harfbuzz": 93.247,
-   "diferenca": -0.0034
   },
   {
    "prancha": "19_leitor_limpo",
@@ -2773,6 +2413,16 @@
    "diferencaVariavel": -0.0033
   },
   {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.penPanel.title",
+   "linha": 1,
+   "texto": "Caneta",
+   "fonte": "Bricolage22-ExtraBold.ttf",
+   "chromium": 74.11,
+   "harfbuzz": 74.107,
+   "diferenca": -0.0028
+  },
+  {
    "prancha": "23b_ajustes_marcatexto",
    "id": "mk.page.text",
    "linha": 4,
@@ -2783,6 +2433,16 @@
    "diferenca": -0.0028,
    "variavel": 293.197,
    "diferencaVariavel": -0.0033
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.heights.high",
+   "linha": 1,
+   "texto": "Alta",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 23.99,
+   "harfbuzz": 23.993,
+   "diferenca": 0.0028
   },
   {
    "prancha": "24_abrindo_espaco",
@@ -2807,36 +2467,6 @@
    "diferenca": -0.0028,
    "variavel": 293.197,
    "diferencaVariavel": -0.0033
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card6.head.date",
-   "linha": 1,
-   "texto": "hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.95,
-   "harfbuzz": 23.947,
-   "diferenca": -0.0028
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card7.head.date",
-   "linha": 1,
-   "texto": "hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.95,
-   "harfbuzz": 23.947,
-   "diferenca": -0.0028
-  },
-  {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card8.head.date",
-   "linha": 1,
-   "texto": "hoje",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 23.95,
-   "harfbuzz": 23.947,
-   "diferenca": -0.0028
   },
   {
    "prancha": "26_ajustes_leitura",
@@ -3067,16 +2697,6 @@
    "diferencaVariavel": -0.0007
   },
   {
-   "prancha": "25_grifos_notas",
-   "id": "hl.types.highlights.count",
-   "linha": 1,
-   "texto": "6",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 7.83,
-   "harfbuzz": 7.827,
-   "diferenca": -0.0027
-  },
-  {
    "prancha": "26_ajustes_leitura",
    "id": "rs.page.text",
    "linha": 8,
@@ -3185,6 +2805,36 @@
    "diferencaVariavel": 0.0029
   },
   {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.colors.pink.count",
+   "linha": 1,
+   "texto": "3 grifos",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 37.66,
+   "harfbuzz": 37.657,
+   "diferenca": -0.0026
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.colors.green.count",
+   "linha": 1,
+   "texto": "2 grifos",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 37.88,
+   "harfbuzz": 37.877,
+   "diferenca": -0.0026
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.colors.lavender.count",
+   "linha": 1,
+   "texto": "2 grifos",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 37.88,
+   "harfbuzz": 37.877,
+   "diferenca": -0.0026
+  },
+  {
    "prancha": "24_abrindo_espaco",
    "id": "sp.page.textBelow",
    "linha": 6,
@@ -3255,6 +2905,16 @@
    "diferencaVariavel": 0.0035
   },
   {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.penPanel.subtitle",
+   "linha": 1,
+   "texto": "Esferográfica · 1,2 mm · coral",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 162.99,
+   "harfbuzz": 162.993,
+   "diferenca": 0.0025
+  },
+  {
    "prancha": "23b_ajustes_marcatexto",
    "id": "mk.markerPanel.colorsHeader.editLabels",
    "linha": 1,
@@ -3323,6 +2983,16 @@
    "chromium": 106.81,
    "harfbuzz": 106.812,
    "diferenca": 0.0025
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card5.body.club.chip.replies",
+   "linha": 1,
+   "texto": "· 3 respostas",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 71.64,
+   "harfbuzz": 71.638,
+   "diferenca": -0.0025
   },
   {
    "prancha": "25_grifos_notas",
@@ -3399,6 +3069,16 @@
    "diferenca": -0.0025
   },
   {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item3.date",
+   "linha": 1,
+   "texto": "marcada hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 71.59,
+   "harfbuzz": 71.588,
+   "diferenca": -0.0025
+  },
+  {
    "prancha": "19_leitor_limpo",
    "id": "r19.page.text",
    "linha": 22,
@@ -3469,16 +3149,6 @@
    "diferenca": 0.0024,
    "variavel": 218.305,
    "diferencaVariavel": 0.0046
-  },
-  {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.heights.high",
-   "linha": 1,
-   "texto": "Alta",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 23.99,
-   "harfbuzz": 23.988,
-   "diferenca": -0.0024
   },
   {
    "prancha": "24_abrindo_espaco",
@@ -3637,16 +3307,6 @@
    "diferencaVariavel": -0.0019
   },
   {
-   "prancha": "23b_ajustes_marcatexto",
-   "id": "mk.markerPanel.colors.yellow.count",
-   "linha": 1,
-   "texto": "5 grifos",
-   "fonte": "Figtree-SemiBold.ttf",
-   "chromium": 37.95,
-   "harfbuzz": 37.952,
-   "diferenca": 0.0022
-  },
-  {
    "prancha": "24_abrindo_espaco",
    "id": "sp.page.text",
    "linha": 6,
@@ -3681,6 +3341,16 @@
    "diferenca": -0.0022,
    "variavel": 305.608,
    "diferencaVariavel": -0.0019
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.fonts.figtree.sample",
+   "linha": 1,
+   "texto": "Aa",
+   "fonte": "Figtree-Regular.ttf",
+   "chromium": 30.69,
+   "harfbuzz": 30.688,
+   "diferenca": -0.0022
   },
   {
    "prancha": "26b_tema_noite",
@@ -3886,12 +3556,32 @@
   },
   {
    "prancha": "25_grifos_notas",
+   "id": "hl.list.card1.head.date",
+   "linha": 1,
+   "texto": "2 set",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 26.87,
+   "harfbuzz": 26.868,
+   "diferenca": -0.002
+  },
+  {
+   "prancha": "25_grifos_notas",
    "id": "hl.list.card2.head.date",
    "linha": 1,
    "texto": "3 set",
    "fonte": "Figtree-Bold.ttf",
    "chromium": 26.59,
    "harfbuzz": 26.592,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card6.head.date",
+   "linha": 1,
+   "texto": "hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.95,
+   "harfbuzz": 23.952,
    "diferenca": 0.002
   },
   {
@@ -3903,6 +3593,26 @@
    "chromium": 56.66,
    "harfbuzz": 56.658,
    "diferenca": -0.002
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card7.head.date",
+   "linha": 1,
+   "texto": "hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.95,
+   "harfbuzz": 23.952,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.list.card8.head.date",
+   "linha": 1,
+   "texto": "hoje",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 23.95,
+   "harfbuzz": 23.952,
+   "diferenca": 0.002
   },
   {
    "prancha": "25_grifos_notas",
@@ -3965,6 +3675,16 @@
    "chromium": 37.51,
    "harfbuzz": 37.512,
    "diferenca": 0.002
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.papers.white.name",
+   "linha": 1,
+   "texto": "Branco",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 38.63,
+   "harfbuzz": 38.628,
+   "diferenca": -0.002
   },
   {
    "prancha": "26b_tema_noite",
@@ -4179,14 +3899,24 @@
    "diferenca": 0.002
   },
   {
-   "prancha": "25_grifos_notas",
-   "id": "hl.types.all.count",
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item1.head.chapter",
    "linha": 1,
-   "texto": "12",
+   "texto": "cap. I · Do título",
    "fonte": "Figtree-Bold.ttf",
-   "chromium": 13.51,
-   "harfbuzz": 13.508,
-   "diferenca": -0.0019
+   "chromium": 86.05,
+   "harfbuzz": 86.052,
+   "diferenca": 0.002
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item1.date",
+   "linha": 1,
+   "texto": "marcada em 2 set",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 93.52,
+   "harfbuzz": 93.518,
+   "diferenca": -0.002
   },
   {
    "prancha": "27b_sumario_marcadas",
@@ -4201,24 +3931,14 @@
    "diferencaVariavel": -0.0012
   },
   {
-   "prancha": "25_grifos_notas",
-   "id": "hl.list.card4.head.date",
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.heights.low",
    "linha": 1,
-   "texto": "15 set",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 31.96,
-   "harfbuzz": 31.958,
-   "diferenca": -0.0016
-  },
-  {
-   "prancha": "26_ajustes_leitura",
-   "id": "rs.sheet.margins.wide",
-   "linha": 1,
-   "texto": "Larga",
-   "fonte": "Figtree-Bold.ttf",
-   "chromium": 33.58,
-   "harfbuzz": 33.582,
-   "diferenca": 0.0016
+   "texto": "Baixa",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 31.32,
+   "harfbuzz": 31.318,
+   "diferenca": -0.0017
   },
   {
    "prancha": "23b_ajustes_marcatexto",
@@ -4351,6 +4071,16 @@
    "diferencaVariavel": 0.0011
   },
   {
+   "prancha": "20_leitor_controles",
+   "id": "r20.topIsland.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 101.9,
+   "harfbuzz": 101.901,
+   "diferenca": 0.0012
+  },
+  {
    "prancha": "22_modo_anotacao",
    "id": "ann.page.text",
    "linha": 13,
@@ -4409,6 +4139,36 @@
    "diferenca": -0.0012,
    "variavel": 330.66,
    "diferencaVariavel": -0.0003
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.topIsland.author",
+   "linha": 1,
+   "texto": "Machado de Assis",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 101.9,
+   "harfbuzz": 101.901,
+   "diferenca": 0.0012
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.title",
+   "linha": 1,
+   "texto": "Sumário",
+   "fonte": "Bricolage26-ExtraBold.ttf",
+   "chromium": 103.08,
+   "harfbuzz": 103.081,
+   "diferenca": 0.0012
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.title",
+   "linha": 1,
+   "texto": "Sumário",
+   "fonte": "Bricolage26-ExtraBold.ttf",
+   "chromium": 103.08,
+   "harfbuzz": 103.081,
+   "diferenca": 0.0012
   },
   {
    "prancha": "22_modo_anotacao",
@@ -4529,6 +4289,16 @@
    "chromium": 55.67,
    "harfbuzz": 55.671,
    "diferenca": 0.001
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.margins.wide",
+   "linha": 1,
+   "texto": "Larga",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.58,
+   "harfbuzz": 33.579,
+   "diferenca": -0.001
   },
   {
    "prancha": "27_sumario",
@@ -5135,6 +4905,16 @@
    "diferencaVariavel": -0.0001
   },
   {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.hint.text",
+   "linha": 1,
+   "texto": "Toque na fita no alto do leitor para marcar ou",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 264.4,
+   "harfbuzz": 264.401,
+   "diferenca": 0.0005
+  },
+  {
    "prancha": "27_sumario",
    "id": "toc.sheet.chapters.ch37.title",
    "linha": 1,
@@ -5169,6 +4949,56 @@
    "diferenca": -0.0004,
    "variavel": 125.6,
    "diferencaVariavel": 0.0003
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.modePill.subtitle",
+   "linha": 1,
+   "texto": "2 dedos movem a página",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 129.48,
+   "harfbuzz": 129.48,
+   "diferenca": -0.0003
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.modePill.subtitle",
+   "linha": 1,
+   "texto": "2 dedos movem a página",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 129.48,
+   "harfbuzz": 129.48,
+   "diferenca": -0.0003
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.modePill.subtitle",
+   "linha": 1,
+   "texto": "2 dedos movem a página",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 129.48,
+   "harfbuzz": 129.48,
+   "diferenca": -0.0003
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.modePill.subtitle",
+   "linha": 1,
+   "texto": "2 dedos movem a página",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 129.48,
+   "harfbuzz": 129.48,
+   "diferenca": -0.0003
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.fonts.figtree.caption",
+   "linha": 1,
+   "texto": "sem serifa",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 48.84,
+   "harfbuzz": 48.84,
+   "diferenca": -0.0003
   },
   {
    "prancha": "19_leitor_limpo",
@@ -5315,6 +5145,26 @@
    "diferencaVariavel": 0.0003
   },
   {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.footer.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 23.69,
+   "harfbuzz": 23.69,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.footer.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 23.69,
+   "harfbuzz": 23.69,
+   "diferenca": 0.0
+  },
+  {
    "prancha": "20_leitor_controles",
    "id": "r20.timeChip",
    "linha": 1,
@@ -5322,6 +5172,16 @@
    "fonte": "Figtree-ExtraBold.ttf",
    "chromium": 176.95,
    "harfbuzz": 176.95,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.footer.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 23.69,
+   "harfbuzz": 23.69,
    "diferenca": 0.0
   },
   {
@@ -5335,6 +5195,26 @@
    "diferenca": 0.0
   },
   {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.island.labels.marker",
+   "linha": 1,
+   "texto": "Marcador",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.03,
+   "harfbuzz": 44.03,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.island.labels.space",
+   "linha": 1,
+   "texto": "Espaço",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.16,
+   "harfbuzz": 33.16,
+   "diferenca": 0.0
+  },
+  {
    "prancha": "23_ajustes_caneta",
    "id": "pen.island.labels.pen.pill",
    "linha": 1,
@@ -5342,6 +5222,26 @@
    "fonte": "Figtree-ExtraBold.ttf",
    "chromium": 33.42,
    "harfbuzz": 33.42,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.island.labels.marker",
+   "linha": 1,
+   "texto": "Marcador",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.03,
+   "harfbuzz": 44.03,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.island.labels.space",
+   "linha": 1,
+   "texto": "Espaço",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.16,
+   "harfbuzz": 33.16,
    "diferenca": 0.0
   },
   {
@@ -5376,6 +5276,26 @@
   },
   {
    "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.island.labels.pen",
+   "linha": 1,
+   "texto": "Caneta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.06,
+   "harfbuzz": 33.06,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.island.labels.space",
+   "linha": 1,
+   "texto": "Espaço",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.16,
+   "harfbuzz": 33.16,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
    "id": "mk.markerPanel.styles.underline",
    "linha": 1,
    "texto": "Sublinhado",
@@ -5405,6 +5325,36 @@
    "diferenca": 0.0
   },
   {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.island.labels.pen",
+   "linha": 1,
+   "texto": "Caneta",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.06,
+   "harfbuzz": 33.06,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.island.labels.marker",
+   "linha": 1,
+   "texto": "Marcador",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.03,
+   "harfbuzz": 44.03,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.handNote.hint",
+   "linha": 1,
+   "texto": "puxe a alça para aumentar",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 132.33,
+   "harfbuzz": 132.33,
+   "diferenca": 0.0
+  },
+  {
    "prancha": "24b_nota_mao",
    "id": "hn.island.labels.pen.pill",
    "linha": 1,
@@ -5412,6 +5362,26 @@
    "fonte": "Figtree-ExtraBold.ttf",
    "chromium": 33.42,
    "harfbuzz": 33.42,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.island.labels.marker",
+   "linha": 1,
+   "texto": "Marcador",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 44.03,
+   "harfbuzz": 44.03,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.island.labels.space",
+   "linha": 1,
+   "texto": "Espaço",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.16,
+   "harfbuzz": 33.16,
    "diferenca": 0.0
   },
   {
@@ -5423,6 +5393,16 @@
    "chromium": 31.32,
    "harfbuzz": 31.32,
    "diferenca": 0.0
+  },
+  {
+   "prancha": "25_grifos_notas",
+   "id": "hl.types.highlights.count",
+   "linha": 1,
+   "texto": "6",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 7.83,
+   "harfbuzz": 7.83,
+   "diferenca": -0.0
   },
   {
    "prancha": "26_ajustes_leitura",
@@ -5458,6 +5438,16 @@
   },
   {
    "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.spacing.tight",
+   "linha": 1,
+   "texto": "Justo",
+   "fonte": "Figtree-Bold.ttf",
+   "chromium": 33.28,
+   "harfbuzz": 33.28,
+   "diferenca": 0.0
+  },
+  {
+   "prancha": "26_ajustes_leitura",
    "id": "rs.sheet.margins.medium",
    "linha": 1,
    "texto": "Média",
@@ -5465,6 +5455,16 @@
    "chromium": 36.92,
    "harfbuzz": 36.92,
    "diferenca": -0.0
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.footer.percent",
+   "linha": 1,
+   "texto": "62%",
+   "fonte": "Figtree-SemiBold.ttf",
+   "chromium": 23.69,
+   "harfbuzz": 23.69,
+   "diferenca": 0.0
   },
   {
    "prancha": "26b_tema_noite",
