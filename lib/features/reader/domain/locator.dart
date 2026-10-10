@@ -56,6 +56,7 @@ sealed class Locator {
   factory Locator.fromJson(Map<String, Object?> json) =>
       EpubLocator._tryFromJson(json) ??
       PdfLocator._tryFromJson(json) ??
+      PaperLocator._tryFromJson(json) ??
       RawLocator(json);
 
   Map<String, Object?> toJson();
@@ -204,6 +205,45 @@ final class PdfLocator extends Locator {
 
   @override
   int get hashCode => Object.hash(sha, page, refPage, progression);
+}
+
+/// Posição num livro de papel (T04, R7): só a página que a pessoa informou ao encerrar a sessão do cronômetro
+/// (`{"v":1,"kind":"paper","refPage":344}`). O livro de papel não abre no leitor.
+final class PaperLocator extends Locator {
+  PaperLocator(int refPage)
+    : refPage = Check.range(refPage, 1, _maxInt, 'refPage');
+
+  static const _keys = {'v', 'kind', 'refPage'};
+
+  static PaperLocator? _tryFromJson(Map<String, Object?> j) {
+    if (j['v'] != 1 ||
+        j['kind'] != 'paper' ||
+        !_keys.containsAll(j.keys) ||
+        j['refPage'] is! int) {
+      return null;
+    }
+    try {
+      return PaperLocator(j['refPage'] as int);
+    } on ArgumentError {
+      return null;
+    }
+  }
+
+  final int refPage;
+
+  @override
+  Map<String, Object?> toJson() => {
+    'v': 1,
+    'kind': 'paper',
+    'refPage': refPage,
+  };
+
+  @override
+  bool operator ==(Object other) =>
+      other is PaperLocator && other.refPage == refPage;
+
+  @override
+  int get hashCode => Object.hash(PaperLocator, refPage);
 }
 
 /// Localizador em formato não reconhecido — guardado como veio.

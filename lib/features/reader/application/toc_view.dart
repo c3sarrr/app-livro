@@ -499,7 +499,8 @@ List<TocBookmarkCard> _cards(
             offset: offset,
           ),
           PdfLocator(:final page) => (spine: 0, offset: page),
-          RawLocator() => null,
+          // o livro de papel não abre no leitor (T04): o marcador não tem para onde saltar
+          PaperLocator() || RawLocator() => null,
         },
       ),
   ];
