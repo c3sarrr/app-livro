@@ -424,6 +424,11 @@ final class AnnotationSession extends ChangeNotifier {
       ValueNotifier(null);
   Timer? _favoriteTimer;
 
+  /// D-248: o "+" tocado com a cor que já é favorita — a pílula "Essa cor já está nas favoritas." fica
+  /// [favoriteUndoLife] (o "+" fica aceso, como na prancha 23).
+  final ValueNotifier<bool> favoriteAlready = ValueNotifier(false);
+  Timer? _favoriteAlreadyTimer;
+
   /// O traço ao vivo, a prévia da Reta ou o contorno do Laço.
   final ValueNotifier<LiveInk?> live = ValueNotifier(null);
 
@@ -1628,19 +1633,40 @@ final class AnnotationSession extends ChangeNotifier {
       _setPresets(_pen.copyWith(penWidthMm: mm), save: save);
 
   /// [hex] = `#RRGGBB`. Durante o arrasto na roda ou no brilho, [save] = `false` (R6).
-  void setPenColor(String hex, {bool save = true}) =>
-      _setPresets(_pen.copyWith(penColor: hex.toUpperCase()), save: save);
+  void setPenColor(String hex, {bool save = true}) {
+    // o aviso da D-248 é sobre a cor de antes
+    if (hex.toUpperCase() != _pen.penColor.toUpperCase()) {
+      _hideFavoriteAlready();
+    }
+    _setPresets(_pen.copyWith(penColor: hex.toUpperCase()), save: save);
+  }
 
-  /// "+": junta a cor atual no fim das favoritas; `false` se ela já está ou se já são 12 (D-175).
+  /// "+": junta a cor atual no fim das favoritas; `false` se ela já está (com a pílula da D-248) ou se já são 12
+  /// (D-175). Com a pílula do Desfazer na tela, a da D-248 não é armada: ela ficaria escondida atrás e apareceria
+  /// sozinha quando a do Desfazer saísse.
   bool addFavorite() {
     final favs = _pen.favoriteColors;
     final c = _pen.penColor.toUpperCase();
-    if (favs.length >= maxFavoriteColors ||
-        favs.any((f) => f.toUpperCase() == c)) {
+    if (favs.length >= maxFavoriteColors) return false;
+    if (favs.any((f) => f.toUpperCase() == c)) {
+      if (favoriteRemoved.value != null) return false;
+      _favoriteAlreadyTimer?.cancel();
+      favoriteAlready.value = true;
+      _favoriteAlreadyTimer = startTimer(
+        favoriteUndoLife,
+        _hideFavoriteAlready,
+      );
       return false;
     }
+    _hideFavoriteAlready();
     _setPresets(_pen.copyWith(favoriteColors: [...favs, c]));
     return true;
+  }
+
+  void _hideFavoriteAlready() {
+    _favoriteAlreadyTimer?.cancel();
+    _favoriteAlreadyTimer = null;
+    favoriteAlready.value = false;
   }
 
   /// Tira a favorita [hex] e devolve onde ela estava (para o Desfazer da pílula); -1 se ela não está (D-175).
@@ -1648,6 +1674,7 @@ final class AnnotationSession extends ChangeNotifier {
     final favs = _pen.favoriteColors;
     final i = favs.indexWhere((f) => f.toUpperCase() == hex.toUpperCase());
     if (i < 0) return -1;
+    _hideFavoriteAlready();
     _setPresets(_pen.copyWith(favoriteColors: [...favs]..removeAt(i)));
     favoriteRemoved.value = (hex: favs[i].toUpperCase(), index: i);
     _favoriteTimer?.cancel();
@@ -1725,7 +1752,10 @@ final class AnnotationSession extends ChangeNotifier {
     };
   }
 
-  void closePanel() => panel.value = null;
+  void closePanel() {
+    _hideFavoriteAlready();
+    panel.value = null;
+  }
 
   // ---- desfazer -----------------------------------------------------------------------------------------------
 
@@ -2123,6 +2153,8 @@ final class AnnotationSession extends ChangeNotifier {
     panel.dispose();
     _favoriteTimer?.cancel();
     favoriteRemoved.dispose();
+    _favoriteAlreadyTimer?.cancel();
+    favoriteAlready.dispose();
     _noteTimer?.cancel();
     opening.dispose();
     noteDeleted.dispose();

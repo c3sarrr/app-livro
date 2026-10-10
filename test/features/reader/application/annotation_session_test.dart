@@ -649,6 +649,66 @@ void main() {
       expect(s.presets.favoriteColors, hasLength(12));
     });
 
+    test('D-248: o "+" com a cor já favorita avisa ("Essa cor já está nas favoritas." por 4 s); juntar ou tirar '
+        'apaga o aviso; com 12, nada', () {
+      final s = open();
+      expect(s.favoriteAlready.value, isFalse);
+      expect(s.addFavorite(), isFalse); // o coral já é favorito
+      expect(s.favoriteAlready.value, isTrue);
+      expect(timers.pending.last.$1, favoriteUndoLife);
+      timers.pending.removeLast().$2();
+      expect(s.favoriteAlready.value, isFalse);
+      expect(s.addFavorite(), isFalse);
+      s.setPenColor('#12AB34');
+      expect(s.addFavorite(), isTrue);
+      expect(s.favoriteAlready.value, isFalse, reason: 'juntou: o aviso sai');
+      expect(s.addFavorite(), isFalse);
+      expect(s.favoriteAlready.value, isTrue);
+      s.removeFavorite('#058CD7');
+      expect(
+        s.favoriteAlready.value,
+        isFalse,
+        reason: 'a pílula do Desfazer fica no lugar',
+      );
+      for (var i = 0; i < 5; i++) {
+        s.setPenColor('#00000$i');
+        s.addFavorite();
+      }
+      s.setPenColor('#0000AA');
+      s.addFavorite();
+      expect(s.presets.favoriteColors, hasLength(12));
+      s.setPenColor('#ABCDEF');
+      expect(s.addFavorite(), isFalse);
+      expect(
+        s.favoriteAlready.value,
+        isFalse,
+        reason: 'com 12 o "+" nem aparece',
+      );
+    });
+
+    test('D-248 (T01): o aviso não fica velho — trocar de cor ou fechar o painel o apaga; com o Desfazer na tela, o '
+        '"+" não arma um aviso escondido atrás dele', () {
+      final s = open();
+      s.openPanel(AnnotationTool.pen);
+      expect(s.addFavorite(), isFalse);
+      expect(s.favoriteAlready.value, isTrue);
+      s.setPenColor('#12AB34');
+      expect(s.favoriteAlready.value, isFalse, reason: 'a cor mudou');
+      s.setPenColor('#FF552E');
+      expect(s.addFavorite(), isFalse);
+      s.setPenColor('#FF552E');
+      expect(s.favoriteAlready.value, isTrue, reason: 'a mesma cor');
+      s.closePanel();
+      expect(s.favoriteAlready.value, isFalse, reason: 'o painel fechou');
+      // a pílula do Desfazer na tela: o "+" com outra favorita não arma o aviso (ele apareceria sozinho depois)
+      s.openPanel(AnnotationTool.pen);
+      s.removeFavorite('#058CD7');
+      final antes = timers.pending.length;
+      expect(s.addFavorite(), isFalse);
+      expect(s.favoriteAlready.value, isFalse);
+      expect(timers.pending, hasLength(antes));
+    });
+
     test('tirar devolve o lugar; desfazer põe de volta no mesmo lugar; pode ficar sem nenhuma', () {
       final s = open();
       final antes = s.presets.favoriteColors;

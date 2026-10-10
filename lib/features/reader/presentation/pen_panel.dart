@@ -6,7 +6,8 @@
 // - ESPESSURA: o valor ("1,2 mm"), o trilho hachurado com o preenchimento `brand` até o botão de 28, na escala da
 //   D-50, de 0,1 em 0,1; arrastar só muda, soltar grava (R11, R6);
 // - COR: as favoritas em fileiras de 7 lugares (47,5 de passo), a marcada com o aro duplo; o "+" tracejado junta a cor
-//   atual (apagado se ela já é favorita; some com 12); a pressão longa tira, com a pílula e o Desfazer (R12, D-175);
+//   atual (aceso, como na prancha: com a cor já favorita, o toque mostra "Essa cor já está nas favoritas." — D-248;
+//   some com 12); a pressão longa tira, com a pílula e o Desfazer (R12, D-175);
 // - o seletor de cor (R13, R14): com o teclado do hex aberto, o painel sobe até o campo ficar 8 acima dele.
 // O subtítulo (R8) e a pílula das favoritas vão na moldura.
 import 'dart:math' as math;
@@ -37,7 +38,7 @@ import '../application/annotation_session.dart';
 import 'color_picker.dart';
 import 'ink_painter.dart' show inkPath;
 import 'reader_chrome_scope.dart';
-import 'reader_overlays.dart' show ReaderUndoPill;
+import 'reader_overlays.dart' show ReaderToastPill, ReaderUndoPill;
 import 'tool_panel_frame.dart';
 
 /// A prévia amplia o traço em 17/11 (3,4 px a 1,2 mm na Média — D-159).
@@ -179,7 +180,7 @@ class _PenPanelLayerState extends State<PenPanelLayer> {
   Widget build(BuildContext context) {
     final s = widget.session;
     return ListenableBuilder(
-      listenable: Listenable.merge([s, s.favoriteRemoved]),
+      listenable: Listenable.merge([s, s.favoriteRemoved, s.favoriteAlready]),
       builder: (context, _) {
         final keyboard = MediaQuery.viewInsetsOf(context).bottom;
         // R14: com o teclado do hex, o painel sobe até o campo ficar 8 acima dele
@@ -198,12 +199,14 @@ class _PenPanelLayerState extends State<PenPanelLayer> {
           bottomPadding: 18,
           paper: widget.paper,
           onClose: s.closePanel,
-          banner: removed == null
-              ? null
-              : ReaderUndoPill(
+          banner: removed != null
+              ? ReaderUndoPill(
                   text: 'Cor tirada das favoritas',
                   onUndo: s.undoFavoriteRemoval,
-                ),
+                )
+              : s.favoriteAlready.value
+              ? const ReaderToastPill(text: favoriteAlreadyText)
+              : null,
           child: PenPanel(
             session: s,
             onHexFocus: (f) => setState(() => _hex = f),
@@ -536,7 +539,6 @@ class PenPanel extends StatelessWidget {
     final p = scope.palette;
     final favs = pen.favoriteColors;
     final current = pen.penColor.toUpperCase();
-    final known = favs.any((f) => f.toUpperCase() == current);
     final withAdd = favs.length < maxFavoriteColors;
     final slots = favs.length + (withAdd ? 1 : 0);
     final rows = math.max(1, (slots / favoriteColumns).ceil());
@@ -576,16 +578,9 @@ class PenPanel extends StatelessWidget {
                   child: Pressable(
                     key: const ValueKey('$_k.favorites.add'),
                     semanticsLabel: 'Salvar a cor atual nas favoritas',
-                    enabled: !known,
                     onTap: session.addFavorite,
                     child: CustomPaint(
-                      painter: DashedStadiumPainter(
-                        color: known
-                            ? p.border.withValues(
-                                alpha: p.border.a * _disabledAlpha,
-                              )
-                            : p.border,
-                      ),
+                      painter: DashedStadiumPainter(color: p.border),
                       child: SizedBox.square(
                         dimension: 34,
                         child: Center(
@@ -593,13 +588,7 @@ class PenPanel extends StatelessWidget {
                             AppIconsLeitor.plus,
                             key: const ValueKey('$_k.favorites.add.icon'),
                             size: 14,
-                            color: p.night || known
-                                ? p.title.withValues(
-                                    alpha:
-                                        p.title.a *
-                                        (known ? _disabledAlpha : 1),
-                                  )
-                                : null,
+                            color: p.night ? p.title : null,
                             opacity: scope.a < 1 ? scope.a : null,
                           ),
                         ),
@@ -668,8 +657,8 @@ class PenPanel extends StatelessWidget {
 const int favoriteColumns = 7;
 const double favoriteGap = 13.5;
 
-/// O "+" apagado (como o Desfazer vazio).
-const double _disabledAlpha = 0.38;
+/// D-248: a pílula do "+" tocado com a cor que já é favorita.
+const String favoriteAlreadyText = 'Essa cor já está nas favoritas.';
 
 /// As chaves das 6 favoritas de fábrica (os ids do arquivo).
 const Map<String, String> _favoriteIds = {

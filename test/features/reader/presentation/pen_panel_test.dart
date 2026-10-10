@@ -305,13 +305,20 @@ void main() {
     });
 
     testWidgets(
-      'com a cor atual já favorita o "+" fica apagado; com uma cor nova, junta e passa à 2ª fileira',
+      'o "+" fica aceso como na prancha (D-248): com a cor atual já favorita, o toque não junta e mostra '
+      '"Essa cor já está nas favoritas." por 4 s; com uma cor nova, junta e passa à 2ª fileira',
       (tester) async {
         final s = await _montar(tester);
-        expect(
-          _alpha(tester, 'ann.penPanel.favorites.add'),
-          closeTo(0.38, 0.01),
-        );
+        expect(_alpha(tester, 'ann.penPanel.favorites.add'), 1);
+        final antes = s.sessao.presets.favoriteColors;
+        await tester.tap(_k('ann.penPanel.favorites.add'));
+        await tester.pump();
+        expect(s.sessao.presets.favoriteColors, antes);
+        expect(s.gravados, isEmpty);
+        expect(findAppText('Essa cor já está nas favoritas.'), findsOneWidget);
+        s.disparar(const Duration(seconds: 4));
+        await tester.pump();
+        expect(findAppText('Essa cor já está nas favoritas.'), findsNothing);
         final topoAntes = tester.getRect(_k('ann.penPanel')).top;
         s.sessao.setPenColor('#12AB34');
         await tester.pump();
@@ -417,13 +424,13 @@ void main() {
           tester.getSemantics(_k('ann.penPanel.favorites.2')),
           isSemantics(label: 'Cor #12AB34'),
         );
+        // D-248: aceso também com a cor já favorita (o toque avisa)
         expect(
           tester.getSemantics(_k('ann.penPanel.favorites.add')),
           isSemantics(
             label: 'Salvar a cor atual nas favoritas',
             isButton: true,
-            hasEnabledState: true,
-            isEnabled: false,
+            hasTapAction: true,
           ),
         );
         s.sessao.setPenColor('#ABCDEF');
