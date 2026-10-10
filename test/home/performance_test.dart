@@ -12,9 +12,11 @@ import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.d
 import 'package:app_leitura/core/design_system/painters/goal_dial_painter.dart';
 import 'package:app_leitura/core/design_system/painters/hatch_painter.dart';
 import 'package:app_leitura/core/design_system/painters/ring_progress_painter.dart';
+import 'package:app_leitura/core/design_system/painters/svg_dash_painter.dart';
 import 'package:app_leitura/core/design_system/painters/top_border_crescent_painter.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_leitor.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/core/data/clock/hlc.dart';
 import 'package:app_leitura/features/highlights/presentation/highlight_card.dart'
@@ -610,6 +612,16 @@ void main() {
       );
     });
 
+    test('SvgDashPainter (o desenho, a cor, o esmaecimento) — T01', () {
+      final laco = svgDashes[AppIllustrationsLeitor.toolLasso]!;
+      _expectRepaintsOnlyOnChange(() => SvgDashPainter(laco), {
+        'dash': () =>
+            SvgDashPainter(svgDashes[AppIllustrationsLeitor.markerTip]!),
+        'color': () => SvgDashPainter(laco, color: AppColors.azure),
+        'opacity': () => SvgDashPainter(laco, opacity: 0.5),
+      });
+    });
+
     test('todo pintor do app está coberto aqui (nenhum CustomPainter novo sem teste)', () {
       final painters = <String>{};
       for (final file in Directory('lib').listSync(recursive: true)) {
@@ -641,6 +653,7 @@ void main() {
         'MarkerSamplePainter',
         'OpenerPainter',
         'HandNotePainter',
+        'SvgDashPainter',
       });
     });
   });

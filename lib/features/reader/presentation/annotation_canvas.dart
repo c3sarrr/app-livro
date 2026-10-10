@@ -18,6 +18,8 @@ import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/widgets.dart';
 
 import '../../../core/design_system/painters/dashed_stadium_painter.dart';
+import '../../../core/design_system/painters/svg_dash_painter.dart'
+    show dashedPath;
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_strokes.dart';
 import '../annotations/ink/gesture_arbiter.dart';
@@ -578,20 +580,6 @@ void paintLassoShape(Canvas canvas, Path shape) {
         ..strokeWidth = lassoStroke
         ..color = AppColors.ink,
     );
-}
-
-/// [source] em traços de [on] com vãos de [off], ao longo de cada contorno.
-Path dashedPath(Path source, double on, double off) {
-  final out = Path();
-  for (final m in source.computeMetrics()) {
-    var d = 0.0;
-    while (d < m.length) {
-      final end = (d + on).clamp(0, m.length).toDouble();
-      out.addPath(m.extractPath(d, end), Offset.zero);
-      d = end + off;
-    }
-  }
-  return out;
 }
 
 /// O indicador de toque (D-167 6), centrado no dedo: o anel e, se [dot], o ponto na cor da tinta.

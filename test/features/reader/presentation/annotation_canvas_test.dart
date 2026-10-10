@@ -7,6 +7,8 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:app_leitura/core/design_system/painters/svg_dash_painter.dart'
+    show dashedPath;
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';

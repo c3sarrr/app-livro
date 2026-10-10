@@ -1,10 +1,12 @@
-import 'package:flutter/foundation.dart' show mapEquals;
+import 'package:flutter/foundation.dart' show mapEquals, setEquals;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vector_graphics/vector_graphics_compat.dart'
     show RenderingStrategy;
 
+import '../painters/svg_dash_painter.dart';
 import '../tokens/app_icons.dart';
+import '../tokens/app_illustrations_leitor.dart' show svgDashes;
 
 /// Pré-carrega (lê, interpreta e compila) os SVGs do arquivo no cache do flutter_svg. Chamado no `main()` antes
 /// do `runApp`: sem isso o primeiro quadro desenha a tela sem ícones e eles "piscam" ao entrar (o
@@ -24,24 +26,34 @@ Future<Object?> preloadAppSvg(String asset, {Map<Color, Color>? colors}) {
   );
 }
 
-/// O carregador que o [AppSvg] usa para [asset] com a troca [colors] (a mesma chave de cache: para pré-carregar).
+/// O carregador que o [AppSvg] usa para [asset] com a troca [colors] (a mesma chave de cache: para pré-carregar). Nos
+/// desenhos tracejados ([svgDashes], T01) o traço do elemento sai escondido: o [AppSvg] o pinta por cima.
 SvgAssetLoader appSvgLoader(String asset, {Map<Color, Color>? colors}) =>
-    SvgAssetLoader(
-      asset,
-      colorMapper: colors == null ? null : SvgColorSwap(colors),
-    );
+    SvgAssetLoader(asset, colorMapper: _mapperOf(asset, colors));
+
+SvgColorSwap? _mapperOf(String asset, Map<Color, Color>? colors) {
+  final dash = svgDashes[asset];
+  if (colors == null && dash == null) return null;
+  return SvgColorSwap(
+    colors ?? const {},
+    strokeless: dash == null ? const {} : {dash.element},
+  );
+}
 
 /// Troca cores exatas do SVG (o ARGB inteiro) por outras na leitura do arquivo — o `ColorMapper` do flutter_svg: as
-/// ilustrações com as cores do usuário (G16: `#B6ACE4` → a `brand`, `#FF552E` → a tinta). Igual por conteúdo, para
-/// a chave do cache valer entre construções.
+/// ilustrações com as cores do usuário (G16: `#B6ACE4` → a `brand`, `#FF552E` → a tinta). [strokeless]: os elementos
+/// cujo traço sai escondido (T01: o tracejado que o [AppSvg] pinta). Igual por conteúdo, para a chave do cache valer
+/// entre construções.
 @immutable
 final class SvgColorSwap extends ColorMapper {
-  SvgColorSwap(Map<Color, Color> colors)
+  SvgColorSwap(Map<Color, Color> colors, {Set<String> strokeless = const {}})
     : _colors = {
         for (final e in colors.entries) e.key.toARGB32(): e.value.toARGB32(),
-      };
+      },
+      _strokeless = Set.unmodifiable(strokeless);
 
   final Map<int, int> _colors;
+  final Set<String> _strokeless;
 
   @override
   Color substitute(
@@ -50,18 +62,26 @@ final class SvgColorSwap extends ColorMapper {
     String attributeName,
     Color color,
   ) {
+    if (attributeName == 'stroke' && _strokeless.contains(elementName)) {
+      return const Color(0x00000000);
+    }
     final to = _colors[color.toARGB32()];
     return to == null ? color : Color(to);
   }
 
   @override
   bool operator ==(Object other) =>
-      other is SvgColorSwap && mapEquals(other._colors, _colors);
+      other is SvgColorSwap &&
+      mapEquals(other._colors, _colors) &&
+      setEquals(other._strokeless, _strokeless);
 
   @override
-  int get hashCode => Object.hashAllUnordered([
-    for (final e in _colors.entries) Object.hash(e.key, e.value),
-  ]);
+  int get hashCode => Object.hash(
+    Object.hashAllUnordered([
+      for (final e in _colors.entries) Object.hash(e.key, e.value),
+    ]),
+    Object.hashAllUnordered(_strokeless),
+  );
 }
 
 /// Ícone SVG do pacote no tamanho de uso (sem colorFilter; cores já estão no arquivo). [color] tinge o traço
@@ -103,22 +123,35 @@ class AppSvg extends StatelessWidget {
         : a != null && a < 1
         ? ColorFilter.mode(Color.fromRGBO(255, 255, 255, a), BlendMode.modulate)
         : null;
+    final picture = SvgPicture.asset(
+      asset,
+      width: size,
+      height: h,
+      colorFilter: filter,
+      colorMapper: _mapperOf(asset, colors),
+      // com filtro, o caminho por picture pinta numa camada (`saveLayer`, proibida no app — F12 12.4); o
+      // rasterizado aplica o filtro direto na imagem do ícone
+      renderingStrategy: filter == null
+          ? RenderingStrategy.picture
+          : RenderingStrategy.raster,
+    );
+    // T01: o traço tracejado que o SVG leu escondido, por cima (é o último elemento dos dois desenhos)
+    final dash = svgDashes[asset];
     return ExcludeSemantics(
       child: SizedBox(
         width: size,
         height: h,
-        child: SvgPicture.asset(
-          asset,
-          width: size,
-          height: h,
-          colorFilter: filter,
-          colorMapper: colors == null ? null : SvgColorSwap(colors!),
-          // com filtro, o caminho por picture pinta numa camada (`saveLayer`, proibida no app — F12 12.4); o
-          // rasterizado aplica o filtro direto na imagem do ícone
-          renderingStrategy: filter == null
-              ? RenderingStrategy.picture
-              : RenderingStrategy.raster,
-        ),
+        child: dash == null
+            ? picture
+            : CustomPaint(
+                foregroundPainter: SvgDashPainter(
+                  dash,
+                  color: color ?? colors?[dash.color],
+                  // com [color], o desenho não esmaece (o filtro é o `srcIn`); o traço também não
+                  opacity: color != null ? 1 : a ?? 1,
+                ),
+                child: picture,
+              ),
       ),
     );
   }

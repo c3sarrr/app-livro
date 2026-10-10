@@ -2,6 +2,11 @@
 // `handoff_v2/referencia/svg_catalogo.json`): os objetos da prateleira do modo anotação (50×70, telas 22–24b). As
 // cores do usuário entram pela troca de cor do `AppSvg` (`colors`): `#B6ACE4` = a `brand`, `#FF552E` = a tinta. Só a
 // Caneta e o Espaço têm desenho de ativa (D-58).
+import 'package:flutter/painting.dart';
+
+import '../painters/svg_dash_painter.dart';
+import 'app_colors.dart';
+
 abstract final class AppIllustrationsLeitor {
   static const _d = 'assets/illustrations/leitor';
 
@@ -50,3 +55,52 @@ abstract final class AppIllustrationsLeitor {
     toolSpaceActive,
   ];
 }
+
+/// T01 — os desenhos com um traço tracejado (`stroke-dasharray`): a `AppSvg` lê o SVG sem o traço desse elemento e o
+/// pinta por cima, como o Chromium ([SvgDash]).
+final Map<String, SvgDash> svgDashes = {
+  // `<ellipse cx="25" cy="15" rx="15" ry="10.5" stroke="#1A1714" stroke-width="1.7" stroke-dasharray="4 3">`: o
+  // caminho do `<ellipse>` no SVG começa em (cx + rx, cy) e segue no sentido horário
+  AppIllustrationsLeitor.toolLasso: SvgDash(
+    element: 'ellipse',
+    viewBox: const Size(50, 70),
+    path: Path()
+      ..moveTo(40, 15)
+      ..arcToPoint(
+        const Offset(25, 25.5),
+        radius: const Radius.elliptical(15, 10.5),
+      )
+      ..arcToPoint(
+        const Offset(10, 15),
+        radius: const Radius.elliptical(15, 10.5),
+      )
+      ..arcToPoint(
+        const Offset(25, 4.5),
+        radius: const Radius.elliptical(15, 10.5),
+      )
+      ..arcToPoint(
+        const Offset(40, 15),
+        radius: const Radius.elliptical(15, 10.5),
+      )
+      ..close(),
+    on: 4,
+    off: 3,
+    width: 1.7,
+    color: AppColors.ink,
+  ),
+  // `<path d="M3 18C9 13 14 19 20 14S29 12 32 9" stroke="#FF552E" stroke-width="1.6" stroke-linecap="round"
+  // stroke-dasharray="2.5 2.5">` (o `S` repete o reflexo do controle anterior: 26 9)
+  AppIllustrationsLeitor.markerTip: SvgDash(
+    element: 'path',
+    viewBox: const Size(34, 22),
+    path: Path()
+      ..moveTo(3, 18)
+      ..cubicTo(9, 13, 14, 19, 20, 14)
+      ..cubicTo(26, 9, 29, 12, 32, 9),
+    on: 2.5,
+    off: 2.5,
+    width: 1.6,
+    color: AppColors.flame,
+    cap: StrokeCap.round,
+  ),
+};
