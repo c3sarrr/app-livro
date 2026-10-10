@@ -17,6 +17,9 @@ abstract final class AppIllustrationsInicio {
 
   static const all = [coverDomCasmurro, coverBrasCubasWings];
 
+  /// As que a Início da prancha 01 desenha (pré-carregadas no `main()`); a das asas é da 01b (T04).
+  static const inicio01 = [coverDomCasmurro];
+
   /// Os desenhos com `<text>`: o `AppSvg` os lê sem os textos (`svgWithoutText`) e a capa põe os textos em `AppText`
   /// por cima (T03).
   static const Set<String> withText = {coverDomCasmurro, coverBrasCubasWings};

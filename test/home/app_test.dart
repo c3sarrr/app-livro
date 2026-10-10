@@ -1,6 +1,9 @@
 import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_inicio.dart';
+import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:app_leitura/main.dart' as app;
@@ -160,6 +163,32 @@ void main() {
             return loader.loadBytes(null);
           });
           expect(loadedAgain, isFalse, reason: '$asset deveria estar em cache');
+        }
+        // T03 (pendência 3): da Início nova, só o que a 01 desenha; os da 01b e da revisão ficam para as telas deles
+        Future<bool> emCache(String asset) async {
+          final loader = appSvgLoader(asset);
+          var carregou = false;
+          await tester.runAsync(
+            () => svg.cache.putIfAbsent(loader.cacheKey(null), () {
+              carregou = true;
+              return loader.loadBytes(null);
+            }),
+          );
+          return !carregou;
+        }
+
+        final da01 = {
+          ...AppIconsInicio.inicio01,
+          ...AppIllustrationsInicio.inicio01,
+        };
+        for (final asset in da01) {
+          expect(await emCache(asset), isTrue, reason: asset);
+        }
+        for (final asset in [
+          ...AppIconsInicio.all,
+          ...AppIllustrationsInicio.all,
+        ].where((a) => !da01.contains(a))) {
+          expect(await emCache(asset), isFalse, reason: asset);
         }
         final licenses = await tester.runAsync(
           () => LicenseRegistry.licenses.toList(),

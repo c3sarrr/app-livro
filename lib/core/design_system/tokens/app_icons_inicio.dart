@@ -67,6 +67,18 @@ abstract final class AppIconsInicio {
   static const copyText = '$_d/ic_copy_text.svg';
   static const moreCircles = '$_d/ic_more_circles.svg';
 
+  /// Os que a Início da prancha 01 desenha (pré-carregados no `main()`): a lupa, o livro e o "play" do papel, o
+  /// cronômetro do "Ler agora" e os dois brilhos da revisão. Os da 01b e das telas da revisão entram com elas (T04,
+  /// T05).
+  static const inicio01 = [
+    search,
+    bookPaper,
+    play,
+    stopwatch,
+    sparkleYellow,
+    sparkleSolidYellow,
+  ];
+
   static const all = [
     search,
     bookPaper,

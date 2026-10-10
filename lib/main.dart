@@ -43,11 +43,12 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
   registerFontLicenses();
   await configureSystemUi();
   // F12 12.4: os 18 SVGs já estão prontos no primeiro quadro (sem "piscar" na primeira abertura); G12: e os das
-  // ilhas do leitor (a 1ª vez que os controles abrem); T03: e os da Início nova e da revisão.
+  // ilhas do leitor (a 1ª vez que os controles abrem); T03: e os da Início da prancha 01 (os da 01b e da revisão
+  // entram com as telas deles, T04/T05).
   await preloadAppIcons([
     ...AppIcons.all,
-    ...AppIconsInicio.all,
-    ...AppIllustrationsInicio.all,
+    ...AppIconsInicio.inicio01,
+    ...AppIllustrationsInicio.inicio01,
     ...AppIconsLeitor.all,
     ...AppIllustrationsLeitor.plain,
   ]);
