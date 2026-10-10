@@ -14,12 +14,16 @@ contêiner especial sem seção (ESPECIAIS: 'frame' e o <main> da 25).
 
 Uso: python3 tools/medicao/idmaps_spec.py            → gera tools/medicao/idmaps/<slug>.json e confere
      python3 tools/medicao/idmaps_spec.py --mostrar 22 → lista tpl, tag, id e texto para revisão
+T02: com CONJUNTO=inicio2 a especificação vem do módulo do conjunto (conjuntos.json → idmapsSpec, com SPEC, SECOES
+e ESPECIAIS) e a saída vai para a pasta idmaps dele; o gerador é este.
 """
+import importlib
 import json
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import C, caminho, indice  # noqa: E402
 from esboco import esboco  # noqa: E402
 
 AQUI = os.path.dirname(__file__)
@@ -403,7 +407,8 @@ def nos_medidos(slug):
     return [n for n in nodes if n['tpl'] >= 4 and not dentro_de_svg(n)]
 
 
-def gerar(slug, prefixo):
+def gerar(slug, prefixo, SPEC=None, SECOES=None, ESPECIAIS=None):
+    SPEC, SECOES, ESPECIAIS = SPEC or globals()['SPEC'], SECOES or globals()['SECOES'], ESPECIAIS or globals()['ESPECIAIS']
     spec = SPEC[slug]
     nos = nos_medidos(slug)
     erros = []
@@ -426,8 +431,17 @@ def gerar(slug, prefixo):
     return idmap, erros
 
 
+def especificacao():
+    """(SPEC, SECOES, ESPECIAIS) do conjunto: as deste arquivo no leitor; as do módulo idmapsSpec nos outros."""
+    if C['idmapsSpec'] == 'idmaps_spec':
+        return SPEC, SECOES, ESPECIAIS
+    m = importlib.import_module(C['idmapsSpec'])
+    return m.SPEC, m.SECOES, m.ESPECIAIS
+
+
 def main():
-    cfg = json.load(open(os.path.join(AQUI, 'pranchas.json'), encoding='utf-8'))
+    cfg = indice()
+    SPEC, SECOES, ESPECIAIS = especificacao()
     if '--mostrar' in sys.argv:
         alvo = sys.argv[sys.argv.index('--mostrar') + 1]
         p = next(p for p in cfg['pranchas'] if alvo in (p['tela'], p['slug']))
@@ -437,14 +451,14 @@ def main():
             a = n['attrs'].get('aria-label', '')
             print(f"{n['tpl']:>4} {n['tag']:8s} {('OK ' if t == n['tag'] else '≠≠ ' + t):10s} {nome or '—':48s} {a[:30]:30s} {n['text'][:40]}")
         return
-    os.makedirs(os.path.join(AQUI, 'idmaps'), exist_ok=True)
+    os.makedirs(caminho('idmaps'), exist_ok=True)
     todos = []
     total = 0
     for p in cfg['pranchas']:
-        idmap, erros = gerar(p['slug'], p['prefixo'])
+        idmap, erros = gerar(p['slug'], p['prefixo'], SPEC, SECOES, ESPECIAIS)
         todos += erros
         total += len(idmap)
-        with open(os.path.join(AQUI, 'idmaps', f"{p['slug']}.json"), 'w', encoding='utf-8', newline='\n') as f:
+        with open(caminho('idmaps', f"{p['slug']}.json"), 'w', encoding='utf-8', newline='\n') as f:
             json.dump({'prancha': p['slug'], 'prefixo': p['prefixo'],
                        'secoes': [f"{p['prefixo']}.{s}" for s in SECOES[p['slug']]],
                        'especiais': sorted(f"{p['prefixo']}.{e}" for e in ESPECIAIS if f"{p['prefixo']}.{e}" in idmap.values()),

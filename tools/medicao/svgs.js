@@ -3,7 +3,7 @@
 // Uso: NODE_PATH=$(npm root -g) node tools/medicao/svgs.js
 const fs = require('fs');
 const path = require('path');
-const { CFG, pranchas, lancar, abrir, idmap, saidaDir } = require('./comum');
+const { CFG, pranchas, lancar, abrir, idmap, tmpDir } = require('./comum');
 
 (async () => {
   const browser = await lancar();
@@ -27,6 +27,6 @@ const { CFG, pranchas, lancar, abrir, idmap, saidaDir } = require('./comum');
     await page.close();
   }
   await browser.close();
-  fs.writeFileSync(path.join(saidaDir('tools', 'medicao', 'tmp'), 'svgs.json'), JSON.stringify(out, null, 1));
+  fs.writeFileSync(path.join(tmpDir(), 'svgs.json'), JSON.stringify(out, null, 1));
   console.log(Object.entries(out).map(([k, v]) => `${k}: ${Object.keys(v).length}`).join('\n'));
 })();

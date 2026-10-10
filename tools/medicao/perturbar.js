@@ -9,14 +9,14 @@
 // Uso: NODE_PATH=$(npm root -g) node tools/medicao/perturbar.js [todas|19,20…]
 const fs = require('fs');
 const path = require('path');
-const { CFG, RAIZ, pranchas, lancar, abrir, idmap } = require('./comum');
+const { CFG, RAIZ, pranchas, lancar, abrir, idmap, caminho } = require('./comum');
 
 const Z = 100;
 const LIMIAR = 1.5;
 
 (async () => {
   const sel = pranchas(process.argv[2]);
-  const out = path.join(RAIZ, 'handoff_v2', 'referencia', 'layout');
+  const out = caminho('layout');
   const depF = path.join(out, 'text_dependency.json');
   const kniF = path.join(out, 'knife_edges.json');
   const dep = fs.existsSync(depF) && process.argv[2] && process.argv[2] !== 'todas' ? JSON.parse(fs.readFileSync(depF)) : {};

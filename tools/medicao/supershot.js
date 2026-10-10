@@ -6,7 +6,7 @@
 //      (usado só para a variante corrigida da 21: texto que vaza da página escondido — ver relatório G01)
 const fs = require('fs');
 const path = require('path');
-const { pranchas, lancar, abrir, saidaDir } = require('./comum');
+const { pranchas, lancar, abrir, tmpDir } = require('./comum');
 
 (async () => {
   const Z = +(process.argv[3] || 10), TILE = 2000;
@@ -16,7 +16,7 @@ const { pranchas, lancar, abrir, saidaDir } = require('./comum');
     const { page, erros } = await abrir(browser, p, { zoom: Z, viewportH: TILE });
     if (process.env.CSS_EXTRA) { await page.addStyleTag({ content: process.env.CSS_EXTRA }); await page.waitForTimeout(300); }
     const nome = process.env.SUFIXO ? `${p.slug}_${process.env.SUFIXO}` : p.slug;
-    const dir = saidaDir('tools', 'medicao', 'tmp', Z === 10 ? 'supershot' : `supershot_z${Z}`, nome);
+    const dir = tmpDir(Z === 10 ? 'supershot' : `supershot_z${Z}`, nome);
     for (const f of fs.readdirSync(dir)) fs.unlinkSync(path.join(dir, f));
     const H = h * Z;
     let n = 0;

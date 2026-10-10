@@ -10,7 +10,7 @@
 // Uso: NODE_PATH=$(npm root -g) node tools/medicao/medir.js [todas|19,20,…]
 const fs = require('fs');
 const path = require('path');
-const { CFG, pranchas, lancar, abrir, saidaDir, idmap: lerIdmap } = require('./comum');
+const { CFG, pranchas, lancar, abrir, tmpDir, idmap: lerIdmap } = require('./comum');
 
 const Z = 100;
 
@@ -184,7 +184,7 @@ async function passoC(page, ids) {
     await page.close();
     const faltando = Object.values(ids).filter(id => !A.elems[id]);
     const out = { prancha: p.slug, prefixo: p.prefixo, canvas: p.canvas, zoom: Z, ...A, vis: B, ...C, faltando, errosJs: erros };
-    const dir = saidaDir('tools', 'medicao', 'tmp', 'medicao', p.slug);
+    const dir = tmpDir('medicao', p.slug);
     fs.writeFileSync(path.join(dir, 'medida.json'), JSON.stringify(out, null, 1) + '\n');
     const fallback = Object.entries(C.plataforma).filter(([, fs]) => fs.some(f => !f.custom)).map(([k, fs]) => `${k}:${fs.filter(f => !f.custom).map(f => f.family + '×' + f.glyphs).join('+')}`);
     console.log(`${p.slug.padEnd(24)} frame=${A.frame.w}×${A.frame.h} ids=${Object.keys(A.elems).length}/${Object.keys(ids).length} linhas=${Object.keys(A.lines).length} linhasCompostas=${Object.keys(A.linesAll).length} métricas=${Object.keys(A.fontMetrics).length} fallback=${fallback.length ? fallback.join(' ') : '—'}`);

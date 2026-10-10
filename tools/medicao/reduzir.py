@@ -10,7 +10,6 @@ Conferências:
 PNG sem metadados de data (Pillow, optimize) → bytes reprodutíveis.
 Uso: python3 tools/medicao/reduzir.py [todas|19,20…]
 """
-import json
 import os
 import sys
 
@@ -19,15 +18,18 @@ from PIL import Image
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 from compare_images import load_rgb, metrics  # noqa: E402
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import caminho, indice  # noqa: E402
+
 AQUI = os.path.dirname(__file__)
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
-CFG = json.load(open(os.path.join(AQUI, 'pranchas.json'), encoding='utf-8'))
-OUT = os.path.join(RAIZ, 'handoff_v2', 'referencia', 'png')
+CFG = indice()
+OUT = caminho('png')
 Z = 10
 
 
 def stitch(slug, w, h):
-    d = os.path.join(AQUI, 'tmp', 'supershot', slug)
+    d = caminho('tmp', 'supershot', slug)
     tiles = sorted(f for f in os.listdir(d) if f.endswith('.png'))
     big = Image.new('RGB', (w * Z, h * Z))
     y = 0
@@ -51,10 +53,10 @@ def main():
             im = big.resize((w * s, h * s), Image.BOX)
             im.save(os.path.join(OUT, f"{p['slug']}_{w}x{h}@{s}x.png"), optimize=True)
         ref2 = load_rgb(os.path.join(OUT, f"{p['slug']}_{w}x{h}@2x.png"))
-        direto = os.path.join(AQUI, 'tmp', 'render', f"{p['slug']}_nenhum@2x.png")
+        direto = caminho('tmp', 'render', f"{p['slug']}_nenhum@2x.png")
         info = metrics(load_rgb(direto), ref2, 2, 1.5, 16, 24)[0] if os.path.exists(direto) else None
         conv = ''
-        z20 = os.path.join(AQUI, 'tmp', 'supershot_z20', p['slug'])
+        z20 = caminho('tmp', 'supershot_z20', p['slug'])
         if os.path.isdir(z20):
             big20 = Image.new('RGB', (w * 20, h * 20))
             y = 0
@@ -62,13 +64,20 @@ def main():
                 im = Image.open(os.path.join(z20, t)).convert('RGB')
                 big20.paste(im, (0, y))
                 y += im.size[1]
-            m = metrics(big20.resize((w * 2, h * 2), Image.BOX), ref2, 2, 1.5, 16, 24)[0]
+            red20 = big20.resize((w * 2, h * 2), Image.BOX)
+            # T02: faixa y (px CSS) em que o zoom 20 tem defeito de raster conhecido (motivo no índice, '_convergencia')
+            if p.get('convergenciaExcluirY'):
+                y0, y1 = p['convergenciaExcluirY']
+                red20.paste(ref2.crop((0, y0 * 2, w * 2, y1 * 2)), (0, y0 * 2))
+            m = metrics(red20, ref2, 2, 1.5, 16, 24)[0]
             ok = m['blur_mismatch_%'] <= 0.5
             falhas += 0 if ok else 1
-            conv = f"convergência z20×z10: blur {m['blur_mismatch_%']:.4f} % {'OK' if ok else 'FALHOU'} · "
+            sem = p.get('convergenciaExcluirY')
+            conv = (f"convergência z20×z10: blur {m['blur_mismatch_%']:.4f} % {'OK' if ok else 'FALHOU'}"
+                    + (f" (sem y {sem[0]}–{sem[1]})" if sem else '') + ' · ')
         print(f"{p['slug']:24s} @1x/@2x/@3x  {conv}" + (f"(info) × render direto@2x: blur {info['blur_mismatch_%']:.2f} %" if info else ''))
         # variantes (ex.: 21_selecao_texto_corrigida — proposta do relatório G01, não é a referência literal)
-        for var in sorted(os.listdir(os.path.join(AQUI, 'tmp', 'supershot'))):
+        for var in sorted(os.listdir(caminho('tmp', 'supershot'))):
             if var.startswith(p['slug'] + '_'):
                 bigv = stitch(var, w, h)
                 for s in (1, 2, 3):

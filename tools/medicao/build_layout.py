@@ -13,13 +13,14 @@ import os
 import re
 import sys
 
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import caminho, indice  # noqa: E402
 from esboco import esboco  # noqa: E402
 
 AQUI = os.path.dirname(__file__)
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
-CFG = json.load(open(os.path.join(AQUI, 'pranchas.json'), encoding='utf-8'))
-OUT = os.path.join(RAIZ, 'handoff_v2', 'referencia', 'layout')
+CFG = indice()
+OUT = caminho('layout')
 # eixos das fontes variáveis embutidas no arquivo (fvar, conferido com fontTools)
 OPSZ = {'Literata': (7.0, 72.0), 'Bricolage Grotesque': (12.0, 96.0)}
 TRANSP = ('rgba(0, 0, 0, 0)', 'transparent')
@@ -40,7 +41,7 @@ def r2(v):
 
 
 def font_faces(slug):
-    tpl = open(os.path.join(AQUI, 'pranchas', slug, 'template.html'), encoding='utf-8').read()
+    tpl = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
     faces = []
     for m in re.finditer(r'@font-face\s*\{(.*?)\}', tpl, re.S):
         b = m.group(1)
@@ -126,8 +127,8 @@ def font_summary(cs, faces):
 
 def build(p):
     slug, pre = p['slug'], p['prefixo']
-    m = json.load(open(os.path.join(AQUI, 'tmp', 'medicao', slug, 'medida.json'), encoding='utf-8'))
-    im = json.load(open(os.path.join(AQUI, 'idmaps', f'{slug}.json'), encoding='utf-8'))
+    m = json.load(open(caminho('tmp', 'medicao', slug, 'medida.json'), encoding='utf-8'))
+    im = json.load(open(caminho('idmaps', f'{slug}.json'), encoding='utf-8'))
     nodes = {str(n['tpl']): n for n in esboco(slug)}
     faces = font_faces(slug)
     erros = []
@@ -151,9 +152,9 @@ def build(p):
                 if best is None or len(s) > len(best):
                     best = s
         return best
-    props = json.load(open(os.path.join(AQUI, 'pranchas', slug, 'props.json'), encoding='utf-8'))
+    props = json.load(open(caminho('extracao', slug, 'props.json'), encoding='utf-8'))
     out = {'meta': {
-        'source': 'Redesign mobile — App de leitura (1).html', 'prancha': slug, 'titulo': p['titulo'],
+        'source': os.path.basename(CFG['fonte']), 'prancha': slug, 'titulo': p['titulo'],
         'canvas': p['canvas'], 'prefixo': pre, 'units': 'CSS px = dp lógico',
         'measuredWith': 'Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), '
                         'prancha isolada do bundle aninhado, rede bloqueada; bordas exatas (1.5/1.2)',

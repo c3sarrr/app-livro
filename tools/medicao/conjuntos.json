@@ -1,0 +1,119 @@
+{
+ "_doc": "T02 — os conjuntos de pranchas medidos e onde fica cada saída. O script escolhe pela variável CONJUNTO (padrão: leitor, os caminhos da G01). inicio2 segue a D-242: medições em docs/design/medicao/inicio2/, fases em docs/design/fases/, referências Dart em test/reference/inicio2/, extração e temporários fora do git. leitor_conferencia = as entradas do leitor com todas as saídas em tools/medicao/tmp/conferencia_g01/ (refazer a G01 e comparar com o que está commitado, sem tocar no handoff_v2).",
+ "leitor": {
+  "indice": "tools/medicao/pranchas.json",
+  "extracao": "tools/medicao/pranchas",
+  "idmaps": "tools/medicao/idmaps",
+  "idmapsSpec": "idmaps_spec",
+  "tmp": "tools/medicao/tmp",
+  "layout": "handoff_v2/referencia/layout",
+  "png": "handoff_v2/referencia/png",
+  "fasesIndice": "tools/medicao/fases.json",
+  "fasesNotas": "fases_notas",
+  "fases": "handoff_v2/fases",
+  "dart": "test/reference/leitor",
+  "icones": "assets/icons/leitor",
+  "ilustracoes": "assets/illustrations/leitor",
+  "svgTinta": "handoff_v2/referencia/svg_tinta",
+  "svgGraficos": "handoff_v2/referencia/svg_graficos",
+  "svgCatalogo": "handoff_v2/referencia/svg_catalogo.json",
+  "tokens": "handoff_v2/referencia/tokens_leitor.json",
+  "mapa": "handoff_v2/referencia/mapa_widgets.json",
+  "tokensMd": "handoff_v2/fases/L00_tokens_e_widgets.md",
+  "dartTipos": "ref_tipos.dart",
+  "dartIndice": [
+   "referencias_leitor.dart",
+   "kRefLeitor"
+  ],
+  "fasesTrilha": "trilha B do prompt v2",
+  "fasesLeiaMe": [
+   "LEIA-ME.md",
+   "Fases de tela L — leitor (telas 19–27b)",
+   "Geradas na G01 (`tools/medicao/gen_fases.py`) a partir das medições do arquivo novo. Cada fase L é executada dentro da fase G indicada (trilha B do `00_PROMPT_MESTRE_V2.md`) e segue o formato da v1 (`design_handoff/fases/F05_hero_continuar_lendo.md`).",
+   "L00_tokens_e_widgets.md"
+  ],
+  "fontesSaida": "assets/fonts",
+  "fontesManifesto": "tools/fonts/fontes_leitor.json",
+  "validacaoFontes": "tools/fonts/validacao_fontes.json"
+ },
+ "leitor_conferencia": {
+  "indice": "tools/medicao/pranchas.json",
+  "extracao": "tools/medicao/pranchas",
+  "idmaps": "tools/medicao/idmaps",
+  "idmapsSpec": "idmaps_spec",
+  "tmp": "tools/medicao/tmp/conferencia_g01",
+  "layout": "tools/medicao/tmp/conferencia_g01/layout",
+  "png": "tools/medicao/tmp/conferencia_g01/png",
+  "fasesIndice": "tools/medicao/fases.json",
+  "fasesNotas": "fases_notas",
+  "fases": "tools/medicao/tmp/conferencia_g01/fases",
+  "dart": "tools/medicao/tmp/conferencia_g01/dart",
+  "icones": "tools/medicao/tmp/conferencia_g01/icones",
+  "ilustracoes": "tools/medicao/tmp/conferencia_g01/ilustracoes",
+  "svgTinta": "tools/medicao/tmp/conferencia_g01/svg_tinta",
+  "svgGraficos": "tools/medicao/tmp/conferencia_g01/svg_graficos",
+  "svgCatalogo": "tools/medicao/tmp/conferencia_g01/svg_catalogo.json",
+  "tokens": "tools/medicao/tmp/conferencia_g01/tokens_leitor.json",
+  "mapa": "tools/medicao/tmp/conferencia_g01/mapa_widgets.json",
+  "tokensMd": "tools/medicao/tmp/conferencia_g01/fases/L00_tokens_e_widgets.md",
+  "dartTipos": "ref_tipos.dart",
+  "dartIndice": [
+   "referencias_leitor.dart",
+   "kRefLeitor"
+  ],
+  "fasesTrilha": "trilha B do prompt v2",
+  "fasesLeiaMe": [
+   "LEIA-ME.md",
+   "Fases de tela L — leitor (telas 19–27b)",
+   "Geradas na G01 (`tools/medicao/gen_fases.py`) a partir das medições do arquivo novo. Cada fase L é executada dentro da fase G indicada (trilha B do `00_PROMPT_MESTRE_V2.md`) e segue o formato da v1 (`design_handoff/fases/F05_hero_continuar_lendo.md`).",
+   "L00_tokens_e_widgets.md"
+  ],
+  "fontesSaida": "tools/medicao/tmp/conferencia_g01/fonts",
+  "fontesManifesto": "tools/medicao/tmp/conferencia_g01/fontes_leitor.json",
+  "validacaoFontes": "tools/medicao/tmp/conferencia_g01/validacao_fontes.json"
+ },
+ "inicio2": {
+  "indice": "tools/medicao/pranchas_inicio2.json",
+  "extracao": "tools/medicao/pranchas_inicio2",
+  "idmaps": "docs/design/medicao/inicio2/idmaps",
+  "idmapsSpec": "idmaps_spec_inicio2",
+  "tmp": "tools/medicao/tmp/inicio2",
+  "layout": "docs/design/medicao/inicio2/layout",
+  "png": "docs/design/medicao/inicio2/png",
+  "fasesIndice": "tools/medicao/fases_inicio2.json",
+  "fasesNotas": "fases_notas_inicio2",
+  "fases": "docs/design/fases",
+  "dart": "test/reference/inicio2",
+  "icones": "assets/icons/inicio2",
+  "ilustracoes": "assets/illustrations/inicio2",
+  "svgTinta": "docs/design/medicao/inicio2/svg_tinta",
+  "svgGraficos": "docs/design/medicao/inicio2/svg_graficos",
+  "svgCatalogo": "docs/design/medicao/inicio2/svg_catalogo.json",
+  "tokens": "docs/design/medicao/inicio2/tokens_inicio2.json",
+  "mapa": "docs/design/medicao/inicio2/mapa_widgets.json",
+  "tokensMd": "docs/design/fases/L00_inicio2_tokens_e_widgets.md",
+  "dartTipos": "../leitor/ref_tipos.dart",
+  "dartIndice": [
+   "referencias_inicio2.dart",
+   "kRefInicio2"
+  ],
+  "fasesTrilha": "trilha T do PLANO_FIDELIDADE_TELAS.md",
+  "fasesLeiaMe": [
+   "LEIA-ME_inicio2.md",
+   "Fases de tela L — Início e revisão (telas 01, 01b, 60, 61, 62, 63)",
+   "Geradas na T02 (`CONJUNTO=inicio2 python3 tools/medicao/gen_fases.py`) a partir das medições do arquivo `docs/design/referencia/Redesign_mobile___App_de_leitura__1_.html`. Cada fase L é executada dentro da fase T indicada (`docs/progresso/PLANO_FIDELIDADE_TELAS.md`) e segue o formato da v1 (`design_handoff/fases/F05_hero_continuar_lendo.md`).",
+   "L00_inicio2_tokens_e_widgets.md"
+  ],
+  "svgNomes": "svgs_nomes_inicio2",
+  "classeIcones": "AppIconsInicio",
+  "classeIlustracoes": "AppIllustrationsInicio",
+  "fontesSaida": "assets/fonts",
+  "fontesManifesto": "tools/fonts/fontes_inicio2.json",
+  "validacaoFontes": "docs/design/medicao/inicio2/validacao_fontes.json",
+  "validacaoFontesLimites": {
+   "_motivo": "T02: a Figtree-Bold.ttf é a estática da v1 (sem os avanços do HVAR, que a G01 aplicou só às fontes novas): \"Continuar lendo\" (16/700) sai 0,0528 px mais larga que o Chromium e a nota da 62 0,0506 (a G01 parou em 0,0491 com a mesma fonte). Regerar a v1 mudaria fontes e goldens que já existem — fica para decisão (relatório T02).",
+   "Figtree-Bold.ttf": 0.055
+  },
+  "validacaoTrechos": true
+ }
+}

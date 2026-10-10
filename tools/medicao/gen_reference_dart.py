@@ -8,16 +8,24 @@ Convenções da v1: retângulo de LAYOUT (sem transform) em coordenadas absoluta
 horizontal ±1,0 para ids em textDependentX, ±0,5 no resto; ids inline e contêineres especiais (frame, <main>)
 não têm widget próprio no gate de geometria (os inline entram com kind inline, para as linhas do pai).
 Os arquivos começam com `// dart format off` (como na v1).
-Uso: python3 tools/medicao/gen_reference_dart.py
+Uso: [CONJUNTO=inicio2] python3 tools/medicao/gen_reference_dart.py
+T02: as pastas vêm do conjunto (conjuntos.json); os outros conjuntos importam os tipos do leitor (dartTipos) e têm o
+próprio índice (dartIndice: arquivo e nome do mapa).
 """
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import C, caminho, indice  # noqa: E402
 
 AQUI = os.path.dirname(__file__)
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
-LAY = os.path.join(RAIZ, 'handoff_v2', 'referencia', 'layout')
-OUT = os.path.join(RAIZ, 'test', 'reference', 'leitor')
-CFG = json.load(open(os.path.join(AQUI, 'pranchas.json'), encoding='utf-8'))
+LAY = caminho('layout')
+OUT = caminho('dart')
+CFG = indice()
+TIPOS_DART = C['dartTipos']
+INDICE_DART, MAPA_DART = C['dartIndice']
 KIND = {'box': 'LeitorRefKind.box', 'box+text': 'LeitorRefKind.boxText', 'text': 'LeitorRefKind.text',
         'icon': 'LeitorRefKind.icon', 'inline': 'LeitorRefKind.inline'}
 CAB = ['// dart format off',
@@ -140,7 +148,7 @@ def prancha(p, dep, kni):
     out = CAB + [f"// Prancha {p['titulo']} — canvas {W}×{H}, dp lógico = px CSS.",
                  '// Medido no Chromium 141 com zoom 100 (bordas exatas de 1,5/1,3/1,2 px, métricas sem arredondamento).',
                  '// ignore_for_file: lines_longer_than_80_chars',
-                 "import 'dart:ui';", '', "import 'ref_tipos.dart';", '',
+                 "import 'dart:ui';", '', f"import '{TIPOS_DART}';", '',
                  f"const LeitorRefPrancha {const_name(p['tela'])} = LeitorRefPrancha(",
                  f"  tela: {dstr(p['tela'])},", f"  slug: {dstr(p['slug'])},", f"  prefix: {dstr(p['prefixo'])},",
                  f'  canvas: Size({num(W)}, {num(H)}),', '  sections: <String, Rect>{']
@@ -182,10 +190,11 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     dep = json.load(open(os.path.join(LAY, 'text_dependency.json'), encoding='utf-8'))
     kni = json.load(open(os.path.join(LAY, 'knife_edges.json'), encoding='utf-8'))
-    with open(os.path.join(OUT, 'ref_tipos.dart'), 'w', encoding='utf-8', newline='\n') as f:
+    with open(os.path.join(OUT, 'ref_tipos.dart') if TIPOS_DART == 'ref_tipos.dart' else os.devnull, 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(TIPOS))
-    idx = CAB + ['// Índice das referências do leitor: tela → prancha medida.', '// ignore_for_file: lines_longer_than_80_chars',
-                 "import 'ref_tipos.dart';"]
+    titulo = 'do leitor' if MAPA_DART == 'kRefLeitor' else f"de {os.path.basename(CFG['fonte'])}"
+    idx = CAB + [f'// Índice das referências {titulo}: tela → prancha medida.', '// ignore_for_file: lines_longer_than_80_chars',
+                 f"import '{TIPOS_DART}';"]
     imps, mapa = [], []
     for p in CFG['pranchas']:
         src, n = prancha(p, dep, kni)
@@ -194,9 +203,9 @@ def main():
         imps.append(f"import 'reference_layout_{p['slug']}.dart';")
         mapa.append(f"  {dstr(p['tela'])}: {const_name(p['tela'])},")
         print(f"{p['slug']:24s} {n:>4d} elementos → reference_layout_{p['slug']}.dart")
-    idx += imps + ['', "export 'ref_tipos.dart';"] + [i.replace('import', 'export') for i in imps] + [
-        '', 'const Map<String, LeitorRefPrancha> kRefLeitor = <String, LeitorRefPrancha>{'] + mapa + ['};']
-    with open(os.path.join(OUT, 'referencias_leitor.dart'), 'w', encoding='utf-8', newline='\n') as f:
+    idx += imps + ['', f"export '{TIPOS_DART}';"] + [i.replace('import', 'export') for i in imps] + [
+        '', f'const Map<String, LeitorRefPrancha> {MAPA_DART} = <String, LeitorRefPrancha>{{'] + mapa + ['};']
+    with open(os.path.join(OUT, INDICE_DART), 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(idx) + '\n')
 
 

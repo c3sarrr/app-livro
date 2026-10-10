@@ -2,14 +2,15 @@
 // pelo arquivo exportado (<img src="data:…"> com o mesmo estilo e o tamanho medido) e compara a foto
 // com a original (zoom 4). Diferença esperada só no ic_underline (o "a" em <text> perde a Literata
 // quando o SVG vira imagem isolada — armadilha registrada no catálogo).
-// Uso: [CATS=ic,il] NODE_PATH=$(npm root -g) node tools/medicao/conferir_svgs.js && python3 tools/medicao/conferir_svgs.py
+// Uso: [CONJUNTO=inicio2] [CATS=ic,il] NODE_PATH=$(npm root -g) node tools/medicao/conferir_svgs.js && python3 tools/medicao/conferir_svgs.py
+// T02: catálogo e fotos pelo conjunto (svgCatalogo; fotos na pasta tmp do conjunto, não mais em /tmp/claude-0).
 const fs = require('fs');
 const path = require('path');
 
-const { CFG, RAIZ, pranchas, lancar, abrir, idmap } = require('./comum');
+const { RAIZ, pranchas, lancar, abrir, idmap, tmpDir, caminho } = require('./comum');
 
 (async () => {
-  const cat = JSON.parse(fs.readFileSync(path.join(RAIZ, 'handoff_v2', 'referencia', 'svg_catalogo.json')));
+  const cat = JSON.parse(fs.readFileSync(caminho('svgCatalogo')));
   const browser = await lancar();
   const Z = 4, res = {};
   for (const p of pranchas('todas')) {
@@ -19,7 +20,7 @@ const { CFG, RAIZ, pranchas, lancar, abrir, idmap } = require('./comum');
       data: 'data:image/svg+xml;base64,' + fs.readFileSync(path.join(RAIZ, u[p.slug].arquivo)).toString('base64') }));
     if (!trocas.length) continue;
     const { page } = await abrir(browser, p, { zoom: Z, viewportH: Math.min(p.canvas[1] * Z, 4000) });
-    const shot = async (n) => { const f = `/tmp/claude-0/svgcmp_${p.slug}_${n}.png`; await page.screenshot({ path: f, clip: { x: 0, y: 0, width: p.canvas[0] * Z, height: p.canvas[1] * Z }, fullPage: true }); return f; };
+    const shot = async (n) => { const f = path.join(tmpDir('svgcmp'), `${p.slug}_${n}.png`); await page.screenshot({ path: f, clip: { x: 0, y: 0, width: p.canvas[0] * Z, height: p.canvas[1] * Z }, fullPage: true }); return f; };
     const a = await shot('a');
     await page.evaluate(({ trocas, ids }) => {
       const inv = Object.fromEntries(Object.entries(ids).map(([t, id]) => [id, t]));
@@ -28,7 +29,10 @@ const { CFG, RAIZ, pranchas, lancar, abrir, idmap } = require('./comum');
         const r = el.getBoundingClientRect(); const z = parseFloat(document.body.style.zoom) || 1;
         const img = document.createElement('img');
         img.setAttribute('style', el.getAttribute('style') || '');
-        img.style.width = (r.width / z) + 'px'; img.style.height = (r.height / z) + 'px';
+        // T02: o tamanho do layout (getComputedStyle, sem os giros dos pais), não o retângulo visível — na 62 os
+        // selos ficam em cartões girados; sem giro os dois são iguais (leitor)
+        const cs = getComputedStyle(el), cw = parseFloat(cs.width), ch = parseFloat(cs.height);
+        img.style.width = (cw > 0 ? cw : r.width / z) + 'px'; img.style.height = (ch > 0 ? ch : r.height / z) + 'px';
         img.style.display = getComputedStyle(el).display === 'block' ? 'block' : 'inline-block';
         img.style.verticalAlign = getComputedStyle(el).verticalAlign;
         img.src = t.data; el.replaceWith(img);
@@ -40,5 +44,5 @@ const { CFG, RAIZ, pranchas, lancar, abrir, idmap } = require('./comum');
     await page.close();
   }
   await browser.close();
-  fs.writeFileSync('/tmp/claude-0/svgcmp.json', JSON.stringify(res));
+  fs.writeFileSync(path.join(tmpDir('svgcmp'), 'svgcmp.json'), JSON.stringify(res));
 })();

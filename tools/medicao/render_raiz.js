@@ -3,12 +3,12 @@
 // meio pixel. Saída: tools/medicao/tmp/render/<slug>_raiz_<hinting>@2x.png
 // Uso: NODE_PATH=$(npm root -g) node tools/medicao/render_raiz.js [padrao|nenhum]
 const path = require('path');
-const { CFG, RAIZ, lancar, saidaDir } = require('./comum');
+const { CFG, RAIZ, lancar, tmpDir } = require('./comum');
 
 (async () => {
   const hinting = process.argv[2] || 'nenhum';
   const dsf = +(process.argv[3] || 2);
-  const out = saidaDir('tools', 'medicao', 'tmp', 'render');
+  const out = tmpDir('render');
   const browser = await lancar({ hinting });
   const page = await browser.newPage({ viewport: { width: 600, height: 2400 }, deviceScaleFactor: dsf });
   await page.route('**/*', r => r.request().url().startsWith('http') ? r.abort() : r.continue());

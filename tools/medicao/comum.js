@@ -1,13 +1,14 @@
-// Funções comuns das ferramentas de medição v2 (telas 19–27b).
+// Funções comuns das ferramentas de medição v2 (telas 19–27b; T02: qualquer conjunto de conjuntos.json).
 // Requer Playwright 1.56 (Chromium 141) — o mesmo da v1. Rodar a partir da raiz do repositório:
-//   NODE_PATH=$(npm root -g) node tools/medicao/<script>.js <slug|todas> [opções]
+//   NODE_PATH=$(npm root -g) [CONJUNTO=inicio2] node tools/medicao/<script>.js <slug|todas> [opções]
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('playwright');
 
-const RAIZ = path.resolve(__dirname, '..', '..');
-const CFG = JSON.parse(fs.readFileSync(path.join(__dirname, 'pranchas.json'), 'utf8'));
-const PRANCHAS_DIR = path.join(__dirname, 'pranchas');
+const { RAIZ, caminho } = require('./conjunto');
+
+const CFG = JSON.parse(fs.readFileSync(caminho('indice'), 'utf8'));
+const PRANCHAS_DIR = caminho('extracao');
 
 function pranchas(arg) {
   if (!arg || arg === 'todas') return CFG.pranchas;
@@ -58,9 +59,16 @@ function saidaDir(...partes) {
   return d;
 }
 
+// Pasta de temporários do conjunto (tools/medicao/tmp no leitor), criada se faltar.
+function tmpDir(...partes) {
+  const d = caminho('tmp', ...partes);
+  fs.mkdirSync(d, { recursive: true });
+  return d;
+}
+
 function idmap(p) {
-  const f = path.join(__dirname, 'idmaps', `${p.slug}.json`);
+  const f = caminho('idmaps', `${p.slug}.json`);
   return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : null;
 }
 
-module.exports = { CFG, RAIZ, PRANCHAS_DIR, pranchas, lancar, abrir, saidaDir, idmap };
+module.exports = { CFG, RAIZ, PRANCHAS_DIR, pranchas, lancar, abrir, saidaDir, tmpDir, idmap, caminho };

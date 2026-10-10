@@ -3,7 +3,7 @@
 na mesma ordem do dc-runtime (data-dc-tpl = posição do elemento dentro de <x-dc>, começando em 1
 no primeiro filho do <helmet>) e mostra profundidade, tag, comentário do arquivo, aria/role/título,
 texto direto e o estilo inline resumido.
-Uso: python3 tools/medicao/esboco.py <slug> [--json]
+Uso: [CONJUNTO=inicio2] python3 tools/medicao/esboco.py <slug> [--json]
 """
 import html
 import json
@@ -11,6 +11,9 @@ import os
 import re
 import sys
 from html.parser import HTMLParser
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import caminho  # noqa: E402  (T02: a pasta da extração vem do conjunto)
 
 AQUI = os.path.dirname(__file__)
 VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'source', 'track', 'wbr'}
@@ -78,13 +81,13 @@ class P(HTMLParser):
 
 def fatia(slug, tpl):
     """Marcação literal (do template, com {{props}}) do elemento tpl, incluindo o comentário que o precede."""
-    texto = open(os.path.join(AQUI, 'pranchas', slug, 'template.html'), encoding='utf-8').read()
+    texto = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
     n = next(x for x in esboco(slug) if x['tpl'] == tpl)
     return texto[n['ini']:n['fim']], n.get('comment')
 
 
 def esboco(slug):
-    tpl = open(os.path.join(AQUI, 'pranchas', slug, 'template.html'), encoding='utf-8').read()
+    tpl = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
     p = P(tpl)
     p.feed(tpl)
     for n in p.out:

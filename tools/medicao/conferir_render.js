@@ -4,13 +4,13 @@
 // Uso: NODE_PATH=$(npm root -g) node tools/medicao/conferir_render.js [todas|19,20…] [padrao|nenhum]
 const fs = require('fs');
 const path = require('path');
-const { CFG, pranchas, lancar, abrir, saidaDir } = require('./comum');
+const { CFG, pranchas, lancar, abrir, tmpDir } = require('./comum');
 
 (async () => {
   const sel = pranchas(process.argv[2]);
   const hinting = process.argv[3] || 'nenhum';
   const dsf = +(process.argv[4] || 2);
-  const out = saidaDir('tools', 'medicao', 'tmp', 'render');
+  const out = tmpDir('render');
   const browser = await lancar({ hinting });
   const rel = {};
   for (const p of sel) {
