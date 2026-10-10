@@ -3,15 +3,15 @@ import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../reference/reference_layout.dart';
 import '../support/canvas.dart';
+import '../support/geometry.dart';
 import '../support/load_fonts.dart';
 import '../support/text_lines.dart';
 
-/// Helper `expectTextLines` (F01 1.4) contra linhas medidas no HTML: AppText posicionado à mão no
-/// retângulo de referência (as seções de verdade entram nas fases F03–F10).
+/// Helper `expectTextLines` (F01 1.4) contra linhas medidas no HTML: AppText posicionado à mão no retângulo de
+/// referência (as seções de verdade estão nas fases). Desde a T03 a prancha 01 (`kRef01`).
 Widget _at(String id, Widget child, {bool fixedWidth = true}) {
-  final r = kRefLayout[id]!.rect;
+  final r = ref01(id).rect;
   return Positioned(
     left: r.left,
     top: r.top,
@@ -24,7 +24,7 @@ void main() {
   setUpAll(loadAppFonts);
 
   testWidgets(
-    'linha única, várias linhas (3) e reticências conferem com o arquivo',
+    'linha única, várias linhas (capa e subtítulo da revisão) e reticências conferem com o arquivo',
     (tester) async {
       setCanvasView(tester);
       await tester.pumpWidget(
@@ -39,9 +39,14 @@ void main() {
               ),
               _at(
                 'forYou.item1.cover.title',
+                // o `<br>` da capa ("Esaú<br>e Jacó")
+                AppText('Esaú\ne Jacó', style: AppTextStyles.coverTitle22Ink),
+              ),
+              _at(
+                'review.subtitle',
                 AppText(
-                  'Memórias Póstumas de Brás Cubas',
-                  style: AppTextStyles.coverTitle19,
+                  'De Dom Casmurro, Quincas Borba e Iracema.',
+                  style: AppTextStyles.reviewSubtitle,
                 ),
               ),
               _at(
@@ -59,42 +64,51 @@ void main() {
       );
       expectTextLines(tester, 'header.greeting');
       expectTextLines(tester, 'forYou.item1.cover.title');
+      expectTextLines(tester, 'review.subtitle');
       expectTextLines(tester, 'alsoReading.card2.title');
-      final lines = tester
-          .renderObject<RenderAppText>(find.byType(AppText).at(1))
-          .debugLines();
-      final ref = kRefLayout['forYou.item1.cover.title']!.lines;
-      for (var i = 0; i < 3; i++) {
-        debugPrint(
-          '[linhas] L${i + 1} "${lines[i].text}": baseline ${lines[i].baseline.toStringAsFixed(3)} '
-          '(arquivo ${ref[i].baseline}) | fim ${lines[i].right.toStringAsFixed(3)} (arquivo ${ref[i].right})',
-        );
-        // Mais apertado que o gate (±0,5): a baseline de cada linha é a exata do CSS.
-        expect(
-          lines[i].baseline,
-          moreOrLessEquals(ref[i].baseline, epsilon: 0.02),
-        );
+      for (final (i, id) in [
+        (1, 'forYou.item1.cover.title'),
+        (2, 'review.subtitle'),
+      ]) {
+        final lines = tester
+            .renderObject<RenderAppText>(find.byType(AppText).at(i))
+            .debugLines();
+        final ref = ref01(id).lines;
+        expect(lines, hasLength(2), reason: id);
+        for (var l = 0; l < 2; l++) {
+          debugPrint(
+            '[linhas] $id L${l + 1} "${lines[l].text}": baseline ${lines[l].baseline.toStringAsFixed(3)} '
+            '(arquivo ${ref[l].baseline}) | fim ${lines[l].right.toStringAsFixed(3)} (arquivo ${ref[l].right})',
+          );
+          // Mais apertado que o gate (±0,5): a baseline de cada linha é a exata do CSS.
+          expect(
+            lines[l].baseline,
+            moreOrLessEquals(ref[l].baseline, epsilon: 0.02),
+            reason: '$id L${l + 1}',
+          );
+        }
       }
     },
   );
 
   testWidgets('o helper acusa quebra diferente do arquivo', (tester) async {
     setCanvasView(tester);
+    final r = ref01('review.subtitle').rect;
     await tester.pumpWidget(
       Directionality(
         textDirection: TextDirection.ltr,
         child: Stack(
           children: [
-            // Largura errada (200 px): a capa quebraria em 2 linhas, não nas 3 do arquivo.
+            // Largura errada (300 px): o subtítulo caberia numa linha, não nas 2 do arquivo.
             Positioned(
-              left: 37.5,
-              top: 1333.66,
-              width: 200,
+              left: r.left,
+              top: r.top,
+              width: 300,
               child: KeyedSubtree(
-                key: const ValueKey<String>('forYou.item1.cover.title'),
+                key: const ValueKey<String>('review.subtitle'),
                 child: AppText(
-                  'Memórias Póstumas de Brás Cubas',
-                  style: AppTextStyles.coverTitle19,
+                  'De Dom Casmurro, Quincas Borba e Iracema.',
+                  style: AppTextStyles.reviewSubtitle,
                 ),
               ),
             ),
@@ -103,7 +117,7 @@ void main() {
       ),
     );
     expect(
-      () => expectTextLines(tester, 'forYou.item1.cover.title'),
+      () => expectTextLines(tester, 'review.subtitle'),
       throwsA(isA<TestFailure>()),
     );
   });

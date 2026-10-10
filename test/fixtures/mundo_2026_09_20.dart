@@ -3,8 +3,8 @@
 //
 // As pranchas são fotos independentes e nem todas saem do mesmo estado (Anexo 01 §14): cada uma tem
 // o seu instantâneo em `telas/` (derivado daqui). O estado base é o das telas 24b/25 (com a nota à mão).
-// A Início e o Leitor divergem em 4 números (Q25) — o instantâneo da Início (`telas/inicio.dart`)
-// mantém os dela e o teste da fixture lista as diferenças.
+// A Início e o Leitor divergiam em 4 números (Q25); desde a T03 (a Início da prancha 01, `telas/inicio01.dart`)
+// sobra um ("grifos hoje") — o teste da fixture e `test/home/t01_divergencias_test.dart` listam as diferenças.
 //
 // Regras desta fixture:
 // * nada aqui vai para `lib/` (PROMPT MESTRE §4.3.1) — produção só usa dados reais;

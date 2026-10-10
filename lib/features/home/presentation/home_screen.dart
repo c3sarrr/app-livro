@@ -15,16 +15,16 @@ import '../domain/models.dart';
 import 'home_states.dart';
 import 'sections/also_reading_section.dart';
 import 'sections/book_club_ticket.dart';
-import 'sections/continue_reading_hero.dart';
 import 'sections/for_you_section.dart';
 import 'sections/header_section.dart';
 import 'sections/headline_section.dart';
-import 'sections/reading_day_card.dart';
+import 'sections/hero_section.dart';
 import 'sections/recently_added_section.dart';
+import 'sections/review_section.dart';
+import 'sections/today_section.dart';
 
-/// Tela Início: ritmo vertical exato do arquivo — inset superior, as 8 seções, gaps entre seções e padding
-/// inferior (total 2355,16 no canvas). Desde a F10 todas as seções estão construídas; o teste de geometria do
-/// bloco (F02) continua valendo.
+/// Tela Início da prancha 01 (T03, D-240): ritmo vertical exato da prancha — inset superior, as 9 seções, os 8 gaps
+/// entre elas e o padding inferior (o conteúdo termina em 2612,12 no canvas de 390 × 2650).
 ///
 /// F12 12.1: é aqui que os toques das seções viram navegação (mapa de toques da fase). As seções só expõem
 /// callbacks; os destinos são as rotas-placeholder da F02 e os ids vêm do snapshot lido no momento do toque
@@ -130,19 +130,20 @@ class _NoData extends ConsumerWidget {
   }
 }
 
-/// As 8 seções do arquivo, na ordem e com os gaps do arquivo; a que não tem dados some junto com o gap de
-/// antes dela (a seguinte fica com o próprio gap).
+/// As 9 seções da prancha 01, na ordem e com os gaps da prancha; a que não tem dados some junto com o gap de antes
+/// dela (a seguinte fica com o próprio gap).
 class _HomeSections extends ConsumerWidget {
   const _HomeSections();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const gaps = AppSpacing.sectionGaps; // 24, 24, 32, 36, 40, 40, 40
-    // Quais seções têm dados (D-78/D-80/D-81): só isto muda a estrutura da tela.
+    const gaps = AppSpacing.sectionGaps; // 24, 24, 32, 36, 40, 40, 40, 40
+    // Quais seções têm dados (D-78/D-80/D-81, D-247): só isto muda a estrutura da tela.
     final layout = ref.watch(
       homeSnapshotProvider.select(
         (s) => (
           also: s.alsoReading.isNotEmpty,
+          review: s.dailyReview != null,
           forYou: s.forYou != null,
           club: s.club != null,
           recent: s.recent.isNotEmpty,
@@ -174,7 +175,7 @@ class _HomeSections extends ConsumerWidget {
       (
         2,
         _gutter(
-          ContinueReadingHero(
+          HeroSection(
             // o exemplar físico não tem arquivo: vai à página do livro, não ao leitor (D-123)
             onContinueTap: () => withReading(
               (r) => push(
@@ -201,11 +202,14 @@ class _HomeSections extends ConsumerWidget {
             ),
           ),
         ),
-      (4, _gutter(const ReadingDayCard())),
+      (4, _gutter(const TodaySection(onReadNowTap: HomeScreen.onReadNow))),
+      // Só com a fixture até a T05 (D-247): com dados reais a revisão some com o gap.
+      if (layout.review)
+        (5, _gutter(const ReviewSection(onReviewTap: HomeScreen.onReview))),
       // O carrossel vai até as bordas (F08).
       if (layout.forYou)
         (
-          5,
+          6,
           _fullBleed(
             'forYou',
             ForYouSection(
@@ -216,7 +220,7 @@ class _HomeSections extends ConsumerWidget {
         ),
       if (layout.club)
         (
-          6,
+          7,
           _gutter(
             BookClubTicket(
               onDiscussionTap: () {
@@ -228,7 +232,7 @@ class _HomeSections extends ConsumerWidget {
         ),
       if (layout.recent)
         (
-          7,
+          8,
           _gutter(
             RecentlyAddedSection(
               onBookTap: openBook,

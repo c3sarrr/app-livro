@@ -1,7 +1,7 @@
 // T03.8 — fase L01a3 ("Também lendo") contra a prancha 01 (`kRef01`) e as larguras 360/430: o Brás Cubas de papel
 // sem página (a capa da cartola, o "play" sem ação e "Papel · 3h 40min") e o Orgulho e Preconceito de papel na
-// pág. 344 (o anel de 81 % e "Papel · pág. 344") — D-252/D-253. A seção muda no lugar: com os dados da v1 (dois
-// e-books) desenha a v1. Recorte do gate visual: y 554,96–776,77 (`docs/design/fases/L01a3_tambem_lendo.md`).
+// pág. 344 (o anel de 81 % e "Papel · pág. 344") — D-252/D-253. A seção mudou no lugar: com dois e-books (os dados
+// da v1) desenha a v1. Recorte do gate visual: y 554,96–776,77 (`docs/design/fases/L01a3_tambem_lendo.md`).
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/design_system/painters/ring_progress_painter.dart';
@@ -24,6 +24,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/home_mock_repository.dart';
 import '../../fixtures/telas/inicio01.dart';
 import '../../reference/inicio2/referencias_inicio2.dart';
 import '../../reference/inicio2_larguras/referencias_inicio2_larguras.dart';
@@ -79,19 +80,17 @@ Future<void> _abrir(
   WidgetTester tester, {
   LeitorRefPrancha prancha = kRef01,
   List<AlsoReadingItem>? livros,
-  ValueChanged<Book>? onBookTap,
-  ValueChanged<Book>? onStartReadingTap,
-}) => abrirSecoes01(
+}) => abrirInicio01(
   tester,
-  {
-    'i01.alsoReading': AlsoReadingSection(
-      onBookTap: onBookTap,
-      onStartReadingTap: onStartReadingTap ?? HomeScreen.onStartReading,
-    ),
-  },
   prancha: prancha,
-  repositorio: livros == null ? const RepositorioT01() : _ComLivros(livros),
+  repositorio: livros == null ? const HomeMockRepository() : _ComLivros(livros),
 );
+
+/// Voltar do sistema: fecha a rota do topo (de volta à Início).
+Future<void> _voltar(WidgetTester tester) async {
+  await tester.binding.handlePopRoute();
+  await tester.pumpAndSettle();
+}
 
 /// A largura natural de [texto] no estilo do título dos cartões (Figtree 15/700).
 double _largura(String texto) {
@@ -394,7 +393,7 @@ void main() {
   });
 
   testWidgets(
-    'com os dados da v1 (dois e-books): a v1 — sem pílula, cartões de 123,6, os dois links',
+    'D-253 com dois e-books (os dados da v1): o desenho da v1 — sem pílula, cartões de 123,6, os dois links',
     (tester) async {
       await _abrir(
         tester,
@@ -403,7 +402,13 @@ void main() {
           _item(1, format: BookFormat.epub),
         ],
       );
-      expect(find.byType(Pill), findsNothing);
+      expect(
+        find.descendant(
+          of: ini('i01.alsoReading'),
+          matching: find.byType(Pill),
+        ),
+        findsNothing,
+      );
       expect(
         tester.getSize(ini('i01.alsoReading.card1')).height,
         closeTo(123.6, 1e-3),
@@ -420,7 +425,7 @@ void main() {
     '"play" é o botão "Iniciar leitura de Brás Cubas", o cartão do Orgulho é link; ícones e anel fora',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      await _abrir(tester, onBookTap: (_) {});
+      await _abrir(tester);
       expect(find.semantics.byLabel('Também lendo'), findsAtLeast(1));
       final capa = find.semantics.byLabel('Memórias Póstumas de Brás Cubas');
       expect(capa, findsOneWidget);
@@ -459,28 +464,26 @@ void main() {
     },
   );
 
-  testWidgets('L01a3 toques: a capa do Brás Cubas e o cartão do Orgulho abrem o livro; o "play" chama o callback '
-      'da seção e a Início passa o "sem ação" (D-243 b)', (tester) async {
-    final abertos = <String>[];
-    final plays = <String>[];
-    await _abrir(
-      tester,
-      onBookTap: (b) => abertos.add(b.title),
-      onStartReadingTap: (b) => plays.add(b.title),
+  testWidgets('L01a3 toques: a capa do Brás Cubas e o cartão do Orgulho abrem a página do livro; o "play" fica na '
+      'Início (o cronômetro é da T04 — D-243 b)', (tester) async {
+    await _abrir(tester);
+    expect(
+      tester
+          .widget<AlsoReadingSection>(find.byType(AlsoReadingSection))
+          .onStartReadingTap,
+      HomeScreen.onStartReading,
     );
-    await tester.tap(ini('i01.alsoReading.card1.cover'));
-    await tester.tap(ini('i01.alsoReading.card2'));
-    await tester.tap(ini('i01.alsoReading.card1.play'));
-    await tester.pumpAndSettle();
-    expect(abertos, [
-      'Memórias Póstumas de Brás Cubas',
-      'Orgulho e Preconceito',
-    ]);
-    expect(plays, ['Memórias Póstumas de Brás Cubas']);
     expect(
       () => HomeScreen.onStartReading(TelaInicio01.brasCubas),
       returnsNormally,
     );
+    await tocar01(tester, 'i01.alsoReading.card1.play');
+    expect(rotaAtual(tester), '/inicio');
+    await tocar01(tester, 'i01.alsoReading.card1.cover');
+    expect(rotaAtual(tester), '/livro/memorias-postumas-de-bras-cubas');
+    await _voltar(tester);
+    await tocar01(tester, 'i01.alsoReading.card2');
+    expect(rotaAtual(tester), '/livro/orgulho-e-preconceito');
   });
 
   testWidgets(

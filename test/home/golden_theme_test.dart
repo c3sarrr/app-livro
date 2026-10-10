@@ -18,7 +18,7 @@ import '../support/precache_svgs.dart';
 
 const _baseGolden = 'test/golden/goldens/inicio_canvas@3x.png';
 
-/// Pixels RGBA do golden padrão (`inicio_canvas@3x.png`, aprovado na F11) e a largura.
+/// Pixels RGBA do golden padrão (`inicio_canvas@3x.png`; desde a T03 o da prancha 01) e a largura.
 Future<(Uint8List, int)> _loadBase(WidgetTester tester) async {
   // E/S real e decodificação: fora do FakeAsync do testWidgets (senão o teste trava).
   return (await tester.runAsync(() async {
@@ -82,8 +82,9 @@ Future<ProviderContainer> _pump(WidgetTester tester) async {
 }
 
 /// F12 12.3 — um golden por opção de `brand` (4) e de `weekColor` (4). Cada opção é comparada pixel a pixel com
-/// o golden padrão do canvas (F11): a diferença FORA das regiões esperadas precisa ser 0, e a opção padrão
-/// reproduz o golden exatamente. Os PNGs `inicio_brand_*` / `inicio_weekcolor_*` guardam a região afetada.
+/// o golden padrão do canvas: a diferença FORA das regiões esperadas precisa ser 0, e a opção padrão reproduz o
+/// golden exatamente. Os PNGs `inicio_brand_*` / `inicio_weekcolor_*` guardam a região afetada. Desde a T03 na
+/// prancha 01 (390 × 2650; o `{{brand}}` dela é o herói e a pílula da aba ativa, o `{{weekColor}}` as barras 0–5).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -99,7 +100,7 @@ void main() {
         container.read(homeThemeProvider.notifier).setBrand(brand);
         await tester.pumpAndSettle();
         final image = await captureAt(tester, find.byKey(goldenRootKey));
-        expect((image.width, image.height), (1170, 7170));
+        expect((image.width, image.height), (1170, 7950));
         final rgba = await rgbaOf(tester, image);
         expect(rgba.length, base.length);
         var changed = 0, inHero = 0, inPill = 0, outside = 0;
@@ -135,7 +136,7 @@ void main() {
           ),
         );
         await expectLater(
-          await _crop(tester, image, const Rect.fromLTWH(0, 2230, 390, 160)),
+          await _crop(tester, image, const Rect.fromLTWH(0, 2490, 390, 160)),
           matchesGoldenFile(
             '../golden/goldens/inicio_brand_${_hex(brand)}_nav@3x.png',
           ),

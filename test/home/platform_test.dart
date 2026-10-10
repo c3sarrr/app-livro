@@ -273,7 +273,7 @@ void main() {
         // Repouso: a mesma geometria nas duas plataformas.
         expect(position.pixels, 0);
         expect(_rect(tester, 'header'), const Rect.fromLTWH(20, 62, 350, 48));
-        expect(_rect(tester, 'nav'), const Rect.fromLTWH(16, 2290, 358, 70));
+        expect(_rect(tester, 'nav'), const Rect.fromLTWH(16, 2550, 358, 70));
       },
       variant: const TargetPlatformVariant({
         TargetPlatform.android,

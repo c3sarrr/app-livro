@@ -5,6 +5,7 @@ import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/home_mock_repository.dart';
+import '../support/html_prancha01.dart';
 
 void main() {
   group('2.1 modelos imutáveis, sem strings formatadas', () {
@@ -94,13 +95,14 @@ void main() {
             .map((m) => m.group(0))
             .toList();
         expect(nonFinal, isEmpty, reason: nonFinal.join('\n'));
-        // 1 + 3 (capas) + 5 + 3 + 9 + 5 + 4 + 8 + 2 + 2 + 12 + 3 + 3 + 10 campos, na ordem das classes
+        // 1 + 3 (capas) + 5 + 3 + 7 + 5 + 4 + 7 + 2 + 2 + 12 + 3 + 3 + 10 campos, na ordem das classes
         // (G08: capa desenhada/foto e `shelfIsEmpty`; G09: a capa do arquivo — `fileSha`, D-90; G12: o formato do
         // "Continuar lendo" — o físico vai à página do livro, D-123; T03: a página do herói, o livro de papel do
-        // Também lendo, as sessões de hoje e a revisão do dia — D-252…D-254, D-247).
+        // Também lendo, as sessões de hoje e a revisão do dia — D-252…D-254, D-247; a troca da T03.15 tirou os
+        // capítulos do herói e as páginas do dia, que só a v1 desenhava).
         expect(
           RegExp(r'^  final ', multiLine: true).allMatches(source).length,
-          70,
+          67,
         );
       },
     );
@@ -138,8 +140,8 @@ void main() {
         UserSummary(firstName: 'N', initial: 'N', unreadNotifications: 0),
         ContinueReading(
           book: book,
-          chapter: 1,
-          totalChapters: 2,
+          refPage: 1,
+          refPagesTotal: 2,
           progress: 0.5,
           timeLeft: Duration(minutes: 1),
           highlightsCount: 0,
@@ -157,7 +159,8 @@ void main() {
     });
   });
 
-  group('2.2 mock com os dados EXATOS do arquivo', () {
+  // Desde a T03 (D-240) o mock é a prancha 01 (`TelaInicio01`, montada do mundo de referência).
+  group('2.2 mock com os dados EXATOS da prancha 01', () {
     final snap = const HomeMockRepository().snapshot(
       HomeMockRepository.referenceNow,
     );
@@ -178,29 +181,34 @@ void main() {
       expect(snap.user.unreadNotifications, 2);
     });
 
-    test('continuar lendo: Dom Casmurro — Machado de Assis, cap. 92 de 148, 0,62, ~2h10min, 14 destaques', () {
+    test('continuar lendo: Dom Casmurro — Machado de Assis, EPUB, pág. 159 de 256, 0,62, ~2h10min, 12 anotações', () {
       final c = snap.continueReading!;
       expect(c.book.title, 'Dom Casmurro');
       expect(c.book.author, 'Machado de Assis');
       expect(c.book.cover, const DesignedCover(CoverArt.domCasmurro));
-      expect(c.chapter, 92);
-      expect(c.totalChapters, 148);
+      expect(c.format, BookFormat.epub);
+      expect((c.refPage, c.refPagesTotal), (159, 256));
       expect(c.progress, 0.62);
       expect(c.timeLeft, const Duration(hours: 2, minutes: 10));
-      expect(c.highlightsCount, 14);
+      expect(c.highlightsCount, 12);
     });
 
-    test('também lendo: Mrs. Dalloway 0,34 · Orgulho e Preconceito 0,81', () {
-      expect(snap.alsoReading, hasLength(2));
-      final [a, b] = snap.alsoReading;
+    test('também lendo: Brás Cubas em papel (3h 40min, sem página) · Orgulho e Preconceito em papel (pág. 344, 0,81) · '
+        'Mrs. Dalloway (só no contador)', () {
+      expect(snap.alsoReading, hasLength(3));
+      final [a, b, c] = snap.alsoReading;
       expect(
-        (a.book.title, a.book.author, a.book.cover, a.progress),
+        (a.book.title, a.book.shortTitle, a.book.author, a.book.cover),
         (
-          'Mrs. Dalloway',
-          'Virginia Woolf',
-          const DesignedCover(CoverArt.mrsDalloway),
-          0.34,
+          'Memórias Póstumas de Brás Cubas',
+          'Brás Cubas',
+          'Machado de Assis',
+          const DesignedCover(CoverArt.brasCubas),
         ),
+      );
+      expect(
+        (a.format, a.paperPage, a.readTime),
+        (BookFormat.physical, null, const Duration(hours: 3, minutes: 40)),
       );
       expect(
         (b.book.title, b.book.author, b.book.cover, b.progress),
@@ -211,16 +219,35 @@ void main() {
           0.81,
         ),
       );
+      expect(
+        (b.format, b.paperPage, b.readTime),
+        (BookFormat.physical, 344, null),
+      );
+      expect(
+        (c.book.title, c.book.author, c.book.cover, c.progress),
+        (
+          'Mrs. Dalloway',
+          'Virginia Woolf',
+          const DesignedCover(CoverArt.mrsDalloway),
+          0.34,
+        ),
+      );
     });
 
-    test('dia de leitura: meta 30, lidos 18, sequência 12, 24 páginas, 2 destaques, selo aos 14', () {
+    test('dia de leitura: meta 30, lidos 18, sequência 12, 2 sessões, 2 destaques, selo aos 14', () {
       final d = snap.readingDay;
       expect(d.goalMinutes, 30);
       expect(d.readMinutes, 18);
       expect(d.streakDays, 12);
-      expect(d.pagesToday, 24);
+      expect(d.sessionsToday, 2);
       expect(d.highlightsToday, 2);
       expect(d.badgeTargetDays, 14);
+    });
+
+    test('revisão do dia (D-247, só fixture até a T05): 5 grifos, 2 min, Dom Casmurro, Quincas Borba e Iracema', () {
+      final r = snap.dailyReview!;
+      expect((r.highlights, r.minutes), (5, 2));
+      expect(r.bookTitles, ['Dom Casmurro', 'Quincas Borba', 'Iracema']);
     });
 
     test(
@@ -249,37 +276,43 @@ void main() {
       },
     );
 
-    test('para você: motivo Machado de Assis; Memórias Póstumas (curto), Quincas Borba, O Cortiço', () {
+    test('para você: motivo Machado de Assis; Esaú e Jacó, Memorial de Aires, Casa de Pensão', () {
       final f = snap.forYou!;
       expect(f.reasonAuthor, 'Machado de Assis');
-      expect(f.items.map((b) => (b.title, b.shortTitle, b.author, b.cover)), [
-        (
-          'Memórias Póstumas de Brás Cubas',
-          'Memórias Póstumas',
-          'Machado de Assis',
-          const DesignedCover(CoverArt.memoriasPostumas),
-        ),
-        (
-          'Quincas Borba',
-          null,
-          'Machado de Assis',
-          const DesignedCover(CoverArt.quincasBorba),
-        ),
-        (
-          'O Cortiço',
-          null,
-          'Aluísio Azevedo',
-          const DesignedCover(CoverArt.oCortico),
-        ),
-      ]);
+      expect(
+        f.items.map((b) => (b.id, b.title, b.shortTitle, b.author, b.cover)),
+        [
+          (
+            'esau-e-jaco',
+            'Esaú e Jacó',
+            null,
+            'Machado de Assis',
+            const DesignedCover(CoverArt.esauEJaco),
+          ),
+          (
+            'memorial-de-aires',
+            'Memorial de Aires',
+            null,
+            'Machado de Assis',
+            const DesignedCover(CoverArt.memorialDeAires),
+          ),
+          (
+            'casa-de-pensao',
+            'Casa de Pensão',
+            null,
+            'Aluísio Azevedo',
+            const DesignedCover(CoverArt.casaDePensao),
+          ),
+        ],
+      );
     });
 
-    test('clube: "Leitoras de" + "Capitu", Dom Casmurro até o cap. 100, A/J/L, 11, 0,54, 0,62 (M), 3, 24/09 20:00', () {
+    test('clube: "Leitoras de" + "Capitu", Dom Casmurro até o cap. 50, A/J/L, 11, 0,54, 0,62 (M), 3, 24/09 20:00', () {
       final c = snap.club!;
       expect(c.namePrefix, 'Leitoras de');
       expect(c.nameHighlight, 'Capitu');
       expect(c.book, same(HomeMockRepository.domCasmurro));
-      expect(c.untilChapter, 100);
+      expect(c.untilChapter, 50);
       expect(c.shownParticipants.map((p) => (p.initial, p.color.toARGB32())), [
         ('A', 0xFFB6ACE4),
         ('J', 0xFFABCF82),
@@ -294,7 +327,7 @@ void main() {
       expect(c.nextMeeting.weekday, DateTime.thursday);
     });
 
-    test('recém-chegados: Frankenstein EPUB quero ler · O Alienista PDF quero ler · Senhora EPUB novo', () {
+    test('recém-chegados: Frankenstein EPUB quero ler · O Alienista PDF lido · Senhora papel novo (D-255)', () {
       expect(
         snap.recent.map(
           (r) =>
@@ -312,13 +345,13 @@ void main() {
             'O Alienista',
             'Machado de Assis',
             BookFormat.pdf,
-            RecentStatus.wantToRead,
+            RecentStatus.read,
             const DesignedCover(CoverArt.oAlienista),
           ),
           (
             'Senhora',
             'José de Alencar',
-            BookFormat.epub,
+            BookFormat.physical,
             RecentStatus.isNew,
             const DesignedCover(CoverArt.senhora),
           ),
@@ -335,11 +368,16 @@ void main() {
           ...snap.forYou!.items,
           ...snap.recent.map((r) => r.book),
         ];
-        expect(books, hasLength(9));
-        expect(books.map((b) => b.id).toSet(), hasLength(9));
-        // as 9 artes da v1 (as da prancha 01 são da fixture t01)
+        expect(books, hasLength(10));
+        expect(books.map((b) => b.id).toSet(), hasLength(10));
+        // as 10 artes da prancha 01 (as 3 do "Para você" da v1 — Memórias Póstumas, Quincas Borba, O Cortiço — são os
+        // desenhos das capas novas, sem livro no mock)
         expect(books.map((b) => b.cover).toSet(), {
-          for (final a in CoverArt.values.take(9)) DesignedCover(a),
+          for (final a in CoverArt.values)
+            if (a != CoverArt.memoriasPostumas &&
+                a != CoverArt.quincasBorba &&
+                a != CoverArt.oCortico)
+              DesignedCover(a),
         });
       },
     );
@@ -358,11 +396,9 @@ void main() {
       expect(() => snap.recent.clear(), throwsUnsupportedError);
     });
 
-    // Conferência com a fonte da verdade nº 1: alturas das barras e cores dos avatares no HTML original.
-    test('alturas das barras e cores dos avatares = HTML original', () {
-      final html = File(
-        'design_handoff/referencia/original/Redesign mobile — App de leitura.html',
-      ).readAsStringSync();
+    // Conferência com a fonte da verdade nº 1: alturas das barras e cores dos avatares no HTML da prancha 01.
+    test('alturas das barras e cores dos avatares = HTML da prancha 01', () {
+      final html = htmlDaPrancha01();
       final bars = RegExp(
         r'height: (\d+)px; background: (?:\{\{weekColor\}\}|#FF552E); border-top: 1\.5px solid #1A1714',
       ).allMatches(html).map((m) => double.parse(m.group(1)!)).toList();
@@ -370,7 +406,7 @@ void main() {
       final avatars =
           RegExp(
                 r'background: #([0-9A-F]{6}); border: 1\.5px solid #1A1714; box-sizing: border-box; display: flex; '
-                r'align-items: center; justify-content: center; font-size: 11px; font-weight: 800;\\">([AJL])<',
+                r'align-items: center; justify-content: center; font-size: 11px; font-weight: 800;">([AJL])<',
               )
               .allMatches(html)
               .map(

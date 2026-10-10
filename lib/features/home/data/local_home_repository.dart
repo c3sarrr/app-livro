@@ -10,12 +10,9 @@ import 'package:flutter/foundation.dart' show FlutterError, FlutterErrorDetails;
 
 import '../../../core/data/database/app_database.dart';
 import '../../../core/data/database/codecs.dart';
-import '../../../core/data/database/daos/content_daos.dart';
-import '../../reader/application/toc_view.dart' show chapterNumerals;
 import '../../reader/content/ref_pages.dart' show refPageChars;
 import '../../reader/domain/reading_speed.dart';
 import '../../scanner/application/scanned_shelf.dart' show unknownAuthor;
-import '../domain/home_chapter.dart';
 import '../domain/models.dart';
 import 'home_repository.dart';
 import 'home_sources.dart';
@@ -51,8 +48,6 @@ final class LocalHomeRepository implements HomeRepository {
 
   /// Falha de "Para você" ou do Clube: a seção some e a Início continua (D-81, D-80).
   final void Function(Object error, StackTrace stack) _onSourceError;
-
-  final _NumeralsCache _numeralsCache = _NumeralsCache();
 
   static void _report(Object e, StackTrace st) => FlutterError.reportError(
     FlutterErrorDetails(exception: e, stack: st, library: 'inicio'),
@@ -166,17 +161,10 @@ final class LocalHomeRepository implements HomeRepository {
     return next.difference(local) + const Duration(seconds: 1);
   }
 
-  /// O herói "Continuar lendo": o capítulo pela numeração do livro (D-206).
+  /// O herói "Continuar lendo".
   ContinueReading _continue(_ShelfBook hero, _Data data) {
-    final ch = homeChapter(
-      data.heroNumerals,
-      chapterIndex: hero.chapterIndex,
-      chaptersTotal: hero.chaptersTotal,
-    );
     return ContinueReading(
       book: hero.book,
-      chapter: ch?.chapter,
-      totalChapters: ch?.total,
       progress: hero.progress,
       timeLeft: _timeLeft(hero, data),
       highlightsCount: data.heroAnnotations,
@@ -214,7 +202,7 @@ final class LocalHomeRepository implements HomeRepository {
     final local = utc.add(offset);
     final today = DateTime.utc(local.year, local.month, local.day);
     final data = await db.transaction(
-      () => _Reader(db, owner, _utcOffsetAt, _numeralsCache).read(utc, today),
+      () => _Reader(db, owner, _utcOffsetAt).read(utc, today),
     );
 
     final reading = data.books.where((b) => b.status == 'reading').toList()
@@ -360,7 +348,6 @@ final class LocalHomeRepository implements HomeRepository {
       goalMinutes: data.goalMinutes ?? defaultGoalMinutes,
       readMinutes: seconds(today) ~/ 60,
       streakDays: streak,
-      pagesToday: data.days[key(today)]?.pages ?? 0,
       highlightsToday: data.highlightsToday,
       sessionsToday: data.days[key(today)]?.sessions ?? 0,
       week: List.unmodifiable(week),
@@ -407,7 +394,6 @@ final class _ShelfBook {
       authorDisplay = r.read<String>('author_display'),
       format = r.read<String>('format'),
       status = r.read<String>('status'),
-      chaptersTotal = r.readNullable<int>('chapters_total'),
       refPagesTotal = r.readNullable<int>('ref_pages_total'),
       refPage = r.readNullable<int>('ref_page'),
       coverRef = r.readNullable<String>('cover_ref'),
@@ -416,7 +402,6 @@ final class _ShelfBook {
       addedAt = parseInstant(r.read<String>('added_at')),
       lastOpenedAt = _instant(r.readNullable<String>('last_opened_at')),
       startedAt = _instant(r.readNullable<String>('started_at')),
-      chapterIndex = r.readNullable<int>('chapter_index'),
       progress = (r.readNullable<double>('progression') ?? 0).clamp(0.0, 1.0),
       positionAt = _instant(r.readNullable<String>('position_at'));
 
@@ -427,7 +412,6 @@ final class _ShelfBook {
   final String authorDisplay;
   final String format;
   final String status;
-  final int? chaptersTotal;
   final int? refPagesTotal;
 
   /// Página de referência da posição (`null` sem posição).
@@ -438,7 +422,6 @@ final class _ShelfBook {
   final DateTime addedAt;
   final DateTime? lastOpenedAt;
   final DateTime? startedAt;
-  final int? chapterIndex;
   final double progress;
   final DateTime? positionAt;
 
@@ -453,8 +436,8 @@ final class _ShelfBook {
   );
 }
 
-/// Segundos, páginas e sessões de um dia local.
-typedef _Day = ({int seconds, int pages, int sessions});
+/// Segundos e sessões de um dia local.
+typedef _Day = ({int seconds, int sessions});
 
 final class _Data {
   _Data({
@@ -462,7 +445,6 @@ final class _Data {
     required this.days,
     required this.secondsByBook,
     required this.heroAnnotations,
-    required this.heroNumerals,
     required this.highlightsToday,
     required this.indexedChars,
     required this.charsPerMinute,
@@ -479,8 +461,6 @@ final class _Data {
   final Map<String, int> secondsByBook;
   final int heroAnnotations;
 
-  /// G20 (D-206): o numeral de cada capítulo do livro do herói (vazio sem índice ou sem herói).
-  final List<String?> heroNumerals;
   final int highlightsToday;
 
   /// Caracteres dos itens lineares de cada livro com índice (id → total).
@@ -497,16 +477,9 @@ final class _Data {
       (b.refPagesTotal == null ? null : b.refPagesTotal! * refPageChars);
 }
 
-/// Os numerais do livro do herói e a chave do índice de onde vieram (G20, D-206): vale entre os recálculos.
-final class _NumeralsCache {
-  (String, List<String?>)? last;
-}
-
 /// As consultas de um instantâneo (todas dentro da mesma transação).
 final class _Reader {
-  _Reader(this._db, this._owner, this._utcOffsetAt, this._cache);
-
-  final _NumeralsCache _cache;
+  _Reader(this._db, this._owner, this._utcOffsetAt);
 
   final AppDatabase _db;
   final String _owner;
@@ -551,31 +524,6 @@ final class _Reader {
     }
   }
 
-  /// Os numerais dos capítulos do livro; índice ilegível → nenhum (o herói conta pelo `chapters_total`, como
-  /// antes da G20 — D-85). Ficam guardados enquanto o índice é o mesmo (o livro, o arquivo e quando foi feito): a
-  /// Início recalcula a cada página gravada e não relê o índice inteiro.
-  Future<List<String?>> _numerals(String userBookId) async {
-    final rows = await _all(
-      'SELECT content_sha256, built_at FROM book_content_index WHERE user_book_id = ?1',
-      [userBookId],
-    );
-    final key = rows.isEmpty
-        ? '$userBookId|-'
-        : '$userBookId|${rows.first.data['content_sha256']}|${rows.first.data['built_at']}';
-    final cached = _cache.last;
-    if (cached != null && cached.$1 == key) return cached.$2;
-    List<String?> numerals;
-    try {
-      numerals = chapterNumerals(
-        await BookContentIndexDao(_db).byBook(userBookId),
-      );
-    } on Object {
-      numerals = const [];
-    }
-    _cache.last = (key, numerals);
-    return numerals;
-  }
-
   Future<List<QueryRow>> _all(String sql, List<Object> args) => _db
       .customSelect(sql, variables: [for (final a in args) _variable(a)])
       .get();
@@ -589,10 +537,10 @@ final class _Reader {
   Future<_Data> read(DateTime nowUtc, DateTime today) async {
     final books = [
       for (final r in await _all(
-        'SELECT b.id, b.title, b.author_display, b.format, b.status, b.chapters_total, '
+        'SELECT b.id, b.title, b.author_display, b.format, b.status, '
         'b.ref_pages_total, b.cover_ref, b.isbn13, b.content_sha256, b.added_at, b.last_opened_at, '
         'b.started_at, '
-        'p.chapter_index, p.ref_page, CAST(p.progression AS REAL) AS progression, '
+        'p.ref_page, CAST(p.progression AS REAL) AS progression, '
         'p.updated_at AS position_at '
         'FROM user_books b LEFT JOIN reading_positions p '
         'ON p.id = b.id AND p.user_id = b.user_id AND p.deleted_at IS NULL '
@@ -640,7 +588,6 @@ final class _Reader {
       final d = days[day];
       days[day] = (
         seconds: (d?.seconds ?? 0) + seconds,
-        pages: (d?.pages ?? 0) + pages,
         sessions: (d?.sessions ?? 0) + 1,
       );
       final book = r.read<String>('user_book_id');
@@ -666,10 +613,6 @@ final class _Reader {
             'WHERE user_id = ?1 AND user_book_id = ?2 AND deleted_at IS NULL',
             [_owner, reading.first.id],
           )).single.read<int>('n');
-    // G20 (D-206): os numerais dos capítulos do livro do herói, para o "Cap. N de M"
-    final heroNumerals = reading.isEmpty
-        ? const <String?>[]
-        : await _numerals(reading.first.id);
 
     // Grifos de hoje: só os criados de anteontem (UTC) para cá vêm do banco — o prefixo da data é o mesmo em
     // todos os formatos aceitos; o dia local de cada um é decidido aqui.
@@ -695,7 +638,6 @@ final class _Reader {
       days: days,
       secondsByBook: secondsByBook,
       heroAnnotations: heroAnnotations,
-      heroNumerals: heroNumerals,
       highlightsToday: highlightsToday,
       indexedChars: indexed,
       charsPerMinute: personalSpeed([for (final s in samples) s.$2]),

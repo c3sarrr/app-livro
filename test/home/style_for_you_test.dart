@@ -149,7 +149,7 @@ Future<(Uint8List, int)> _capture(WidgetTester tester) async {
   final image = await captureAt(tester, find.byKey(goldenRootKey));
   expect(
     (image.width, image.height),
-    (390 * 3, 2390 * 3),
+    (390 * 3, 2650 * 3),
     reason: 'canvas inteiro @3x',
   );
   return (await rgbaOf(tester, image), image.width);
@@ -324,7 +324,9 @@ const _azure = 0xFF058CD7;
 const _emerald = 0xFF00995E;
 const _sun = 0xFFFED170;
 
-/// F08 — camada 2 (estilo, sem tolerância) da seção `forYou`.
+/// F08 — camada 2 (estilo, sem tolerância) da seção `forYou`; desde a T03 com os livros da prancha 01 nos mesmos
+/// desenhos (L01a6): Esaú e Jacó (a capa das Memórias, título 22 tinta), Memorial de Aires (a do Quincas) e Casa de
+/// Pensão (a do Cortiço). As posições em px absolutos dos comentários são as da v1 (o teste mede pela capa).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -781,7 +783,7 @@ void main() {
   );
 
   testWidgets(
-    '8.4 Memórias: lombada → elipse → título → autor; elipse ShapeDecoration(OvalBorder) tinta 123×116 (não BoxShape.circle); título InstrumentSerif 19/0,95 tinta; autor Figtree 6,5/700 ls 0,91 #FF552E',
+    '8.4 Esaú e Jacó (o desenho da capa das Memórias): lombada → elipse → título → autor; elipse ShapeDecoration(OvalBorder) tinta 123×116 (não BoxShape.circle); título InstrumentSerif 22/0,95 tinta (prancha 01); autor Figtree 6,5/700 ls 0,91 #FF552E',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
@@ -829,12 +831,12 @@ void main() {
       );
 
       final title = _styleOf(tester, '$id.title');
-      expect(title, same(AppTextStyles.coverTitle19));
+      expect(title, same(AppTextStyles.coverTitle22Ink));
       _expectTypography(
         title,
         family: 'InstrumentSerif',
         fallback: ['InstrumentSerifExt'],
-        size: 19,
+        size: 22,
         weight: FontWeight.w400,
         height: 0.95,
         letterSpacing: 0,
@@ -1489,7 +1491,7 @@ void main() {
   );
 
   testWidgets(
-    '8.4 pixels @3x: Memórias — fundo, lombada (src-over exato), elipse (não círculo) recortada pela capa, "ACHADO DE ASSIS" visível só sobre a elipse, "M" invisível, cantos 4 e 10',
+    '8.4 pixels @3x: Esaú e Jacó (o desenho das Memórias) — fundo, lombada (src-over exato), elipse (não círculo) recortada pela capa, "ACHADO DE ASSIS" visível só sobre a elipse, "M" invisível, cantos 4 e 10',
     (tester) async {
       setCanvasView(tester);
       await _pumpCanvas(tester);
@@ -1651,6 +1653,8 @@ void main() {
       expect(mFlame, greaterThan(300));
       expect(mOther, isEmpty, reason: '"M" invisível sobre o laranja');
 
+      // A meia altura das capas (84 abaixo do topo, a linha 4200 da v1): a linha física daqui.
+      final linha = ((c.dy + 84) * 3).floor();
       // Coluna física 64 (x 21,33–21,67), a da borda interna esquerda: metade borda, metade padding box. A
       // lombada entra nela pela aresta suavizada do ClipRRect, como nas capas 2 e 3 (colunas 454 e 844). Um
       // recorte retangular sem suavização (Stack com `Clip.hardEdge` e a elipse transbordando) arredondaria a
@@ -1660,11 +1664,11 @@ void main() {
         ('capa 2, coluna 454', 454, 0xFF0F4D70),
         ('capa 3, coluna 844', 844, 0xFF0C5436),
       ]) {
-        final got = _argbAtPixel(rgba, width, px, 4200);
-        debugPrint('[lombada] $what, linha 4200: ${_hex(got)}');
+        final got = _argbAtPixel(rgba, width, px, linha);
+        debugPrint('[lombada] $what, linha $linha: ${_hex(got)}');
         expect(_hex(got), _hex(want), reason: what);
       }
-      expect(_argbAtPixel(rgba, width, 64, 4200), isNot(0xFF8C3621));
+      expect(_argbAtPixel(rgba, width, 64, linha), isNot(0xFF8C3621));
     },
   );
 

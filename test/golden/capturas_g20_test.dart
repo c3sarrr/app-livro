@@ -148,7 +148,9 @@ void main() {
     addTearDown(livro.close);
     final relogio = RelogioG20();
     await abrirAppComLivro(tester, livro, relogio: relogio, tela: _tela);
-    expect(textosEm(tester, 'hero.chapterPill'), 'Cap. 32 de 148');
+    // T03: o herói da prancha 01 mostra a página ("pág. N de M", D-254) no lugar do "Cap. 32 de 148" da v1
+    final pagina = textosEm(tester, 'hero.pagePill');
+    expect(pagina, matches(RegExp(r'^pág\. \d+ de \d+$')));
     final antes = textosEm(tester, 'hero.percent');
     await _gravar(tester, 'g20_01_inicio_antes.png');
     await tester.tap(_k('hero.cta'));
@@ -156,6 +158,7 @@ void main() {
     await esperarLeitor(tester);
     await _banco(tester, 4);
     expect(textosEm(tester, 'r19.footer.percent'), antes);
+    expect(textosEm(tester, 'r19.footer.pageLabel'), pagina);
     await _gravar(tester, 'g20_02_leitor_mesmo_ponto.png');
     // ~40 s por página da tela (meia página de referência): o ritmo de quem lê o Dom Casmurro
     for (var i = 0; i < 6; i++) {

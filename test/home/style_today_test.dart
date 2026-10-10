@@ -145,7 +145,8 @@ Offset _topLeft(WidgetTester tester, String id) =>
 
 const _barHeights = [43.0, 60.0, 40.0, 30.0, 51.0, 73.0, 24.0];
 
-/// F07 — camada 2 (estilo, sem tolerância nas decorações) da seção `today`.
+/// F07 — camada 2 (estilo, sem tolerância nas decorações) da seção `today`; desde a T03 o `TodaySection` da prancha 01
+/// (L01a4): a pílula "2 sessões" no lugar das páginas e o "Ler agora" (exato em `test/home/inicio01/seu_dia_test.dart`).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -288,8 +289,10 @@ void main() {
           ring,
           1,
         ),
-        'círculo pequeno, no amarelo (embaixo)': (
-          center + const Offset(0, 49.75),
+        // Na prancha 01 a frase da meta começa no topo da coluna e passa por baixo do centro: o ponto do círculo
+        // pequeno no amarelo fica no vão entre o cabeçalho (até y 50) e a linha da meta (de y 66), em y 58.
+        'círculo pequeno, no amarelo (no vão acima da linha da meta)': (
+          center + Offset(-math.sqrt(49.75 * 49.75 - 26 * 26), 26),
           ring,
           1,
         ),
@@ -550,7 +553,7 @@ void main() {
 
       expect(AppColors.chipGlass.toARGB32(), 0xB3FFFAF1);
       expect((0.7 * 255).round(), 0xB3);
-      for (final id in ['today.chip.pages', 'today.chip.highlights']) {
+      for (final id in ['today.chip.sessions', 'today.chip.highlights']) {
         final d = _decorationOf(tester, id);
         expect(d.color, AppColors.chipGlass, reason: id);
         _expectInkBorder(d, 1.2);
@@ -590,7 +593,7 @@ void main() {
       final (rgba, width) = await _capture(tester);
       final glass = _over(AppColors.chipGlass, AppColors.sun);
       final checks = <String, (Offset, int, int)>{};
-      for (final id in ['today.chip.pages', 'today.chip.highlights']) {
+      for (final id in ['today.chip.sessions', 'today.chip.highlights']) {
         final r = tester.getRect(find.byKey(ValueKey(id)));
         checks['$id: fundo (entre a borda e o texto)'] = (
           Offset(r.left + 5.2, r.center.dy),

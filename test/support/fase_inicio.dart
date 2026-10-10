@@ -1,8 +1,7 @@
-// T03 — o arnês das fases L01a1…L01a9 e L60: a Início nova contra as referências medidas da prancha 01 (`kRef01`) e
-// da 60 (`kRef60`). Spec `docs/progresso/T03.md` §4:
-// - antes da troca (`inicioNoApp == false`), cada teste monta as seções que confere num canvas de 390 × 2650 (o da
-//   prancha), cada uma no retângulo da prancha, com a fixture `t01` — a Início da v1 continua no app;
-// - depois da troca, o mesmo teste monta o app inteiro (`/inicio`) e as mesmas verificações valem na composição real.
+// T03 — o arnês das fases L01a1…L01a9 e L60: a Início da prancha 01 contra as referências medidas da 01 (`kRef01`), da
+// 60 (`kRef60`) e das larguras 360/430 (`kRefInicio2Larguras`). Spec `docs/progresso/T03.md` §4: até a troca (T03.15)
+// cada fase montava só as suas seções nos retângulos da prancha; desde a troca o arnês monta o APP inteiro (`/inicio`,
+// a fixture `t01` — D-241) no canvas da prancha e as mesmas verificações valem na composição real.
 // Keys do app = ids da prancha sem o prefixo (`i01.header.search` → `header.search`): as mesmas widgets servem a 01,
 // a 01b e a 60. Retângulo de layout = sem os giros (o Chromium mede com os `transform` neutralizados); a caixa visual
 // dos girados é conferida à parte, contra `visual`.
@@ -10,31 +9,27 @@ import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
-import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_illustrations_inicio.dart';
-import 'package:app_leitura/core/design_system/tokens/app_spacing.dart';
-import 'package:app_leitura/core/preferences/brand_preference.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
-import 'package:app_leitura/features/home/domain/models.dart';
-import 'package:app_leitura/features/shell/presentation/bottom_fade.dart';
-import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
-import 'package:app_leitura/features/shell/presentation/scanner_fab.dart';
+import 'package:app_leitura/features/scanner/presentation/scanner_camera.dart';
+import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
-import '../fixtures/telas/inicio01.dart';
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
 import '../reference/inicio2/referencias_inicio2.dart';
 import 'canvas.dart';
 import 'capture.dart';
+import 'fake_scanner_camera.dart';
 import 'precache_svgs.dart';
-
-/// `true` depois da troca da T03 (spec §4): o arnês monta o app inteiro.
-const bool inicioNoApp = false;
 
 /// Tamanho da prancha 01.
 const Size canvas01 = Size(390, 2650);
@@ -45,135 +40,63 @@ String keyDoId(String id) => id.substring(id.indexOf('.') + 1);
 /// O widget do app com a Key do id da prancha.
 Finder ini(String id) => find.byKey(ValueKey<String>(keyDoId(id)));
 
-/// A fonte da fixture `t01` (síncrona, como a da v1 — D-09).
-final class RepositorioT01 implements SyncHomeRepository {
-  const RepositorioT01();
-
-  @override
-  HomeSnapshot snapshot(DateTime now) => TelaInicio01.snapshot(now);
-
-  @override
-  Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
-}
-
-/// Os overrides da Início da prancha 01 (relógio de referência, fixture `t01`, `brand` na memória). [repositorio]:
-/// outra fonte para os casos fora da prancha (os estados da G08, os formatos da D-254).
-List<Override> overridesDaT01({
-  SyncHomeRepository repositorio = const RepositorioT01(),
-}) => [
-  clockProvider.overrideWithValue(() => TelaInicio01.agora),
-  homeRepositoryProvider.overrideWithValue(repositorio),
-  brandStoreProvider.overrideWith((ref) => MemoryBrandStore()),
-];
-
 /// Os ícones e as ilustrações da Início nova (sem pré-cache o golden sai sem eles).
 Future<void> precacheInicio01(WidgetTester tester) async {
   await precacheAppIcons(tester); // com os da Início nova (AppIconsInicio)
   await precacheSvgs(tester, AppIllustrationsInicio.all);
 }
 
-/// Monta as [secoes] (id da seção da prancha → widget) nos retângulos de [prancha], no canvas da prancha (DPR 3),
-/// sob a raiz do golden. `larguraTotal`: seções que vão de 0 a 390 (o carrossel do Para você), com a Key da seção
-/// num retângulo à parte, como a `HomeScreen` faz.
-Future<void> abrirSecoes01(
-  WidgetTester tester,
-  Map<String, Widget> secoes, {
+/// Monta o app (`App.forTests()`, que abre em `/inicio`) no canvas de [prancha] (DPR [dpr], áreas seguras
+/// [safeTop]/[safeBottom]) sob a raiz do golden, com o mundo de referência e a fonte da Início [repositorio] (a `t01`;
+/// outra para os casos fora da prancha — os estados da G08, os formatos da D-254).
+Future<void> abrirInicio01(
+  WidgetTester tester, {
   LeitorRefPrancha prancha = kRef01,
-  Set<String> larguraTotal = const {},
+  double dpr = 3,
+  double safeTop = 0,
+  double safeBottom = 0,
+  SyncHomeRepository repositorio = const HomeMockRepository(),
   List<Override> overrides = const [],
-  SyncHomeRepository repositorio = const RepositorioT01(),
-  List<Widget> camadas = const [],
 }) async {
-  assert(!inicioNoApp, 'depois da troca, use o app (abrirInicio01)');
-  setCanvasView(tester, logical: prancha.canvas);
+  setCanvasView(
+    tester,
+    logical: prancha.canvas,
+    dpr: dpr,
+    safeTop: safeTop,
+    safeBottom: safeBottom,
+  );
   await precacheInicio01(tester);
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        ...overridesDaT01(repositorio: repositorio),
+        relogioDoMundo,
+        homeRepositoryProvider.overrideWithValue(repositorio),
+        brandDoMundo,
+        leitorDoMundo,
+        destaquesDoMundo,
+        // o scanner abre por cima das abas: nos testes, sem o plugin da câmera
+        scannerCameraProvider.overrideWithValue(FakeScannerCamera.new),
         ...overrides,
       ],
-      child: Directionality(
-        textDirection: TextDirection.ltr,
-        child: MediaQuery(
-          data: MediaQueryData(size: prancha.canvas, devicePixelRatio: 3),
-          child: RepaintBoundary(
-            key: goldenRootKey,
-            child: ColoredBox(
-              color: AppColors.paper,
-              child: Stack(
-                children: [
-                  for (final MapEntry(key: id, value: w) in secoes.entries)
-                    if (larguraTotal.contains(id)) ...[
-                      Positioned.fromRect(
-                        rect: prancha.sections[id]!,
-                        child: IgnorePointer(
-                          child: SizedBox.expand(
-                            key: ValueKey<String>(keyDoId(id)),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        top: prancha.sections[id]!.top,
-                        width: prancha.canvas.width,
-                        child: w,
-                      ),
-                    ] else
-                      Positioned(
-                        left: prancha.sections[id]!.left,
-                        top: prancha.sections[id]!.top,
-                        width: prancha.sections[id]!.width,
-                        child: w,
-                      ),
-                  ...camadas,
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      child: const RepaintBoundary(key: goldenRootKey, child: App.forTests()),
     ),
   );
   await tester.pumpAndSettle();
 }
 
-/// O degradê, a barra e o FAB do Scanner como o `MainShell` os põe (os três `Positioned` dele, na mesma ordem):
-/// presos ao pé do canvas de [largura], o degradê pintado antes da barra e o FAB depois dela. `bottom` da barra =
-/// `MainShell.navBottom` sem área segura (30, a D-02). Até a troca: depois dela o arnês monta o próprio shell.
-List<Widget> barraDoShell01({
-  required double largura,
-  int currentIndex = 0,
-  ValueChanged<int>? onSelect,
-  VoidCallback? onScanner,
-}) => [
-  const Positioned(
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 150,
-    child: IgnorePointer(child: BottomFade(key: ValueKey('bottomFade'))),
-  ),
-  Positioned(
-    left: AppSpacing.navSide,
-    right: AppSpacing.navSide,
-    bottom: AppSpacing.navBottomMin,
-    height: AppSpacing.navHeight,
-    child: FloatingNavBar(
-      key: const ValueKey('nav'),
-      currentIndex: currentIndex,
-      onSelect: onSelect,
-      onScanner: onScanner,
-    ),
-  ),
-  Positioned(
-    left: (largura - ScannerFab.size) / 2,
-    bottom: ScannerFab.bottom(AppSpacing.navBottomMin),
-    width: ScannerFab.size,
-    height: ScannerFab.size,
-    child: ScannerFab(key: const ValueKey('nav.scanner.fab'), onTap: onScanner),
-  ),
-];
+/// O caminho da rota atual (`/inicio`, `/livro/…`): a prova de para onde um toque levou.
+String rotaAtual(WidgetTester tester) =>
+    GoRouter.of(tester.element(find.byType(MainShell, skipOffstage: false)))
+        .state
+        .uri
+        .path;
+
+/// Toca no centro do widget do id e espera assentar. As colunas de texto não participam do hit test por si (só o
+/// `Pressable` que as contém): a prova do toque é a rota ou a ação que se segue.
+Future<void> tocar01(WidgetTester tester, String id) async {
+  await tester.tap(ini(id), warnIfMissed: false);
+  await tester.pumpAndSettle();
+}
 
 // ---- retângulos sem os giros ---------------------------------------------------------------------------------
 
@@ -200,7 +123,7 @@ Rect retanguloDeLayout(WidgetTester tester, String id) {
 }
 
 /// A caixa visual do id: a envolvente dos 4 cantos com os giros aplicados. Nas capas giradas a Key do id fica no
-/// slot sem giro e o filho do `Transform` leva `<id>#rot` (a convenção da v1, `test/support/geometry.dart`): a caixa
+/// slot sem giro e o filho do `Transform` leva `<id>#rot` (a convenção vinda da v1): a caixa
 /// visual é a dele.
 Rect caixaVisual(WidgetTester tester, String id) {
   final rot = find.byKey(ValueKey<String>('${keyDoId(id)}#rot'));
@@ -227,14 +150,25 @@ Rect caixaVisual(WidgetTester tester, String id) {
 List<String> idsDasSecoes(LeitorRefPrancha prancha, Iterable<String> secoes) =>
     [for (final s in secoes) ...prancha.idsOfSection(s)];
 
+/// As camadas presas à tela (não rolam com o conteúdo): o degradê e a barra.
+const Set<String> camadasFixas = {'bottomFade', 'nav'};
+
+/// Quanto somar ao y medido na tela para voltar à coordenada de layout da prancha: a prancha rolada (a 60, com o
+/// `<main>` transladado de −[rolagem]) mede o layout sem a translação; as camadas fixas não rolam.
+double _deslocamento(LeitorRefPrancha prancha, String id, double rolagem) =>
+    camadasFixas.contains(keyDoId(prancha.elements[id]!.section)) ? 0 : rolagem;
+
 /// Gate de geometria (prompt v2 §7, camada 1): cada id das [secoes] contra o retângulo de layout da prancha
 /// (±0,5; ±1,0 em x/w para `textDependentX`) e, nos girados, a caixa visual contra `visual` (±0,5). Devolve as
-/// falhas. [medir] troca a medida de um id (as exceções da fase, cada uma justificada no teste).
+/// falhas. [medir] troca a medida de um id (as exceções da fase, cada uma justificada no teste). Com a tela rolada
+/// de [rolagem] (a 60), o layout medido volta à coordenada da prancha (+[rolagem], menos nas [camadasFixas]) e a
+/// caixa visual — a da tela — confere contra `visual`, que na prancha rolada é a caixa transladada.
 List<String> geometria01(
   WidgetTester tester,
   Iterable<String> secoes, {
   LeitorRefPrancha prancha = kRef01,
   Map<String, Rect Function(WidgetTester)> medir = const {},
+  double rolagem = 0,
 }) {
   final falhas = <String>[];
   for (final id in idsDasSecoes(prancha, secoes)) {
@@ -244,7 +178,8 @@ List<String> geometria01(
       falhas.add('$id: $n widgets com a Key ${keyDoId(id)}');
       continue;
     }
-    final m = medir[id]?.call(tester) ?? retanguloDeLayout(tester, id);
+    final m = (medir[id]?.call(tester) ?? retanguloDeLayout(tester, id))
+        .translate(0, _deslocamento(prancha, id, rolagem));
     final tolX = prancha.textDependentX.contains(id) ? 1.0 : 0.5;
     void confere(String o, double g, double x, double tol) {
       if ((g - x).abs() > tol + 1e-6) {
@@ -378,11 +313,13 @@ List<AppTextLine> linhasCompostas01(
 
 /// Gate de texto (camada 4): as linhas de cada id das [secoes] — texto, quebras, baseline (±0,5) e pontas (±1,0)
 /// — contra `lines` (ou `linesAll`, no texto composto: [linhasCompostas01]); as linhas `hidden` (recortadas) também
-/// existem no app e só não aparecem. Devolve as falhas.
+/// existem no app e só não aparecem. Devolve as falhas. [rolagem]: como em [geometria01] (a baseline da prancha
+/// rolada é a do layout).
 List<String> texto01(
   WidgetTester tester,
   Iterable<String> secoes, {
   LeitorRefPrancha prancha = kRef01,
+  double rolagem = 0,
 }) {
   final falhas = <String>[];
   for (final id in idsDasSecoes(prancha, secoes)) {
@@ -420,13 +357,14 @@ List<String> texto01(
       falhas.add('$id: $g ≠ $x${cortada ? ' (cortada)' : ''}');
       continue;
     }
+    final dy = _deslocamento(prancha, id, rolagem);
     for (var i = 0; i < got.length; i++) {
       final r = esperadas[i];
-      if ((got[i].baseline - r.baseline).abs() > 0.5 ||
+      if ((got[i].baseline + dy - r.baseline).abs() > 0.5 ||
           (got[i].left - r.left).abs() > 1 ||
           (!cortada && (got[i].right - r.right).abs() > 1)) {
         falhas.add(
-          '$id[$i] "${r.text}": baseline ${got[i].baseline.toStringAsFixed(2)}/${r.baseline}, '
+          '$id[$i] "${r.text}": baseline ${(got[i].baseline + dy).toStringAsFixed(2)}/${r.baseline}, '
           '${got[i].left.toStringAsFixed(2)}–${got[i].right.toStringAsFixed(2)} ≠ ${r.left}–${r.right}',
         );
       }
@@ -440,6 +378,27 @@ List<String> texto01(
 /// O nó de semântica do widget do id (o mais próximo que o cobre).
 SemanticsNode noDe(WidgetTester tester, String id) =>
     tester.getSemantics(ini(id));
+
+/// Os links (`<a>`) dentro da `<section aria-label="[rotulo]">` (o nó da seção, não o do título homônimo), em
+/// pré-ordem: no app há outros links na tela (a barra, as outras seções).
+List<SemanticsNode> linksDaSecao(String rotulo) {
+  final secao = find.semantics
+      .byLabel(rotulo)
+      .evaluate()
+      .where((n) => !n.getSemanticsData().flagsCollection.isHeader)
+      .single;
+  final links = <SemanticsNode>[];
+  void visitar(SemanticsNode n) {
+    n.visitChildren((c) {
+      if (c.getSemanticsData().flagsCollection.isLink) links.add(c);
+      visitar(c);
+      return true;
+    });
+  }
+
+  visitar(secao);
+  return links;
+}
 
 // ---- captura (camada 3) ----------------------------------------------------------------------------------------
 

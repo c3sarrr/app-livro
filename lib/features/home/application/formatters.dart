@@ -74,10 +74,6 @@ abstract final class HomeFormatters {
     return named ? '$g,' : g;
   }
 
-  /// "Cap. 92 de 148".
-  static String chapterLabel(int chapter, int totalChapters) =>
-      'Cap. $chapter de $totalChapters';
-
   /// Página de referência no herói (D-254): "pág. 159 de 256".
   static String pageLabel(int page, int totalPages) =>
       'pág. $page de $totalPages';

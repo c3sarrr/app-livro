@@ -34,7 +34,6 @@ ReadingDay _dia({int lidos = 0, int meta = 30, int seq = 0, int selo = 7}) =>
       goalMinutes: meta,
       readMinutes: lidos,
       streakDays: seq,
-      pagesToday: 0,
       highlightsToday: 0,
       sessionsToday: 0,
       week: [
@@ -314,7 +313,7 @@ void main() {
   });
 
   testWidgets(
-    'livro real em leitura: capa gerada na moldura do herói, sem pílula de capítulo nem tempo; 1 em "também lendo"',
+    'livro real em leitura: capa gerada na moldura do herói, sem pílula de página (sem página de referência — D-254) nem tempo, com o selo "E-BOOK"; 1 em "também lendo"',
     (tester) async {
       const a = Book(
         id: 'a',
@@ -362,7 +361,14 @@ void main() {
       ]);
       expect(findAppText('Continue'), findsOneWidget);
       expect(findAppText('A hora da estrela'), findsWidgets);
-      expect(_key('hero.chapterPill'), findsNothing);
+      expect(_key('hero.pagePill'), findsNothing);
+      expect(
+        find.descendant(
+          of: _key('hero.formatPill'),
+          matching: findAppText('E-BOOK'),
+        ),
+        findsOneWidget,
+      );
       expect(_key('hero.timeLeft'), findsNothing);
       expect(
         find.descendant(

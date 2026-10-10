@@ -11,7 +11,7 @@ import 'fake_scanner_camera.dart';
 import 'precache_svgs.dart';
 
 /// Monta o app real (`ProviderScope` + `App.forTests()`, que começa em `/inicio`) e espera assentar.
-/// Chame `setCanvasView` antes (canvas 390×2390 ou aparelho).
+/// Chame `setCanvasView` antes (o canvas da prancha 01, 390×2650, ou um aparelho).
 Future<void> pumpApp(
   WidgetTester tester, {
   List<Override> overrides = const [],

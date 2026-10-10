@@ -132,7 +132,8 @@ String _hex(int argb) => '0x${argb.toRadixString(16).toUpperCase()}';
 GoRouter _router(WidgetTester tester) =>
     GoRouter.of(tester.element(find.byType(MainShell, skipOffstage: false)));
 
-/// F11 — camada 2 (estilo, sem tolerância) da navegação, do FAB e do fade.
+/// F11 — camada 2 (estilo, sem tolerância) da navegação, do FAB e do fade; desde a T03 no canvas da prancha 01 (a
+/// barra em y 2550).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -504,16 +505,16 @@ void main() {
   );
 
   testWidgets(
-    'pixels @3x no canvas: fundo da barra, borda 1,5, cantos de raio 28, sombra (0, 4) só embaixo, pílula ativa com borda e canto de raio 20, itens inativos sem fundo, FAB (cor, borda, sombra, por cima da borda da barra) e fade invisível sobre o papel',
+    'pixels @3x no canvas da prancha 01 (a barra em y 2550): fundo da barra, borda 1,5, cantos de raio 28, sombra (0, 4) só embaixo, pílula ativa com borda e canto de raio 20, itens inativos sem fundo, FAB (cor, borda, sombra, por cima da borda da barra) e fade invisível sobre o papel',
     (tester) async {
       setCanvasView(tester);
       await _pumpCanvas(tester);
       final image = await captureAt(tester, find.byKey(goldenRootKey));
-      expect((image.width, image.height), (390 * 3, 2390 * 3));
+      expect((image.width, image.height), (390 * 3, 2650 * 3));
       final rgba = await rgbaOf(tester, image);
       final w = image.width;
       final failures = <String>[];
-      // [tol] por canal: só para papel dentro da rampa do fade (y < 2322,5), onde "papel com alpha t sobre papel"
+      // [tol] por canal: só para papel dentro da rampa do fade (y < 2582,5), onde "papel com alpha t sobre papel"
       // passa por um blend de 8 bits que pode errar em 1 unidade. Fora da rampa a comparação é exata.
       void expectPixel(
         String what,
@@ -535,112 +536,112 @@ void main() {
         }
       }
 
-      // Barra (358×70 em (16; 2290)).
+      // Barra (358×70 em (16; 2550)).
       expectPixel(
         'fundo da barra (vão entre Início e Biblioteca)',
         92,
-        2320,
+        2580,
         _surface,
       );
       expectPixel(
         'fundo da barra (vão entre Clubes e Perfil)',
         297.9,
-        2320,
+        2580,
         _surface,
       );
-      expectPixel('borda esquerda', 16.75, 2325, _ink);
-      expectPixel('borda direita', 373.25, 2325, _ink);
-      expectPixel('borda superior', 100, 2290.75, _ink);
-      expectPixel('borda inferior', 100, 2359.25, _ink);
-      expectPixel('sombra (0, 4) abaixo', 100, 2362, _ink);
-      expectPixel('sombra: última linha', 100, 2363.75, _ink);
-      expectPixel('abaixo da sombra', 100, 2364.5, _paper);
-      expectPixel('sem sombra à esquerda', 15.5, 2325, _paper);
-      expectPixel('sem sombra à direita', 374.5, 2325, _paper);
+      expectPixel('borda esquerda', 16.75, 2585, _ink);
+      expectPixel('borda direita', 373.25, 2585, _ink);
+      expectPixel('borda superior', 100, 2550.75, _ink);
+      expectPixel('borda inferior', 100, 2619.25, _ink);
+      expectPixel('sombra (0, 4) abaixo', 100, 2622, _ink);
+      expectPixel('sombra: última linha', 100, 2623.75, _ink);
+      expectPixel('abaixo da sombra', 100, 2624.5, _paper);
+      expectPixel('sem sombra à esquerda', 15.5, 2585, _paper);
+      expectPixel('sem sombra à direita', 374.5, 2585, _paper);
       expectPixel(
         'canto de raio 28 (fora do arco)',
         16.5,
-        2290.5,
+        2550.5,
         _paper,
         tol: 1,
       );
-      expectPixel('canto de raio 28 (na borda, 45°)', 24.77, 2298.77, _ink);
-      expectPixel('canto de raio 28 (fora, 45°)', 23.5, 2297.5, _paper, tol: 1);
-      expectPixel('canto de raio 28 (dentro, 45°)', 27.0, 2301.5, _surface);
+      expectPixel('canto de raio 28 (na borda, 45°)', 24.77, 2558.77, _ink);
+      expectPixel('canto de raio 28 (fora, 45°)', 23.5, 2557.5, _paper, tol: 1);
+      expectPixel('canto de raio 28 (dentro, 45°)', 27.0, 2561.5, _surface);
       // O fade pinta ANTES da barra: se pintasse depois, a barra clarearia ~97% em direção ao papel.
       expectPixel(
         'fade abaixo da barra (a barra continua #FFFAF1)',
         100,
-        2300,
+        2560,
         _surface,
       );
       expectPixel(
         'fade abaixo da barra (borda continua tinta)',
         120,
-        2290.75,
+        2550.75,
         _ink,
       );
 
-      // Item ativo (Início): 64,6×51 em (25,5; 2299,5), brand, borda 1,5, raio 20.
-      expectPixel('pílula ativa (brand)', 30, 2320, _lavender);
-      expectPixel('pílula ativa (brand, à direita)', 85, 2320, _lavender);
-      expectPixel('pílula ativa: borda esquerda', 26.25, 2325, _ink);
-      expectPixel('pílula ativa: borda superior', 60, 2300.25, _ink);
-      expectPixel('pílula ativa: borda inferior', 60, 2349.75, _ink);
-      expectPixel('pílula ativa: borda direita', 89.35, 2325, _ink);
+      // Item ativo (Início): 64,6×51 em (25,5; 2559,5), brand, borda 1,5, raio 20.
+      expectPixel('pílula ativa (brand)', 30, 2580, _lavender);
+      expectPixel('pílula ativa (brand, à direita)', 85, 2580, _lavender);
+      expectPixel('pílula ativa: borda esquerda', 26.25, 2585, _ink);
+      expectPixel('pílula ativa: borda superior', 60, 2560.25, _ink);
+      expectPixel('pílula ativa: borda inferior', 60, 2609.75, _ink);
+      expectPixel('pílula ativa: borda direita', 89.35, 2585, _ink);
       expectPixel(
         'pílula ativa: canto raio 20 (na borda, 45°)',
         31.89,
-        2305.89,
+        2565.89,
         _ink,
       );
       expectPixel(
         'pílula ativa: canto raio 20 (fora, 45°)',
         30.3,
-        2304.3,
+        2564.3,
         _surface,
       );
-      expectPixel('pílula ativa: sem sombra (abaixo)', 60, 2351.5, _surface);
+      expectPixel('pílula ativa: sem sombra (abaixo)', 60, 2611.5, _surface);
       // Itens inativos: sem fundo e sem borda.
-      expectPixel('Biblioteca: sem borda (esquerda)', 94.6, 2325, _surface);
-      expectPixel('Biblioteca: sem borda (topo)', 120, 2299.75, _surface);
-      expectPixel('Clubes: sem borda', 231.8, 2325, _surface);
-      expectPixel('Perfil: sem borda', 300.4, 2325, _surface);
+      expectPixel('Biblioteca: sem borda (esquerda)', 94.6, 2585, _surface);
+      expectPixel('Biblioteca: sem borda (topo)', 120, 2559.75, _surface);
+      expectPixel('Clubes: sem borda', 231.8, 2585, _surface);
+      expectPixel('Perfil: sem borda', 300.4, 2585, _surface);
 
-      // FAB (60×60 em (165; 2269,5)): círculo, borda, sombra e ordem de pintura.
-      expectPixel('FAB acima da barra (cor)', 195, 2275, _sun);
-      expectPixel('FAB à esquerda do ícone', 170, 2299.5, _sun);
+      // FAB (60×60 em (165; 2529,5)): círculo, borda, sombra e ordem de pintura.
+      expectPixel('FAB acima da barra (cor)', 195, 2535, _sun);
+      expectPixel('FAB à esquerda do ícone', 170, 2559.5, _sun);
       expectPixel(
         'FAB por cima da borda superior da barra',
         195,
-        2290.75,
+        2550.75,
         _sun,
       );
       expectPixel(
         'FAB por cima da borda superior da barra (lado)',
         177,
-        2290.75,
+        2550.75,
         _sun,
       );
-      expectPixel('FAB: borda superior', 195, 2270.25, _ink);
-      expectPixel('FAB: borda inferior', 195, 2328.75, _ink);
-      expectPixel('FAB: borda esquerda', 165.75, 2299.5, _ink);
-      expectPixel('FAB: borda direita', 224.25, 2299.5, _ink);
-      expectPixel('FAB: sombra (0, 4)', 195, 2331.5, _ink);
-      expectPixel('FAB: sombra, última linha', 195, 2333.25, _ink);
-      expectPixel('abaixo da sombra do FAB (barra)', 195, 2334, _surface);
-      expectPixel('FAB: sem sombra à esquerda', 164.5, 2299.5, _surface);
+      expectPixel('FAB: borda superior', 195, 2530.25, _ink);
+      expectPixel('FAB: borda inferior', 195, 2588.75, _ink);
+      expectPixel('FAB: borda esquerda', 165.75, 2559.5, _ink);
+      expectPixel('FAB: borda direita', 224.25, 2559.5, _ink);
+      expectPixel('FAB: sombra (0, 4)', 195, 2591.5, _ink);
+      expectPixel('FAB: sombra, última linha', 195, 2593.25, _ink);
+      expectPixel('abaixo da sombra do FAB (barra)', 195, 2594, _surface);
+      expectPixel('FAB: sem sombra à esquerda', 164.5, 2559.5, _surface);
       expectPixel(
         'FAB: canto do quadrado fora do círculo (acima da barra)',
         166,
-        2270.5,
+        2530.5,
         _paper,
         tol: 1,
       );
       expectPixel(
         'FAB: borda da barra volta fora do círculo',
         150,
-        2290.75,
+        2550.75,
         _ink,
       );
 

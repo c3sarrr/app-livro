@@ -53,7 +53,7 @@ bool _excluded(Finder f) {
 
 Finder _key(String id) => find.byKey(ValueKey<String>(id));
 
-/// Todo rótulo/valor do arquivo (§12.2): (rótulo, papel, valor).
+/// Todo rótulo/valor da prancha 01 (§12.2; as tabelas "Semântica" das fases L01a1…L01a9): (rótulo, papel, valor).
 const _expected = <(String, String, String)>[
   // Seções (`<section aria-label>` / `<nav aria-label>`) e os 2 nós com o mesmo nome do HTML.
   ('Continuar lendo', 'seção', ''),
@@ -62,15 +62,25 @@ const _expected = <(String, String, String)>[
   ('Também lendo', 'cabeçalho', ''),
   ('Seu dia de leitura', 'seção', ''),
   ('Seu dia de leitura', 'cabeçalho', ''),
+  ('Seus grifos de hoje', 'seção', ''),
+  (
+    'Seus grifos de hoje',
+    'rótulo',
+    '',
+  ), // o título é um <span> (não é cabeçalho)
   ('Para você', 'seção', ''),
   ('Para você', 'cabeçalho', ''),
   ('Seu clube do livro', 'seção', ''),
   ('Adicionados recentemente', 'seção', ''),
   ('Navegação principal', 'seção', ''),
   // Rótulos próprios.
+  ('Buscar livros', 'link', ''), // a lupa (sem ação — D-243 b)
   ('Notificações, 2 novas', 'botão', ''),
-  ('Destaques e notas deste livro (14)', 'botão', ''),
+  ('Destaques e notas deste livro (12)', 'botão', ''),
   ('Progresso do livro', 'barra de progresso', '62%'),
+  ('Memórias Póstumas de Brás Cubas', 'link', ''), // a capa do livro de papel
+  ('Iniciar leitura de Brás Cubas', 'botão', ''), // o "play" (sem ação)
+  ('Iniciar leitura (cronômetro)', 'link', ''), // o "Ler agora" (sem ação)
   (
     'Minutos lidos por dia: segunda 32, terça 45, quarta 30, quinta 22, sexta 38, sábado 55, hoje 18 de 30',
     'rótulo',
@@ -105,6 +115,7 @@ const _headers = <(String, int)>[
 
 /// Decorativos (`aria-hidden`): brilhos, círculos, desenhos, entalhes, perfuração, fade, FAB e ícones.
 const _decorative = <String>[
+  'header.search.icon',
   'header.bell.icon',
   'header.bell.dot',
   'hero.sparkleLarge',
@@ -112,14 +123,20 @@ const _decorative = <String>[
   'hero.cta.icon',
   'hero.notesButton.icon',
   'hero.notesButton.badge',
-  'alsoReading.card1.ring.svg',
+  'alsoReading.card1.play.icon',
+  'alsoReading.card1.meta.icon',
   'alsoReading.card2.ring.svg',
+  'alsoReading.card2.meta.icon',
   'today.decoCircleLarge',
   'today.decoCircleSmall',
   'today.streakPill.icon',
   'today.dial.svg',
+  'today.readNow.icon',
   'today.week.goalLine',
   'today.footer.icon',
+  'review.art',
+  'review.art.sparkle',
+  'review.cta.icon',
   'forYou.seeAll.icon',
   'forYou.reasonChip.icon',
   'club.cta.icon',
@@ -169,12 +186,12 @@ List<String> _traversalOrder(SemanticsNode root) {
   return out;
 }
 
-/// F12 12.2 — acessibilidade da tela inteira (espelho dos `aria-*` do arquivo).
+/// F12 12.2 — acessibilidade da tela inteira (espelho dos `aria-*` do arquivo); desde a T03 a da prancha 01.
 void main() {
   setUpAll(loadAppFonts);
 
   testWidgets(
-    '12.2 cada rótulo/valor do arquivo existe, com o papel certo, em nós próprios; as 4 exceções têm exatamente 2 nós (seção + link/cabeçalho) e mais nada carrega esses nomes',
+    '12.2 cada rótulo/valor da prancha 01 existe, com o papel certo, em nós próprios; as 5 exceções têm exatamente 2 nós (seção + link/cabeçalho/título) e mais nada carrega esses nomes',
     (tester) async {
       final semantics = tester.ensureSemantics();
       await _canvas(tester);
@@ -307,7 +324,7 @@ void main() {
   );
 
   testWidgets(
-    '12.2 toda ação da tela tem nó acionável: 1 `tap` por botão/link do mapa de toques (13 destinos + 3 "mais opções" + 5 da barra + "Ver tudo"/"Biblioteca" + a lupa, sem ação — T03) e nenhum nó rótulo-puro oferece ação',
+    '12.2 toda ação da tela tem nó acionável: 1 `tap` por botão/link do mapa de toques (os destinos, os 3 "mais opções", os 5 da barra e os sem ação da T03 — lupa, "play", "Ler agora" e "Revisar", D-243 b) e nenhum nó rótulo-puro oferece ação',
     (tester) async {
       final semantics = tester.ensureSemantics();
       await _canvas(tester);
@@ -318,10 +335,14 @@ void main() {
       for (final n in actionable) {
         byRole.putIfAbsent(_role(n), () => []).add(n.label);
       }
-      // Botões: sino, destaques e os 3 "mais opções". Links: a lupa (T03), CTA, 2 cards, "Ver tudo", 3 itens, CTA
-      // do clube, "Biblioteca", 3 linhas e os 5 itens da barra.
-      expect(byRole['botão'], hasLength(5));
-      expect(byRole['link'], hasLength(1 + 1 + 2 + 1 + 3 + 1 + 1 + 3 + 5));
+      // Botões: sino, destaques, o "play" e os 3 "mais opções". Links: a lupa, o CTA, a capa do Brás Cubas, o cartão
+      // do Orgulho, "Ler agora", "Revisar", "Ver tudo", 3 itens, o CTA do clube, "Biblioteca", 3 linhas e os 5 itens
+      // da barra.
+      expect(byRole['botão'], hasLength(6));
+      expect(
+        byRole['link'],
+        hasLength(1 + 1 + 1 + 1 + 1 + 1 + 1 + 3 + 1 + 1 + 3 + 5),
+      );
       expect(byRole.keys.toSet(), {'botão', 'link'});
       semantics.dispose();
     },
@@ -343,7 +364,7 @@ void main() {
     );
 
     testWidgets(
-      'Android (48 × 48): reprova SOMENTE os 3 botões "Mais opções", que medem 44 × 44 no arquivo — falha registrada, visual intacto',
+      'Android (48 × 48): reprova SOMENTE o "play" (46 × 46) e os 3 botões "Mais opções" (44 × 44) — as medidas da prancha 01; falha registrada, visual intacto',
       (tester) async {
         final semantics = tester.ensureSemantics();
         await _canvas(tester);
@@ -355,16 +376,21 @@ void main() {
             .map((m) => m.group(1))
             .toList();
         expect(failing, [
+          'Iniciar leitura de Brás Cubas',
           'Mais opções para Frankenstein',
           'Mais opções para O Alienista',
           'Mais opções para Senhora',
         ]);
         expect(
+          RegExp(r'but found Size\(46\.0, 46\.0\)').allMatches(reason),
+          hasLength(1),
+        );
+        expect(
           RegExp(r'but found Size\(44\.0, 44\.0\)').allMatches(reason),
           hasLength(3),
         );
         debugPrint(
-          '[diretrizes] androidTapTargetGuideline (48×48): REPROVOU 3 nós — ${failing.join(' | ')} (44 × 44 no arquivo)',
+          '[diretrizes] androidTapTargetGuideline (48×48): REPROVOU 4 nós — ${failing.join(' | ')} (46 × 46 e 44 × 44 na prancha)',
         );
         semantics.dispose();
       },

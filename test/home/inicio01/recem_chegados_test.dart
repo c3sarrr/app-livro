@@ -1,6 +1,6 @@
 // T03.13 — fase L01a8 ("Recém-chegados") contra a prancha 01 (`kRef01`) e as larguras 360/430: Frankenstein
-// ("Quero ler"), O Alienista (agora "Lido", a pílula verde nova — D-255) e Senhora (agora "Papel"). A seção muda no
-// lugar: com os dados da v1 desenha a v1. Recorte do gate visual: y 2130,12–2480,12
+// ("Quero ler"), O Alienista (agora "Lido", a pílula verde nova — D-255) e Senhora (agora "Papel"). A seção mudou no
+// lugar (só os dados e a pílula "Lido"). Recorte do gate visual: y 2130,12–2480,12
 // (`docs/design/fases/L01a8_recem_chegados.md`).
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
@@ -20,18 +20,14 @@ import '../../support/load_fonts.dart';
 
 const _secoes = ['i01.recent'];
 
-Future<void> _abrir(
-  WidgetTester tester, {
-  LeitorRefPrancha prancha = kRef01,
-  ValueChanged<Book>? onBookTap,
-  VoidCallback? onLibraryTap,
-}) => abrirSecoes01(tester, {
-  'i01.recent': RecentlyAddedSection(
-    onBookTap: onBookTap,
-    onLibraryTap: onLibraryTap,
-    onMoreTap: HomeScreen.onMoreOptions,
-  ),
-}, prancha: prancha);
+Future<void> _abrir(WidgetTester tester, {LeitorRefPrancha prancha = kRef01}) =>
+    abrirInicio01(tester, prancha: prancha);
+
+/// Voltar do sistema: fecha a rota do topo (de volta à Início).
+Future<void> _voltar(WidgetTester tester) async {
+  await tester.binding.handlePopRoute();
+  await tester.pumpAndSettle();
+}
 
 String _texto(WidgetTester tester, String key) =>
     tester.widget<AppText>(find.byKey(ValueKey(key))).span.toPlainText();
@@ -128,7 +124,7 @@ void main() {
     'L01a8 semântica: a seção, o h3, "Biblioteca", os 3 blocos de texto como links e os 3 "Mais opções"',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      await _abrir(tester, onBookTap: (_) {}, onLibraryTap: () {});
+      await _abrir(tester);
       expect(
         find.semantics.byLabel('Adicionados recentemente'),
         findsAtLeast(1),
@@ -145,9 +141,7 @@ void main() {
             .getSemanticsData();
         expect(n.flagsCollection.isButton, isTrue, reason: l);
       }
-      final links = find.semantics
-          .byPredicate((n) => n.getSemanticsData().flagsCollection.isLink)
-          .evaluate()
+      final links = linksDaSecao('Adicionados recentemente')
           .map((n) => n.label)
           .toList();
       expect(links, hasLength(4));
@@ -161,21 +155,30 @@ void main() {
   );
 
   testWidgets(
-    'L01a8 toques: os blocos abrem o livro e "Biblioteca" a aba; o ⋯ continua sem ação (C20)',
+    'L01a8 toques: os blocos abrem a página do livro e "Biblioteca" troca de aba; o ⋯ continua sem ação (C20)',
     (tester) async {
-      final abertos = <String>[];
-      var biblioteca = 0;
-      await _abrir(
-        tester,
-        onBookTap: (b) => abertos.add(b.title),
-        onLibraryTap: () => biblioteca++,
+      await _abrir(tester);
+      expect(
+        tester
+            .widget<RecentlyAddedSection>(find.byType(RecentlyAddedSection))
+            .onMoreTap,
+        HomeScreen.onMoreOptions,
       );
-      await tester.tap(find.byKey(const ValueKey('recent.row1.textBlock')));
-      await tester.tap(find.byKey(const ValueKey('recent.libraryLink')));
-      await tester.tap(find.byKey(const ValueKey('recent.row2.more')));
-      await tester.pumpAndSettle();
-      expect(abertos, ['O Alienista']);
-      expect(biblioteca, 1);
+      for (final i in [0, 1, 2]) {
+        await tocar01(tester, 'i01.recent.row$i.more');
+        expect(rotaAtual(tester), '/inicio');
+      }
+      for (final (i, slug) in [
+        (0, 'frankenstein'),
+        (1, 'o-alienista'),
+        (2, 'senhora'),
+      ]) {
+        await tocar01(tester, 'i01.recent.row$i.textBlock');
+        expect(rotaAtual(tester), '/livro/$slug');
+        await _voltar(tester);
+      }
+      await tocar01(tester, 'i01.recent.libraryLink');
+      expect(rotaAtual(tester), '/biblioteca');
     },
   );
 

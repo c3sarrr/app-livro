@@ -112,8 +112,6 @@ class UserSummary {
 class ContinueReading {
   const ContinueReading({
     required this.book,
-    this.chapter,
-    this.totalChapters,
     required this.progress,
     this.timeLeft,
     required this.highlightsCount,
@@ -126,10 +124,6 @@ class ContinueReading {
 
   /// Formato do exemplar: o físico não abre o leitor — "Continuar lendo" leva à página do livro (D-123).
   final BookFormat format;
-
-  /// Capítulo atual e total; `null` quando o livro não tem capítulos (a pílula some).
-  final int? chapter;
-  final int? totalChapters;
 
   /// Fração lida (0–1).
   final double progress;
@@ -191,7 +185,6 @@ class ReadingDay {
     required this.goalMinutes,
     required this.readMinutes,
     required this.streakDays,
-    required this.pagesToday,
     required this.highlightsToday,
     required this.sessionsToday,
     required this.week,
@@ -201,7 +194,6 @@ class ReadingDay {
   final int goalMinutes;
   final int readMinutes;
   final int streakDays;
-  final int pagesToday;
   final int highlightsToday;
 
   /// Sessões de leitura que começaram hoje (dia local) — "2 sessões".

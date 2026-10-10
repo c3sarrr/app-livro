@@ -374,7 +374,7 @@ abstract final class AppTextStyles {
     color: AppColors.inkMuted,
   );
 
-  /// hero.chapterPill, today.chip.pages, today.chip.highlights, club.pill, club.youLabel (CSS 700/800 → renderizado 700)
+  /// hero.pagePill, today.chip.sessions, today.chip.highlights, club.pill, club.youLabel (CSS 700/800 → renderizado 700)
   static final TextStyle label12Bold = AppFonts.figtree(12, FontWeight.w700);
 
   /// recent.row0.tag, recent.row1.tag

@@ -28,12 +28,13 @@ import 'package:app_leitura/features/home/presentation/covers/senhora_mini_cover
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/home/presentation/sections/also_reading_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/book_club_ticket.dart';
-import 'package:app_leitura/features/home/presentation/sections/continue_reading_hero.dart';
 import 'package:app_leitura/features/home/presentation/sections/for_you_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/header_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
-import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
+import 'package:app_leitura/features/home/presentation/sections/hero_section.dart';
 import 'package:app_leitura/features/home/presentation/sections/recently_added_section.dart';
+import 'package:app_leitura/features/home/presentation/sections/review_section.dart';
+import 'package:app_leitura/features/home/presentation/sections/today_section.dart';
 import 'package:app_leitura/features/reader/annotations/ink/gesture_arbiter.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_geometry.dart';
 import 'package:app_leitura/features/reader/application/annotation_anchors.dart';
@@ -755,13 +756,15 @@ void main() {
       return types;
     }
 
+    // Desde a T03 as seções da prancha 01 (o herói e o "Seu dia" novos e a revisão do dia).
     const sections = <Type>[
       HomeScreen,
       HeaderSection,
       HeadlineSection,
-      ContinueReadingHero,
+      HeroSection,
       AlsoReadingSection,
-      ReadingDayCard,
+      TodaySection,
+      ReviewSection,
       ForYouSection,
       BookClubTicket,
       RecentlyAddedSection,
@@ -770,7 +773,7 @@ void main() {
     ];
 
     testWidgets(
-      'trocar o brand reconstrói SÓ o hero e a barra de navegação (as outras 9 seções/telas não são tocadas)',
+      'trocar o brand reconstrói SÓ o hero e a barra de navegação (as outras 10 seções/telas não são tocadas)',
       (tester) async {
         setCanvasView(tester);
         await pumpApp(tester);
@@ -786,7 +789,7 @@ void main() {
         debugPrint('[rebuild] brand → ${types.map((t) => '$t').toSet()}');
         expect(
           types.where(sections.contains).toList()..sort(_byName),
-          [ContinueReadingHero, FloatingNavBar]..sort(_byName),
+          [HeroSection, FloatingNavBar]..sort(_byName),
         );
       },
     );
@@ -806,7 +809,7 @@ void main() {
               .setWeekColor(AppColors.weekColorOptions.last),
         );
         debugPrint('[rebuild] weekColor → ${types.map((t) => '$t').toSet()}');
-        expect(types.where(sections.contains).toList(), [ReadingDayCard]);
+        expect(types.where(sections.contains).toList(), [TodaySection]);
       },
     );
 

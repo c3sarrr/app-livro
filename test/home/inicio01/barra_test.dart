@@ -1,6 +1,6 @@
 // T03.14 — fase L01a9 (o degradê inferior e a barra de navegação, Início ativo) contra a prancha 01 (`kRef01`) e as
-// larguras 360/430: iguais à v1 (F11), presos ao pé da página de 2650. Até a troca o arnês põe os três `Positioned`
-// do `MainShell` (`barraDoShell01`); depois dela, o próprio shell. Recorte do gate visual: y 2492–2650
+// larguras 360/430: iguais à v1 (F11), presos pelo `MainShell` ao pé da página de 2650 (no app, fora da área que
+// rola). Recorte do gate visual: y 2492–2650
 // (`docs/design/fases/L01a9_barra.md`).
 import 'dart:ui' show Tristate;
 
@@ -20,21 +20,14 @@ import '../../support/load_fonts.dart';
 
 const _secoes = ['i01.bottomFade', 'i01.nav'];
 
-Future<void> _abrir(
-  WidgetTester tester, {
-  LeitorRefPrancha prancha = kRef01,
-  ValueChanged<int>? onSelect,
-  VoidCallback? onScanner,
-}) => abrirSecoes01(
-  tester,
-  const {},
-  prancha: prancha,
-  camadas: barraDoShell01(
-    largura: prancha.canvas.width,
-    onSelect: onSelect,
-    onScanner: onScanner,
-  ),
-);
+Future<void> _abrir(WidgetTester tester, {LeitorRefPrancha prancha = kRef01}) =>
+    abrirInicio01(tester, prancha: prancha);
+
+/// Voltar do sistema: fecha a rota do topo.
+Future<void> _voltar(WidgetTester tester) async {
+  await tester.binding.handlePopRoute();
+  await tester.pumpAndSettle();
+}
 
 NeoBox _neo(WidgetTester tester, String key) => tester.widget<NeoBox>(
   find
@@ -98,13 +91,16 @@ void main() {
       expect(g.stops, [0.0, 0.55]);
       expect(AppColors.paper, const Color(0xFFF7F0E3));
       expect(AppColors.paperTransparent, const Color(0x00F7F0E3));
-      expect(
-        find.ancestor(
-          of: find.byType(BottomFade),
-          matching: find.byType(IgnorePointer),
-        ),
-        findsOneWidget,
+      // o pai mais próximo é o `IgnorePointer` do shell (`pointer-events: none`)
+      final pai = tester.widget<IgnorePointer>(
+        find
+            .ancestor(
+              of: find.byType(BottomFade),
+              matching: find.byType(IgnorePointer),
+            )
+            .first,
       );
+      expect(pai.ignoring, isTrue);
     },
   );
 
@@ -176,12 +172,9 @@ void main() {
   testWidgets('L01a9 semântica: "Navegação principal" com os 5 links (Início selecionado, o Scanner pelo aria-label); '
       'o FAB e o degradê fora', (tester) async {
     final semantics = tester.ensureSemantics();
-    await _abrir(tester, onSelect: (_) {}, onScanner: () {});
+    await _abrir(tester);
     expect(find.semantics.byLabel('Navegação principal'), findsOneWidget);
-    final links = find.semantics
-        .byPredicate((n) => n.getSemanticsData().flagsCollection.isLink)
-        .evaluate()
-        .toList();
+    final links = linksDaSecao('Navegação principal');
     expect(links.map((n) => n.label), [
       'Início',
       'Biblioteca',
@@ -213,23 +206,27 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets(
-    'L01a9 toques: as abas pedem o ramo; o item e o círculo do Scanner (até a borda de cima) abrem o scanner',
-    (tester) async {
-      final ramos = <int>[];
-      var scanner = 0;
-      await _abrir(tester, onSelect: ramos.add, onScanner: () => scanner++);
-      for (final id in ['home', 'library', 'clubs', 'profile']) {
-        await tester.tap(find.byKey(ValueKey('nav.$id')));
-      }
-      await tester.tap(find.byKey(const ValueKey('nav.scanner.label')));
-      // a 4 px do topo do círculo (2529,5): fora da barra, ainda no FAB
-      await tester.tapAt(const Offset(195, 2533.5));
-      await tester.pumpAndSettle();
-      expect(ramos, [0, 1, 2, 3]); // o Scanner não é ramo (D-08)
-      expect(scanner, 2);
-    },
-  );
+  testWidgets('L01a9 toques: as abas trocam de ramo; o item e o círculo do Scanner (até a borda de cima) abrem o scanner por '
+      'cima (D-08)', (tester) async {
+    await _abrir(tester);
+    for (final (id, rota) in [
+      ('library', '/biblioteca'),
+      ('clubs', '/clubes'),
+      ('profile', '/perfil'),
+      ('home', '/inicio'),
+    ]) {
+      await tocar01(tester, 'i01.nav.$id');
+      expect(rotaAtual(tester), rota, reason: id);
+    }
+    await tocar01(tester, 'i01.nav.scanner.label');
+    expect(rotaAtual(tester), '/scanner');
+    await _voltar(tester);
+    expect(rotaAtual(tester), '/inicio');
+    // a 4 px do topo do círculo (2529,5): fora da barra, ainda no FAB
+    await tester.tapAt(const Offset(195, 2533.5));
+    await tester.pumpAndSettle();
+    expect(rotaAtual(tester), '/scanner');
+  });
 
   testWidgets(
     'L01a9 captura: a barra e o degradê no canvas da prancha (gate visual fora do teste)',

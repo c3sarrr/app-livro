@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import '../fixtures/mundo_2026_09_20.dart';
 import '../support/canvas.dart';
 import '../support/load_fonts.dart';
 import '../support/pump_app.dart';
@@ -69,19 +70,27 @@ Future<void> _back(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+/// A discussão do clube da fixture (a rota leva o id do clube do mundo de referência).
+final _discussao = '/clube/${mundoReferencia.clube.id}/discussao';
+
 /// (Key, rota esperada, título do placeholder da rota) — a tabela do mapa de toques (F12 12.1), exceto a
-/// troca de aba (`recent.libraryLink`, testada à parte) e as abas/Scanner (F11).
-const _pushRows = <(String, String, String)>[
+/// troca de aba (`recent.libraryLink`, testada à parte) e as abas/Scanner (F11). Desde a T03 com a prancha 01: o
+/// 1º cartão de "Também lendo" é o papel sem página (D-253) — só a capa é link (o "play" é sem ação, abaixo).
+final _pushRows = <(String, String, String)>[
   ('header.bell', '/notificacoes', 'Notificações'),
   ('hero.cta', '/leitor/dom-casmurro', 'Leitor'),
   ('hero.notesButton', '/livro/dom-casmurro/destaques', 'Grifos e notas'),
-  ('alsoReading.card1', '/livro/mrs-dalloway', 'Livro'),
+  (
+    'alsoReading.card1.cover',
+    '/livro/memorias-postumas-de-bras-cubas',
+    'Livro',
+  ),
   ('alsoReading.card2', '/livro/orgulho-e-preconceito', 'Livro'),
   ('forYou.seeAll', '/para-voce', 'Para você'),
-  ('forYou.item1', '/livro/memorias-postumas-de-bras-cubas', 'Livro'),
-  ('forYou.item2', '/livro/quincas-borba', 'Livro'),
-  ('forYou.item3', '/livro/o-cortico', 'Livro'),
-  ('club.cta', '/clube/leitoras-de-capitu/discussao', 'Discussão'),
+  ('forYou.item1', '/livro/esau-e-jaco', 'Livro'),
+  ('forYou.item2', '/livro/memorial-de-aires', 'Livro'),
+  ('forYou.item3', '/livro/casa-de-pensao', 'Livro'),
+  ('club.cta', _discussao, 'Discussão'),
   ('recent.row0.textBlock', '/livro/frankenstein', 'Livro'),
   ('recent.row1.textBlock', '/livro/o-alienista', 'Livro'),
   ('recent.row2.textBlock', '/livro/senhora', 'Livro'),
@@ -188,12 +197,7 @@ void main() {
       true,
     ),
     ('forYou.seeAll', '/para-voce', null, false),
-    (
-      'club.cta',
-      '/clube/leitoras-de-capitu/discussao',
-      const Size(221, 46),
-      true,
-    ),
+    ('club.cta', _discussao, const Size(221, 46), true),
     ('recent.libraryLink', '/biblioteca', null, false),
   ]) {
     testWidgets(
@@ -282,11 +286,7 @@ void main() {
       ]) {
         await tester.tapAt(tester.getCenter(_key(overlay)));
         await tester.pumpAndSettle();
-        expect(
-          _router(tester).state.uri.path,
-          '/clube/leitoras-de-capitu/discussao',
-          reason: overlay,
-        );
+        expect(_router(tester).state.uri.path, _discussao, reason: overlay);
         await _back(tester);
       }
     },
@@ -364,6 +364,81 @@ void main() {
   );
 
   testWidgets(
+    'T03 (D-243 b) a lupa, o "play" do papel, "Ler agora" e "Revisar" existem com a ação da prancha, mas NÃO abrem nada — sem rota, sem diálogo, sem folha, sem menu',
+    (tester) async {
+      final semantics = tester.ensureSemantics();
+      await _device(tester);
+      for (final (id, label, link) in [
+        ('header.search', 'Buscar livros', true),
+        ('alsoReading.card1.play', 'Iniciar leitura de Brás Cubas', false),
+        ('today.readNow', 'Iniciar leitura (cronômetro)', true),
+        ('review.cta', 'Revisar', true),
+      ]) {
+        await _scrollTo(tester, id, y: 400);
+        final overlayBefore = find.byType(Overlay).evaluate().length;
+        final routesBefore = _router(tester)
+            .routerDelegate
+            .currentConfiguration
+            .matches
+            .length;
+        // O alvo tem ação de toque (o callback da Início não é nulo — é o no-op documentado).
+        final press = tester.widget<Pressable>(
+          find
+                  .ancestor(of: _key(id), matching: find.byType(Pressable))
+                  .evaluate()
+                  .isNotEmpty
+              ? find
+                    .ancestor(of: _key(id), matching: find.byType(Pressable))
+                    .first
+              : find
+                    .descendant(of: _key(id), matching: find.byType(Pressable))
+                    .first,
+        );
+        expect(press.onTap, isNotNull, reason: id);
+        expect(press.isLink, link, reason: id);
+        final node = tester.getSemantics(_key(id));
+        expect(node.label, label, reason: id);
+        expect(
+          node.getSemanticsData().hasAction(SemanticsAction.tap),
+          isTrue,
+          reason: id,
+        );
+
+        await _tap(tester, _key(id));
+        await tester.pumpAndSettle();
+        expect(_router(tester).state.uri.path, AppRoutes.inicio, reason: id);
+        expect(
+          _router(tester).routerDelegate.currentConfiguration.matches.length,
+          routesBefore,
+          reason: id,
+        );
+        expect(find.byType(Overlay).evaluate().length, overlayBefore);
+        expect(find.byType(PlaceholderScreen), findsNothing, reason: id);
+        expect(find.byType(Dialog), findsNothing, reason: id);
+        expect(find.byType(BottomSheet), findsNothing, reason: id);
+        expect(find.byType(PopupMenuItem<Object?>), findsNothing, reason: id);
+        expect(
+          Navigator.of(tester.element(_key(id)), rootNavigator: true).canPop(),
+          isFalse,
+          reason: id,
+        );
+      }
+      // Os callbacks do app são os no-ops documentados.
+      const book = Book(
+        id: 'x',
+        title: 'x',
+        author: 'x',
+        cover: DesignedCover(CoverArt.brasCubas),
+      );
+      expect(HomeScreen.onSearch, returnsNormally);
+      expect(() => HomeScreen.onStartReading(book), returnsNormally);
+      expect(HomeScreen.onReadNow, returnsNormally);
+      expect(HomeScreen.onReview, returnsNormally);
+      semantics.dispose();
+    },
+  );
+
+  testWidgets(
     '12.1 sem ripple/splash/realce do Material em nenhum alvo (D-04): nenhum InkWell/InkResponse na árvore, nem durante o toque; feedback = escala 0,97',
     (tester) async {
       await _device(tester);
@@ -372,7 +447,12 @@ void main() {
         'header.bell',
         'hero.cta',
         'hero.notesButton',
-        'alsoReading.card1',
+        'alsoReading.card1.cover',
+        'alsoReading.card1.play',
+        'alsoReading.card2',
+        'header.search',
+        'today.readNow',
+        'review.cta',
         'forYou.seeAll',
         'forYou.item1',
         'club.cta',

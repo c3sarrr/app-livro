@@ -25,6 +25,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/home_mock_repository.dart';
 import '../../fixtures/telas/inicio01.dart';
 import '../../reference/inicio2/referencias_inicio2.dart';
 import '../../reference/inicio2_larguras/referencias_inicio2_larguras.dart';
@@ -82,19 +83,17 @@ Future<void> _abrir(
   LeitorRefPrancha prancha = kRef01,
   ContinueReading? heroi,
   bool trocar = false,
-  VoidCallback? onContinueTap,
-  VoidCallback? onHighlightsTap,
-}) => abrirSecoes01(
+}) => abrirInicio01(
   tester,
-  {
-    'i01.hero': HeroSection(
-      onContinueTap: onContinueTap,
-      onHighlightsTap: onHighlightsTap,
-    ),
-  },
   prancha: prancha,
-  repositorio: trocar ? _ComHeroi(heroi) : const RepositorioT01(),
+  repositorio: trocar ? _ComHeroi(heroi) : const HomeMockRepository(),
 );
+
+/// Voltar do sistema: fecha a rota do topo (de volta à Início).
+Future<void> _voltar(WidgetTester tester) async {
+  await tester.binding.handlePopRoute();
+  await tester.pumpAndSettle();
+}
 
 T _w<T extends Widget>(WidgetTester tester, String id) =>
     tester.widget<T>(ini(id));
@@ -374,22 +373,24 @@ void main() {
     },
   );
 
-  testWidgets(
-    'sem livro em leitura: o convite da G08 no lugar do cartão (D-78/D-85)',
-    (tester) async {
-      await _abrir(tester, trocar: true);
-      expect(find.byType(HeroInvitation), findsOneWidget);
-      expect(findAppText('Nada em leitura agora'), findsOneWidget);
-      expect(find.byKey(const ValueKey('hero.cover')), findsNothing);
-    },
-  );
+  testWidgets('sem livro em leitura: o convite da G08 no lugar do cartão (D-78/D-85); com a estante cheia ele leva à '
+      'Biblioteca (troca de aba)', (tester) async {
+    await _abrir(tester, trocar: true);
+    expect(find.byType(HeroInvitation), findsOneWidget);
+    expect(findAppText('Nada em leitura agora'), findsOneWidget);
+    expect(find.byKey(const ValueKey('hero.cover')), findsNothing);
+    await tester.tap(find.byKey(const ValueKey('hero.invite.cta')));
+    await tester.pumpAndSettle();
+    expect(rotaAtual(tester), '/biblioteca');
+  });
 
   testWidgets(
     'L01a2 semântica: a seção "Continuar lendo", o h2, a barra 62 %, o link do CTA e o botão "(12)"',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      // a Início passa os dois toques (o leitor e a tela 25)
-      await _abrir(tester, onContinueTap: () {}, onHighlightsTap: () {});
+      await _abrir(
+        tester,
+      ); // a Início liga os dois toques (o leitor e a tela 25)
       expect(find.semantics.byLabel('Continuar lendo'), findsAtLeast(1));
       final cta = noDe(tester, 'i01.hero.cta').getSemanticsData();
       expect(cta.label, 'Continuar lendo');
@@ -426,21 +427,24 @@ void main() {
     },
   );
 
-  testWidgets(
-    'L01a2 toques: o CTA e o botão dos destaques chamam os callbacks da seção',
-    (tester) async {
-      var (continuar, destaques) = (0, 0);
-      await _abrir(
-        tester,
-        onContinueTap: () => continuar++,
-        onHighlightsTap: () => destaques++,
-      );
-      await tester.tap(ini('i01.hero.cta'));
-      await tester.tap(ini('i01.hero.notesButton'));
-      await tester.pumpAndSettle();
-      expect((continuar, destaques), (1, 1));
-    },
-  );
+  testWidgets('L01a2 toques: o CTA abre o leitor no livro (e-book) e o botão dos destaques, a tela 25; o livro de papel vai à '
+      'página do livro (D-123)', (tester) async {
+    await _abrir(tester);
+    await tocar01(tester, 'i01.hero.cta');
+    expect(rotaAtual(tester), '/leitor/dom-casmurro');
+    await _voltar(tester);
+    await tocar01(tester, 'i01.hero.notesButton');
+    expect(rotaAtual(tester), '/livro/dom-casmurro/destaques');
+    await _voltar(tester);
+    expect(rotaAtual(tester), '/inicio');
+    await _abrir(
+      tester,
+      trocar: true,
+      heroi: _heroi(format: BookFormat.physical),
+    );
+    await tocar01(tester, 'i01.hero.cta');
+    expect(rotaAtual(tester), '/livro/dom-casmurro');
+  });
 
   testWidgets(
     'L01a2 captura: o herói no canvas da prancha (gate visual fora do teste)',

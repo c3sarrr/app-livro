@@ -119,14 +119,15 @@ const _sectionChildren = [
   'Quero ler',
   'Mais opções para Frankenstein',
   'O Alienista\nMachado de Assis · PDF',
-  'Quero ler',
+  'Lido',
   'Mais opções para O Alienista',
-  'Senhora\nJosé de Alencar · EPUB',
+  'Senhora\nJosé de Alencar · Papel',
   'Novo',
   'Mais opções para Senhora',
 ];
 
-/// F10 — semântica e toques da seção `recent`.
+/// F10 — semântica e toques da seção `recent`; desde a T03 com os dados da prancha 01 (O Alienista "Lido", a Senhora
+/// em papel — D-255).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -221,7 +222,7 @@ void main() {
           'Biblioteca',
           r'Frankenstein\nMary Shelley · EPUB',
           r'O Alienista\nMachado de Assis · PDF',
-          r'Senhora\nJosé de Alencar · EPUB',
+          r'Senhora\nJosé de Alencar · Papel',
         ],
       );
       expect(
@@ -281,7 +282,7 @@ void main() {
         'O Alienista',
         'Machado de Assis · PDF',
         'Senhora',
-        'José de Alencar · EPUB',
+        'José de Alencar · Papel',
       ]) {
         expect(labels.contains(label), isFalse, reason: label);
       }
@@ -367,7 +368,7 @@ void main() {
         'Mais opções para Frankenstein',
         r'O Alienista\nMachado de Assis · PDF',
         'Mais opções para O Alienista',
-        r'Senhora\nJosé de Alencar · EPUB',
+        r'Senhora\nJosé de Alencar · Papel',
         'Mais opções para Senhora',
       ]);
       for (final (_, actions) in withActions) {

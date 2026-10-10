@@ -1,10 +1,9 @@
 // T03.12 — fase L01a7 (o ingresso do clube "Leitoras de Capitu") contra a prancha 01 (`kRef01`) e as larguras
 // 360/430: o mesmo desenho, medidas e pintores da v1 (F09), com o subtítulo "Dom Casmurro · até o cap. 50" (D-241: o
-// número do leitor e do clube). A seção não muda de código: só os dados. Recorte do gate visual: y 1810,52–2119,12
+// número do leitor e do clube). A seção não mudou de código: só os dados. Recorte do gate visual: y 1810,52–2119,12
 // (`docs/design/fases/L01a7_clube.md`).
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
-import 'package:app_leitura/features/home/presentation/sections/book_club_ticket.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,13 +18,8 @@ import '../../support/load_fonts.dart';
 
 const _secoes = ['i01.club'];
 
-Future<void> _abrir(
-  WidgetTester tester, {
-  LeitorRefPrancha prancha = kRef01,
-  VoidCallback? onDiscussionTap,
-}) => abrirSecoes01(tester, {
-  'i01.club': BookClubTicket(onDiscussionTap: onDiscussionTap),
-}, prancha: prancha);
+Future<void> _abrir(WidgetTester tester, {LeitorRefPrancha prancha = kRef01}) =>
+    abrirInicio01(tester, prancha: prancha);
 
 void main() {
   setUpAll(loadAppFonts);
@@ -77,7 +71,7 @@ void main() {
   testWidgets('L01a7 semântica: a seção, os rótulos do arquivo (participantes, progresso do grupo 54 %, "Você", '
       'mensagens novas e o encontro) e os decorativos fora', (tester) async {
     final semantics = tester.ensureSemantics();
-    await _abrir(tester, onDiscussionTap: () {});
+    await _abrir(tester);
     expect(find.semantics.byLabel('Seu clube do livro'), findsAtLeast(1));
     expect(noDe(tester, 'i01.club.avatars').label, '11 participantes');
     final barra = noDe(tester, 'i01.club.progressBar').getSemanticsData();
@@ -112,9 +106,7 @@ void main() {
         reason: id,
       );
     }
-    final cta = find.semantics
-        .byPredicate((n) => n.getSemanticsData().flagsCollection.isLink)
-        .evaluate();
+    final cta = linksDaSecao('Seu clube do livro');
     expect(cta, hasLength(1));
     expect(
       cta.single.getSemanticsData().hasAction(SemanticsAction.tap),
@@ -123,14 +115,12 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('L01a7 toque no CTA: abre a discussão (como na v1)', (
+  testWidgets('L01a7 toque no CTA: abre a discussão do clube (como na v1)', (
     tester,
   ) async {
-    var toques = 0;
-    await _abrir(tester, onDiscussionTap: () => toques++);
-    await tester.tap(ini('i01.club.cta'));
-    await tester.pumpAndSettle();
-    expect(toques, 1);
+    await _abrir(tester);
+    await tocar01(tester, 'i01.club.cta');
+    expect(rotaAtual(tester), '/clube/${mundoReferencia.clube.id}/discussao');
   });
 
   testWidgets(

@@ -1,9 +1,8 @@
 // T03.5 — o arnês das fases da Início nova (`test/support/fase_inicio.dart`): a Key de cada id, o retângulo de layout
 // sem os giros (como o passo A da medição neutraliza os `transform`), a caixa visual dos girados e o gate de geometria
-// apontando a falha. Spec `docs/progresso/T03.md` §4.
+// apontando a falha. Desde a troca (T03.15) o arnês monta o app inteiro. Spec `docs/progresso/T03.md` §4.
 import 'dart:math' as math;
 
-import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -112,10 +111,11 @@ void main() {
   );
 
   testWidgets(
-    'seções no retângulo da prancha: o título da 01 passa no gate de geometria e de texto',
+    'o app no canvas da prancha (390 × 2650 @3x, em /inicio): o título da 01 passa no gate de geometria e de texto',
     (tester) async {
-      await abrirSecoes01(tester, {'i01.headline': const HeadlineSection()});
+      await abrirInicio01(tester);
       expect(tester.view.physicalSize, const Size(1170, 7950));
+      expect(rotaAtual(tester), '/inicio');
       // a altura do texto traz o ruído de float32 (~1e-6) — a mesma margem de 1e-3 da F02
       final r = retanguloDeLayout(tester, 'i01.headline');
       final x = kRef01.sections['i01.headline']!;
@@ -135,7 +135,7 @@ void main() {
   testWidgets('o gate aponta o id, a medida e a tolerância que falharam', (
     tester,
   ) async {
-    await abrirSecoes01(tester, {'i01.headline': const HeadlineSection()});
+    await abrirInicio01(tester);
     final ref = kRef01.elements['i01.headline']!.rect;
     final falhas = geometria01(
       tester,
@@ -146,6 +146,7 @@ void main() {
       'i01.headline.y: ${(ref.top + 0.6).toStringAsFixed(2)} ≠ ${ref.top.toStringAsFixed(2)} (±0.5)',
     ]);
     // sem widget com a Key, a falha diz quantos achou
+    await tester.pumpWidget(_girados(0));
     expect(
       geometria01(tester, ['i01.header']),
       contains('i01.header: 0 widgets com a Key header'),

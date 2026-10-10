@@ -108,7 +108,7 @@ const _sectionChildren = [
   'Clube do livro',
   '11 participantes',
   'Leitoras de Capitu',
-  'Dom Casmurro · até o cap. 100',
+  'Dom Casmurro · até o cap. 50',
   'Progresso do grupo',
   'Você',
   'Grupo em 54%',
@@ -117,7 +117,7 @@ const _sectionChildren = [
   _meeting,
 ];
 
-/// F09 — semântica e toques da seção `club`.
+/// F09 — semântica e toques da seção `club`; desde a T03 com os dados da prancha 01 (até o cap. 50 — D-241).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -154,7 +154,7 @@ void main() {
         '11 participantes',
         'Clube do livro',
         'Leitoras de Capitu',
-        'Dom Casmurro · até o cap. 100',
+        'Dom Casmurro · até o cap. 50',
         'Você',
         'Progresso do grupo',
         'Grupo em 54%',

@@ -1,6 +1,7 @@
-// G20 (R1, D-206) — o "Cap. N de M" do herói da Início pela numeração do livro: contam só os capítulos com numeral
-// (os do leitor — D-150/D-155/D-156); fora de um numerado vale o último antes da posição; antes do 1º, nada (a
-// pílula some, D-85); sem numeração, as folhas do sumário, como antes.
+// G20 (R1, D-206) — o "Cap. N de M" pela numeração do livro: contam só os capítulos com numeral (os do leitor —
+// D-150/D-155/D-156); fora de um numerado vale o último antes da posição; antes do 1º, nada (D-85); sem numeração,
+// as folhas do sumário. Era a pílula do herói da Início da v1; desde a T03 o herói mostra a página (D-254) e a
+// contagem serve ao capítulo do clube (`clubChapterOf`).
 
 /// "Cap. [chapter] de [total]".
 typedef HomeChapter = ({int chapter, int total});

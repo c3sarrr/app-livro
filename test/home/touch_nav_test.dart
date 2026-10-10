@@ -188,11 +188,11 @@ void main() {
   }
 
   testWidgets(
-    'canvas 390×2390: tocar o FAB acima da barra (y = 2275) abre /scanner (caso da especificação da F11)',
+    'canvas 390×2650 (prancha 01): tocar o FAB acima da barra (y = 2535, 15 acima do topo dela, como o y 2275 da F11) abre /scanner',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
-      await tester.tapAt(const Offset(195, 2275));
+      await tester.tapAt(const Offset(195, 2535));
       await tester.pumpAndSettle();
       expect(find.byType(ScannerScreen), findsOneWidget);
       expect(_router(tester).state.uri.path, AppRoutes.scanner);

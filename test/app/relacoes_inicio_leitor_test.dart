@@ -1,10 +1,11 @@
 // G20.1 (R2) — as relações do Anexo 01 §14 com o livro real: o Dom Casmurro do Gutenberg em leitura, a Início
 // pela fonte real (o banco), o leitor e a tela 25 sobre o mesmo banco. Com dados reais as asserções da prancha
 // viram relações (§14, último parágrafo):
-// - o herói e o leitor dizem a mesma posição (a página guardada, o %), o mesmo capítulo (o "Cap. N de M" da Início =
-//   a ordem do capítulo atual do sumário entre os numerados) e o mesmo tempo restante;
+// - o herói e o leitor dizem a mesma posição (a página guardada — desde a T03 o "pág. N de M" da Início 01 = o do
+//   rodapé, D-254 —, o %) e o mesmo tempo restante; o sumário numera os capítulos do livro (D-206) e o atual é o da
+//   página (até a T03 o herói da v1 mostrava o "Cap. N de M");
 // - as páginas do sumário não voltam;
-// - ler muda o herói como o leitor: o %, o capítulo e os minutos do dia (= o chip "N min hoje");
+// - ler muda o herói como o leitor: o %, a página e os minutos do dia (= o chip "N min hoje");
 // - as contagens somam e andam juntas: o herói, o botão Grifos do leitor e o "Tudo" da 25;
 // - as páginas dos separadores da 25 crescem e o "você parou aqui" está na página do rodapé.
 import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
@@ -60,12 +61,15 @@ int _minutos(String s) {
   return int.parse(m.group(1) ?? '0') * 60 + int.parse(m.group(2)!);
 }
 
-/// "Cap. 32 de 148" → (32, 148).
-(int, int) _capitulo(WidgetTester tester) {
-  final m = RegExp(r'^Cap\. (\d+) de (\d+)$')
-      .firstMatch(textosEm(tester, 'hero.chapterPill'))!;
+/// "pág. 159 de 256" → (159, 256), no herói (a pílula da prancha 01) ou no rodapé do leitor.
+(int, int) _pagina(WidgetTester tester, String chave) {
+  final m = RegExp(r'^pág\. (\d+) de (\d+)$')
+      .firstMatch(textosEm(tester, chave))!;
   return (int.parse(m.group(1)!), int.parse(m.group(2)!));
 }
+
+(int, int) _paginaDoHeroi(WidgetTester tester) =>
+    _pagina(tester, 'hero.pagePill');
 
 /// 32 → "XXXII".
 String _romano(int n) {
@@ -202,15 +206,10 @@ void main() {
   tearDown(() async => livro.close());
 
   testWidgets(
-    'o herói e o leitor: a mesma posição, o mesmo capítulo, o mesmo tempo restante; o sumário não volta',
+    'o herói e o leitor: a mesma posição ("pág. N de M" e %), o mesmo tempo restante; o sumário não volta',
     (tester) async {
       final t = await abrirAppComLivro(tester, livro);
-      final (n, total) = _capitulo(tester);
-      expect(
-        (n, total),
-        (32, 148),
-        reason: 'D-206: a numeração do livro — o cap. XXXII é o 32º de 148',
-      );
+      final (pagina, total) = _paginaDoHeroi(tester);
       final pct = textosEm(tester, 'hero.percent');
       final falta = textosEm(tester, 'hero.timeLeft');
 
@@ -223,6 +222,10 @@ void main() {
         guardada!.refPage,
         reason: '"Continuar lendo" abre na página guardada',
       );
+      expect(_pagina(tester, 'r19.footer.pageLabel'), (
+        pagina,
+        total,
+      ), reason: 'o "pág. N de M" do herói = o do rodapé (D-254)');
       expect(
         textosEm(tester, 'r19.footer.percent'),
         pct,
@@ -254,8 +257,8 @@ void main() {
           for (final r in _linhas(tester))
             if (r.numeral != null) r,
         ],
-        hasLength(total),
-        reason: 'o M do "Cap. N de M" = as linhas numeradas do sumário',
+        hasLength(148),
+        reason: 'D-206: o sumário numera os 148 capítulos do livro',
       );
       final paginas = [for (final r in _linhas(tester)) ?r.page];
       expect(paginas, isNotEmpty);
@@ -267,19 +270,21 @@ void main() {
         );
       }
       await _fecharSumario(tester);
+      final rodape = _pagina(tester, 'r19.footer.pageLabel');
       await _controles(tester);
       await _voltarAteInicio(tester);
       expect(
-        _capitulo(tester),
-        (ordem, total),
-        reason: 'de volta à Início, o N do "Cap. N de M" = a ordem do capítulo atual do sumário (D-210)',
+        _paginaDoHeroi(tester),
+        rodape,
+        reason:
+            'de volta à Início, o "pág. N de M" do herói = o do último rodapé',
       );
       expect(t.erros, isEmpty);
     },
   );
 
   testWidgets(
-    'ler 3 min e voltar: o herói segue o leitor (%, capítulo, minutos do dia, tempo restante)',
+    'ler 3 min e voltar: o herói segue o leitor (%, página, minutos do dia, tempo restante)',
     (tester) async {
       final relogio = RelogioG20();
       final t = await abrirAppComLivro(tester, livro, relogio: relogio);
@@ -314,9 +319,7 @@ void main() {
         reason: 'o tempo com a 25 por cima não entra no "N min hoje"',
       );
       final pct = textosEm(tester, 'r19.footer.percent');
-      await _abrirSumario(tester);
-      final (_, ordem) = _capituloDoSumario(tester);
-      await _fecharSumario(tester);
+      final rodape = _pagina(tester, 'r19.footer.pageLabel');
       await _controles(tester);
 
       await _voltarAteInicio(tester);
@@ -326,9 +329,9 @@ void main() {
         reason: 'o novo % do herói = o do último rodapé',
       );
       expect(
-        _capitulo(tester).$1,
-        ordem,
-        reason: 'o capítulo do herói = o capítulo atual do leitor',
+        _paginaDoHeroi(tester),
+        rodape,
+        reason: 'a página do herói = a do último rodapé',
       );
       expect(
         int.parse(textosEm(tester, 'today.dial.value')),

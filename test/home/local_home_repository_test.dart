@@ -1,6 +1,7 @@
 // G08.2 — a fonte real da Início (banco local em memória): o que cada seção mostra a partir das linhas do
 // dono ativo, no fuso do aparelho (D-78, D-81, D-82, D-85, D-10). O mundo de referência gravado no banco
-// reproduz o lado do Leitor e só diverge da prancha da Início onde o arquivo desenhou à mão.
+// reproduz o lado do Leitor e só diverge da prancha da Início onde o arquivo desenhou à mão — desde a T03, a prancha
+// 01, em `t01_divergencias_test.dart` (D-241).
 import 'dart:async';
 
 import 'package:app_leitura/core/data/database/app_database.dart';
@@ -23,11 +24,7 @@ import 'package:app_leitura/features/reader/domain/reading_session.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../fixtures/mundo_2026_09_20.dart';
-import '../fixtures/telas/inicio.dart';
-import '../fixtures/telas/t20.dart';
 import '../support/personal_builders.dart';
-import '../support/reader_harness.dart' show domCasmurroEpub;
 
 /// São Paulo (sem horário de verão).
 const Duration _sp = Duration(hours: -3);
@@ -206,10 +203,7 @@ void main() {
         reason: 'D-247: a revisão só na fixture até a T05',
       );
       final d = s.readingDay;
-      expect(
-        [d.goalMinutes, d.readMinutes, d.streakDays, d.pagesToday],
-        [30, 0, 0, 0],
-      );
+      expect([d.goalMinutes, d.readMinutes, d.streakDays], [30, 0, 0]);
       expect(d.sessionsToday, 0);
       expect([d.highlightsToday, d.badgeTargetDays], [0, 7]);
       expect(d.week.map((w) => w.date), [
@@ -297,7 +291,8 @@ void main() {
       final h = s.continueReading!;
       expect(h.book.title, 'B');
       expect(h.book.id, b.id);
-      expect([h.chapter, h.totalChapters], [5, 20]);
+      // a página da posição; sem o total de páginas do livro, a pílula "pág." some (D-254)
+      expect((h.refPage, h.refPagesTotal), (1, null));
       expect(h.progress, 0.25);
       expect(h.highlightsCount, 3, reason: 'anotações não apagadas do livro');
       expect(s.alsoReading.map((x) => (x.book.title, x.progress)), [
@@ -307,97 +302,36 @@ void main() {
       ]);
     });
 
-    test('G20 (D-206): com o índice do livro, "Cap. 32 de 148" pela numeração do livro (não as 153 entradas)', () async {
-      final livro = _livro(
-        1,
-        status: ShelfStatus.reading,
-        aberto: _local(10, 5, 8),
-        capitulos: 153,
-      );
-      await gravar([livro]);
-      await BookContentIndexDao(db).upsert(
-        livro.id,
-        indexEpubFile(domCasmurroEpub, shaDoLivroTeste(1)),
-        builtAt: t0Teste,
-      );
-      await ReadingPositionsDao(db)
-          .upsert(_posicao(livro, progresso: 0.2, capitulo: 33));
-      final h = (await repo.read(_agora)).continueReading!;
-      expect((h.chapter, h.totalChapters), (32, 148));
-      // na abertura (antes do cap. I) a pílula some
-      await ReadingPositionsDao(db).upsert(
-        _posicao(
-          livro,
-          progresso: 0.01,
-          capitulo: 1,
-          em: t0Teste.add(const Duration(minutes: 1)),
-        ),
-      );
-      final h2 = (await repo.read(_agora)).continueReading!;
-      expect((h2.chapter, h2.totalChapters), (null, null));
-    });
-
-    test('G20 (D-206): os numerais ficam guardados enquanto o índice é o mesmo; o índice refeito conta de novo', () async {
-      final livro = _livro(
-        1,
-        status: ShelfStatus.reading,
-        aberto: _local(10, 5, 8),
-        capitulos: 153,
-      );
-      await gravar([livro]);
-      await BookContentIndexDao(db).upsert(
-        livro.id,
-        indexEpubFile(domCasmurroEpub, shaDoLivroTeste(1)),
-        builtAt: t0Teste,
-      );
-      await ReadingPositionsDao(db)
-          .upsert(_posicao(livro, progresso: 0.2, capitulo: 33));
-      expect((await repo.read(_agora)).continueReading!.chapter, 32);
-      // o sumário mexido por fora, sem o índice ser refeito: a Início não relê o índice a cada recálculo
-      await db.customStatement(
-        "UPDATE book_content_index SET toc_json = '[]' WHERE user_book_id = ?",
-        [livro.id],
-      );
-      final guardado = (await repo.read(_agora)).continueReading!;
-      expect((guardado.chapter, guardado.totalChapters), (32, 148));
-      // o índice refeito (outro built_at): conta pelo índice novo — sem sumário, pelas 153 entradas do livro
-      await db.customStatement(
-        "UPDATE book_content_index SET built_at = '2026-10-02T00:00:00.000Z' WHERE user_book_id = ?",
-        [livro.id],
-      );
-      final novo = (await repo.read(_agora)).continueReading!;
-      expect((novo.chapter, novo.totalChapters), (34, 153));
-    });
-
-    test('sem capítulos (PDF): capítulo nulo; sem sessões, o tempo restante usa 1.000 car./min (D-97)', () async {
-      await gravar([
-        _livro(
-          1,
-          formato: BookFileFormat.pdf,
-          status: ShelfStatus.reading,
-          aberto: _local(10, 5, 8),
-          paginas: 100,
-        ),
-      ]);
-      // o índice do PDF como a importação grava (sem itens: o PDF não tem texto canônico)
-      await BookContentIndexDao(db).upsert(
-        idTeste(1),
-        BookIndex(
-          contentSha256: shaDoLivroTeste(1),
-          layout: 'pdf',
-          spine: const [],
-          toc: const [],
-          refPages: RefPageMap.pdf(100),
-          refPageVersion: refPageVersion,
-        ),
-        builtAt: t0Teste,
-      );
-      final h = (await repo.read(_agora)).continueReading!;
-      expect(h.chapter, isNull);
-      expect(h.totalChapters, isNull);
-      // sem texto no índice: 100 páginas × 1.500 caracteres ÷ 1.000 por minuto = 150 min
-      expect(h.timeLeft, const Duration(minutes: 150));
-    });
+    test(
+      'PDF sem sessões: o tempo restante usa 1.000 car./min (D-97)',
+      () async {
+        await gravar([
+          _livro(
+            1,
+            formato: BookFileFormat.pdf,
+            status: ShelfStatus.reading,
+            aberto: _local(10, 5, 8),
+            paginas: 100,
+          ),
+        ]);
+        // o índice do PDF como a importação grava (sem itens: o PDF não tem texto canônico)
+        await BookContentIndexDao(db).upsert(
+          idTeste(1),
+          BookIndex(
+            contentSha256: shaDoLivroTeste(1),
+            layout: 'pdf',
+            spine: const [],
+            toc: const [],
+            refPages: RefPageMap.pdf(100),
+            refPageVersion: refPageVersion,
+          ),
+          builtAt: t0Teste,
+        );
+        final h = (await repo.read(_agora)).continueReading!;
+        // sem texto no índice: 100 páginas × 1.500 caracteres ÷ 1.000 por minuto = 150 min
+        expect(h.timeLeft, const Duration(minutes: 150));
+      },
+    );
 
     test(
       'sem índice e sem páginas de referência: tempo restante some',
@@ -499,8 +433,8 @@ void main() {
         // 40 × 1.500 ÷ 1.000 = 60 min
         final h = (await repo.read(_agora)).continueReading!;
         expect(h.timeLeft, const Duration(minutes: 60));
-        // o "Cap. N de M" volta ao de antes da G20: a folha do sumário e o total do livro
-        expect((h.chapter, h.totalChapters), (5, 12));
+        // a pílula "pág. 1 de 40" (D-254) não depende do índice: a posição e o total do livro
+        expect((h.refPage, h.refPagesTotal), (1, 40));
       },
     );
 
@@ -607,7 +541,7 @@ void main() {
       ]);
     });
 
-    test('páginas e grifos de hoje; meta e selo do dono', () async {
+    test('sessões e grifos de hoje; meta e selo do dono', () async {
       final a = _livro(1, status: ShelfStatus.reading);
       await gravar([a]);
       await sessoes([
@@ -632,7 +566,11 @@ void main() {
         ),
       );
       final d = (await repo.read(_agora)).readingDay;
-      expect(d.pagesToday, 12);
+      expect(
+        d.sessionsToday,
+        2,
+        reason: 'as duas de hoje (a de ontem não conta)',
+      );
       expect(d.highlightsToday, 2);
       expect([d.goalMinutes, d.badgeTargetDays], [45, 21]);
     });
@@ -1164,132 +1102,4 @@ void main() {
       );
     });
   });
-
-  group('mundo de referência no banco (D-34, D-60)', () {
-    test('reproduz o lado do Leitor; as diferenças para a prancha da Início são só as conhecidas', () async {
-      final m = mundoReferencia;
-      await m.gravarEm(db);
-      final r = LocalHomeRepository(
-        database: () async => db,
-        owner: () async => m.usuarioId,
-        utcOffsetAt: (_) => m.fuso,
-      );
-      final s = await r.read(m.agora);
-      final prancha = TelaInicio.snapshot(TelaInicio.agora);
-
-      final h = s.continueReading!;
-      expect(h.book.title, 'Dom Casmurro');
-      expect(h.book.author, 'Machado de Assis');
-      expect(h.chapter, t20.capituloAtual); // cap. XXXII
-      expect(h.totalChapters, 148);
-      expect(h.highlightsCount, t20.contagens.all); // 12
-      expect((h.progress * 100).round(), 62);
-      expect(s.readingDay.readMinutes, t20.minutosHoje); // 18
-      expect(s.readingDay.pagesToday, 24);
-      expect(s.readingDay.streakDays, 12);
-      expect(s.readingDay.goalMinutes, 30);
-      expect(s.readingDay.badgeTargetDays, 14);
-      expect(
-        s.readingDay.week.map((d) => d.minutes),
-        prancha.readingDay.week.map((d) => d.minutes),
-      );
-      expect(
-        s.readingDay.week.map((d) => (d.date, d.isToday)),
-        prancha.readingDay.week.map((d) => (d.date, d.isToday)),
-      );
-      expect(s.alsoReading.map((a) => (a.book.title, a.progress)), [
-        ('Mrs. Dalloway', 0.34),
-        ('Orgulho e Preconceito', 0.81),
-      ]);
-      expect(s.recent.map((x) => (x.book.title, x.book.author, x.format)), [
-        for (final x in prancha.recent) (x.book.title, x.book.author, x.format),
-      ]);
-      expect(s.now, prancha.now);
-
-      // O que a prancha da Início desenhou diferente do mundo (Q25/D-60, D-10, D-34) — e nada mais.
-      final diferencas = <String, Object>{
-        if (h.chapter != prancha.continueReading!.chapter)
-          'capítulo': (h.chapter, prancha.continueReading!.chapter),
-        if (h.highlightsCount != prancha.continueReading!.highlightsCount)
-          'destaques': (
-            h.highlightsCount,
-            prancha.continueReading!.highlightsCount,
-          ),
-        if (s.readingDay.highlightsToday != prancha.readingDay.highlightsToday)
-          'grifos hoje': (
-            s.readingDay.highlightsToday,
-            prancha.readingDay.highlightsToday,
-          ),
-        if (h.progress != prancha.continueReading!.progress)
-          'progresso (a prancha arredonda a 2 casas)': (
-            h.progress,
-            prancha.continueReading!.progress,
-          ),
-        if (h.timeLeft != prancha.continueReading!.timeLeft)
-          'tempo restante (o arquivo escreve; a regra é a velocidade pessoal — D-97)':
-              (h.timeLeft, prancha.continueReading!.timeLeft),
-        if (!_iguais(
-          s.readingDay.week.map((d) => d.barHeightPx),
-          prancha.readingDay.week.map((d) => d.barHeightPx),
-        ))
-          'alturas das barras (D-10: arquivo × regra)': true,
-        if (!_mesmos(
-          s.recent.map((x) => x.status),
-          prancha.recent.map((x) => x.status),
-        ))
-          'pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista':
-              [for (final x in s.recent) x.status],
-        if (s.forYou != null) 'para você sem catálogo no teste': s.forYou!,
-        if (s.club != null) 'clube antes da G21': s.club!,
-        if (s.user.firstName != null)
-          'usuário (vem da conta)': s.user.firstName!,
-      };
-      expect(diferencas.keys, [
-        'capítulo',
-        'destaques',
-        'grifos hoje',
-        'progresso (a prancha arredonda a 2 casas)',
-        'tempo restante (o arquivo escreve; a regra é a velocidade pessoal — D-97)',
-        'alturas das barras (D-10: arquivo × regra)',
-        'pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista',
-      ]);
-      expect(
-        diferencas['pílulas: "Novo" nos 7 primeiros dias (D-88); a prancha tem "Quero ler" em Frankenstein e O Alienista'],
-        [RecentStatus.isNew, RecentStatus.isNew, RecentStatus.isNew],
-      );
-      expect(prancha.recent.map((x) => x.status), [
-        RecentStatus.wantToRead,
-        RecentStatus.wantToRead,
-        RecentStatus.isNew,
-      ]);
-      expect(diferencas['capítulo'], (32, 92));
-      expect(diferencas['destaques'], (12, 14));
-      expect(diferencas['grifos hoje'], (1, 2));
-      // 256 × 1.500 × (1 − 0,62113) ≈ 145 mil caracteres ÷ ≈ 2.000 car./min das sessões do mundo ≈ 70 min
-      expect(
-        diferencas['tempo restante (o arquivo escreve; a regra é a velocidade pessoal — D-97)'],
-        (const Duration(minutes: 70), const Duration(hours: 2, minutes: 10)),
-      );
-    });
-  });
-}
-
-bool _iguais(Iterable<double> a, Iterable<double> b) {
-  final x = a.toList();
-  final y = b.toList();
-  if (x.length != y.length) return false;
-  for (var i = 0; i < x.length; i++) {
-    if ((x[i] - y[i]).abs() > 1e-9) return false;
-  }
-  return true;
-}
-
-bool _mesmos<T>(Iterable<T> a, Iterable<T> b) {
-  final x = a.toList();
-  final y = b.toList();
-  if (x.length != y.length) return false;
-  for (var i = 0; i < x.length; i++) {
-    if (x[i] != y[i]) return false;
-  }
-  return true;
 }

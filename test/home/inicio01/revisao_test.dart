@@ -20,6 +20,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/home_mock_repository.dart';
 import '../../fixtures/telas/inicio01.dart';
 import '../../reference/inicio2/referencias_inicio2.dart';
 import '../../reference/inicio2_larguras/referencias_inicio2_larguras.dart';
@@ -58,18 +59,12 @@ final class _ComRevisao implements SyncHomeRepository {
 Future<void> _abrir(
   WidgetTester tester, {
   LeitorRefPrancha prancha = kRef01,
-  VoidCallback? onReviewTap,
   bool trocar = false,
   DailyReview? revisao,
-}) => abrirSecoes01(
+}) => abrirInicio01(
   tester,
-  {
-    'i01.review': ReviewSection(
-      onReviewTap: onReviewTap ?? HomeScreen.onReview,
-    ),
-  },
   prancha: prancha,
-  repositorio: trocar ? _ComRevisao(revisao) : const RepositorioT01(),
+  repositorio: trocar ? _ComRevisao(revisao) : const HomeMockRepository(),
 );
 
 T _w<T extends Widget>(WidgetTester tester, String id) =>
@@ -245,27 +240,37 @@ void main() {
     );
   });
 
-  testWidgets('dados (D-247): os números e os livros saem do baralho do dia da fixture; com dados reais (null) a '
-      'seção some; 1 grifo no singular', (tester) async {
-    expect(
-      TelaInicio01.snapshot(TelaInicio01.agora).dailyReview,
-      TelaInicio01.revisao,
-    );
-    await _abrir(tester, trocar: true);
-    expect(find.byKey(const ValueKey('review')), findsNothing);
-    expect(tester.getSize(find.byType(ReviewSection)).height, 0);
-    await _abrir(
-      tester,
-      trocar: true,
-      revisao: const DailyReview(
-        highlights: 1,
-        minutes: 1,
-        bookTitles: ['Iracema'],
-      ),
-    );
-    expect(findAppText('REVISÃO · 1 GRIFO · 1 MIN'), findsOneWidget);
-    expect(findAppText('De Iracema.'), findsOneWidget);
-  });
+  testWidgets(
+    'dados (D-247): os números e os livros saem do baralho do dia da fixture; com dados reais (null) a '
+    'seção some com o seu gap (o "Para você" sobe 205,15 e fica a 40 do "Seu dia"); 1 grifo no singular',
+    (tester) async {
+      expect(
+        TelaInicio01.snapshot(TelaInicio01.agora).dailyReview,
+        TelaInicio01.revisao,
+      );
+      await _abrir(tester, trocar: true);
+      expect(find.byKey(const ValueKey('review')), findsNothing);
+      expect(find.byType(ReviewSection), findsNothing);
+      final hoje = retanguloDeLayout(tester, 'i01.today');
+      final paraVoce = retanguloDeLayout(tester, 'i01.forYou');
+      expect(paraVoce.top - hoje.bottom, closeTo(40, 1e-3));
+      expect(
+        paraVoce.top,
+        closeTo(kRef01.sections['i01.forYou']!.top - 165.15 - 40, 0.02),
+      );
+      await _abrir(
+        tester,
+        trocar: true,
+        revisao: const DailyReview(
+          highlights: 1,
+          minutes: 1,
+          bookTitles: ['Iracema'],
+        ),
+      );
+      expect(findAppText('REVISÃO · 1 GRIFO · 1 MIN'), findsOneWidget);
+      expect(findAppText('De Iracema.'), findsOneWidget);
+    },
+  );
 
   testWidgets(
     'L01a5 semântica: a seção "Seus grifos de hoje", o link "Revisar"; a arte e o ícone fora',
@@ -299,14 +304,18 @@ void main() {
   );
 
   testWidgets(
-    'L01a5 toque no "Revisar": chama o callback da seção; a Início passa o "sem ação" (D-243 b)',
+    'L01a5 toques no "Revisar" e no cartão: ficam na Início (a revisão é da T05 — D-243 b)',
     (tester) async {
-      var toques = 0;
-      await _abrir(tester, onReviewTap: () => toques++);
-      await tester.tap(ini('i01.review.cta'));
-      await tester.pumpAndSettle();
-      expect(toques, 1);
+      await _abrir(tester);
+      expect(
+        tester.widget<ReviewSection>(find.byType(ReviewSection)).onReviewTap,
+        HomeScreen.onReview,
+      );
       expect(HomeScreen.onReview, returnsNormally);
+      await tocar01(tester, 'i01.review.cta');
+      expect(rotaAtual(tester), '/inicio');
+      await tocar01(tester, 'i01.review.art');
+      expect(rotaAtual(tester), '/inicio');
     },
   );
 

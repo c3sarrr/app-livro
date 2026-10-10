@@ -16,7 +16,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../reference/reference_layout.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
 import '../support/geometry.dart';
@@ -33,16 +32,16 @@ Widget _ltr(Widget child) => Directionality(
   child: Align(alignment: Alignment.topLeft, child: child),
 );
 
-/// Canvas 390×2390 com cada filho no canto superior esquerdo do retângulo de referência de `id`.
-/// O tamanho sai do próprio primitivo — é ele que está sob teste.
+/// Canvas da prancha 01 (390×2650; até a T03, o 390×2390 da v1) com cada filho no canto superior esquerdo do
+/// retângulo de referência de `id`. O tamanho sai do próprio primitivo — é ele que está sob teste.
 Widget _atReference(Map<String, Widget> byId) => Directionality(
   textDirection: TextDirection.ltr,
   child: Stack(
     children: [
       for (final MapEntry(key: id, value: child) in byId.entries)
         Positioned(
-          left: kRefLayout[id]!.rect.left,
-          top: kRefLayout[id]!.rect.top,
+          left: ref01(id).rect.left,
+          top: ref01(id).rect.top,
           child: child,
         ),
     ],
@@ -69,7 +68,7 @@ int _argb(Color c) => c.toARGB32();
 void _logMaxDeviation(WidgetTester tester, String label, Iterable<String> ids) {
   var worst = ('', '', 0.0);
   for (final id in ids) {
-    final got = layoutRect(tester, id), ref = kRefLayout[id]!.rect;
+    final got = layoutRect(tester, id), ref = ref01(id).rect;
     for (final (what, d) in [
       ('x', got.left - ref.left),
       ('y', got.top - ref.top),
@@ -222,28 +221,28 @@ void main() {
 
   group('1.7 variantes do arquivo (tamanho e texto medidos no HTML)', () {
     testWidgets(
-      'Pill: capítulo, chips do dia, clube, hora do canhoto, selos da lista',
+      'Pill: página do herói, chips do dia, clube, hora do canhoto, selos da lista (prancha 01)',
       (tester) async {
         setCanvasView(tester);
         const v5h10 = EdgeInsets.symmetric(vertical: 5, horizontal: 10);
         await tester.pumpWidget(
           _atReference({
-            'hero.chapterPill': Pill(
-              key: _k('hero.chapterPill'),
+            'hero.pagePill': Pill(
+              key: _k('hero.pagePill'),
               padding: v5h10,
               color: AppColors.surface,
               border: _ink15,
               child: AppText(
-                'Cap. 92 de 148',
+                'pág. 159 de 256',
                 style: AppTextStyles.label12Bold,
               ),
             ),
-            'today.chip.pages': Pill(
-              key: _k('today.chip.pages'),
+            'today.chip.sessions': Pill(
+              key: _k('today.chip.sessions'),
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 9),
               color: AppColors.chipGlass,
               border: _ink12,
-              child: AppText('24 páginas', style: AppTextStyles.label12Bold),
+              child: AppText('2 sessões', style: AppTextStyles.label12Bold),
             ),
             'today.chip.highlights': Pill(
               key: _k('today.chip.highlights'),
@@ -305,8 +304,8 @@ void main() {
           }),
         );
         const ids = [
-          'hero.chapterPill',
-          'today.chip.pages',
+          'hero.pagePill',
+          'today.chip.sessions',
           'today.chip.highlights',
           'club.pill',
           'club.stub.time',
@@ -333,53 +332,54 @@ void main() {
       },
     );
 
-    testWidgets('CountBadge: "14" (borda, sun), "2" (tinta) e "3" (flame)', (
-      tester,
-    ) async {
-      setCanvasView(tester);
-      await tester.pumpWidget(
-        _atReference({
-          'hero.notesButton.badge': CountBadge(
-            key: _k('hero.notesButton.badge'),
-            label: '14',
-            style: AppTextStyles.micro11Bold,
-            minWidth: 22,
-            height: 22,
-            horizontalPadding: 5,
-            background: AppColors.sun,
-            border: _ink15,
-          ),
-          'alsoReading.count': CountBadge(
-            key: _k('alsoReading.count'),
-            label: '2',
-            style: AppTextStyles.count12OnInk,
-            minWidth: 22,
-            height: 22,
-            horizontalPadding: 7,
-            background: AppColors.ink,
-          ),
-          'club.cta.badge': CountBadge(
-            key: _k('club.cta.badge'),
-            label: '3',
-            style: AppTextStyles.micro11Bold,
-            minWidth: 20,
-            height: 20,
-            horizontalPadding: 6,
-            background: AppColors.flame,
-          ),
-        }),
-      );
-      const ids = [
-        'hero.notesButton.badge',
-        'alsoReading.count',
-        'club.cta.badge',
-      ];
-      expectGeometry(tester, ids);
-      _logMaxDeviation(tester, 'CountBadge', ids);
-      for (final id in ids) {
-        expectTextLines(tester, id);
-      }
-    });
+    testWidgets(
+      'CountBadge: "12" (borda, sun), "3" (tinta) e "3" (flame) — prancha 01',
+      (tester) async {
+        setCanvasView(tester);
+        await tester.pumpWidget(
+          _atReference({
+            'hero.notesButton.badge': CountBadge(
+              key: _k('hero.notesButton.badge'),
+              label: '12',
+              style: AppTextStyles.micro11Bold,
+              minWidth: 22,
+              height: 22,
+              horizontalPadding: 5,
+              background: AppColors.sun,
+              border: _ink15,
+            ),
+            'alsoReading.count': CountBadge(
+              key: _k('alsoReading.count'),
+              label: '3',
+              style: AppTextStyles.count12OnInk,
+              minWidth: 22,
+              height: 22,
+              horizontalPadding: 7,
+              background: AppColors.ink,
+            ),
+            'club.cta.badge': CountBadge(
+              key: _k('club.cta.badge'),
+              label: '3',
+              style: AppTextStyles.micro11Bold,
+              minWidth: 20,
+              height: 20,
+              horizontalPadding: 6,
+              background: AppColors.flame,
+            ),
+          }),
+        );
+        const ids = [
+          'hero.notesButton.badge',
+          'alsoReading.count',
+          'club.cta.badge',
+        ];
+        expectGeometry(tester, ids);
+        _logMaxDeviation(tester, 'CountBadge', ids);
+        for (final id in ids) {
+          expectTextLines(tester, id);
+        }
+      },
+    );
 
     testWidgets(
       'CircleIconButton: sino 48 (com ponto), destaques 54 (com badge), mais-opções 44',
@@ -432,7 +432,7 @@ void main() {
                   right: -4,
                   child: CountBadge(
                     key: _k('hero.notesButton.badge'),
-                    label: '14',
+                    label: '12',
                     style: AppTextStyles.micro11Bold,
                     minWidth: 22,
                     height: 22,
@@ -471,8 +471,8 @@ void main() {
       'StadiumProgressBar: hero (181 × 10, 62 %) e clube (221 × 12)',
       (tester) async {
         setCanvasView(tester);
-        final hero = kRefLayout['hero.progressBar']!.rect,
-            club = kRefLayout['club.progressBar']!.rect;
+        final hero = ref01('hero.progressBar').rect,
+            club = ref01('club.progressBar').rect;
         await tester.pumpWidget(
           _atReference({
             'hero.progressBar': SizedBox(

@@ -115,7 +115,6 @@ abstract final class TelaInicio01 {
     final posicao = m.posicao(Slugs.domCasmurro);
     return ContinueReading(
       book: domCasmurro,
-      // o herói da 01 não mostra o capítulo; os campos saem na troca da T03
       progress: _progresso(Slugs.domCasmurro),
       timeLeft: m.tempoRestante[Slugs.domCasmurro]!,
       highlightsCount: AnnotationStats.countByKind(
@@ -195,15 +194,10 @@ abstract final class TelaInicio01 {
     for (var d = hoje.day; d >= 1 && minutos(d) > 0; d--) {
       sequencia++;
     }
-    final paginasHoje = [
-      for (final s in m.sessoes)
-        if (s.startedAt.add(m.fuso).day == hoje.day) s.pagesViewed ?? 0,
-    ].fold(0, (a, b) => a + b);
     return ReadingDay(
       goalMinutes: m.metas.dailyMinutes,
       readMinutes: minutos(hoje.day),
       streakDays: sequencia,
-      pagesToday: paginasHoje,
       highlightsToday: grifosHojeNaPrancha,
       sessionsToday: sessoesHojeNaPrancha,
       week: List.unmodifiable([

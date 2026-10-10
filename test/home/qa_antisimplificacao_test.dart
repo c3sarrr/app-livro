@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:app_leitura/core/design_system/painters/chromium_dash.dart';
@@ -10,24 +12,48 @@ import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
+import 'package:app_leitura/features/home/presentation/covers/senhora_mini_cover.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../reference/reference_layout.dart';
+import '../reference/inicio2/reference_layout_001_inicio.dart';
 import '../support/canvas.dart';
+import '../support/fase_inicio.dart' show keyDoId;
 import '../support/load_fonts.dart';
 import '../support/pump_app.dart';
 
-/// F13 · 13.4 — checklist manual anti-simplificação, medido na ÁRVORE REAL do app (canvas 390 × 2390), não só por
-/// busca de texto no código: sombras duras, rotações, bordas, ícones SVG, famílias/pesos de fonte, pintores e as
-/// quebras/reticências especiais do arquivo.
+/// F13 · 13.4 — checklist manual anti-simplificação, medido na ÁRVORE REAL do app, não só por busca de texto no
+/// código: sombras duras, rotações, bordas, ícones SVG, famílias/pesos de fonte, pintores e as quebras/reticências
+/// especiais do arquivo. Desde a T03 (D-240) a Início da prancha 01 (canvas 390 × 2650, `kRef01`).
+/// O layout medido da prancha 01 (versionado): os estilos e o CSS de cada elemento.
+Map<String, dynamic> _elementos01() =>
+    (jsonDecode(
+          File('docs/design/medicao/inicio2/layout/layout_001_inicio.json')
+              .readAsStringSync(),
+        ) as Map<String, dynamic>)['elements']
+        as Map<String, dynamic>;
+
+/// Os arquivos SVG que a prancha 01 usa (o catálogo da T02): ícones, a capa e os 2 gráficos medidos.
+Set<String> _svgsDa01() {
+  final catalogo = jsonDecode(
+    File('docs/design/medicao/inicio2/svg_catalogo.json').readAsStringSync(),
+  ) as Map<String, dynamic>;
+  return {
+    for (final uso in (catalogo['usos'] as Map<String, dynamic>).values)
+      if ((uso as Map<String, dynamic>)['001_inicio'] case {
+        'arquivo': final String arquivo,
+      })
+        arquivo,
+  };
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
   String f(double v) => v.toStringAsFixed(2);
 
   testWidgets(
-    'sombras duras: exatamente as 7 do arquivo, todas com blur 0 e spread 0',
+    'sombras duras: exatamente as 11 da prancha 01, todas com blur 0 e spread 0',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
@@ -46,21 +72,39 @@ void main() {
       }
       shadows.sort();
       debugPrint('[F13 sombras] ${shadows.length} sombras duras: $shadows');
-      // hero 4/4 · dia 4/4 · capa Dom Casmurro 3/3 · capas "Também lendo" 2/2 (×2) · barra 0/4 · FAB 0/4.
-      expect(shadows, [
+      // As da prancha 01 (box-shadow de cada elemento medido, todas tinta, sem blur e sem spread).
+      final prancha = <String>[
+        for (final e in _elementos01().values)
+          if ((e as Map<String, dynamic>)['style'] case {
+            'shadow': final String sombra,
+          })
+            (() {
+              final m = RegExp(r'^#1A1714 ([\d.]+)px ([\d.]+)px 0px 0px$')
+                  .firstMatch(sombra)!;
+              return '${f(double.parse(m[1]!))}/${f(double.parse(m[2]!))}';
+            })(),
+      ]..sort();
+      // herói, dia e revisão 4/4 · capa do Dom Casmurro 3/3 · capas de "Também lendo" 2/2 (×2) · cartas da revisão
+      // 2/2 (×3) · barra 0/4 · FAB 0/4.
+      expect(prancha, [
         '0.00/4.00',
         '0.00/4.00',
+        '2.00/2.00',
+        '2.00/2.00',
+        '2.00/2.00',
         '2.00/2.00',
         '2.00/2.00',
         '3.00/3.00',
         '4.00/4.00',
         '4.00/4.00',
+        '4.00/4.00',
       ]);
+      expect(shadows, prancha);
     },
   );
 
   testWidgets(
-    'rotações: −3° (capa do hero), −4° e +3° (capas de "Também lendo")',
+    'rotações: −3° (capa do herói), −4° e +3° (capas de "Também lendo"), −12°, +8° e −2° (cartas da revisão)',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
@@ -91,7 +135,15 @@ void main() {
       }
       angles.sort();
       debugPrint('[F13 rotações] $angles');
-      expect(angles, [-4.0, -3.0, 3.0]);
+      final prancha = <double>[
+        for (final e in _elementos01().values)
+          for (final m in RegExp(
+            r'rotate\(([-\d.]+)deg\)',
+          ).allMatches(((e as Map<String, dynamic>)['css'] as String?) ?? ''))
+            double.parse(m[1]!),
+      ]..sort();
+      expect(prancha, [-12.0, -4.0, -3.0, -2.0, 3.0, 8.0]);
+      expect(angles, prancha);
     },
   );
 
@@ -120,7 +172,7 @@ void main() {
   });
 
   testWidgets(
-    'ícones: os 18 SVGs do pacote são usados (14 na Início + 4 extrapolados D-07) e a lupa da prancha 01 (T03)',
+    'ícones: os 18 SVGs do pacote são usados (D-07) e a Início usa exatamente os SVGs da prancha 01 (os 2 gráficos medidos — anel e mostrador — são pintores)',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
@@ -140,10 +192,37 @@ void main() {
       debugPrint(
         '[F13 ícones] Início: ${inicio.length} · união das 4 abas: ${all.length} de ${AppIcons.all.length}',
       );
+      debugPrint('[F13 ícones] Início: ${inicio.toList()..sort()}');
+      debugPrint(
+        '[F13 ícones] fora do pacote: ${all.difference(AppIcons.all.toSet()).toList()..sort()}',
+      );
+      debugPrint(
+        '[F13 ícones] do pacote sem uso: ${AppIcons.all.toSet().difference(all).toList()..sort()}',
+      );
       expect(AppIcons.all.length, 18);
-      expect(all.difference(AppIcons.all.toSet()), {AppIconsInicio.search});
       expect(AppIcons.all.toSet().difference(all), isEmpty);
-      expect(inicio.length, 15);
+      final prancha = _svgsDa01();
+      final graficos = prancha
+          .where(
+            (a) => a.startsWith('docs/design/medicao/inicio2/svg_graficos/'),
+          )
+          .toSet();
+      expect(graficos.map((a) => a.split('/').last), {
+        'anel_progresso_livro.svg',
+        'mostrador_meta_diaria.svg',
+      });
+      expect(inicio, prancha.difference(graficos));
+      expect(inicio, hasLength(21));
+      // Só a Início usa SVG fora do pacote da v1: os 6 ícones novos e a capa do Dom Casmurro (T02/T03).
+      expect(all.difference(AppIcons.all.toSet()), {
+        AppIconsInicio.search,
+        AppIconsInicio.bookPaper,
+        AppIconsInicio.play,
+        AppIconsInicio.sparkleYellow,
+        AppIconsInicio.sparkleSolidYellow,
+        AppIconsInicio.stopwatch,
+        'assets/illustrations/inicio2/il_capa_dom_casmurro.svg',
+      });
       // Nenhum CustomPaint desenha ícone: os pintores existentes são só os da lista abaixo.
     },
   );
@@ -222,8 +301,17 @@ void main() {
         );
       }
       debugPrint('[F13 pintores] $counts');
-      // 8 = 7 trilhos da semana + 1 trilho do clube. O HTML original tem 8 `repeating-linear-gradient(135deg…)`
+      // 8 = 7 trilhos da semana + 1 trilho do clube. A prancha 01 tem 8 `repeating-linear-gradient(135deg…)`
       // (o texto do checklist da F13 diz "7 hachuras": contagem só dos trilhos da semana; o arquivo vence).
+      final css = [
+        for (final e in _elementos01().values)
+          ((e as Map<String, dynamic>)['css'] as String?) ?? '',
+      ];
+      expect(
+        css.where((c) => c.contains('repeating-linear-gradient(135deg')),
+        hasLength(8),
+      );
+      expect(css.where((c) => c.contains('px dashed')), hasLength(2));
       expect(counts[(HatchPainter).toString()], 8, reason: 'hachuras');
       expect(
         counts[(ChromiumDashPainter).toString()],
@@ -233,14 +321,31 @@ void main() {
       expect(counts[(GoalDialPainter).toString()], 1);
       expect(
         counts[(RingProgressPainter).toString()],
-        2,
-        reason: 'anéis de "Também lendo"',
+        1,
+        reason: 'o anel do Orgulho (o Brás Cubas tem o "play" — D-253)',
       );
       expect(
         counts[(TopBorderCrescentPainter).toString()],
         7,
         reason: 'meias-luas das 7 barras',
       );
+      expect(
+        counts[(ArchBorderPainter).toString()],
+        1,
+        reason: 'o arco da Senhora (border-bottom: none)',
+      );
+      // E nenhum outro pintor.
+      expect(counts.keys.toSet(), {
+        for (final t in [
+          HatchPainter,
+          ChromiumDashPainter,
+          GoalDialPainter,
+          RingProgressPainter,
+          TopBorderCrescentPainter,
+          ArchBorderPainter,
+        ])
+          t.toString(),
+      });
     },
   );
 
@@ -269,30 +374,38 @@ void main() {
         return [for (final r in renders) ...r.debugLines().map((l) => l.text)];
       }
 
-      // Cada quebra esperada do checklist deve existir no arquivo (kRefLayout) e ser reproduzida pelo app.
+      // Cada quebra esperada do checklist deve existir na prancha 01 (kRef01, o texto composto quando há filhos
+      // inline) e ser reproduzida pelo app.
       final expected = <String, List<String>>{
-        'capa Dom Casmurro (autor)': ['MACHADO DE', 'ASSIS'],
-        'capa Memórias Póstumas': ['Memórias', 'Póstumas de', 'Brás Cubas'],
+        'capa Brás Cubas (título)': ['Brás', 'Cubas'],
+        'capa Orgulho e Preconceito (título)': ['Orgulho e', 'Preconceito'],
         'meta do dia': ['Faltam 12 min para fechar', 'a meta de hoje.'],
-        'O Alienista (autor · formato)': ['Machado de Assis ·', 'PDF'],
-        'O Alienista (selo)': ['Quero', 'ler'],
+        'revisão (subtítulo)': ['De Dom Casmurro, Quincas Borba', 'e Iracema.'],
+        'capa Esaú e Jacó (título)': ['Esaú', 'e Jacó'],
+        'capa Memorial de Aires (título)': ['Memorial', 'de Aires'],
+        'capa Casa de Pensão (título)': ['Casa de', 'Pensão'],
       };
       for (final MapEntry(key: name, value: lines) in expected.entries) {
         final ids = [
-          for (final e in kRefLayout.entries)
-            if (e.value.lines.map((l) => l.text).toList().toString() ==
+          for (final e in kRef01.elements.entries)
+            if ((e.value.linesAll.isNotEmpty ? e.value.linesAll : e.value.lines)
+                    .map((l) => l.text)
+                    .toList()
+                    .toString() ==
                 lines.toString())
               e.key,
         ];
         expect(ids, isNotEmpty, reason: '$name: quebra não existe no arquivo');
         for (final id in ids) {
-          expect(linesOf(id), lines, reason: '$name ($id)');
+          expect(linesOf(keyDoId(id)), lines, reason: '$name ($id)');
         }
         debugPrint('[F13 quebras] $name → $lines  ids: ${ids.join(', ')}');
       }
 
-      // Reticências ("Orgulho e Precon…", "Memórias Póstu…"): linha única truncada, nos 2 ids do arquivo.
-      for (final id in kEllipsized) {
+      // Reticências ("Orgulho e Precon…"): linha única truncada, no id da prancha 01.
+      expect(kRef01.ellipsized, {'i01.alsoReading.card2.title'});
+      for (final ref in kRef01.ellipsized) {
+        final id = keyDoId(ref);
         final renders = find
             .descendant(
               of: find.byKey(ValueKey<String>(id)),
@@ -304,7 +417,7 @@ void main() {
             .toList();
         expect(renders.single.debugDidExceedMaxLines, isTrue, reason: id);
         debugPrint(
-          '[F13 reticências] $id: texto "${kRefLayout[id]!.lines.first.text}" truncado em 1 linha → ${linesOf(id)}',
+          '[F13 reticências] $id: texto "${kRef01.elements[ref]!.lines.first.text}" truncado em 1 linha → ${linesOf(id)}',
         );
       }
     },

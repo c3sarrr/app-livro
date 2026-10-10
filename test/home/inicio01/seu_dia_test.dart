@@ -1,6 +1,6 @@
 // T03.9 — fase L01a4 ("Seu dia de leitura") contra a prancha 01 (`kRef01`) e as larguras 360/430: o cartão da v1 com
 // a coluna da meta nova — a frase, o "Ler agora" (sem ação até a T04, D-243 b) e as pílulas "2 sessões" e
-// "2 destaques". Classe nova (TodaySection) ao lado da v1 até a troca. Recorte do gate visual: y 752,27–1227,37
+// "2 destaques". Classe nova (TodaySection), que substituiu a da v1 na troca. Recorte do gate visual: y 752,27–1227,37
 // (`docs/design/fases/L01a4_seu_dia.md`).
 import 'package:app_leitura/core/design_system/painters/goal_dial_painter.dart';
 import 'package:app_leitura/core/design_system/text/app_text.dart';
@@ -16,12 +16,12 @@ import 'package:app_leitura/core/design_system/widgets/pill.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
-import 'package:app_leitura/features/home/presentation/sections/also_reading_section.dart';
-import 'package:app_leitura/features/home/presentation/sections/reading_day_card.dart';
+import 'package:app_leitura/features/home/presentation/sections/today_section.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/home_mock_repository.dart';
 import '../../fixtures/telas/inicio01.dart';
 import '../../reference/inicio2/referencias_inicio2.dart';
 import '../../reference/inicio2_larguras/referencias_inicio2_larguras.dart';
@@ -50,7 +50,6 @@ final class _ComDia implements SyncHomeRepository {
         goalMinutes: d.goalMinutes,
         readMinutes: d.readMinutes,
         streakDays: d.streakDays,
-        pagesToday: d.pagesToday,
         highlightsToday: 1,
         sessionsToday: sessoes,
         week: d.week,
@@ -70,17 +69,11 @@ final class _ComDia implements SyncHomeRepository {
 Future<void> _abrir(
   WidgetTester tester, {
   LeitorRefPrancha prancha = kRef01,
-  VoidCallback? onReadNowTap,
   int? sessoes,
-}) => abrirSecoes01(
+}) => abrirInicio01(
   tester,
-  {
-    'i01.today': TodaySection(
-      onReadNowTap: onReadNowTap ?? HomeScreen.onReadNow,
-    ),
-  },
   prancha: prancha,
-  repositorio: sessoes == null ? const RepositorioT01() : _ComDia(sessoes),
+  repositorio: sessoes == null ? const HomeMockRepository() : _ComDia(sessoes),
 );
 
 T _w<T extends Widget>(WidgetTester tester, String id) =>
@@ -272,23 +265,22 @@ void main() {
   });
 
   testWidgets(
-    'L01a4 toque no "Ler agora": chama o callback da seção; a Início passa o "sem ação" (D-243 b)',
+    'L01a4 toque no "Ler agora": fica na Início (o cronômetro é da T04 — D-243 b)',
     (tester) async {
-      var toques = 0;
-      await _abrir(tester, onReadNowTap: () => toques++);
-      await tester.tap(ini('i01.today.readNow'));
-      await tester.pumpAndSettle();
-      expect(toques, 1);
+      await _abrir(tester);
+      expect(
+        tester.widget<TodaySection>(find.byType(TodaySection)).onReadNowTap,
+        HomeScreen.onReadNow,
+      );
       expect(HomeScreen.onReadNow, returnsNormally);
+      await tocar01(tester, 'i01.today.readNow');
+      expect(rotaAtual(tester), '/inicio');
     },
   );
 
-  testWidgets('L01a4 captura: a seção no canvas da prancha, com o fim dos cartões do "Também lendo" que caem no recorte '
-      '(gate visual fora do teste)', (tester) async {
-    await abrirSecoes01(tester, {
-      'i01.alsoReading': const AlsoReadingSection(),
-      'i01.today': const TodaySection(onReadNowTap: HomeScreen.onReadNow),
-    });
+  testWidgets('L01a4 captura: a página no canvas da prancha (o recorte pega o fim dos cartões do "Também lendo"; '
+      'gate visual fora do teste)', (tester) async {
+    await _abrir(tester);
     final image = await capturar01(tester, 't03_L01a4');
     expect((image.width, image.height), (1170, 7950));
   });

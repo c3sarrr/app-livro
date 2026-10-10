@@ -8,12 +8,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../fixtures/home_mock_repository.dart';
 import '../fixtures/overrides_do_mundo.dart';
+import '../fixtures/telas/inicio01.dart';
+import '../reference/inicio2/referencias_inicio2.dart';
 import '../support/canvas.dart';
-import '../support/geometry.dart';
+import '../support/fase_inicio.dart';
 import '../support/load_fonts.dart';
-import '../support/precache_svgs.dart';
 import '../support/pump_app.dart';
 
 /// Só a seção, na largura toda (390: o carrossel sangra de 0 a 390), com os callbacks (a tela liga
@@ -23,7 +23,7 @@ Future<void> _pumpSection(
   ValueChanged<Book>? onBookTap,
   VoidCallback? onSeeAllTap,
 }) async {
-  await precacheAppIcons(tester);
+  await precacheInicio01(tester);
   await tester.pumpWidget(
     ProviderScope(
       overrides: overridesDoMundo,
@@ -129,30 +129,31 @@ const _reason = 'Porque você lê Machado de Assis';
 
 /// Nome de cada link = textos do item na ordem do documento (como o nome calculado de um `<a>`); o
 /// Flutter junta os rótulos dos filhos fundidos com "\n": título da capa, autor da capa, título do item
-/// INTEIRO (as reticências de "Memórias Póstu…" são só da pintura) e autor. A capa do Quincas mantém o
-/// `<br>` do arquivo.
+/// INTEIRO (o 1º tem `nowrap` + reticências, só da pintura) e autor. As capas da prancha 01 mantêm o `<br>`
+/// ("Esaú / e Jacó", "Memorial / de Aires", "Casa de / Pensão").
 const _itemNames = {
-  'forYou.item1': 'Memórias Póstumas de Brás Cubas\nMACHADO DE ASSIS\nMemórias Póstumas\nMachado de Assis',
-  'forYou.item2':
-      'Quincas\nBorba\nMACHADO DE ASSIS\nQuincas Borba\nMachado de Assis',
-  'forYou.item3': 'O Cortiço\nALUÍSIO AZEVEDO\nO Cortiço\nAluísio Azevedo',
+  'forYou.item1':
+      'Esaú\ne Jacó\nMACHADO DE ASSIS\nEsaú e Jacó\nMachado de Assis',
+  'forYou.item2': 'Memorial\nde Aires\nMACHADO DE ASSIS\nMemorial de Aires\nMachado de Assis',
+  'forYou.item3':
+      'Casa de\nPensão\nALUÍSIO AZEVEDO\nCasa de Pensão\nAluísio Azevedo',
 };
 
-/// Livro de cada item (o callback recebe o livro do item tocado).
-const _itemBooks = {
-  'forYou.item1': HomeMockRepository.memoriasPostumas,
-  'forYou.item2': HomeMockRepository.quincasBorba,
-  'forYou.item3': HomeMockRepository.oCortico,
+/// Livro de cada item (o callback recebe o livro do item tocado): as recomendações da `t01`.
+final _itemBooks = {
+  for (final (i, b) in TelaInicio01.paraVoce.items.indexed)
+    'forYou.item${i + 1}': b,
 };
 
-/// Ids internos de cada item (da tabela da F08): 9, 13 e 11.
+/// Ids internos de cada item (da prancha 01, os mesmos da tabela da F08): 9, 13 e 11.
 const _itemIdCounts = {
   'forYou.item1': 9,
   'forYou.item2': 13,
   'forYou.item3': 11,
 };
 
-/// F08 — semântica e toques da seção `forYou`.
+/// F08 — semântica e toques da seção `forYou`; desde a T03 com os livros da prancha 01 (Esaú e Jacó, Memorial de Aires
+/// e Casa de Pensão — L01a6).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -262,7 +263,7 @@ void main() {
         expect(n.value, isEmpty, reason: _show(n.label));
         expect(n.hint, isEmpty, reason: _show(n.label));
         expect(n.tooltip, isEmpty, reason: _show(n.label));
-        // As reticências de "Memórias Póstu…" são só da pintura: nenhum nome as contém.
+        // As reticências do título do 1º item são só da pintura: nenhum nome as contém.
         expect(n.label, isNot(contains('…')), reason: _show(n.label));
       }
 
@@ -341,9 +342,9 @@ void main() {
         expect(link.childrenCount, 0, reason: item);
         // Retângulo do nó = parte visível do item (o 3º é recortado em 390: 280→390 = 110).
         expect(link.rect.size, visible.size, reason: item);
-        final ids = idsOfSection('forYou')
-            .where((id) => id == item || id.startsWith('$item.'))
-            .toList();
+        final ids = [
+          for (final id in kRef01.idsOfSection('i01.forYou')) keyDoId(id),
+        ].where((id) => id == item || id.startsWith('$item.')).toList();
         expect(ids, hasLength(_itemIdCounts[item]), reason: item);
         for (final id in ids) {
           expect(_node(tester, id), same(link), reason: id);
@@ -354,14 +355,14 @@ void main() {
       // Nenhum texto dos itens vira nó solto na seção (nem o "…" da pintura).
       final sectionLabels = all.map((n) => n.label).toSet();
       for (final text in [
-        'Memórias Póstumas de Brás Cubas',
+        'Esaú\ne Jacó',
+        'Esaú e Jacó',
         'MACHADO DE ASSIS',
-        'Memórias Póstumas',
-        'Memórias Póstu…',
         'Machado de Assis',
-        'Quincas\nBorba',
-        'Quincas Borba',
-        'O Cortiço',
+        'Memorial\nde Aires',
+        'Memorial de Aires',
+        'Casa de\nPensão',
+        'Casa de Pensão',
         'ALUÍSIO AZEVEDO',
         'Aluísio Azevedo',
       ]) {
@@ -445,9 +446,9 @@ void main() {
       await tester.tapAt(item3Visible.center);
       await tester.pumpAndSettle();
       expect(tapped, [
-        HomeMockRepository.memoriasPostumas,
-        HomeMockRepository.quincasBorba,
-        HomeMockRepository.oCortico,
+        _itemBooks['forYou.item1'],
+        _itemBooks['forYou.item2'],
+        _itemBooks['forYou.item3'],
       ]);
       // O <a> é o item inteiro: capa e legendas também tocam o link.
       await tester.tap(find.byKey(const ValueKey('forYou.item1.cover.title')));
@@ -500,9 +501,9 @@ void main() {
       await tester.pumpAndSettle();
       expect(tapped.map((b) => b.id), [
         for (var i = 0; i < 4; i++) ...[
-          'memorias-postumas-de-bras-cubas',
-          'quincas-borba',
-          'o-cortico',
+          'esau-e-jaco',
+          'memorial-de-aires',
+          'casa-de-pensao',
         ],
       ]);
       expect(seeAll, 0);
@@ -687,10 +688,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tapAt(Offset(380, item3AtEnd.center.dy));
       await tester.pumpAndSettle();
-      expect(tapped, [
-        HomeMockRepository.oCortico,
-        HomeMockRepository.memoriasPostumas,
-      ]);
+      expect(tapped, [_itemBooks['forYou.item3'], _itemBooks['forYou.item1']]);
       await tester.drag(
         find.byKey(const ValueKey('forYou.item2')),
         const Offset(100, 0),

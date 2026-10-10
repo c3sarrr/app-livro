@@ -1,14 +1,12 @@
-import 'package:app_leitura/features/home/presentation/sections/continue_reading_hero.dart';
+import 'package:app_leitura/features/home/presentation/sections/hero_section.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/overrides_do_mundo.dart';
-import '../support/canvas.dart';
+import '../support/fase_inicio.dart';
 import '../support/load_fonts.dart';
-import '../support/precache_svgs.dart';
-import '../support/pump_app.dart';
 
 /// Só a seção, com os callbacks (a tela liga os destinos na F12).
 Future<void> _pumpHero(
@@ -16,7 +14,7 @@ Future<void> _pumpHero(
   VoidCallback? onContinue,
   VoidCallback? onHighlights,
 }) async {
-  await precacheAppIcons(tester);
+  await precacheInicio01(tester);
   await tester.pumpWidget(
     ProviderScope(
       overrides: overridesDoMundo,
@@ -26,7 +24,7 @@ Future<void> _pumpHero(
           alignment: Alignment.topLeft,
           child: SizedBox(
             width: 350,
-            child: ContinueReadingHero(
+            child: HeroSection(
               onContinueTap: onContinue,
               onHighlightsTap: onHighlights,
             ),
@@ -41,16 +39,24 @@ Future<void> _pumpHero(
 SemanticsNode _node(WidgetTester tester, String id) =>
     tester.getSemantics(find.byKey(ValueKey<String>(id)));
 
-/// F05 — 5.5: semântica e toques da seção `hero`.
+/// [n] fica abaixo de [secao] na árvore.
+bool _dentro(SemanticsNode n, SemanticsNode secao) {
+  for (SemanticsNode? p = n.parent; p != null; p = p.parent) {
+    if (identical(p, secao)) return true;
+  }
+  return false;
+}
+
+/// F05 — 5.5: semântica e toques da seção `hero`; desde a T03 o `HeroSection` da prancha 01 (L01a2): as pílulas
+/// "pág. 159 de 256" e "E-BOOK" no lugar do capítulo (D-254), os 12 do contador e os textos da capa nova.
 void main() {
   setUpAll(loadAppFonts);
 
   testWidgets(
-    '5.5 seção "Continuar lendo" (container + explicitChildNodes): h2, link, botão (14), barra (62%) e textos como nós próprios',
+    '5.5 seção "Continuar lendo" (container + explicitChildNodes): h2, link, botão (12), barra (62%) e textos como nós próprios',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      setCanvasView(tester);
-      await pumpApp(tester);
+      await abrirInicio01(tester);
 
       // <section aria-label="Continuar lendo">: nó próprio que NÃO absorve os filhos.
       final section = _node(tester, 'hero');
@@ -84,15 +90,15 @@ void main() {
         expect(_node(tester, id), same(cta), reason: id);
       }
 
-      // <button aria-label="Destaques e notas deste livro (14)">: o badge "14" não vira nó.
+      // <button aria-label="Destaques e notas deste livro (12)">: o badge "12" não vira nó.
       final notes = _node(tester, 'hero.notesButton');
-      expect(notes.label, 'Destaques e notas deste livro (14)');
+      expect(notes.label, 'Destaques e notas deste livro (12)');
       expect(notes.flagsCollection.isButton, isTrue);
       expect(notes.childrenCount, 0);
       for (final id in ['hero.notesButton.icon', 'hero.notesButton.badge']) {
         expect(_node(tester, id), same(notes), reason: id);
       }
-      expect(find.semantics.byLabel('14'), findsNothing);
+      expect(find.semantics.byLabel('12'), findsNothing);
 
       // role="progressbar" aria-label="Progresso do livro" aria-valuenow="62".
       final bar = _node(tester, 'hero.progressBar');
@@ -107,14 +113,25 @@ void main() {
       }
 
       // Textos visíveis continuam legíveis (como no navegador), cada um como nó de texto.
+      // A capa nova é um <svg> sem aria-hidden: os três <text> dele são lidos (como os textos da capa da v1).
       for (final text in [
-        'Cap. 92 de 148',
+        'pág. 159 de 256',
+        'E-BOOK',
         'Machado de Assis',
         '62%',
         '~2h 10min',
-        'MACHADO DE ASSIS', // a quebra forçada da arte não chega à semântica
+        'Dom',
+        'Casmurro',
+        'MACHADO DE ASSIS',
       ]) {
-        expect(find.semantics.byLabel(text), findsOne, reason: text);
+        // na seção (o "Machado de Assis" também é o autor do Brás Cubas, no Também lendo)
+        expect(
+          find.semantics.byPredicate(
+            (n) => n.label == text && _dentro(n, section),
+          ),
+          findsOne,
+          reason: text,
+        );
       }
       expect(find.semantics.byLabel('MACHADO DE\nASSIS'), findsNothing);
       // "Continuar lendo" aparece 2 vezes: o rótulo da seção e o link.
@@ -152,7 +169,7 @@ void main() {
         ),
       );
       tester.semantics.tap(
-        find.semantics.byLabel('Destaques e notas deste livro (14)'),
+        find.semantics.byLabel('Destaques e notas deste livro (12)'),
       );
       await tester.pumpAndSettle();
       expect((continueTaps, highlightTaps), (2, 2));

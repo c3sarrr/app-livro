@@ -50,7 +50,7 @@ void main() {
     expect(AppSpacing.gutter, 20);
     expect(AppSpacing.topInsetMin, 62);
     expect(AppSpacing.bottomPadding, 140);
-    expect(AppSpacing.sectionGaps, [24, 24, 32, 36, 40, 40, 40]);
+    expect(AppSpacing.sectionGaps, [24, 24, 32, 36, 40, 40, 40, 40]);
     expect(AppSpacing.navSide, 16);
     expect(AppSpacing.navBottomMin, 30);
     expect(AppSpacing.navHeight, 70);

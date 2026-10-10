@@ -16,7 +16,6 @@ ReadingDay _dia({int lidos = 0, int meta = 30, int seq = 0, int selo = 7}) =>
       goalMinutes: meta,
       readMinutes: lidos,
       streakDays: seq,
-      pagesToday: 0,
       highlightsToday: 0,
       sessionsToday: 0,
       week: const [],
@@ -98,19 +97,17 @@ void main() {
       expect(s.shelfIsEmpty, isFalse);
     });
 
-    test(
-      'livro em leitura sem capítulos nem estimativa (PDF; sem sessões)',
-      () {
-        const c = ContinueReading(
-          book: _semFoto,
-          progress: 0.4,
-          highlightsCount: 0,
-        );
-        expect(c.chapter, isNull);
-        expect(c.totalChapters, isNull);
-        expect(c.timeLeft, isNull);
-      },
-    );
+    test('livro em leitura sem página de referência nem estimativa (PDF; sem sessões) — a pílula "pág." some (D-254)', () {
+      const c = ContinueReading(
+        book: _semFoto,
+        progress: 0.4,
+        highlightsCount: 0,
+      );
+      expect(c.refPage, isNull);
+      expect(c.refPagesTotal, isNull);
+      expect(c.format, BookFormat.epub);
+      expect(c.timeLeft, isNull);
+    });
   });
 
   group('textos novos', () {

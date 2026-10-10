@@ -22,7 +22,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'home_mock_repository.dart';
 import 'mundo_2026_09_20.dart';
 import 'sumario_dom_casmurro.dart';
-import 'telas/inicio.dart';
+import 'telas/inicio01.dart';
 import 'telas/instantaneo.dart';
 import 'telas/t19.dart';
 import 'telas/t20.dart';
@@ -336,7 +336,12 @@ void main() {
       );
       expect(s.continueReading!.book.title, dc.title);
       expect(s.continueReading!.book.author, dc.authorDisplay);
-      expect(s.continueReading!.totalChapters, 148);
+      // a 01 mostra a página (D-254): "pág. 159 de 256" = a da tela 20
+      expect(
+        (s.continueReading!.refPage, s.continueReading!.refPagesTotal),
+        (t20.pagina, t20.totalDePaginas),
+      ); // (159, 256)
+      expect(s.continueReading!.highlightsCount, t20.contagens.all); // 12
       expect(
         (s.continueReading!.progress * 100).round(),
         t20.porcentagem,
@@ -350,41 +355,35 @@ void main() {
       expect(s.club!.nameHighlight, 'Capitu');
       expect(s.club!.nextMeeting, DateTime(2026, 9, 24, 20));
       expect(s.club!.book.title, dc.title);
+      expect(s.club!.untilChapter, m.clube.metaCapitulo); // até o cap. 50
     });
 
-    test(
-      'Início ↔ Leitor: as 4 divergências conhecidas (Q25) — nenhuma outra',
-      () {
-        final s = const HomeMockRepository().snapshot(
-          HomeMockRepository.referenceNow,
-        );
-        final hoje = [
-          for (final a in m.anotacoesDo(Slugs.domCasmurro))
-            if (a.meta.createdAt.add(m.fuso).day == 20 &&
-                a.kind == AnnotationKind.highlight)
-              a,
-        ];
-        final divergencias = {
-          if (s.continueReading!.chapter != t20.capituloAtual)
-            'capítulo': (s.continueReading!.chapter, t20.capituloAtual),
-          if (s.club!.untilChapter != m.clube.metaCapitulo)
-            'meta do clube': (s.club!.untilChapter, m.clube.metaCapitulo),
-          if (s.continueReading!.highlightsCount != t20.contagens.all)
-            'destaques do livro': (
-              s.continueReading!.highlightsCount,
-              t20.contagens.all,
-            ),
-          if (s.readingDay.highlightsToday != hoje.length)
-            'grifos hoje': (s.readingDay.highlightsToday, hoje.length),
-        };
-        expect(divergencias, {
-          'capítulo': (92, 32),
-          'meta do clube': (100, 50),
-          'destaques do livro': (14, 12),
-          'grifos hoje': (2, 1),
-        });
-      },
-    );
+    test('Início ↔ Leitor: das 4 divergências da Q25 sobra "grifos hoje" (T03: a 01 trocou o capítulo pela página e '
+        'usa a meta do clube e as anotações do leitor) — nenhuma outra', () {
+      final s = const HomeMockRepository().snapshot(
+        HomeMockRepository.referenceNow,
+      );
+      final hoje = [
+        for (final a in m.anotacoesDo(Slugs.domCasmurro))
+          if (a.meta.createdAt.add(m.fuso).day == 20 &&
+              a.kind == AnnotationKind.highlight)
+            a,
+      ];
+      final divergencias = {
+        if (s.continueReading!.refPage != t20.pagina)
+          'página': (s.continueReading!.refPage, t20.pagina),
+        if (s.club!.untilChapter != m.clube.metaCapitulo)
+          'meta do clube': (s.club!.untilChapter, m.clube.metaCapitulo),
+        if (s.continueReading!.highlightsCount != t20.contagens.all)
+          'destaques do livro': (
+            s.continueReading!.highlightsCount,
+            t20.contagens.all,
+          ),
+        if (s.readingDay.highlightsToday != hoje.length)
+          'grifos hoje': (s.readingDay.highlightsToday, hoje.length),
+      };
+      expect(divergencias, {'grifos hoje': (2, 1)});
+    });
   });
 
   group('instantâneos por prancha (D-34)', () {
@@ -626,10 +625,15 @@ void main() {
       18,
     ]);
     expect(a.readingDay.streakDays, 12);
-    expect(a.readingDay.pagesToday, 24);
+    expect(a.readingDay.sessionsToday, 2);
     expect(a.readingDay.goalMinutes, 30);
     expect(a.readingDay.badgeTargetDays, 14);
-    expect(a.alsoReading.map((e) => e.progress), [0.34, 0.81]);
-    expect(TelaInicio.agora, DateTime(2026, 9, 20, 20));
+    expect(a.dailyReview, same(TelaInicio01.revisao));
+    expect(a.alsoReading.map((e) => e.book.title), [
+      'Memórias Póstumas de Brás Cubas',
+      'Orgulho e Preconceito',
+      'Mrs. Dalloway',
+    ]);
+    expect(TelaInicio01.agora, DateTime(2026, 9, 20, 20));
   });
 }

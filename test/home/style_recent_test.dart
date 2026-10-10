@@ -123,7 +123,7 @@ Future<(Uint8List, int)> _capture(WidgetTester tester) async {
   final image = await captureAt(tester, find.byKey(goldenRootKey));
   expect(
     (image.width, image.height),
-    (390 * 3, 2390 * 3),
+    (390 * 3, 2650 * 3),
     reason: 'canvas inteiro @3x',
   );
   return (await rgbaOf(tester, image), image.width);
@@ -256,7 +256,12 @@ const _tagLavenderFg = 0xFF3B2D86;
 const _tagSandBg = 0xFFEFE7D7;
 const _tagSandFg = 0xFF4A4238;
 
-/// F10 — camada 2 (estilo, sem tolerância) da seção `recent`.
+/// "Lido" (prancha 01, D-255).
+const _tagReadBg = 0xFFE1EDD0;
+const _tagReadFg = 0xFF2E5314;
+
+/// F10 — camada 2 (estilo, sem tolerância) da seção `recent`; desde a T03 com os dados da prancha 01 (o selo "Lido"
+/// verde no O Alienista — D-255).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -501,13 +506,13 @@ void main() {
   );
 
   testWidgets(
-    '10.5 selos: sem borda, raio 999 (normalizado), fundos #ECE7FA / #EFE7D7; texto Figtree 12/700 #3B2D86 / #4A4238; padding 5 10',
+    '10.5 selos: sem borda, raio 999 (normalizado), fundos #ECE7FA / #E1EDD0 / #EFE7D7; texto Figtree 12/700 #3B2D86 / #2E5314 / #4A4238; padding 5 10',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
       for (final (i, bg, fg, style) in [
         (0, _tagLavenderBg, _tagLavenderFg, AppTextStyles.tagLavender),
-        (1, _tagLavenderBg, _tagLavenderFg, AppTextStyles.tagLavender),
+        (1, _tagReadBg, _tagReadFg, AppTextStyles.tagRead), // "Lido" (D-255)
         (2, _tagSandBg, _tagSandFg, AppTextStyles.tagSand),
       ]) {
         final id = 'recent.row$i.tag';
@@ -545,6 +550,8 @@ void main() {
       expect(AppColors.tagLavenderFg.toARGB32(), _tagLavenderFg);
       expect(AppColors.tagSandBg.toARGB32(), _tagSandBg);
       expect(AppColors.inkWarm.toARGB32(), _tagSandFg);
+      expect(AppColors.tagReadBg.toARGB32(), _tagReadBg);
+      expect(AppColors.tagReadFg.toARGB32(), _tagReadFg);
     },
   );
 
@@ -685,14 +692,14 @@ void main() {
         'drawRRect 0xFFB6ACE4',
         'drawRRect 0xFFB6ACE4',
         'drawRRect 0xFFECE7FA',
-        // linha 1: divisor, capa (fundo, borda), lombada, anel (só borda), ponto, selo
+        // linha 1: divisor, capa (fundo, borda), lombada, anel (só borda), ponto, selo "Lido"
         'drawPath 0xFFE9E1D2',
         'drawRRect 0xFFB6ACE4',
         ink,
         'drawRect 0x1F000000',
         ink,
         'drawRRect 0xFF1A1714',
-        'drawRRect 0xFFECE7FA',
+        'drawRRect 0xFFE1EDD0',
         // linha 2 (sem divisor): capa (fundo, borda), lombada, arco, selo
         'drawRRect 0xFFF2A815',
         ink,
@@ -701,10 +708,11 @@ void main() {
         'drawRRect 0xFFEFE7D7',
       ];
       expect(draws, expected);
-      // 11 textos pintados (o subtítulo e o selo da linha 2 são 2 parágrafos cada → 13) e 4 SVG.
+      // 11 textos pintados, um parágrafo cada, e 4 SVG (a v1 pintava 13 parágrafos: o subtítulo e o selo da linha 2
+      // eram 2 parágrafos cada; com os dados da prancha 01 nenhum texto da seção pede mais de um).
       expect(
         calls.where((c) => c.invocation.memberName == #drawParagraph),
-        hasLength(13),
+        hasLength(11),
       );
       expect(
         calls.where((c) => c.invocation.memberName == #drawPicture),
@@ -777,7 +785,10 @@ void main() {
           at(240, 91.5),
           _tagLavenderBg,
         ),
-        'selo "Quero ler" (linha 1, 2 linhas)': (at(250, 177), _tagLavenderBg),
+        'selo "Lido" (linha 1, no padding esquerdo)': (
+          at(245, 194),
+          _tagReadBg,
+        ),
         'selo "Novo" (linha 2)': (at(244, 275), _tagSandBg),
         'selo: fora do pílula (canto)': (at(212.8, 91), _surface),
         // Botão "mais opções": transparente (a lista aparece) e os três pontos.

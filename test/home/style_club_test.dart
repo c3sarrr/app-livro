@@ -141,7 +141,7 @@ Future<(Uint8List, int)> _capture(WidgetTester tester) async {
   final image = await captureAt(tester, find.byKey(goldenRootKey));
   expect(
     (image.width, image.height),
-    (390 * 3, 2390 * 3),
+    (390 * 3, 2650 * 3),
     reason: 'canvas inteiro @3x',
   );
   return (await rgbaOf(tester, image), image.width);
@@ -261,7 +261,7 @@ const _sun = 0xFFFED170;
 const _flame = 0xFFFF552E;
 const _muted = 0xFF5B544B;
 
-/// F09 — camada 2 (estilo, sem tolerância) da seção `club`.
+/// F09 — camada 2 (estilo, sem tolerância) da seção `club`; desde a T03 com os dados da prancha 01 (até o cap. 50).
 void main() {
   setUpAll(loadAppFonts);
 

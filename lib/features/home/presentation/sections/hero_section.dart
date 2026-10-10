@@ -162,7 +162,7 @@ class _CoverSlot extends StatelessWidget {
           height: 156,
           child: Transform.rotate(
             angle: _angle,
-            // a convenção das capas giradas (test/support/geometry.dart): o filho do giro leva `<id>#rot`
+            // a convenção das capas giradas (test/support/fase_inicio.dart): o filho do giro leva `<id>#rot`
             child: KeyedSubtree(
               key: const ValueKey('hero.cover#rot'),
               child: switch (book.cover) {

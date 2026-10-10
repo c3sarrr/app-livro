@@ -1,31 +1,8 @@
-import 'dart:io';
-
 import 'package:app_leitura/features/home/application/formatters.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// O HTML literal das seções da prancha 01 (as fases L01a1…L01a9, geradas da extração na T02).
-String _htmlDaPrancha01() {
-  final html = StringBuffer();
-  final fases =
-      Directory('docs/design/fases')
-          .listSync()
-          .whereType<File>()
-          .where((f) => RegExp(r'L01a\d_[^/\\]+\.md$').hasMatch(f.path))
-          .toList()
-        ..sort((a, b) => a.path.compareTo(b.path));
-  if (fases.length != 9) {
-    throw StateError('as fases L01a1…L01a9: ${fases.length}');
-  }
-  for (final f in fases) {
-    final m = RegExp(
-      r'```html\n(.*?)\n```',
-      dotAll: true,
-    ).firstMatch(f.readAsStringSync().replaceAll('\r\n', '\n'));
-    html.writeln(m!.group(1));
-  }
-  return html.toString();
-}
+import '../support/html_prancha01.dart';
 
 const Book _brasCubas = Book(
   id: 'memorias-postumas-de-bras-cubas',
@@ -151,7 +128,7 @@ void main() {
 
   // Fonte da verdade nº 1 (prompt mestre §2): cada saída aparece literalmente na prancha 01.
   group('as saídas aparecem literalmente na prancha 01', () {
-    final html = _htmlDaPrancha01();
+    final html = htmlDaPrancha01();
     String node(String text) => '>$text<';
     String aria(String label) => 'aria-label="$label"';
 

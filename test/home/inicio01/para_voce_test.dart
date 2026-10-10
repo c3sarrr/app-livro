@@ -1,6 +1,6 @@
 // T03.11 — fase L01a6 ("Para você") contra a prancha 01 (`kRef01`) e as larguras 360/430: os mesmos três desenhos
 // da v1 com os livros da 01 — Esaú e Jacó (a mancha, "Esaú / e Jacó" na serifada 22), Memorial de Aires (os traços)
-// e Casa de Pensão (o arco). A seção muda no lugar: com os dados da v1 desenha a v1. Recorte do gate visual: y
+// e Casa de Pensão (o arco). A seção mudou no lugar (só os dados e os textos das capas). Recorte do gate visual: y
 // 1456,52–1811,62 (`docs/design/fases/L01a6_para_voce.md`).
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
@@ -14,7 +14,6 @@ import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/covers/memorias_postumas_cover.dart';
 import 'package:app_leitura/features/home/presentation/covers/o_cortico_cover.dart';
 import 'package:app_leitura/features/home/presentation/covers/quincas_borba_cover.dart';
-import 'package:app_leitura/features/home/presentation/sections/for_you_section.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -27,17 +26,14 @@ import '../../support/load_fonts.dart';
 
 const _secoes = ['i01.forYou'];
 
-Future<void> _abrir(
-  WidgetTester tester, {
-  LeitorRefPrancha prancha = kRef01,
-  ValueChanged<Book>? onBookTap,
-  VoidCallback? onSeeAllTap,
-}) => abrirSecoes01(
-  tester,
-  {'i01.forYou': ForYouSection(onBookTap: onBookTap, onSeeAllTap: onSeeAllTap)},
-  prancha: prancha,
-  larguraTotal: const {'i01.forYou'}, // o carrossel vai de 0 a 390 (margin −20)
-);
+Future<void> _abrir(WidgetTester tester, {LeitorRefPrancha prancha = kRef01}) =>
+    abrirInicio01(tester, prancha: prancha);
+
+/// Voltar do sistema: fecha a rota do topo (de volta à Início).
+Future<void> _voltar(WidgetTester tester) async {
+  await tester.binding.handlePopRoute();
+  await tester.pumpAndSettle();
+}
 
 String _texto(WidgetTester tester, String key) =>
     tester.widget<AppText>(find.byKey(ValueKey(key))).span.toPlainText();
@@ -212,13 +208,9 @@ void main() {
     'L01a6 semântica: a seção, o h3, os 3 itens e "Ver tudo" como links; o brilho do motivo fora',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      await _abrir(tester, onBookTap: (_) {}, onSeeAllTap: () {});
+      await _abrir(tester);
       expect(find.semantics.byLabel('Para você'), findsAtLeast(1));
-      final links = find.semantics
-          .byPredicate((n) => n.getSemanticsData().flagsCollection.isLink)
-          .evaluate()
-          .map((n) => n.label)
-          .toList();
+      final links = linksDaSecao('Para você').map((n) => n.label).toList();
       expect(links, hasLength(4));
       expect(links.where((l) => l.contains('Esaú e Jacó')), hasLength(1));
       expect(links, contains('Ver tudo'));
@@ -234,21 +226,20 @@ void main() {
   );
 
   testWidgets(
-    'L01a6 toques: os itens abrem o livro e "Ver tudo" chama o callback',
+    'L01a6 toques: os itens abrem a página do livro e "Ver tudo", a lista "Para você"',
     (tester) async {
-      final abertos = <String>[];
-      var verTudo = 0;
-      await _abrir(
-        tester,
-        onBookTap: (b) => abertos.add(b.title),
-        onSeeAllTap: () => verTudo++,
-      );
-      await tester.tap(find.byKey(const ValueKey('forYou.item1')));
-      await tester.tap(find.byKey(const ValueKey('forYou.item2')));
-      await tester.tap(find.byKey(const ValueKey('forYou.seeAll')));
-      await tester.pumpAndSettle();
-      expect(abertos, ['Esaú e Jacó', 'Memorial de Aires']);
-      expect(verTudo, 1);
+      await _abrir(tester);
+      for (final (i, slug) in [
+        (1, 'esau-e-jaco'),
+        (2, 'memorial-de-aires'),
+        (3, 'casa-de-pensao'),
+      ]) {
+        await tocar01(tester, 'i01.forYou.item$i');
+        expect(rotaAtual(tester), '/livro/$slug');
+        await _voltar(tester);
+      }
+      await tocar01(tester, 'i01.forYou.seeAll');
+      expect(rotaAtual(tester), '/para-voce');
     },
   );
 

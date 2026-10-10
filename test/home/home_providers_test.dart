@@ -111,7 +111,7 @@ void main() {
         homeSnapshotProvider.select((s) => s.continueReading),
       );
       expect(slice!.book.title, 'Dom Casmurro');
-      expect(slice.chapter, 92);
+      expect((slice.refPage, slice.refPagesTotal), (159, 256));
     });
   });
 

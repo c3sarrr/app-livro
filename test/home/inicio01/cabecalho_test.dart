@@ -1,6 +1,6 @@
 // T03.6 — fase L01a1 (cabeçalho e título) contra a prancha 01 (`kRef01`): a lupa nova ao lado do sino, sem ação
-// (D-243 b), e o resto como na v1. Arnês: `test/support/fase_inicio.dart` (as seções na posição da prancha até a
-// troca; o app depois). Recorte do gate visual: y 54–240,16 (`docs/design/fases/L01a1_cabecalho.md`).
+// (D-243 b), e o resto como na v1. Arnês: `test/support/fase_inicio.dart` (o app inteiro no canvas da prancha desde a
+// troca, T03.15). Recorte do gate visual: y 54–240,16 (`docs/design/fases/L01a1_cabecalho.md`).
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
@@ -8,7 +8,6 @@ import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/home/presentation/sections/header_section.dart';
-import 'package:app_leitura/features/home/presentation/sections/headline_section.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,14 +17,7 @@ import '../../support/load_fonts.dart';
 
 const _secoes = ['i01.header', 'i01.headline'];
 
-Future<void> _abrir(WidgetTester tester, {VoidCallback? onSearchTap}) =>
-    abrirSecoes01(tester, {
-      'i01.header': HeaderSection(
-        onNotificationsTap: () {},
-        onSearchTap: onSearchTap ?? HomeScreen.onSearch,
-      ),
-      'i01.headline': const HeadlineSection(),
-    });
+Future<void> _abrir(WidgetTester tester) => abrirInicio01(tester);
 
 NeoBox _caixa(WidgetTester tester, String id) => tester.widget<NeoBox>(
   find.descendant(of: ini(id), matching: find.byType(NeoBox)).first,
@@ -122,15 +114,19 @@ void main() {
   );
 
   testWidgets(
-    'L01a1 toque na lupa: chama o callback da seção; a Início passa o "sem ação" (D-243 b)',
+    'L01a1 toques: a lupa fica na Início (a busca não tem prancha — C14, D-243 b); o sino abre as notificações',
     (tester) async {
-      var toques = 0;
-      await _abrir(tester, onSearchTap: () => toques++);
-      await tester.tap(ini('i01.header.search'));
-      await tester.pumpAndSettle();
-      expect(toques, 1);
-      // o da Início não faz nada (nem navega, nem lança): a busca não tem prancha (C14)
+      await _abrir(tester);
+      // a Início liga a lupa ao "sem ação" (nem navega, nem lança)
+      expect(
+        tester.widget<HeaderSection>(find.byType(HeaderSection)).onSearchTap,
+        HomeScreen.onSearch,
+      );
       expect(HomeScreen.onSearch, returnsNormally);
+      await tocar01(tester, 'i01.header.search');
+      expect(rotaAtual(tester), '/inicio');
+      await tocar01(tester, 'i01.header.bell');
+      expect(rotaAtual(tester), '/notificacoes');
     },
   );
 
