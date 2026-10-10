@@ -10,19 +10,29 @@ cores aplicadas (currentColor resolvido, props no valor padrão), sem duplicatas
   handoff_v2/referencia/svg_catalogo.json      id → arquivo, tamanho de uso, cores dinâmicas, armadilhas
 Variantes de cor do mesmo desenho viram arquivos com sufixo (ex.: _noite). Cores que vêm de props do
 componente ({{brand}}, {{ink}}) ficam no valor padrão e são listadas em `coresDinamicas` no catálogo.
-Uso: python3 tools/medicao/exportar_svgs.py
+Uso: [CONJUNTO=inicio2] python3 tools/medicao/exportar_svgs.py
+T02: as pastas vêm do conjunto (conjuntos.json); com svgNomes, as tabelas abaixo (as do leitor) dão lugar às do
+módulo indicado, com as OPCOES dele (reuso de asset existente, ids normalizados, altura em %, tamanho do layout).
 """
 import collections
+import glob
+import importlib
 import json
 import os
 import re
+import sys
+import xml.etree.ElementTree as ET
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import C, caminho  # noqa: E402
 
 AQUI = os.path.dirname(__file__)
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
 COL = re.compile(r'#[0-9A-Fa-f]{6}\b|rgba?\([^)]*\)')
+IDS_DC = re.compile(r'\b\w+-dc-(\w+)')   # ids internos do arquivo (home-dc-iris) → dc-iris
 
-DEST = {'ic': ('assets', 'icons', 'leitor'), 'il': ('assets', 'illustrations', 'leitor'),
-        'tinta': ('handoff_v2', 'referencia', 'svg_tinta'), 'graf': ('handoff_v2', 'referencia', 'svg_graficos')}
+DEST = {'ic': tuple(C['icones'].split('/')), 'il': tuple(C['ilustracoes'].split('/')),
+        'tinta': tuple(C['svgTinta'].split('/')), 'graf': tuple(C['svgGraficos'].split('/'))}
 # primeiro id de cada desenho → (destino, nome-base). O sufixo de variante vem de VARIANTE (cor distintiva).
 NOMES = {
     'r20.topIsland.close.icon': ('ic', 'ic_arrow_left'),
@@ -111,12 +121,21 @@ ARMADILHAS = {
     'hl.list.card7.body.handNote.ink': 'width="100%"; miniatura da nota à mão (no app: renderizada a partir dos traços salvos, com cache em imagem).',
     'pen.penPanel.preview.art': 'width="100%": a prévia ocupa a largura da faixa pautada; no app é desenhada com a ponta/espessura/cor atuais.',
 }
+DOC = None
+OPCOES = {}
+if C.get('svgNomes'):
+    _m = importlib.import_module(C['svgNomes'])
+    NOMES, VARIANTE, DINAMICAS, ARMADILHAS, DOC, OPCOES = _m.NOMES, _m.VARIANTE, _m.DINAMICAS, _m.ARMADILHAS, _m.DOC, _m.OPCOES
 
 
 def svg_arquivo(v):
     s = v['svg'].replace('currentColor', v['color_hex'])
+    if OPCOES.get('normalizarIds'):
+        s = IDS_DC.sub(r'dc-\1', s)
     # width="100%" (largura da caixa no arquivo) → largura medida: o flutter_svg não resolve porcentagem
     s = re.sub(r'(<svg[^>]*?)\swidth="100%"', lambda m: f'{m.group(1)} width="{round(v["w"], 2):g}"', s, count=1)
+    if OPCOES.get('alturaPercentual'):
+        s = re.sub(r'(<svg[^>]*?)\sheight="100%"', lambda m: f'{m.group(1)} height="{round(v["h"], 2):g}"', s, count=1)
     s = re.sub(r'\saria-label="[^"]*"|\srole="[^"]*"', '', s)
     if 'xmlns=' not in s:
         s = s.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"', 1)
@@ -128,13 +147,36 @@ def rgb_hex(c):
     return '#%02X%02X%02X' % tuple(int(x) for x in m.groups()) if m else c
 
 
+def canonico(s):
+    return ET.canonicalize(IDS_DC.sub(r'dc-\1', s), strip_text=True)
+
+
+def assets_existentes():
+    """C14N → caminho relativo dos SVGs de assets/icons e assets/illustrations, fora das pastas deste conjunto."""
+    proprias = {'/'.join(DEST['ic']) + '/', '/'.join(DEST['il']) + '/'}
+    achados = {}
+    for f in sorted(glob.glob(os.path.join(RAIZ, 'assets', 'icons', '**', '*.svg'), recursive=True)
+                    + glob.glob(os.path.join(RAIZ, 'assets', 'illustrations', '**', '*.svg'), recursive=True)):
+        rel = os.path.relpath(f, RAIZ).replace(os.sep, '/')
+        if any(rel.startswith(p) for p in proprias):
+            continue
+        achados.setdefault(canonico(open(f, encoding='utf-8').read()), rel)
+    return achados
+
+
 def main():
-    S = json.load(open(os.path.join(AQUI, 'tmp', 'svgs.json'), encoding='utf-8'))
+    S = json.load(open(caminho('tmp', 'svgs.json'), encoding='utf-8'))
+    existentes = assets_existentes() if OPCOES.get('reusar') else {}
     grupos = collections.OrderedDict()   # forma (sem cor) → [(id, prancha, v)]
     for slug, d in S.items():
+        lay = json.load(open(caminho('layout', f'layout_{slug}.json'), encoding='utf-8'))['elements'] \
+            if OPCOES.get('tamanhoLayout') else {}
         for k, v in d.items():
             v['color_hex'] = rgb_hex(v['color'])
-            forma = COL.sub('C', re.sub(r'\s(width|height)="[^"]*"', '', v['svg'].replace('currentColor', 'C')))
+            if k in lay:
+                v['w'], v['h'] = lay[k]['abs'][2], lay[k]['abs'][3]
+            svg = IDS_DC.sub(r'dc-\1', v['svg']) if OPCOES.get('normalizarIds') else v['svg']
+            forma = COL.sub('C', re.sub(r'\s(width|height)="[^"]*"', '', svg.replace('currentColor', 'C')))
             grupos.setdefault(forma, []).append((k, slug, v))
     for d in DEST.values():
         os.makedirs(os.path.join(RAIZ, *d), exist_ok=True)
@@ -158,14 +200,17 @@ def main():
                 dist = [c for c in cores if c not in comuns and c in VARIANTE]
                 nome = f"{base}_{VARIANTE[dist[0]] if dist else i + 1}"
             rel = '/'.join(DEST[cat]) + f'/{nome}.svg'
-            if rel in arquivos:
-                raise SystemExit(f'nome repetido: {rel}')
             k, slug, v = lst[0]
             conteudo = svg_arquivo(v)
-            path = os.path.join(RAIZ, *DEST[cat], f'{nome}.svg')
-            with open(path, 'w', encoding='utf-8', newline='\n') as f:
-                f.write(conteudo)
-            arquivos[rel] = {'categoria': cat, 'cores': list(cores), 'usos': len(lst)}
+            reuso = existentes.get(canonico(conteudo)) if cat in ('ic', 'il') else None
+            rel = reuso or rel
+            if rel in arquivos:
+                raise SystemExit(f'nome repetido: {rel}')
+            if not reuso:
+                path = os.path.join(RAIZ, *DEST[cat], f'{nome}.svg')
+                with open(path, 'w', encoding='utf-8', newline='\n') as f:
+                    f.write(conteudo)
+            arquivos[rel] = {'categoria': cat, 'cores': list(cores), 'usos': len(lst), **({'reuso': True} if reuso else {})}
             for k, slug, v in lst:
                 catalogo.setdefault(k, {})[slug] = {'arquivo': rel, 'tamanho': [round(v['w'], 2), round(v['h'], 2)],
                                                     **({'coresDinamicas': DINAMICAS[k]} if k in DINAMICAS else {}),
@@ -173,8 +218,8 @@ def main():
                                                     **({'rotulo': v['aria']} if v.get('aria') else {})}
     if faltam:
         raise SystemExit(f'desenhos sem nome em NOMES: {faltam}')
-    with open(os.path.join(RAIZ, 'handoff_v2', 'referencia', 'svg_catalogo.json'), 'w', encoding='utf-8', newline='\n') as f:
-        json.dump({'_doc': __doc__.strip().splitlines()[0], 'arquivos': dict(sorted(arquivos.items())),
+    with open(caminho('svgCatalogo'), 'w', encoding='utf-8', newline='\n') as f:
+        json.dump({'_doc': DOC or __doc__.strip().splitlines()[0], 'arquivos': dict(sorted(arquivos.items())),
                    'usos': dict(sorted(catalogo.items()))}, f, ensure_ascii=False, indent=1)
         f.write('\n')
     por_cat = collections.Counter(a['categoria'] for a in arquivos.values())
