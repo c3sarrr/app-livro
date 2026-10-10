@@ -1137,4 +1137,33 @@ abstract final class AppTextStyles {
     FontWeight.w800,
     color: AppColors.paper,
   );
+
+  // ---- T03 · a Início nova (prancha 01) ---------------------------------------------------------------------------
+
+  /// i01.hero.formatPill ("E-BOOK"): Figtree 11/900 → 700 (D-14, D-246), ls 0,8.
+  static final TextStyle formatBadge = AppFonts.figtree(
+    11,
+    FontWeight.w700,
+    letterSpacing: 0.8,
+  );
+
+  /// Os `<text>` da capa do Dom Casmurro (`il_capa_dom_casmurro.svg`, viewBox 96×144 em 101×153 com `slice`: escala
+  /// 1,0625): "Dom" / "Casmurro" Instrument Serif 19 → 20,1875, `#FED170`.
+  static final TextStyle coverEyeTitle = AppFonts.serif(
+    19 * _coverEyeScale,
+    height: 1,
+    color: AppColors.sun,
+  );
+
+  /// "MACHADO DE ASSIS" da mesma capa: Figtree 5,2/700 → 5,525, ls 0,9 → 0,95625, `#F7F0E3`.
+  static final TextStyle coverEyeAuthor = AppFonts.figtree(
+    5.2 * _coverEyeScale,
+    FontWeight.w700,
+    height: 1,
+    letterSpacing: 0.9 * _coverEyeScale,
+    color: AppColors.paper,
+  );
+
+  /// max(101 ÷ 96, 153 ÷ 144): o `slice` da capa do herói.
+  static const double _coverEyeScale = 153 / 144;
 }

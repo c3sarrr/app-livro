@@ -1,3 +1,5 @@
+import 'dart:typed_data' show ByteData;
+
 import 'package:flutter/foundation.dart' show mapEquals, setEquals;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,6 +8,7 @@ import 'package:vector_graphics/vector_graphics_compat.dart'
 
 import '../painters/svg_dash_painter.dart';
 import '../tokens/app_icons.dart';
+import '../tokens/app_illustrations_inicio.dart';
 import '../tokens/app_illustrations_leitor.dart' show svgDashes;
 
 /// Pré-carrega (lê, interpreta e compila) os SVGs do arquivo no cache do flutter_svg. Chamado no `main()` antes
@@ -27,9 +30,48 @@ Future<Object?> preloadAppSvg(String asset, {Map<Color, Color>? colors}) {
 }
 
 /// O carregador que o [AppSvg] usa para [asset] com a troca [colors] (a mesma chave de cache: para pré-carregar). Nos
-/// desenhos tracejados ([svgDashes], T01) o traço do elemento sai escondido: o [AppSvg] o pinta por cima.
-SvgAssetLoader appSvgLoader(String asset, {Map<Color, Color>? colors}) =>
-    SvgAssetLoader(asset, colorMapper: _mapperOf(asset, colors));
+/// desenhos tracejados ([svgDashes], T01) o traço do elemento sai escondido: o [AppSvg] o pinta por cima. Nos desenhos
+/// com `<text>` ([AppIllustrationsInicio.withText], T03) os textos saem: o widget da capa os escreve em `AppText`.
+SvgAssetLoader appSvgLoader(String asset, {Map<Color, Color>? colors}) {
+  final mapper = _mapperOf(asset, colors);
+  return AppIllustrationsInicio.withText.contains(asset)
+      ? _SvgWithoutTextLoader(asset, colorMapper: mapper)
+      : SvgAssetLoader(asset, colorMapper: mapper);
+}
+
+/// O SVG sem os elementos `<text>` (T03): o flutter_svg os desenharia com a fonte do sistema (a família do arquivo,
+/// "'Instrument Serif', Georgia, serif", não é a registrada no app).
+String svgWithoutText(String xml) => xml.replaceAll(_svgText, '');
+
+final RegExp _svgText = RegExp(r'<text\b[^>]*>[\s\S]*?</text>');
+
+/// O [SvgAssetLoader] de [svgWithoutText], com uma chave de cache própria (o mesmo arquivo com os textos é outro
+/// desenho).
+@immutable
+final class _SvgWithoutTextLoader extends SvgAssetLoader {
+  const _SvgWithoutTextLoader(super.assetName, {super.colorMapper});
+
+  @override
+  String provideSvg(ByteData? message) =>
+      svgWithoutText(super.provideSvg(message));
+
+  @override
+  SvgCacheKey cacheKey(BuildContext? context) {
+    final key = super.cacheKey(context);
+    return SvgCacheKey(
+      keyData: (key.keyData, 'sem <text>'),
+      colorMapper: key.colorMapper,
+      theme: key.theme,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      other is _SvgWithoutTextLoader && super == other;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'sem <text>');
+}
 
 SvgColorSwap? _mapperOf(String asset, Map<Color, Color>? colors) {
   final dash = svgDashes[asset];
@@ -97,6 +139,7 @@ class AppSvg extends StatelessWidget {
     this.color,
     this.opacity,
     this.colors,
+    this.fit = BoxFit.contain,
   });
   final String asset;
 
@@ -114,6 +157,10 @@ class AppSvg extends StatelessWidget {
   /// Troca de cores exatas do arquivo (G16: as ilustrações com a `brand` e a tinta do usuário — [SvgColorSwap]).
   final Map<Color, Color>? colors;
 
+  /// Como o viewBox entra na caixa. [BoxFit.cover] = o `preserveAspectRatio="xMidYMid slice"` do arquivo (T03: as
+  /// capas da Início nova; o flutter_svg ignora o atributo e mede o desenho pelo viewBox).
+  final BoxFit fit;
+
   @override
   Widget build(BuildContext context) {
     final h = height ?? size;
@@ -123,12 +170,13 @@ class AppSvg extends StatelessWidget {
         : a != null && a < 1
         ? ColorFilter.mode(Color.fromRGBO(255, 255, 255, a), BlendMode.modulate)
         : null;
-    final picture = SvgPicture.asset(
-      asset,
+    // o mesmo carregador do pré-cache (`appSvgLoader`): a mesma chave
+    final picture = SvgPicture(
+      appSvgLoader(asset, colors: colors),
       width: size,
       height: h,
+      fit: fit,
       colorFilter: filter,
-      colorMapper: _mapperOf(asset, colors),
       // com filtro, o caminho por picture pinta numa camada (`saveLayer`, proibida no app — F12 12.4); o
       // rasterizado aplica o filtro direto na imagem do ícone
       renderingStrategy: filter == null

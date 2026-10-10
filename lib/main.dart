@@ -12,6 +12,7 @@ import 'core/config/app_env.dart';
 import 'core/design_system/tokens/app_icons.dart';
 import 'core/design_system/tokens/app_icons_inicio.dart';
 import 'core/design_system/tokens/app_icons_leitor.dart';
+import 'core/design_system/tokens/app_illustrations_inicio.dart';
 import 'core/design_system/tokens/app_illustrations_leitor.dart';
 import 'core/design_system/widgets/app_svg.dart' show preloadAppIcons;
 import 'features/account/application/account_providers.dart';
@@ -46,6 +47,7 @@ Future<void> runBookNest({List<Override> overrides = const []}) async {
   await preloadAppIcons([
     ...AppIcons.all,
     ...AppIconsInicio.all,
+    ...AppIllustrationsInicio.all,
     ...AppIconsLeitor.all,
     ...AppIllustrationsLeitor.plain,
   ]);

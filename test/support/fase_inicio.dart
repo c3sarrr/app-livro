@@ -52,10 +52,13 @@ final class RepositorioT01 implements SyncHomeRepository {
   Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
 }
 
-/// Os overrides da Início da prancha 01 (relógio de referência, fixture `t01`, `brand` na memória).
-List<Override> overridesDaT01() => [
+/// Os overrides da Início da prancha 01 (relógio de referência, fixture `t01`, `brand` na memória). [repositorio]:
+/// outra fonte para os casos fora da prancha (os estados da G08, os formatos da D-254).
+List<Override> overridesDaT01({
+  SyncHomeRepository repositorio = const RepositorioT01(),
+}) => [
   clockProvider.overrideWithValue(() => TelaInicio01.agora),
-  homeRepositoryProvider.overrideWithValue(const RepositorioT01()),
+  homeRepositoryProvider.overrideWithValue(repositorio),
   brandStoreProvider.overrideWith((ref) => MemoryBrandStore()),
 ];
 
@@ -74,13 +77,17 @@ Future<void> abrirSecoes01(
   LeitorRefPrancha prancha = kRef01,
   Set<String> larguraTotal = const {},
   List<Override> overrides = const [],
+  SyncHomeRepository repositorio = const RepositorioT01(),
 }) async {
   assert(!inicioNoApp, 'depois da troca, use o app (abrirInicio01)');
   setCanvasView(tester, logical: prancha.canvas);
   await precacheInicio01(tester);
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [...overridesDaT01(), ...overrides],
+      overrides: [
+        ...overridesDaT01(repositorio: repositorio),
+        ...overrides,
+      ],
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: MediaQuery(

@@ -16,4 +16,8 @@ abstract final class AppIllustrationsInicio {
   static const coverBrasCubasWings = '$_d/il_capa_bras_cubas_asas.svg';
 
   static const all = [coverDomCasmurro, coverBrasCubasWings];
+
+  /// Os desenhos com `<text>`: o `AppSvg` os lê sem os textos (`svgWithoutText`) e a capa põe os textos em `AppText`
+  /// por cima (T03).
+  static const Set<String> withText = {coverDomCasmurro, coverBrasCubasWings};
 }
