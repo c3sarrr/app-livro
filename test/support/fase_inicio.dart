@@ -49,7 +49,8 @@ Future<void> precacheInicio01(WidgetTester tester) async {
 /// Monta o app (`App.forTests()`, que abre em `/inicio`) no canvas de [prancha] (DPR [dpr], áreas seguras
 /// [safeTop]/[safeBottom]) sob a raiz do golden, com o mundo de referência e a fonte da Início [repositorio] (a `t01`;
 /// outra para os casos fora da prancha — os estados da G08, os formatos da D-254). [cronometro] troca o cronômetro do
-/// mundo (sem sessão) pelo do teste — a 01b passa `overridesDa01b()`.
+/// mundo (sem sessão) pelo do teste — a 01b passa `overridesDa01b()`; [relogio], o relógio do mundo por um que o
+/// teste move (o tempo do cronômetro).
 Future<void> abrirInicio01(
   WidgetTester tester, {
   LeitorRefPrancha prancha = kRef01,
@@ -57,6 +58,7 @@ Future<void> abrirInicio01(
   double safeTop = 0,
   double safeBottom = 0,
   SyncHomeRepository repositorio = const HomeMockRepository(),
+  Override? relogio,
   List<Override>? cronometro,
   List<Override> overrides = const [],
 }) async {
@@ -71,7 +73,7 @@ Future<void> abrirInicio01(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
-        relogioDoMundo,
+        relogio ?? relogioDoMundo,
         homeRepositoryProvider.overrideWithValue(repositorio),
         brandDoMundo,
         leitorDoMundo,

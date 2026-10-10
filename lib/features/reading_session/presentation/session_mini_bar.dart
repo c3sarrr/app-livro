@@ -3,7 +3,6 @@
 // e o botão de pausar. Só existe com uma sessão aberta (o shell a põe entre o degradê e a barra — D-259). O tempo sai
 // do relógio de parede a cada tique de 1 s; o tique só corre com a sessão rodando e o app à vista, e cada tique refaz
 // só o tempo, o rótulo e a barrinha (o resto são as mesmas instâncias de widget).
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -26,6 +25,7 @@ import '../../home/presentation/covers/bras_cubas_wings_cover.dart';
 import '../application/paper_timer_controller.dart';
 import '../application/paper_timer_format.dart';
 import '../application/second_ticker.dart';
+import 'second_ticking.dart';
 
 /// A mini-barra com a sessão aberta (nada sem ela). Fundo e borda tinta 1,5, raio 22, sombra 0/4
 /// `rgba(26,23,20,.35)` sem desfoque e recorte; padding 0/10/0/12 e gap 12 entre a capa, os textos (que crescem), o
@@ -76,7 +76,7 @@ class SessionMiniBar extends ConsumerWidget {
           ? PaperTimerFormat.pauseButton
           : PaperTimerFormat.resumeButton,
     );
-    return _Ticking(
+    return SecondTicking(
       running: running,
       ticker: ref.watch(secondTickerProvider),
       builder: (context) {
@@ -161,82 +161,6 @@ class SessionMiniBar extends ConsumerWidget {
       },
     );
   }
-}
-
-/// O tique: refaz [builder] a cada segundo enquanto a sessão roda e o app está à vista (o `AppLifecycleListener`
-/// solta o tique em segundo plano; ao voltar, refaz pela parede).
-class _Ticking extends StatefulWidget {
-  const _Ticking({
-    required this.running,
-    required this.ticker,
-    required this.builder,
-  });
-
-  final bool running;
-  final SecondTicker ticker;
-  final WidgetBuilder builder;
-
-  @override
-  State<_Ticking> createState() => _TickingState();
-}
-
-class _TickingState extends State<_Ticking> {
-  late final AppLifecycleListener _lifecycle;
-  StreamSubscription<void>? _ticks;
-  late bool _visible;
-
-  static bool _isVisible(AppLifecycleState? s) =>
-      s == null ||
-      s == AppLifecycleState.resumed ||
-      s == AppLifecycleState.inactive;
-
-  @override
-  void initState() {
-    super.initState();
-    _visible = _isVisible(WidgetsBinding.instance.lifecycleState);
-    _lifecycle = AppLifecycleListener(
-      onStateChange: (s) {
-        final visible = _isVisible(s);
-        if (visible == _visible) return;
-        // ao voltar, o tempo é refeito pela parede (o que passou em segundo plano conta)
-        setState(() => _visible = visible);
-        _sync();
-      },
-    );
-    _sync();
-  }
-
-  @override
-  void didUpdateWidget(_Ticking old) {
-    super.didUpdateWidget(old);
-    if (old.ticker != widget.ticker) _stop();
-    _sync();
-  }
-
-  void _sync() {
-    if (widget.running && _visible) {
-      _ticks ??= widget.ticker.ticks.listen((_) {
-        if (mounted) setState(() {});
-      });
-    } else {
-      _stop();
-    }
-  }
-
-  void _stop() {
-    unawaited(_ticks?.cancel());
-    _ticks = null;
-  }
-
-  @override
-  void dispose() {
-    _stop();
-    _lifecycle.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) => widget.builder(context);
 }
 
 /// A capa 32 × 48 girada −5° (R10): a desenhada com asas no Brás Cubas da fixture; com dados reais, a foto (ou a

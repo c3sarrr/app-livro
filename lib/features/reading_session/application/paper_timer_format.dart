@@ -56,6 +56,38 @@ abstract final class PaperTimerFormat {
   static String sheetStatus({required bool running, required int seconds}) =>
       '${running ? 'Sessão em andamento' : 'Sessão em pausa'} · ${clock(seconds)}';
 
+  // ---- a folha da sessão (D-256, D-260, D-262; sem prancha — D-21) ----------------------------------------------
+
+  /// O nome da folha para o leitor de tela (a mini-barra diz "Abrir cronômetro").
+  static const String sheetLabel = 'Cronômetro';
+
+  static const String pageQuestion = 'Em que página você parou?';
+  static const String totalQuestion = 'De quantas páginas é o livro?';
+
+  /// A página registrada antes (a posição do livro).
+  static String lastPage(int page) => 'Última registrada: pág. $page';
+
+  /// O aviso da página fora de 1…N.
+  static String pageRange(int total) => 'A página vai de 1 a $total.';
+
+  /// O aviso da página sem total (nem do livro, nem digitado).
+  static const String totalRequired =
+      'Informe o total de páginas para registrar a página.';
+
+  static const String endButton = 'Encerrar sessão';
+  static const String discardButton = 'Descartar sessão';
+  static const String closeButton = 'Fechar';
+
+  /// A confirmação do descarte, com o tempo que se perde.
+  static String discardQuestion(int seconds) =>
+      'Descartar esta sessão? Os ${clock(seconds)} não serão gravados.';
+  static const String discardConfirm = 'Descartar';
+  static const String backButton = 'Voltar';
+
+  /// A folha aberta pelo play de outro livro (D-262).
+  static String pendingStart(String title) =>
+      'Para começar $title, encerre ou descarte esta sessão.';
+
   /// A barrinha da mini-barra (R1): (os minutos do "Seu dia" + a sessão aberta) ÷ a meta, entre 0 e 1. A 01b:
   /// (18 × 60 + 522) ÷ 1800 = 0,89. Meta zerada: cheia se leu algo.
   static double dailyProgress({
