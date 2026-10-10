@@ -5,15 +5,12 @@ import 'package:flutter/foundation.dart' show immutable;
 // Dados crus da tela Início (F02 2.1). Nenhum texto já formatado: os únicos textos são nomes e
 // títulos; rótulos, contagens, datas e durações são montados em `application/formatters.dart`.
 
-/// Arte de capa de cada livro do arquivo (cada uma é uma ilustração própria nas fases das seções).
-/// Só a fixture do mundo de referência usa (D-34); livro real tem foto (D-79).
+/// Arte de capa de cada livro que a prancha 01 desenha (cada uma é uma ilustração própria nas fases das seções).
+/// Só a fixture do mundo de referência usa (D-34); livro real tem foto (D-79). As artes que só a v1 desenhava (Mrs.
+/// Dalloway e o trio Memórias Póstumas · Quincas Borba · O Cortiço) saíram no fim da T03.
 enum CoverArt {
   domCasmurro,
-  mrsDalloway,
   pridePrejudice,
-  memoriasPostumas,
-  quincasBorba,
-  oCortico,
   frankenstein,
   oAlienista,
   senhora,

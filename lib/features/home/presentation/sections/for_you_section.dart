@@ -14,9 +14,9 @@ import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
 import '../covers/book_cover.dart';
-import '../covers/memorias_postumas_cover.dart';
-import '../covers/o_cortico_cover.dart';
-import '../covers/quincas_borba_cover.dart';
+import '../covers/casa_de_pensao_cover.dart';
+import '../covers/esau_e_jaco_cover.dart';
+import '../covers/memorial_de_aires_cover.dart';
 
 /// Seção 6 — "Para você" (F08): coluna com gap 14 — cabeçalho (44), chip do motivo (32,6) e o carrossel
 /// (218,4) → 327. O retângulo da seção é 20→370 (Key `forYou` no `_fullBleed` da tela), mas o carrossel
@@ -38,17 +38,11 @@ class ForYouSection extends ConsumerWidget {
     assert(
       forYou.items.every((b) => b.cover is PhotoCover) ||
           listEquals(_arts(forYou.items), const [
-            CoverArt.memoriasPostumas,
-            CoverArt.quincasBorba,
-            CoverArt.oCortico,
-          ]) ||
-          listEquals(_arts(forYou.items), const [
             CoverArt.esauEJaco,
             CoverArt.memorialDeAires,
             CoverArt.casaDePensao,
           ]),
-      'As artes de capa do arquivo nesta seção: Memórias Póstumas, Quincas Borba e O Cortiço (v1) ou Esaú e Jacó, '
-      'Memorial de Aires e Casa de Pensão (01) — os mesmos três desenhos.',
+      'As artes de capa do arquivo nesta seção: Esaú e Jacó, Memorial de Aires e Casa de Pensão (prancha 01).',
     );
     final onBookTap = this.onBookTap;
     // <section aria-label="Para você"> (convenção §5.1 do prompt mestre).
@@ -224,17 +218,10 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget cover = switch (book.cover) {
-      DesignedCover(art: CoverArt.memoriasPostumas) =>
-        const MemoriasPostumasCover(),
-      DesignedCover(art: CoverArt.quincasBorba) => const QuincasBorbaCover(),
-      DesignedCover(art: CoverArt.oCortico) => const OCorticoCover(),
-      // Prancha 01: os mesmos desenhos com os títulos de Esaú e Jacó, Memorial de Aires e Casa de Pensão.
-      DesignedCover(art: CoverArt.esauEJaco) =>
-        const MemoriasPostumasCover.esauEJaco(),
+      DesignedCover(art: CoverArt.esauEJaco) => const EsauEJacoCover(),
       DesignedCover(art: CoverArt.memorialDeAires) =>
-        const QuincasBorbaCover.memorialDeAires(),
-      DesignedCover(art: CoverArt.casaDePensao) =>
-        const OCorticoCover.casaDePensao(),
+        const MemorialDeAiresCover(),
+      DesignedCover(art: CoverArt.casaDePensao) => const CasaDePensaoCover(),
       // Livro real (D-79): a foto na moldura do arquivo (116×174).
       final PhotoCover c => PhotoBookCover(
         key: ValueKey('$id.cover'),

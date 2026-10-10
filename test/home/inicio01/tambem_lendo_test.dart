@@ -407,12 +407,12 @@ void main() {
   });
 
   testWidgets(
-    'D-253 com dois e-books (os dados da v1): o desenho da v1 — sem pílula, cartões de 123,6, os dois links',
+    'D-253 com dois e-books (nenhum de papel): o desenho da v1 — sem pílula, cartões de 123,6, os dois links',
     (tester) async {
       await _abrir(
         tester,
         livros: [
-          _item(2, format: BookFormat.epub),
+          _item(0, format: BookFormat.epub),
           _item(1, format: BookFormat.epub),
         ],
       );

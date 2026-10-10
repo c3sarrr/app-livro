@@ -55,12 +55,13 @@ abstract final class TelaInicio01 {
     cover: DesignedCover(CoverArt.pridePrejudice),
   );
 
-  /// O 3º livro em leitura além do herói (o contador diz 3; a grade mostra 2).
+  /// O 3º livro em leitura além do herói (o contador diz 3; a grade mostra 2). A prancha não o desenha: sem arte do
+  /// arquivo, a capa gerada de livro real sem foto (D-79).
   static const Book mrsDalloway = Book(
     id: Slugs.mrsDalloway,
     title: 'Mrs. Dalloway',
     author: 'Virginia Woolf',
-    cover: DesignedCover(CoverArt.mrsDalloway),
+    cover: PhotoCover(),
   );
   static const Book frankenstein = Book(
     id: Slugs.frankenstein,

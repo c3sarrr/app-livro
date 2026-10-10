@@ -34,11 +34,7 @@ void main() {
       ]);
       expect(CoverArt.values.map((e) => e.name), [
         'domCasmurro',
-        'mrsDalloway',
         'pridePrejudice',
-        'memoriasPostumas',
-        'quincasBorba',
-        'oCortico',
         'frankenstein',
         'oAlienista',
         'senhora',
@@ -228,7 +224,8 @@ void main() {
         (
           'Mrs. Dalloway',
           'Virginia Woolf',
-          const DesignedCover(CoverArt.mrsDalloway),
+          // o 3º livro não aparece na grade da 01: sem arte do arquivo, a capa gerada (D-79)
+          const PhotoCover(),
           0.34,
         ),
       );
@@ -370,14 +367,11 @@ void main() {
         ];
         expect(books, hasLength(10));
         expect(books.map((b) => b.id).toSet(), hasLength(10));
-        // as 10 artes da prancha 01 (as 3 do "Para você" da v1 — Memórias Póstumas, Quincas Borba, O Cortiço — são os
-        // desenhos das capas novas, sem livro no mock)
+        // as 9 artes da prancha 01, uma por livro desenhado; o 3º livro do Também lendo (fora da grade) tem a capa
+        // gerada
         expect(books.map((b) => b.cover).toSet(), {
-          for (final a in CoverArt.values)
-            if (a != CoverArt.memoriasPostumas &&
-                a != CoverArt.quincasBorba &&
-                a != CoverArt.oCortico)
-              DesignedCover(a),
+          for (final a in CoverArt.values) DesignedCover(a),
+          const PhotoCover(),
         });
       },
     );

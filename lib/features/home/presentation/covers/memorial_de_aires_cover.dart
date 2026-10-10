@@ -6,26 +6,12 @@ import '../../../../core/design_system/tokens/app_radii.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/design_system/widgets/neo_box.dart';
 
-/// Arte da capa "Quincas Borba" de "Para você" (F08, item 2): 116×174, azul, borda 1,5, raio 4/10/10/4,
-/// `overflow: hidden` (recorte na padding box 113×171), sem sombra e sem rotação. Os filhos são absolutos,
-/// medidos dentro da borda e pintados na ordem do arquivo: lombada, barras e bloco de texto. Na prancha 01 o mesmo
-/// desenho é a capa de "Memorial de Aires".
-class QuincasBorbaCover extends StatelessWidget {
-  const QuincasBorbaCover({
-    super.key,
-    this.title = 'Quincas\nBorba',
-    this.author = 'MACHADO DE ASSIS',
-  });
-
-  /// "Memorial / de Aires" da prancha 01.
-  const QuincasBorbaCover.memorialDeAires({Key? key})
-    : this(key: key, title: 'Memorial\nde Aires');
-
-  /// O texto do título na arte (com os `<br>` do arquivo como "\n").
-  final String title;
-
-  /// O autor em maiúsculas, como no arquivo.
-  final String author;
+/// Arte da capa "Memorial de Aires" do Para você da prancha 01 (L01a6, item 2): 116×174, azul, borda 1,5, raio
+/// 4/10/10/4, `overflow: hidden` (recorte na padding box 113×171), sem sombra e sem rotação. Os filhos são absolutos,
+/// medidos dentro da borda e pintados na ordem do arquivo: lombada, barras e bloco de texto ("Memorial / de Aires" —
+/// o `<br>` da prancha — e "MACHADO DE ASSIS"). O desenho é o da v1 (F08).
+class MemorialDeAiresCover extends StatelessWidget {
+  const MemorialDeAiresCover({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -85,12 +71,12 @@ class QuincasBorbaCover extends StatelessWidget {
               children: [
                 // O `<br>` do arquivo.
                 AppText(
-                  title,
+                  'Memorial\nde Aires',
                   key: const ValueKey('forYou.item2.cover.title'),
                   style: AppTextStyles.coverTitle26,
                 ),
                 AppText(
-                  author,
+                  'MACHADO DE ASSIS',
                   key: const ValueKey('forYou.item2.cover.author'),
                   style: AppTextStyles.coverAuthorSurface,
                 ),

@@ -20,7 +20,6 @@ import '../../application/home_providers.dart';
 import '../../domain/models.dart';
 import '../covers/book_cover.dart';
 import '../covers/bras_cubas_hat_cover.dart';
-import '../covers/mrs_dalloway_cover.dart';
 import '../covers/pride_prejudice_cover.dart';
 
 /// Seção 4 — "Também lendo" (F06; prancha 01, L01a3): coluna com gap 30 (grande porque as capas sobem 22 px para
@@ -42,11 +41,8 @@ class AlsoReadingSection extends ConsumerWidget {
     final items = ref.watch(homeSnapshotProvider.select((s) => s.alsoReading));
     assert(
       items.every((i) => i.book.cover is PhotoCover) ||
-          _arts(items.take(2)) ==
-              (CoverArt.mrsDalloway, CoverArt.pridePrejudice) ||
           _arts(items.take(2)) == (CoverArt.brasCubas, CoverArt.pridePrejudice),
-      'As artes de capa do arquivo nesta seção: Mrs. Dalloway (v1) ou Brás Cubas (01) no card 1 e Orgulho e '
-      'Preconceito no card 2.',
+      'As artes de capa do arquivo nesta seção (prancha 01): Brás Cubas no card 1 e Orgulho e Preconceito no card 2.',
     );
     final onBookTap = this.onBookTap;
     final onStartReadingTap = this.onStartReadingTap;
@@ -297,10 +293,6 @@ class _CoverSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (cover, degrees) = switch (book.cover) {
-      DesignedCover(art: CoverArt.mrsDalloway) => (
-        const MrsDallowayCover(),
-        -4.0,
-      ),
       DesignedCover(art: CoverArt.brasCubas) => (
         const BrasCubasHatCover(),
         -4.0,

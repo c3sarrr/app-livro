@@ -12,9 +12,9 @@ import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/core/design_system/widgets/pill.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
-import 'package:app_leitura/features/home/presentation/covers/memorias_postumas_cover.dart';
-import 'package:app_leitura/features/home/presentation/covers/o_cortico_cover.dart';
-import 'package:app_leitura/features/home/presentation/covers/quincas_borba_cover.dart';
+import 'package:app_leitura/features/home/presentation/covers/casa_de_pensao_cover.dart';
+import 'package:app_leitura/features/home/presentation/covers/esau_e_jaco_cover.dart';
+import 'package:app_leitura/features/home/presentation/covers/memorial_de_aires_cover.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -106,9 +106,9 @@ void main() {
     'textos da 01 — "Esaú / e Jacó" Instrument Serif 22 lh 0,95 tinta, os outros 26 creme',
     (tester) async {
       await _abrir(tester);
-      expect(find.byType(MemoriasPostumasCover), findsOneWidget);
-      expect(find.byType(QuincasBorbaCover), findsOneWidget);
-      expect(find.byType(OCorticoCover), findsOneWidget);
+      expect(find.byType(EsauEJacoCover), findsOneWidget);
+      expect(find.byType(MemorialDeAiresCover), findsOneWidget);
+      expect(find.byType(CasaDePensaoCover), findsOneWidget);
       for (final (i, cor) in [
         (1, AppColors.flame),
         (2, AppColors.azure),
@@ -238,29 +238,9 @@ void main() {
         isA<AssertionError>().having(
           (e) => '${e.message}',
           'mensagem',
-          contains('os mesmos três desenhos'),
+          contains('Esaú e Jacó, Memorial de Aires e Casa de Pensão'),
         ),
       );
-    },
-  );
-
-  testWidgets(
-    'a capa com os padrões é a da v1 (os textos e a serifada 19 de Memórias Póstumas)',
-    (tester) async {
-      const m = MemoriasPostumasCover();
-      expect(
-        (m.title, m.largeTitle),
-        ('Memórias Póstumas de Brás Cubas', false),
-      );
-      const e = MemoriasPostumasCover.esauEJaco();
-      expect((e.title, e.largeTitle), ('Esaú\ne Jacó', true));
-      expect(const QuincasBorbaCover().title, 'Quincas\nBorba');
-      expect(
-        const QuincasBorbaCover.memorialDeAires().author,
-        'MACHADO DE ASSIS',
-      );
-      expect(const OCorticoCover().title, 'O Cortiço');
-      expect(const OCorticoCover.casaDePensao().author, 'ALUÍSIO AZEVEDO');
     },
   );
 

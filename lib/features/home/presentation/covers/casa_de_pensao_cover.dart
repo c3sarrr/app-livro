@@ -6,26 +6,13 @@ import '../../../../core/design_system/tokens/app_radii.dart';
 import '../../../../core/design_system/tokens/app_typography.dart';
 import '../../../../core/design_system/widgets/neo_box.dart';
 
-/// Arte da capa "O Cortiço" de "Para você" (F08, item 3): 116×174, verde, borda 1,5, raio 4/10/10/4,
-/// `overflow: hidden` (recorte na padding box 113×171), sem sombra e sem rotação. Os filhos são absolutos,
-/// medidos dentro da borda e pintados na ordem do arquivo: lombada, arco externo, arco interno (a "porta",
-/// na cor do fundo) e bloco de texto.
-class OCorticoCover extends StatelessWidget {
-  const OCorticoCover({
-    super.key,
-    this.title = 'O Cortiço',
-    this.author = 'ALUÍSIO AZEVEDO',
-  });
-
-  /// "Casa de / Pensão" da prancha 01 (o mesmo desenho e o mesmo autor).
-  const OCorticoCover.casaDePensao({Key? key})
-    : this(key: key, title: 'Casa de\nPensão');
-
-  /// O texto do título na arte (com os `<br>` do arquivo como "\n").
-  final String title;
-
-  /// O autor em maiúsculas, como no arquivo.
-  final String author;
+/// Arte da capa "Casa de Pensão" do Para você da prancha 01 (L01a6, item 3): 116×174, verde, borda 1,5, raio
+/// 4/10/10/4, `overflow: hidden` (recorte na padding box 113×171), sem sombra e sem rotação. Os filhos são absolutos,
+/// medidos dentro da borda e pintados na ordem do arquivo: lombada, arco externo, arco interno (a "porta", na cor do
+/// fundo) e bloco de texto ("Casa de / Pensão" — o `<br>` da prancha — e "ALUÍSIO AZEVEDO"). O desenho é o da v1
+/// (F08, "O Cortiço").
+class CasaDePensaoCover extends StatelessWidget {
+  const CasaDePensaoCover({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -95,12 +82,12 @@ class OCorticoCover extends StatelessWidget {
               spacing: 6,
               children: [
                 AppText(
-                  title,
+                  'Casa de\nPensão',
                   key: const ValueKey('forYou.item3.cover.title'),
                   style: AppTextStyles.coverTitle26,
                 ),
                 AppText(
-                  author,
+                  'ALUÍSIO AZEVEDO',
                   key: const ValueKey('forYou.item3.cover.author'),
                   style: AppTextStyles.coverAuthorSurface,
                 ),
