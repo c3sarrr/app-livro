@@ -51,6 +51,10 @@ class HomeScreen extends ConsumerWidget {
   /// o toque não faz nada (`docs/design/estados_sem_design.md`).
   static void onReadNow() {}
 
+  /// "Revisar" do cartão "Seus grifos de hoje" (`review.cta`, prancha 01): a revisão é da T05 — D-243 b: o elemento
+  /// fica idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
+  static void onReview() {}
+
   /// "Mais opções para …" (`recent.rowN.more`): o arquivo não define o menu, então o toque não abre nada.
   /// TODO(produto): definir o menu do livro (compartilhar, remover da lista…) antes de implementar.
   static void onMoreOptions(Book book) {}

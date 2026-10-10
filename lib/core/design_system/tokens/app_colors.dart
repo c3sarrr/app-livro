@@ -150,6 +150,9 @@ abstract final class AppColors {
   static const Color tagReadBg = Color(0xFFE1EDD0);
   static const Color tagReadFg = Color(0xFF2E5314);
 
+  /// Os traços neutros dos cartõezinhos de grifo da revisão (prancha 01 e 60–62; T02: `reviewLineNeutral`).
+  static const Color reviewLineNeutral = Color(0xFFE4DACA);
+
   // Translúcidas
 
   /// rgba(0,0,0,.22) lombada Dom Casmurro.

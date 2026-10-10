@@ -1174,6 +1174,37 @@ abstract final class AppTextStyles {
     color: AppColors.sun,
   );
 
+  /// i01.review.kicker ("REVISÃO · 5 GRIFOS · 2 MIN"): Figtree 11/800 → 700, ls 1, `#6F665B`.
+  static final TextStyle reviewKicker = AppFonts.figtree(
+    11,
+    FontWeight.w700,
+    letterSpacing: 1,
+    color: AppColors.labelReader,
+  );
+
+  /// i01.review.title ("Seus grifos "): Bricolage 20/800, `lh 1,05`, ls −0,5.
+  static final TextStyle reviewTitle = AppFonts.bricolage(
+    20,
+    height: 1.05,
+    letterSpacing: -0.5,
+  );
+
+  /// i01.review.title.serif ("de hoje"): Instrument Serif itálico 24, herda `lh 1,05` e ls −0,5.
+  static final TextStyle reviewTitleSerif = AppFonts.serif(
+    24,
+    height: 1.05,
+    italic: true,
+    letterSpacing: -0.5,
+  );
+
+  /// i01.review.subtitle ("De Dom Casmurro, …"): Figtree 12,5/600, `lh 1,35`, `#5B544B`.
+  static final TextStyle reviewSubtitle = AppFonts.figtree(
+    12.5,
+    FontWeight.w600,
+    height: 1.35,
+    color: AppColors.inkMuted,
+  );
+
   /// max(101 ÷ 96, 153 ÷ 144): o `slice` da capa do herói.
   static const double _coverEyeScale = 153 / 144;
 }
