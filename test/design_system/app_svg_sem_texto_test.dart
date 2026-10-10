@@ -63,6 +63,20 @@ Future<int> _foraDoVioleta(WidgetTester tester, ui.Image img) async {
 }
 
 void main() {
+  test('o cache do flutter_svg cabe todos os SVGs do pacote com folga (o pré-carregamento não se descarta)', () async {
+    final n = Directory('assets')
+        .listSync(recursive: true)
+        .where((f) => f.path.endsWith('.svg'))
+        .length;
+    expect(n, 109);
+    expect(kSvgCacheSize, greaterThanOrEqualTo(2 * n));
+    svg.cache.maximumSize = 100; // o padrão do flutter_svg
+    addTearDown(() => svg.cache.maximumSize = kSvgCacheSize);
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await preloadAppSvg(AppIcons.bell);
+    expect(svg.cache.maximumSize, kSvgCacheSize);
+  });
+
   test('svgWithoutText tira os três <text> do arquivo e mais nada', () {
     final xml = File(_capa).readAsStringSync();
     expect(RegExp('<text').allMatches(xml), hasLength(3));

@@ -19,9 +19,17 @@ Future<void> preloadAppIcons([Iterable<String> assets = AppIcons.all]) =>
 
 Future<Object?> _precache(String asset) => preloadAppSvg(asset);
 
+/// Entradas do cache do flutter_svg: os 109 SVGs do pacote com folga para as variantes de cor (G16, D-190, T01). O
+/// padrão do flutter_svg é 100, menos do que o `main()` pré-carrega desde a T03 (102 com o Laço do Noite): o LRU
+/// descartava os primeiros (os ícones da Início) e eles voltavam a "piscar" na primeira abertura.
+const int kSvgCacheSize = 256;
+
 /// Pré-carrega [asset] com a troca [colors] (a chave de cache do [AppSvg] com essas cores): as variantes de cores
-/// fixas, como o Laço do Noite (D-190).
+/// fixas, como o Laço do Noite (D-190). Garante antes o tamanho do cache ([kSvgCacheSize]).
 Future<Object?> preloadAppSvg(String asset, {Map<Color, Color>? colors}) {
+  if (svg.cache.maximumSize < kSvgCacheSize) {
+    svg.cache.maximumSize = kSvgCacheSize;
+  }
   final loader = appSvgLoader(asset, colors: colors);
   return svg.cache.putIfAbsent(
     loader.cacheKey(null),
