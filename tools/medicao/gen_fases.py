@@ -5,29 +5,36 @@ linhas de texto com baseline, leitura de designer, semântica, widgets sugeridos
 relação à prancha base (23/23b/24/24b × 22; 26b × 20), subfases, testes e checklist.
 Parte medida: layout/*.json, text_dependency/knife_edges, png/redline/legenda.json, mapa_widgets.json,
 svg_catalogo.json. Parte escrita à mão: tools/medicao/fases_notas.py.
-Uso: python3 tools/medicao/gen_fases.py
+Uso: [CONJUNTO=inicio2] python3 tools/medicao/gen_fases.py
+T02: as pastas, as notas (fasesNotas), a trilha e o índice vêm do conjunto (conjuntos.json).
 """
+import importlib
 import json
 import os
 import re
 import sys
 import textwrap
 
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from conjunto import C, caminho, indice  # noqa: E402
 from esboco import esboco  # noqa: E402
-from fases_notas import NOTAS  # noqa: E402
 
+NOTAS = importlib.import_module(C['fasesNotas']).NOTAS
 AQUI = os.path.dirname(__file__)
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
-REF = os.path.join(RAIZ, 'handoff_v2', 'referencia')
-OUT = os.path.join(RAIZ, 'handoff_v2', 'fases')
-PR = {p['slug']: p for p in json.load(open(os.path.join(AQUI, 'pranchas.json'), encoding='utf-8'))['pranchas']}
-FASES = json.load(open(os.path.join(AQUI, 'fases.json'), encoding='utf-8'))['fases']
-LEG = json.load(open(os.path.join(REF, 'png', 'redline', 'legenda.json'), encoding='utf-8'))
-DEP = json.load(open(os.path.join(REF, 'layout', 'text_dependency.json'), encoding='utf-8'))
-KNI = json.load(open(os.path.join(REF, 'layout', 'knife_edges.json'), encoding='utf-8'))
-MAPA = json.load(open(os.path.join(REF, 'mapa_widgets.json'), encoding='utf-8'))
-PROPS_PADRAO = {'paper': '#F8F1E4', 'brand': '#B6ACE4', 'ink': '#FF552E'}
+LAYOUT, PNG = caminho('layout'), caminho('png')
+OUT = caminho('fases')
+PR = {p['slug']: p for p in indice()['pranchas']}
+FASES = json.load(open(caminho('fasesIndice'), encoding='utf-8'))['fases']
+LEG = json.load(open(os.path.join(PNG, 'redline', 'legenda.json'), encoding='utf-8'))
+DEP = json.load(open(os.path.join(LAYOUT, 'text_dependency.json'), encoding='utf-8'))
+KNI = json.load(open(os.path.join(LAYOUT, 'knife_edges.json'), encoding='utf-8'))
+MAPA = json.load(open(caminho('mapa'), encoding='utf-8'))
+PROPS_PADRAO = {'paper': '#F8F1E4', 'brand': '#B6ACE4', 'ink': '#FF552E', 'weekColor': '#B6ACE4'}
+# como as fases citam as referências: no leitor, relativo a handoff_v2/ (como na G01); nos outros, a partir da raiz
+REF_PNG = 'referencia/png' if not C['png'].startswith('docs/') else C['png']
+REF_LAYOUT = 'referencia/layout' if not C['layout'].startswith('docs/') else C['layout']
+REF_DART = 'test/reference/leitor' if C['dart'].startswith('tools/') else C['dart']
 
 
 def fmt(v):
@@ -59,7 +66,7 @@ def css_lit(css):
 def html_literal(slug, ids_secoes, im):
     nodes = {n['tpl']: n for n in esboco(slug)}
     tpl_of = {v: int(k) for k, v in im['ids'].items()}
-    texto = open(os.path.join(AQUI, 'pranchas', slug, 'template.html'), encoding='utf-8').read()
+    texto = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
     partes, vistos = [], []
     for sid in ids_secoes:
         t = tpl_of[sid]
@@ -111,16 +118,24 @@ def tabela_secao(L, sec, leg_idx, ids_com_widget):
     return '\n'.join(linhas)
 
 
-def diferencas(base_slug, slug, secoes):
-    """Ids de mesmo nome (sem o prefixo) entre a prancha e a base cuja geometria/estilo/texto mudam."""
-    A = json.load(open(os.path.join(REF, 'layout', f'layout_{base_slug}.json'), encoding='utf-8'))
-    B = json.load(open(os.path.join(REF, 'layout', f'layout_{slug}.json'), encoding='utf-8'))
+def diferencas(base_slug, slug, secoes, relativo=False):
+    """Ids de mesmo nome (sem o prefixo) entre a prancha e a base cuja geometria/estilo/texto mudam.
+    relativo (T02, reusa.relativoASecao): a seção que só muda de lugar (ex.: na 01b tudo abaixo do cartão da revisão
+    sobe 205,15) vira uma linha só; os ids dela são comparados já descontado esse deslocamento."""
+    A = json.load(open(os.path.join(LAYOUT, f'layout_{base_slug}.json'), encoding='utf-8'))
+    B = json.load(open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8'))
     pa, pb = PR[base_slug]['prefixo'], PR[slug]['prefixo']
     ea = {k[len(pa) + 1:]: v for k, v in A['elements'].items() if 'section' in v}
     eb = {k[len(pb) + 1:]: v for k, v in B['elements'].items() if 'section' in v}
     rows, so_a, so_b = [], [], []
     for s in secoes:
         ks = sorted(set(k for k in list(ea) + list(eb) if k == s or k.startswith(s + '.')), key=lambda k: (eb.get(k) or ea.get(k))['tpl'])
+        dx = dy = 0.0
+        if relativo and f'{pa}.{s}' in A['sections'] and f'{pb}.{s}' in B['sections']:
+            sa_, sb_ = A['sections'][f'{pa}.{s}'], B['sections'][f'{pb}.{s}']
+            dx, dy = sb_[0] - sa_[0], sb_[1] - sa_[1]
+            if abs(dx) > 0.005 or abs(dy) > 0.005:
+                rows.append(f"| `{pb}.{s}` (seção inteira) | {esc(f'muda de lugar: x {fmt(dx)}, y {fmt(dy)} (abaixo, os ids dela já descontado esse deslocamento)')} |")
         for k in ks:
             a, b = ea.get(k), eb.get(k)
             if a and not b:
@@ -130,7 +145,7 @@ def diferencas(base_slug, slug, secoes):
                 so_b.append(k)
                 continue
             mud = []
-            if any(abs(x - y) > 0.005 for x, y in zip(a['abs'], b['abs'])):
+            if any(abs(x + d - y) > 0.005 for x, y, d in zip(a['abs'], b['abs'], (dx, dy, 0, 0))):
                 mud.append(f"retângulo {[fmt(x) for x in a['abs']]} → {[fmt(x) for x in b['abs']]}")
             sa, sb = dict(a.get('style', {})), dict(b.get('style', {}))
             for key in sorted(set(sa) | set(sb)):
@@ -157,8 +172,8 @@ def main():
         f, slug = fase['fase'], fase['prancha']
         p = PR[slug]
         n = NOTAS[f]
-        L = json.load(open(os.path.join(REF, 'layout', f'layout_{slug}.json'), encoding='utf-8'))
-        im = json.load(open(os.path.join(AQUI, 'idmaps', f'{slug}.json'), encoding='utf-8'))
+        L = json.load(open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8'))
+        im = json.load(open(caminho('idmaps', f'{slug}.json'), encoding='utf-8'))
         secoes = [f"{p['prefixo']}.{s}" for s in fase['secoes']]
         leg_idx = {k: i for i, k, _ in LEG[f]['itens']}
         dep = DEP[slug]
@@ -167,9 +182,9 @@ def main():
         y0, y1 = LEG[f]['recorte_y']
         ids_fase = [k for k, e in L['elements'].items() if e.get('section') in secoes]
         out = [f"# FASE {f.split('_')[0]} — {fase['titulo']}", '',
-               f"> Tela {p['tela']} · prancha `{slug}` ({p['titulo']}, canvas {W}×{H}) · executada na **{n['g']}** (trilha B do prompt v2).",
-               f"> Referências: `referencia/png/secoes/{f}@3x.png` · `referencia/png/redline/{f}_redline@3x.png` (Nº = tabelas abaixo) · "
-               f"`referencia/png/{slug}_{W}x{H}@{{1,2,3}}x.png` · `referencia/layout/layout_{slug}.json` · `test/reference/leitor/reference_layout_{slug}.dart` (`kRef{p['tela']}`).",
+               f"> Tela {p['tela']} · prancha `{slug}` ({p['titulo']}, canvas {W}×{H}) · executada na **{n['g']}** ({C['fasesTrilha']}).",
+               f"> Referências: `{REF_PNG}/secoes/{f}@3x.png` · `{REF_PNG}/redline/{f}_redline@3x.png` (Nº = tabelas abaixo) · "
+               f"`{REF_PNG}/{slug}_{W}x{H}@{{1,2,3}}x.png` · `{REF_LAYOUT}/layout_{slug}.json` · `{REF_DART}/reference_layout_{slug}.dart` (`kRef{p['tela']}`).",
                f"> Arquivos sugeridos: " + ', '.join(f'`lib/{a}`' for a in n['arquivos']) + '.',
                f"> Gerado por `tools/medicao/gen_fases.py` (G01.9). Medidas = Chromium 141, zoom 100. Não edite as tabelas à mão: regenere.", '',
                n['contexto'], '', '---', '',
@@ -202,7 +217,7 @@ def main():
         # diferenças em relação à base
         if fase.get('reusa'):
             base = fase['reusa']['base']
-            rows, so_a, so_b = diferencas(base, slug, fase['reusa']['secoes'])
+            rows, so_a, so_b = diferencas(base, slug, fase['reusa']['secoes'], fase['reusa'].get('relativoASecao', False))
             out += [f"## Diferenças em relação à prancha {PR[base]['tela']} (seções reutilizadas: {', '.join(fase['reusa']['secoes'])})", '',
                     f"Estas seções são as mesmas widgets da {PR[base]['tela']} (fases {', '.join(sorted({x['fase'] for x in FASES if x['prancha'] == base}))}); "
                     'abaixo, só o que muda nesta prancha. Ids sem linha aqui = idênticos (geometria, estilo e texto).', '']
@@ -234,7 +249,7 @@ def main():
                 f"- Geometria: para cada seção ({secs_txt}), todos os ids de `kRef{p['tela']}.idsOfSection(seção)` (sem inline) com as tolerâncias da v1 (±0,5; ±1,0 em x/w para `textDependentX`).",
                 '- Texto: quebras e baselines de cada linha (`lines`; `linesAll` para texto composto) idênticas; linhas `hidden` não aparecem.',
                 '- Estilo: cores, bordas (1,5/1,3/1,2 exatas), raios, sombras duras (blur 0), fontes (família por tamanho, peso real), recursos (tnum).',
-                f"- Visual: golden da prancha contra `referencia/png/{slug}_{W}x{H}@3x.png` no recorte da fase (y {fmt(y0)}–{fmt(y1)}) → `blur_mismatch_% ≤ 0,5` (`tools/compare_images.py`).",
+                f"- Visual: golden da prancha contra `{REF_PNG}/{slug}_{W}x{H}@3x.png` no recorte da fase (y {fmt(y0)}–{fmt(y1)}) → `blur_mismatch_% ≤ 0,5` (`tools/compare_images.py`).",
                 '- Semântica: rótulos/roles da tabela acima (exceções da D-51).',
                 '- Dados: o texto exibido sai da fixture da tela (D-34) e dos cálculos (nunca escrito no widget).', '',
                 '## Checklist de aceite', ''] + [f"- [ ] {f.split('_')[0]}.{i + 1} {t}" for i, t in enumerate(n['subfases'])] + [
@@ -247,13 +262,12 @@ def main():
         indice.append((f, fase['titulo'], n['g'], p['tela'], len(ids_fase), len(texto)))
         print(f'{f:30s} {len(ids_fase):>4d} ids  {len(texto) // 1024:>4d} KB')
     # índice
-    idx = ['# Fases de tela L — leitor (telas 19–27b)', '',
-           'Geradas na G01 (`tools/medicao/gen_fases.py`) a partir das medições do arquivo novo. Cada fase L é executada dentro da fase G indicada '
-           '(trilha B do `00_PROMPT_MESTRE_V2.md`) e segue o formato da v1 (`design_handoff/fases/F05_hero_continuar_lendo.md`).', '',
-           'Tokens novos e mapa id → widget (insumo da G11): `L00_tokens_e_widgets.md`.', '',
-           '| Fase | O que é | Fase G | Tela | ids |', '|---|---|---|---|---|']
+    arq, titulo, intro, tokens_md = C['fasesLeiaMe']
+    idx = [f'# {titulo}', '', intro, '',
+           f'Tokens novos e mapa id → widget{" (insumo da G11)" if arq == "LEIA-ME.md" else ""}: `{tokens_md}`.', '',
+           f'| Fase | O que é | Fase {"G" if arq == "LEIA-ME.md" else "T"} | Tela | ids |', '|---|---|---|---|---|']
     idx += [f'| [{f}]({f}.md) | {t} | {g} | {tela} | {n} |' for f, t, g, tela, n, _ in indice]
-    with open(os.path.join(OUT, 'LEIA-ME.md'), 'w', encoding='utf-8', newline='\n') as fh:
+    with open(os.path.join(OUT, arq), 'w', encoding='utf-8', newline='\n') as fh:
         fh.write('\n'.join(idx) + '\n')
 
 
