@@ -469,13 +469,22 @@ class PenPanel extends StatelessWidget {
                         child: Stack(
                           clipBehavior: Clip.none,
                           children: [
+                            // T01: a borda por cima (como no CSS); a hachura e o preenchimento por dentro dela, no
+                            // recorte da pílula de fora — nas pontas, os cantos do retângulo de dentro ficam sob a
+                            // borda ou fora do recorte
                             Positioned.fill(
                               child: Container(
                                 clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(999),
+                                  ),
+                                ),
+                                foregroundDecoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(999),
                                   border: Border.fromBorderSide(line),
                                 ),
+                                padding: EdgeInsets.all(line.width),
                                 child: CustomPaint(
                                   painter: HatchPainter(
                                     stripe: p.hatch,

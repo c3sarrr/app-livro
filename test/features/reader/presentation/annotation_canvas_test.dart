@@ -5,6 +5,7 @@
 // sem receber toque; o rótulo da página para o leitor de tela. G17 (R26): no Noite, o marca-texto ao vivo vai na
 // folha, por trás e por cima do texto (D-133), e a caneta ao vivo pela D-174.
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:app_leitura/core/design_system/painters/svg_dash_painter.dart'
@@ -22,6 +23,7 @@ import 'package:flutter/gestures.dart' show PointerDeviceKind;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../support/capture.dart';
 import '../../../support/fake_ink_repository.dart';
 import '../../../support/personal_builders.dart';
 
@@ -719,4 +721,48 @@ void main() {
     );
     expect(inkPressure(const PointerDownEvent(pressure: 0.7)), 0.7);
   });
+
+  testWidgets(
+    'T01 — o anel do toque: o tracejado em tinta por cima do miolo lavanda a 42 % (no CSS a borda fica sobre o fundo)',
+    (tester) async {
+      tester.view.devicePixelRatio = 3;
+      addTearDown(tester.view.reset);
+      const chaveDaArte = ValueKey('arte');
+      await tester.pumpWidget(
+        const Directionality(
+          textDirection: TextDirection.ltr,
+          child: Center(
+            child: RepaintBoundary(
+              key: chaveDaArte,
+              child: ColoredBox(
+                color: _papel,
+                child: SizedBox.square(
+                  dimension: 60,
+                  child: TouchIndicator(
+                    at: Offset(30, 30),
+                    ink: AppColors.flame,
+                    dot: false,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      final imagem = await captureAt(tester, find.byKey(chaveDaArte));
+      final px = await rgbaOf(tester, imagem);
+      // o meio do traço (raio 19 − 0,75), volta inteira: o pixel mais escuro é a tinta, não a tinta sob a lavanda
+      var escuro = 255 * 3;
+      for (var a = 0; a < 360; a++) {
+        final p =
+            const Offset(30, 30) +
+            Offset.fromDirection(a * math.pi / 180, 19 - 0.75);
+        final i = ((p.dy * 3).floor() * imagem.width + (p.dx * 3).floor()) * 4;
+        final soma = px[i] + px[i + 1] + px[i + 2];
+        if (soma < escuro) escuro = soma;
+      }
+      final tinta = (AppColors.ink.r + AppColors.ink.g + AppColors.ink.b) * 255;
+      expect(escuro, lessThanOrEqualTo(tinta + 12));
+    },
+  );
 }

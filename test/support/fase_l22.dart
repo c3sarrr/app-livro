@@ -467,7 +467,12 @@ void faseL22a() => _comOLivro((livro) {
       final anel = tester.widget<CustomPaint>(
         chaveL22('ann.page.text.wavy.touchRing'),
       );
-      expect((anel.painter! as DashedStadiumPainter).color, AppColors.ink);
+      // a borda por cima do miolo, como no CSS (T01, R7)
+      expect(anel.painter, isNull);
+      expect(
+        (anel.foregroundPainter! as DashedStadiumPainter).color,
+        AppColors.ink,
+      );
       expect(
         tester
             .widget<DecoratedBox>(

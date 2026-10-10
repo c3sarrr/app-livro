@@ -604,7 +604,8 @@ class TouchIndicator extends StatelessWidget {
         child: const IgnorePointer(
           child: CustomPaint(
             key: ValueKey('ann.page.text.wavy.touchRing'),
-            painter: DashedStadiumPainter(color: AppColors.ink),
+            // a borda por cima do miolo, como no CSS (T01)
+            foregroundPainter: DashedStadiumPainter(color: AppColors.ink),
             child: DecoratedBox(
               decoration: BoxDecoration(
                 color: touchRingFill,

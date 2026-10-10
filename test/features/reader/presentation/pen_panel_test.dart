@@ -2,6 +2,8 @@
 // da prancha, com os textos; o subtítulo derivado (R8); a prévia pelo motor da tinta na ponta, na cor e na espessura
 // do painel, ampliada 17/11 (R9, D-159); as pontas (R10); a espessura na escala da D-50 (R11); as favoritas com o
 // "+", tirar e Desfazer (R12, D-175); o seletor (R13, R14); o leitor de tela.
+import 'dart:math' as math;
+
 import 'package:app_leitura/core/design_system/painters/dashed_stadium_painter.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
@@ -253,6 +255,38 @@ void main() {
           tester.getRect(_k('ann.penPanel.size.slider.fill')).right,
           closeTo(331, 0.5),
         );
+      },
+    );
+
+    testWidgets(
+      'T01 — as pontas do trilho: a borda de tinta acompanha a curva (a hachura e o preenchimento ficam por dentro dela)',
+      (tester) async {
+        await _montar(tester);
+        final trilho = tester.getRect(_k('ann.penPanel.size.slider'));
+        final px = await _pixelsNaTela(tester, _k('ann.penPanel.size.slider'));
+        // o meio da borda de 1,5 (raio 8 − 0,75) nas curvas das duas pontas, longe do topo e do pé retos
+        final r = trilho.height / 2;
+        for (final (centro, graus) in [
+          (
+            Offset(trilho.left + r, trilho.center.dy),
+            [120, 135, 150, 210, 225, 240],
+          ),
+          (
+            Offset(trilho.right - r, trilho.center.dy),
+            [30, 45, 60, 300, 315, 330],
+          ),
+        ]) {
+          for (final g in graus) {
+            final p =
+                centro + Offset.fromDirection(g * math.pi / 180, r - 0.75);
+            final c = px(p.dx, p.dy);
+            final distancia =
+                (c.r - AppColors.ink.r).abs() +
+                (c.g - AppColors.ink.g).abs() +
+                (c.b - AppColors.ink.b).abs();
+            expect(distancia, lessThan(0.15), reason: '$g° em $p: $c');
+          }
+        }
       },
     );
 
@@ -529,6 +563,20 @@ Future<Color Function(double, double)> _pixels(
     final i = ((y * 3).floor() * w + (x * 3).floor()) * 4;
     return Color.fromARGB(rgba[i + 3], rgba[i], rgba[i + 1], rgba[i + 2]);
   };
+}
+
+/// Os pixels (3×) da `RepaintBoundary` acima de [f]; [px] lê o ponto em dp da tela.
+Future<Color Function(double, double)> _pixelsNaTela(
+  WidgetTester tester,
+  Finder f,
+) async {
+  RenderObject node = tester.renderObject(f);
+  while (node is! RenderRepaintBoundary) {
+    node = node.parent!;
+  }
+  final origem = node.localToGlobal(Offset.zero);
+  final px = await _pixels(tester, f);
+  return (x, y) => px(x - origem.dx, y - origem.dy);
 }
 
 /// O alfa do tracejado do "+" (apagado = 0,38).
