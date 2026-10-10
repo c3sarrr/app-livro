@@ -1,7 +1,9 @@
 # Plano — todas as telas com prancha idênticas ao HTML (Trilha T)
 
 > 10/10/2026 · **aprovado em 10/10/2026** ("ok, execute o plano"): as decisões D-239…D-248 valem como estão na
-> coluna "Proposta" da §3. Base: `docs/design/auditoria_telas.md` (mesma data).
+> coluna "Proposta" da §3. Base: `docs/design/auditoria_telas.md` (mesma data). As D-249…D-251 nasceram das 3 perguntas
+> do relatório T02 e foram tomadas por delegação (10/10/2026: "nas decisões escolha o que você achar melhor, pois quero
+> tudo na maior qualidade e nada simplificado"); o porquê de cada uma está em `docs/progresso/T02.md`.
 > Formato do roteiro: `handoff_v2/00_PROMPT_MESTRE_V2.md` §6 (trilha T: G01-bis → uma fase por tela → integração),
 > §7 (verificação), §8 (roteiro de cada fase), §9 (relatório). O prompt mestre e o mapa (§11) **não foram editados**:
 > a inserção é a decisão D-239, para você aprovar.
@@ -51,6 +53,9 @@ A última decisão usada é a D-238 (G22).
 | **D-246** | **Fontes:** Figtree 800 **real** nas pranchas 61–63 e nas 16 do clube (os arquivos declaram 800 — como a D-16); 800 → 700 nas 01, 01b e 60 (o arquivo só declara até 700 — a D-14 continua). A Instrument Serif itálica em 600 e 800 das 04, 102 e 104 é **negrito sintético do Chromium** (o arquivo só tem 400): a T06 mede e, se o Flutter não reproduzir dentro do gate, para e pergunta. | — |
 | **D-247** | **Seção cujo dado ainda não existe:** aparece com a fixture (os testes de fidelidade) e **some com dados reais até a fase dela**, como a D-80 fez com o ticket do clube: o cartão "Seus grifos de hoje" até a T05; o cartão "Próximo livro" da 04 até a T11. O "play" do livro de papel e o "Ler agora" aparecem na T03 sem ação (D-243 b) e ganham ação na T04. | Esconder também nos testes de fidelidade (perde a prova da seção) |
 | **D-248** | **O "+" das favoritas na 23:** a prancha mostra o "+" aceso com o coral já favorito; a D-175 apaga. Proposta: o "+" fica aceso como na prancha e o toque com a cor já favorita mostra a pílula "Essa cor já está nas favoritas." | Manter a D-175 e aceitar a diferença como exceção (como a D-59) |
+| **D-249** | **As estáticas da Início v1 refeitas com os avanços do HVAR** (Figtree 400–700 e Bricolage 12…42, os mesmos 32 arquivos e famílias), do mesmo binário do arquivo, como a G01 fez com as novas (`tools/fonts/build_fonts.py v1`). A v1 instanciou sem isso e a `Figtree-Bold.ttf` saía até 0,0528 px por linha mais larga que o Chromium (limite 0,05); refeitas, as 866 linhas medidas (leitor + Início) ficam ≤ 0,01 px, com contornos e kerning idênticos e os acentos mais perto da variável. Exceção explícita à regra da v1 de usar "exatamente `design_handoff/assets/fonts`" (que continua intocado como o pacote original); os 30 goldens com texto foram refeitos (só pixels de texto mudam; contra as pranchas, 9 melhores e 8 iguais). | Limite próprio de 0,055 px só para a `Figtree-Bold.ttf` da v1 |
+| **D-250** | **O progresso da revisão diz o que o texto mostra:** a 62 declara `aria-valuenow="6"` com máximo 5, mas o texto é "5 de 5" e os 5 segmentos estão completos (a contagem do protótipo passa do fim). No app o valor semântico é o do texto — "5 de 5" na 62, "2 de 5" na 61 — e nunca passa do máximo (teste de semântica na T05). | Copiar o 6 literal |
+| **D-251** | **"Mais vezes" (61) é a ação sugerida, não um estado:** destacado em `{{brand}}` com sombra, sem `aria-pressed`; o próprio arquivo marca seleção com `aria-checked` (na 63) e aqui não marca nada. No app: botão comum, sem `selected`/`toggled` na semântica, destaque só visual e fixo; "Menos vezes" e "Mais vezes" registram a escolha (a regra de agendamento é do plano da T05, D-244). | Tratar como alternância com estado |
 
 ## 4. As fases
 
