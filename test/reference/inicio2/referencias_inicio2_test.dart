@@ -130,6 +130,73 @@ void main() {
     }
   });
 
+  // A 01b é a mesma página cortada em 844 (o PNG mostra só a tela). O que passa de 844 tem como referência visual o PNG
+  // da 01: os elementos são os mesmos — mesma caixa e mesmo texto —, no mesmo lugar (o "Seu dia", acima do cartão da
+  // revisão que a 01b não tem) ou 205,15 acima (tudo depois dele). As exceções são os dois livros que a 01b troca no
+  // "Para você" (D-241: a divergência fica listada, uma a uma): Quincas Borba e O Cortiço no lugar de Memorial de Aires
+  // e Casa de Pensão — o título de uma linha da capa do O Cortiço recentraliza o bloco (−181,75).
+  test('a 01b abaixo de 844 é a 01 sem o cartão da revisão, salvo os dois livros trocados', () {
+    const trocados = {
+      'i01b.forYou.item2.cover.title': ['Quincas', 'Borba'],
+      'i01b.forYou.item2.title': ['Quincas Borba'],
+      'i01b.forYou.item3.cover.textBlock': <String>[],
+      'i01b.forYou.item3.cover.title': ['O Cortiço'],
+      'i01b.forYou.item3.title': ['O Cortiço'],
+    };
+    final abaixo = kRef01b.elements.entries.where(
+      (e) => (e.value.visual ?? e.value.rect).bottom > 844,
+    );
+    expect(abaixo.length, 168);
+    var iguais = 0;
+    for (final e in abaixo) {
+      final r01 = kRef01.elements['i01${e.key.substring('i01b'.length)}'];
+      expect(r01, isNotNull, reason: e.key);
+      final dy = e.value.rect.top - r01!.rect.top;
+      if (trocados.containsKey(e.key)) {
+        expect(_texts(e.value.lines), trocados[e.key], reason: e.key);
+        if (e.value.lines.isEmpty) {
+          // o bloco do título da capa: uma linha em vez de duas (37,21 × 60,61)
+          expect(
+            e.value.rect.height,
+            isNot(closeTo(r01.rect.height, 1)),
+            reason: e.key,
+          );
+        } else {
+          expect(
+            _texts(e.value.lines),
+            isNot(_texts(r01.lines)),
+            reason: e.key,
+          );
+        }
+        continue;
+      }
+      expect(
+        dy.abs() < 1e-9 || (dy + 205.15).abs() < 1e-6,
+        isTrue,
+        reason: '${e.key}: Δy $dy',
+      );
+      expect(e.value.rect.left, r01.rect.left, reason: e.key);
+      expect(e.value.rect.width, closeTo(r01.rect.width, 1e-9), reason: e.key);
+      expect(
+        e.value.rect.height,
+        closeTo(r01.rect.height, 1e-9),
+        reason: e.key,
+      );
+      expect(_texts(e.value.lines), _texts(r01.lines), reason: e.key);
+      expect(_texts(e.value.linesAll), _texts(r01.linesAll), reason: e.key);
+      for (final (a, b) in [
+        for (var i = 0; i < e.value.lines.length; i++)
+          (e.value.lines[i], r01.lines[i]),
+      ]) {
+        expect(a.left, closeTo(b.left, 1e-9), reason: e.key);
+        expect(a.right, closeTo(b.right, 1e-9), reason: e.key);
+        expect(a.baseline, closeTo(b.baseline + dy, 1e-6), reason: e.key);
+      }
+      iguais++;
+    }
+    expect(iguais, 163);
+  });
+
   test('os dois fios de navalha da 62 são os da nota nova', () {
     expect(kRef62.knifeEdges.map((k) => k.id).toList(), [
       'rv62.summary.newNote.quote',
