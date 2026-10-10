@@ -15,6 +15,8 @@ import '../../../../core/design_system/widgets/count_badge.dart';
 import '../../../../core/design_system/widgets/neo_box.dart';
 import '../../../../core/design_system/widgets/pill.dart';
 import '../../../../core/design_system/widgets/pressable.dart';
+import '../../../reading_session/application/paper_timer_controller.dart';
+import '../../../reading_session/application/paper_timer_format.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
@@ -28,13 +30,21 @@ import '../covers/pride_prejudice_cover.dart';
 /// mede 205,80: a prancha arredonda as alturas a 2 casas); sem livro de papel, 175,6 como na v1. Nada recorta a grade
 /// nem os cards.
 class AlsoReadingSection extends ConsumerWidget {
-  const AlsoReadingSection({super.key, this.onBookTap, this.onStartReadingTap});
+  const AlsoReadingSection({
+    super.key,
+    this.onBookTap,
+    this.onStartReadingTap,
+    this.onSessionTap,
+  });
 
   /// Card (ou a capa do livro de papel sem página) tocado (ligado a `/livro/:bookId` na F12).
   final ValueChanged<Book>? onBookTap;
 
   /// O "play" do livro de papel sem página (D-253): a Início passa o "sem ação" até o cronômetro da T04 (D-243 b).
   final ValueChanged<Book>? onStartReadingTap;
+
+  /// O botão da sessão do cronômetro aberta (R6): pausa a que roda, retoma a pausada (D-257).
+  final ValueChanged<Book>? onSessionTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,6 +56,7 @@ class AlsoReadingSection extends ConsumerWidget {
     );
     final onBookTap = this.onBookTap;
     final onStartReadingTap = this.onStartReadingTap;
+    final onSessionTap = this.onSessionTap;
     // <section aria-label="Também lendo"> (convenção §5.1 do prompt mestre).
     return Semantics(
       container: true,
@@ -102,6 +113,9 @@ class AlsoReadingSection extends ConsumerWidget {
                       onStartReading: onStartReadingTap == null
                           ? null
                           : () => onStartReadingTap(item.book),
+                      onSession: onSessionTap == null
+                          ? null
+                          : () => onSessionTap(item.book),
                     ),
                   ),
                 if (items.length == 1) const Expanded(child: SizedBox()),
@@ -126,13 +140,15 @@ class AlsoReadingSection extends ConsumerWidget {
 /// borda 1,5, raio 22, padding 0/14/14 (sem padding no topo), sem sombra e sem recorte — a capa passa por cima da
 /// borda. O e-book e o papel com página são um `<a>` inteiro (sem `semanticsLabel`: o nome é o texto do card, como no
 /// navegador) com o anel; o papel sem página (D-253) é um `<div>`: a capa é o link (o título inteiro como nome) e o
-/// "play" é um botão.
-class _BookCard extends StatelessWidget {
+/// "play" é um botão. Com a sessão do cronômetro aberta (R6, prancha 01b), o botão da sessão entra no lugar do play
+/// ou do anel e o cartão também vira `<div>`.
+class _BookCard extends ConsumerWidget {
   const _BookCard({
     required this.id,
     required this.item,
     required this.onTap,
     required this.onStartReading,
+    required this.onSession,
   });
 
   /// Prefixo das Keys: `alsoReading.card1` / `alsoReading.card2`.
@@ -140,11 +156,21 @@ class _BookCard extends StatelessWidget {
   final AlsoReadingItem item;
   final VoidCallback? onTap;
   final VoidCallback? onStartReading;
+  final VoidCallback? onSession;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // só o estado da sessão DESTE livro (rodando, pausada ou nenhuma): o tique não chega ao cartão, e o cronômetro
+    // sem carregar (ou com falha) deixa o cartão como sem sessão
+    final running = ref.watch(
+      paperTimerProvider.select((timer) {
+        final s = timer.value?.session;
+        return s != null && s.userBookId == item.book.id ? s.isRunning : null;
+      }),
+    );
     final paper = item.format == BookFormat.physical;
-    final play = paper && item.paperPage == null;
+    final play = running == null && paper && item.paperPage == null;
+    final button = play || running != null; // o cartão é um <div>
     final cover = _CoverSlot(id: '$id.cover', book: item.book);
     final card = NeoBox(
       key: ValueKey(id),
@@ -165,7 +191,7 @@ class _BookCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                if (play)
+                if (button)
                   // <a aria-label="Memórias Póstumas de Brás Cubas">: a capa leva à página do livro.
                   Pressable(
                     isLink: true,
@@ -175,29 +201,27 @@ class _BookCard extends StatelessWidget {
                   )
                 else
                   cover,
-                // margin-top 12 → o anel (ou o "play") ocupa 58 e, alinhado embaixo, começa 13 abaixo do topo.
+                // margin-top 12 → o anel (ou o botão) ocupa 58 e, alinhado embaixo, começa 13 abaixo do topo.
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
-                  child: play
-                      ? CircleIconButton(
-                          key: ValueKey('$id.play'),
-                          size: 46,
-                          color: AppColors.ink,
-                          border: const BorderSide(
-                            width: 1.5,
-                            color: AppColors.ink,
-                          ),
-                          icon: AppSvg(
-                            AppIconsInicio.play,
-                            size: 18,
-                            key: ValueKey('$id.play.icon'),
-                          ),
-                          onTap: onStartReading,
-                          semanticsLabel: HomeFormatters.startReadingAria(
-                            item.book,
-                          ),
-                        )
-                      : _Ring(id: '$id.ring', progress: item.progress),
+                  child: switch (running) {
+                    final bool running => _SessionButton(
+                      id: '$id.play',
+                      running: running,
+                      title: HomeFormatters.bookTitleShort(item.book),
+                      onTap: onSession,
+                    ),
+                    null when play => _PlayButton(
+                      id: '$id.play',
+                      icon: AppIconsInicio.play,
+                      iconSize: 18,
+                      onTap: onStartReading,
+                      semanticsLabel: HomeFormatters.startReadingAria(
+                        item.book,
+                      ),
+                    ),
+                    null => _Ring(id: '$id.ring', progress: item.progress),
+                  },
                 ),
               ],
             ),
@@ -237,7 +261,7 @@ class _BookCard extends StatelessWidget {
         ],
       ),
     );
-    return play
+    return button
         ? card
         : Pressable(
             isLink: true, // <a href>
@@ -245,6 +269,73 @@ class _BookCard extends StatelessWidget {
             child: card,
           );
   }
+}
+
+/// O "play" 46 do livro de papel: círculo tinta com borda 1,5 tinta e o ícone amarelo centrado (18 o play; 16 o
+/// "pausar" da sessão).
+class _PlayButton extends StatelessWidget {
+  const _PlayButton({
+    required this.id,
+    required this.icon,
+    required this.iconSize,
+    required this.onTap,
+    required this.semanticsLabel,
+  });
+
+  /// `alsoReading.card1.play` (o ícone: `….icon`).
+  final String id;
+  final String icon;
+  final double iconSize;
+  final VoidCallback? onTap;
+  final String semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) => CircleIconButton(
+    key: ValueKey(id),
+    size: 46,
+    color: AppColors.ink,
+    border: const BorderSide(width: 1.5, color: AppColors.ink),
+    icon: AppSvg(icon, size: iconSize, key: ValueKey('$id.icon')),
+    onTap: onTap,
+    semanticsLabel: semanticsLabel,
+  );
+}
+
+/// O botão da sessão aberta (R6, D-257): o mesmo "play" com o aro coral (`box-shadow: 0 0 0 3px #FF552E` — 3 px em
+/// volta da borda, duro e sem deslocamento, fora da caixa de layout: o botão continua 46); rodando, o "pausar" 16
+/// ("Pausar leitura de Brás Cubas"); pausada, o play 18 ("Retomar leitura de …").
+class _SessionButton extends StatelessWidget {
+  const _SessionButton({
+    required this.id,
+    required this.running,
+    required this.title,
+    required this.onTap,
+  });
+
+  final String id;
+  final bool running;
+
+  /// O título curto ("Brás Cubas").
+  final String title;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    key: ValueKey('$id.halo'),
+    decoration: const BoxDecoration(
+      shape: BoxShape.circle,
+      boxShadow: [BoxShadow(color: AppColors.flame, spreadRadius: 3)],
+    ),
+    child: _PlayButton(
+      id: id,
+      icon: running ? AppIconsInicio.pause : AppIconsInicio.play,
+      iconSize: running ? 16 : 18,
+      onTap: onTap,
+      semanticsLabel: running
+          ? PaperTimerFormat.pauseAria(title)
+          : PaperTimerFormat.resumeAria(title),
+    ),
+  );
 }
 
 /// "Papel · 3h 40min" / "Papel · pág. 344" (D-252/D-253): fundo `#F7F0E3`, borda 1,2 `#E2D7C4`, raio 999, padding

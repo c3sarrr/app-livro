@@ -10,6 +10,9 @@ import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_spacing.dart';
 import '../../../core/design_system/tokens/app_icons.dart';
 import '../../account/application/account_controller.dart';
+import '../../reading_session/application/paper_timer_controller.dart';
+import '../../reading_session/data/paper_timer_store.dart'
+    show reportPaperTimerError;
 import '../application/home_providers.dart';
 import '../domain/models.dart';
 import 'home_states.dart';
@@ -46,6 +49,15 @@ class HomeScreen extends ConsumerWidget {
   /// "Play" do livro de papel sem página (`alsoReading.cardN.play`, prancha 01): o cronômetro é da T04 — D-243 b: o
   /// elemento fica idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
   static void onStartReading(Book book) {}
+
+  /// O botão da sessão do cronômetro aberta no cartão (`alsoReading.cardN.play` em sessão, prancha 01b — R6): pausa a
+  /// que roda, retoma a pausada (D-257). A falha (o kv fora do ar) vai para o relatório do cronômetro.
+  static void onSessionToggle(WidgetRef ref) => unawaited(
+    ref
+        .read(paperTimerProvider.notifier)
+        .toggle()
+        .catchError(reportPaperTimerError),
+  );
 
   /// "Ler agora" (`today.readNow`, prancha 01): o cronômetro é da T04 — D-243 b: o elemento fica idêntico à prancha e
   /// o toque não faz nada (`docs/design/estados_sem_design.md`).
@@ -199,6 +211,7 @@ class _HomeSections extends ConsumerWidget {
             AlsoReadingSection(
               onBookTap: openBook,
               onStartReadingTap: HomeScreen.onStartReading,
+              onSessionTap: (_) => HomeScreen.onSessionToggle(ref),
             ),
           ),
         ),
