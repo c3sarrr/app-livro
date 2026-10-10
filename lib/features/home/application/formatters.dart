@@ -126,7 +126,7 @@ abstract final class HomeFormatters {
           after: ' para fechar a meta de hoje.',
         );
 
-  /// "24 páginas", "2 destaques", "12 dias" (singular só para 1).
+  /// "2 destaques", "12 dias", "5 GRIFOS" (singular só para 1).
   static String countLabel(int count, String singular, String plural) =>
       '$count ${count == 1 ? singular : plural}';
 

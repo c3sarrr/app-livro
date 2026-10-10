@@ -295,14 +295,15 @@ final class LocalHomeRepository implements HomeRepository {
     return c != 0 ? c : b.id.compareTo(a.id);
   }
 
-  /// Caracteres que faltam ÷ velocidade pessoal, arredondado (D-97); livro sem índice e sem páginas de
-  /// referência → `null`.
+  /// O formato do exemplar (o CHECK do banco: epub, pdf ou physical).
   static BookFormat _formatOf(String format) => switch (format) {
     'pdf' => BookFormat.pdf,
     'physical' => BookFormat.physical,
     _ => BookFormat.epub,
   };
 
+  /// Caracteres que faltam ÷ velocidade pessoal, arredondado (D-97); livro sem índice e sem páginas de
+  /// referência → `null`.
   static Duration? _timeLeft(_ShelfBook b, _Data data) {
     final total = data.totalChars(b);
     if (total == null) return null;

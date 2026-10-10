@@ -231,7 +231,8 @@ class _Row extends StatelessWidget {
             measure(subtitle, AppTextStyles.body13Muted),
           ),
           tagTextMaxContent: measure(tagLabel, tagStyle),
-          // "Lido" tem `white-space: nowrap` na prancha 01 (o mínimo é o texto inteiro); os outros quebram.
+          // "Lido" tem `white-space: nowrap` na prancha 01 (o mínimo é o texto inteiro); os outros quebram entre as
+          // palavras. Com a palavra única de hoje as duas medidas coincidem: a regra segue o CSS da prancha.
           tagTextMinContent: item.status == RecentStatus.read
               ? measure(tagLabel, tagStyle)
               : longestWord(tagLabel, tagStyle),

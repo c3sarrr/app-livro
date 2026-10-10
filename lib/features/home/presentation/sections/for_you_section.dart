@@ -270,7 +270,7 @@ class _Item extends StatelessWidget {
               children: [
                 // O arquivo abrevia o 1º título ("Memórias Póstumas") e ainda o corta com "…".
                 AppText(
-                  book.shortTitle ?? book.title,
+                  HomeFormatters.bookTitleShort(book),
                   key: ValueKey('$id.title'),
                   style: AppTextStyles.label14Bold,
                   maxLines: ellipsis ? 1 : (real ? 2 : null),

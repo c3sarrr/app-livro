@@ -24,14 +24,11 @@ Future<void> _abrir(WidgetTester tester, {LeitorRefPrancha prancha = kRef01}) =>
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets(
-    'L01a7 geometria: os ${kRef01.idsOfSection('i01.club').length} ids do ingresso',
-    (tester) async {
-      await _abrir(tester);
-      expect(idsDasSecoes(kRef01, _secoes), isNotEmpty);
-      expect(geometria01(tester, _secoes), isEmpty);
-    },
-  );
+  testWidgets('L01a7 geometria: os 34 ids do ingresso', (tester) async {
+    await _abrir(tester);
+    expect(idsDasSecoes(kRef01, _secoes), hasLength(34));
+    expect(geometria01(tester, _secoes), isEmpty);
+  });
 
   testWidgets('L01a7 texto: o título, "Dom Casmurro · até o cap. 50", o progresso, o CTA e a ponta nas baselines '
       'da prancha', (tester) async {

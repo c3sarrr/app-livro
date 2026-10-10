@@ -146,9 +146,20 @@ Rect caixaVisual(WidgetTester tester, String id) {
   );
 }
 
-/// Os ids com widget próprio das [secoes] (sem os `inline`, conferidos pelas linhas do pai).
+/// Os ids com widget próprio das [secoes] (sem os `inline`, conferidos pelas linhas do pai). Uma seção sem nenhum
+/// id (um nome errado) é erro: o gate não pode passar sem conferir nada.
 List<String> idsDasSecoes(LeitorRefPrancha prancha, Iterable<String> secoes) =>
-    [for (final s in secoes) ...prancha.idsOfSection(s)];
+    [
+      for (final s in secoes)
+        ...switch (prancha.idsOfSection(s).toList()) {
+          [] => throw ArgumentError.value(
+            s,
+            'secoes',
+            'sem ids na ${prancha.tela}',
+          ),
+          final ids => ids,
+        },
+    ];
 
 /// As camadas presas à tela (não rolam com o conteúdo): o degradê e a barra.
 const Set<String> camadasFixas = {'bottomFade', 'nav'};

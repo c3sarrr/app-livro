@@ -36,10 +36,10 @@ void main() {
   setUpAll(loadAppFonts);
 
   testWidgets(
-    'L01a8 geometria: todos os ids da seção (cabeçalho, lista, as 3 linhas com mini-capa, texto, pílula e ⋯)',
+    'L01a8 geometria: os 37 ids da seção (cabeçalho, lista, as 3 linhas com mini-capa, texto, pílula e ⋯)',
     (tester) async {
       await _abrir(tester);
-      expect(idsDasSecoes(kRef01, _secoes), isNotEmpty);
+      expect(idsDasSecoes(kRef01, _secoes), hasLength(37));
       expect(geometria01(tester, _secoes), isEmpty);
     },
   );

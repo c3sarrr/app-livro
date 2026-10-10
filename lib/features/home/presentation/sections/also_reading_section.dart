@@ -25,8 +25,9 @@ import '../covers/pride_prejudice_cover.dart';
 
 /// Seção 4 — "Também lendo" (F06; prancha 01, L01a3): coluna com gap 30 (grande porque as capas sobem 22 px para
 /// dentro dele) entre o cabeçalho (título + contador, gap 8, centralizados) e a grade de 2 colunas iguais com gap 12
-/// (cards de 169). O livro de papel ganha a pílula "Papel · …" (D-252/D-253): 22 + 30 + 153,81 = 205,81 na 01; sem
-/// livro de papel, 175,6 como na v1. Nada recorta a grade nem os cards.
+/// (cards de 169). O livro de papel ganha a pílula "Papel · …" (D-252/D-253): 22 + 30 + 153,81 = 205,81 na 01 (o app
+/// mede 205,80: a prancha arredonda as alturas a 2 casas); sem livro de papel, 175,6 como na v1. Nada recorta a grade
+/// nem os cards.
 class AlsoReadingSection extends ConsumerWidget {
   const AlsoReadingSection({super.key, this.onBookTap, this.onStartReadingTap});
 

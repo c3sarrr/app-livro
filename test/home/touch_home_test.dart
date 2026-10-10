@@ -404,6 +404,9 @@ void main() {
           reason: id,
         );
 
+        // O toque chega ao alvo (o centro dele está no caminho do hit test): a rota parada é a do toque, não a de um
+        // toque que errou.
+        expect(_key(id).hitTestable(), findsOneWidget, reason: id);
         await _tap(tester, _key(id));
         await tester.pumpAndSettle();
         expect(_router(tester).state.uri.path, AppRoutes.inicio, reason: id);
