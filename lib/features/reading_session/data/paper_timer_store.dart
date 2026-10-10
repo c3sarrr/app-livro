@@ -46,11 +46,8 @@ abstract interface class PaperTimerStore {
 }
 
 final class KvPaperTimerStore implements PaperTimerStore {
-  KvPaperTimerStore(
-    AppDatabase db, {
-    PaperTimerErrorReporter onError = reportPaperTimerError,
-  }) : _kv = KvDao(db),
-       _onError = onError;
+  KvPaperTimerStore(AppDatabase db, {this._onError = reportPaperTimerError})
+    : _kv = KvDao(db);
 
   final KvDao _kv;
   final PaperTimerErrorReporter _onError;

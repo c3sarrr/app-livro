@@ -58,13 +58,11 @@ abstract interface class PaperSessionWriter {
 
 final class LocalPaperSessionWriter implements PaperSessionWriter {
   LocalPaperSessionWriter({
-    required AppDatabase db,
-    required LocalVersioning versioning,
-    required Future<String> Function() owner,
+    required this._db,
+    required this._versioning,
+    required this._owner,
     this.deviceId,
-  }) : _db = db,
-       _versioning = versioning,
-       _owner = owner;
+  });
 
   final AppDatabase _db;
   final LocalVersioning _versioning;
