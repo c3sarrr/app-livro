@@ -12,6 +12,35 @@ import 'package:flutter/widgets.dart';
 ///   Reproduz o arquivo em 360 px ("Faltam 12 min / para fechar a meta / de hoje.").
 enum AppTextWrap { wrap, pretty }
 
+/// T01 — o sublinhado do CSS (`text-decoration: underline`) como o Chromium pinta: uma faixa de [thickness] a
+/// [offset] abaixo da baseline (`text-underline-offset`), da primeira à última letra de cada linha, na cor do texto. O
+/// sublinhado do SkParagraph usa as medidas da fonte (a Figtree: 0,8 abaixo, 0,05 em de espessura) e não aceita o
+/// deslocamento: "Editar rótulos" da 23b saía 2,2 px mais acima e com a metade da espessura.
+///
+/// Limites (o "Editar rótulos" não passa por nenhum): a faixa é contínua, sem o *skip-ink* do Chromium (que a
+/// interrompe nas descendentes); a cor é a do estilo da raiz (um `AppText.rich` com trechos de outras cores sublinha
+/// tudo nela); e as caixas são as do texto inteiro, então numa última linha cortada com reticências a faixa pode
+/// passar da última letra visível.
+@immutable
+final class AppTextUnderline {
+  const AppTextUnderline({required this.offset, required this.thickness});
+
+  /// Distância da baseline ao topo da faixa (`text-underline-offset`).
+  final double offset;
+
+  /// Espessura (a `auto` do Chromium: o tamanho da letra ÷ 10).
+  final double thickness;
+
+  @override
+  bool operator ==(Object other) =>
+      other is AppTextUnderline &&
+      other.offset == offset &&
+      other.thickness == thickness;
+
+  @override
+  int get hashCode => Object.hash(offset, thickness);
+}
+
 typedef AppTextLine = ({
   String text,
   double left,
@@ -48,6 +77,7 @@ class AppText extends LeafRenderObjectWidget {
     this.textAlign = TextAlign.start,
     this.semanticsLabel,
     this.textWrap = AppTextWrap.wrap,
+    this.underline,
   }) : span = TextSpan(text: text, style: style);
 
   const AppText.rich(
@@ -58,6 +88,7 @@ class AppText extends LeafRenderObjectWidget {
     this.textAlign = TextAlign.start,
     this.semanticsLabel,
     this.textWrap = AppTextWrap.wrap,
+    this.underline,
   });
 
   final InlineSpan span;
@@ -66,6 +97,9 @@ class AppText extends LeafRenderObjectWidget {
   final TextAlign textAlign;
   final String? semanticsLabel;
   final AppTextWrap textWrap;
+
+  /// O sublinhado com o deslocamento do CSS (T01); `null` = nenhum (o `decoration` do estilo continua valendo).
+  final AppTextUnderline? underline;
 
   @override
   RenderAppText createRenderObject(BuildContext context) => RenderAppText(
@@ -76,6 +110,7 @@ class AppText extends LeafRenderObjectWidget {
     textDirection: Directionality.of(context),
     semanticsLabel: semanticsLabel,
     textWrap: textWrap,
+    underline: underline,
   );
 
   @override
@@ -87,7 +122,8 @@ class AppText extends LeafRenderObjectWidget {
       ..textAlign = textAlign
       ..textDirection = Directionality.of(context)
       ..semanticsLabel = semanticsLabel
-      ..textWrap = textWrap;
+      ..textWrap = textWrap
+      ..underline = underline;
   }
 }
 
@@ -108,6 +144,7 @@ class RenderAppText extends RenderBox {
     required this._textDirection,
     this._semanticsLabel,
     this._textWrap = AppTextWrap.wrap,
+    this._underline,
   });
 
   static const TextHeightBehavior _heightBehavior = TextHeightBehavior(
@@ -162,6 +199,13 @@ class RenderAppText extends RenderBox {
     if (v == _textWrap) return;
     _textWrap = v;
     _invalidate();
+  }
+
+  AppTextUnderline? _underline;
+  set underline(AppTextUnderline? v) {
+    if (v == _underline) return;
+    _underline = v;
+    markNeedsPaint();
   }
 
   // Cache do `text-wrap: pretty` para UMA largura: o span com as quebras forçadas ("\n" depois do
@@ -599,6 +643,23 @@ class RenderAppText extends RenderBox {
       context.canvas.drawParagraph(
         line.paragraph ?? _final,
         offset + line.offset,
+      );
+    }
+    final u = _underline;
+    if (u == null) return;
+    final color = _span.style?.color ?? const Color(0xFF000000);
+    final length = _spanAt(_paintWidth)
+        .toPlainText(includeSemanticsLabels: false)
+        .length;
+    for (final b in rangeBoxes(0, length)) {
+      context.canvas.drawRect(
+        Rect.fromLTRB(
+          b.left,
+          b.baseline + u.offset,
+          b.right,
+          b.baseline + u.offset + u.thickness,
+        ).shift(offset),
+        Paint()..color = color,
       );
     }
   }

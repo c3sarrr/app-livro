@@ -1,5 +1,6 @@
 import 'package:flutter/painting.dart';
 
+import '../text/app_text.dart' show AppTextUnderline;
 import 'app_colors.dart';
 import 'reader_fonts.dart';
 
@@ -923,11 +924,16 @@ abstract final class AppTextStyles {
     color: AppColors.inkSoft,
   );
 
-  /// ann.markerPanel.colorsHeader.editLabels ("Editar rótulos"): Figtree 12,5/800 sublinhado.
+  /// ann.markerPanel.colorsHeader.editLabels ("Editar rótulos"): Figtree 12,5/800, sublinhado pelo
+  /// [annPanelLinkUnderline] (T01: `text-underline-offset: 3px`, a espessura auto do Chromium, 12,5 ÷ 10).
   static final TextStyle annPanelLink = AppFonts.figtreeReader(
     12.5,
     FontWeight.w800,
-  ).copyWith(decoration: TextDecoration.underline);
+  );
+  static const AppTextUnderline annPanelLinkUnderline = AppTextUnderline(
+    offset: 3,
+    thickness: 1.25,
+  );
 
   /// ann.markerPanel.heights.* ("Baixa", "Média", "Alta"): Figtree 13/600 `#5B544B`; a marcada, 13/800.
   static final TextStyle annHeightOption = AppFonts.figtreeReader(

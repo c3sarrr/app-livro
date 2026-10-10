@@ -542,10 +542,8 @@ class MarkerPanel extends StatelessWidget {
           onTap: onEditLabels,
           child: AppText(
             'Editar rótulos',
-            style: AppTextStyles.annPanelLink.copyWith(
-              color: p.title,
-              decorationColor: p.title,
-            ),
+            style: AppTextStyles.annPanelLink.copyWith(color: p.title),
+            underline: AppTextStyles.annPanelLinkUnderline,
             maxLines: 1,
           ),
         ),

@@ -730,4 +730,76 @@ void main() {
       handle.dispose();
     },
   );
+
+  testWidgets(
+    'T01 — sublinhado como o Chromium (text-underline-offset 3, espessura auto = tamanho/10): '
+    '"Editar rótulos" da 23b, de baseline + 3 a + 4,25, da primeira à última letra',
+    (tester) async {
+      const pad = 4.0;
+      await tester.pumpWidget(
+        _ltr(
+          RepaintBoundary(
+            key: const Key('caixa'),
+            child: ColoredBox(
+              color: _white,
+              child: Padding(
+                padding: const EdgeInsets.all(pad),
+                child: AppText(
+                  'Editar rótulos',
+                  key: const Key('t'),
+                  style: AppTextStyles.annPanelLink.copyWith(
+                    color: AppColors.ink,
+                  ),
+                  underline: AppTextStyles.annPanelLinkUnderline,
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      final r = _render(tester, const Key('t'));
+      final topo = tester.getRect(find.byKey(const Key('t'))).top;
+      final linha = r.debugLines().single;
+      final (px, w, h) = await _pixels(tester, const Key('caixa'), 10);
+      // a faixa: as linhas de pixel com tinta em quase toda a largura do texto, abaixo da baseline
+      final base = linha.baseline - topo + pad;
+      final esquerda =
+          ((linha.left - tester.getRect(find.byKey(const Key('caixa'))).left) *
+                  10)
+              .round();
+      final direita =
+          ((linha.right - tester.getRect(find.byKey(const Key('caixa'))).left) *
+                  10)
+              .round();
+      double cobertura(int y) {
+        var soma = 0.0;
+        for (var x = esquerda + 5; x < direita - 5; x++) {
+          soma += _coverage(px, y * w + x, 0x1A);
+        }
+        return soma / (direita - esquerda - 10);
+      }
+
+      final faixa = [
+        for (var y = ((base + 0.5) * 10).round(); y < h; y++)
+          if (cobertura(y) > 0.5) y,
+      ];
+      expect(faixa, isNotEmpty);
+      expect(faixa.first / 10, moreOrLessEquals(base + 3, epsilon: 0.1));
+      expect(
+        (faixa.last + 1) / 10,
+        moreOrLessEquals(base + 4.25, epsilon: 0.1),
+      );
+      // da primeira à última letra (a caixa das letras, sem os brancos)
+      final y = faixa[faixa.length ~/ 2];
+      expect(_coverage(px, y * w + esquerda + 2, 0x1A), greaterThan(0.5));
+      expect(_coverage(px, y * w + direita - 2, 0x1A), greaterThan(0.5));
+      expect(_coverage(px, y * w + esquerda - 3, 0x1A), lessThan(0.5));
+      expect(_coverage(px, y * w + direita + 3, 0x1A), lessThan(0.5));
+      expect(
+        h / 10,
+        greaterThan(base + 4.25),
+        reason: 'a faixa passa do pé da caixa e não é cortada',
+      );
+    },
+  );
 }
