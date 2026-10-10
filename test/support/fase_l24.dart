@@ -385,7 +385,12 @@ const Set<String> _daNota = {
 
 // ---- L24 -------------------------------------------------------------------------------------------------------
 
-void faseL24() => _comOLivro(livroDaTela24, (livro) {
+void faseL24() => _comOLivro(() => livroDaTela24(sessao: true), (livro) {
+  testWidgets('L24 — o Desfazer aceso como na prancha (T01)', (tester) async {
+    await abrirTela24(tester, livro());
+    conferirHistoricoDaPrancha(tester);
+  });
+
   testWidgets(
     'L24 — geometria: os 18 ids da página (o abridor, o texto de cima e o de baixo, a tinta) e os trechos',
     (tester) async {
@@ -492,7 +497,12 @@ void faseL24() => _comOLivro(livroDaTela24, (livro) {
 
 // ---- L24b ------------------------------------------------------------------------------------------------------
 
-void faseL24b() => _comOLivro(livroDaTela24b, (livro) {
+void faseL24b() => _comOLivro(() => livroDaTela24b(sessao: true), (livro) {
+  testWidgets('L24b — o Desfazer aceso como na prancha (T01)', (tester) async {
+    await abrirTela24b(tester, livro());
+    conferirHistoricoDaPrancha(tester);
+  });
+
   testWidgets(
     'L24b — geometria: os 24 ids da página (a caixa da nota e as peças dela, o texto, a tinta) e os trechos',
     (tester) async {

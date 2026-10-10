@@ -10,7 +10,8 @@ import 'package:app_leitura/features/reader/domain/reader_settings.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../fixtures/telas/instantaneo.dart' show mundoSemNotaAMao;
+import '../fixtures/telas/instantaneo.dart'
+    show mundoSemNotaAMao, semOsDesenhosDaSessao;
 import 'canvas.dart';
 import 'dados_t20.dart' show depsDaTela20;
 import 'dados_t22.dart';
@@ -18,9 +19,18 @@ import 'precache_svgs.dart';
 import 'pump_reader.dart';
 import 'reader_harness.dart';
 
-/// O Dom Casmurro das telas 23 e 23b na estante da conta do mundo, no papel [papel].
-Future<LivroNaEstante> livroDaTela23({ReaderPaper papel = ReaderPaper.creme}) =>
-    livroDaTela22(papel: papel, mundo: mundoSemNotaAMao);
+/// O Dom Casmurro das telas 23 e 23b na estante da conta do mundo, no papel [papel]. [sessao] (T01, as provas de
+/// fidelidade): gravado sem os desenhos da sessão da 22, que o fluxo desenha — o Desfazer aceso como na prancha.
+Future<LivroNaEstante> livroDaTela23({
+  ReaderPaper papel = ReaderPaper.creme,
+  bool sessao = false,
+}) async {
+  final livro = await livroDaTela22(
+    papel: papel,
+    mundo: sessao ? semOsDesenhosDaSessao(mundoSemNotaAMao) : mundoSemNotaAMao,
+  );
+  return sessao ? comASessaoDaTela22(livro) : livro;
+}
 
 Finder _key(String k) => find.byKey(ValueKey<String>(k));
 
@@ -62,6 +72,7 @@ Future<LeitorNaTela> _modo(
   );
   await esperarBancoL22(tester);
   await entrarNoModoAnotacao(tester);
+  await desenharASessaoDaTela22(tester, livro);
   return t;
 }
 

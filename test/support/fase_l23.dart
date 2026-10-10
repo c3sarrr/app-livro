@@ -37,7 +37,8 @@ List<String> idsL23(LeitorRefPrancha ref, Set<String> secoes) => [
 void _comOLivro(void Function(LivroNaEstante Function() livro) testes) {
   setUpAll(loadAppFonts);
   late LivroNaEstante livro;
-  setUp(() async => livro = await livroDaTela23());
+  // T01: no estado da prancha — a sessão da 22 desenhada, o Desfazer aceso
+  setUp(() async => livro = await livroDaTela23(sessao: true));
   tearDown(() async => livro.close());
   testes(() => livro);
 }
@@ -94,6 +95,11 @@ void _conferirLinhasTodas(
 // ---- L23 -------------------------------------------------------------------------------------------------------
 
 void faseL23() => _comOLivro((livro) {
+  testWidgets('L23 — o Desfazer aceso como na prancha (T01)', (tester) async {
+    await abrirTela23(tester, livro());
+    conferirHistoricoDaPrancha(tester);
+  });
+
   testWidgets('L23 — geometria: os 48 ids do véu e do painel da caneta', (
     tester,
   ) async {
@@ -190,6 +196,11 @@ void faseL23() => _comOLivro((livro) {
 // ---- L23b ------------------------------------------------------------------------------------------------------
 
 void faseL23b() => _comOLivro((livro) {
+  testWidgets('L23b — o Desfazer aceso como na prancha (T01)', (tester) async {
+    await abrirTela23b(tester, livro());
+    conferirHistoricoDaPrancha(tester);
+  });
+
   testWidgets('L23b — geometria: os 53 ids do véu e do painel do marca-texto', (
     tester,
   ) async {

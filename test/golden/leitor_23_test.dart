@@ -29,7 +29,7 @@ Future<void> _gravar(WidgetTester tester, ui.Image image, String nome) async {
 void main() {
   setUpAll(loadAppFonts);
   late LivroNaEstante livro;
-  setUp(() async => livro = await livroDaTela23());
+  setUp(() async => livro = await livroDaTela23(sessao: true));
   tearDown(() async => livro.close());
 
   testWidgets('golden da tela 23 (Creme, o painel da caneta) (390×844 @3x)', (

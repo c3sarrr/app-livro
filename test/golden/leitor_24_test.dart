@@ -31,7 +31,7 @@ void main() {
   testWidgets(
     'golden da tela 24 (Creme, abrindo espaço de 3 linhas) (390×844 @3x)',
     (tester) async {
-      final livro = await livroDaTela24();
+      final livro = await livroDaTela24(sessao: true);
       addTearDown(livro.close);
       await abrirTela24(tester, livro, golden: true);
       final image = await captureAt(tester, find.byKey(goldenRootKey));
@@ -44,7 +44,7 @@ void main() {
   testWidgets('golden da tela 24b (Creme, a nota à mão) (390×844 @3x)', (
     tester,
   ) async {
-    final livro = await livroDaTela24b();
+    final livro = await livroDaTela24b(sessao: true);
     addTearDown(livro.close);
     await abrirTela24b(tester, livro, golden: true);
     final image = await captureAt(tester, find.byKey(goldenRootKey));

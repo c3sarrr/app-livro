@@ -20,14 +20,26 @@ import 'precache_svgs.dart';
 import 'pump_reader.dart';
 import 'reader_harness.dart';
 
-/// O Dom Casmurro da tela 24 (o mundo da 23) no papel [papel].
-Future<LivroNaEstante> livroDaTela24({ReaderPaper papel = ReaderPaper.creme}) =>
-    livroDaTela23(papel: papel);
+/// O Dom Casmurro da tela 24 (o mundo da 23) no papel [papel]; [sessao] como em [livroDaTela23].
+Future<LivroNaEstante> livroDaTela24({
+  ReaderPaper papel = ReaderPaper.creme,
+  bool sessao = false,
+}) => livroDaTela23(papel: papel, sessao: sessao);
 
-/// O Dom Casmurro da tela 24b (o mundo de referência, com a nota à mão salva) no papel [papel].
+/// O Dom Casmurro da tela 24b (o mundo de referência, com a nota à mão salva) no papel [papel]. [sessao] (T01, as
+/// provas de fidelidade): o fluxo recolhe e abre a nota — dois passos que acendem o Desfazer como na prancha, com a
+/// caixa igual. (A onda e o sublinhado duplo da sessão da 22 ficam atrás da prateleira e da ilha na 24b, onde o dedo
+/// não desenha.)
 Future<LivroNaEstante> livroDaTela24b({
   ReaderPaper papel = ReaderPaper.creme,
-}) => livroDaTela22(papel: papel, mundo: mundoReferencia);
+  bool sessao = false,
+}) async {
+  final livro = await livroDaTela22(papel: papel, mundo: mundoReferencia);
+  if (sessao) _passosDaNota[livro] = true;
+  return livro;
+}
+
+final Expando<bool> _passosDaNota = Expando('passos da nota da 24b');
 
 Finder _key(String k) => find.byKey(ValueKey<String>(k));
 
@@ -93,6 +105,7 @@ Future<LeitorNaTela> _modo(
   );
   await esperarBancoL22(tester);
   await entrarNoModoAnotacao(tester);
+  await desenharASessaoDaTela22(tester, livro);
   return t;
 }
 
@@ -128,5 +141,16 @@ Future<LeitorNaTela> abrirTela24b(
   final s = sessaoNaTela(tester);
   expect(s.notes, hasLength(1));
   expect(s.tool, AnnotationTool.pen);
+  if (_passosDaNota[livro] == true) {
+    await tester.tap(_key('ann.page.handNote.actions.collapse'));
+    await tester.pump();
+    await _quadros(tester, 6);
+    await tester.tap(_key('ann.page.handNote.open'));
+    await tester.pump();
+    await _quadros(tester, 6);
+    expect((s.notes.single.collapsed, s.canUndo), (false, true));
+    // os dois passos gravam no banco: quem lê o banco depois vê a nota aberta, não o meio do caminho
+    await esperarBancoL22(tester);
+  }
   return t;
 }

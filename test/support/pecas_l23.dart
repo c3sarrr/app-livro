@@ -5,6 +5,7 @@
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/presentation/annotation_island.dart';
 import 'package:app_leitura/features/reader/presentation/reader_chrome_palette.dart';
 import 'package:app_leitura/features/reader/presentation/reader_chrome_scope.dart';
 import 'package:flutter/widgets.dart';
@@ -114,4 +115,10 @@ void conferirLinhasL23(WidgetTester tester, LeitorRefPrancha ref, String id) {
       reason: '$id fim',
     );
   }
+}
+
+/// T01 — o Desfazer aceso e o Refazer vazio, como nas pranchas 23–24b (os passos da sessão).
+void conferirHistoricoDaPrancha(WidgetTester tester) {
+  final ilha = tester.widget<AnnotationIsland>(find.byType(AnnotationIsland));
+  expect((ilha.canUndo, ilha.canRedo), (true, false));
 }

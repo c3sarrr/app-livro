@@ -144,9 +144,14 @@ final Mundo mundoSemNotaAMao = () {
 
 /// Tela 22: o que estava gravado quando a sessão da prancha começou — o grifo à mão e a elipse com o risco. O
 /// sublinhado duplo (Reta) e a onda (ainda sendo desenhada) são da sessão: o fluxo da tela os desenha (G16).
-final Mundo mundoDaTela22 = () {
+final Mundo mundoDaTela22 = semOsDesenhosDaSessao(mundoSemNotaAMao);
+
+/// [base] sem o sublinhado duplo e a onda da página 159: os desenhos da sessão de anotação das pranchas 22–24b. T01: as
+/// 23–24b vêm depois da 22, na mesma sessão (o Desfazer aceso nas pranchas) — as provas de fidelidade gravam o mundo
+/// sem eles e o fluxo os desenha.
+Mundo semOsDesenhosDaSessao(Mundo base) {
   final daSessao = {
-    for (final a in mundoSemNotaAMao.anotacoes)
+    for (final a in base.anotacoes)
       if (a.kind == AnnotationKind.drawing &&
           a.refPage == 159 &&
           const {
@@ -156,20 +161,20 @@ final Mundo mundoDaTela22 = () {
         a.id,
   };
   final camadas = {
-    for (final a in mundoSemNotaAMao.anotacoes)
+    for (final a in base.anotacoes)
       if (daSessao.contains(a.id)) a.inkLayerId,
   };
-  return mundoSemNotaAMao.copyWith(
+  return base.copyWith(
     camadas: [
-      for (final c in mundoSemNotaAMao.camadas)
+      for (final c in base.camadas)
         if (!camadas.contains(c.id)) c,
     ],
     anotacoes: [
-      for (final a in mundoSemNotaAMao.anotacoes)
+      for (final a in base.anotacoes)
         if (!daSessao.contains(a.id)) a,
     ],
   );
-}();
+}
 
 /// Tela 21: antes da sessão de anotação de hoje — nenhuma tinta; um grifo de seleção (fundo amarelo)
 /// em "aqueles olhos de Capitu".

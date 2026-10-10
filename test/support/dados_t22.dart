@@ -148,6 +148,41 @@ Future<TestGesture> tracarL22(
 /// O dedo da onda, ainda na tela (a prancha mostra o traço sendo desenhado).
 TestGesture? dedoDaTela22;
 
+/// A Reta e as 2 barras do sublinhado duplo, dos centros das pontas medidas.
+Future<void> _barrasDoDuplo(WidgetTester tester) async {
+  await tester.tap(_key('ann.toolShelf.line'));
+  await tester.pump();
+  for (final (a, b) in barrasDoDuplo22()) {
+    await tracarL22(tester, [a, Offset.lerp(a, b, 0.5)!, b]);
+  }
+}
+
+/// T01 — os livros das provas de fidelidade das telas 23–24b ([comASessaoDaTela22]): gravados sem os desenhos da
+/// sessão, que o fluxo desenha ao entrar no modo.
+final Expando<bool> _comASessao = Expando('sessão da tela 22');
+
+/// Marca [livro] para o fluxo das telas 23–24b desenhar a sessão da 22 ao entrar no modo (o Desfazer aceso como nas
+/// pranchas — elas vêm depois da 22, na mesma sessão). O mundo dele deve estar sem os desenhos da sessão
+/// (`semOsDesenhosDaSessao`).
+LivroNaEstante comASessaoDaTela22(LivroNaEstante livro) {
+  _comASessao[livro] = true;
+  return livro;
+}
+
+/// T01 — a sessão das pranchas 22–24b, terminada: a Reta com as 2 barras do sublinhado duplo e a Caneta com a onda
+/// inteira (os dois passos que acendem o Desfazer). Só nos livros marcados por [comASessaoDaTela22].
+Future<void> desenharASessaoDaTela22(
+  WidgetTester tester,
+  LivroNaEstante livro,
+) async {
+  if (_comASessao[livro] != true) return;
+  await _barrasDoDuplo(tester);
+  await tester.tap(_key('ann.toolShelf.pen'));
+  await tester.pump();
+  await tracarL22(tester, pontosDaOnda22());
+  await _quadros(tester, 6);
+}
+
 /// Abre a tela 22: o leitor na pág. 159, o modo anotação, as 2 barras com a Reta e a onda com a Caneta até 66 %, o
 /// último movimento até o centro do anel (o dedo fica).
 Future<LeitorNaTela> abrirTela22(
@@ -165,11 +200,7 @@ Future<LeitorNaTela> abrirTela22(
   );
   await esperarBancoL22(tester);
   await entrarNoModoAnotacao(tester);
-  await tester.tap(_key('ann.toolShelf.line'));
-  await tester.pump();
-  for (final (a, b) in barrasDoDuplo22()) {
-    await tracarL22(tester, [a, Offset.lerp(a, b, 0.5)!, b]);
-  }
+  await _barrasDoDuplo(tester);
   await tester.tap(_key('ann.toolShelf.pen'));
   await tester.pump();
   final anel = kRefAnelDaTela22.center;
