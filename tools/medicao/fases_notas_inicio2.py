@@ -58,8 +58,9 @@ NOTAS = {
         'armadilhas': ['A capa tem `<text>` (Instrument Serif e Figtree) e `preserveAspectRatio="xMidYMid slice"`: o flutter_svg '
                        'usa a fonte do sistema e não faz "slice" → desenho sem os textos (BoxFit.cover) + textos em `AppText` '
                        'nas posições do viewBox × 1,0625 (catálogo de SVGs).',
-                       '"Continuar lendo" sai 0,0528 px mais largo que o Chromium com a `Figtree-Bold.ttf` da v1 (validação de '
-                       'fontes da T02; limite 0,05) — dentro da tolerância de geometria; decisão no relatório T02.'],
+                       'As larguras de texto dependem das estáticas refeitas com os avanços do HVAR (D-249): com elas '
+                       '"Continuar lendo" bate com o Chromium a 0,008 px; com as da v1 antigas sairia 0,053 px mais largo. '
+                       'Um golden ou medida com outra fonte não vale.'],
         'subfases': ['Cartão e grade do herói', 'Capa nova (SVG sem textos + AppText, giro −3°)', 'Pílulas página e formato',
                      'Título, progresso e tempo', 'Ações e contador', 'Verificação + relatório'],
     },
@@ -216,8 +217,12 @@ NOTAS = {
         'contexto': 'A Início com uma sessão de leitura do livro de papel em andamento: o cartão do Brás Cubas em "pausar" com '
                     'o anel coral e a mini-barra do cronômetro acima da barra de navegação. Sem o cartão da revisão.',
         'leitura': [
-            'Prancha de 844 (a mesma página da 01, cortada na tela): o que passa de 844 existe no layout mas não aparece no PNG '
-            '(ex.: Quincas Borba e O Cortiço no "Para você", que só aqui trocam Memorial de Aires e Casa de Pensão).',
+            'Prancha de 844 (a mesma página da 01, cortada na tela): o que passa de 844 existe no layout mas não aparece no PNG. '
+            'A referência visual desses elementos é o PNG da 01: dos 168 que passam de 844, 163 são os da 01 — mesma caixa, '
+            'mesmo texto e mesmas linhas —, no mesmo lugar (o "Seu dia") ou 205,15 acima (tudo depois do cartão da revisão, '
+            'que a 01b não tem). Os outros 5 são os dois livros que só aqui trocam: Quincas Borba e O Cortiço no lugar de '
+            'Memorial de Aires e Casa de Pensão (títulos, títulos das capas e o bloco do título de uma linha do O Cortiço, '
+            'recentralizado: −181,75). Prova: `test/reference/inicio2/referencias_inicio2_test.dart`.',
             'Cartão do Brás Cubas: o botão do "play" (mesmo id `alsoReading.card1.play`) mostra **pausar** — `ic_pause` amarelo '
             '16 (o play era 18) e um **aro coral de 3** (`box-shadow 0 0 0 3 #FF552E` → `BoxShadow(spreadRadius: 3)`); '
             'rótulo "Pausar leitura de Brás Cubas".',
@@ -293,8 +298,9 @@ NOTAS = {
                        'Fechar → sai da revisão (volta à Início).'],
         'dados': ['"2 de 5" = posição no baralho do dia (5 por dia); "há 17 dias" = hoje − data do grifo; "revisto 1 vez" = '
                   'contagem de revisões; etiqueta e cor do grifo; nota do grifo (tudo da T05, D-244).'],
-        'armadilhas': ['"Mais vezes" destacado sem estado semântico (sem `aria-pressed`): é o estado escolhido ou o sugerido? '
-                       'Perguntar no plano da T05 antes de decidir a semântica.',
+        'armadilhas': ['"Mais vezes" destacado (`{{brand}}` + sombra 2/2) é a ação sugerida, não um estado (D-251): o arquivo '
+                       'marca seleção com `aria-checked` (na 63) e aqui não marca nada — botão comum, sem `selected`/`toggled` '
+                       'na semântica; o destaque é só visual e não muda com o toque. Os dois botões registram a escolha.',
                        'O grifo é um fundo por linha (não um retângulo único): reutilizar o pintor de grifo do leitor (G13).'],
         'subfases': ['Cabeçalho e progresso de 5', 'Baralho (cartões girados atrás)', 'Cartão: topo, grifo Literata 22, nota girada',
                      'Rodapé do cartão e dica', 'Ações', 'Deslizar e animação', 'Verificação + relatório'],
@@ -326,8 +332,9 @@ NOTAS = {
         'dados': ['Números da sessão (mais/menos vezes, notas novas), sequência de dias revisando, a nota escrita hoje, a próxima '
                   'revisão (hora, quantidade e o grifo que volta) e a página atual do livro (T05, D-244/D-245).'],
         'armadilhas': ['O rodapé com degradê fica por cima do conteúdo (a caixa da próxima revisão termina 16 acima dele).',
-                       'O progresso declara `aria-valuenow="6"` com máximo 5 (na 61: 2 de 5) — o arquivo passa do máximo no '
-                       'fim; no app o natural é 5 de 5: confirmar no plano da T05 (semântica não se inventa).'],
+                       'O progresso declara `aria-valuenow="6"` com máximo 5 (na 61: 2 de 5), mas o texto diz "5 de 5" e os '
+                       '5 segmentos estão verdes: é a contagem do protótipo passando do fim. No app (D-250) o valor semântico '
+                       'é o do texto — "5 de 5" aqui, "2 de 5" na 61 — e nunca passa do máximo (teste de semântica).'],
         'subfases': ['Cabeçalho completo', 'Arte dos cinco cartões conferidos', 'Título, sequência e números', 'Nota nova (Literata 15)',
                      'Próxima revisão', 'Rodapé fixo com degradê', 'Verificação + relatório'],
     },
@@ -362,8 +369,9 @@ NOTAS = {
         'dados': ['Texto do grifo, trecho destacado, livro, autor, página, @ do perfil, nota (oculta aqui) e a cor escolhida.'],
         'armadilhas': ['A imagem compartilhada é a prévia renderizada (ex.: `RepaintBoundary` → PNG): o mesmo widget, nas '
                        'mesmas medidas, não uma segunda implementação.',
-                       'Na medição, o supersample de zoom ≥ 16 desenha uma faixa preta na borda de cima da folha (defeito do '
-                       'Skia com borda só em cima + raio); a referência é o zoom 10, correto (relatório T02).'],
+                       'Na medição, o supersample desenha uma faixa preta na borda de cima da folha nos zooms 13, 14 e 16–20 '
+                       '(defeito do Skia com borda só em cima + raio); nos 10, 11, 12 e 15 sai certo. A referência é o zoom '
+                       '10 e o gate confere essa faixa com o zoom 15 (R3, relatório T02).'],
         'subfases': ['Fundo e folha', 'Prévia (citação, destaque, rodapé com a marca)', 'Cores (radiogroup)', 'Interruptores',
                      'Ações', 'Geração da imagem', 'Verificação + relatório'],
     },

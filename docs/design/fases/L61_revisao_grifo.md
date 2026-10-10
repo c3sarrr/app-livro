@@ -181,7 +181,7 @@ Seção `rv61.actions` — retângulo absoluto no canvas 390×844: **x=20, y=702
 
 ## Armadilhas
 
-- "Mais vezes" destacado sem estado semântico (sem `aria-pressed`): é o estado escolhido ou o sugerido? Perguntar no plano da T05 antes de decidir a semântica.
+- "Mais vezes" destacado (`{{brand}}` + sombra 2/2) é a ação sugerida, não um estado (D-251): o arquivo marca seleção com `aria-checked` (na 63) e aqui não marca nada — botão comum, sem `selected`/`toggled` na semântica; o destaque é só visual e não muda com o toque. Os dois botões registram a escolha.
 - O grifo é um fundo por linha (não um retângulo único): reutilizar o pintor de grifo do leitor (G13).
 
 ## Semântica (do arquivo)

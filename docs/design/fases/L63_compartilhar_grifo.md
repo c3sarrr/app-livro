@@ -147,7 +147,7 @@ Seção `rv63.sheet` — retângulo absoluto no canvas 390×844: **x=0, y=50, w=
 ## Armadilhas
 
 - A imagem compartilhada é a prévia renderizada (ex.: `RepaintBoundary` → PNG): o mesmo widget, nas mesmas medidas, não uma segunda implementação.
-- Na medição, o supersample de zoom ≥ 16 desenha uma faixa preta na borda de cima da folha (defeito do Skia com borda só em cima + raio); a referência é o zoom 10, correto (relatório T02).
+- Na medição, o supersample desenha uma faixa preta na borda de cima da folha nos zooms 13, 14 e 16–20 (defeito do Skia com borda só em cima + raio); nos 10, 11, 12 e 15 sai certo. A referência é o zoom 10 e o gate confere essa faixa com o zoom 15 (R3, relatório T02).
 
 ## Semântica (do arquivo)
 

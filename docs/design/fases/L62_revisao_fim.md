@@ -232,7 +232,7 @@ Seção `rv62.footer` — retângulo absoluto no canvas 390×844: **x=0, y=708.9
 ## Armadilhas
 
 - O rodapé com degradê fica por cima do conteúdo (a caixa da próxima revisão termina 16 acima dele).
-- O progresso declara `aria-valuenow="6"` com máximo 5 (na 61: 2 de 5) — o arquivo passa do máximo no fim; no app o natural é 5 de 5: confirmar no plano da T05 (semântica não se inventa).
+- O progresso declara `aria-valuenow="6"` com máximo 5 (na 61: 2 de 5), mas o texto diz "5 de 5" e os 5 segmentos estão verdes: é a contagem do protótipo passando do fim. No app (D-250) o valor semântico é o do texto — "5 de 5" aqui, "2 de 5" na 61 — e nunca passa do máximo (teste de semântica).
 - Fio de navalha em `rv62.summary.newNote.quote` linha 1 «O meu fim evidente era atar as duas pontas»: sobra 19.42 px · estouro com a próxima palavra 0.84 px.
 - Fio de navalha em `rv62.summary.newNote.note.text` linha 1 «Bento quer voltar no tempo desde a pág. 6 — e»: sobra 16.34 px · estouro com a próxima palavra 1.34 px.
 

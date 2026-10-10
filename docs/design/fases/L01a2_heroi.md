@@ -175,7 +175,7 @@ Seção `i01.hero` — retângulo absoluto no canvas 390×2650: **x=20, y=248.16
 ## Armadilhas
 
 - A capa tem `<text>` (Instrument Serif e Figtree) e `preserveAspectRatio="xMidYMid slice"`: o flutter_svg usa a fonte do sistema e não faz "slice" → desenho sem os textos (BoxFit.cover) + textos em `AppText` nas posições do viewBox × 1,0625 (catálogo de SVGs).
-- "Continuar lendo" sai 0,0528 px mais largo que o Chromium com a `Figtree-Bold.ttf` da v1 (validação de fontes da T02; limite 0,05) — dentro da tolerância de geometria; decisão no relatório T02.
+- As larguras de texto dependem das estáticas refeitas com os avanços do HVAR (D-249): com elas "Continuar lendo" bate com o Chromium a 0,008 px; com as da v1 antigas sairia 0,053 px mais largo. Um golden ou medida com outra fonte não vale.
 
 ## Semântica (do arquivo)
 
