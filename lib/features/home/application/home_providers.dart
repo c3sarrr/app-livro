@@ -115,7 +115,12 @@ class HomeStateController extends Notifier<AsyncValue<HomeSnapshot>> {
     final sub = repo
         .watch(clock)
         .listen(
-          (s) => state = AsyncData(s),
+          // as partes iguais às da leitura anterior ficam com as instâncias dela: a seção que não mudou não
+          // reconstrói (HomeSnapshot.reusing)
+          (s) => state = AsyncData(switch (state.value) {
+            final antes? => s.reusing(antes),
+            null => s,
+          }),
           // Com dados na tela, um erro não a troca pela tela de erro (a rolagem e o que se vê ficam).
           onError: (Object e, StackTrace st) {
             if (state.hasValue) {

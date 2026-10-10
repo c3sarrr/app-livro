@@ -37,10 +37,18 @@ class HeaderSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final given = this.user;
-    final givenNow = this.now;
-    final (user, now) = given != null && givenNow != null
-        ? (given, givenNow)
-        : ref.watch(homeSnapshotProvider.select((s) => (s.user, s.now)));
+    final givenNow = now;
+    // A saudação, não o relógio: o instantâneo novo de cada leitura traz outro "agora", e o cabeçalho só muda quando
+    // a saudação muda (5h, 12h, 18h) ou a conta muda.
+    String greetingOf(UserSummary u, DateTime now) =>
+        HomeFormatters.greeting(now, named: u.firstName != null);
+    final (user, greeting) = given != null && givenNow != null
+        ? (given, greetingOf(given, givenNow))
+        : ref.watch(
+            homeSnapshotProvider.select(
+              (s) => (s.user, greetingOf(s.user, s.now)),
+            ),
+          );
     final (firstName, initial) = (user.firstName, user.initial);
     return SizedBox(
       key: const ValueKey('header'),
@@ -81,7 +89,7 @@ class HeaderSection extends ConsumerWidget {
                   spacing: 1,
                   children: [
                     AppText(
-                      HomeFormatters.greeting(now, named: firstName != null),
+                      greeting,
                       key: const ValueKey('header.greeting'),
                       style: AppTextStyles.body13Muted,
                     ),

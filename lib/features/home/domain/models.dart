@@ -1,9 +1,11 @@
 import 'dart:ui' show Color;
 
-import 'package:flutter/foundation.dart' show immutable;
+import 'package:flutter/foundation.dart' show immutable, listEquals;
 
 // Dados crus da tela Início (F02 2.1). Nenhum texto já formatado: os únicos textos são nomes e
 // títulos; rótulos, contagens, datas e durações são montados em `application/formatters.dart`.
+// Os modelos se comparam pelo conteúdo (listas item a item): as seções observam recortes do instantâneo e só
+// reconstroem quando o recorte muda (pendência 5 da T03; ver [HomeSnapshot.reusing]).
 
 /// Arte de capa de cada livro que a prancha 01 desenha (cada uma é uma ilustração própria nas fases das seções).
 /// Só a fixture do mundo de referência usa (D-34); livro real tem foto (D-79). As artes que só a v1 desenhava (Mrs.
@@ -87,6 +89,18 @@ class Book {
   final String? shortTitle;
   final String author;
   final BookCover cover;
+
+  @override
+  bool operator ==(Object other) =>
+      other is Book &&
+      other.id == id &&
+      other.title == title &&
+      other.shortTitle == shortTitle &&
+      other.author == author &&
+      other.cover == cover;
+
+  @override
+  int get hashCode => Object.hash(id, title, shortTitle, author, cover);
 }
 
 @immutable
@@ -103,6 +117,16 @@ class UserSummary {
   /// Inicial do avatar; `null` = convidado (ícone de pessoa).
   final String? initial;
   final int unreadNotifications;
+
+  @override
+  bool operator ==(Object other) =>
+      other is UserSummary &&
+      other.firstName == firstName &&
+      other.initial == initial &&
+      other.unreadNotifications == unreadNotifications;
+
+  @override
+  int get hashCode => Object.hash(firstName, initial, unreadNotifications);
 }
 
 @immutable
@@ -133,6 +157,28 @@ class ContinueReading {
   /// (D-254).
   final int? refPage;
   final int? refPagesTotal;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ContinueReading &&
+      other.book == book &&
+      other.format == format &&
+      other.progress == progress &&
+      other.timeLeft == timeLeft &&
+      other.highlightsCount == highlightsCount &&
+      other.refPage == refPage &&
+      other.refPagesTotal == refPagesTotal;
+
+  @override
+  int get hashCode => Object.hash(
+    book,
+    format,
+    progress,
+    timeLeft,
+    highlightsCount,
+    refPage,
+    refPagesTotal,
+  );
 }
 
 @immutable
@@ -157,6 +203,18 @@ class AlsoReadingItem {
 
   /// Livro de papel: o tempo já lido, a soma das sessões do livro (D-252); `null` = nenhuma sessão.
   final Duration? readTime;
+
+  @override
+  bool operator ==(Object other) =>
+      other is AlsoReadingItem &&
+      other.book == book &&
+      other.progress == progress &&
+      other.format == format &&
+      other.paperPage == paperPage &&
+      other.readTime == readTime;
+
+  @override
+  int get hashCode => Object.hash(book, progress, format, paperPage, readTime);
 }
 
 @immutable
@@ -174,6 +232,17 @@ class WeekDayStat {
   /// Altura da barra no gráfico da semana, em px (D-10).
   final double barHeightPx;
   final bool isToday;
+
+  @override
+  bool operator ==(Object other) =>
+      other is WeekDayStat &&
+      other.date == date &&
+      other.minutes == minutes &&
+      other.barHeightPx == barHeightPx &&
+      other.isToday == isToday;
+
+  @override
+  int get hashCode => Object.hash(date, minutes, barHeightPx, isToday);
 }
 
 @immutable
@@ -201,6 +270,28 @@ class ReadingDay {
 
   /// Sequência de dias que dá o selo.
   final int badgeTargetDays;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ReadingDay &&
+      other.goalMinutes == goalMinutes &&
+      other.readMinutes == readMinutes &&
+      other.streakDays == streakDays &&
+      other.highlightsToday == highlightsToday &&
+      other.sessionsToday == sessionsToday &&
+      other.badgeTargetDays == badgeTargetDays &&
+      listEquals(other.week, week);
+
+  @override
+  int get hashCode => Object.hash(
+    goalMinutes,
+    readMinutes,
+    streakDays,
+    highlightsToday,
+    sessionsToday,
+    badgeTargetDays,
+    Object.hashAll(week),
+  );
 }
 
 @immutable
@@ -210,6 +301,15 @@ class ForYou {
   /// Autor do motivo da recomendação ("Porque você lê …").
   final String reasonAuthor;
   final List<Book> items;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ForYou &&
+      other.reasonAuthor == reasonAuthor &&
+      listEquals(other.items, items);
+
+  @override
+  int get hashCode => Object.hash(reasonAuthor, Object.hashAll(items));
 }
 
 @immutable
@@ -218,6 +318,15 @@ class ClubParticipant {
 
   final String initial;
   final Color color;
+
+  @override
+  bool operator ==(Object other) =>
+      other is ClubParticipant &&
+      other.initial == initial &&
+      other.color == color;
+
+  @override
+  int get hashCode => Object.hash(initial, color);
 }
 
 @immutable
@@ -257,6 +366,38 @@ class BookClub {
   final String userInitial;
   final int unreadMessages;
   final DateTime nextMeeting;
+
+  @override
+  bool operator ==(Object other) =>
+      other is BookClub &&
+      other.id == id &&
+      other.namePrefix == namePrefix &&
+      other.nameHighlight == nameHighlight &&
+      other.book == book &&
+      other.untilChapter == untilChapter &&
+      other.participantsCount == participantsCount &&
+      other.groupProgress == groupProgress &&
+      other.userProgress == userProgress &&
+      other.userInitial == userInitial &&
+      other.unreadMessages == unreadMessages &&
+      other.nextMeeting == nextMeeting &&
+      listEquals(other.shownParticipants, shownParticipants);
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    namePrefix,
+    nameHighlight,
+    book,
+    untilChapter,
+    participantsCount,
+    groupProgress,
+    userProgress,
+    userInitial,
+    unreadMessages,
+    nextMeeting,
+    Object.hashAll(shownParticipants),
+  );
 }
 
 @immutable
@@ -270,6 +411,16 @@ class RecentItem {
   final Book book;
   final BookFormat format;
   final RecentStatus status;
+
+  @override
+  bool operator ==(Object other) =>
+      other is RecentItem &&
+      other.book == book &&
+      other.format == format &&
+      other.status == status;
+
+  @override
+  int get hashCode => Object.hash(book, format, status);
 }
 
 /// A revisão dos grifos do dia ("Seus grifos de hoje"). Só a fixture tem até a T05 (D-247).
@@ -291,6 +442,17 @@ class DailyReview {
   /// Nada a revisar: sem grifos ou sem livros de onde eles venham. Uma revisão vazia é "sem revisão" — o cartão
   /// some como no `null` (pendência 4 da T03): nunca "REVISÃO · 0 GRIFOS" nem o subtítulo sem livro.
   bool get isEmpty => highlights == 0 || bookTitles.isEmpty;
+
+  @override
+  bool operator ==(Object other) =>
+      other is DailyReview &&
+      other.highlights == highlights &&
+      other.minutes == minutes &&
+      listEquals(other.bookTitles, bookTitles);
+
+  @override
+  int get hashCode =>
+      Object.hash(highlights, minutes, Object.hashAll(bookTitles));
 }
 
 @immutable
@@ -339,6 +501,27 @@ class HomeSnapshot {
 
   /// Nenhum livro na estante do dono ativo: escolhe a frase do convite (D-78/D-85).
   final bool shelfIsEmpty;
+
+  /// Este instantâneo com as partes iguais às de [previous] trocadas pelas instâncias dele (as listas comparadas
+  /// item a item). O banco entrega objetos novos a cada leitura; com isto, a seção cujo recorte não mudou recebe o
+  /// mesmo objeto e não reconstrói (nem compara de novo nas leituras seguintes). O relógio é sempre o novo.
+  HomeSnapshot reusing(HomeSnapshot previous) {
+    T keep<T>(T current, T before) => current == before ? before : current;
+    List<T> keepList<T>(List<T> current, List<T> before) =>
+        listEquals(current, before) ? before : current;
+    return HomeSnapshot(
+      now: now,
+      user: keep(user, previous.user),
+      continueReading: keep(continueReading, previous.continueReading),
+      alsoReading: keepList(alsoReading, previous.alsoReading),
+      readingDay: keep(readingDay, previous.readingDay),
+      dailyReview: keep(dailyReview, previous.dailyReview),
+      forYou: keep(forYou, previous.forYou),
+      club: keep(club, previous.club),
+      recent: keepList(recent, previous.recent),
+      shelfIsEmpty: shelfIsEmpty,
+    );
+  }
 
   /// O mesmo instantâneo com outro cabeçalho (a conta — D-84); as seções continuam as mesmas instâncias.
   HomeSnapshot withUser(UserSummary user) => HomeSnapshot(
