@@ -292,6 +292,9 @@ abstract final class AppTextStyles {
   /// forYou.item1.cover.title
   static final TextStyle coverTitle19 = AppFonts.serif(19, height: 0.95);
 
+  /// i01.forYou.item1.cover.title ("Esaú / e Jacó"): Instrument Serif 22, `lh 0,95`, tinta.
+  static final TextStyle coverTitle22Ink = AppFonts.serif(22, height: 0.95);
+
   /// alsoReading.card1.cover.title
   static final TextStyle coverTitle11 = AppFonts.serif(11, height: 0.95);
 

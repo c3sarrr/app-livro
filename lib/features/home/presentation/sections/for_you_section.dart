@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -36,13 +37,18 @@ class ForYouSection extends ConsumerWidget {
     if (forYou == null) return const SizedBox.shrink();
     assert(
       forYou.items.every((b) => b.cover is PhotoCover) ||
-          (forYou.items.length == 3 &&
-              forYou.items[0].cover ==
-                  const DesignedCover(CoverArt.memoriasPostumas) &&
-              forYou.items[1].cover ==
-                  const DesignedCover(CoverArt.quincasBorba) &&
-              forYou.items[2].cover == const DesignedCover(CoverArt.oCortico)),
-      'As artes de capa do arquivo nesta seção: Memórias Póstumas, Quincas Borba e O Cortiço.',
+          listEquals(_arts(forYou.items), const [
+            CoverArt.memoriasPostumas,
+            CoverArt.quincasBorba,
+            CoverArt.oCortico,
+          ]) ||
+          listEquals(_arts(forYou.items), const [
+            CoverArt.esauEJaco,
+            CoverArt.memorialDeAires,
+            CoverArt.casaDePensao,
+          ]),
+      'As artes de capa do arquivo nesta seção: Memórias Póstumas, Quincas Borba e O Cortiço (v1) ou Esaú e Jacó, '
+      'Memorial de Aires e Casa de Pensão (01) — os mesmos três desenhos.',
     );
     final onBookTap = this.onBookTap;
     // <section aria-label="Para você"> (convenção §5.1 do prompt mestre).
@@ -103,6 +109,14 @@ class ForYouSection extends ConsumerWidget {
       ),
     );
   }
+
+  static List<CoverArt?> _arts(List<Book> items) => [
+    for (final b in items)
+      switch (b.cover) {
+        DesignedCover(:final art) => art,
+        PhotoCover() => null,
+      },
+  ];
 }
 
 /// Cabeçalho (44, `space-between`, centralizado): o `<h3>` 109,35 × 28,8 (→ y + 7,6) e o link "Ver tudo"
@@ -214,6 +228,13 @@ class _Item extends StatelessWidget {
         const MemoriasPostumasCover(),
       DesignedCover(art: CoverArt.quincasBorba) => const QuincasBorbaCover(),
       DesignedCover(art: CoverArt.oCortico) => const OCorticoCover(),
+      // Prancha 01: os mesmos desenhos com os títulos de Esaú e Jacó, Memorial de Aires e Casa de Pensão.
+      DesignedCover(art: CoverArt.esauEJaco) =>
+        const MemoriasPostumasCover.esauEJaco(),
+      DesignedCover(art: CoverArt.memorialDeAires) =>
+        const QuincasBorbaCover.memorialDeAires(),
+      DesignedCover(art: CoverArt.casaDePensao) =>
+        const OCorticoCover.casaDePensao(),
       // Livro real (D-79): a foto na moldura do arquivo (116×174).
       final PhotoCover c => PhotoBookCover(
         key: ValueKey('$id.cover'),

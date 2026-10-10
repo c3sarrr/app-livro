@@ -11,7 +11,21 @@ import '../../../../core/design_system/widgets/neo_box.dart';
 /// medidos dentro da borda e pintados na ordem do arquivo: lombada, arco externo, arco interno (a "porta",
 /// na cor do fundo) e bloco de texto.
 class OCorticoCover extends StatelessWidget {
-  const OCorticoCover({super.key});
+  const OCorticoCover({
+    super.key,
+    this.title = 'O Cortiço',
+    this.author = 'ALUÍSIO AZEVEDO',
+  });
+
+  /// "Casa de / Pensão" da prancha 01 (o mesmo desenho e o mesmo autor).
+  const OCorticoCover.casaDePensao({Key? key})
+    : this(key: key, title: 'Casa de\nPensão');
+
+  /// O texto do título na arte (com os `<br>` do arquivo como "\n").
+  final String title;
+
+  /// O autor em maiúsculas, como no arquivo.
+  final String author;
 
   @override
   Widget build(BuildContext context) {
@@ -81,12 +95,12 @@ class OCorticoCover extends StatelessWidget {
               spacing: 6,
               children: [
                 AppText(
-                  'O Cortiço',
+                  title,
                   key: const ValueKey('forYou.item3.cover.title'),
                   style: AppTextStyles.coverTitle26,
                 ),
                 AppText(
-                  'ALUÍSIO AZEVEDO',
+                  author,
                   key: const ValueKey('forYou.item3.cover.author'),
                   style: AppTextStyles.coverAuthorSurface,
                 ),

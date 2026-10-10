@@ -9,9 +9,24 @@ import '../../../../core/design_system/widgets/neo_box.dart';
 /// Arte da capa "Memórias Póstumas de Brás Cubas" de "Para você" (F08, item 1): 116×174, laranja, borda 1,5,
 /// raio 4/10/10/4, `overflow: hidden` (recorte na padding box 113×171, raio interno 2,5/8,5/8,5/2,5), sem
 /// sombra e sem rotação. Os filhos são absolutos, medidos dentro da borda e pintados na ordem do arquivo:
-/// lombada, elipse, título e autor.
+/// lombada, elipse, título e autor. Na prancha 01 o mesmo desenho é a capa de "Esaú e Jacó" ([MemoriasPostumasCover.
+/// esauEJaco]: "Esaú / e Jacó" em Instrument Serif 22).
 class MemoriasPostumasCover extends StatelessWidget {
-  const MemoriasPostumasCover({super.key});
+  const MemoriasPostumasCover({
+    super.key,
+    this.title = 'Memórias Póstumas de Brás Cubas',
+    this.largeTitle = false,
+  });
+
+  /// "Esaú e Jacó" da prancha 01: o `<br>` do arquivo e a serifada 22 `lh 0,95`.
+  const MemoriasPostumasCover.esauEJaco({Key? key})
+    : this(key: key, title: 'Esaú\ne Jacó', largeTitle: true);
+
+  /// O texto do título na arte (com os `<br>` do arquivo como "\n").
+  final String title;
+
+  /// O título na serifada 22 da 01 ([AppTextStyles.coverTitle22Ink]) em vez da 19 da v1.
+  final bool largeTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +69,18 @@ class MemoriasPostumasCover extends StatelessWidget {
               ),
             ),
           ),
-          // left 16 / right 10 → 87 de largura: quebra em "Memórias" / "Póstumas de" / "Brás Cubas".
+          // left 16 / right 10 → 87 de largura: quebra em "Memórias" / "Póstumas de" / "Brás Cubas" (v1); "Esaú" /
+          // "e Jacó" pelo `<br>` (01).
           Positioned(
             left: 16,
             right: 10,
             top: 16,
             child: AppText(
-              'Memórias Póstumas de Brás Cubas',
+              title,
               key: const ValueKey('forYou.item1.cover.title'),
-              style: AppTextStyles.coverTitle19,
+              style: largeTitle
+                  ? AppTextStyles.coverTitle22Ink
+                  : AppTextStyles.coverTitle19,
             ),
           ),
           // Só left/bottom: largura do texto (78,33). A cor é a do fundo — o texto só aparece sobre a elipse
