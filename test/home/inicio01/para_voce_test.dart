@@ -10,6 +10,7 @@ import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/core/design_system/widgets/pill.dart';
+import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/covers/memorias_postumas_cover.dart';
 import 'package:app_leitura/features/home/presentation/covers/o_cortico_cover.dart';
@@ -28,6 +29,32 @@ const _secoes = ['i01.forYou'];
 
 Future<void> _abrir(WidgetTester tester, {LeitorRefPrancha prancha = kRef01}) =>
     abrirInicio01(tester, prancha: prancha);
+
+/// A fixture `t01` com outro "Para você".
+final class _ComParaVoce implements SyncHomeRepository {
+  const _ComParaVoce(this.paraVoce);
+
+  final ForYou paraVoce;
+
+  @override
+  HomeSnapshot snapshot(DateTime now) {
+    final s = TelaInicio01.snapshot(now);
+    return HomeSnapshot(
+      now: s.now,
+      user: s.user,
+      continueReading: s.continueReading,
+      alsoReading: s.alsoReading,
+      readingDay: s.readingDay,
+      dailyReview: s.dailyReview,
+      forYou: paraVoce,
+      club: s.club,
+      recent: s.recent,
+    );
+  }
+
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
+}
 
 /// Voltar do sistema: fecha a rota do topo (de volta à Início).
 Future<void> _voltar(WidgetTester tester) async {
@@ -181,6 +208,39 @@ void main() {
         expect(_texto(tester, 'forYou.item${i + 1}.title'), b.title);
         expect(_texto(tester, 'forYou.item${i + 1}.author'), b.author);
       }
+    },
+  );
+
+  testWidgets(
+    'as capas desenhadas são só os trios do arquivo: desenho e foto misturados disparam o assert da seção',
+    (tester) async {
+      final [esau, memorial, _] = TelaInicio01.paraVoce.items;
+      await abrirInicio01(
+        tester,
+        repositorio: _ComParaVoce(
+          ForYou(
+            reasonAuthor: 'Machado de Assis',
+            items: [
+              esau,
+              memorial,
+              const Book(
+                id: '9788535914849',
+                title: 'Dom Casmurro',
+                author: 'Machado de Assis',
+                cover: PhotoCover(isbn13: '9788535914849'),
+              ),
+            ],
+          ),
+        ),
+      );
+      expect(
+        tester.takeException(),
+        isA<AssertionError>().having(
+          (e) => '${e.message}',
+          'mensagem',
+          contains('os mesmos três desenhos'),
+        ),
+      );
     },
   );
 

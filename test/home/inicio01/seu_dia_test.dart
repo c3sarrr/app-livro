@@ -219,6 +219,18 @@ void main() {
       await _abrir(tester, sessoes: 1);
       expect(findAppText('1 sessão'), findsOneWidget);
       expect(findAppText('1 destaque'), findsOneWidget);
+      // cada pílula com o seu número (as sessões e os destaques diferentes: 3 × 1)
+      await _abrir(tester, sessoes: 3);
+      for (final (id, texto) in [
+        ('i01.today.chip.sessions', '3 sessões'),
+        ('i01.today.chip.highlights', '1 destaque'),
+      ]) {
+        expect(
+          find.descendant(of: ini(id), matching: findAppText(texto)),
+          findsOneWidget,
+          reason: id,
+        );
+      }
     },
   );
 

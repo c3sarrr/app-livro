@@ -127,4 +127,63 @@ void main() {
       expect(_r(tester, _b).top, 30);
     },
   );
+
+  testWidgets(
+    'trocar o gap entre os filhos refaz o layout: o 2º desce quando não cabe mais',
+    (tester) async {
+      Widget wrap(double spacing) => Directionality(
+        textDirection: TextDirection.ltr,
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: SizedBox(
+            width: 200,
+            child: StretchWrap(
+              key: _w,
+              spacing: spacing,
+              runSpacing: 6,
+              children: [_caixa(_a, 100, 20), _caixa(_b, 60, 30)],
+            ),
+          ),
+        ),
+      );
+      await tester.pumpWidget(wrap(6));
+      expect(_r(tester, _b), const Rect.fromLTWH(106, 0, 60, 30));
+      await tester.pumpWidget(wrap(41));
+      expect(_r(tester, _b), const Rect.fromLTWH(0, 26, 60, 30));
+    },
+  );
+
+  testWidgets(
+    'a baseline é a do 1º filho: numa Row alinhada pela baseline, o texto dentro do StretchWrap fica na linha do de fora',
+    (tester) async {
+      await tester.pumpWidget(
+        const Directionality(
+          textDirection: TextDirection.ltr,
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  'X',
+                  key: ValueKey('fora'),
+                  style: TextStyle(fontSize: 40),
+                ),
+                StretchWrap(
+                  key: _w,
+                  children: [
+                    Text('Ab', key: _a, style: TextStyle(fontSize: 10)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+      // a fonte de teste tem ascent 0,75 em: 40 × 0,75 − 10 × 0,75 = 22,5
+      expect(_r(tester, _w).top, closeTo(22.5, 1e-6));
+      expect(_r(tester, _a).top, _r(tester, _w).top);
+    },
+  );
 }

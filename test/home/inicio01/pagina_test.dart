@@ -70,6 +70,36 @@ void main() {
       expect(comLinhas, hasLength(99));
       expect(kRef01.ellipsized, {'i01.alsoReading.card2.title'});
       expect(texto01(tester, kRef01.sections.keys), isEmpty);
+
+      // A tabela linha a linha (para o relatório): baseline, início e fim de cada linha; os 10 maiores desvios.
+      final desvios = <(String, double)>[];
+      var linhas = 0;
+      for (final id in idsDasSecoes(kRef01, kRef01.sections.keys)) {
+        final e = kRef01.elements[id]!;
+        final esperadas = e.linesAll.isNotEmpty ? e.linesAll : e.lines;
+        if (esperadas.isEmpty || kRef01.ellipsized.contains(id)) continue;
+        final got = e.linesAll.isNotEmpty
+            ? linhasCompostas01(tester, id)
+            : linhas01(tester, id, esperadas.first.text);
+        for (var i = 0; i < esperadas.length; i++) {
+          final r = esperadas[i];
+          linhas++;
+          for (final (o, d) in [
+            ('baseline', got[i].baseline - r.baseline),
+            ('início', got[i].left - r.left),
+            ('fim', got[i].right - r.right),
+          ]) {
+            desvios.add(('$id[$i] "${r.text}" Δ$o', d));
+          }
+        }
+      }
+      desvios.sort((a, b) => b.$2.abs().compareTo(a.$2.abs()));
+      debugPrint(
+        '[T03 linhas 390] $linhas linhas (fora a reticência); 10 maiores desvios:',
+      );
+      for (final (n, d) in desvios.take(10)) {
+        debugPrint('[T03 linhas 390]   $n = ${d.toStringAsFixed(3)}');
+      }
     },
   );
 

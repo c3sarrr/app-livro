@@ -110,6 +110,23 @@ void main() {
     });
   });
 
+  group('revisão do dia (D-247: só a fixture até a T05)', () {
+    test('guarda os grifos, os minutos e os livros como vieram', () {
+      final titulos = ['Dom Casmurro', 'Iracema'];
+      final r = DailyReview(
+        highlights: titulos.length + 3,
+        minutes: 2,
+        bookTitles: titulos,
+      );
+      expect((r.highlights, r.minutes), (5, 2));
+      expect(r.bookTitles, ['Dom Casmurro', 'Iracema']);
+      expect(
+        HomeFormatters.reviewSubtitle(r.bookTitles),
+        'De Dom Casmurro e Iracema.',
+      );
+    });
+  });
+
   group('textos novos', () {
     test('livro de papel: "Papel" (D-85; nome da prancha 01 — D-255)', () {
       expect(HomeFormatters.formatLabel(BookFormat.physical), 'Papel');
