@@ -265,6 +265,7 @@ void main() {
           <String, Object?>{...ok, 'v': 2},
           <String, Object?>{...ok}..remove('book'),
           <String, Object?>{...ok, 'id': 'não é uuid'},
+          <String, Object?>{...ok, 'book': ''},
           <String, Object?>{...ok, 'activeSeconds': -1},
           <String, Object?>{...ok, 'activeSeconds': 86401},
           <String, Object?>{...ok, 'activeSeconds': '42'},

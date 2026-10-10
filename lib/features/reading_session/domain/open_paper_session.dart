@@ -62,7 +62,12 @@ final class OpenPaperSession {
     DateTime? runningSince,
     DateTime? pausedAt,
   }) : id = Check.uuid(id, 'id'),
-       userBookId = Check.uuid(userBookId, 'userBookId'),
+       userBookId = Check.text(
+         userBookId,
+         min: 1,
+         max: 200,
+         name: 'userBookId',
+       ),
        startedAt = Check.utc(startedAt, 'startedAt'),
        activeSeconds = Check.range(
          activeSeconds,
@@ -91,6 +96,9 @@ final class OpenPaperSession {
 
   /// O id da linha de `reading_sessions` (UUIDv7 gerado no começo).
   final String id;
+
+  /// O livro na estante (`user_books.id`): o writer e a fonte do livro conferem no banco — livro que não está lá
+  /// descarta a sessão (R8).
   final String userBookId;
 
   /// Início de parede (UTC) — a chave da partição mensal no servidor.

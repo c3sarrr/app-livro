@@ -12,6 +12,8 @@ import 'package:app_leitura/features/reading_session/domain/open_paper_session.d
 import 'package:app_leitura/features/reading_session/domain/paper_timer_failure.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 
+import 'telas/inicio01b.dart';
+
 /// O dono das sessões dos testes (o usuário do mundo de referência).
 const String donoDaSessao = '6f1c2a3b-4d5e-4f60-8a7b-9c0d1e2f3a4b';
 
@@ -131,3 +133,23 @@ List<Override> overridesDaSessao({
 
 /// Lança a falha tipada como o writer real (para os testes da folha).
 const PaperTimerFailure livroSumiu = PaperBookGone();
+
+/// A estante de papel das pranchas 01/01b: o Brás Cubas (sem página) e o Orgulho e Preconceito (pág. 344 de 425).
+FixedPaperBookSource estanteDePapel01({
+  Map<String, int> paginasDoCatalogo = const {},
+}) => FixedPaperBookSource({
+  TelaInicio01b.livroDaSessao.book.id: TelaInicio01b.livroDaSessao,
+  TelaInicio01b.orgulho.book.id: TelaInicio01b.orgulho,
+}, paginasDoCatalogo: paginasDoCatalogo);
+
+/// A prancha 01b: a sessão do Brás Cubas rodando há 8 min 42 s (com o relógio do mundo), a estante de papel da 01.
+List<Override> overridesDa01b({
+  MemoryPaperTimerStore? store,
+  RecordingPaperSessionWriter? writer,
+  SecondTicker? ticker,
+}) => overridesDaSessao(
+  store: store ?? MemoryPaperTimerStore({donoDaSessao: TelaInicio01b.sessao}),
+  writer: writer,
+  livros: estanteDePapel01(),
+  ticker: ticker,
+);

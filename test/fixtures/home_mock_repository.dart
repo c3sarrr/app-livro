@@ -5,6 +5,7 @@ import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 
 import 'telas/inicio01.dart';
+import 'telas/inicio01b.dart';
 
 class HomeMockRepository implements SyncHomeRepository {
   const HomeMockRepository();
@@ -25,6 +26,18 @@ class HomeMockRepository implements SyncHomeRepository {
   HomeSnapshot snapshot(DateTime now) => TelaInicio01.snapshot(now);
 
   /// Dados fixos: nada muda depois do instantâneo inicial (D-09).
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
+}
+
+/// A Início da prancha 01b (T04): a 01 sem a revisão — a sessão do cronômetro vem dos overrides da sessão
+/// (`overridesDa01b`, em `paper_timer_fakes.dart`).
+class HomeMockRepository01b implements SyncHomeRepository {
+  const HomeMockRepository01b();
+
+  @override
+  HomeSnapshot snapshot(DateTime now) => TelaInicio01b.snapshot(now);
+
   @override
   Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
 }
