@@ -5,7 +5,9 @@
 > do relatório T02 e foram tomadas por delegação (10/10/2026: "nas decisões escolha o que você achar melhor, pois quero
 > tudo na maior qualidade e nada simplificado"); o porquê de cada uma está em `docs/progresso/T02.md`. As D-252…D-255
 > são as 4 regras da Início que a prancha 01 mostra e não define, respondidas em 10/10/2026 no começo da T03 (as 4
-> propostas recomendadas); detalhe em `docs/progresso/T03.md`.
+> propostas recomendadas); detalhe em `docs/progresso/T03.md`. As D-256…D-263 são as 8 regras do cronômetro do livro
+> de papel que a prancha 01b mostra e não define, respondidas em 10/10/2026 no começo da T04 (as 8 propostas
+> recomendadas); detalhe em `docs/progresso/T04.md`.
 > Formato do roteiro: `handoff_v2/00_PROMPT_MESTRE_V2.md` §6 (trilha T: G01-bis → uma fase por tela → integração),
 > §7 (verificação), §8 (roteiro de cada fase), §9 (relatório). O prompt mestre e o mapa (§11) **não foram editados**:
 > a inserção é a decisão D-239, para você aprovar.
@@ -62,6 +64,14 @@ A última decisão usada é a D-238 (G22).
 | **D-253** | **No cartão do Também lendo, a página decide "play" × anel:** livro de papel com página registrada → anel com o progresso e "Papel · pág. N"; sem página → "play" (sem ação até a T04) e "Papel · tempo" (D-252); e-book e PDF → anel, sem pílula (a prancha não desenha pílula para eles). A página do papel vem da posição do livro (`reading_positions.ref_page`), que a T04 grava no fim da sessão. | "play" só no 1º livro de papel · "play" em todo livro de papel |
 | **D-254** | **Selo do formato no herói:** EPUB → "E-BOOK", PDF → "PDF", físico → "PAPEL", todos no estilo amarelo da prancha. A pílula "pág. X de Y" é a página de referência atual (`reading_positions.ref_page`) e o total (`user_books.ref_pages_total`, G10); sem um dos dois, a pílula some e o selo fica sozinho. | "E-BOOK" também no PDF · selo só no EPUB |
 | **D-255** | **Recém-chegados com "Lido":** os 3 adicionados mais recentes, nunca abertos no app, com situação "quero ler" ou "lido" (`finished`). Lido → "Lido" (vale mais que o "Novo"); quero ler → "Novo"/"Quero ler" pela D-88. O formato físico se chama "Papel" (como a prancha). | Qualquer situação menos "lendo" · "Lido" só na fixture |
+| **D-256** | **Fim da sessão do papel:** o toque na mini-barra abre a folha da sessão (mínimo da D-23, vocabulário da D-21): o livro, o tempo, Pausar/Retomar, "Em que página você parou?" (opcional), "Encerrar sessão" e "Descartar sessão" (com confirmação). O item "toque na mini-barra" da D-243 passa de (b) para (a); a tela do cronômetro (C15) substitui a folha quando tiver prancha. | Segurar o pausar abre a folha; o toque na mini-barra continua sem ação |
+| **D-257** | **Sessão pausada:** mini-barra igual à da 01b com o play em tinta no lugar do pausar ("Retomar"), o tempo parado e "EM PAUSA · PAPEL" com o ponto `#B9AE9C`; no cartão, o play amarelo da 01 com o aro coral, rótulo "Retomar leitura de …". | Só o ícone e o tempo mudam |
+| **D-258** | **"Ler agora":** com sessão aberta, age nela (pausada → retoma; rodando → nada); sem sessão, o cronômetro do livro de papel em leitura mais recente (o herói, se for de papel; senão o 1º de papel do Também lendo); sem livro de papel em leitura, abre o herói no leitor. | Sempre o herói · só papel, senão nada |
+| **D-259** | **Mini-barra nas 4 abas do shell**, com o degradê de 240 / 48 % da 01b; some nas telas empilhadas; a folga do fim de cada aba cresce 96 (66 + 30) enquanto ela aparece. | Só na Início |
+| **D-260** | **Total de páginas do papel:** sem `ref_pages_total`, a folha pede também "De quantas páginas é o livro?", já com as páginas do catálogo do aparelho pelo ISBN quando houver, e grava no livro; a página vai de 1 ao total. | Total do catálogo, senão só a página (anel em 0 %) |
+| **D-261** | **Encerrar conta como abrir:** o fim da sessão grava `last_opened_at` e o livro vira o herói na próxima leitura da Início; durante a sessão nada muda de lugar. | Só com página · nunca |
+| **D-262** | **Uma sessão por vez:** o play de outro livro com sessão aberta abre a folha da atual; ao encerrar ou descartar, a do outro livro começa. | Troca direto (sem página) · play sem ação |
+| **D-263** | **O leitor pausa o papel:** abrir qualquer livro no leitor pausa a sessão do papel que estiver rodando. | O cronômetro continua (tempo em dobro) |
 
 ## 4. As fases
 
