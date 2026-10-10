@@ -1,0 +1,77 @@
+// dart format off
+// GERADO AUTOMATICAMENTE por tools/medicao/gen_reference_dart.py — NÃO EDITE À MÃO.
+// Prancha 61 · Revisão — grifo 2 de 5 — canvas 390×844, dp lógico = px CSS.
+// Medido no Chromium 141 com zoom 100 (bordas exatas de 1,5/1,3/1,2 px, métricas sem arredondamento).
+// ignore_for_file: lines_longer_than_80_chars
+import 'dart:ui';
+
+import '../leitor/ref_tipos.dart';
+
+const LeitorRefPrancha kRef61 = LeitorRefPrancha(
+  tela: '61',
+  slug: '061_revisao_grifo_2_de_5',
+  prefix: 'rv61',
+  canvas: Size(390.0, 844.0),
+  sections: <String, Rect>{
+    'rv61.header': Rect.fromLTWH(20.0, 58.0, 350.0, 70.0),
+    'rv61.deck': Rect.fromLTWH(24.0, 156.0, 342.0, 452.0),
+    'rv61.swipeHint': Rect.fromLTWH(0.0, 626.0, 390.0, 14.4),
+    'rv61.actions': Rect.fromLTWH(20.0, 702.0, 350.0, 112.0),
+  },
+  elements: <String, LeitorRefElement>{
+    'rv61.header': LeitorRefElement('rv61.header', Rect.fromLTWH(20.0, 58.0, 350.0, 70.0), LeitorRefKind.box),
+    'rv61.header.bar': LeitorRefElement('rv61.header', Rect.fromLTWH(20.0, 58.0, 350.0, 48.0), LeitorRefKind.box),
+    'rv61.header.close': LeitorRefElement('rv61.header', Rect.fromLTWH(20.0, 58.0, 48.0, 48.0), LeitorRefKind.box),
+    'rv61.header.close.icon': LeitorRefElement('rv61.header', Rect.fromLTWH(34.0, 72.0, 20.0, 20.0), LeitorRefKind.icon),
+    'rv61.header.title': LeitorRefElement('rv61.header', Rect.fromLTWH(137.63, 69.0, 114.74, 26.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Revisão', 137.63, 201.44, 88.8)], linesAll: <LeitorRefLine>[LeitorRefLine('Revisão de hoje', 137.63, 252.37, 88.8)]),
+    'rv61.header.title.serif': LeitorRefElement('rv61.header', Rect.fromLTWH(204.91, 69.0, 47.46, 26.0), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('de hoje', 204.91, 252.37, 88.8)]),
+    'rv61.header.counter': LeitorRefElement('rv61.header', Rect.fromLTWH(322.0, 74.2, 48.0, 15.6), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('2 de 5', 332.3, 370.0, 86.55)]),
+    'rv61.header.progressBlock': LeitorRefElement('rv61.header', Rect.fromLTWH(20.0, 118.0, 350.0, 10.0), LeitorRefKind.box),
+    'rv61.header.progress': LeitorRefElement('rv61.header', Rect.fromLTWH(20.0, 118.0, 350.0, 10.0), LeitorRefKind.box),
+    'rv61.header.progress.step0': LeitorRefElement('rv61.header', Rect.fromLTWH(20.0, 118.0, 66.0, 10.0), LeitorRefKind.box),
+    'rv61.header.progress.step1': LeitorRefElement('rv61.header', Rect.fromLTWH(91.0, 118.0, 66.0, 10.0), LeitorRefKind.box),
+    'rv61.header.progress.step2': LeitorRefElement('rv61.header', Rect.fromLTWH(162.0, 118.0, 66.0, 10.0), LeitorRefKind.box),
+    'rv61.header.progress.step3': LeitorRefElement('rv61.header', Rect.fromLTWH(233.0, 118.0, 66.0, 10.0), LeitorRefKind.box),
+    'rv61.header.progress.step4': LeitorRefElement('rv61.header', Rect.fromLTWH(304.0, 118.0, 66.0, 10.0), LeitorRefKind.box),
+    'rv61.deck': LeitorRefElement('rv61.deck', Rect.fromLTWH(24.0, 156.0, 342.0, 452.0), LeitorRefKind.box),
+    'rv61.deck.behind2': LeitorRefElement('rv61.deck', Rect.fromLTWH(30.0, 166.0, 342.0, 452.0), LeitorRefKind.box, visual: Rect.fromLTWH(10.95, 151.96, 380.09, 480.09)),
+    'rv61.deck.behind1': LeitorRefElement('rv61.deck', Rect.fromLTWH(26.0, 162.0, 342.0, 452.0), LeitorRefKind.box, visual: Rect.fromLTWH(10.65, 150.62, 372.7, 474.76)),
+    'rv61.deck.card': LeitorRefElement('rv61.deck', Rect.fromLTWH(24.0, 156.0, 342.0, 452.0), LeitorRefKind.box),
+    'rv61.deck.card.top': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 175.5, 303.0, 24.0), LeitorRefKind.box),
+    'rv61.deck.card.top.book': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 179.0, 139.3, 17.0), LeitorRefKind.box),
+    'rv61.deck.card.top.book.spine': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 179.0, 12.0, 17.0), LeitorRefKind.box),
+    'rv61.deck.card.top.book.label': LeitorRefElement('rv61.deck', Rect.fromLTWH(61.5, 180.59, 121.3, 13.81), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Dom Casmurro · pág. 6', 61.5, 182.8, 191.53)]),
+    'rv61.deck.card.top.tag': LeitorRefElement('rv61.deck', Rect.fromLTWH(249.45, 175.5, 97.05, 24.0), LeitorRefKind.boxText, lines: <LeitorRefLine>[LeitorRefLine('personagem', 272.65, 336.3, 191.35)]),
+    'rv61.deck.card.top.tag.dot': LeitorRefElement('rv61.deck', Rect.fromLTWH(256.65, 182.0, 11.0, 11.0), LeitorRefKind.box),
+    'rv61.deck.card.quote': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 217.5, 303.0, 136.4), LeitorRefKind.box, linesAll: <LeitorRefLine>[LeitorRefLine('O meu fim evidente era atar', 43.5, 328.38, 244.1), LeitorRefLine('as duas pontas da vida, e', 43.5, 295.28, 278.2), LeitorRefLine('restaurar na velhice a', 43.5, 266.73, 312.3), LeitorRefLine('adolescência.', 43.5, 182.94, 346.4)]),
+    'rv61.deck.card.quote.mark': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 218.21, 284.88, 134.97), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('O meu fim evidente era atar', 43.5, 328.38, 244.1), LeitorRefLine('as duas pontas da vida, e', 43.5, 295.28, 278.2), LeitorRefLine('restaurar na velhice a', 43.5, 266.73, 312.3), LeitorRefLine('adolescência.', 43.5, 182.94, 346.4)]),
+    'rv61.deck.card.note': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 371.9, 175.01, 53.55), LeitorRefKind.box, visual: Rect.fromLTWH(42.96, 370.07, 176.09, 57.2)),
+    'rv61.deck.card.note.tape': LeitorRefElement('rv61.deck', Rect.fromLTWH(112.0, 365.4, 38.0, 14.0), LeitorRefKind.box, visual: Rect.fromLTWH(110.99, 364.03, 38.92, 16.75)),
+    'rv61.deck.card.note.label': LeitorRefElement('rv61.deck', Rect.fromLTWH(55.0, 383.4, 152.01, 12.0), LeitorRefKind.text, visual: Rect.fromLTWH(54.7, 381.81, 152.22, 15.18), lines: <LeitorRefLine>[LeitorRefLine('NOTA', 55.0, 87.09, 392.9)]),
+    'rv61.deck.card.note.text': LeitorRefElement('rv61.deck', Rect.fromLTWH(55.0, 397.4, 152.01, 17.55), LeitorRefKind.text, visual: Rect.fromLTWH(54.99, 395.81, 152.34, 20.73), lines: <LeitorRefLine>[LeitorRefLine('É o livro todo nessa frase.', 55.0, 207.01, 410.72)]),
+    'rv61.deck.card.spacer': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 425.45, 303.0, 139.65), LeitorRefKind.box),
+    'rv61.deck.card.footer': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 565.1, 303.0, 25.4), LeitorRefKind.box),
+    'rv61.deck.card.footer.when': LeitorRefElement('rv61.deck', Rect.fromLTWH(43.5, 576.1, 120.26, 14.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Você grifou há 17 dias', 43.5, 163.76, 587.5)]),
+    'rv61.deck.card.footer.reviewed': LeitorRefElement('rv61.deck', Rect.fromLTWH(278.84, 576.1, 67.66, 14.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('revisto 1 vez', 278.84, 346.5, 587.5)]),
+    'rv61.swipeHint': LeitorRefElement('rv61.swipeHint', Rect.fromLTWH(0.0, 626.0, 390.0, 14.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('deslize o cartão para o próximo', 109.16, 280.84, 637.4)]),
+    'rv61.actions': LeitorRefElement('rv61.actions', Rect.fromLTWH(20.0, 702.0, 350.0, 112.0), LeitorRefKind.box),
+    'rv61.actions.frequency': LeitorRefElement('rv61.actions', Rect.fromLTWH(20.0, 702.0, 350.0, 50.0), LeitorRefKind.box),
+    'rv61.actions.less': LeitorRefElement('rv61.actions', Rect.fromLTWH(20.0, 702.0, 170.0, 50.0), LeitorRefKind.boxText, lines: <LeitorRefLine>[LeitorRefLine('Menos vezes', 76.09, 158.91, 731.9)]),
+    'rv61.actions.less.icon': LeitorRefElement('rv61.actions', Rect.fromLTWH(51.09, 718.0, 18.0, 18.0), LeitorRefKind.icon),
+    'rv61.actions.more': LeitorRefElement('rv61.actions', Rect.fromLTWH(200.0, 702.0, 170.0, 50.0), LeitorRefKind.boxText, lines: <LeitorRefLine>[LeitorRefLine('Mais vezes', 262.38, 332.62, 731.9)]),
+    'rv61.actions.more.icon': LeitorRefElement('rv61.actions', Rect.fromLTWH(237.38, 718.0, 18.0, 18.0), LeitorRefKind.icon),
+    'rv61.actions.row': LeitorRefElement('rv61.actions', Rect.fromLTWH(20.0, 762.0, 350.0, 52.0), LeitorRefKind.box),
+    'rv61.actions.note': LeitorRefElement('rv61.actions', Rect.fromLTWH(20.0, 762.0, 52.0, 52.0), LeitorRefKind.box),
+    'rv61.actions.note.icon': LeitorRefElement('rv61.actions', Rect.fromLTWH(36.0, 778.0, 20.0, 20.0), LeitorRefKind.icon),
+    'rv61.actions.share': LeitorRefElement('rv61.actions', Rect.fromLTWH(82.0, 762.0, 52.0, 52.0), LeitorRefKind.box),
+    'rv61.actions.share.icon': LeitorRefElement('rv61.actions', Rect.fromLTWH(98.0, 778.0, 20.0, 20.0), LeitorRefKind.icon),
+    'rv61.actions.next': LeitorRefElement('rv61.actions', Rect.fromLTWH(144.0, 762.0, 226.0, 52.0), LeitorRefKind.box),
+    'rv61.actions.next.label': LeitorRefElement('rv61.actions', Rect.fromLTWH(213.99, 778.7, 60.02, 18.61), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Próximo', 213.99, 274.01, 793.42)]),
+    'rv61.actions.next.icon': LeitorRefElement('rv61.actions', Rect.fromLTWH(282.01, 779.0, 18.0, 18.0), LeitorRefKind.icon),
+  },
+  textDependentX: <String>{'rv61.actions.less.icon', 'rv61.actions.more.icon', 'rv61.actions.next.icon', 'rv61.actions.next.label', 'rv61.deck.card.footer.reviewed', 'rv61.deck.card.footer.when', 'rv61.deck.card.note', 'rv61.deck.card.note.label', 'rv61.deck.card.note.tape', 'rv61.deck.card.note.text', 'rv61.deck.card.quote.mark', 'rv61.deck.card.top.book', 'rv61.deck.card.top.book.label', 'rv61.deck.card.top.tag', 'rv61.deck.card.top.tag.dot', 'rv61.header.title', 'rv61.header.title.serif'},
+  textDependentY: <String>{},
+  ellipsized: <String>{},
+  knifeEdges: <LeitorKnifeEdge>[
+  ],
+);

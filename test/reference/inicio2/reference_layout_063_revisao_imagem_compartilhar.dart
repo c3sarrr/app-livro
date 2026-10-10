@@ -1,0 +1,77 @@
+// dart format off
+// GERADO AUTOMATICAMENTE por tools/medicao/gen_reference_dart.py — NÃO EDITE À MÃO.
+// Prancha 63 · Revisão — imagem para compartilhar — canvas 390×844, dp lógico = px CSS.
+// Medido no Chromium 141 com zoom 100 (bordas exatas de 1,5/1,3/1,2 px, métricas sem arredondamento).
+// ignore_for_file: lines_longer_than_80_chars
+import 'dart:ui';
+
+import '../leitor/ref_tipos.dart';
+
+const LeitorRefPrancha kRef63 = LeitorRefPrancha(
+  tela: '63',
+  slug: '063_revisao_imagem_compartilhar',
+  prefix: 'rv63',
+  canvas: Size(390.0, 844.0),
+  sections: <String, Rect>{
+    'rv63.scrim': Rect.fromLTWH(0.0, 0.0, 390.0, 844.0),
+    'rv63.sheet': Rect.fromLTWH(0.0, 50.0, 390.0, 794.0),
+  },
+  elements: <String, LeitorRefElement>{
+    'rv63.scrim': LeitorRefElement('rv63.scrim', Rect.fromLTWH(0.0, 0.0, 390.0, 844.0), LeitorRefKind.box),
+    'rv63.sheet': LeitorRefElement('rv63.sheet', Rect.fromLTWH(0.0, 50.0, 390.0, 794.0), LeitorRefKind.box),
+    'rv63.sheet.handle': LeitorRefElement('rv63.sheet', Rect.fromLTWH(175.0, 63.5, 40.0, 5.0), LeitorRefKind.box),
+    'rv63.sheet.header': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 76.5, 350.0, 44.0), LeitorRefKind.box),
+    'rv63.sheet.title': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 82.9, 169.75, 31.2), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Compartilhar', 20.0, 146.64, 106.66)], linesAll: <LeitorRefLine>[LeitorRefLine('Compartilhar grifo', 20.0, 189.75, 106.66)]),
+    'rv63.sheet.title.serif': LeitorRefElement('rv63.sheet', Rect.fromLTWH(150.66, 82.9, 39.09, 31.2), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('grifo', 150.66, 189.75, 106.66)]),
+    'rv63.sheet.close': LeitorRefElement('rv63.sheet', Rect.fromLTWH(326.0, 76.5, 44.0, 44.0), LeitorRefKind.box),
+    'rv63.sheet.close.icon': LeitorRefElement('rv63.sheet', Rect.fromLTWH(339.0, 89.5, 18.0, 18.0), LeitorRefKind.icon),
+    'rv63.sheet.previewWrap': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 134.5, 350.0, 394.0), LeitorRefKind.box),
+    'rv63.sheet.preview': LeitorRefElement('rv63.sheet', Rect.fromLTWH(84.0, 134.5, 222.0, 394.0), LeitorRefKind.box),
+    'rv63.sheet.preview.sparkle': LeitorRefElement('rv63.sheet', Rect.fromLTWH(258.5, 152.0, 30.0, 30.0), LeitorRefKind.icon),
+    'rv63.sheet.preview.quoteMark': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 158.0, 179.0, 30.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('“', 105.5, 125.72, 198.96)]),
+    'rv63.sheet.preview.quote': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 198.0, 179.0, 135.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('O meu fim evidente', 105.5, 275.5, 220.0), LeitorRefLine('era , e', 105.5, 254.75, 247.0), LeitorRefLine('restaurar na velhice', 105.5, 282.6, 301.0), LeitorRefLine('a adolescência.', 105.5, 238.7, 328.0)], linesAll: <LeitorRefLine>[LeitorRefLine('O meu fim evidente', 105.5, 275.5, 220.0), LeitorRefLine('era atar as duas', 105.5, 247.1, 247.0), LeitorRefLine('pontas da vida, e', 105.5, 254.75, 274.0), LeitorRefLine('restaurar na velhice', 105.5, 282.6, 301.0), LeitorRefLine('a adolescência.', 105.5, 238.7, 328.0)]),
+    'rv63.sheet.preview.quote.highlight': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 222.25, 141.6, 59.5), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('atar as duas', 138.25, 247.1, 247.0), LeitorRefLine('pontas da vida', 105.5, 236.93, 274.0)]),
+    'rv63.sheet.preview.spacer': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 333.0, 179.0, 100.2), LeitorRefKind.box),
+    'rv63.sheet.preview.book': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 433.2, 179.0, 15.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Dom Casmurro', 105.5, 209.59, 445.52)]),
+    'rv63.sheet.preview.author': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 448.6, 179.0, 13.2), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Machado de Assis · pág. 6', 105.5, 234.69, 459.05)]),
+    'rv63.sheet.preview.footer': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 473.8, 179.0, 35.2), LeitorRefKind.box),
+    'rv63.sheet.preview.footer.handle': LeitorRefElement('rv63.sheet', Rect.fromLTWH(105.5, 485.0, 99.44, 24.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('grifado por', 105.5, 157.61, 494.5), LeitorRefLine('@marinacosta', 105.5, 173.02, 506.5)]),
+    'rv63.sheet.preview.footer.brand': LeitorRefElement('rv63.sheet', Rect.fromLTWH(210.94, 489.0, 73.56, 16.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('BookNest', 230.94, 284.5, 500.63)]),
+    'rv63.sheet.preview.footer.brand.mark': LeitorRefElement('rv63.sheet', Rect.fromLTWH(210.94, 489.0, 16.0, 16.0), LeitorRefKind.box),
+    'rv63.sheet.preview.footer.brand.icon': LeitorRefElement('rv63.sheet', Rect.fromLTWH(214.44, 492.5, 9.0, 9.0), LeitorRefKind.icon),
+    'rv63.sheet.colors': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 546.5, 350.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.colors.cream': LeitorRefElement('rv63.sheet', Rect.fromLTWH(63.0, 546.5, 34.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.colors.yellow': LeitorRefElement('rv63.sheet', Rect.fromLTWH(109.0, 546.5, 34.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.colors.pink': LeitorRefElement('rv63.sheet', Rect.fromLTWH(155.0, 546.5, 34.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.colors.green': LeitorRefElement('rv63.sheet', Rect.fromLTWH(201.0, 546.5, 34.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.colors.lavender': LeitorRefElement('rv63.sheet', Rect.fromLTWH(247.0, 546.5, 34.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.colors.ink': LeitorRefElement('rv63.sheet', Rect.fromLTWH(293.0, 546.5, 34.0, 34.0), LeitorRefKind.box),
+    'rv63.sheet.toggles': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 594.5, 350.0, 108.0), LeitorRefKind.box),
+    'rv63.sheet.toggles.note': LeitorRefElement('rv63.sheet', Rect.fromLTWH(35.5, 600.0, 319.0, 49.0), LeitorRefKind.box),
+    'rv63.sheet.toggles.note.label': LeitorRefElement('rv63.sheet', Rect.fromLTWH(35.5, 615.6, 125.34, 16.8), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Mostrar minha nota', 35.5, 160.84, 628.9)]),
+    'rv63.sheet.toggles.note.switch': LeitorRefElement('rv63.sheet', Rect.fromLTWH(302.5, 608.0, 52.0, 32.0), LeitorRefKind.box),
+    'rv63.sheet.toggles.note.switch.knob': LeitorRefElement('rv63.sheet', Rect.fromLTWH(307.0, 612.5, 23.0, 23.0), LeitorRefKind.box),
+    'rv63.sheet.toggles.handle': LeitorRefElement('rv63.sheet', Rect.fromLTWH(35.5, 649.0, 319.0, 48.0), LeitorRefKind.box),
+    'rv63.sheet.toggles.handle.label': LeitorRefElement('rv63.sheet', Rect.fromLTWH(35.5, 664.6, 98.83, 16.8), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Mostrar meu @', 35.5, 134.33, 677.9)]),
+    'rv63.sheet.toggles.handle.switch': LeitorRefElement('rv63.sheet', Rect.fromLTWH(302.5, 657.0, 52.0, 32.0), LeitorRefKind.box),
+    'rv63.sheet.toggles.handle.switch.knob': LeitorRefElement('rv63.sheet', Rect.fromLTWH(327.0, 661.5, 23.0, 23.0), LeitorRefKind.box),
+    'rv63.sheet.actions': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 718.5, 350.0, 72.4), LeitorRefKind.box),
+    'rv63.sheet.actions.save': LeitorRefElement('rv63.sheet', Rect.fromLTWH(20.0, 718.5, 87.5, 72.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Salvar', 46.72, 80.78, 787.9)]),
+    'rv63.sheet.actions.save.tile': LeitorRefElement('rv63.sheet', Rect.fromLTWH(37.75, 718.5, 52.0, 52.0), LeitorRefKind.box),
+    'rv63.sheet.actions.save.icon': LeitorRefElement('rv63.sheet', Rect.fromLTWH(52.75, 733.5, 22.0, 22.0), LeitorRefKind.icon),
+    'rv63.sheet.actions.stories': LeitorRefElement('rv63.sheet', Rect.fromLTWH(107.5, 718.5, 87.5, 72.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Stories', 131.8, 170.7, 787.9)]),
+    'rv63.sheet.actions.stories.tile': LeitorRefElement('rv63.sheet', Rect.fromLTWH(125.25, 718.5, 52.0, 52.0), LeitorRefKind.box),
+    'rv63.sheet.actions.stories.icon': LeitorRefElement('rv63.sheet', Rect.fromLTWH(140.25, 733.5, 22.0, 22.0), LeitorRefKind.icon),
+    'rv63.sheet.actions.copy': LeitorRefElement('rv63.sheet', Rect.fromLTWH(195.0, 718.5, 87.5, 72.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Copiar texto', 204.2, 273.3, 787.9)]),
+    'rv63.sheet.actions.copy.tile': LeitorRefElement('rv63.sheet', Rect.fromLTWH(212.75, 718.5, 52.0, 52.0), LeitorRefKind.box),
+    'rv63.sheet.actions.copy.icon': LeitorRefElement('rv63.sheet', Rect.fromLTWH(227.75, 733.5, 22.0, 22.0), LeitorRefKind.icon),
+    'rv63.sheet.actions.more': LeitorRefElement('rv63.sheet', Rect.fromLTWH(282.5, 718.5, 87.5, 72.4), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Mais', 313.54, 338.96, 787.9)]),
+    'rv63.sheet.actions.more.tile': LeitorRefElement('rv63.sheet', Rect.fromLTWH(300.25, 718.5, 52.0, 52.0), LeitorRefKind.box),
+    'rv63.sheet.actions.more.icon': LeitorRefElement('rv63.sheet', Rect.fromLTWH(315.25, 733.5, 22.0, 22.0), LeitorRefKind.icon),
+  },
+  textDependentX: <String>{'rv63.sheet.preview.footer.brand', 'rv63.sheet.preview.footer.brand.icon', 'rv63.sheet.preview.footer.brand.mark', 'rv63.sheet.preview.footer.handle', 'rv63.sheet.preview.quote.highlight', 'rv63.sheet.title', 'rv63.sheet.title.serif', 'rv63.sheet.toggles.handle.label', 'rv63.sheet.toggles.note.label'},
+  textDependentY: <String>{},
+  ellipsized: <String>{},
+  knifeEdges: <LeitorKnifeEdge>[
+  ],
+);
