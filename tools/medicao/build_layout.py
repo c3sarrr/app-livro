@@ -127,10 +127,11 @@ def font_summary(cs, faces):
 
 def build(p):
     slug, pre = p['slug'], p['prefixo']
+    base = p.get('base', slug)  # T03: as larguras da 01 usam a extração e o idmap da prancha base
     m = json.load(open(caminho('tmp', 'medicao', slug, 'medida.json'), encoding='utf-8'))
-    im = json.load(open(caminho('idmaps', f'{slug}.json'), encoding='utf-8'))
-    nodes = {str(n['tpl']): n for n in esboco(slug)}
-    faces = font_faces(slug)
+    im = json.load(open(caminho('idmaps', f'{base}.json'), encoding='utf-8'))
+    nodes = {str(n['tpl']): n for n in esboco(base)}
+    faces = font_faces(base)
     erros = []
     if m['faltando']:
         erros.append(f'ids sem elemento: {m["faltando"]}')
@@ -152,7 +153,7 @@ def build(p):
                 if best is None or len(s) > len(best):
                     best = s
         return best
-    props = json.load(open(caminho('extracao', slug, 'props.json'), encoding='utf-8'))
+    props = json.load(open(caminho('extracao', base, 'props.json'), encoding='utf-8'))
     out = {'meta': {
         'source': os.path.basename(CFG['fonte']), 'prancha': slug, 'titulo': p['titulo'],
         'canvas': p['canvas'], 'prefixo': pre, 'units': 'CSS px = dp lógico',

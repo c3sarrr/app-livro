@@ -40,14 +40,16 @@ async function abrir(browser, p, { zoom = 1, viewportH = null, dsf = 1 } = {}) {
   });
   const erros = [];
   page.on('pageerror', e => erros.push(String(e)));
-  await page.goto('file://' + path.join(PRANCHAS_DIR, p.slug, 'original.html'));
+  await page.goto('file://' + path.join(PRANCHAS_DIR, base(p), 'original.html'));
   await page.waitForFunction(sel => !!document.querySelector(sel), CFG.frame, { timeout: 20000 });
-  await page.evaluate(async ({ zoom }) => {
+  await page.evaluate(async ({ zoom, largura, frameSel }) => {
     await document.fonts.ready;
     document.body.style.margin = '0';
     document.body.style.display = 'block';
     if (zoom !== 1) document.body.style.zoom = String(zoom);
-  }, { zoom });
+    // T03: a mesma prancha com outra largura (o quadro tem `width` fixa; o resto é CSS fluido — F13 da v1)
+    if (largura) document.querySelector(frameSel).style.width = `${largura}px`;
+  }, { zoom, largura: p.largura || 0, frameSel: CFG.frame });
   await page.waitForTimeout(400);
   await page.evaluate(() => document.fonts.ready);
   return { page, bloqueadas, erros };
@@ -66,9 +68,14 @@ function tmpDir(...partes) {
   return d;
 }
 
+// T03: a entrada de uma largura (pranchas_inicio2_larguras.json) usa a extração e o idmap da prancha "base".
+function base(p) {
+  return p.base || p.slug;
+}
+
 function idmap(p) {
-  const f = caminho('idmaps', `${p.slug}.json`);
+  const f = caminho('idmaps', `${base(p)}.json`);
   return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : null;
 }
 
-module.exports = { CFG, RAIZ, PRANCHAS_DIR, pranchas, lancar, abrir, saidaDir, tmpDir, idmap, caminho };
+module.exports = { CFG, RAIZ, PRANCHAS_DIR, pranchas, lancar, abrir, saidaDir, tmpDir, idmap, caminho, base };

@@ -19,6 +19,9 @@ if NOME == 'leitor':
     ARQS = ['handoff_v2/referencia/svg_catalogo.json', 'handoff_v2/referencia/tokens_leitor.json',
             'handoff_v2/referencia/mapa_widgets.json', 'tools/medicao/pranchas/extracao.json', 'tools/fonts/fontes_leitor.json',
             'tools/fonts/validacao_fontes.json']
+elif 'hashes' in C:
+    # T03: conjunto só de medidas (as larguras da 01): as pastas da lista, sem fases nem fontes
+    PASTAS, ARQS = C['hashes'], []
 else:
     # as fases do conjunto são os arquivos do índice (a pasta docs/design/fases é compartilhada com outros conjuntos)
     fases = [f['fase'] + '.md' for f in json.load(open(os.path.join(RAIZ, C['fasesIndice']), encoding='utf-8'))['fases']]
@@ -30,7 +33,8 @@ for p in PASTAS:
     for raiz, _, fs in os.walk(os.path.join(RAIZ, p)):
         lista += [os.path.relpath(os.path.join(raiz, f), RAIZ) for f in fs]
 lista += ARQS
-lista += [f"{FONTES}/{a['arquivo']}" for a in json.load(open(os.path.join(RAIZ, C.get('fontesManifesto', 'tools/fonts/fontes_leitor.json'))))['arquivos']]
+if 'hashes' not in C:
+    lista += [f"{FONTES}/{a['arquivo']}" for a in json.load(open(os.path.join(RAIZ, C.get('fontesManifesto', 'tools/fonts/fontes_leitor.json'))))['arquivos']]
 for rel in sorted(set(x.replace(os.sep, '/') for x in lista)):
     with open(os.path.join(RAIZ, rel), 'rb') as f:
         print(hashlib.sha256(f.read()).hexdigest(), rel)

@@ -111,5 +111,24 @@
   "fontesManifesto": "tools/fonts/fontes_inicio2.json",
   "validacaoFontes": "docs/design/medicao/inicio2/validacao_fontes.json",
   "validacaoTrechos": true
+ },
+ "inicio2_larguras": {
+  "_doc": "T03 — a prancha 01 medida a 360 e 430 px de largura (o quadro com a largura trocada, CSS fluido, como a F13 da v1). Mesma extração e mesmos idmaps da inicio2; saídas próprias (o manifesto da T02 não muda). Rodar: tools/medicao/rodar_larguras.sh.",
+  "indice": "tools/medicao/pranchas_inicio2_larguras.json",
+  "extracao": "tools/medicao/pranchas_inicio2",
+  "idmaps": "docs/design/medicao/inicio2/idmaps",
+  "tmp": "tools/medicao/tmp/inicio2_larguras",
+  "layout": "docs/design/medicao/inicio2_larguras/layout",
+  "png": "docs/design/medicao/inicio2_larguras/png",
+  "dart": "test/reference/inicio2_larguras",
+  "dartTipos": "../leitor/ref_tipos.dart",
+  "dartIndice": [
+   "referencias_inicio2_larguras.dart",
+   "kRefInicio2Larguras"
+  ],
+  "hashes": [
+   "docs/design/medicao/inicio2_larguras",
+   "test/reference/inicio2_larguras"
+  ]
  }
 }
