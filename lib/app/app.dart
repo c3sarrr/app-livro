@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../core/design_system/tokens/app_colors.dart';
 import '../core/design_system/tokens/app_typography.dart';
 import '../core/design_system/widgets/tap_target.dart';
+import '../features/reading_session/application/reader_pause_observer.dart';
 import '../features/shell/presentation/main_shell.dart' show MainShell;
 import 'router.dart';
 
@@ -27,6 +28,8 @@ class _AppState extends State<App> {
   late final GoRouter _router = createRouter(
     initialLocation: AppRoutes.inicio,
     overridePlatformDefaultLocation: widget._forTests,
+    // D-263: abrir o leitor pausa a sessão do cronômetro do papel
+    observers: [ReaderPausesPaperTimer()],
   );
 
   @override

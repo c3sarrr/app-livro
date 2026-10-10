@@ -28,6 +28,7 @@ export 'routes.dart';
 GoRouter createRouter({
   String initialLocation = AppRoutes.inicio,
   bool overridePlatformDefaultLocation = false,
+  List<NavigatorObserver> observers = const [],
 }) {
   final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'raiz');
 
@@ -51,6 +52,8 @@ GoRouter createRouter({
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
+    // os observadores do navigator raiz (T04: o leitor pausa o cronômetro do papel — D-263)
+    observers: observers,
     // D-207: a pilha de rotas e a aba voltam depois que o sistema fecha o app
     restorationScopeId: 'raiz',
     initialLocation: initialLocation,
@@ -88,7 +91,7 @@ GoRouter createRouter({
       fullScreen(AppRoutes.notificacoes, 'Notificações'),
       // G11: a tela 19 de verdade (o leitor limpo), aberta pelo id do livro na estante
       GoRoute(
-        path: '/leitor/:bookId',
+        path: AppRoutes.leitorPath,
         parentNavigatorKey: rootNavigatorKey,
         pageBuilder: (context, state) => _page(
           state,

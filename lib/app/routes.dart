@@ -15,6 +15,9 @@ abstract final class AppRoutes {
   static const notificacoes = '/notificacoes';
   static const paraVoce = '/para-voce';
 
+  /// O padrão da rota do leitor — também o nome da página (o observador do cronômetro o reconhece — D-263).
+  static const leitorPath = '/leitor/:bookId';
+
   /// G19 (R13): [goTo] = o id de uma anotação para o leitor saltar logo depois de abrir (`?ir=`).
   static String leitor(String bookId, {String? goTo}) => goTo == null
       ? '/leitor/$bookId'
