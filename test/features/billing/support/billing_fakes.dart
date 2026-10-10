@@ -117,6 +117,12 @@ final class ServidorProFalso implements ProServerApi {
   final respostas = Queue<ServerPro>();
   ServerPro ultima = (pro: false, activeUntil: null);
 
+  /// A falha da próxima leitura do Pro (`current`).
+  Object? falhaAoLer;
+
+  /// Segura a leitura do Pro até completar (as voltas ao app seguidas).
+  Completer<void>? segurarLeitura;
+
   @override
   Future<ServerPro> syncNow() async {
     chamadas.add('syncNow');
@@ -128,6 +134,9 @@ final class ServidorProFalso implements ProServerApi {
   @override
   Future<ServerPro> current() async {
     chamadas.add('current');
+    await segurarLeitura?.future;
+    final f = falhaAoLer;
+    if (f != null) throw f;
     if (respostas.isNotEmpty) ultima = respostas.removeFirst();
     return ultima;
   }

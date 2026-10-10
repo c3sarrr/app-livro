@@ -194,6 +194,21 @@ void main() {
       expect(pronto().serverPro, isTrue);
     });
 
+    test('D-236: o resumo ainda diz Pro, mas o período venceu e a loja renovou: o restaurar confere no servidor mesmo '
+        'assim', () async {
+      loja.cliente = proDaLoja;
+      await iniciar(membro(contaA, pro: true));
+      expect(servidor.chamadas, isEmpty);
+      servidor.aoConferir = (pro: true, activeUntil: proAte);
+      conta.proNoServidor = true;
+      await ctrl().restore();
+      await pumpEventQueue();
+      expect(pronto().notice, 'Compras restauradas.');
+      expect(servidor.chamadas, ['syncNow']);
+      expect(conta.releituras, 1);
+      expect(pronto().serverPro, isTrue);
+    });
+
     test('sem assinatura na conta da loja', () async {
       await iniciar(membro(contaA));
       await ctrl().restore();

@@ -1,6 +1,8 @@
 // G22.3 — o estado do Pro (docs/progresso/G22.md §3): a conta configura o RevenueCat (R1) — o Grátis que nunca
 // comprou neste aparelho só quando age (G22.7: o Grátis sem compra não fala com o RevenueCat) —, a tela mostra o Pro
 // da loja e o do servidor, e a ativação (R2) confere no servidor com o recuo até ele confirmar. Sem chave, nada.
+import 'dart:async';
+
 import 'package:app_leitura/core/config/server_providers.dart';
 import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/data/database/daos/kv_dao.dart';
@@ -219,13 +221,91 @@ void main() {
       expect(pronto().serverPro, isTrue);
     });
 
-    test('voltar ao app sem ativação pendente não chama o servidor', () async {
+    test('voltar ao app sem ativação pendente e sem Pro na loja não chama o servidor', () async {
       c = container(membro(contaA), usadas: {contaA});
       await pumpEventQueue();
       c.read(billingControllerProvider.notifier).resumed();
       await pumpEventQueue();
       expect(servidor.chamadas, isEmpty);
     });
+
+    test('D-236: volta ao app com a loja Pro e o período do servidor vencido (a renovação ainda sem webhook): '
+        'confere uma vez e ativa', () async {
+      loja.cliente = proDaLoja;
+      c = container(membro(contaA, pro: true));
+      await pumpEventQueue();
+      expect(servidor.chamadas, isEmpty);
+      servidor.respostas.add((pro: false, activeUntil: null));
+      servidor.aoConferir = (pro: true, activeUntil: proAte);
+      conta.proNoServidor = true;
+      c.read(billingControllerProvider.notifier).resumed();
+      await pumpEventQueue();
+      expect(servidor.chamadas, ['current', 'syncNow']);
+      expect(conta.releituras, 1);
+      expect(pronto().serverPro, isTrue);
+      expect(pronto().notice, isNull);
+    });
+
+    test(
+      'D-236: volta ao app com a loja e o servidor Pro: só confere',
+      () async {
+        loja.cliente = proDaLoja;
+        c = container(membro(contaA, pro: true));
+        await pumpEventQueue();
+        servidor.respostas.add((pro: true, activeUntil: proAte));
+        c.read(billingControllerProvider.notifier).resumed();
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['current']);
+        expect(conta.releituras, 0);
+        expect(pronto().serverPro, isTrue);
+      },
+    );
+
+    test(
+      'D-236: duas voltas seguidas conferem uma vez; sem rede, nada muda',
+      () async {
+        loja.cliente = proDaLoja;
+        c = container(membro(contaA, pro: true));
+        await pumpEventQueue();
+        final segura = servidor.segurarLeitura = Completer<void>();
+        servidor.falhaAoLer = Exception('sem rede');
+        c.read(billingControllerProvider.notifier)
+          ..resumed()
+          ..resumed();
+        segura.complete();
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['current']);
+        expect(pronto().serverPro, isTrue);
+        expect(pronto().notice, isNull);
+        // a próxima volta confere de novo
+        servidor
+          ..segurarLeitura = null
+          ..falhaAoLer = null
+          ..respostas.add((pro: true, activeUntil: proAte));
+        c.read(billingControllerProvider.notifier).resumed();
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['current', 'current']);
+      },
+    );
+
+    test(
+      'D-236: a conta troca enquanto confere: nada da conta antiga segue',
+      () async {
+        loja.cliente = proDaLoja;
+        c = container(membro(contaA, pro: true));
+        await pumpEventQueue();
+        final segura = servidor.segurarLeitura = Completer<void>();
+        servidor.respostas.add((pro: false, activeUntil: null));
+        c.read(billingControllerProvider.notifier).resumed();
+        loja.cliente = ProCustomer.none;
+        conta.mudar(membro(contaB));
+        await pumpEventQueue();
+        segura.complete();
+        await pumpEventQueue();
+        expect(servidor.chamadas, ['current']);
+        expect(conta.releituras, 0);
+      },
+    );
 
     test('a conta troca no meio da ativação: nada da conta antiga segue', () async {
       loja.cliente = proDaLoja;

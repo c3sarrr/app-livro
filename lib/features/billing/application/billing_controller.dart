@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../account/application/account_controller.dart';
 import '../../social/domain/social_failure.dart' show SocialOffline;
 import '../data/billing_gateway.dart';
+import '../data/pro_server_api.dart' show ServerPro;
 import '../domain/billing_models.dart';
 import '../domain/billing_rules.dart';
 import 'billing_providers.dart';
@@ -108,6 +109,12 @@ class BillingController extends Notifier<ProView> {
   /// A ativação não confirmou: tenta de novo ao voltar ao app (R2).
   bool _retryOnResume = false;
 
+  /// A conferência da volta ao app em andamento (D-236): uma por vez.
+  Future<void>? _resumeCheck;
+
+  /// Quantas ativações começaram (o restaurar não repete a que a conexão com a loja acabou de fazer).
+  int _activationRuns = 0;
+
   /// Uma compra, um restaurar ou um gerenciar em andamento.
   bool _busy = false;
 
@@ -128,6 +135,7 @@ class BillingController extends Notifier<ProView> {
     _sdkConfigured = false;
     _activation = null;
     _retryOnResume = false;
+    _resumeCheck = null;
     _busy = false;
     if (gateway == null || server == null) return const ProUnavailable();
     ref.listen<AccountView>(accountControllerProvider, (_, next) {
@@ -270,6 +278,7 @@ class BillingController extends Notifier<ProView> {
   }
 
   Future<void> _activate(String user, _Life life) async {
+    _activationRuns++;
     bool current() => life.alive && _user == user;
     final s = state;
     if (s is! ProReady) return;
@@ -363,13 +372,16 @@ class BillingController extends Notifier<ProView> {
   Future<void> restore() => _action(_restore);
 
   Future<void> _restore(String user) async {
+    final runs = _activationRuns;
     try {
       await _ensureStore(user);
       await _remember(user);
       final c = await _gateway.restore();
       _setCustomer(user, c);
       if (c.active) {
-        _maybeActivate();
+        // D-236: confere no servidor mesmo com o resumo dizendo Pro — o período pode ter vencido e a renovação ainda
+        // não ter chegado pelo webhook. Se a conexão com a loja de agora já conferiu, não repete.
+        if (_activationRuns == runs) unawaited(activate());
         _notice(user, 'Compras restauradas.');
       } else {
         _notice(user, 'Nenhuma assinatura encontrada nesta conta da loja.');
@@ -436,9 +448,36 @@ class BillingController extends Notifier<ProView> {
     }
   });
 
-  /// O app voltou ao primeiro plano: a ativação que não confirmou tenta de novo (R2).
+  /// O app voltou ao primeiro plano: a ativação que não confirmou tenta de novo (R2). Sem ela, e com a loja dizendo
+  /// Pro, o servidor é conferido uma vez: se o período dele venceu (a renovação ainda não chegou pelo webhook), ativa
+  /// (D-236).
   void resumed() {
-    if (_retryOnResume && _user != null) unawaited(activate());
+    final user = _user;
+    if (user == null) return;
+    if (_retryOnResume) {
+      unawaited(activate());
+      return;
+    }
+    final s = state;
+    if (s is ProReady && s.customer.active && _resumeCheck == null) {
+      _resumeCheck = _checkOnResume(
+        user,
+        _life,
+      ).whenComplete(() => _resumeCheck = null);
+    }
+  }
+
+  Future<void> _checkOnResume(String user, _Life life) async {
+    final ServerPro r;
+    try {
+      r = await ref.read(proServerApiProvider)!.current();
+    } on Object {
+      return; // sem rede: a próxima volta confere de novo
+    }
+    final s = state;
+    if (!life.alive || _user != user || s is! ProReady || r.pro) return;
+    state = s.copyWith(serverPro: false);
+    _maybeActivate();
   }
 
   /// A tela mostrou o aviso.
