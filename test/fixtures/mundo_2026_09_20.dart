@@ -424,7 +424,8 @@ Mundo _construir() {
       BookFileFormat.epub,
       ShelfStatus.reading,
       _sp(7, 10, 18),
-      paginas: 400,
+      // T03: a prancha 01 mostra a pág. 344 com 81 % (344 ÷ 425 ≈ 0,81)
+      paginas: 425,
       comecou: _sp(7, 11, 20),
       abriu: _sp(9, 16, 21),
     ),
@@ -496,7 +497,7 @@ Mundo _construir() {
     // dois são preenchimento e NÃO servem para derivar nada (os textos de fixture deles só têm os
     // grifos); a posição é gravada quando o livro foi aberto pela última vez.
     posicao(Slugs.mrsDalloway, 68, 0.34, em: _sp(9, 18, 21)),
-    posicao(Slugs.orgulho, 324, 0.81, em: _sp(9, 16, 21)),
+    posicao(Slugs.orgulho, 344, 0.81, em: _sp(9, 16, 21)), // "pág. 344" (01)
   ];
 
   // Minutos por dia (Início, semana S T Q Q S S + Hoje) e a sequência de 12 dias (9 a 20/09).
@@ -934,22 +935,23 @@ Mundo _construir() {
       respostasDoPost: 3, // "· 3 respostas" (tela 25)
     ),
     paraVoceAutor: 'Machado de Assis',
+    // T03: as recomendações da prancha 01 (a v1 tinha Memórias Póstumas, Quincas Borba e O Cortiço)
     paraVoce: const [
       (
-        slug: 'memorias-postumas-de-bras-cubas',
-        titulo: 'Memórias Póstumas de Brás Cubas',
-        tituloCurto: 'Memórias Póstumas',
-        autor: 'Machado de Assis',
-      ),
-      (
-        slug: 'quincas-borba',
-        titulo: 'Quincas Borba',
+        slug: 'esau-e-jaco',
+        titulo: 'Esaú e Jacó',
         tituloCurto: null,
         autor: 'Machado de Assis',
       ),
       (
-        slug: 'o-cortico',
-        titulo: 'O Cortiço',
+        slug: 'memorial-de-aires',
+        titulo: 'Memorial de Aires',
+        tituloCurto: null,
+        autor: 'Machado de Assis',
+      ),
+      (
+        slug: 'casa-de-pensao',
+        titulo: 'Casa de Pensão',
         tituloCurto: null,
         autor: 'Aluísio Azevedo',
       ),
