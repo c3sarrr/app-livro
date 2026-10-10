@@ -311,6 +311,37 @@ void main() {
   });
 
   testWidgets(
+    'a meio esmaecimento, o traço fica a meio caminho entre a tinta e o que está embaixo',
+    (tester) async {
+      final (px, w) = await pintar(
+        tester,
+        AppIllustrationsLeitor.toolLasso,
+        const Size(50, 70),
+        opacity: 0.5,
+      );
+      final d = svgDashes[AppIllustrationsLeitor.toolLasso]!;
+      double distancia(Color a, Color b) =>
+          (a.r - b.r).abs() + (a.g - b.g).abs() + (a.b - b.b).abs();
+      Color cor(Offset p) {
+        final i = ((p.dy * 3).floor() * w + (p.dx * 3).floor()) * 4;
+        return Color.fromARGB(255, px[i], px[i + 1], px[i + 2]);
+      }
+
+      final pontos = amostras(d);
+      for (var k = 0; k + 1 < pontos.length; k += 2) {
+        final (traco, _) = pontos[k];
+        final (vao, _) = pontos[k + 1];
+        // longe da tinta cheia (seria ~0) e bem mais escuro que o vão ao lado
+        expect(distancia(cor(traco), AppColors.ink), greaterThan(0.6));
+        expect(
+          distancia(cor(traco), AppColors.ink),
+          lessThan(distancia(cor(vao), AppColors.ink) - 0.6),
+        );
+      }
+    },
+  );
+
+  testWidgets(
     'com uma cor só (color), o desenho não esmaece (o filtro é o srcIn) e o traço também não',
     (tester) async {
       tester.view.devicePixelRatio = 3;
