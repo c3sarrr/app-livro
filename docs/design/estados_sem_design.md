@@ -171,6 +171,106 @@ fechado, ele abre e faz o mesmo. Vários arquivos de uma vez entram um depois do
 A capa que vem no arquivo (a do EPUB; a 1ª página do PDF) aparece na moldura da seção, sem rede. Sem ela, a foto
 da fonte pelo ISBN (D-79) e, sem nenhuma, a capa gerada da G08.
 
+## G11–G20 — o leitor e a tela 25 (T01, levantado dos G11.md…G20.md)
+
+As telas do leitor (19–27b) têm prancha; o que elas mostram fora das pranchas segue as decisões abaixo. O vocabulário
+é o das próprias pranchas: as pílulas de aviso são a pílula do "← Voltar à pág. N" sem a seta (`ReaderToastPill`,
+2 s; com Desfazer, `ReaderUndoPill`, 4 s); as folhas seguem a folha da nota (D-131 — o véu, o cartão a 14 das bordas,
+raio 28, borda 1,5, sombra dura, título em caixa alta Figtree 11/800); no Noite, tudo nas cores das ilhas do Noite
+(`#2A2520`, `#EDE3D1`, sombra `#0B0A08`). Só existem pranchas em Creme (e a 26b no Noite) e na Literata do padrão.
+
+### G11 — leitor limpo (19)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Abrindo | "Abrindo o livro…" apagado, no meio do papel, só depois de 300 ms; livro sem índice: "Preparando o livro…" | D-21, D-113, D-154 |
+| Erros (texto em `flame` + "Voltar") | "Este livro não está mais na sua estante." · "O arquivo deste livro não está mais no aparelho." · "Não deu para abrir este livro. O arquivo pode estar danificado." · "Este livro tem páginas fixas; a leitura dele ainda não está pronta no BookNest." · "Este livro é físico: não tem arquivo para ler aqui." · "Não deu para abrir o livro agora." + "Tentar de novo" | D-21, D-92, D-113, D-123 |
+| Volta de um link ou salto | pílula "← Voltar à pág. N" no vão do rodapé (6 s ou 2 viradas; sem prazo com leitor de tela) | D-108, D-119, D-125, D-126 |
+| Outros papéis | Branco `#FFFDF8`/`#1A1714` (rodapé `#A9A6A2`), Sépia `#EEDDBF`/`#4A3622` (`#A08E74`), Noite `#1F1B17`/`#E3D9C6` (`#8A8073`) — só existem como cartões na 26 | D-110 |
+| Virar a página | a página segue o dedo; batente no começo e no fim (1/3 do dedo e volta) | D-107 |
+| PDF | a página como imagem, 8 px de cada lado, no papel; sem zoom, grifo nem tinta | D-109 |
+
+### G12 — controles, Tema e busca no livro (20, 26b)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Busca no livro (a lupa) | tela inteira no papel, ilha do campo ("Buscar no livro", ← e ×); "N resultados"; grupos por capítulo em caixa alta; "pág. N"; trecho em Literata 17 com a palavra no fundo `brand`; "Buscando…" (após 300 ms), "Nada encontrado para “x”.", "Mais de 500 resultados. Refine a busca.", "Não deu para buscar no livro agora." | D-23, D-120, D-128 |
+| Palavra achada na página | fundo `brand` atrás da palavra até virar (no Noite, a palavra escura por cima) | D-120, D-127 |
+| Tema | alterna o último papel claro e o Noite (`ic_sun`/`ic_moon`) | D-37, D-121 |
+| Fita desmarcada | a fita só no contorno (`ic_ribbon_empty`) | D-124 |
+| Contadores | Grifos some com 0, "99+" acima de 99; o "≈ tempo" some no fim do livro | D-124 |
+| PDF nos controles | Fonte apagada ("indisponível"); o Tema não escurece a imagem | D-43, D-122 |
+| Branco e Sépia com controles | véu = papel a 62 %, ilhas como no Creme | D-124 |
+
+### G13 — seleção e grifos (21)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Lupa da seleção | 132×48, raio 14, borda 1,5, sombra 3/3, a linha a 1,25× ~60 px acima do dedo | D-45, D-135 |
+| Barra embaixo | sem espaço em cima, a barra vai para baixo da alça final | D-136 |
+| Barra de um grifo existente | só a barra; a cor do grifo com anel; a marcada apaga | D-132, D-137 |
+| Folha da nota | "NOTA", o trecho em Literata 17, campo "Escreva sua nota…", "Cancelar" e "Salvar" | D-23, D-131 |
+| Pílulas | "Trecho copiado" · "Grifo apagado · Desfazer" | D-136, D-139 |
+| Sublinhar | traço de 4 px a 3 px da base, na última cor usada | D-130 |
+| Grifo e seleção no Noite | cor viva opaca com as letras escuras | D-127, D-133 |
+
+### G14 — ajustes de leitura (26)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Folha no Noite | `#2A2520` / `#EDE3D1`, os cartões de papel nas cores deles | D-143 |
+| Tela baixa | a folha para 8 abaixo da "prévia ao vivo" e rola por dentro | D-145 |
+| Atkinson | "baixa visão" no lugar de "dislexia" | D-147 |
+| Pontas do tamanho | o "A" da ponta apagado ("indisponível") | D-144 |
+| Página com Lora, Figtree, Atkinson, os 7 tamanhos, as 3 entrelinhas e margens, Branco e Sépia | só existe prancha da Literata no padrão | D-18, D-20, D-98 |
+
+### G15 — sumário e marcadas (27, 27b)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Parte do livro | título pequeno em caixa alta entre os capítulos (Figtree 11/800 `#8A8073`) | D-153 |
+| Sem sumário | "Este livro não tem sumário." no lugar da lista | D-21 |
+| Marcadas vazias | só a dica "Toque na fita no alto do leitor para marcar ou desmarcar." | D-154 |
+| Marca tirada | o cartão fica com a fita no contorno até a folha fechar | D-152 |
+| Noite | folha e abas nas cores das ilhas do Noite | D-154 |
+| Faixa do clube | some sem clube; a seta mostra "Chega numa próxima fase" (a discussão vem na T08) | D-149, D-118 |
+
+### G16–G18 — modo anotação (22–24b)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Laço | contorno tracejado ao desenhar; retângulo tracejado em volta da seleção (folga 6, raio 8) | D-46 |
+| Borracha, Reta | o anel do toque sem o ponto; a Reta encaixa a cada 15° | D-167, D-168 |
+| Falha ao salvar | "Não deu para salvar as anotações agora." (o modo fica aberto) | D-21, D-167 |
+| Anotar no PDF | "Chega numa próxima fase" | D-164, D-170 |
+| Desfazer e Refazer vazios | a 0,38 (as pranchas mostram o Desfazer aceso, com passos — T01) | D-167 |
+| Painel da Reta | o painel da caneta com a seta na Reta | D-179 |
+| Favoritas | até 12, o painel cresce para cima; "Cor tirada das favoritas · Desfazer"; o "+" com a cor já favorita: "Essa cor já está nas favoritas." | D-175, D-248 |
+| Hex digitável | o painel sobe até o campo ficar 8 acima do teclado | D-176 |
+| Folha "RÓTULOS" | as 4 cores com um campo cada, "Cancelar" e "Salvar" | D-23, D-177 |
+| Folha "OUTRA COR" | roda, brilho e hex, "Cancelar" e "Grifar" | D-38, D-178 |
+| Prévia do marca-texto | gerada da página (só iguala o arquivo na pág. 159) | D-171 |
+| Altura apagada | Baixa/Média/Alta a 0,38 com Sublinhado ou Ondulado | D-172 |
+| Nota recolhida | faixa de 1 linha com "✎ Nota à mão" e "Abrir a nota" | D-184 |
+| Nota apagada | "Nota apagada · Desfazer" | D-185 |
+| Teto da camada | "A nota está cheia" · "Seleção grande demais para mover" | D-191 |
+| Nota no leitor limpo | a caixa sem botões, alça nem dica | D-183 |
+| Noite | pílula e ilha do Noite; o Laço da prateleira com o miolo `#E5DFEC`; caixa da nota `#2A2520`; tinta escura em `#E3D9C6` | D-167, D-174, D-180, D-189, D-190 |
+
+### G19 — grifos e notas (25)
+
+| Estado | Conteúdo | Decisão |
+|---|---|---|
+| Folha "Mais opções" | "Editar nota"/"Escrever nota", "Trocar cor", "Compartilhar no clube", "Apagar", "Fechar" | D-23, D-192 |
+| Folha "Exportar grifos e notas" | Markdown, CSV, "PDF com desenhos" (PRO); "Nada para exportar em Markdown ou CSV ainda"; "Não deu para exportar" | D-23, D-65, D-194 |
+| Vazios | "Nenhum grifo ainda. As margens estão em branco." + "Continuar lendo"; "Nada com esses filtros." + "Limpar filtros" | D-198 |
+| Sem lugar | separador "sem lugar no texto"; ao abrir, "Esse trecho não está mais aqui" | D-199, D-44 |
+| Filtros ativos | os chips Grifos/Notas/À mão/Desenhos em `brand`; "Só do clube" em `#FFC1C6`; o × da busca | D-196, D-201–D-203 |
+| Pílulas | "Cartão apagado · Desfazer", "Não deu para exportar", a 24 do pé | D-193 |
+
+O que não aparece na tela (restauração, rotação, alvos de toque, anúncios do leitor de tela, Voltar do sistema)
+está no `docs/progresso/G20.md`.
+
 ## G21 — clubes ligados aos pontos já desenhados (docs/progresso/G21.md §5)
 
 As telas do clube (04, 31, 32, 33, 34, 70–73) vêm pela Trilha T, com o HTML. Até lá, o que a G21 mostra sem prancha
