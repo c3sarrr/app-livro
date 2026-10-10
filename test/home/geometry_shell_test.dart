@@ -5,6 +5,7 @@ import 'package:app_leitura/features/shell/presentation/bottom_fade.dart';
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:app_leitura/features/shell/presentation/scanner_fab.dart';
+import 'package:app_leitura/features/shell/presentation/shell_insets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -133,7 +134,11 @@ void main() {
       expect(stack.children, hasLength(5));
       final [content, fade, miniBar, nav, fab] = stack.children
           .cast<Positioned>();
-      expect(content.child, isA<StatefulNavigationShell>());
+      // T04 (D-259): a aba fica sob a folga da mini-barra
+      expect(
+        (content.child as ShellInsets).child,
+        isA<StatefulNavigationShell>(),
+      );
       expect(
         (content.left, content.top, content.right, content.bottom),
         (0.0, 0.0, 0.0, 0.0),

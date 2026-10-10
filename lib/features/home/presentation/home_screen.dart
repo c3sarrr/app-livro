@@ -11,6 +11,7 @@ import '../../../core/design_system/tokens/app_spacing.dart';
 import '../../../core/design_system/tokens/app_icons.dart';
 import '../../account/application/account_controller.dart';
 import '../../reading_session/application/paper_timer_controller.dart';
+import '../../shell/presentation/shell_insets.dart';
 import '../application/home_providers.dart';
 import '../domain/models.dart';
 import 'home_states.dart';
@@ -88,7 +89,8 @@ class HomeScreen extends ConsumerWidget {
         restorationId: 'inicio.rolagem',
         padding: EdgeInsets.only(
           top: topInset(context),
-          bottom: AppSpacing.bottomPadding,
+          // D-259: + 96 com a mini-barra do cronômetro (140 → 236)
+          bottom: AppSpacing.bottomPadding + ShellInsets.extraBottomOf(context),
         ),
         child: switch (status) {
           _Status.data => const _HomeSections(),
