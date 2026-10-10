@@ -1,5 +1,6 @@
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
+import 'package:app_leitura/features/reading_session/presentation/session_mini_bar.dart';
 import 'package:app_leitura/features/shell/presentation/bottom_fade.dart';
 import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
@@ -117,72 +118,75 @@ void main() {
   });
 
   group('2.7 MainShell', () {
-    testWidgets(
-      'camadas na ordem do HTML: conteúdo da aba → fade inferior → navegação → FAB do Scanner',
-      (tester) async {
-        setCanvasView(tester);
-        await pumpApp(tester);
-        final stack = tester.widget<Stack>(
-          find
-              .descendant(
-                of: find.byType(MainShell),
-                matching: find.byType(Stack),
-              )
-              .first,
-        );
-        expect(stack.children, hasLength(4));
-        final [content, fade, nav, fab] = stack.children.cast<Positioned>();
-        expect(content.child, isA<StatefulNavigationShell>());
-        expect(
-          (content.left, content.top, content.right, content.bottom),
-          (0.0, 0.0, 0.0, 0.0),
-        );
-        expect(
-          (fade.left, fade.right, fade.bottom, fade.height),
-          (0.0, 0.0, 0.0, 150.0),
-        );
-        final ignore = fade.child as IgnorePointer;
-        expect(ignore.ignoring, isTrue);
-        expect(ignore.child, isA<BottomFade>());
-        expect(ignore.child!.key, const ValueKey('bottomFade'));
-        expect(
-          (nav.left, nav.right, nav.bottom, nav.height),
-          (16.0, 16.0, 30.0, 70.0),
-        );
-        expect(nav.child, isA<FloatingNavBar>());
-        expect(nav.child.key, const ValueKey('nav'));
-        // F11: o FAB é irmão da barra, DEPOIS dela (pinta por cima e o toque vale no círculo inteiro).
-        expect(
-          (fab.left, fab.bottom, fab.width, fab.height),
-          (165.0, 60.5, 60.0, 60.0),
-        );
-        expect(fab.child, isA<ScannerFab>());
-        expect(fab.child.key, const ValueKey('nav.scanner.fab'));
-        // O fade não intercepta toques (pointer-events: none): 10 px abaixo do topo dele, acima do FAB.
-        expect(
-          tester
-              .hitTestOnBinding(const Offset(195, 2510))
-              .path
-              .any(
-                (e) =>
-                    e.target ==
-                    tester.renderObject(
-                      find.byKey(const ValueKey('bottomFade')),
-                    ),
-              ),
-          isFalse,
-        );
-        // O MainShell não usa Scaffold: o único Scaffold do app é o da Início.
-        expect(find.byType(Scaffold, skipOffstage: false), findsOneWidget);
-        expect(
-          find.ancestor(
-            of: find.byType(Scaffold),
-            matching: find.byType(HomeScreen),
-          ),
-          findsOneWidget,
-        );
-      },
-    );
+    testWidgets('camadas na ordem do HTML: conteúdo da aba → fade inferior → mini-barra do cronômetro (T04, D-259) → navegação '
+        '→ FAB do Scanner', (tester) async {
+      setCanvasView(tester);
+      await pumpApp(tester);
+      final stack = tester.widget<Stack>(
+        find
+            .descendant(
+              of: find.byType(MainShell),
+              matching: find.byType(Stack),
+            )
+            .first,
+      );
+      expect(stack.children, hasLength(5));
+      final [content, fade, miniBar, nav, fab] = stack.children
+          .cast<Positioned>();
+      expect(content.child, isA<StatefulNavigationShell>());
+      expect(
+        (content.left, content.top, content.right, content.bottom),
+        (0.0, 0.0, 0.0, 0.0),
+      );
+      expect(
+        (fade.left, fade.right, fade.bottom, fade.height),
+        (0.0, 0.0, 0.0, 150.0),
+      );
+      final ignore = fade.child as IgnorePointer;
+      expect(ignore.ignoring, isTrue);
+      expect(ignore.child, isA<BottomFade>());
+      expect(ignore.child!.key, const ValueKey('bottomFade'));
+      expect(
+        (nav.left, nav.right, nav.bottom, nav.height),
+        (16.0, 16.0, 30.0, 70.0),
+      );
+      // T04: a mini-barra fica 30 acima da barra (sem sessão aberta, vazia)
+      expect(
+        (miniBar.left, miniBar.right, miniBar.bottom, miniBar.height),
+        (16.0, 16.0, 130.0, 66.0),
+      );
+      expect(miniBar.child, isA<SessionMiniBar>());
+      expect(nav.child, isA<FloatingNavBar>());
+      expect(nav.child.key, const ValueKey('nav'));
+      // F11: o FAB é irmão da barra, DEPOIS dela (pinta por cima e o toque vale no círculo inteiro).
+      expect(
+        (fab.left, fab.bottom, fab.width, fab.height),
+        (165.0, 60.5, 60.0, 60.0),
+      );
+      expect(fab.child, isA<ScannerFab>());
+      expect(fab.child.key, const ValueKey('nav.scanner.fab'));
+      // O fade não intercepta toques (pointer-events: none): 10 px abaixo do topo dele, acima do FAB.
+      expect(
+        tester
+            .hitTestOnBinding(const Offset(195, 2510))
+            .path
+            .any(
+              (e) =>
+                  e.target ==
+                  tester.renderObject(find.byKey(const ValueKey('bottomFade'))),
+            ),
+        isFalse,
+      );
+      // O MainShell não usa Scaffold: o único Scaffold do app é o da Início.
+      expect(find.byType(Scaffold, skipOffstage: false), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.byType(Scaffold),
+          matching: find.byType(HomeScreen),
+        ),
+        findsOneWidget,
+      );
+    });
 
     testWidgets(
       'status bar transparente com ícones escuros; Android edge-to-edge (D-13)',

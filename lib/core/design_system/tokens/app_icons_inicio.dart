@@ -21,6 +21,11 @@ abstract final class AppIconsInicio {
   /// (18) "pausar" tinta da mini-barra (`i01b.miniBar.pause`).
   static const pauseInk = '$_d/ic_pause_tinta.svg';
 
+  /// (18) "play" tinta do mesmo botão com a sessão em pausa (`miniBar.pause` pausada — D-257). DERIVADO (R9 da T04):
+  /// o caminho do `ic_play.svg` da prancha com `fill="#1A1714"`. Nenhuma prancha o desenha, então ele não está no
+  /// catálogo medido da T02 (`svg_catalogo.json`); a origem fica em `docs/design/estados_sem_design.md`.
+  static const playInk = '$_d/ic_play_tinta.svg';
+
   /// (17) Cronômetro do "Ler agora" (`i01.today.readNow`).
   static const stopwatch = '$_d/ic_stopwatch.svg';
 
@@ -85,6 +90,7 @@ abstract final class AppIconsInicio {
     play,
     pause,
     pauseInk,
+    playInk,
     stopwatch,
     sparkleYellow,
     sparkleSolidYellow,
@@ -104,4 +110,7 @@ abstract final class AppIconsInicio {
     copyText,
     moreCircles,
   ];
+
+  /// Os derivados de um ícone da prancha (fora do catálogo medido da T02; a origem de cada um no comentário).
+  static const Set<String> derived = {playInk};
 }

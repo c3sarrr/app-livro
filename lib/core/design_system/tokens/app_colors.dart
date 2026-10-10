@@ -179,6 +179,12 @@ abstract final class AppColors {
   /// Tinta com opacity .35 (marcações do dial).
   static const Color dialTick = Color(0x591A1714);
 
+  /// rgba(26,23,20,.35): a sombra 0/4 da mini-barra do cronômetro (prancha 01b).
+  static const Color miniBarShadow = Color(0x591A1714);
+
+  /// `#B9AE9C`: o "LENDO · PAPEL" da mini-barra sobre a tinta e o ponto da sessão em pausa (D-257).
+  static const Color kickerOnInk = Color(0xFFB9AE9C);
+
   /// Início do fade inferior.
   static const Color paperTransparent = Color(0x00F7F0E3);
 

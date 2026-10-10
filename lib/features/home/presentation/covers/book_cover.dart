@@ -25,6 +25,7 @@ final class CoverSlot {
     required this.width,
     required this.height,
     required this.border,
+    this.borderColor = AppColors.ink,
     required this.radius,
     this.shadow,
     required this.spineWidth,
@@ -38,6 +39,9 @@ final class CoverSlot {
   final double width;
   final double height;
   final double border;
+
+  /// A cor da borda (a tinta; o papel `#F7F0E3` na mini-barra, sobre a tinta).
+  final Color borderColor;
   final BorderRadius radius;
   final Offset? shadow;
   final double spineWidth;
@@ -103,6 +107,18 @@ final class CoverSlot {
     spineWidth: 4,
     spineColor: AppColors.spine12,
   );
+
+  /// Mini-barra do cronômetro (prancha 01b, R10): 32×48, borda 1,2 `#F7F0E3`, raio 2/5/5/2, sem sombra, sem lombada,
+  /// sem texto (miniatura).
+  static const miniBar = CoverSlot(
+    width: 32,
+    height: 48,
+    border: 1.2,
+    borderColor: AppColors.paper,
+    radius: AppRadii.coverXs,
+    spineWidth: 0,
+    spineColor: AppColors.paperTransparent,
+  );
 }
 
 /// A foto do livro (do aparelho ou da rede) ou, sem ela, a capa gerada.
@@ -133,7 +149,7 @@ class PhotoBookCover extends ConsumerWidget {
         width: slot.width,
         height: slot.height,
         color: generated.palette.background,
-        border: BorderSide(width: slot.border, color: AppColors.ink),
+        border: BorderSide(width: slot.border, color: slot.borderColor),
         radius: slot.radius,
         shadow: slot.shadow,
         clip: true,

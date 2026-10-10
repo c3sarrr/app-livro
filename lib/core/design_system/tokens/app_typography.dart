@@ -1208,6 +1208,60 @@ abstract final class AppTextStyles {
     color: AppColors.inkMuted,
   );
 
+  // ---- T04 · a mini-barra do cronômetro (prancha 01b) ------------------------------------------------------------
+
+  /// i01b.miniBar.kicker ("LENDO · PAPEL"): Figtree 10,5/800 → 700 (D-14), ls 1,4, `#B9AE9C`, altura normal (1,2).
+  static final TextStyle miniBarKicker = AppFonts.figtree(
+    10.5,
+    FontWeight.w700,
+    letterSpacing: 1.4,
+    color: AppColors.kickerOnInk,
+  );
+
+  /// i01b.miniBar.title ("Brás Cubas"): Figtree 15/800 → 700, `lh 1,2`, `#F7F0E3`.
+  static final TextStyle miniBarTitle = AppFonts.figtree(
+    15,
+    FontWeight.w700,
+    color: AppColors.paper,
+  );
+
+  /// i01b.miniBar.time ("08:42"): Bricolage 24/800, altura normal (1,2), ls −0,6, `tabular-nums`, `#F7F0E3`.
+  static final TextStyle miniBarTime = AppFonts.bricolage(
+    24,
+    height: 1.2,
+    letterSpacing: -0.6,
+    color: AppColors.paper,
+  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+
+  /// Os `<text>` da capa com asas da mini-barra (`il_capa_bras_cubas_asas.svg`, viewBox 96×144 em 29,6×45,6 com
+  /// `slice`: escala 45,6 ÷ 144): "MEMÓRIAS PÓSTUMAS DE" Figtree 4,6/800 → 700, ls 0,8, `#F7F0E3`.
+  static final TextStyle coverWingsKicker = AppFonts.figtree(
+    4.6 * _coverWingsScale,
+    FontWeight.w700,
+    height: 1,
+    letterSpacing: 0.8 * _coverWingsScale,
+    color: AppColors.paper,
+  );
+
+  /// "Brás Cubas" da mesma capa: Instrument Serif 17,5, `#FED170`.
+  static final TextStyle coverWingsTitle = AppFonts.serif(
+    17.5 * _coverWingsScale,
+    height: 1,
+    color: AppColors.sun,
+  );
+
+  /// "MACHADO DE ASSIS" da mesma capa: Figtree 5,2/700, ls 0,9, `#F7F0E3`.
+  static final TextStyle coverWingsAuthor = AppFonts.figtree(
+    5.2 * _coverWingsScale,
+    FontWeight.w700,
+    height: 1,
+    letterSpacing: 0.9 * _coverWingsScale,
+    color: AppColors.paper,
+  );
+
   /// max(101 ÷ 96, 153 ÷ 144): o `slice` da capa do herói.
   static const double _coverEyeScale = 153 / 144;
+
+  /// max(29,6 ÷ 96, 45,6 ÷ 144): o `slice` da capa com asas da mini-barra.
+  static const double _coverWingsScale = 45.6 / 144;
 }

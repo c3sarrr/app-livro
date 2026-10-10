@@ -219,6 +219,8 @@ void main() {
       }
     }
     for (final a in [...AppIconsInicio.all, ...AppIllustrationsInicio.all]) {
+      // T04 (R9): os derivados não estão no catálogo medido (`t04_recursos_test.dart` confere a origem)
+      if (AppIconsInicio.derived.contains(a)) continue;
       final svg = File(a).readAsStringSync();
       final m = RegExp(r'<svg[^>]* width="([\d.]+)" height="([\d.]+)"')
           .firstMatch(svg)!;

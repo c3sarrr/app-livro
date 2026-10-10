@@ -27,6 +27,7 @@ import '../../support/canvas.dart' show goldenRootKey;
 import '../../support/capture.dart';
 import '../../support/fase_inicio.dart';
 import '../../support/load_fonts.dart';
+import '../../support/pump_app.dart' show homeScrollPosition;
 
 const _secoes = ['i01b.alsoReading'];
 
@@ -107,6 +108,12 @@ Matcher _perto(Rect r) => predicate<Rect>(
   '$r',
 );
 
+/// Rola a Início de [dy] (a mini-barra e o degradê da 01b cobrem o fim da tela).
+Future<void> _rolar(WidgetTester tester, double dy) async {
+  homeScrollPosition(tester).jumpTo(dy);
+  await tester.pumpAndSettle();
+}
+
 /// Os nomes dos links da seção "Também lendo", em ordem.
 List<String> _links() =>
     linksDaSecao('Também lendo').map((n) => n.label).toList();
@@ -167,14 +174,18 @@ void main() {
     'L01b.1 o aro nos pixels: coral de 23 a 26 do centro, tinta dentro e o fundo do cartão fora',
     (tester) async {
       await _abrir(tester);
+      final antes = tester.getCenter(ini('i01b.alsoReading.card1.play'));
+      expect(antes.dx, closeTo(150.5, 1e-3));
+      expect(antes.dy, closeTo(652.46, 1e-3));
+      // na 01b a mini-barra (y ≥ 648) e o degradê cobrem o botão: o aro é conferido com a Início rolada
+      await _rolar(tester, 200);
       final rgba = await rgbaOf(
         tester,
         await captureAt(tester, find.byKey(goldenRootKey)),
       );
       final largura = (kRef01b.canvas.width * 3).round();
       final centro = tester.getCenter(ini('i01b.alsoReading.card1.play'));
-      expect(centro.dx, closeTo(150.5, 1e-3));
-      expect(centro.dy, closeTo(652.46, 1e-3));
+      expect(centro.dy, closeTo(452.46, 1e-3));
       Color cor(double dx, double dy) {
         final x = ((centro.dx + dx) * 3).floor();
         final y = ((centro.dy + dy) * 3).floor();
@@ -364,6 +375,10 @@ void main() {
             .onSessionTap,
         isNotNull,
       );
+      await _rolar(
+        tester,
+        200,
+      ); // o centro do botão fica sob a mini-barra na 01b
       await tocar01(tester, id);
       final pausada = loja.sessoes[donoDaSessao]!;
       expect(pausada.isRunning, isFalse);

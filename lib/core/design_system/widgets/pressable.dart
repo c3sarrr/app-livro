@@ -2,7 +2,8 @@ import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 import 'package:flutter/widgets.dart';
 
 /// D-04: feedback de toque sem ripple. Sempre um nó semântico PRÓPRIO (container) de botão/link:
-/// `semanticsLabel` != null → esse rótulo (= aria-label) e os filhos excluídos;
+/// `semanticsLabel` != null → esse rótulo (= aria-label) e os filhos excluídos (salvo [excludeSemantics] `false`:
+/// um botão DENTRO do link, como a mini-barra do cronômetro — T04);
 /// `semanticsLabel` == null → os textos dos filhos se fundem no nó (= nome calculado do conteúdo de um <a>).
 class Pressable extends StatefulWidget {
   const Pressable({
@@ -19,6 +20,7 @@ class Pressable extends StatefulWidget {
     this.exclusive = true,
     this.onLongPress,
     this.customActions,
+    this.excludeSemantics,
   });
   final Widget child;
   final VoidCallback? onTap;
@@ -50,6 +52,11 @@ class Pressable extends StatefulWidget {
 
   /// Ações nomeadas para o leitor de tela ("Tirar das favoritas" — G17).
   final Map<CustomSemanticsAction, VoidCallback>? customActions;
+
+  /// Exclui os nós dos filhos. `null` = o padrão (exclui quando há [semanticsLabel]); `false` com rótulo = os filhos
+  /// que formam nó próprio (um botão) ficam dentro deste — os textos que se fundiriam no rótulo vão em
+  /// `ExcludeSemantics`.
+  final bool? excludeSemantics;
 
   /// Liga/desliga o feedback de escala (D-04: "desligável por flag"). O repouso não muda.
   static bool feedbackEnabled = true;
@@ -90,7 +97,8 @@ class _PressableState extends State<Pressable> {
       selected: widget.selected,
       hint: widget.hint,
       enabled: widget.enabled ? null : false,
-      excludeSemantics: widget.semanticsLabel != null,
+      excludeSemantics:
+          widget.excludeSemantics ?? widget.semanticsLabel != null,
       onTap: onTap,
       onLongPress: widget.enabled ? widget.onLongPress : null,
       customSemanticsActions: widget.enabled ? widget.customActions : null,

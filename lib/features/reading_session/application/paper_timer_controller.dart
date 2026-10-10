@@ -147,6 +147,10 @@ class PaperTimerController extends AsyncNotifier<PaperTimerState> {
     return s.isRunning ? _pause() : _resume();
   });
 
+  /// O toque no botão da sessão (o cartão do "Também lendo" e a mini-barra): [toggle] sem esperar; a falha (o kv fora
+  /// do ar) vai para o relatório do cronômetro e o botão fica como estava.
+  void toggleFromTap() => unawaited(toggle().catchError(reportPaperTimerError));
+
   /// D-263: abrir o leitor pausa a sessão que roda (o e-book conta sozinho; sem tempo em dobro).
   Future<void> pauseForReader() => pause();
 

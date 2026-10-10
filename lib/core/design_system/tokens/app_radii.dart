@@ -23,4 +23,12 @@ abstract final class AppRadii {
     bottomRight: Radius.circular(7),
     bottomLeft: Radius.circular(3),
   );
+
+  /// A capa 32×48 da mini-barra do cronômetro (prancha 01b; ordem CSS: TL, TR, BR, BL).
+  static const BorderRadius coverXs = BorderRadius.only(
+    topLeft: Radius.circular(2),
+    topRight: Radius.circular(5),
+    bottomRight: Radius.circular(5),
+    bottomLeft: Radius.circular(2),
+  );
 }

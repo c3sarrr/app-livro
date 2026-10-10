@@ -164,8 +164,8 @@ List<String> idsDasSecoes(LeitorRefPrancha prancha, Iterable<String> secoes) =>
         },
     ];
 
-/// As camadas presas à tela (não rolam com o conteúdo): o degradê e a barra.
-const Set<String> camadasFixas = {'bottomFade', 'nav'};
+/// As camadas presas à tela (não rolam com o conteúdo): o degradê, a barra e a mini-barra do cronômetro (01b).
+const Set<String> camadasFixas = {'bottomFade', 'nav', 'miniBar'};
 
 /// Quanto somar ao y medido na tela para voltar à coordenada de layout da prancha: a prancha rolada (a 60, com o
 /// `<main>` transladado de −[rolagem]) mede o layout sem a translação; as camadas fixas não rolam.

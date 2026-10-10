@@ -9,12 +9,14 @@ import 'package:go_router/go_router.dart';
 import '../../../app/router.dart' show AppRoutes;
 import '../../../core/design_system/tokens/app_spacing.dart';
 import '../../library/presentation/incoming_books.dart' show LibraryTabSwitcher;
+import '../../reading_session/presentation/session_mini_bar.dart';
 import 'bottom_fade.dart';
 import 'floating_nav_bar.dart';
 import 'scanner_fab.dart';
 
 /// Camadas fixas sobre o conteúdo das abas (D-01), na ordem de pintura do HTML:
-/// conteúdo da aba → fade inferior → navegação → FAB do Scanner (que sobe 20,5 px acima da barra).
+/// conteúdo da aba → fade inferior → mini-barra do cronômetro (com sessão aberta — D-259) → navegação → FAB do
+/// Scanner (que sobe 20,5 px acima da barra).
 /// Sem `Scaffold` aqui: o da `HomeScreen` é o único tratador do toque na status bar.
 class MainShell extends StatelessWidget {
   const MainShell({super.key, required this.shell});
@@ -67,6 +69,15 @@ class MainShell extends StatelessWidget {
               child: IgnorePointer(
                 child: BottomFade(key: ValueKey('bottomFade')),
               ),
+            ),
+            // T04 (D-259): a mini-barra do cronômetro do papel, entre o degradê e a barra (a ordem da 01b), 30 acima da
+            // barra. Sem sessão aberta, não ocupa nada nem pega toque.
+            Positioned(
+              left: AppSpacing.navSide,
+              right: AppSpacing.navSide,
+              bottom: navBottom + AppSpacing.navHeight + 30,
+              height: SessionMiniBar.height,
+              child: const SessionMiniBar(),
             ),
             // Barra flutuante.
             Positioned(
