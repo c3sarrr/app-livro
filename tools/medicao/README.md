@@ -17,19 +17,21 @@ Duas gerações de ferramentas:
 - Rodar sempre a partir da raiz do repositório.
 - **Linux** (T02): o Chromium do Windows mede texto diferente do Linux; a G01 foi medida no Linux. No Windows, usar o WSL
   com o ambiente em `/opt/booknest-medicao` (`ambiente_wsl.sh`: venv + Node + Playwright 1.56, `fonts-inter` e um fontconfig que prefere a
-  Inter para os glifos de fallback como o "≈" das pranchas 20 e 26b, e suavização em tons de cinza — `rgba none`, sem o
-  subpixel que o Ubuntu do WSL liga em `10-sub-pixel-rgb.conf`). `wsl.sh` liga esse ambiente e roda o comando na
-  raiz do repositório:
+  Inter para os glifos de fallback como o "≈" das pranchas 20 e 26b, suavização em tons de cinza — `rgba none`, sem o
+  subpixel que o Ubuntu do WSL liga em `10-sub-pixel-rgb.conf` — e sem hinting — o Ubuntu liga o `hintslight` em
+  `10-hinting-slight.conf`; as fontes do arquivo não sentem, o Chromium roda com `--font-render-hinting=none`, mas as do
+  sistema sim). `wsl.sh` liga esse ambiente e roda o comando na raiz do repositório:
 
   ```bash
   MSYS_NO_PATHCONV=1 wsl bash tools/medicao/wsl.sh 'CONJUNTO=inicio2 bash tools/medicao/rodar_tudo.sh'
   ```
 
-  Conferência (T02, `CONJUNTO=leitor_conferencia`): com esse ambiente a G01 sai igual byte a byte em 291 de 305
-  arquivos (layouts, SVGs, referências Dart, fases, tokens, mapa, fontes, validação); os 14 restantes são PNGs das 20 e
-  26b, que diferem só no glifo "≈" (a Inter do Ubuntu é outra versão): 86 e 90 px a @3x, no máximo 15/255. Os tokens
-  da G01 são conferidos com os arquivos de `lib/core/design_system/tokens/` do commit `cbfc021` (os de hoje já têm a G11).
-  O gate A2 (render × prévias) passa nas 11 sem fallback; nas 20 e 26b, ~200 px pelo mesmo glifo.
+  Conferência (T02, `CONJUNTO=leitor_conferencia`): com esse ambiente a G01 sai **igual byte a byte nos 305 arquivos**
+  (layouts, PNGs, SVGs, referências Dart, fases, tokens, mapa, fontes, validação) e o gate A2 (render × prévias) passa
+  nas 13 pranchas. Os tokens da G01 são conferidos com os arquivos de `lib/core/design_system/tokens/` do commit
+  `cbfc021` (os de hoje já têm a G11): `TOKENS_DART=<pasta com eles> CONJUNTO=leitor_conferencia bash rodar_tudo.sh`.
+  Com o `hintslight` do Ubuntu ligado, só o "≈" das 20 e 26b (Inter Bold 4.0, a mesma versão da G01) saía 0,012 px mais
+  baixo — 86 e 90 px a @3x, ≤ 15/255. Não editar `rodar_tudo.sh` enquanto ele roda: o bash lê o arquivo aos pedaços.
 
 ## Conjuntos (T02)
 
@@ -44,8 +46,10 @@ diz onde fica cada entrada e saída (`conjunto.py` / `conjunto.js` resolvem os c
 
 Por conjunto também: o módulo dos ids (`idmaps_spec_inicio2.py`), as notas das fases (`fases_notas_inicio2.py`), os nomes
 dos SVGs (`svgs_nomes_inicio2.py`: reuso de asset existente por C14N, ids normalizados, altura em %, tamanho do layout),
-o índice das fases (`fases_inicio2.json`) e, no `pranchas_inicio2.json`, a exclusão documentada do gate de convergência
-da 63 (`convergenciaExcluirY`). `comparar_layouts.py` compara dois conjuntos de `layout_*.json` campo a campo.
+o índice das fases (`fases_inicio2.json`) e, no `pranchas_inicio2.json`, a faixa da 63 que o gate de convergência confere
+noutro zoom (`convergenciaFaixa`: y 60–80 com o zoom 15 × 10, porque nos zooms 13, 14 e 16–20 o Skia desenha errado a
+borda de cima da folha; o resto da prancha com o 20 × 10). `comparar_layouts.py` compara dois conjuntos de
+`layout_*.json` campo a campo.
 
 ## Passo 1 — extrair as pranchas (G01.1)
 

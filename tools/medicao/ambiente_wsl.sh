@@ -27,7 +27,10 @@ apt-get install -y python3-venv fonts-inter >/dev/null
 # - a reserva sans-serif é a Inter (como no contêiner da G01: o "≈" das 20 e 26b não está na Figtree do arquivo);
 # - suavização em tons de cinza: o Ubuntu do WSL liga o subpixel (10-sub-pixel-rgb.conf) e o texto pequeno a 1x/2x sai
 #   com franjas coloridas (as prévias do arquivo e o contêiner da G01 não têm) — também no supersample 10×, nos textos
-#   minúsculos (os ~1,5 px dos `<text>` da capa da mini-barra da 01b viram ~15 px).
+#   minúsculos (os ~1,5 px dos `<text>` da capa da mini-barra da 01b viram ~15 px);
+# - sem hinting: o Ubuntu liga o hintslight (10-hinting-slight.conf). As fontes do arquivo não sentem (o Chromium roda
+#   com --font-render-hinting=none), mas as do sistema sim: o "≈" das 20 e 26b (Inter Bold) saía 0,012 px mais baixo
+#   (86 e 90 px a @3x, ≤ 15/255). Sem hinting a G01 sai igual byte a byte (305 de 305 arquivos) e o A2 passa nas 13.
 mkdir -p ~/.config/fontconfig
 cat > ~/.config/fontconfig/fonts.conf <<'XML'
 <?xml version="1.0"?>
@@ -37,6 +40,8 @@ cat > ~/.config/fontconfig/fonts.conf <<'XML'
   <match target="font">
     <edit name="rgba" mode="assign"><const>none</const></edit>
     <edit name="lcdfilter" mode="assign"><const>lcdnone</const></edit>
+    <edit name="hinting" mode="assign"><bool>false</bool></edit>
+    <edit name="hintstyle" mode="assign"><const>hintnone</const></edit>
   </match>
 </fontconfig>
 XML

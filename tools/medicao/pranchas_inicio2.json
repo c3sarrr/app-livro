@@ -80,11 +80,14 @@
         844
       ],
       "previa": "",
-      "convergenciaExcluirY": [
-        60,
-        80
-      ],
-      "_convergencia": "T02: no zoom ≥ 16 o Skia desenha a border-top de 1,5 px com border-radius só em cima da folha ([role=dialog]) com uma faixa preta em y 63–76; no zoom 10 o traço sai certo. Prova: com border-top-color transparente a faixa some. O gate z20×z10 copia essa faixa do zoom 10 antes de medir (fora dela: blur 0,0000 %); a referência é o zoom 10, sem mudança."
+      "convergenciaFaixa": {
+        "y": [
+          60,
+          80
+        ],
+        "zoom": 15
+      },
+      "_convergencia": "T02 (R3): em alguns zooms o Skia desenha a border-top de 1,5 px com border-radius só em cima da folha ([role=dialog]) com uma faixa preta em y 63–76 — nos zooms 13, 14 e 16 a 20; nos 10, 11, 12 e 15 o traço sai certo e as quatro reduções batem na faixa (blur 0 %). Prova: com border-top-color transparente a faixa some. O gate confere a faixa y 60–80 com o zoom 15 × 10 e o resto com o 20 × 10; nenhum pixel fica sem conferência. A referência é o zoom 10, sem mudança."
     }
   ]
 }
