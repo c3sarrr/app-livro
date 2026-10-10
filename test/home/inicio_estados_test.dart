@@ -22,6 +22,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
 import '../fixtures/overrides_do_mundo.dart' show relogioDoMundo;
+import '../fixtures/paper_timer_fakes.dart' show overridesDaSessao;
 import '../support/app_text_finder.dart';
 import '../support/fake_scanner_camera.dart';
 import '../support/load_fonts.dart';
@@ -118,6 +119,7 @@ Future<void> _abrir(WidgetTester tester, List<Override> overrides) async {
         relogioDoMundo,
         scannerCameraProvider.overrideWithValue(FakeScannerCamera.new),
         coverImagesProvider.overrideWithValue(_SemFoto()),
+        ...overridesDaSessao(), // T04: o cronômetro sem sessão, em memória
         ...overrides,
       ],
       child: const App.forTests(),

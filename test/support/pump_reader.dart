@@ -77,6 +77,7 @@ Future<LeitorNaTela> abrirLeitor(
               ? Completer<HighlightsDeps>().future
               : Future.value(destaques),
         ),
+        ...cronometroDoMundo(),
         ...overrides,
       ],
       child: golden

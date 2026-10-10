@@ -103,9 +103,10 @@ String Function() idsDeTeste() {
 }
 
 /// Os overrides do cronômetro para um teste: a sessão aberta (ou nenhuma), a estante, o writer e o tique — o relógio
-/// é o `clockProvider` de cada teste (o do mundo, nos testes da Início).
+/// é o `clockProvider` de cada teste (o do mundo, nos testes da Início). Sem [store] / [writer] / [ticker] / [ids],
+/// cada container cria os seus: a sessão de um teste não vaza para o seguinte.
 List<Override> overridesDaSessao({
-  MemoryPaperTimerStore? store,
+  PaperTimerStore? store,
   RecordingPaperSessionWriter? writer,
   FixedPaperBookSource? livros,
   SecondTicker? ticker,
@@ -124,8 +125,9 @@ List<Override> overridesDaSessao({
   paperBookSourceProvider.overrideWith(
     (ref) async => livros ?? FixedPaperBookSource(const {}),
   ),
-  secondTickerProvider.overrideWithValue(ticker ?? ManualTicker()),
-  paperTimerIdsProvider.overrideWithValue(ids ?? idsDeTeste()),
+  // cada container ganha o seu tique e a sua contagem de ids (o mundo é uma lista só, para todos os testes)
+  secondTickerProvider.overrideWith((ref) => ticker ?? ManualTicker()),
+  paperTimerIdsProvider.overrideWith((ref) => ids ?? idsDeTeste()),
   paperTimerUtcOffsetProvider.overrideWithValue(
     fuso ?? (_) => const Duration(hours: -3),
   ),

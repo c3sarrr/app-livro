@@ -70,6 +70,7 @@ Future<void> abrirTela25(
         leitorDoMundo,
         scannerCameraProvider.overrideWithValue(FakeScannerCamera.new),
         highlightsDepsProvider.overrideWith((ref) async => d),
+        ...cronometroDoMundo(),
         ...overrides,
       ],
       child: golden

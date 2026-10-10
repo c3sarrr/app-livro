@@ -5,4 +5,4 @@ import 'package:app_leitura/main.dart' as app;
 
 import 'overrides_do_mundo.dart';
 
-Future<void> main() => app.runBookNest(overrides: overridesDoMundo);
+Future<void> main() => app.runBookNest(overrides: overridesDoMundoNoAparelho);

@@ -41,7 +41,7 @@ void main() {
     safeTop: 47,
     safeBottom: 34,
     repositorio: const HomeMockRepository01b(),
-    overrides: overridesDa01b(),
+    cronometro: overridesDa01b(),
   );
 
   testWidgets(

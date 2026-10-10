@@ -24,6 +24,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/overrides_do_mundo.dart' show brandDoMundo;
+import '../fixtures/paper_timer_fakes.dart' show overridesDaSessao;
 import 'canvas.dart';
 import 'dados_t25.dart' show ArquivosDeTeste;
 import 'fake_scanner_camera.dart';
@@ -85,13 +86,15 @@ HighlightsDeps depsReaisDaTela25(
 );
 
 /// Monta o app (começa na Início) com o [livro] e espera a Início com os dados. Devolve os dublês do leitor. O
-/// [relogio] é o mesmo para a Início, o leitor e a tela 25.
+/// [relogio] é o mesmo para a Início, o leitor e a tela 25. [cronometro]: o do papel (sem ele, um cronômetro em
+/// memória sem sessão nem livros — os testes do papel no banco passam o deles).
 Future<LeitorNaTela> abrirAppComLivro(
   WidgetTester tester,
   LivroNaEstante livro, {
   RelogioG20? relogio,
   Size tela = const Size(390, 844),
   List<Override> overrides = const [],
+  List<Override>? cronometro,
   ClubTicketSource? clube,
 }) async {
   final r = relogio ?? RelogioG20();
@@ -128,6 +131,7 @@ Future<LeitorNaTela> abrirAppComLivro(
         highlightsDepsProvider.overrideWith(
           (ref) async => depsReaisDaTela25(livro, agora: () => r.agora),
         ),
+        ...(cronometro ?? overridesDaSessao()),
         ...overrides,
       ],
       child: const App.forTests(),

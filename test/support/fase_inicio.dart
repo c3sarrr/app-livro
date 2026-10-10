@@ -48,7 +48,8 @@ Future<void> precacheInicio01(WidgetTester tester) async {
 
 /// Monta o app (`App.forTests()`, que abre em `/inicio`) no canvas de [prancha] (DPR [dpr], áreas seguras
 /// [safeTop]/[safeBottom]) sob a raiz do golden, com o mundo de referência e a fonte da Início [repositorio] (a `t01`;
-/// outra para os casos fora da prancha — os estados da G08, os formatos da D-254).
+/// outra para os casos fora da prancha — os estados da G08, os formatos da D-254). [cronometro] troca o cronômetro do
+/// mundo (sem sessão) pelo do teste — a 01b passa `overridesDa01b()`.
 Future<void> abrirInicio01(
   WidgetTester tester, {
   LeitorRefPrancha prancha = kRef01,
@@ -56,6 +57,7 @@ Future<void> abrirInicio01(
   double safeTop = 0,
   double safeBottom = 0,
   SyncHomeRepository repositorio = const HomeMockRepository(),
+  List<Override>? cronometro,
   List<Override> overrides = const [],
 }) async {
   setCanvasView(
@@ -74,6 +76,7 @@ Future<void> abrirInicio01(
         brandDoMundo,
         leitorDoMundo,
         destaquesDoMundo,
+        ...(cronometro ?? cronometroDoMundo()),
         // o scanner abre por cima das abas: nos testes, sem o plugin da câmera
         scannerCameraProvider.overrideWithValue(FakeScannerCamera.new),
         ...overrides,
