@@ -24,6 +24,9 @@ const BorderSide _line = BorderSide(
 /// O texto do campo da busca (e o rótulo dele para o leitor de tela).
 const String searchHint = 'Buscar nos grifos e notas';
 
+/// T01 — o `padding-inline` de 2 px que o Chromium dá ao `<input>` (o CSS da busca não o zera).
+const double searchInputPadding = 2;
+
 class HighlightsTopBar extends StatelessWidget {
   const HighlightsTopBar({
     super.key,
@@ -214,27 +217,33 @@ class _HighlightsSearchState extends State<HighlightsSearch> {
               child: SizedBox(
                 key: const ValueKey('hl.search.input'),
                 height: 45,
-                child: Center(
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: TapTarget(
-                      child: TextField(
-                        key: const ValueKey('hl.search.field'),
-                        controller: _field,
-                        focusNode: _focus,
-                        autocorrect: false,
-                        enableSuggestions: false,
-                        maxLines: 1,
-                        textInputAction: TextInputAction.search,
-                        onChanged: (q) {
-                          widget.onQuery(q);
-                          setState(() {});
-                        },
-                        style: AppTextStyles.hlSearch,
-                        cursorColor: AppColors.ink,
-                        decoration: InputDecoration.collapsed(
-                          hintText: searchHint,
-                          hintStyle: AppTextStyles.hlSearchPlaceholder,
+                // T01: o padding-inline de 2 px do <input> do Chromium (a prancha não o zera)
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: searchInputPadding,
+                  ),
+                  child: Center(
+                    child: Material(
+                      type: MaterialType.transparency,
+                      child: TapTarget(
+                        child: TextField(
+                          key: const ValueKey('hl.search.field'),
+                          controller: _field,
+                          focusNode: _focus,
+                          autocorrect: false,
+                          enableSuggestions: false,
+                          maxLines: 1,
+                          textInputAction: TextInputAction.search,
+                          onChanged: (q) {
+                            widget.onQuery(q);
+                            setState(() {});
+                          },
+                          style: AppTextStyles.hlSearch,
+                          cursorColor: AppColors.ink,
+                          decoration: InputDecoration.collapsed(
+                            hintText: searchHint,
+                            hintStyle: AppTextStyles.hlSearchPlaceholder,
+                          ),
                         ),
                       ),
                     ),

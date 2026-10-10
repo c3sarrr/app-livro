@@ -61,6 +61,19 @@ void main() {
     },
   );
 
+  testWidgets(
+    'T01 — a busca: o texto (e a dica) 2 px para dentro do campo, o padding-inline do <input> do Chromium '
+    '(a prancha não o zera: a dica sai em 66,7, não em 64,7)',
+    (tester) async {
+      await abrirTela25(tester, livro);
+      final input = tester.getRect(hl('hl.search.input'));
+      final campo = tester.getRect(hl('hl.search.field'));
+      expect(input.left, moreOrLessEquals(63.5, epsilon: 0.5));
+      expect(campo.left - input.left, moreOrLessEquals(2, epsilon: 1e-6));
+      expect(input.right - campo.right, moreOrLessEquals(2, epsilon: 1e-6));
+    },
+  );
+
   testWidgets('L25a — estilo: voltar, exportar, título, subtítulo e busca', (
     tester,
   ) async {
