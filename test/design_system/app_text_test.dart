@@ -802,4 +802,64 @@ void main() {
       );
     },
   );
+  test('T01 — AppTextUnderline: igualdade e hashCode pelo deslocamento e pela espessura', () {
+    const a = AppTextUnderline(offset: 3, thickness: 1.25);
+    expect(a, const AppTextUnderline(offset: 3, thickness: 1.25));
+    expect(
+      a.hashCode,
+      const AppTextUnderline(offset: 3, thickness: 1.25).hashCode,
+    );
+    expect(a, isNot(const AppTextUnderline(offset: 4, thickness: 1.25)));
+    expect(a, isNot(const AppTextUnderline(offset: 3, thickness: 2)));
+  });
+
+  testWidgets(
+    'T01 — trocar o sublinhado de um texto já montado repinta (pôr, mudar e tirar)',
+    (tester) async {
+      Future<double?> faixa(AppTextUnderline? u) async {
+        await tester.pumpWidget(
+          _ltr(
+            RepaintBoundary(
+              key: const Key('caixa'),
+              child: ColoredBox(
+                color: _white,
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: AppText(
+                    'Editar rótulos',
+                    key: const Key('t'),
+                    style: AppTextStyles.annPanelLink.copyWith(
+                      color: AppColors.ink,
+                    ),
+                    underline: u,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+        final (px, w, h) = await _pixels(tester, const Key('caixa'), 10);
+        // a 1ª linha de pixel, abaixo das letras, com tinta no meio da largura
+        final linha = _render(tester, const Key('t')).debugLines().single;
+        final base =
+            linha.baseline - tester.getRect(find.byKey(const Key('t'))).top + 4;
+        final x = (w / 2).round();
+        for (var y = ((base + 1) * 10).round(); y < h; y++) {
+          if (_coverage(px, y * w + x, 0x1A) > 0.5) return y / 10 - base;
+        }
+        return null;
+      }
+
+      expect(await faixa(null), isNull);
+      expect(
+        await faixa(const AppTextUnderline(offset: 3, thickness: 1.25)),
+        moreOrLessEquals(3, epsilon: 0.1),
+      );
+      expect(
+        await faixa(const AppTextUnderline(offset: 5, thickness: 1.25)),
+        moreOrLessEquals(5, epsilon: 0.1),
+      );
+      expect(await faixa(null), isNull);
+    },
+  );
 }
