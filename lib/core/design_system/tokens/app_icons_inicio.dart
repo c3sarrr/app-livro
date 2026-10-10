@@ -84,6 +84,10 @@ abstract final class AppIconsInicio {
     sparkleSolidYellow,
   ];
 
+  /// Os que a 01b soma à 01 (T04, pré-carregados no `main()`): o "pausar" do cartão em sessão e os dois da
+  /// mini-barra (pausar e, pausada, o play tinta).
+  static const inicio01b = [pause, pauseInk, playInk];
+
   static const all = [
     search,
     bookPaper,

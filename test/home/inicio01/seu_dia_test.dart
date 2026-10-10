@@ -15,7 +15,6 @@ import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/core/design_system/widgets/pill.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
-import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/home/presentation/sections/today_section.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -276,19 +275,23 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets(
-    'L01a4 toque no "Ler agora": fica na Início (o cronômetro é da T04 — D-243 b)',
-    (tester) async {
-      await _abrir(tester);
-      expect(
-        tester.widget<TodaySection>(find.byType(TodaySection)).onReadNowTap,
-        HomeScreen.onReadNow,
-      );
-      expect(HomeScreen.onReadNow, returnsNormally);
-      await tocar01(tester, 'i01.today.readNow');
-      expect(rotaAtual(tester), '/inicio');
-    },
-  );
+  testWidgets('L01a4 toque no "Ler agora": fica na Início e começa o cronômetro do Brás Cubas (ganhou ação na T04 — D-258: o '
+      'herói é e-book e o 1º de papel do Também lendo é ele)', (tester) async {
+    await _abrir(tester);
+    expect(
+      tester.widget<TodaySection>(find.byType(TodaySection)).onReadNowTap,
+      isNotNull,
+    );
+    await tocar01(tester, 'i01.today.readNow');
+    expect(rotaAtual(tester), '/inicio');
+    expect(
+      tester
+          .widget<AppText>(find.byKey(const ValueKey('miniBar.title')))
+          .span
+          .toPlainText(),
+      'Brás Cubas',
+    );
+  });
 
   testWidgets('L01a4 captura: a página no canvas da prancha (o recorte pega o fim dos cartões do "Também lendo"; '
       'gate visual fora do teste)', (tester) async {

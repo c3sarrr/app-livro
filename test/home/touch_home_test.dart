@@ -364,14 +364,12 @@ void main() {
   );
 
   testWidgets(
-    'T03 (D-243 b) a lupa, o "play" do papel, "Ler agora" e "Revisar" existem com a ação da prancha, mas NÃO abrem nada — sem rota, sem diálogo, sem folha, sem menu',
+    'T03 (D-243 b) a lupa e "Revisar" existem com a ação da prancha, mas NÃO abrem nada — sem rota, sem diálogo, sem folha, sem menu (o "play" do papel e "Ler agora" ganharam ação na T04: test/home/inicio01b/toques_test.dart)',
     (tester) async {
       final semantics = tester.ensureSemantics();
       await _device(tester);
       for (final (id, label, link) in [
         ('header.search', 'Buscar livros', true),
-        ('alsoReading.card1.play', 'Iniciar leitura de Brás Cubas', false),
-        ('today.readNow', 'Iniciar leitura (cronômetro)', true),
         ('review.cta', 'Revisar', true),
       ]) {
         await _scrollTo(tester, id, y: 400);
@@ -427,15 +425,7 @@ void main() {
         );
       }
       // Os callbacks do app são os no-ops documentados.
-      const book = Book(
-        id: 'x',
-        title: 'x',
-        author: 'x',
-        cover: DesignedCover(CoverArt.brasCubas),
-      );
       expect(HomeScreen.onSearch, returnsNormally);
-      expect(() => HomeScreen.onStartReading(book), returnsNormally);
-      expect(HomeScreen.onReadNow, returnsNormally);
       expect(HomeScreen.onReview, returnsNormally);
       semantics.dispose();
     },

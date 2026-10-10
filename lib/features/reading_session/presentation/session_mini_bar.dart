@@ -3,6 +3,7 @@
 // e o botão de pausar. Só existe com uma sessão aberta (o shell a põe entre o degradê e a barra — D-259). O tempo sai
 // do relógio de parede a cada tique de 1 s; o tique só corre com a sessão rodando e o app à vista, e cada tique refaz
 // só o tempo, o rótulo e a barrinha (o resto são as mesmas instâncias de widget).
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
@@ -26,18 +27,16 @@ import '../application/paper_timer_controller.dart';
 import '../application/paper_timer_format.dart';
 import '../application/second_ticker.dart';
 import 'second_ticking.dart';
+import 'session_sheet.dart';
 
 /// A mini-barra com a sessão aberta (nada sem ela). Fundo e borda tinta 1,5, raio 22, sombra 0/4
 /// `rgba(26,23,20,.35)` sem desfoque e recorte; padding 0/10/0/12 e gap 12 entre a capa, os textos (que crescem), o
 /// tempo e o botão, centrados na altura.
 class SessionMiniBar extends ConsumerWidget {
-  const SessionMiniBar({super.key, this.onOpen});
+  const SessionMiniBar({super.key});
 
   /// Altura (o shell a põe 30 acima da barra — D-259).
   static const double height = 66;
-
-  /// O toque na barra: a folha da sessão (D-256).
-  final VoidCallback? onOpen;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -99,7 +98,8 @@ class SessionMiniBar extends ConsumerWidget {
             seconds: seconds,
           ),
           excludeSemantics: false,
-          onTap: onOpen,
+          // o toque na barra: a folha da sessão (D-256)
+          onTap: () => unawaited(showSessionSheet(context)),
           child: NeoBox(
             key: const ValueKey('miniBar'),
             height: height,

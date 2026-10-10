@@ -11,8 +11,12 @@ import '../../../core/design_system/tokens/app_spacing.dart';
 import '../../../core/design_system/tokens/app_icons.dart';
 import '../../account/application/account_controller.dart';
 import '../../reading_session/application/paper_timer_controller.dart';
+import '../../reading_session/data/paper_timer_store.dart'
+    show reportPaperTimerError;
+import '../../reading_session/presentation/paper_timer_actions.dart';
 import '../../shell/presentation/shell_insets.dart';
 import '../application/home_providers.dart';
+import '../application/read_now.dart';
 import '../domain/models.dart';
 import 'home_states.dart';
 import 'sections/also_reading_section.dart';
@@ -45,18 +49,49 @@ class HomeScreen extends ConsumerWidget {
   /// idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
   static void onSearch() {}
 
-  /// "Play" do livro de papel sem página (`alsoReading.cardN.play`, prancha 01): o cronômetro é da T04 — D-243 b: o
-  /// elemento fica idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
-  static void onStartReading(Book book) {}
+  /// "Play" do livro de papel sem página (`alsoReading.cardN.play`, prancha 01 — "ganhou ação na T04"): começa a
+  /// sessão do cronômetro; com outra sessão aberta, a folha dela com este livro à espera (D-262).
+  static Future<void> onStartReading(
+    BuildContext context,
+    WidgetRef ref,
+    Book book,
+  ) => startPaperSession(context, ref, book);
 
   /// O botão da sessão do cronômetro aberta no cartão (`alsoReading.cardN.play` em sessão, prancha 01b — R6): pausa a
   /// que roda, retoma a pausada (D-257). A falha (o kv fora do ar) vai para o relatório do cronômetro.
   static void onSessionToggle(WidgetRef ref) =>
       ref.read(paperTimerProvider.notifier).toggleFromTap();
 
-  /// "Ler agora" (`today.readNow`, prancha 01): o cronômetro é da T04 — D-243 b: o elemento fica idêntico à prancha e
-  /// o toque não faz nada (`docs/design/estados_sem_design.md`).
-  static void onReadNow() {}
+  /// "Ler agora" (`today.readNow`, prancha 01 — "ganhou ação na T04"), a D-258: com a sessão do papel aberta, retoma a
+  /// pausada (a que roda fica); sem ela, o cronômetro do livro de papel em leitura mais recente; sem livro de papel,
+  /// o herói no leitor; sem nada em leitura, nada (R11). Espera a sessão carregar para decidir.
+  static Future<void> onReadNow(BuildContext context, WidgetRef ref) async {
+    try {
+      final timer = ref.read(paperTimerProvider.notifier);
+      // o cronômetro que não abre (o kv fora do ar) conta como sem sessão
+      final open = await ref
+          .read(paperTimerProvider.future)
+          .then((t) => t.session, onError: (Object _) => null);
+      if (!context.mounted) return;
+      final s = ref.read(homeSnapshotProvider);
+      switch (readNowAction(
+        hero: s.continueReading,
+        alsoReading: s.alsoReading,
+        open: open,
+      )) {
+        case ResumeSession():
+          await timer.resume();
+        case StartTimer(:final book):
+          await startPaperSession(context, ref, book);
+        case OpenReader(:final book):
+          unawaited(context.push<void>(AppRoutes.leitor(book.id)));
+        case KeepRunning() || NoAction():
+          break;
+      }
+    } on Object catch (e, st) {
+      reportPaperTimerError(e, st);
+    }
+  }
 
   /// "Revisar" do cartão "Seus grifos de hoje" (`review.cta`, prancha 01): a revisão é da T05 — D-243 b: o elemento
   /// fica idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
@@ -206,12 +241,20 @@ class _HomeSections extends ConsumerWidget {
           _gutter(
             AlsoReadingSection(
               onBookTap: openBook,
-              onStartReadingTap: HomeScreen.onStartReading,
+              onStartReadingTap: (book) =>
+                  unawaited(HomeScreen.onStartReading(context, ref, book)),
               onSessionTap: (_) => HomeScreen.onSessionToggle(ref),
             ),
           ),
         ),
-      (4, _gutter(const TodaySection(onReadNowTap: HomeScreen.onReadNow))),
+      (
+        4,
+        _gutter(
+          TodaySection(
+            onReadNowTap: () => unawaited(HomeScreen.onReadNow(context, ref)),
+          ),
+        ),
+      ),
       // Só com a fixture até a T05 (D-247): com dados reais a revisão some com o gap.
       if (layout.review)
         (5, _gutter(const ReviewSection(onReviewTap: HomeScreen.onReview))),

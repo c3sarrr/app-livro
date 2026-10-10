@@ -29,7 +29,7 @@ import '../../domain/models.dart';
 class TodaySection extends ConsumerWidget {
   const TodaySection({super.key, this.onReadNowTap});
 
-  /// "Ler agora" (`today.readNow`): a Início passa o "sem ação" até o cronômetro da T04.
+  /// "Ler agora" (`today.readNow`): o cronômetro do papel (D-258, T04).
   final VoidCallback? onReadNowTap;
 
   @override

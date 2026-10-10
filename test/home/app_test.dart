@@ -177,9 +177,12 @@ void main() {
           return !carregou;
         }
 
+        // T04: e os da 01b (o cronômetro)
         final da01 = {
           ...AppIconsInicio.inicio01,
           ...AppIllustrationsInicio.inicio01,
+          ...AppIconsInicio.inicio01b,
+          ...AppIllustrationsInicio.inicio01b,
         };
         for (final asset in da01) {
           expect(await emCache(asset), isTrue, reason: asset);

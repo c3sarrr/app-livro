@@ -40,7 +40,7 @@ class AlsoReadingSection extends ConsumerWidget {
   /// Card (ou a capa do livro de papel sem página) tocado (ligado a `/livro/:bookId` na F12).
   final ValueChanged<Book>? onBookTap;
 
-  /// O "play" do livro de papel sem página (D-253): a Início passa o "sem ação" até o cronômetro da T04 (D-243 b).
+  /// O "play" do livro de papel sem página (D-253): começa a sessão do cronômetro (T04; com outra aberta, D-262).
   final ValueChanged<Book>? onStartReadingTap;
 
   /// O botão da sessão do cronômetro aberta (R6): pausa a que roda, retoma a pausada (D-257).

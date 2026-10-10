@@ -132,7 +132,7 @@ O caminho "com dados" do arquivo não muda.
 | Convidado (D-84) | cabeçalho: "Boa noite" (sem vírgula, sem a linha do nome) · círculo `sun` com o ícone de pessoa no lugar da inicial · sininho sem o ponto |
 | Meta do dia batida (D-83) | "Meta de hoje cumprida." no lugar de "Faltam N min para fechar a meta de hoje." |
 | Selo alcançado (D-83) | "Selo de **N dias** conquistado" no lugar de "Mais N dias para o selo de N dias" |
-| Exemplar físico (D-85; T03: D-252…D-255) | Recém-chegados: "Autor · Papel" (a prancha 01 desenha o "Papel" da Senhora; até a T03 era "Físico") · herói: o selo "PAPEL" (D-254) e "Continuar lendo" leva à página do livro (D-123) · Também lendo: com página registrada, o anel e "Papel · pág. N"; sem página, a capa é o link, o "play" (sem ação até a T04) e "Papel · Xh YYmin" do tempo já lido — sem sessão ou com menos de 1 min lido, só "Papel" (D-252, D-253) |
+| Exemplar físico (D-85; T03: D-252…D-255) | Recém-chegados: "Autor · Papel" (a prancha 01 desenha o "Papel" da Senhora; até a T03 era "Físico") · herói: o selo "PAPEL" (D-254) e "Continuar lendo" leva à página do livro (D-123) · Também lendo: com página registrada, o anel e "Papel · pág. N"; sem página, a capa é o link, o "play" (que começa o cronômetro desde a T04) e "Papel · Xh YYmin" do tempo já lido — sem sessão ou com menos de 1 min lido, só "Papel" (D-252, D-253) |
 | Livro real sem foto (D-79) | capa gerada na moldura da seção: cor de fundo, forma (sol, arco, anel ou linhas) e título em Instrument Serif + autor em maiúsculas, derivados do livro (sempre a mesma para o mesmo livro); miniatura só com cor e forma; trocada pela foto quando ela chega |
 | Livro real com título longo | herói: título em até 3 linhas e autor em 1; Para você: título em até 2 linhas e autor em 1; Recém-chegados: título e subtítulo em até 2 linhas — com "…" |
 | Também lendo com 1 livro | o cartão fica na metade da largura, como os dois do arquivo; o contador mostra o total de livros em leitura (até 2 cartões) |
@@ -378,10 +378,25 @@ Elementos da prancha 01 que aparecem **idênticos ao desenho e sem ação** até
 | Elemento | Na T03 | Ganha ação | Teste |
 |---|---|---|---|
 | Lupa do cabeçalho (`header.search`, link "Buscar livros") | `HomeScreen.onSearch`, sem ação | C14 (a busca não tem prancha) | `test/home/inicio01/cabecalho_test.dart` |
-| "Play" do livro de papel sem página (`alsoReading.cardN.play`, botão "Iniciar leitura de …") | `HomeScreen.onStartReading`, sem ação | T04 (começa a sessão do cronômetro — D-247) | `test/home/inicio01/tambem_lendo_test.dart` |
-| "Ler agora" do "Seu dia de leitura" (`today.readNow`, link "Iniciar leitura (cronômetro)") | `HomeScreen.onReadNow`, sem ação | T04 (o cronômetro) | `test/home/inicio01/seu_dia_test.dart` |
+| "Play" do livro de papel sem página (`alsoReading.cardN.play`, botão "Iniciar leitura de …") | `HomeScreen.onStartReading`, sem ação | **ganhou ação na T04**: começa a sessão do cronômetro (com outra aberta, a folha dela — D-262) | `test/home/inicio01/tambem_lendo_test.dart`, `test/home/inicio01b/toques_test.dart` |
+| "Ler agora" do "Seu dia de leitura" (`today.readNow`, link "Iniciar leitura (cronômetro)") | `HomeScreen.onReadNow`, sem ação | **ganhou ação na T04**: a D-258 (a sessão aberta, o papel mais recente ou o herói no leitor) | `test/home/inicio01/seu_dia_test.dart`, `test/home/inicio01b/toques_test.dart` |
 | "Revisar" do cartão "Seus grifos de hoje" (`review.cta`, link "Revisar"); o cartão em si não é link na prancha | `HomeScreen.onReview`, sem ação; com dados reais o cartão nem aparece (D-247) | T05 (a revisão do dia, rota `/revisao`) | `test/home/inicio01/revisao_test.dart` |
 | ⋯ dos recém-chegados (`recent.rowN.more`, botão "Mais opções para …") | `HomeScreen.onMoreOptions`, sem ação (como desde a F12) | C20 | `test/home/inicio01/recem_chegados_test.dart`, `test/home/touch_home_test.dart` |
 
-Os quatro primeiros também estão em `test/home/touch_home_test.dart` no app inteiro (o toque não muda a rota, não
-empilha nada, não abre diálogo, folha nem menu).
+A lupa e o "Revisar" também estão em `test/home/touch_home_test.dart` no app inteiro (o toque não muda a rota, não
+empilha nada, não abre diálogo, folha nem menu); o "play" e o "Ler agora" saíram de lá quando ganharam ação.
+
+## T04 — o cronômetro do livro de papel (prancha 01b, D-256…D-263)
+
+A prancha 01b desenha só a sessão **rodando** na Início (a mini-barra e o cartão do Brás Cubas com o "pausar"). O
+resto do cronômetro não tem desenho e segue a D-21 (`docs/progresso/T04.md`):
+
+| Estado | Como fica | Teste |
+|---|---|---|
+| Folha da sessão (D-256, D-260, D-262) — toque na mini-barra ou o play de outro livro com a sessão aberta | Na moldura das folhas da G21 (o véu do papel, o cartão a 14 das bordas, raio 28, borda 1,5, sombra dura), com os primitivos acima: o título do livro (`AccountHeading`); "Sessão em andamento · 08:42" / "Sessão em pausa · 08:42" (anda a cada segundo); "Pausar" / "Retomar"; "Última registrada: pág. N" (com página antes); os campos "Em que página você parou?" e, sem total no livro, "De quantas páginas é o livro?" (já com as páginas do catálogo do aparelho); os avisos "Informe o total de páginas para registrar a página." e "A página vai de 1 a N."; "Encerrar sessão" (principal), "Descartar sessão" (perigo → "Descartar esta sessão? Os 08:42 não serão gravados." com "Descartar" e "Voltar") e "Fechar". Aberta pelo play de outro livro: "Para começar {título}, encerre ou descarte esta sessão." no topo. Nome para o leitor de tela: "Cronômetro" | `test/features/reading_session/presentation/session_sheet_test.dart` |
+| Sessão pausada (D-257) | A mesma mini-barra com o play tinta 18 no botão ("Retomar"), o tempo parado, "EM PAUSA · PAPEL" e o ponto `#B9AE9C`; rótulo "Sessão em pausa: …". No cartão, o play amarelo 18 da 01 com o mesmo aro coral ("Retomar leitura de …") | `test/features/reading_session/presentation/session_mini_bar_test.dart`, `test/home/inicio01b/cartao_test.dart` |
+| `ic_play_tinta.svg` (R9) | Derivado: o caminho do `ic_play.svg` da prancha com `fill="#1A1714"` (fora do catálogo medido da T02) | `test/design_system/t04_recursos_test.dart` |
+| Mini-barra nas abas Biblioteca, Clubes e Perfil (D-259) | A mesma da Início, no mesmo lugar (30 acima da barra), com o degradê de 240 / 48 %; os blocos mínimos ganham 96 de folga (116 → 212). Some nas telas empilhadas (livro, leitor, scanner) | `test/home/inicio01b/shell_test.dart` |
+| Capa da mini-barra com dados reais (R10) | A foto do livro (ou a capa gerada, D-79) na moldura 32 × 48 de borda 1,2 `#F7F0E3`, raio 2/5/5/2, girada −5° (a capa com asas só existe na fixture) | `test/features/reading_session/presentation/session_mini_bar_test.dart` |
+| Sessão de um livro de papel com página (R6) | O botão da sessão entra no lugar do anel (o cartão vira `<div>`: a capa é o link); a pílula fica "Papel · pág. N" | `test/home/inicio01b/cartao_test.dart` |
+| "Ler agora" sem nada em leitura (R11) | O link continua igual e o toque não faz nada | `test/home/inicio01b/toques_test.dart` |

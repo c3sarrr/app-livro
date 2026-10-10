@@ -539,20 +539,22 @@ void main() {
         true,
       ),
       (
-        'alsoReading.card1.play',
-        find.descendant(
-          of: find.byKey(const ValueKey('alsoReading.card1.play')),
-          matching: find.byType(AnimatedScale),
-        ),
-        false, // sem ação até a T04 (D-243 b)
-      ),
-      (
         'alsoReading.card2',
         find.ancestor(
           of: find.byKey(const ValueKey('alsoReading.card2')),
           matching: find.byType(AnimatedScale),
         ),
         true,
+      ),
+      // por último: desde a T04 o "play" começa a sessão do cronômetro (não navega) e a mini-barra que aparece cobre
+      // o fim da tela do aparelho
+      (
+        'alsoReading.card1.play',
+        find.descendant(
+          of: find.byKey(const ValueKey('alsoReading.card1.play')),
+          matching: find.byType(AnimatedScale),
+        ),
+        false,
       ),
     ]) {
       expect(escala, findsOneWidget, reason: id);

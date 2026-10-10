@@ -18,7 +18,6 @@ import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/core/design_system/widgets/pill.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
-import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/home/presentation/sections/also_reading_section.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -478,27 +477,33 @@ void main() {
     },
   );
 
-  testWidgets('L01a3 toques: a capa do Brás Cubas e o cartão do Orgulho abrem a página do livro; o "play" fica na '
-      'Início (o cronômetro é da T04 — D-243 b)', (tester) async {
-    await _abrir(tester);
-    expect(
-      tester
-          .widget<AlsoReadingSection>(find.byType(AlsoReadingSection))
-          .onStartReadingTap,
-      HomeScreen.onStartReading,
-    );
-    expect(
-      () => HomeScreen.onStartReading(TelaInicio01.brasCubas),
-      returnsNormally,
-    );
-    await tocar01(tester, 'i01.alsoReading.card1.play');
-    expect(rotaAtual(tester), '/inicio');
-    await tocar01(tester, 'i01.alsoReading.card1.cover');
-    expect(rotaAtual(tester), '/livro/memorias-postumas-de-bras-cubas');
-    await _voltar(tester);
-    await tocar01(tester, 'i01.alsoReading.card2');
-    expect(rotaAtual(tester), '/livro/orgulho-e-preconceito');
-  });
+  testWidgets(
+    'L01a3 toques: a capa do Brás Cubas e o cartão do Orgulho abrem a página do livro; o "play" fica na '
+    'Início e começa a sessão do cronômetro (ganhou ação na T04 — D-243 b → a)',
+    (tester) async {
+      await _abrir(tester);
+      expect(
+        tester
+            .widget<AlsoReadingSection>(find.byType(AlsoReadingSection))
+            .onStartReadingTap,
+        isNotNull,
+      );
+      expect(find.byKey(const ValueKey('miniBar')), findsNothing);
+      await tocar01(tester, 'i01.alsoReading.card1.play');
+      expect(rotaAtual(tester), '/inicio');
+      // T04: a sessão começou — a mini-barra aparece e o botão do cartão vira o "pausar"
+      expect(find.byKey(const ValueKey('miniBar')), findsOneWidget);
+      expect(
+        _w<AppSvg>(tester, 'i01.alsoReading.card1.play.icon').asset,
+        AppIconsInicio.pause,
+      );
+      await tocar01(tester, 'i01.alsoReading.card1.cover');
+      expect(rotaAtual(tester), '/livro/memorias-postumas-de-bras-cubas');
+      await _voltar(tester);
+      await tocar01(tester, 'i01.alsoReading.card2');
+      expect(rotaAtual(tester), '/livro/orgulho-e-preconceito');
+    },
+  );
 
   testWidgets(
     'L01a3 captura: a seção no canvas da prancha (gate visual fora do teste)',
