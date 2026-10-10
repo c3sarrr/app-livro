@@ -231,7 +231,10 @@ class _Row extends StatelessWidget {
             measure(subtitle, AppTextStyles.body13Muted),
           ),
           tagTextMaxContent: measure(tagLabel, tagStyle),
-          tagTextMinContent: longestWord(tagLabel, tagStyle),
+          // "Lido" tem `white-space: nowrap` na prancha 01 (o mínimo é o texto inteiro); os outros quebram.
+          tagTextMinContent: item.status == RecentStatus.read
+              ? measure(tagLabel, tagStyle)
+              : longestWord(tagLabel, tagStyle),
         );
         // `Container` SOMA a borda ao tamanho (o `DecoratedBox` não soma): 66 + 24 + 1 = 91; a última, 90.
         return Container(

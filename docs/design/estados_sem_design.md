@@ -132,7 +132,7 @@ O caminho "com dados" do arquivo não muda.
 | Convidado (D-84) | cabeçalho: "Boa noite" (sem vírgula, sem a linha do nome) · círculo `sun` com o ícone de pessoa no lugar da inicial · sininho sem o ponto |
 | Meta do dia batida (D-83) | "Meta de hoje cumprida." no lugar de "Faltam N min para fechar a meta de hoje." |
 | Selo alcançado (D-83) | "Selo de **N dias** conquistado" no lugar de "Mais N dias para o selo de N dias" |
-| Exemplar físico (D-85) | Recém-chegados: "Autor · Físico" |
+| Exemplar físico (D-85; T03: D-255) | Recém-chegados: "Autor · Papel" (a prancha 01 desenha o "Papel" da Senhora; até a T03 era "Físico") |
 | Livro real sem foto (D-79) | capa gerada na moldura da seção: cor de fundo, forma (sol, arco, anel ou linhas) e título em Instrument Serif + autor em maiúsculas, derivados do livro (sempre a mesma para o mesmo livro); miniatura só com cor e forma; trocada pela foto quando ela chega |
 | Livro real com título longo | herói: título em até 3 linhas e autor em 1; Para você: título em até 2 linhas e autor em 1; Recém-chegados: título e subtítulo em até 2 linhas — com "…" |
 | Também lendo com 1 livro | o cartão fica na metade da largura, como os dois do arquivo; o contador mostra o total de livros em leitura (até 2 cartões) |
