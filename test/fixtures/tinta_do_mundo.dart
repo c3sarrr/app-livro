@@ -153,7 +153,11 @@ List<Offset> amostrarCaminho(
       break;
     }
   }
-  // de novo a cada [passo] px ao longo do traço
+  return reamostrar(linha, passo);
+}
+
+/// A polilinha densa [linha] de novo, um ponto a cada [passo] px ao longo do traço (e o último).
+List<Offset> reamostrar(List<Offset> linha, double passo) {
   final out = <Offset>[linha.first];
   var resto = passo;
   for (var k = 1; k < linha.length; k++) {
@@ -333,22 +337,26 @@ List<String> tracosDoCaminho(String d) => [
   for (final m in RegExp(r'M[^M]+').allMatches(d)) m.group(0)!.trim(),
 ];
 
-/// A íris cheia do arquivo (um círculo de 7,5) como a caneta enche: traços retos lado a lado, a cada 1,5 (menos que o
-/// traço de 2,2, sem falhas), com as pontas no contorno de dentro — a ponta redonda fecha o círculo. Coordenadas do
-/// SVG, um traço por fileira.
-List<List<Offset>> preenchimentoDaIris(Offset centro, double raio) {
+/// A íris cheia do arquivo (o `<circle r="7.5">` cheio) como a caneta enche: uma espiral do centro para fora, com passo
+/// de 1,5 (menos que o traço de 2,2, sem falhas), e uma volta inteira no raio de dentro — a ponta redonda e a borda do
+/// traço fecham o círculo de 7,5. Coordenadas do SVG, um traço só, um ponto a cada 0,5 de arco. T01: as fileiras da
+/// G18 deixavam a borda serrilhada e baixa (iam só até 7,1 na vertical).
+List<Offset> preenchimentoDaIris(Offset centro, double raio) {
   const meia = 2.2 / 2;
+  const passo = 1.5;
   final r0 = raio - meia / escalaDaNotaAMao;
-  return [
-    for (var dy = -6.0; dy <= 6.0; dy += 1.5)
+  // o ângulo onde a espiral (r = passo · θ / 2π) chega ao raio de dentro; depois, a volta inteira nele
+  final fim = r0 / passo * 2 * math.pi;
+  const n = 8000;
+  final densa = [
+    for (var k = 0; k <= n; k++)
       () {
-        final m = math.sqrt(r0 * r0 - dy * dy);
-        return amostrarCaminho(
-          'M${centro.dx - m} ${centro.dy + dy}L${centro.dx + m} ${centro.dy + dy}',
-          origem: Offset.zero,
-        );
+        final a = (fim + 2 * math.pi) * k / n;
+        final r = math.min(r0, passo * a / (2 * math.pi));
+        return centro + Offset(r * math.cos(a), r * math.sin(a));
       }(),
   ];
+  return reamostrar(densa, passoDaAmostra);
 }
 
 /// Um ponto do SVG da nota em px por dentro da borda da caixa (o canto de cima à esquerda da tinta).
@@ -358,7 +366,8 @@ Offset naCaixaDaNota(Offset svg) => Offset(
 );
 
 /// Os traços da nota da 24b na unidade dela (x = fração da largura, y = linhas de 42 — `note_ink.dart`): cada
-/// subcaminho amostrado a cada 0,5 px, a íris em fileiras; caneta coral de 2,2 px, pressão 0,5.
+/// subcaminho amostrado a cada 0,5 px, a íris num traço só (espiral e a volta no raio de dentro); caneta coral de
+/// 2,2 px, pressão 0,5.
 List<InkStroke> tracosDaNotaAMao() {
   final (:caminhos, :centro, :raio) = caminhosDaNotaAMao();
   final linhas = <List<Offset>>[
@@ -370,8 +379,7 @@ List<InkStroke> tracosDaNotaAMao() {
           sx: escalaDaNotaAMao,
           sy: escalaDaNotaAMao,
         ),
-    for (final fileira in preenchimentoDaIris(centro, raio))
-      [for (final p in fileira) naCaixaDaNota(p)],
+    [for (final p in preenchimentoDaIris(centro, raio)) naCaixaDaNota(p)],
   ];
   return [
     for (final l in linhas)

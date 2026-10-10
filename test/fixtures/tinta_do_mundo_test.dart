@@ -2,9 +2,12 @@
 // prancha (k = 1), ficam sobre o caminho do arquivo (≤ 0,5 px além da quantização de 1/100 em); o BNK1 devolve os
 // mesmos traços; as larguras da D-159 (2,3 → 125; 1,8 → 98; 2,2 → 120; 2,4 → 131); a onda completa cobre o trecho; as
 // barras são Reta de 2 pontos; o amostrador segue M/C/S/Q/T e o corte da onda.
+import 'dart:math' as math;
+
 import 'package:app_leitura/features/reader/annotations/ink/bnk1_codec.dart';
 import 'package:app_leitura/features/reader/annotations/ink/drawing_anchor.dart';
 import 'package:app_leitura/features/reader/annotations/ink/ink_stroke.dart';
+import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'mundo_2026_09_20.dart';
@@ -119,5 +122,49 @@ void main() {
       porTrecho['Olhos de ressaca?']!.$2,
       closeTo(168.54 / emDaPrancha, 1e-4),
     );
+  });
+
+  test('T01 — a íris da nota da 24b (o <circle r="7.5"> cheio): um traço só, a espiral do centro (passo 1,5 < o traço '
+      'de 2,2) e uma volta inteira no raio de dentro — a borda do traço fecha o círculo de 7,5', () {
+    final (:caminhos, :centro, :raio) = caminhosDaNotaAMao();
+    final iris = preenchimentoDaIris(centro, raio);
+    final r0 = raio - 1.1 / escalaDaNotaAMao;
+    final d = [for (final p in iris) (p - centro).distance];
+    expect(d.first, lessThan(0.01), reason: 'começa no centro');
+    // a espiral só cresce até o raio de dentro e não deixa vão maior que o traço
+    for (var i = 1; i < d.length; i++) {
+      expect(d[i], lessThanOrEqualTo(r0 + 1e-9));
+      expect((iris[i] - iris[i - 1]).distance, lessThanOrEqualTo(0.5 + 1e-6));
+    }
+    // o passo da espiral: a cada volta o raio cresce 1,5 — menos que o traço de 2,2, sem falhas entre as voltas
+    var giro = 0.0;
+    final angulos = <double>[0];
+    for (var i = 1; i < iris.length; i++) {
+      var da = (iris[i] - centro).direction - (iris[i - 1] - centro).direction;
+      if (da > math.pi) da -= 2 * math.pi;
+      if (da < -math.pi) da += 2 * math.pi;
+      giro += d[i] < 0.01 || d[i - 1] < 0.01 ? 0 : da;
+      angulos.add(giro);
+    }
+    for (var i = 0; i < iris.length; i++) {
+      if (d[i] < 1 || d[i] > r0 - 1.5) continue;
+      final j = angulos.indexWhere((g) => g >= angulos[i] + 2 * math.pi);
+      expect(j, greaterThan(i));
+      expect(d[j] - d[i], moreOrLessEquals(1.5, epsilon: 0.05));
+    }
+    // a última volta inteira no raio de dentro: os pontos de 2π de ângulo no fim estão todos em r0
+    final noAro = d.reversed.takeWhile((x) => (x - r0).abs() < 1e-3).length;
+    expect(noAro * 0.5, greaterThanOrEqualTo(2 * 3.14159 * r0 - 0.5));
+    // na nota: um traço para a íris, depois dos traços dos caminhos
+    final subcaminhos = [for (final c in caminhos) ...tracosDoCaminho(c)];
+    final tracos = tracosDaNotaAMao();
+    expect(tracos, hasLength(subcaminhos.length + 1));
+    final ultimo = tracos.last.points;
+    final px = [
+      for (final p in ultimo)
+        Offset(p.x * larguraDaTintaDaNota, p.y * noteLinePx),
+    ];
+    expect((px.first - naCaixaDaNota(centro)).distance, lessThan(0.01));
+    expect(notaAMaoDoMundo.strokeCount, subcaminhos.length + 1);
   });
 }
