@@ -44,6 +44,7 @@ void main() {
     String inicial = '/_pro',
     bool apresentadorDeVerdade = false,
     void Function()? aoLerPacotes,
+    Object? falhaPacotes,
   }) async {
     pro = BillingFalso(
       estado ?? ProReady(customer: proDaLoja, serverPro: true),
@@ -78,6 +79,8 @@ void main() {
           billingControllerProvider.overrideWith(() => pro),
           proPackagesProvider.overrideWith((ref) async {
             aoLerPacotes?.call();
+            final falha = falhaPacotes;
+            if (falha != null) throw falha;
             return pacotes;
           }),
           appEnvProvider.overrideWithValue(env),
@@ -260,6 +263,21 @@ void main() {
     expect(texto('2º aparelho'), findsWidgets);
     expect(botao('Agora não'), findsOneWidget);
   });
+
+  testWidgets(
+    'os pacotes que não vêm: o código da falha e "Tentar de novo" (G22.7, cobertura)',
+    (tester) async {
+      var lidos = 0;
+      await montar(
+        tester,
+        falhaPacotes: const BillingOffline(),
+        aoLerPacotes: () => lidos++,
+      );
+      expect(texto('Não deu para ler os pacotes (rede).'), findsOneWidget);
+      await tocar(tester, 'Tentar de novo');
+      expect(lidos, 2);
+    },
+  );
 
   testWidgets('sem pacotes na offering', (tester) async {
     await montar(tester, pacotes: const []);

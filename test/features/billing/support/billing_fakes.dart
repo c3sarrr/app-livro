@@ -61,8 +61,8 @@ final class LojaFalsa implements BillingGateway {
   /// Segura a configuração até completar (trocar de conta no meio de uma ação).
   Completer<void>? segurarConfigure;
 
-  /// A falha da próxima configuração (sem rede ao entrar).
-  BillingFailure? falhaAoConectar;
+  /// A falha da próxima configuração (sem rede ao entrar, ou um erro que não é da loja).
+  Object? falhaAoConectar;
 
   /// As próximas respostas de `customer` (vazio = [cliente]): a loja relida diz outra coisa.
   final clientes = Queue<ProCustomer>();

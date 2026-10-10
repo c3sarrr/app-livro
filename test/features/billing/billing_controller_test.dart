@@ -14,7 +14,8 @@ import 'package:app_leitura/features/billing/domain/billing_models.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart'
     show clockProvider;
 import 'package:drift/native.dart';
-import 'package:flutter/foundation.dart' show TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show FlutterError, FlutterErrorDetails, TargetPlatform;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -547,6 +548,104 @@ void main() {
       expect(pronto().serverPro, isTrue);
       expect(pronto().customer, ProCustomer.none);
     });
+  });
+
+  group('o que a cobertura achou (G22.7, escrito depois do código)', () {
+    /// O erro inesperado é avisado pelo FlutterError (aqui, só contado).
+    List<FlutterErrorDetails> erros() {
+      final vistos = <FlutterErrorDetails>[];
+      final antes = FlutterError.onError;
+      FlutterError.onError = vistos.add;
+      addTearDown(() => FlutterError.onError = antes);
+      return vistos;
+    }
+
+    test('os pacotes: o Grátis que abre a tela técnica liga a loja; sem conta, nenhum', () async {
+      c = container(membro(contaA));
+      await pumpEventQueue();
+      expect(loja.chamadas, isEmpty);
+      final pacotes = await c
+          .read(billingControllerProvider.notifier)
+          .packages();
+      expect(pacotes, [mensal, anual]);
+      expect(loja.chamadas, ['configure:$contaA', 'customer', 'packages']);
+      conta.mudar(const GuestView(canSignIn: true));
+      await pumpEventQueue();
+      expect(
+        await c.read(billingControllerProvider.notifier).packages(),
+        isEmpty,
+      );
+    });
+
+    test('um erro que não é da loja ao entrar: avisado, e a tela sai do "Configurando"', () async {
+      final vistos = erros();
+      loja.falhaAoConectar = StateError('inesperado');
+      c = container(membro(contaA, pro: true));
+      await pumpEventQueue();
+      expect(vistos, hasLength(1));
+      expect(pronto().serverPro, isTrue);
+    });
+
+    test(
+      'um erro inesperado numa ação: avisado, "Não deu certo" e a fila segue',
+      () async {
+        final vistos = erros();
+        c = container(membro(contaA));
+        await pumpEventQueue();
+        loja.compra = StateError('inesperado');
+        await c.read(billingControllerProvider.notifier).purchase(mensal);
+        expect(vistos, hasLength(1));
+        expect(pronto().notice, failedNotice);
+        loja.compra = const PurchaseCancelled();
+        await c.read(billingControllerProvider.notifier).purchase(mensal);
+        expect(
+          loja.chamadas.where((x) => x.startsWith('purchase')),
+          hasLength(2),
+        );
+      },
+    );
+
+    test('um erro inesperado ao ler os pacotes chega a quem pediu', () async {
+      c = container(membro(contaA));
+      await pumpEventQueue();
+      loja.falhaAoConectar = StateError('inesperado');
+      await expectLater(
+        c.read(billingControllerProvider.notifier).packages(),
+        throwsStateError,
+      );
+    });
+
+    test(
+      'a conta carregando não muda nada; ativar sem conta não faz nada',
+      () async {
+        c = container(const GuestView(canSignIn: true));
+        await pumpEventQueue();
+        conta.mudar(const AccountLoading());
+        await pumpEventQueue();
+        expect(estado(), isA<ProUnavailable>());
+        await c.read(billingControllerProvider.notifier).activate();
+        expect(servidor.chamadas, isEmpty);
+      },
+    );
+
+    test(
+      'a loja deixa de dizer Pro na última espera do recuo: para sem aviso',
+      () async {
+        loja.cliente = proDaLoja;
+        c = container(
+          membro(contaA),
+          usadas: {contaA},
+          esperar: (d) async {
+            esperas.add(d);
+            if (esperas.length == recuo.length) loja.avisar(ProCustomer.none);
+          },
+        );
+        await pumpEventQueue();
+        expect(esperas, hasLength(recuo.length));
+        expect(pronto().notice, isNull);
+        expect(pronto().activating, isFalse);
+      },
+    );
   });
 
   group('a chave pelo env (o build de produção não usa a da Test Store)', () {

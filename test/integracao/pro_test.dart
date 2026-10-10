@@ -63,10 +63,10 @@ void main() {
         '0',
       );
       // o my_entitlement concorda
-      expect(
-        await SupabaseProServerApi(client).current(),
-        (pro: false, activeUntil: null),
-      );
+      expect(await SupabaseProServerApi(client).current(), (
+        pro: false,
+        activeUntil: null,
+      ));
     },
     skip: pronto ? false : 'sem o Supabase local',
     timeout: const Timeout(Duration(minutes: 2)),

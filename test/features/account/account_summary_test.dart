@@ -43,6 +43,25 @@ void main() {
     );
   });
 
+  test(
+    'G22.7 (cobertura): igualdade e hash pelo conteúdo, com as outras sessões',
+    () {
+      AccountSummary um({int outras = 0}) => AccountSummary(
+        id: 'a',
+        handle: 'leitora',
+        displayName: 'Leitora',
+        isPrivate: false,
+        handleProvisional: false,
+        ageBand: null,
+        pro: false,
+        otherSessions: outras,
+      );
+      expect(um(), um());
+      expect(um().hashCode, um().hashCode);
+      expect(um() == um(outras: 1), isFalse);
+    },
+  );
+
   group('normalizeHandle', () {
     test('minúsculas, sem @ e sem espaços nas pontas', () {
       expect(normalizeHandle('Ana.Lima'), 'ana.lima');

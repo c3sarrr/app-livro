@@ -78,9 +78,12 @@ final billingLauncherProvider = Provider<Future<bool> Function(Uri)>(
       (uri) => launchUrl(uri, mode: LaunchMode.externalApplication),
 );
 
-/// Os pacotes da offering `default` para a tela técnica (relidos a cada vez que ela abre).
+/// Os pacotes da offering `default` para a tela técnica (relidos a cada vez que ela abre). Sem a nova tentativa
+/// automática do Riverpod 3: com ela, a falha ficava em "Lendo os pacotes…" para sempre, sem o "Tentar de novo" da
+/// tela (G22.7, achado pela cobertura).
 final proPackagesProvider = FutureProvider.autoDispose<List<ProPackage>>(
   (ref) => ref.read(billingControllerProvider.notifier).packages(),
+  retry: (_, _) => null,
 );
 
 /// O aparelho lembra as contas que já compraram ou restauraram nele (G22.7): só essas, e as que o servidor diz Pro,
