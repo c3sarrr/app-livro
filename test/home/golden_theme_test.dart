@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 
 import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
-import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:flutter/widgets.dart';

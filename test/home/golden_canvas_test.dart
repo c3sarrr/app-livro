@@ -1,5 +1,4 @@
 import 'package:app_leitura/app/app.dart';
-import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
