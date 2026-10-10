@@ -5,9 +5,10 @@ import 'app_colors.dart';
 import 'reader_fonts.dart';
 
 abstract final class AppFonts {
-  /// Instâncias estáticas existentes da Bricolage (optical size = tamanho em px; 11 px usa 12).
+  /// Instâncias estáticas existentes da Bricolage (optical size = tamanho em px; 11 px usa 12). T02: 14 (63) e 32 (62).
   static const Set<int> bricolageOpsz = {
     12,
+    14,
     17,
     18,
     20,
@@ -15,6 +16,7 @@ abstract final class AppFonts {
     23,
     24,
     26,
+    32,
     34,
     42,
   };
@@ -35,7 +37,7 @@ abstract final class AppFonts {
       final opsz = size.round().clamp(12, 96).toInt();
       assert(
         bricolageOpsz.contains(opsz),
-        'Sem instância Bricolage opsz $opsz: gere com design_handoff/ferramentas/build_fonts.py',
+        'Sem instância Bricolage opsz $opsz: gere com tools/fonts/build_fonts.py',
       );
       name = '$opsz';
     }
@@ -103,13 +105,14 @@ abstract final class AppFonts {
   /// Literata ESTÁTICA da interface do leitor (D-104: a variável fica só no texto do livro). Uma família por
   /// tamanho (opsz), registrada só com os pesos que existem.
   static final Map<double, Set<int>> literataStatic = {
-    15: {500},
+    15: {400, 500},
     15.5: {400},
     16: {400},
     16.5: {400},
     17: {400, 500},
     18: {400},
     19: {500},
+    22: {400},
     25: {500},
     26: {400},
   };

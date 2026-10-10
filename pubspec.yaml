@@ -102,6 +102,9 @@ flutter:
     - assets/icons/leitor_extra/
     # G16: os objetos da prateleira do modo anotação (tela 22), exportados na G01.8.
     - assets/illustrations/leitor/
+    # T02 (D-242): os ícones e as capas da Início nova e da revisão (telas 01, 01b, 60–63), exportados na T02.
+    - assets/icons/inicio2/
+    - assets/illustrations/inicio2/
     - assets/fonts/LICENCAS_FONTES_OFL.txt
 
   # Bloco copiado literalmente de design_handoff/ferramentas/pubspec_fonts.yaml.
@@ -359,14 +362,20 @@ flutter:
           weight: 800
     - family: Literata15
       fonts:
+        - asset: assets/fonts/Literata15-Regular.ttf
+          weight: 400
         - asset: assets/fonts/Literata15-Medium.ttf
           weight: 500
     - family: Literata15Ext
       fonts:
+        - asset: assets/fonts/Literata15Ext-Regular.ttf
+          weight: 400
         - asset: assets/fonts/Literata15Ext-Medium.ttf
           weight: 500
     - family: Literata15Vi
       fonts:
+        - asset: assets/fonts/Literata15Vi-Regular.ttf
+          weight: 400
         - asset: assets/fonts/Literata15Vi-Medium.ttf
           weight: 500
     # G15 (D-104): os títulos dos capítulos (Literata 16) e os excertos das Marcadas (15,5), telas 27/27b
@@ -442,6 +451,44 @@ flutter:
     - family: Literata26Vi
       fonts:
         - asset: assets/fonts/Literata26Vi-Regular.ttf
+          weight: 400
+    # T02 (D-246): instâncias da Início nova e da revisão — Bricolage 14 (63) e 32 (62); Literata 22 (o grifo da 61) e
+    # 15 em 400 (a nota nova da 62, junto da 15/500 da G14 acima).
+    - family: Bricolage14
+      fonts:
+        - asset: assets/fonts/Bricolage14-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage14Ext
+      fonts:
+        - asset: assets/fonts/Bricolage14Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage14Vi
+      fonts:
+        - asset: assets/fonts/Bricolage14Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage32
+      fonts:
+        - asset: assets/fonts/Bricolage32-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage32Ext
+      fonts:
+        - asset: assets/fonts/Bricolage32Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage32Vi
+      fonts:
+        - asset: assets/fonts/Bricolage32Vi-ExtraBold.ttf
+          weight: 800
+    - family: Literata22
+      fonts:
+        - asset: assets/fonts/Literata22-Regular.ttf
+          weight: 400
+    - family: Literata22Ext
+      fonts:
+        - asset: assets/fonts/Literata22Ext-Regular.ttf
+          weight: 400
+    - family: Literata22Vi
+      fonts:
+        - asset: assets/fonts/Literata22Vi-Regular.ttf
           weight: 400
     # G14 (D-18): o texto do livro nas 4 fontes da tela 26 — arquivos completos do google/fonts, SEM modificação
     # (a Lora tem Reserved Font Name). Lora e Figtree variáveis (eixo wght) com itálico; Atkinson em 4 estáticas.
