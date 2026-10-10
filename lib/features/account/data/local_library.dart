@@ -13,6 +13,8 @@ import '../../../core/data/ids/uuid_v7.dart';
 import '../../../core/sync/ebook_cloud.dart' show EbookCloud;
 import '../../../core/sync/local_merge.dart';
 import '../../reader/annotations/ink/ink_changes.dart' show draftKey;
+import '../../reading_session/data/paper_timer_store.dart'
+    show adoptPaperTimer, paperTimerKey;
 
 /// Chaves no `kv` (só local).
 abstract final class OwnerKeys {
@@ -183,6 +185,8 @@ final class LocalLibrary {
     }
     // os outros rascunhos da tinta do convidado passam para a conta
     await _renameDrafts(draftKey(from, ''), draftKey(to, ''));
+    // a sessão aberta do cronômetro do papel também (T04, R8)
+    await adoptPaperTimer(_db, from: from, to: to);
     for (final t in singletonTables) {
       final rows = await _db
           .customSelect(
@@ -329,6 +333,10 @@ final class LocalLibrary {
     await _db.customStatement('DELETE FROM kv WHERE substr(key, 1, ?) = ?', [
       drafts.length,
       drafts,
+    ]);
+    // a sessão aberta do cronômetro do papel (T04, R8): `paper_timer:<dono>`
+    await _db.customStatement('DELETE FROM kv WHERE key = ?', [
+      paperTimerKey(owner),
     ]);
     for (final t in _tables) {
       n += await _db.customUpdate(

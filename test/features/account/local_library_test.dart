@@ -17,6 +17,8 @@ import 'package:app_leitura/features/reader/annotations/domain/highlight_label.d
 import 'package:app_leitura/features/reader/annotations/ink/ink_changes.dart'
     show draftKey;
 import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reading_session/data/paper_timer_store.dart';
+import 'package:app_leitura/features/reading_session/domain/open_paper_session.dart';
 import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -262,6 +264,19 @@ void main() {
       );
     });
 
+    test('T04 — a sessão aberta do cronômetro do convidado passa para a conta (R8)', () async {
+      final g = await lib.guestOwnerId();
+      final s = OpenPaperSession.start(
+        id: idTeste(90),
+        userBookId: idTeste(3),
+        now: t0Teste,
+      );
+      await KvPaperTimerStore(db).save(g, s);
+      await lib.adopt(from: g, to: conta);
+      expect(await KvPaperTimerStore(db).load(conta), s);
+      expect(await KvDao(db).get(paperTimerKey(g)), isNull);
+    });
+
     test('rótulo da mesma cor: fica o da conta; de outra cor: passa', () async {
       final g = await lib.guestOwnerId();
       await rotulo(91, conta, '#FED170', 'da conta');
@@ -396,6 +411,20 @@ void main() {
         expect(apagados.where((p) => p.endsWith('.img')), isEmpty);
       },
     );
+
+    test('T04 — a sessão aberta do cronômetro sai com o dono; a do outro fica (R8)', () async {
+      final g = await lib.guestOwnerId();
+      final s = OpenPaperSession.start(
+        id: idTeste(90),
+        userBookId: idTeste(1),
+        now: t0Teste,
+      );
+      await KvPaperTimerStore(db).save(conta, s);
+      await KvPaperTimerStore(db).save(g, s);
+      await lib.erase(conta);
+      expect(await KvDao(db).get(paperTimerKey(conta)), isNull);
+      expect(await KvPaperTimerStore(db).load(g), s);
+    });
 
     test('apaga só o dono: linhas, índice de busca, caches dos livros e os arquivos', () async {
       final g = await lib.guestOwnerId();
