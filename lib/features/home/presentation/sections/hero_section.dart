@@ -157,13 +157,14 @@ class _CoverSlot extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 2, top: 2),
         child: SizedBox(
+          key: const ValueKey('hero.cover'), // slot de layout, sem rotação
           width: 104,
           height: 156,
           child: Transform.rotate(
             angle: _angle,
-            // a Key na capa girada (como o `i01.hero.cover` da prancha): layout sem o giro, caixa visual com ele
+            // a convenção das capas giradas (test/support/geometry.dart): o filho do giro leva `<id>#rot`
             child: KeyedSubtree(
-              key: const ValueKey('hero.cover'),
+              key: const ValueKey('hero.cover#rot'),
               child: switch (book.cover) {
                 DesignedCover() => const DomCasmurroEyeCover(),
                 final PhotoCover c => PhotoBookCover(

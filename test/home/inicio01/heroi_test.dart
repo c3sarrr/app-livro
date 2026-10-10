@@ -187,11 +187,16 @@ void main() {
     );
     expect(capa.shadow, AppShadows.hard3);
     expect(capa.clip, isTrue);
+    // a convenção das capas giradas: o slot sem giro tem a Key do id; o filho do Transform, `<id>#rot`
     final giro = tester.widget<Transform>(
       find
-          .ancestor(of: ini('i01.hero.cover'), matching: find.byType(Transform))
+          .descendant(
+            of: ini('i01.hero.cover'),
+            matching: find.byType(Transform),
+          )
           .first,
     );
+    expect(giro.child!.key, const ValueKey('hero.cover#rot'));
     final esperado = Matrix4.rotationZ(-3 * math.pi / 180);
     for (var i = 0; i < 16; i++) {
       expect(giro.transform.storage[i], closeTo(esperado.storage[i], 1e-12));

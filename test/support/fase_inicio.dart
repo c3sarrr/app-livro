@@ -156,9 +156,14 @@ Rect retanguloDeLayout(WidgetTester tester, String id) {
   return origemSemGiro(box) & box.size;
 }
 
-/// A caixa visual do id: a envolvente dos 4 cantos com os giros aplicados.
+/// A caixa visual do id: a envolvente dos 4 cantos com os giros aplicados. Nas capas giradas a Key do id fica no
+/// slot sem giro e o filho do `Transform` leva `<id>#rot` (a convenção da v1, `test/support/geometry.dart`): a caixa
+/// visual é a dele.
 Rect caixaVisual(WidgetTester tester, String id) {
-  final box = tester.renderObject<RenderBox>(ini(id));
+  final rot = find.byKey(ValueKey<String>('${keyDoId(id)}#rot'));
+  final box = tester.renderObject<RenderBox>(
+    rot.evaluate().isEmpty ? ini(id) : rot,
+  );
   final cantos = [
     box.localToGlobal(Offset.zero),
     box.localToGlobal(Offset(box.size.width, 0)),
