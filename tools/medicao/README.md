@@ -64,3 +64,18 @@ python3 tools/medicao/extrair_bundle.py \
 Para cada prancha: `pranchas/<slug>/original.html` (o bundle da prancha byte a byte — renderiza sozinho), `template.html` (HTML com `{{props}}`), `assets/` (fontes e runtime) e `props.json` (props editáveis e `$preview`). A extração confere uuids × `page_order`, títulos × `<h2>` da página raiz e canvas × `$preview`, e grava os sha256 em `pranchas/extracao.json`.
 
 Como o bundle aninhado funciona: a página raiz guarda as 13 pranchas no próprio manifest (`text/html`, gzip) e cria cada `<iframe src="about:blank#<uuid>">` a partir desse texto. Cada prancha é outro bundle com `dc-runtime` + React; as props (`paper`, `brand`, `ink`) vêm de `data-props` com valor padrão. Depois de desempacotar, o retângulo da prancha é `#dc-root > .sc-host > [data-dc-tpl="4"]` (na v1 era o pai de `<main>`).
+
+## Telas do projeto completo (T13, formato `dc`)
+
+As telas de `docs/design/projeto/telas/*.dc.html` não são bundles: cada uma chama o `./support.js` (= o `dc-runtime.js`
+do projeto, R00) e pede as fontes ao Google Fonts (`<link>` para o `css2`). `extrair_dc.py <índice> <saída>` gera para
+cada tela a mesma pasta da extração antiga (`original.html`, `template.html`, `props.json`, `support.js`, `assets/`) e o
+`extracao.json`: só o `<link>` do `css2` vira um `<style>` com as `@font-face` que o Google devolve para aquela consulta
+(`fontes_css2.py` + a tabela `fontes_css2.json`: o latin local, os outros subconjuntos no `gstatic`, como as exportações
+antigas). O `<helmet>` continua com 3 filhos, então o quadro (`data-dc-tpl="4"`) e a numeração são os de antes e os
+scripts não mudam. O índice tem `"formato": "dc"`; o `rodar_tudo.sh` usa a extração nova e pula a página raiz e as
+prévias (que o projeto não tem). Conjuntos: `projeto` (as 41 das etapas 7–11, `pranchas_projeto.json`) e
+`projeto_conferencia_inicio2`/`_leitor` (as 19 já medidas, extraídas do projeto e medidas de novo para comparar com o
+commitado: `ATE=referencias` para no fim das referências Dart). Testes: `python3 -m unittest
+tools/medicao/test_extrair_dc.py` (as faces contra os 35 helmets antigos e as respostas reais do `css2`, as versões,
+a numeração, o catálogo, o texto fora do latin e a pasta gerada).

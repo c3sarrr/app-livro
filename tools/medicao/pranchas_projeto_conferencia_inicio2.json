@@ -1,0 +1,88 @@
+{
+  "_doc": "T13 (R3) — a prova da ferramenta: as telas do Início e revisão (01, 01b, 60–63) que já têm medição, extraídas do projeto (.dc.html) com os mesmos slugs e prefixos de tools/medicao/pranchas_inicio2.json; a medição delas tem de sair igual à commitada (tools/medicao/comparar_conferencia.py).",
+  "formato": "dc",
+  "projeto": "docs/design/projeto",
+  "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+  "pranchas": [
+    {
+      "tela": "01",
+      "slug": "001_inicio",
+      "arquivo": "telas/Main.dc.html",
+      "prefixo": "i01",
+      "titulo": "01 · Início (Home)",
+      "canvas": [
+        390,
+        2650
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "01b",
+      "slug": "001b_inicio_lendo_agora",
+      "arquivo": "telas/MainLendo.dc.html",
+      "prefixo": "i01b",
+      "titulo": "01b · Início — lendo agora (cronômetro ativo)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "60",
+      "slug": "060_inicio_grifos_de_hoje",
+      "arquivo": "telas/MainRevisao.dc.html",
+      "prefixo": "i60",
+      "titulo": "60 · Início — grifos de hoje (revisão)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "61",
+      "slug": "061_revisao_grifo_2_de_5",
+      "arquivo": "telas/RevisaoGrifo.dc.html",
+      "prefixo": "rv61",
+      "titulo": "61 · Revisão — grifo 2 de 5",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "62",
+      "slug": "062_revisao_fim",
+      "arquivo": "telas/RevisaoFim.dc.html",
+      "prefixo": "rv62",
+      "titulo": "62 · Revisão — fim",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "63",
+      "slug": "063_revisao_imagem_compartilhar",
+      "arquivo": "telas/RevisaoCompartilhar.dc.html",
+      "prefixo": "rv63",
+      "titulo": "63 · Revisão — imagem para compartilhar",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": "",
+      "convergenciaFaixa": {
+        "y": [
+          60,
+          80
+        ],
+        "zoom": 15
+      },
+      "_convergencia": "T02 (R3): em alguns zooms o Skia desenha a border-top de 1,5 px com border-radius só em cima da folha ([role=dialog]) com uma faixa preta em y 63–76 — nos zooms 13, 14 e 16 a 20; nos 10, 11, 12 e 15 o traço sai certo e as quatro reduções batem na faixa (blur 0 %). Prova: com border-top-color transparente a faixa some. O gate confere a faixa y 60–80 com o zoom 15 × 10 e o resto com o 20 × 10; nenhum pixel fica sem conferência. A referência é o zoom 10, sem mudança."
+    }
+  ]
+}

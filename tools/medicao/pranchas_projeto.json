@@ -1,0 +1,541 @@
+{
+  "_doc": "T13 — as 41 telas do projeto (docs/design/projeto/telas/*.dc.html) das etapas 7–11 (ROTEIRO §3: T14 a T18). slug = pasta de saída; prefixo = prefixo dos ids semânticos (R4); etapa = a etapa que faz a tela; titulo, canvas = os do CATALOGO.md (conferidos na extração com o sha256 e o $preview). O quadro é o das exportações antigas: a extração mantém os 3 filhos do <helmet>. Extrair: python3 tools/medicao/extrair_dc.py tools/medicao/pranchas_projeto.json tools/medicao/pranchas_projeto",
+  "formato": "dc",
+  "projeto": "docs/design/projeto",
+  "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+  "pranchas": [
+    {
+      "tela": "02",
+      "slug": "002_biblioteca",
+      "arquivo": "telas/Biblioteca.dc.html",
+      "prefixo": "b02",
+      "etapa": "T14",
+      "titulo": "02 · Biblioteca",
+      "canvas": [
+        390,
+        1640
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "36",
+      "slug": "036_biblioteca_vazia",
+      "arquivo": "telas/EstanteVazia.dc.html",
+      "prefixo": "b36",
+      "etapa": "T14",
+      "titulo": "36 · Biblioteca vazia (primeiro livro)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "17",
+      "slug": "017_detalhes_fisico",
+      "arquivo": "telas/DetalhesFisico.dc.html",
+      "prefixo": "d17",
+      "etapa": "T14",
+      "titulo": "17 · Detalhes do livro — físico (Brás Cubas)",
+      "canvas": [
+        390,
+        1940
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "17b",
+      "slug": "017b_detalhes_ebook",
+      "arquivo": "telas/DetalhesDigital.dc.html",
+      "prefixo": "d17b",
+      "etapa": "T14",
+      "titulo": "17b · Detalhes do livro — e-book (Dom Casmurro)",
+      "canvas": [
+        390,
+        1790
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "03",
+      "slug": "003_scanner_encontrado",
+      "arquivo": "telas/Scanner.dc.html",
+      "prefixo": "sc03",
+      "etapa": "T15",
+      "titulo": "03 · Scanner — livro encontrado",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "39",
+      "slug": "039_scanner_mirando",
+      "arquivo": "telas/ScannerMirando.dc.html",
+      "prefixo": "sc39",
+      "etapa": "T15",
+      "titulo": "39 · Scanner — mirando",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "40",
+      "slug": "040_scanner_nao_encontrado",
+      "arquivo": "telas/ScannerNaoEncontrado.dc.html",
+      "prefixo": "sc40",
+      "etapa": "T15",
+      "titulo": "40 · Scanner — livro não encontrado",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "41",
+      "slug": "041_scanner_sem_permissao",
+      "arquivo": "telas/ScannerSemPermissao.dc.html",
+      "prefixo": "sc41",
+      "etapa": "T15",
+      "titulo": "41 · Scanner — sem permissão de câmera",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "42",
+      "slug": "042_scanner_na_estante",
+      "arquivo": "telas/ScannerNaEstante.dc.html",
+      "prefixo": "sc42",
+      "etapa": "T15",
+      "titulo": "42 · Scanner — já está na estante",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "69",
+      "slug": "069_scanner_digitar_isbn",
+      "arquivo": "telas/ScannerDigitar.dc.html",
+      "prefixo": "sc69",
+      "etapa": "T15",
+      "titulo": "69 · Scanner — digitar o ISBN",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "69b",
+      "slug": "069b_scanner_isbn_nao_confere",
+      "arquivo": "telas/ScannerDigitarErro.dc.html",
+      "prefixo": "sc69b",
+      "etapa": "T15",
+      "titulo": "69b · Scanner — ISBN não confere",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "28",
+      "slug": "028_busca_explorar",
+      "arquivo": "telas/BuscaExplorar.dc.html",
+      "prefixo": "bu28",
+      "etapa": "T15",
+      "titulo": "28 · Busca — Explorar (antes de digitar)",
+      "canvas": [
+        390,
+        1520
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "28b",
+      "slug": "028b_busca_resultados",
+      "arquivo": "telas/BuscaResultados.dc.html",
+      "prefixo": "bu28b",
+      "etapa": "T15",
+      "titulo": "28b · Busca — resultados (“capitu”)",
+      "canvas": [
+        390,
+        1040
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "28c",
+      "slug": "028c_busca_nada_encontrado",
+      "arquivo": "telas/BuscaVazia.dc.html",
+      "prefixo": "bu28c",
+      "etapa": "T15",
+      "titulo": "28c · Busca — nada encontrado",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "28d",
+      "slug": "028d_adicionar_a_mao",
+      "arquivo": "telas/AdicionarMao.dc.html",
+      "prefixo": "bu28d",
+      "etapa": "T15",
+      "titulo": "28d · Adicionar livro à mão",
+      "canvas": [
+        390,
+        1150
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "35",
+      "slug": "035_abertura",
+      "arquivo": "telas/Splash.dc.html",
+      "prefixo": "e35",
+      "etapa": "T16",
+      "titulo": "35 · Abertura (splash)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "07",
+      "slug": "007_login",
+      "arquivo": "telas/Login.dc.html",
+      "prefixo": "e07",
+      "etapa": "T16",
+      "titulo": "07 · Login",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "08",
+      "slug": "008_cadastro",
+      "arquivo": "telas/Cadastro.dc.html",
+      "prefixo": "e08",
+      "etapa": "T16",
+      "titulo": "08 · Cadastro por e-mail",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "09",
+      "slug": "009_entrar",
+      "arquivo": "telas/Entrar.dc.html",
+      "prefixo": "e09",
+      "etapa": "T16",
+      "titulo": "09 · Entrar com e-mail",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "09b",
+      "slug": "009b_entrar_senha_incorreta",
+      "arquivo": "telas/EntrarErro.dc.html",
+      "prefixo": "e09b",
+      "etapa": "T16",
+      "titulo": "09b · Entrar — senha incorreta",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "10",
+      "slug": "010_codigo",
+      "arquivo": "telas/Codigo.dc.html",
+      "prefixo": "e10",
+      "etapa": "T16",
+      "titulo": "10 · Código de 6 dígitos",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "11",
+      "slug": "011_nova_senha",
+      "arquivo": "telas/NovaSenha.dc.html",
+      "prefixo": "e11",
+      "etapa": "T16",
+      "titulo": "11 · Nova senha",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "12",
+      "slug": "012_onboarding_meta",
+      "arquivo": "telas/Onboarding1.dc.html",
+      "prefixo": "e12",
+      "etapa": "T16",
+      "titulo": "12 · Onboarding 1/4 — Meta de leitura",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "13",
+      "slug": "013_onboarding_generos",
+      "arquivo": "telas/Onboarding2.dc.html",
+      "prefixo": "e13",
+      "etapa": "T16",
+      "titulo": "13 · Onboarding 2/4 — Gêneros",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "13b",
+      "slug": "013b_onboarding_dica_scanner",
+      "arquivo": "telas/OnboardingDica.dc.html",
+      "prefixo": "e13b",
+      "etapa": "T16",
+      "titulo": "13b · Onboarding — dica do scanner",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "14",
+      "slug": "014_onboarding_primeiros_livros",
+      "arquivo": "telas/Onboarding3.dc.html",
+      "prefixo": "e14",
+      "etapa": "T16",
+      "titulo": "14 · Onboarding 3/4 — Primeiros livros",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "15",
+      "slug": "015_onboarding_foto",
+      "arquivo": "telas/Onboarding4.dc.html",
+      "prefixo": "e15",
+      "etapa": "T16",
+      "titulo": "15 · Onboarding 4/4 — Foto e @",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "16",
+      "slug": "016_onboarding_carteirinha",
+      "arquivo": "telas/OnboardingFinal.dc.html",
+      "prefixo": "e16",
+      "etapa": "T16",
+      "titulo": "16 · Onboarding — Carteirinha pronta",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "36a",
+      "slug": "036a_inicio_primeiro_acesso",
+      "arquivo": "telas/InicioVazia.dc.html",
+      "prefixo": "e36a",
+      "etapa": "T16",
+      "titulo": "36a · Início — primeiro acesso (estante vazia)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "05",
+      "slug": "005_perfil",
+      "arquivo": "telas/Perfil.dc.html",
+      "prefixo": "p05",
+      "etapa": "T17",
+      "titulo": "05 · Perfil",
+      "canvas": [
+        390,
+        2510
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "64",
+      "slug": "064_editar_perfil",
+      "arquivo": "telas/EditarPerfil.dc.html",
+      "prefixo": "p64",
+      "etapa": "T17",
+      "titulo": "64 · Editar perfil",
+      "canvas": [
+        390,
+        1400
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "65",
+      "slug": "065_editar_perfil_trocar",
+      "arquivo": "telas/EditarTrocar.dc.html",
+      "prefixo": "p65",
+      "etapa": "T17",
+      "titulo": "65 · Editar perfil — trocar um dos 4",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "06",
+      "slug": "006_ajustes",
+      "arquivo": "telas/Ajustes.dc.html",
+      "prefixo": "aj06",
+      "etapa": "T17",
+      "titulo": "06 · Ajustes (engrenagem)",
+      "canvas": [
+        390,
+        2400
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "58",
+      "slug": "058_conta",
+      "arquivo": "telas/Conta.dc.html",
+      "prefixo": "aj58",
+      "etapa": "T17",
+      "titulo": "58 · Conta",
+      "canvas": [
+        390,
+        1200
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "59",
+      "slug": "059_excluir_conta",
+      "arquivo": "telas/ExcluirConta.dc.html",
+      "prefixo": "aj59",
+      "etapa": "T17",
+      "titulo": "59 · Excluir conta",
+      "canvas": [
+        390,
+        960
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "56",
+      "slug": "056_privacidade",
+      "arquivo": "telas/Privacidade.dc.html",
+      "prefixo": "aj56",
+      "etapa": "T17",
+      "titulo": "56 · Privacidade",
+      "canvas": [
+        390,
+        1420
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "30",
+      "slug": "030_notificacoes",
+      "arquivo": "telas/Notificacoes.dc.html",
+      "prefixo": "n30",
+      "etapa": "T17",
+      "titulo": "30 · Notificações (sino da Início)",
+      "canvas": [
+        390,
+        1180
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "30b",
+      "slug": "030b_notificacoes_ajustes",
+      "arquivo": "telas/NotificacoesAjustes.dc.html",
+      "prefixo": "n30b",
+      "etapa": "T17",
+      "titulo": "30b · Lembretes e avisos (ajustes)",
+      "canvas": [
+        390,
+        1330
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "30c",
+      "slug": "030c_notificacoes_vazia",
+      "arquivo": "telas/NotificacoesVazia.dc.html",
+      "prefixo": "n30c",
+      "etapa": "T17",
+      "titulo": "30c · Notificações — tudo em dia",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "18",
+      "slug": "018_cronometro",
+      "arquivo": "telas/Cronometro.dc.html",
+      "prefixo": "cr18",
+      "etapa": "T18",
+      "titulo": "18 · Cronômetro de leitura (livro físico)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "18b",
+      "slug": "018b_fim_da_sessao",
+      "arquivo": "telas/FimSessao.dc.html",
+      "prefixo": "cr18b",
+      "etapa": "T18",
+      "titulo": "18b · Fim da sessão (página opcional)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    }
+  ]
+}

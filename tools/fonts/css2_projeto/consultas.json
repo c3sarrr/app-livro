@@ -1,0 +1,96 @@
+{
+ "_doc": "T13.2 (D-273) — as respostas do css2 das consultas das telas do projeto, baixadas por tools/fonts/baixar_css2.py com o User-Agent de um Chrome (woff2 por subconjunto).",
+ "consultas": [
+  {
+   "arquivo": "base.css",
+   "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap",
+   "telas": [
+    "02",
+    "36",
+    "03",
+    "39",
+    "40",
+    "41",
+    "42",
+    "69",
+    "69b",
+    "28d",
+    "35",
+    "08",
+    "09",
+    "09b",
+    "10",
+    "11",
+    "12",
+    "13",
+    "13b",
+    "14",
+    "15",
+    "16",
+    "36a",
+    "05",
+    "18",
+    "18b"
+   ],
+   "sha256": "8561cf485089ff4e84445716a00e846be0565f011eaf57472e7db29829f0f723",
+   "bytes": 7449,
+   "baixado": "2026-10-11",
+   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+  },
+  {
+   "arquivo": "literata_400_500.css",
+   "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap",
+   "telas": [
+    "17",
+    "17b"
+   ],
+   "sha256": "1e053a72a3ad3069129fc5e2e3cef70c83a77771c6a0629702153aba23c13232",
+   "bytes": 12771,
+   "baixado": "2026-10-11",
+   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+  },
+  {
+   "arquivo": "literata_400_600.css",
+   "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap",
+   "telas": [
+    "06"
+   ],
+   "sha256": "e0772987d9352c4b4d1560bd2110eab60c849a145e8abdfc040d9264e3fbf6e9",
+   "bytes": 12771,
+   "baixado": "2026-10-11",
+   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+  },
+  {
+   "arquivo": "literata_i400_400_500.css",
+   "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap",
+   "telas": [
+    "28",
+    "28b",
+    "28c",
+    "64",
+    "65",
+    "58",
+    "59",
+    "56",
+    "30",
+    "30b",
+    "30c"
+   ],
+   "sha256": "391d45035e555ca3d4172817e986a3b3ac0ad6717a5fdfad32d904d002e157b7",
+   "bytes": 15333,
+   "baixado": "2026-10-11",
+   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+  },
+  {
+   "arquivo": "roboto_500.css",
+   "url": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Roboto:wght@500&display=swap",
+   "telas": [
+    "07"
+   ],
+   "sha256": "e1ae9f137fee0bb4a93adf18d83692a5b89bd4e259bc658207a00f2ce46f7897",
+   "bytes": 13176,
+   "baixado": "2026-10-11",
+   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
+  }
+ ]
+}

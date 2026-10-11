@@ -130,5 +130,76 @@
    "docs/design/medicao/inicio2_larguras",
    "test/reference/inicio2_larguras"
   ]
+ },
+ "projeto": {
+  "_doc": "T13 — as 41 telas do projeto (docs/design/projeto/telas/*.dc.html) das etapas 7–11, extraídas por extrair_dc.py (formato dc). Saídas pelo ROTEIRO §6b e a D-242: medições em docs/design/medicao/projeto/, referências Dart em test/reference/projeto/, fases em docs/design/fases/; extração e temporários fora do git.",
+  "indice": "tools/medicao/pranchas_projeto.json",
+  "extracao": "tools/medicao/pranchas_projeto",
+  "idmaps": "docs/design/medicao/projeto/idmaps",
+  "idmapsSpec": "idmaps_spec_projeto",
+  "tmp": "tools/medicao/tmp/projeto",
+  "layout": "docs/design/medicao/projeto/layout",
+  "png": "docs/design/medicao/projeto/png",
+  "fasesIndice": "tools/medicao/fases_projeto.json",
+  "fasesNotas": "fases_notas_projeto",
+  "fases": "docs/design/fases",
+  "dart": "test/reference/projeto",
+  "dartTipos": "../leitor/ref_tipos.dart",
+  "dartIndice": [
+   "referencias_projeto.dart",
+   "kRefProjeto"
+  ],
+  "fasesTrilha": "etapas 7–11 do docs/ROTEIRO.md",
+  "validacaoTrechos": true
+ },
+ "projeto_conferencia_inicio2": {
+  "_doc": "T13 (R3) — a prova da ferramenta: as telas do conjunto inicio2 extraídas do projeto (.dc.html) por extrair_dc.py e medidas com os ids e as fases de antes; tudo em tools/medicao/tmp/conferencia_projeto/inicio2/, para comparar com o commitado (tools/medicao/comparar_conferencia.py).",
+  "indice": "tools/medicao/pranchas_projeto_conferencia_inicio2.json",
+  "extracao": "tools/medicao/tmp/conferencia_projeto/inicio2/pranchas",
+  "idmaps": "tools/medicao/tmp/conferencia_projeto/inicio2/idmaps",
+  "idmapsSpec": "idmaps_spec_inicio2",
+  "tmp": "tools/medicao/tmp/conferencia_projeto/inicio2",
+  "layout": "tools/medicao/tmp/conferencia_projeto/inicio2/layout",
+  "png": "tools/medicao/tmp/conferencia_projeto/inicio2/png",
+  "fasesIndice": "tools/medicao/fases_inicio2.json",
+  "fasesNotas": "fases_notas_inicio2",
+  "fases": "tools/medicao/tmp/conferencia_projeto/inicio2/fases",
+  "dart": "tools/medicao/tmp/conferencia_projeto/inicio2/dart",
+  "dartTipos": "../leitor/ref_tipos.dart",
+  "dartIndice": [
+   "referencias_inicio2.dart",
+   "kRefInicio2"
+  ],
+  "compararCom": {
+   "layout": "docs/design/medicao/inicio2/layout",
+   "png": "docs/design/medicao/inicio2/png",
+   "idmaps": "docs/design/medicao/inicio2/idmaps",
+   "dart": "test/reference/inicio2"
+  }
+ },
+ "projeto_conferencia_leitor": {
+  "_doc": "T13 (R3) — a prova da ferramenta: as telas do conjunto leitor extraídas do projeto (.dc.html) por extrair_dc.py e medidas com os ids e as fases de antes; tudo em tools/medicao/tmp/conferencia_projeto/leitor/, para comparar com o commitado (tools/medicao/comparar_conferencia.py).",
+  "indice": "tools/medicao/pranchas_projeto_conferencia_leitor.json",
+  "extracao": "tools/medicao/tmp/conferencia_projeto/leitor/pranchas",
+  "idmaps": "tools/medicao/tmp/conferencia_projeto/leitor/idmaps",
+  "idmapsSpec": "idmaps_spec",
+  "tmp": "tools/medicao/tmp/conferencia_projeto/leitor",
+  "layout": "tools/medicao/tmp/conferencia_projeto/leitor/layout",
+  "png": "tools/medicao/tmp/conferencia_projeto/leitor/png",
+  "fasesIndice": "tools/medicao/fases.json",
+  "fasesNotas": "fases_notas",
+  "fases": "tools/medicao/tmp/conferencia_projeto/leitor/fases",
+  "dart": "tools/medicao/tmp/conferencia_projeto/leitor/dart",
+  "dartTipos": "ref_tipos.dart",
+  "dartIndice": [
+   "referencias_leitor.dart",
+   "kRefLeitor"
+  ],
+  "compararCom": {
+   "layout": "handoff_v2/referencia/layout",
+   "png": "handoff_v2/referencia/png",
+   "idmaps": "tools/medicao/idmaps",
+   "dart": "test/reference/leitor"
+  }
  }
 }

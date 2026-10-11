@@ -1,0 +1,164 @@
+{
+  "_doc": "T13 (R3) — a prova da ferramenta: as telas do leitor (19–27b) que já têm medição, extraídas do projeto (.dc.html) com os mesmos slugs e prefixos de tools/medicao/pranchas.json; a medição delas tem de sair igual à commitada (tools/medicao/comparar_conferencia.py).",
+  "formato": "dc",
+  "projeto": "docs/design/projeto",
+  "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+  "pranchas": [
+    {
+      "tela": "19",
+      "slug": "19_leitor_limpo",
+      "arquivo": "telas/LeitorLimpo.dc.html",
+      "prefixo": "r19",
+      "titulo": "19 · Leitor — modo limpo (e-book)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "20",
+      "slug": "20_leitor_controles",
+      "arquivo": "telas/LeitorControles.dc.html",
+      "prefixo": "r20",
+      "titulo": "20 · Leitor — com controles",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "21",
+      "slug": "21_selecao_texto",
+      "arquivo": "telas/LeitorSelecao.dc.html",
+      "prefixo": "r21",
+      "titulo": "21 · Leitor — seleção de texto",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "22",
+      "slug": "22_modo_anotacao",
+      "arquivo": "telas/LeitorAnotacao.dc.html",
+      "prefixo": "ann",
+      "titulo": "22 · Leitor — modo anotação",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "23",
+      "slug": "23_ajustes_caneta",
+      "arquivo": "telas/LeitorCaneta.dc.html",
+      "prefixo": "pen",
+      "titulo": "23 · Leitor — ajustes da caneta",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "23b",
+      "slug": "23b_ajustes_marcatexto",
+      "arquivo": "telas/LeitorMarcador.dc.html",
+      "prefixo": "mk",
+      "titulo": "23b · Leitor — ajustes do marca-texto",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "24",
+      "slug": "24_abrindo_espaco",
+      "arquivo": "telas/LeitorEspacoAbrir.dc.html",
+      "prefixo": "sp",
+      "titulo": "24 · Leitor — abrindo espaço (arrastar)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "24b",
+      "slug": "24b_nota_mao",
+      "arquivo": "telas/LeitorEspaco.dc.html",
+      "prefixo": "hn",
+      "titulo": "24b · Leitor — nota à mão escrita",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "25",
+      "slug": "25_grifos_notas",
+      "arquivo": "telas/Grifos.dc.html",
+      "prefixo": "hl",
+      "titulo": "25 · Grifos e notas (Dom Casmurro)",
+      "canvas": [
+        390,
+        2170
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "26",
+      "slug": "26_ajustes_leitura",
+      "arquivo": "telas/LeitorAjustes.dc.html",
+      "prefixo": "rs",
+      "titulo": "26 · Leitor — ajustes de leitura (Aa)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "26b",
+      "slug": "26b_tema_noite",
+      "arquivo": "telas/LeitorNoite.dc.html",
+      "prefixo": "r20",
+      "titulo": "26b · Leitor — tema Noite (com controles)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "27",
+      "slug": "27_sumario",
+      "arquivo": "telas/LeitorSumario.dc.html",
+      "prefixo": "toc",
+      "titulo": "27 · Leitor — sumário",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "27b",
+      "slug": "27b_sumario_marcadas",
+      "arquivo": "telas/LeitorMarcadas.dc.html",
+      "prefixo": "bm",
+      "titulo": "27b · Leitor — sumário, aba Marcadas",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    }
+  ]
+}

@@ -75,3 +75,6 @@ tools/medicao/pranchas_clube/
 # como na G01)
 tools/medicao/pranchas_inicio2/*
 !tools/medicao/pranchas_inicio2/extracao.json
+# T13: saída da extração das telas do projeto (.dc.html, regenerável; só o relatório de hashes é versionado)
+tools/medicao/pranchas_projeto/*
+!tools/medicao/pranchas_projeto/extracao.json

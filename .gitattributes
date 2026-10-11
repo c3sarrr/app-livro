@@ -35,3 +35,7 @@ docs/design/medicao/** -text
 docs/design/fases/** -text
 docs/progresso/T02_hashes_saida.txt -text
 tools/medicao/pranchas_inicio2/extracao.json -text
+# T13: a extração das telas do projeto, a tabela das fontes do css2 e o manifesto da medição byte a byte
+tools/medicao/pranchas_projeto/extracao.json -text
+tools/medicao/fontes_css2.json -text
+docs/progresso/T13_hashes_saida.txt -text

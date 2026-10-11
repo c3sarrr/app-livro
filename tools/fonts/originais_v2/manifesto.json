@@ -324,6 +324,45 @@
    ],
    "sha256": "98c22de85f6e83bcd6ae1a443e12e256fbc8de7142bec4f76b059f8ff9c2797e",
    "bytes": 8992
+  },
+  "Roboto-normal-500-latin": {
+   "url": "https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bVmUiAo.woff2",
+   "familia": "Roboto",
+   "estilo": "normal",
+   "subset": "latin",
+   "pesosCss": [
+    "500"
+   ],
+   "sha256": "5bcc3aa180e7f26f643cd5b2621cd7c2de193d0661d913a94afd3d4881a7a34b",
+   "bytes": 22200,
+   "baixado": "2026-10-11",
+   "origem": "T13.2 — roboto_500.css"
+  },
+  "Roboto-normal-500-latin-ext": {
+   "url": "https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bVmaiArmlw.woff2",
+   "familia": "Roboto",
+   "estilo": "normal",
+   "subset": "latin-ext",
+   "pesosCss": [
+    "500"
+   ],
+   "sha256": "1e597a6e3b163200475089698be3427ab1bb01553493d5b7d53694429948d8ec",
+   "bytes": 15160,
+   "baixado": "2026-10-11",
+   "origem": "T13.2 — roboto_500.css"
+  },
+  "Roboto-normal-500-vietnamese": {
+   "url": "https://fonts.gstatic.com/s/roboto/v51/KFOMCnqEu92Fr1ME7kSn66aGLdTylUAMQXC89YmC2DPNWub2bVmbiArmlw.woff2",
+   "familia": "Roboto",
+   "estilo": "normal",
+   "subset": "vietnamese",
+   "pesosCss": [
+    "500"
+   ],
+   "sha256": "15c77aed355b2ca99b34986268c33c67107613a2987c71dd9e12e79bbd6f9e63",
+   "bytes": 8540,
+   "baixado": "2026-10-11",
+   "origem": "T13.2 — roboto_500.css"
   }
  }
 }
