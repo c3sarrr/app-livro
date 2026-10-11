@@ -4,6 +4,7 @@
 // * o Brás Cubas de papel em leitura, sem página, com 3h 40min já lidos (D-252) — o "play" do cronômetro (01b);
 // * o Orgulho e Preconceito em papel, na pág. 344 (D-253), aberto depois da Mrs. Dalloway (a ordem do Também lendo);
 // * o O Alienista "Lido" e a Senhora em papel (os Recém-chegados — D-255);
+// * o ISBN do Dom Casmurro, o da leitura do clube (o clube "lê" o livro da estante: a faixa do sumário, a R3);
 // * as "2 sessões" de hoje: a sessão de 18 min do mundo dividida em 10 + 8 (135 → 147 → 159, as 24 páginas de hoje).
 // O que as regras não deixam reproduzir fica como diferença (o "Quero ler" do Frankenstein: a D-88 diz "Novo" a quem
 // chegou há menos de 7 dias; "2 destaques": a D-60). Sem flutter_test: entra no app (`main_demonstracao.dart`).
@@ -27,6 +28,10 @@ import '../mundo_2026_09_20.dart';
 /// ("Brás Cubas: 208 pág.") — o catálogo do aparelho o oferece na folha da sessão (D-260).
 const String isbnBrasCubas = '9788535910667';
 const int paginasBrasCubas = 208;
+
+/// O ISBN-13 do Dom Casmurro da leitura do clube (o `my_clubs` da G21): o mundo não guarda o ISBN dos livros; com ele
+/// o clube "lê" o Dom Casmurro da estante (R3, a faixa do sumário — D-149).
+const String isbnDomCasmurro = '9788535902778';
 
 /// As 6 sessões do Brás Cubas (somam 3h 40min), em agosto: fora da semana do gráfico e da sequência de 12 dias.
 const List<int> minutosBrasCubas = [40, 35, 40, 35, 40, 30];
@@ -113,6 +118,14 @@ Future<void> gravarCamadaDaPrancha01(AppDatabase db) async {
       source: 'openlibrary',
     ),
     _sp(8, 10, 20),
+  );
+
+  final dc = m.domCasmurro;
+  await livros.upsert(
+    dc.copyWith(
+      meta: _editado(dc.meta),
+      isbn13: const Nullable(isbnDomCasmurro),
+    ),
   );
 
   final orgulho = m.livro(Slugs.orgulho);

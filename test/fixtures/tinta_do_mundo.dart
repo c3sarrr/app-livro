@@ -5,7 +5,6 @@
 // barras como Reta —; depois vai para a moldura em em do trecho (o início dele na linha de base da prancha, a letra de
 // 20,5 — os 30 px do modo saem dos dois lados) e para o BNK1 (pressão 0,5; larguras pela D-159: 2,3 → 125; 1,8 → 98;
 // 2,2 → 120; 2,4 → 131). G18 (R15): a nota à mão da 24b (`nota_mao_ressaca.svg`) na unidade da caixa.
-import 'dart:io';
 import 'dart:math' as math;
 import 'dart:ui' show Offset, Rect;
 
@@ -15,6 +14,7 @@ import 'package:app_leitura/features/reader/annotations/ink/ink_units.dart';
 import 'package:app_leitura/features/reader/annotations/space/space_metrics.dart';
 
 import '../reference/leitor/reference_layout_22_modo_anotacao.dart';
+import 'nota_mao_ressaca_svg.dart';
 
 /// Os caminhos dos SVGs da L22a.
 const String caminhoDaElipse =
@@ -319,7 +319,8 @@ const double sobraDaNotaAMao = (150 - 150 * escalaDaNotaAMao) / 2;
 
 /// Os caminhos (`d`) dos `<path>` do arquivo, na ordem, e o círculo da íris (centro e raio).
 ({List<String> caminhos, Offset centro, double raio}) caminhosDaNotaAMao() {
-  final svg = File(arquivoDaNotaAMao).readAsStringSync();
+  // o texto do arquivo, embutido (o mundo também monta no aparelho — R00, D-267)
+  const svg = svgDaNotaAMao;
   final caminhos = [
     for (final m in RegExp(r'<path d="([^"]+)"').allMatches(svg)) m.group(1)!,
   ];

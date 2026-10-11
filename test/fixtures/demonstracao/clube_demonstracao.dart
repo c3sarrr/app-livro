@@ -11,6 +11,7 @@ import 'package:app_leitura/features/clubs/data/clubs_cache.dart';
 import 'package:app_leitura/features/clubs/domain/club_models.dart';
 
 import '../mundo_2026_09_20.dart';
+import 'camada_inicio01.dart' show isbnDomCasmurro;
 
 /// Os ids do livro do clube (a leitura atual do `my_clubs` da fixture da G21).
 const String idDaLeituraDoClube = '00000000-0000-7000-8000-00000c300001';
@@ -46,12 +47,12 @@ List<Map<String, Object?>> clubesDoMundo() {
       'category': 'Clássicos brasileiros',
       'reading': {
         'id': idDaLeituraDoClube,
-        'isbns': ['9788508140912', '9788535902778'],
+        'isbns': ['9788508140912', isbnDomCasmurro],
         'pages': m.domCasmurro.refPagesTotal,
         'title': m.domCasmurro.title,
         'weeks': 6,
         'author': m.domCasmurro.authorDisplay,
-        'isbn13': '9788535902778',
+        'isbn13': isbnDomCasmurro,
         'work_id': idDaObraDoClube,
         'cover_ref': null,
         'edition_id': idDaEdicaoDoClube,

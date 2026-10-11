@@ -80,13 +80,18 @@ final class RepositorioDaPranchaNoBanco implements SyncHomeRepository {
   Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
 }
 
-/// O alvo (2) no aparelho; [suporte] = a pasta de suporte do app (os testes passam uma temporária).
+/// O alvo (2) no aparelho; [suporte] = a pasta de suporte do app (os testes passam uma temporária); [relogio] = o
+/// relógio (o "agora" de referência, parado, se nulo — o roteiro das capturas anda com ele).
 List<Override> overridesDaPranchaNoAparelho({
   Future<Directory> Function() suporte = getApplicationSupportDirectory,
   SecondTicker tique = const PeriodicSecondTicker(),
+  DateTime Function()? relogio,
 }) => [
   ...semServicos,
-  relogioDoMundo,
+  if (relogio == null)
+    relogioDoMundo
+  else
+    clockProvider.overrideWithValue(relogio),
   homeRepositoryProvider.overrideWithValue(const RepositorioDaPranchaNoBanco()),
   ...bancoDaDemonstracao(suporte: suporte),
   ...cronometroDoMundo(tique: tique),

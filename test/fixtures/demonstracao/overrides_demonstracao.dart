@@ -15,6 +15,8 @@ import 'package:app_leitura/features/account/application/account_providers.dart'
 import 'package:app_leitura/features/account/data/local_library.dart';
 import 'package:app_leitura/features/catalog/application/catalog_providers.dart'
     show catalogDirProvider, catalogHttpClientProvider;
+import 'package:app_leitura/features/clubs/application/clubs_providers.dart'
+    show socialOwnerProvider;
 import 'package:app_leitura/features/home/application/cover_providers.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/data/cover_store.dart';
@@ -170,6 +172,9 @@ List<Override> bancoDaDemonstracao({
       (ref) => pastaDemonstracao(catalogoDemonstracao, suporte: suporte)(),
     ),
     brandStoreProvider.overrideWith((ref) => MemoryBrandStore()),
+    // o dono do cache do social (o clube semeado: o chip da 25, o sininho, a faixa do sumário) é o convidado do mundo;
+    // sem o cliente do Supabase os provedores que vão à rede são nulos — é só a leitura do cache
+    socialOwnerProvider.overrideWithValue(mundoReferencia.usuarioId),
   ];
 }
 
