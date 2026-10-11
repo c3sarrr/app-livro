@@ -102,6 +102,66 @@ void main() {
       final pausada = s.pause(_t0.add(const Duration(seconds: 5)));
       expect(pausada.settle(_t0.add(const Duration(days: 3))), pausada);
     });
+
+    test('relógio que volta só um pouco (depois do "desde", antes do último instante visto): o que contou até a marca '
+        'fica e o "desde" passa a ser agora — nada descontado', () {
+      final visto = _t0.add(const Duration(seconds: 522));
+      final s = _rodando().observe(visto);
+      expect(s.seenAt, visto);
+      // a correção do NTP: 30 s para trás
+      final voltou = visto.subtract(const Duration(seconds: 30));
+      expect(s.elapsedAt(voltou), 522, reason: 'não desconta');
+      final acertada = s.settle(voltou);
+      expect(acertada.activeSeconds, 522);
+      expect(acertada.runningSince, voltou);
+      expect(acertada.seenAt, isNull);
+      expect(acertada.elapsedAt(voltou.add(const Duration(seconds: 10))), 532);
+      // sem a marca, o mesmo relógio descontaria 30 s
+      expect(_rodando().elapsedAt(voltou), 492);
+    });
+
+    test('a marca só anda para a frente, só na que roda, e pausar e retomar a limpam', () {
+      final visto = _t0.add(const Duration(minutes: 5));
+      final s = _rodando().observe(visto);
+      expect(s.observe(visto.subtract(const Duration(seconds: 1))), s);
+      expect(s.observe(visto), s);
+      expect(
+        s.observe(visto.add(const Duration(seconds: 1))).seenAt,
+        visto.add(const Duration(seconds: 1)),
+      );
+      // antes do "desde" não é marca
+      expect(
+        _rodando().observe(_t0.subtract(const Duration(seconds: 5))).seenAt,
+        isNull,
+      );
+      final pausada = s.pause(visto.add(const Duration(seconds: 2)));
+      expect(pausada.seenAt, isNull);
+      expect(pausada.observe(visto.add(const Duration(hours: 1))), pausada);
+      expect(
+        pausada.resume(visto.add(const Duration(hours: 1))).seenAt,
+        isNull,
+      );
+    });
+
+    test('24 h com a marca: o relógio voltou depois do limite — pausada no instante do limite', () {
+      final s = _rodando(acumulado: 86000)
+          .observe(_t0.add(const Duration(hours: 1)));
+      final voltou = _t0.add(const Duration(seconds: 100));
+      expect(s.elapsedAt(voltou), maxPaperSessionSeconds);
+      final acertada = s.settle(voltou);
+      expect(acertada.isRunning, isFalse);
+      expect(acertada.activeSeconds, 86400);
+      expect(acertada.pausedAt, _t0.add(const Duration(seconds: 400)));
+      expect(acertada.seenAt, isNull);
+    });
+
+    test('encerrar com o relógio que voltou não desconta: 522 s até agora', () {
+      final visto = _t0.add(const Duration(seconds: 522));
+      final voltou = visto.subtract(const Duration(seconds: 30));
+      final r = _rodando().observe(visto).record(voltou)!;
+      expect(r.activeSeconds, 522);
+      expect(r.endedAt, voltou);
+    });
   });
 
   group('o registro do fim (R3)', () {
@@ -254,6 +314,17 @@ void main() {
       });
     });
 
+    test('a marca do relógio (R2) vai junto só quando existe', () {
+      final vista = _rodando().observe(_t0.add(const Duration(minutes: 3)));
+      expect(vista.toJson()['seenAt'], '2026-09-20T22:54:18.000Z');
+      expect(OpenPaperSession.fromJson(vista.toJson()), vista);
+      expect(_rodando().toJson().containsKey('seenAt'), isFalse);
+      expect(
+        OpenPaperSession.fromJson({...vista.toJson(), 'seenAt': 'agora'}),
+        isNull,
+      );
+    });
+
     test(
       'versão desconhecida, campos faltando ou errados: null, nunca lança',
       () {
@@ -316,6 +387,41 @@ void main() {
       expect(
         r.hashCode,
         _rodando().record(_t0.add(const Duration(minutes: 1)))!.hashCode,
+      );
+      final visto = _t0.add(const Duration(minutes: 1));
+      expect(_rodando().observe(visto), isNot(_rodando()));
+      expect(
+        _rodando().observe(visto).hashCode,
+        _rodando().observe(visto).hashCode,
+      );
+    });
+
+    test('os textos de depuração não levam o título nem a página, só o id do livro e o tempo', () {
+      expect(
+        _rodando(acumulado: 42).toString(),
+        'OpenPaperSession($_livro, 42s, rodando desde 2026-09-20 22:51:18.000Z)',
+      );
+      expect(
+        _rodando().pause(_t0.add(const Duration(seconds: 3))).toString(),
+        'OpenPaperSession($_livro, 3s, pausada em 2026-09-20 22:51:21.000Z)',
+      );
+      expect(
+        _rodando().record(_t0.add(const Duration(minutes: 1))).toString(),
+        'PaperSessionRecord($_livro, 2026-09-20 22:51:18.000Z → 2026-09-20 22:52:18.000Z, 60s)',
+      );
+    });
+
+    test('a marca é UTC', () {
+      expect(
+        () => OpenPaperSession(
+          id: _id,
+          userBookId: _livro,
+          startedAt: _t0,
+          activeSeconds: 0,
+          runningSince: _t0,
+          seenAt: _t0.toLocal(),
+        ),
+        throwsArgumentError,
       );
     });
   });

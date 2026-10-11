@@ -1,8 +1,9 @@
 // T04 — o controlador da sessão do cronômetro do livro de papel (spec docs/progresso/T04.md §2). Carrega a sessão
 // aberta do dono ativo ao abrir o app (acertada pelo relógio de parede; a de um livro que saiu da estante é descartada
-// — R8) e recarrega quando o dono muda (a conta entra); começa (uma por vez — D-262), pausa, retoma (outro dia divide
-// a sessão — R4), encerra (o writer grava — R7) e descarta. As mudanças entram em fila: cada uma vê a anterior, mesmo
-// com toques seguidos.
+// — R8) e recarrega quando o dono muda: a do dono que sai pausa (D-264) e as que perderam na adoção são gravadas
+// (D-265). Começa (uma por vez — D-262), pausa, retoma (outro dia divide a sessão — R4), encerra (o writer grava — R7)
+// e descarta; com o app aberto, o tique da mini-barra acerta o relógio que volta e as 24 h (R2). As mudanças entram em
+// fila: cada uma vê a anterior, mesmo com toques seguidos.
 import 'dart:async';
 
 import 'package:flutter/foundation.dart' show immutable;
@@ -99,13 +100,28 @@ final paperTimerProvider =
 class PaperTimerController extends AsyncNotifier<PaperTimerState> {
   Future<void> _queue = Future<void>.value();
 
+  /// O dono do último carregamento (a instância do notifier vive entre as reconstruções): quando ele muda, a sessão
+  /// dele pausa (D-264).
+  String? _owner;
+
+  /// O último instante em que a sessão que roda foi vista (o tique da mini-barra), só em memória: a marca do R2 até ir
+  /// para o `kv` quando o app sai da frente. Vale só para a mesma sessão e o mesmo "desde".
+  ({String id, DateTime since, DateTime at})? _seen;
+
   @override
   Future<PaperTimerState> build() async {
     // assiste o valor (não só o 1º): a conta que entra recarrega a sessão do dono novo
     ref.watch(paperTimerOwnerProvider);
     final owner = await ref.watch(paperTimerOwnerProvider.future);
+    // uma vez por dono: a 1ª abertura reconstrói (o dono passa de carregando a valor) e os efeitos não se repetem
+    final left = _owner;
+    _owner = owner;
     final store = await ref.watch(paperTimerStoreProvider.future);
     final books = await ref.watch(paperBookSourceProvider.future);
+    if (left != owner) {
+      if (left != null) await _pauseLeaving(store, left);
+      await _recordClosed(store, owner);
+    }
     final saved = await store.load(owner);
     if (saved == null) return const PaperTimerState();
     final book = await books.book(owner, saved.userBookId);
@@ -151,8 +167,49 @@ class PaperTimerController extends AsyncNotifier<PaperTimerState> {
   /// do ar) vai para o relatório do cronômetro e o botão fica como estava.
   void toggleFromTap() => unawaited(toggle().catchError(reportPaperTimerError));
 
-  /// D-263: abrir o leitor pausa a sessão que roda (o e-book conta sozinho; sem tempo em dobro).
+  /// D-263: abrir o leitor pausa a sessão que roda (o e-book conta sozinho; sem tempo em dobro). Entra na fila: a que
+  /// ainda carrega ou a que um toque acabou de retomar também pausa.
   Future<void> pauseForReader() => pause();
+
+  /// O tique da mini-barra (R2 com o app aberto): pausa nas 24 h e acerta o relógio que voltou para antes do último
+  /// instante visto — o estado muda na hora (o tempo na tela não volta) e o `kv` grava na fila. Sem nada a acertar, só
+  /// anota o instante (nem o estado nem o `kv` mudam).
+  void tick() {
+    final current = state.value;
+    final s = current?.session;
+    if (current == null || s == null || !s.isRunning) return;
+    final now = _now();
+    final marked = _marked(s);
+    final settled = marked.settle(now);
+    if (identical(settled, marked)) {
+      final seen = _seen;
+      if (seen == null || seen.id != s.id || now.isAfter(seen.at)) {
+        _seen = (id: s.id, since: s.runningSince!, at: now);
+      }
+      return;
+    }
+    _seen = null;
+    state = AsyncData(PaperTimerState(session: settled, book: current.book));
+    unawaited(
+      _serial(() async {
+        if ((await future).session == settled) {
+          await _save(await ref.read(paperTimerOwnerProvider.future), settled);
+        }
+      }).catchError(reportPaperTimerError),
+    );
+  }
+
+  /// O app saiu da frente (R2): a marca do relógio vai ao `kv` com a sessão que roda — o relógio que voltar com o app
+  /// fechado não desconta.
+  void appHidden() => unawaited(
+    _serial(() async {
+      final current = await future;
+      final s = current.session;
+      if (s == null || !s.isRunning) return;
+      final seen = _marked(s).observe(_now());
+      if (seen != s) await _update(current, seen);
+    }).catchError(reportPaperTimerError),
+  );
 
   /// Encerra (D-256): o writer grava a sessão (ou nada, com menos de 10 s — R3), a página e o total. Página recusada →
   /// o erro volta e a sessão continua aberta; livro fora da estante → a sessão sai e a falha volta.
@@ -166,7 +223,7 @@ class PaperTimerController extends AsyncNotifier<PaperTimerState> {
       await writer.end(
         PaperSessionEnd(
           userBookId: s.userBookId,
-          record: s.record(now),
+          record: _marked(s).record(now),
           at: now,
           page: page,
           pagesTotal: pagesTotal,
@@ -191,7 +248,7 @@ class PaperTimerController extends AsyncNotifier<PaperTimerState> {
     final current = await future;
     final s = current.session;
     if (s == null || !s.isRunning) return;
-    await _update(current, s.pause(_now()));
+    await _update(current, _marked(s).pause(_now()));
   }
 
   Future<void> _resume() async {
@@ -230,6 +287,50 @@ class PaperTimerController extends AsyncNotifier<PaperTimerState> {
   }
 
   DateTime _now() => ref.read(clockProvider)().toUtc();
+
+  /// [s] com a marca do tique (R2), se ela é desta sessão e deste "desde".
+  OpenPaperSession _marked(OpenPaperSession s) {
+    final seen = _seen;
+    if (seen == null || seen.id != s.id || seen.since != s.runningSince) {
+      return s;
+    }
+    return s.observe(seen.at);
+  }
+
+  /// D-264: a sessão do dono que saiu (sair da conta) pausa no instante da troca — o tempo fora não conta. Na adoção
+  /// a chave do convidado já passou para a conta e não há o que pausar.
+  Future<void> _pauseLeaving(PaperTimerStore store, String owner) async {
+    try {
+      final s = await store.load(owner);
+      if (s == null || !s.isRunning) return;
+      await store.save(owner, _marked(s).pause(_now()));
+    } on Object catch (e, st) {
+      reportPaperTimerError(e, st);
+    }
+  }
+
+  /// D-265: as sessões que perderam na adoção (pausadas no instante da troca) são gravadas sem página, como a divisão
+  /// do R4 (menos de 10 s não grava — R3; o livro que saiu da estante leva a sua). Outra falha fica no relatório e elas
+  /// esperam a próxima abertura (gravar de novo é idempotente: o id é o mesmo).
+  Future<void> _recordClosed(PaperTimerStore store, String owner) async {
+    try {
+      final closed = await store.closed(owner);
+      if (closed.isEmpty) return;
+      final writer = await ref.read(paperSessionWriterProvider.future);
+      for (final s in closed) {
+        final record = s.record(_now());
+        if (record == null) continue;
+        try {
+          await writer.recordOnly(record);
+        } on PaperBookGone {
+          // o livro saiu da estante: não há onde gravar
+        }
+      }
+      await store.clearClosed(owner);
+    } on Object catch (e, st) {
+      reportPaperTimerError(e, st);
+    }
+  }
 
   /// Uma mudança por vez, na ordem dos toques; a falha de uma não trava as seguintes.
   Future<T> _serial<T>(Future<T> Function() change) {

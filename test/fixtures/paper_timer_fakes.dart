@@ -35,6 +35,46 @@ final class MemoryPaperTimerStore implements PaperTimerStore {
 
   @override
   Future<void> clear(String owner) async => sessoes.remove(owner);
+
+  /// As que esperam para ser gravadas (D-265), por dono.
+  final Map<String, List<OpenPaperSession>> fechadas = {};
+
+  @override
+  Future<List<OpenPaperSession>> closed(String owner) async =>
+      List.of(fechadas[owner] ?? const []);
+
+  @override
+  Future<void> clearClosed(String owner) async => fechadas.remove(owner);
+}
+
+/// A loja da sessão com o banco do aparelho que pode sair do ar (D-266): gravar ou limpar lança; o resto vai à [loja].
+final class LojaQueFalha implements PaperTimerStore {
+  LojaQueFalha(this.loja);
+
+  final MemoryPaperTimerStore loja;
+  bool falharAoGravar = false;
+  bool falharAoLimpar = false;
+
+  @override
+  Future<OpenPaperSession?> load(String owner) => loja.load(owner);
+
+  @override
+  Future<void> save(String owner, OpenPaperSession session) {
+    if (falharAoGravar) throw StateError('kv fora do ar');
+    return loja.save(owner, session);
+  }
+
+  @override
+  Future<void> clear(String owner) {
+    if (falharAoLimpar) throw StateError('kv fora do ar');
+    return loja.clear(owner);
+  }
+
+  @override
+  Future<List<OpenPaperSession>> closed(String owner) => loja.closed(owner);
+
+  @override
+  Future<void> clearClosed(String owner) => loja.clearClosed(owner);
 }
 
 final class RecordingPaperSessionWriter implements PaperSessionWriter {
@@ -108,7 +148,7 @@ String Function() idsDeTeste() {
 List<Override> overridesDaSessao({
   PaperTimerStore? store,
   RecordingPaperSessionWriter? writer,
-  FixedPaperBookSource? livros,
+  PaperBookSource? livros,
   SecondTicker? ticker,
   String Function()? ids,
   String dono = donoDaSessao,

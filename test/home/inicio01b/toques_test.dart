@@ -7,8 +7,11 @@ import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
+import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/reading_session/domain/open_paper_session.dart';
+import 'package:app_leitura/features/reading_session/presentation/paper_timer_actions.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../fixtures/home_mock_repository.dart';
@@ -70,6 +73,7 @@ void main() {
   setUpAll(loadAppFonts);
 
   late MemoryPaperTimerStore loja;
+  late LojaQueFalha banco;
 
   Future<void> abrir(
     WidgetTester tester, {
@@ -77,10 +81,11 @@ void main() {
     SyncHomeRepository repositorio = const HomeMockRepository(),
   }) async {
     loja = MemoryPaperTimerStore({donoDaSessao: ?sessao});
+    banco = LojaQueFalha(loja);
     await abrirInicio01(
       tester,
       repositorio: repositorio,
-      cronometro: overridesDaSessao(store: loja, livros: estanteDePapel01()),
+      cronometro: overridesDaSessao(store: banco, livros: estanteDePapel01()),
     );
   }
 
@@ -200,6 +205,43 @@ void main() {
       expect(_k('session.sheet'), findsNothing);
     });
   });
+
+  testWidgets('o play do livro cuja sessão já está aberta (o toque chegou antes de a sessão carregar): retoma a dela, '
+      'sem folha', (tester) async {
+    await abrir(
+      tester,
+      sessao: TelaInicio01b.sessao.pause(TelaInicio01b.agora),
+    );
+    final home = tester.element(find.byType(HomeScreen));
+    await startPaperSession(home, home as WidgetRef, TelaInicio01.brasCubas);
+    await tester.pumpAndSettle();
+    expect(aberta()!.isRunning, isTrue);
+    expect(aberta()!.id, TelaInicio01b.sessao.id);
+    expect(_k('session.sheet'), findsNothing);
+  });
+
+  testWidgets('o play com o banco do aparelho fora do ar: a falha vai ao relatório, nada começa e o botão fica como '
+      'estava (D-266: fora da folha, só o relatório)', (tester) async {
+    await abrir(tester);
+    banco.falharAoGravar = true;
+    await tocar01(tester, 'i01.alsoReading.card1.play');
+    expect(tester.takeException(), isA<StateError>());
+    expect(aberta(), isNull);
+    expect(icone(tester, 'alsoReading.card1.play.icon'), AppIconsInicio.play);
+    expect(_k('miniBar'), findsNothing);
+  });
+
+  testWidgets(
+    'o "Ler agora" com o banco do aparelho fora do ar: a falha vai ao relatório e a sessão fica pausada',
+    (tester) async {
+      final pausada = TelaInicio01b.sessao.pause(TelaInicio01b.agora);
+      await abrir(tester, sessao: pausada);
+      banco.falharAoGravar = true;
+      await tocar01(tester, 'i01.today.readNow');
+      expect(tester.takeException(), isA<StateError>());
+      expect(aberta(), pausada);
+    },
+  );
 
   testWidgets(
     'D-263 com a sessão rodando, o "Continuar" do herói (e-book) abre o leitor e pausa a sessão do papel',

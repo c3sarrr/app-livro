@@ -4,7 +4,8 @@
 // Abre por cima de tudo (navigator raiz) pelo toque na mini-barra ou pelo play de outro livro com a sessão aberta:
 // mostra o livro e o tempo (que anda), pausa e retoma, pede a página (e o total, se o livro não tem), encerra
 // (o writer grava — R7), descarta (com confirmação) e fecha. Aberta pelo play de outro livro (D-262), encerrar ou
-// descartar começa a sessão dele; fechar não começa nada.
+// descartar começa a sessão dele; fechar não começa nada. Se encerrar, descartar, pausar ou retomar falha (o banco do
+// aparelho fora do ar), o aviso de erro da folha diz "Não deu para … Tente de novo." e os botões voltam (D-266).
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -99,10 +100,35 @@ class _SessionSheetState extends ConsumerState<SessionSheet> {
     super.dispose();
   }
 
+  /// Fecha a folha — só ela: se outra rota já está por cima, tira só a folha; se ela já saiu (o Voltar durante a
+  /// gravação), nada.
   void _close() {
     if (_closed || !mounted) return;
     _closed = true;
-    Navigator.of(context).pop();
+    final route = ModalRoute.of(context);
+    if (route == null || !route.isActive) return;
+    if (route.isCurrent) {
+      Navigator.of(context).pop();
+    } else {
+      Navigator.of(context).removeRoute(route);
+    }
+  }
+
+  /// Pausar / Retomar na folha: a falha vira o aviso dela (D-266).
+  Future<void> _toggle(bool running) async {
+    setState(() => _notice = null);
+    try {
+      await ref.read(paperTimerProvider.notifier).toggle();
+    } on Object catch (e, st) {
+      reportPaperTimerError(e, st);
+      if (mounted) {
+        setState(
+          () => _notice = running
+              ? PaperTimerFormat.pauseFailed
+              : PaperTimerFormat.resumeFailed,
+        );
+      }
+    }
   }
 
   void _end(PaperBook book) {
@@ -115,15 +141,22 @@ class _SessionSheetState extends ConsumerState<SessionSheet> {
       case PaperEndRejected(:final notice):
         setState(() => _notice = notice);
       case PaperEndAccepted(:final page, :final pagesTotal):
-        unawaited(_run((c) => c.end(page: page, pagesTotal: pagesTotal)));
+        unawaited(
+          _run(
+            (c) => c.end(page: page, pagesTotal: pagesTotal),
+            failure: PaperTimerFormat.endFailed,
+          ),
+        );
     }
   }
 
   /// Encerra ou descarta e fecha; aberta pelo play de outro livro, começa a sessão dele (D-262). O livro que saiu da
-  /// estante já leva a sessão junto (o controlador a limpa); outra falha fica no relatório e a folha continua.
+  /// estante já leva a sessão junto (o controlador a limpa); outra falha vai ao relatório e a folha continua, com o
+  /// aviso [failure] e os botões de volta (D-266).
   Future<void> _run(
-    Future<void> Function(PaperTimerController timer) action,
-  ) async {
+    Future<void> Function(PaperTimerController timer) action, {
+    required String failure,
+  }) async {
     final timer = ref.read(paperTimerProvider.notifier);
     final pending = widget.pending;
     setState(() {
@@ -136,7 +169,13 @@ class _SessionSheetState extends ConsumerState<SessionSheet> {
       // a sessão saiu com o livro
     } on Object catch (e, st) {
       reportPaperTimerError(e, st);
-      if (mounted) setState(() => _busy = false);
+      if (mounted) {
+        setState(() {
+          _busy = false;
+          _confirming = false;
+          _notice = failure;
+        });
+      }
       return;
     }
     if (pending != null) {
@@ -226,9 +265,7 @@ class _SessionSheetState extends ConsumerState<SessionSheet> {
               ? PaperTimerFormat.pauseButton
               : PaperTimerFormat.resumeButton,
           key: const ValueKey('session.sheet.toggle'),
-          onTap: _busy
-              ? null
-              : ref.read(paperTimerProvider.notifier).toggleFromTap,
+          onTap: _busy ? null : () => unawaited(_toggle(session.isRunning)),
         ),
         if (lastPage != null)
           AccountText(
@@ -291,7 +328,14 @@ class _SessionSheetState extends ConsumerState<SessionSheet> {
         PaperTimerFormat.discardConfirm,
         key: const ValueKey('session.sheet.confirmDiscard'),
         tone: AccountButtonTone.danger,
-        onTap: _busy ? null : () => unawaited(_run((c) => c.discard())),
+        onTap: _busy
+            ? null
+            : () => unawaited(
+                _run(
+                  (c) => c.discard(),
+                  failure: PaperTimerFormat.discardFailed,
+                ),
+              ),
       ),
       AccountButton(
         PaperTimerFormat.backButton,

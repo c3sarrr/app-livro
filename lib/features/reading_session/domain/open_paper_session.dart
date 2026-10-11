@@ -1,7 +1,8 @@
 // T04 — a sessão do cronômetro do livro de papel (spec docs/progresso/T04.md, R2–R4, R8). O tempo corre pelo
 // relógio de parede a partir do "rodando desde" guardado: a sessão sobrevive ao app fechado (a pessoa continua
-// lendo o papel). Relógio que volta não desconta nem inventa (o trecho negativo conta 0 e o "desde" passa a ser
-// agora); com 24 h de tempo ativo a sessão pausa sozinha no instante do limite (o CHECK `active_seconds ≤ 86400`).
+// lendo o papel). Relógio que volta não desconta nem inventa: o que já contou até o último instante visto (a marca —
+// o "desde" ou o [OpenPaperSession.seenAt]) fica, e o "desde" passa a ser agora; com 24 h de tempo ativo a sessão
+// pausa sozinha no instante do limite (o CHECK `active_seconds ≤ 86400`).
 // Menos de 10 s não grava (G10). Retomar noutro dia local grava a sessão anterior (até a pausa) e abre outra no
 // mesmo livro — o dia de uma sessão é o do início (D-85).
 import 'dart:math' as math;
@@ -61,6 +62,7 @@ final class OpenPaperSession {
     required int activeSeconds,
     DateTime? runningSince,
     DateTime? pausedAt,
+    DateTime? seenAt,
   }) : id = Check.uuid(id, 'id'),
        userBookId = Check.text(
          userBookId,
@@ -76,7 +78,8 @@ final class OpenPaperSession {
          'activeSeconds',
        ),
        runningSince = Check.utcOrNull(runningSince, 'runningSince'),
-       pausedAt = Check.utcOrNull(pausedAt, 'pausedAt');
+       pausedAt = Check.utcOrNull(pausedAt, 'pausedAt'),
+       seenAt = Check.utcOrNull(seenAt, 'seenAt');
 
   /// Uma sessão nova, rodando desde [now].
   factory OpenPaperSession.start({
@@ -113,31 +116,56 @@ final class OpenPaperSession {
   /// O instante da última pausa (UTC) — o fim de parede de uma sessão encerrada pausada.
   final DateTime? pausedAt;
 
+  /// O último instante de parede em que a sessão foi vista rodando (UTC), depois do "desde" — a marca do relógio que
+  /// volta (R2): o controlador a guarda quando o app sai da frente; `null` = o próprio "desde".
+  final DateTime? seenAt;
+
   bool get isRunning => runningSince != null;
 
-  /// Segundos ativos em [now]: o trecho rodando conta só para a frente, até o limite de 24 h.
+  /// Segundos ativos em [now]: o trecho rodando conta até agora — ou até a marca, se o relógio voltou para antes dela
+  /// (nada descontado) —, até o limite de 24 h.
   int elapsedAt(DateTime now) {
     final since = runningSince;
     if (since == null) return activeSeconds;
-    final run = math.max(0, now.toUtc().difference(since).inSeconds);
+    final mark = seenAt ?? since;
+    final at = now.toUtc();
+    final run = (at.isBefore(mark) ? mark : at).difference(since).inSeconds;
     return math.min(maxPaperSessionSeconds, activeSeconds + run);
   }
 
-  /// A sessão acertada em [now] (R2): relógio que voltou → o "desde" passa a ser agora (nada descontado); 24 h de
-  /// tempo ativo → pausada no instante do limite. Sem nada a acertar, a própria sessão.
+  /// A sessão vista rodando em [now] (a marca do R2 anda para a frente); a pausada e a já vista depois não mudam.
+  OpenPaperSession observe(DateTime now) {
+    final since = runningSince;
+    if (since == null) return this;
+    final at = now.toUtc();
+    if (!at.isAfter(seenAt ?? since)) return this;
+    return _copy(seenAt: at);
+  }
+
+  /// A sessão acertada em [now] (R2): 24 h de tempo ativo (até agora ou até a marca) → pausada no instante do limite;
+  /// relógio que voltou para antes da marca → o que contou até ela fica e o "desde" passa a ser agora (nada
+  /// descontado nem inventado). Sem nada a acertar, a própria sessão.
   OpenPaperSession settle(DateTime now) {
     final since = runningSince;
     if (since == null) return this;
     final at = now.toUtc();
-    if (at.isBefore(since)) return _copy(runningSince: at);
+    final mark = seenAt ?? since;
     final limitAt = since.add(
       Duration(seconds: maxPaperSessionSeconds - activeSeconds),
     );
-    if (at.isBefore(limitAt)) return this;
+    if (!(at.isBefore(mark) ? mark : at).isBefore(limitAt)) {
+      return _copy(
+        activeSeconds: maxPaperSessionSeconds,
+        runningSince: null,
+        pausedAt: limitAt,
+        seenAt: null,
+      );
+    }
+    if (!at.isBefore(mark)) return this;
     return _copy(
-      activeSeconds: maxPaperSessionSeconds,
-      runningSince: null,
-      pausedAt: limitAt,
+      activeSeconds: activeSeconds + mark.difference(since).inSeconds,
+      runningSince: at,
+      seenAt: null,
     );
   }
 
@@ -149,13 +177,14 @@ final class OpenPaperSession {
       activeSeconds: s.elapsedAt(now),
       runningSince: null,
       pausedAt: now.toUtc(),
+      seenAt: null,
     );
   }
 
   /// Rodando desde [now] com o tempo guardado; a que já roda (ou chegou às 24 h) não muda.
   OpenPaperSession resume(DateTime now) {
     if (isRunning || activeSeconds >= maxPaperSessionSeconds) return this;
-    return _copy(runningSince: now.toUtc(), pausedAt: null);
+    return _copy(runningSince: now.toUtc(), pausedAt: null, seenAt: null);
   }
 
   /// O que gravar ao encerrar em [now] (R3): `null` com menos de 10 s. O fim é agora (rodando) ou o instante da
@@ -208,6 +237,7 @@ final class OpenPaperSession {
     'activeSeconds': activeSeconds,
     'runningSince': runningSince?.toIso8601String(),
     'pausedAt': pausedAt?.toIso8601String(),
+    if (seenAt != null) 'seenAt': seenAt!.toIso8601String(),
   };
 
   /// O que veio do `kv`; versão desconhecida ou qualquer campo errado → `null` (nunca lança).
@@ -233,6 +263,7 @@ final class OpenPaperSession {
         activeSeconds: seconds,
         runningSince: instant(json['runningSince']),
         pausedAt: instant(json['pausedAt']),
+        seenAt: instant(json['seenAt']),
       );
     } on FormatException {
       return null;
@@ -245,6 +276,7 @@ final class OpenPaperSession {
     int? activeSeconds,
     Object? runningSince = _keep,
     Object? pausedAt = _keep,
+    Object? seenAt = _keep,
   }) => OpenPaperSession(
     id: id,
     userBookId: userBookId,
@@ -256,6 +288,7 @@ final class OpenPaperSession {
     pausedAt: identical(pausedAt, _keep)
         ? this.pausedAt
         : pausedAt as DateTime?,
+    seenAt: identical(seenAt, _keep) ? this.seenAt : seenAt as DateTime?,
   );
 
   @override
@@ -266,7 +299,8 @@ final class OpenPaperSession {
       other.startedAt == startedAt &&
       other.activeSeconds == activeSeconds &&
       other.runningSince == runningSince &&
-      other.pausedAt == pausedAt;
+      other.pausedAt == pausedAt &&
+      other.seenAt == seenAt;
 
   @override
   int get hashCode => Object.hash(
@@ -276,6 +310,7 @@ final class OpenPaperSession {
     activeSeconds,
     runningSince,
     pausedAt,
+    seenAt,
   );
 
   @override

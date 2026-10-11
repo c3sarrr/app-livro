@@ -6,6 +6,7 @@ import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/reading_session/application/paper_timer_controller.dart';
 import 'package:app_leitura/features/reading_session/application/reader_pause_observer.dart';
 import 'package:app_leitura/features/reading_session/data/paper_book_source.dart';
+import 'package:app_leitura/features/reading_session/domain/open_paper_session.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,16 +21,21 @@ void main() {
   late DateTime agora;
   late GlobalKey<NavigatorState> nav;
 
+  late MemoryPaperTimerStore loja;
+
   Future<ProviderContainer> abrir(
     WidgetTester tester, {
     bool assistir = true,
+    OpenPaperSession? guardada,
   }) async {
     agora = _t0;
     nav = GlobalKey<NavigatorState>();
+    loja = MemoryPaperTimerStore({donoDaSessao: ?guardada});
     final container = ProviderContainer.test(
       overrides: [
         clockProvider.overrideWithValue(() => agora),
         ...overridesDaSessao(
+          store: loja,
           livros: FixedPaperBookSource({
             _bras: const PaperBook(
               book: Book(
@@ -131,4 +137,45 @@ void main() {
     await empilhar(tester, readerRouteName);
     expect(c.read(paperTimerProvider).value!.session, isNull);
   });
+
+  testWidgets('o cronômetro ainda carregando do kv quando o leitor entra (o leitor aberto na partida): a sessão guardada '
+      'que roda pausa assim que carrega', (tester) async {
+    final c = await abrir(
+      tester,
+      guardada: OpenPaperSession.start(
+        id: '01925a00-0000-7000-8000-000000000001',
+        userBookId: _bras,
+        now: _t0.subtract(const Duration(minutes: 3)),
+      ),
+    );
+    expect(c.read(paperTimerProvider).isLoading, isTrue);
+    nav.currentState!.pushNamed(readerRouteName);
+    await tester.pumpAndSettle();
+    await fazer(tester, c.read(paperTimerProvider.future));
+    expect(rodando(c), isFalse);
+    expect(loja.sessoes[donoDaSessao]!.activeSeconds, 180);
+  });
+
+  testWidgets(
+    'retomar e abrir o leitor em seguida (o toque ainda na fila): a sessão pausa depois de retomar',
+    (tester) async {
+      final c = await abrir(
+        tester,
+        guardada: OpenPaperSession.start(
+          id: '01925a00-0000-7000-8000-000000000001',
+          userBookId: _bras,
+          now: _t0,
+        ).pause(_t0.add(const Duration(seconds: 40))),
+      );
+      await fazer(tester, c.read(paperTimerProvider.future));
+      agora = _t0.add(const Duration(minutes: 5));
+      final retomar = c.read(paperTimerProvider.notifier).resume();
+      nav.currentState!.pushNamed(readerRouteName);
+      await tester.pumpAndSettle();
+      await fazer(tester, retomar);
+      await fazer(tester, c.read(paperTimerProvider.future));
+      expect(rodando(c), isFalse);
+      expect(loja.sessoes[donoDaSessao]!.activeSeconds, 40);
+    },
+  );
 }

@@ -84,6 +84,16 @@ abstract final class PaperTimerFormat {
   static const String discardConfirm = 'Descartar';
   static const String backButton = 'Voltar';
 
+  /// Os avisos de falha da folha (D-266): o banco do aparelho fora do ar, por exemplo.
+  static const String endFailed =
+      'Não deu para encerrar a sessão. Tente de novo.';
+  static const String discardFailed =
+      'Não deu para descartar a sessão. Tente de novo.';
+  static const String pauseFailed =
+      'Não deu para pausar a sessão. Tente de novo.';
+  static const String resumeFailed =
+      'Não deu para retomar a sessão. Tente de novo.';
+
   /// A folha aberta pelo play de outro livro (D-262).
   static String pendingStart(String title) =>
       'Para começar $title, encerre ou descarte esta sessão.';

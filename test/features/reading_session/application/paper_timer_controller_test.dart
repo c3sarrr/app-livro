@@ -10,6 +10,7 @@ import 'package:app_leitura/features/reading_session/application/paper_timer_con
 import 'package:app_leitura/features/reading_session/data/paper_book_source.dart';
 import 'package:app_leitura/features/reading_session/domain/open_paper_session.dart';
 import 'package:app_leitura/features/reading_session/domain/paper_timer_failure.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -318,6 +319,283 @@ void main() {
     await pumpEventQueue();
     // a estante fixa só conhece os livros do dono do teste: a conta não tem sessão
     expect((await estado(c)).session, isNull);
+  });
+
+  group('D-264 a troca de dono', () {
+    const conta = '0199a7c4-2f00-7a10-8b20-0000000000aa';
+
+    test('a sessão do dono que sai (sair da conta) pausa no instante da troca; ao voltar, está em pausa com o tempo até '
+        'ali — as 8 h fora não contam', () async {
+      final c = abrir(donoFixo: false);
+      donos.add(donoDaSessao);
+      await estado(c);
+      await ctl(c).start(_bras);
+      agora = _t0.add(const Duration(minutes: 5));
+      donos.add(conta);
+      await pumpEventQueue();
+      expect((await estado(c)).session, isNull);
+      final saiu = store.sessoes[donoDaSessao]!;
+      expect(saiu.isRunning, isFalse);
+      expect(saiu.activeSeconds, 300);
+      expect(saiu.pausedAt, agora);
+      expect(store.sessoes.containsKey(conta), isFalse);
+
+      agora = agora.add(const Duration(hours: 8));
+      donos.add(donoDaSessao);
+      await pumpEventQueue();
+      final volta = (await estado(c)).session!;
+      expect(volta.isRunning, isFalse);
+      expect(volta.elapsedAt(agora), 300);
+    });
+
+    test('a pausada do dono que sai fica como estava', () async {
+      final pausada = OpenPaperSession.start(
+        id: '01925a00-0000-7000-8000-000000000009',
+        userBookId: _bras,
+        now: _t0,
+      ).pause(_t0.add(const Duration(minutes: 1)));
+      store.sessoes[donoDaSessao] = pausada;
+      final c = abrir(donoFixo: false);
+      donos.add(donoDaSessao);
+      await estado(c);
+      final gravacoes = store.gravacoes;
+      agora = _t0.add(const Duration(hours: 2));
+      donos.add(conta);
+      await pumpEventQueue();
+      expect(store.sessoes[donoDaSessao], pausada);
+      expect(store.gravacoes, gravacoes);
+    });
+
+    test('sem sessão do dono que sai (a adoção já a passou para a conta), nada é criado para ele e a do dono novo '
+        'continua rodando', () async {
+      final c = abrir(donoFixo: false);
+      donos.add(conta);
+      await estado(c);
+      // a adoção passou a sessão rodando do convidado (a conta, aqui) para o dono do teste antes da troca
+      final rodando = OpenPaperSession.start(
+        id: '01925a00-0000-7000-8000-00000000000a',
+        userBookId: _bras,
+        now: _t0,
+      );
+      store.sessoes[donoDaSessao] = rodando;
+      agora = _t0.add(const Duration(minutes: 3));
+      donos.add(donoDaSessao);
+      await pumpEventQueue();
+      expect(store.sessoes.containsKey(conta), isFalse);
+      expect((await estado(c)).session, rodando);
+      expect(store.sessoes[donoDaSessao], rodando);
+    });
+  });
+
+  group('D-265 as que perderam na adoção', () {
+    OpenPaperSession perdeu(int n, int segundos) => OpenPaperSession.start(
+      id: '01925a00-0000-7000-8000-0000000000f$n',
+      userBookId: _bras,
+      now: _t0,
+    ).pause(_t0.add(Duration(seconds: segundos)));
+
+    test('ao carregar, são gravadas sem página até a pausa (menos de 10 s não) e saem da espera', () async {
+      store.fechadas[donoDaSessao] = [perdeu(1, 300), perdeu(2, 5)];
+      final c = abrir();
+      await estado(c);
+      expect(writer.divisoes, [
+        PaperSessionRecord(
+          id: '01925a00-0000-7000-8000-0000000000f1',
+          userBookId: _bras,
+          startedAt: _t0,
+          endedAt: _t0.add(const Duration(seconds: 300)),
+          activeSeconds: 300,
+        ),
+      ]);
+      expect(store.fechadas[donoDaSessao], isNull);
+    });
+
+    test(
+      'o livro que saiu da estante leva a sua (nada gravado, sai da espera)',
+      () async {
+        store.fechadas[donoDaSessao] = [perdeu(1, 300)];
+        writer.falha = livroSumiu;
+        final c = abrir();
+        await estado(c);
+        expect(writer.divisoes, isEmpty);
+        expect(store.fechadas[donoDaSessao], isNull);
+      },
+    );
+
+    test('outra falha vai ao relatório, elas esperam a próxima abertura e a sessão aberta carrega igual', () async {
+      final relatos = <FlutterErrorDetails>[];
+      final antes = FlutterError.onError;
+      FlutterError.onError = relatos.add;
+      addTearDown(() => FlutterError.onError = antes);
+      store.fechadas[donoDaSessao] = [perdeu(1, 300)];
+      store.sessoes[donoDaSessao] = OpenPaperSession.start(
+        id: '01925a00-0000-7000-8000-000000000009',
+        userBookId: _bras,
+        now: _t0,
+      );
+      writer.falha = StateError('banco fora do ar');
+      final c = abrir();
+      expect((await estado(c)).session, isNotNull);
+      expect(relatos.single.exception, isA<StateError>());
+      expect(relatos.single.library, 'cronômetro');
+      expect(store.fechadas[donoDaSessao], hasLength(1));
+    });
+  });
+
+  group('R2 com o app aberto (o tique da mini-barra)', () {
+    OpenPaperSession quase24h() => OpenPaperSession(
+      id: '01925a00-0000-7000-8000-000000000009',
+      userBookId: _bras,
+      startedAt: _t0.subtract(const Duration(days: 1)),
+      activeSeconds: 86000,
+      runningSince: _t0,
+    );
+
+    test('nas 24 h a sessão pausa sozinha no instante do limite — o estado na hora, o kv na fila', () async {
+      store.sessoes[donoDaSessao] = quase24h();
+      final c = abrir();
+      await estado(c);
+      agora = _t0.add(const Duration(seconds: 401));
+      ctl(c).tick();
+      final s = c.read(paperTimerProvider).value!.session!;
+      expect(s.isRunning, isFalse);
+      expect(s.activeSeconds, 86400);
+      expect(s.pausedAt, _t0.add(const Duration(seconds: 400)));
+      await pumpEventQueue();
+      expect(store.sessoes[donoDaSessao], s);
+    });
+
+    test('o relógio que volta um pouco (30 s) com o app aberto não desconta: o que contou até o último tique fica', () async {
+      final c = abrir();
+      await estado(c);
+      await ctl(c).start(_bras);
+      agora = _t0.add(const Duration(seconds: 522));
+      ctl(c).tick();
+      final gravacoes = store.gravacoes;
+      expect(
+        c.read(paperTimerProvider).value!.session!.runningSince,
+        _t0,
+        reason: 'o tique só anota',
+      );
+      agora = _t0.add(const Duration(seconds: 492));
+      ctl(c).tick();
+      final s = c.read(paperTimerProvider).value!.session!;
+      expect(s.activeSeconds, 522);
+      expect(s.runningSince, agora);
+      expect(s.elapsedAt(agora.add(const Duration(seconds: 10))), 532);
+      await pumpEventQueue();
+      expect(store.gravacoes, gravacoes + 1);
+      expect(store.sessoes[donoDaSessao], s);
+    });
+
+    test('pausar e encerrar logo depois do relógio voltar (antes do próximo tique) também não descontam', () async {
+      final c = abrir();
+      await estado(c);
+      await ctl(c).start(_bras);
+      agora = _t0.add(const Duration(seconds: 522));
+      ctl(c).tick();
+      agora = _t0.add(const Duration(seconds: 492));
+      await ctl(c).pause();
+      expect((await estado(c)).session!.activeSeconds, 522);
+      await ctl(c).resume();
+      agora = agora.add(const Duration(seconds: 100));
+      ctl(c).tick();
+      agora = agora.subtract(const Duration(seconds: 50));
+      await ctl(c).end();
+      expect(writer.fins.single.record!.activeSeconds, 622);
+    });
+
+    test('sem nada a acertar, o tique não muda o estado nem o kv; a pausada e sem sessão, nada', () async {
+      final c = abrir();
+      await estado(c);
+      ctl(c).tick();
+      await ctl(c).start(_bras);
+      final antes = c.read(paperTimerProvider).value;
+      final gravacoes = store.gravacoes;
+      agora = _t0.add(const Duration(minutes: 1));
+      ctl(c).tick();
+      expect(identical(c.read(paperTimerProvider).value, antes), isTrue);
+      await ctl(c).pause();
+      final pausada = c.read(paperTimerProvider).value;
+      ctl(c).tick();
+      await pumpEventQueue();
+      expect(identical(c.read(paperTimerProvider).value, pausada), isTrue);
+      expect(store.gravacoes, gravacoes + 1, reason: 'só a pausa gravou');
+    });
+
+    test('o app sai da frente: a marca vai ao kv — o relógio que volta com o app fechado não desconta', () async {
+      final c = abrir();
+      await estado(c);
+      await ctl(c).start(_bras);
+      agora = _t0.add(const Duration(seconds: 60));
+      ctl(c).appHidden();
+      await pumpEventQueue();
+      expect(store.sessoes[donoDaSessao]!.seenAt, agora);
+      // o app reabre com o relógio 30 s para trás
+      agora = _t0.add(const Duration(seconds: 30));
+      final outro = abrir();
+      final s = (await estado(outro)).session!;
+      expect(s.elapsedAt(agora), 60);
+      expect(s.runningSince, agora);
+      // pausada, sair da frente não grava nada
+      await ctl(outro).pause();
+      final gravacoes = store.gravacoes;
+      ctl(outro).appHidden();
+      await pumpEventQueue();
+      expect(store.gravacoes, gravacoes);
+    });
+  });
+
+  group('retomar noutro dia — a fiação', () {
+    test('o dia é o local (o fuso do provedor): pausa às 20:05 e volta às 22:30 do mesmo dia em São Paulo — o dia UTC '
+        'mudou, mas nada divide', () async {
+      final c = abrir();
+      await estado(c);
+      agora = DateTime.utc(2026, 9, 20, 23); // 20:00 em São Paulo
+      await ctl(c).start(_bras);
+      agora = DateTime.utc(2026, 9, 20, 23, 5); // 20:05
+      await ctl(c).pause();
+      agora = DateTime.utc(
+        2026,
+        9,
+        21,
+        1,
+        30,
+      ); // 22:30 do mesmo dia local; 21/09 em UTC
+      await ctl(c).resume();
+      expect(writer.divisoes, isEmpty);
+      final s = (await estado(c)).session!;
+      expect(s.id, '01925a00-0000-7000-8000-000000000001');
+      expect(s.activeSeconds, 300);
+      expect(s.isRunning, isTrue);
+    });
+
+    test('noutro dia com o livro apagado: a sessão sai e nada roda', () async {
+      final c = abrir();
+      await estado(c);
+      await ctl(c).start(_bras);
+      agora = _t0.add(const Duration(minutes: 5));
+      await ctl(c).pause();
+      agora = DateTime.utc(2026, 9, 21, 12);
+      writer.falha = livroSumiu;
+      await ctl(c).resume();
+      expect((await estado(c)).session, isNull);
+      expect(store.sessoes, isEmpty);
+    });
+
+    test('noutro dia com outra falha: ela volta e a sessão continua pausada como estava', () async {
+      final c = abrir();
+      await estado(c);
+      await ctl(c).start(_bras);
+      agora = _t0.add(const Duration(minutes: 5));
+      await ctl(c).pause();
+      final pausada = (await estado(c)).session;
+      agora = DateTime.utc(2026, 9, 21, 12);
+      writer.falha = StateError('banco fora do ar');
+      await expectLater(ctl(c).resume(), throwsStateError);
+      expect((await estado(c)).session, pausada);
+      expect(store.sessoes[donoDaSessao], pausada);
+    });
   });
 
   test('as mudanças ficam em ordem mesmo com toques seguidos (cada uma vê a anterior)', () async {

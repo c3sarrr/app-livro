@@ -1,8 +1,10 @@
 // T04 — a mini-barra do cronômetro do livro de papel (prancha 01b, L01b.2–3; D-256, D-257, R1, R5, R9, R10, R12): o
 // `<a>` 358 × 66 tinta acima da barra, com a barrinha da meta do dia, a capa girada, "LENDO · PAPEL", o título, o tempo
 // e o botão de pausar. Só existe com uma sessão aberta (o shell a põe entre o degradê e a barra — D-259). O tempo sai
-// do relógio de parede a cada tique de 1 s; o tique só corre com a sessão rodando e o app à vista, e cada tique refaz
-// só o tempo, o rótulo e a barrinha (o resto são as mesmas instâncias de widget).
+// do relógio de parede a cada tique de 1 s; o tique só corre com a sessão rodando, o app à vista e o shell por cima, e
+// refaz só o widget do tique (de onde saem o tempo, o rótulo e a barrinha): a Início, o cartão, a capa, os textos e o
+// botão não são refeitos (a capa, os textos e o botão são as mesmas instâncias de widget). O tique também acerta a
+// sessão (R2: as 24 h e o relógio que volta) e, quando o app sai da frente, a marca do relógio vai ao `kv`.
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -75,9 +77,12 @@ class SessionMiniBar extends ConsumerWidget {
           ? PaperTimerFormat.pauseButton
           : PaperTimerFormat.resumeButton,
     );
+    final timerNotifier = ref.read(paperTimerProvider.notifier);
     return SecondTicking(
       running: running,
       ticker: ref.watch(secondTickerProvider),
+      onTick: timerNotifier.tick,
+      onHidden: timerNotifier.appHidden,
       builder: (context) {
         final now = clock().toUtc();
         final seconds = session.elapsedAt(now);

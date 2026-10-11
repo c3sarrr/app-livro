@@ -14,7 +14,7 @@ import '../../../core/sync/ebook_cloud.dart' show EbookCloud;
 import '../../../core/sync/local_merge.dart';
 import '../../reader/annotations/ink/ink_changes.dart' show draftKey;
 import '../../reading_session/data/paper_timer_store.dart'
-    show adoptPaperTimer, paperTimerKey;
+    show adoptPaperTimer, paperTimerClosedKey, paperTimerKey;
 
 /// Chaves no `kv` (só local).
 abstract final class OwnerKeys {
@@ -72,14 +72,19 @@ final class LocalLibrary {
     UuidV7Generator? ids,
     FileRemover? removeFile,
     this._fileCovers,
+    DateTime Function()? now,
   }) : _kv = KvDao(_db),
        _ids = ids ?? UuidV7Generator(),
-       _remove = removeFile ?? _removeFile;
+       _remove = removeFile ?? _removeFile,
+       _now = now ?? DateTime.now;
 
   final AppDatabase _db;
   final KvDao _kv;
   final UuidV7Generator _ids;
   final FileRemover _remove;
+
+  /// O relógio da adoção: a sessão do cronômetro que perde pausa no instante da troca (D-265).
+  final DateTime Function() _now;
 
   /// Pasta das capas que vieram nos arquivos (G09, D-90): somem com o último livro que usa o arquivo.
   final Future<Directory> Function()? _fileCovers;
@@ -185,8 +190,8 @@ final class LocalLibrary {
     }
     // os outros rascunhos da tinta do convidado passam para a conta
     await _renameDrafts(draftKey(from, ''), draftKey(to, ''));
-    // a sessão aberta do cronômetro do papel também (T04, R8)
-    await adoptPaperTimer(_db, from: from, to: to);
+    // a sessão aberta do cronômetro do papel também (T04, R8; com as duas, a que perde espera para ser gravada — D-265)
+    await adoptPaperTimer(_db, from: from, to: to, now: _now().toUtc());
     for (final t in singletonTables) {
       final rows = await _db
           .customSelect(
@@ -334,9 +339,10 @@ final class LocalLibrary {
       drafts.length,
       drafts,
     ]);
-    // a sessão aberta do cronômetro do papel (T04, R8): `paper_timer:<dono>`
-    await _db.customStatement('DELETE FROM kv WHERE key = ?', [
+    // a sessão aberta do cronômetro do papel (T04, R8) e as que esperam para ser gravadas (D-265)
+    await _db.customStatement('DELETE FROM kv WHERE key IN (?, ?)', [
       paperTimerKey(owner),
+      paperTimerClosedKey(owner),
     ]);
     for (final t in _tables) {
       n += await _db.customUpdate(

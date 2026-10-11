@@ -78,55 +78,109 @@ void main() {
     expect(relatados.first.toString(), isNot(contains(_livro)));
   });
 
-  group('adoção (entrar numa conta) e o "apagar deste aparelho"', () {
-    test('a sessão do convidado passa para a conta', () async {
+  group('adoção (entrar numa conta) e a espera da D-265', () {
+    final troca = _t0.add(const Duration(hours: 2));
+
+    Future<void> adotar() => db.transaction(
+      () => adoptPaperTimer(db, from: _outro, to: _dono, now: troca),
+    );
+
+    test('a sessão do convidado passa para a conta (sem espera)', () async {
       final s = _sessao();
       await store.save(_outro, s);
-      await db.transaction(() => adoptPaperTimer(db, from: _outro, to: _dono));
+      await adotar();
       expect(await store.load(_dono), s);
       expect(await KvDao(db).get(paperTimerKey(_outro)), isNull);
+      expect(await store.closed(_dono), isEmpty);
+      expect(await KvDao(db).get(paperTimerClosedKey(_dono)), isNull);
     });
 
-    test('com as duas, fica a que começou por último', () async {
+    test('D-265 com as duas, fica aberta a que começou por último e a outra espera, pausada no instante da troca', () async {
       final velha = _sessao(inicio: _t0);
       final nova = _sessao(
         id: '01925a00-0000-7000-8000-000000000002',
         inicio: _t0.add(const Duration(hours: 1)),
       );
+      // a do convidado é a mais nova: passa; a da conta (rodando há 2 h) vai para a espera
       await store.save(_outro, nova);
       await store.save(_dono, velha);
-      await adoptPaperTimer(db, from: _outro, to: _dono);
+      await adotar();
       expect(await store.load(_dono), nova);
       expect(await KvDao(db).get(paperTimerKey(_outro)), isNull);
+      expect(await store.closed(_dono), [velha.pause(troca)]);
+      expect((await store.closed(_dono)).single.activeSeconds, 7200);
 
-      await store.save(_outro, velha);
-      await adoptPaperTimer(db, from: _outro, to: _dono);
+      // a do convidado é a mais velha: a da conta fica e a do convidado (pausada antes) espera como estava
+      await store.clearClosed(_dono);
+      final pausada = velha.pause(
+        _t0.add(const Duration(minutes: 8, seconds: 42)),
+      );
+      await store.save(_outro, pausada);
+      await adotar();
       expect(await store.load(_dono), nova, reason: 'a da conta é mais nova');
       expect(await KvDao(db).get(paperTimerKey(_outro)), isNull);
+      expect(await store.closed(_dono), [pausada]);
     });
 
-    test(
-      'a do convidado ilegível sai; a da conta ilegível perde para a legível',
-      () async {
-        final s = _sessao();
-        await KvDao(db).set(paperTimerKey(_outro), 'lixo');
-        await store.save(_dono, s);
-        await adoptPaperTimer(db, from: _outro, to: _dono);
-        expect(await store.load(_dono), s);
-        expect(await KvDao(db).get(paperTimerKey(_outro)), isNull);
+    test('as que já esperavam (na conta e no convidado) continuam esperando, na conta', () async {
+      final a = _sessao().pause(_t0.add(const Duration(minutes: 1)));
+      final b = _sessao(id: '01925a00-0000-7000-8000-000000000002')
+          .pause(_t0.add(const Duration(minutes: 2)));
+      await KvDao(db).set(paperTimerClosedKey(_dono), jsonEncode([a.toJson()]));
+      await KvDao(db)
+          .set(paperTimerClosedKey(_outro), jsonEncode([b.toJson()]));
+      await adotar();
+      expect(await store.closed(_dono), [a, b]);
+      expect(await KvDao(db).get(paperTimerClosedKey(_outro)), isNull);
+    });
 
-        await KvDao(db).set(paperTimerKey(_dono), 'lixo');
-        await store.save(_outro, s);
-        await adoptPaperTimer(db, from: _outro, to: _dono);
-        expect(await store.load(_dono), s);
-      },
-    );
+    test('a do convidado ilegível sai; a da conta ilegível perde para a legível (e não espera)', () async {
+      final s = _sessao();
+      await KvDao(db).set(paperTimerKey(_outro), 'lixo');
+      await store.save(_dono, s);
+      await adotar();
+      expect(await store.load(_dono), s);
+      expect(await KvDao(db).get(paperTimerKey(_outro)), isNull);
+
+      await KvDao(db).set(paperTimerKey(_dono), 'lixo');
+      await store.save(_outro, s);
+      await adotar();
+      expect(await store.load(_dono), s);
+      expect(await store.closed(_dono), isEmpty);
+    });
 
     test('sem sessão do convidado: nada muda', () async {
       final s = _sessao();
       await store.save(_dono, s);
-      await adoptPaperTimer(db, from: _outro, to: _dono);
+      await adotar();
       expect(await store.load(_dono), s);
+      expect(await store.closed(_dono), isEmpty);
+    });
+
+    test('a espera ilegível: as legíveis ficam, as outras saem e a falha é relatada; limpar esvazia', () async {
+      final a = _sessao().pause(_t0.add(const Duration(minutes: 1)));
+      await KvDao(db).set(
+        paperTimerClosedKey(_dono),
+        jsonEncode([
+          a.toJson(),
+          {'v': 9},
+        ]),
+      );
+      expect(await store.closed(_dono), [a]);
+      expect(relatados.single, isA<PaperTimerUnreadable>());
+      expect(jsonDecode((await KvDao(db).get(paperTimerClosedKey(_dono)))!), [
+        a.toJson(),
+      ]);
+      await KvDao(db).set(paperTimerClosedKey(_dono), 'não é json');
+      expect(await store.closed(_dono), isEmpty);
+      expect(await KvDao(db).get(paperTimerClosedKey(_dono)), isNull);
+      await KvDao(db).set(paperTimerClosedKey(_dono), '{}');
+      expect(await store.closed(_dono), isEmpty);
+      expect(relatados, hasLength(3));
+      await KvDao(db).set(paperTimerClosedKey(_dono), jsonEncode([a.toJson()]));
+      await store.clearClosed(_dono);
+      expect(await store.closed(_dono), isEmpty);
+      expect(paperTimerClosedKey(_dono), 'paper_timer_closed:$_dono');
     });
   });
 }

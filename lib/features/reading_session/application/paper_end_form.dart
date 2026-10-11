@@ -1,6 +1,7 @@
 // T04 — D-256/D-260: o que a folha da sessão manda gravar ao encerrar, a partir da página e do total digitados (só
 // dígitos; os dois opcionais). Uma página pede o total (o do livro ou o digitado) e cabe em 1…N; sem página, o total
-// digitado ainda vai para o livro. O que não passa volta como o aviso da folha, e nada é encerrado.
+// digitado ainda vai para o livro junto com a sessão — menos de 10 s sem página é descartar e nada é gravado, nem o
+// total (R3). O que não passa volta como o aviso da folha, e nada é encerrado.
 import 'package:flutter/foundation.dart' show immutable;
 
 import 'paper_timer_format.dart';

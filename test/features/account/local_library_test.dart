@@ -277,6 +277,28 @@ void main() {
       expect(await KvDao(db).get(paperTimerKey(g)), isNull);
     });
 
+    test('D-265 — com as duas sessões abertas, fica a mais nova e a outra espera, pausada no instante da troca (o '
+        'relógio da biblioteca)', () async {
+      final troca = t0Teste.add(const Duration(hours: 3));
+      final l = LocalLibrary(db, now: () => troca.toLocal());
+      final g = await l.guestOwnerId();
+      final daConta = OpenPaperSession.start(
+        id: idTeste(90),
+        userBookId: idTeste(3),
+        now: t0Teste,
+      );
+      final doConvidado = OpenPaperSession.start(
+        id: idTeste(91),
+        userBookId: idTeste(4),
+        now: t0Teste.add(const Duration(hours: 1)),
+      );
+      await KvPaperTimerStore(db).save(conta, daConta);
+      await KvPaperTimerStore(db).save(g, doConvidado);
+      await l.adopt(from: g, to: conta);
+      expect(await KvPaperTimerStore(db).load(conta), doConvidado);
+      expect(await KvPaperTimerStore(db).closed(conta), [daConta.pause(troca)]);
+    });
+
     test('rótulo da mesma cor: fica o da conta; de outra cor: passa', () async {
       final g = await lib.guestOwnerId();
       await rotulo(91, conta, '#FED170', 'da conta');
@@ -421,9 +443,20 @@ void main() {
       );
       await KvPaperTimerStore(db).save(conta, s);
       await KvPaperTimerStore(db).save(g, s);
+      final espera = jsonEncode([
+        s.pause(t0Teste.add(const Duration(minutes: 1))).toJson(),
+      ]);
+      await KvDao(db).set(paperTimerClosedKey(conta), espera);
+      await KvDao(db).set(paperTimerClosedKey(g), espera);
       await lib.erase(conta);
       expect(await KvDao(db).get(paperTimerKey(conta)), isNull);
+      expect(
+        await KvDao(db).get(paperTimerClosedKey(conta)),
+        isNull,
+        reason: 'a espera da D-265 também',
+      );
       expect(await KvPaperTimerStore(db).load(g), s);
+      expect(await KvDao(db).get(paperTimerClosedKey(g)), espera);
     });
 
     test('apaga só o dono: linhas, índice de busca, caches dos livros e os arquivos', () async {

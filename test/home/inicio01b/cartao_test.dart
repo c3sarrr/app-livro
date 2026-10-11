@@ -82,6 +82,12 @@ final class _LojaQuebrada implements PaperTimerStore {
 
   @override
   Future<void> clear(String owner) async {}
+
+  @override
+  Future<List<OpenPaperSession>> closed(String owner) async => const [];
+
+  @override
+  Future<void> clearClosed(String owner) async {}
 }
 
 T _w<T extends Widget>(WidgetTester tester, String id) =>

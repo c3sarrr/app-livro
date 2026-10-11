@@ -90,12 +90,38 @@ OpenPaperSession _rodando(String livro, Duration ha) => OpenPaperSession.start(
   now: _t0.subtract(ha),
 );
 
+/// O `TickerMode` dos testes, ligado ao [_AVista] mais acima.
+class _TickerModeDoTeste extends StatelessWidget {
+  const _TickerModeDoTeste({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => TickerMode(
+    enabled: context
+        .dependOnInheritedWidgetOfExactType<_AVista>()!
+        .notifier!
+        .value,
+    child: child,
+  );
+}
+
+class _AVista extends InheritedNotifier<ValueNotifier<bool>> {
+  const _AVista({
+    required ValueNotifier<bool> super.notifier,
+    required super.child,
+  });
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
   late DateTime agora;
   late ManualTicker tique;
   late MemoryPaperTimerStore loja;
+
+  /// O `TickerMode` acima da mini-barra (uma tela empilhada opaca por cima o desliga).
+  late ValueNotifier<bool> aVista;
 
   Future<void> abrir(
     WidgetTester tester, {
@@ -109,6 +135,8 @@ void main() {
     agora = relogio ?? _t0;
     tique = ManualTicker();
     loja = MemoryPaperTimerStore({donoDaSessao: ?sessao});
+    aVista = ValueNotifier(true);
+    addTearDown(aVista.dispose);
     tester.view.physicalSize = const Size(390 * 3, 200 * 3);
     tester.view.devicePixelRatio = 3;
     addTearDown(tester.view.reset);
@@ -117,31 +145,36 @@ void main() {
       'assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg',
     ]);
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          clockProvider.overrideWithValue(() => agora),
-          homeRepositoryProvider.overrideWithValue(
-            inicio ?? const HomeMockRepository01b(),
-          ),
-          brandDoMundo,
-          ...overridesDaSessao(
-            store: loja,
-            livros: FixedPaperBookSource({
-              for (final l in livros) l.book.id: l,
-            }),
-            ticker: tique,
-          ),
-        ],
-        child: const Directionality(
-          textDirection: TextDirection.ltr,
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
-              child: SizedBox(
-                width: 358,
-                height: SessionMiniBar.height,
-                child: SessionMiniBar(),
+      _AVista(
+        notifier: aVista,
+        child: ProviderScope(
+          overrides: [
+            clockProvider.overrideWithValue(() => agora),
+            homeRepositoryProvider.overrideWithValue(
+              inicio ?? const HomeMockRepository01b(),
+            ),
+            brandDoMundo,
+            ...overridesDaSessao(
+              store: loja,
+              livros: FixedPaperBookSource({
+                for (final l in livros) l.book.id: l,
+              }),
+              ticker: tique,
+            ),
+          ],
+          child: const Directionality(
+            textDirection: TextDirection.ltr,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                child: _TickerModeDoTeste(
+                  child: SizedBox(
+                    width: 358,
+                    height: SessionMiniBar.height,
+                    child: SessionMiniBar(),
+                  ),
+                ),
               ),
             ),
           ),
@@ -280,6 +313,104 @@ void main() {
       await tester.pump();
       expect(tique.hasListener, isTrue);
       expect(texto(tester, 'miniBar.time'), '18:42');
+    },
+  );
+
+  testWidgets('sob uma tela empilhada opaca (o TickerMode desligado) o tique solta; ao voltar, o tempo é refeito pela '
+      'parede', (tester) async {
+    await abrir(
+      tester,
+      sessao: _rodando(_bras.book.id, TelaInicio01b.tempoDaSessao),
+    );
+    expect(tique.hasListener, isTrue);
+    aVista.value = false;
+    await tester.pump();
+    expect(tique.hasListener, isFalse);
+    agora = agora.add(const Duration(minutes: 10));
+    aVista.value = true;
+    await tester.pump();
+    expect(tique.hasListener, isTrue);
+    expect(texto(tester, 'miniBar.time'), '18:42');
+  });
+
+  testWidgets(
+    'R2 nas 24 h com o app aberto: o tique pausa a sessão — "EM PAUSA · PAPEL", "24:00:00", o play tinta e '
+    'o tique solto; o kv guarda a pausada no instante do limite',
+    (tester) async {
+      await abrir(
+        tester,
+        sessao: OpenPaperSession(
+          id: '01925a00-0000-7000-8000-0000000000aa',
+          userBookId: _bras.book.id,
+          startedAt: _t0.subtract(const Duration(days: 1)),
+          activeSeconds: 86390,
+          runningSince: _t0,
+        ),
+      );
+      expect(texto(tester, 'miniBar.time'), '23:59:50');
+      await segundos(tester, 15);
+      await tester.pump();
+      expect(texto(tester, 'miniBar.time'), '24:00:00');
+      expect(
+        tester
+            .widget<AppText>(
+              find.descendant(
+                of: find.byKey(const ValueKey('miniBar.kicker')),
+                matching: find.byType(AppText),
+              ),
+            )
+            .span
+            .toPlainText(),
+        'EM PAUSA · PAPEL',
+      );
+      expect(
+        tester
+            .widget<AppSvg>(find.byKey(const ValueKey('miniBar.pause.icon')))
+            .asset,
+        AppIconsInicio.playInk,
+      );
+      expect(tique.hasListener, isFalse);
+      await tester.pumpAndSettle();
+      final guardada = loja.sessoes[donoDaSessao]!;
+      expect(guardada.isRunning, isFalse);
+      expect(guardada.pausedAt, _t0.add(const Duration(seconds: 10)));
+    },
+  );
+
+  testWidgets(
+    'R2 o relógio que volta 31 s com o app aberto: o tempo na tela não volta e segue dali',
+    (tester) async {
+      await abrir(
+        tester,
+        sessao: _rodando(_bras.book.id, TelaInicio01b.tempoDaSessao),
+      );
+      await segundos(tester, 1);
+      expect(texto(tester, 'miniBar.time'), '08:43');
+      await segundos(tester, -31);
+      await tester.pump();
+      expect(texto(tester, 'miniBar.time'), '08:43');
+      await segundos(tester, 5);
+      expect(texto(tester, 'miniBar.time'), '08:48');
+      await tester.pumpAndSettle();
+      expect(loja.sessoes[donoDaSessao]!.activeSeconds, 523);
+    },
+  );
+
+  testWidgets(
+    'R2 o app sai da frente: a marca do relógio vai ao kv com a sessão',
+    (tester) async {
+      await abrir(
+        tester,
+        sessao: _rodando(_bras.book.id, TelaInicio01b.tempoDaSessao),
+      );
+      agora = agora.add(const Duration(seconds: 20));
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+      await tester.pumpAndSettle();
+      expect(loja.sessoes[donoDaSessao]!.seenAt, agora);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+      await tester.pump();
     },
   );
 

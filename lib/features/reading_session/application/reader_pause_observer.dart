@@ -1,7 +1,8 @@
 // T04 — D-263: abrir o leitor (qualquer livro, por qualquer caminho) pausa a sessão do papel que estiver rodando — o
 // e-book conta sozinho, e o tempo não conta em dobro. Fica nas rotas (o `createRouter` registra), não no leitor: o
-// leitor não conhece o cronômetro. Só age se o cronômetro já existe e roda (o shell sempre o assiste no app); nunca o
-// cria nem o carrega.
+// leitor não conhece o cronômetro. Só age se o cronômetro já existe (o shell sempre o assiste no app) — nunca o cria
+// nem o carrega — e a pausa entra na fila dele: a sessão que ainda carrega do `kv` (o leitor aberto na partida) ou que
+// um toque acabou de retomar também pausa (sem a sessão rodando, a pausa não faz nada).
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
@@ -29,9 +30,6 @@ class ReaderPausesPaperTimer extends NavigatorObserver {
     if (context == null) return;
     final container = ProviderScope.containerOf(context, listen: false);
     if (!container.exists(paperTimerProvider)) return;
-    final running =
-        container.read(paperTimerProvider).value?.session?.isRunning ?? false;
-    if (!running) return;
     unawaited(
       container
           .read(paperTimerProvider.notifier)

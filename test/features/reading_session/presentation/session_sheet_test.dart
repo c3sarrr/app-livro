@@ -2,6 +2,8 @@
 // página (só dígitos) e o total (pedido só sem o do livro, já com as páginas do catálogo), os avisos que impedem o
 // encerramento, encerrar (o writer grava e a folha fecha), descartar (com confirmação), fechar, o play de outro livro
 // (encerrar ou descartar começa o dele; fechar, nada), a semântica e o teclado.
+import 'dart:async';
+
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/reading_session/application/paper_timer_controller.dart';
@@ -36,12 +38,28 @@ const PaperBook _semTotal = PaperBook(
 
 Finder _k(String key) => find.byKey(ValueKey(key));
 
+/// A estante com o catálogo do aparelho ilegível (o `catalog.db` trocando de versão).
+final class _CatalogoQuebrado implements PaperBookSource {
+  _CatalogoQuebrado(this.estante);
+
+  final PaperBookSource estante;
+
+  @override
+  Future<PaperBook?> book(String owner, String userBookId) =>
+      estante.book(owner, userBookId);
+
+  @override
+  Future<int?> catalogPages(String isbn13) async =>
+      throw StateError('catalog.db ilegível');
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
   late DateTime agora;
   late ManualTicker tique;
   late MemoryPaperTimerStore loja;
+  late LojaQueFalha banco;
   late RecordingPaperSessionWriter writer;
   late FixedPaperBookSource estante;
 
@@ -49,12 +67,14 @@ void main() {
     WidgetTester tester, {
     OpenPaperSession? sessao,
     Book? pendente,
+    bool catalogoQuebrado = false,
   }) async {
     agora = TelaInicio01b.agora;
     tique = ManualTicker();
     loja = MemoryPaperTimerStore({
       donoDaSessao: sessao ?? TelaInicio01b.sessao,
     });
+    banco = LojaQueFalha(loja);
     writer = RecordingPaperSessionWriter();
     estante = FixedPaperBookSource(
       {...estanteDePapel01().livros, _semTotal.book.id: _semTotal},
@@ -68,9 +88,9 @@ void main() {
       repositorio: const HomeMockRepository01b(),
       relogio: clockProvider.overrideWithValue(() => agora),
       cronometro: overridesDaSessao(
-        store: loja,
+        store: banco,
         writer: writer,
-        livros: estante,
+        livros: catalogoQuebrado ? _CatalogoQuebrado(estante) : estante,
         ticker: tique,
       ),
     );
@@ -354,5 +374,169 @@ void main() {
     await c.read(paperTimerProvider.notifier).discard();
     await tester.pumpAndSettle();
     expect(_k('session.sheet'), findsNothing);
+  });
+
+  testWidgets(
+    'com outra rota por cima, a folha que fecha tira só ela (a de cima fica)',
+    (tester) async {
+      await abrir(tester);
+      final nav = Navigator.of(
+        tester.element(_k('session.sheet')),
+        rootNavigator: true,
+      );
+      unawaited(
+        nav.push<void>(
+          PageRouteBuilder<void>(
+            pageBuilder: (_, _, _) => const SizedBox(key: ValueKey('por.cima')),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      final c = ProviderScope.containerOf(
+        tester.element(find.byType(MainShell, skipOffstage: false)),
+      );
+      await c.read(paperTimerProvider.notifier).discard();
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('por.cima')), findsOneWidget);
+      expect(_k('session.sheet'), findsNothing);
+      nav.pop();
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('por.cima')), findsNothing);
+      expect(find.byType(MainShell), findsOneWidget);
+    },
+  );
+
+  group('D-266 as falhas na folha', () {
+    testWidgets(
+      'encerrar falha (o banco fora do ar): "Não deu para encerrar a sessão. Tente de novo.", a folha continua '
+      'com os botões e a sessão aberta; tentar de novo encerra',
+      (tester) async {
+        await abrir(tester);
+        writer.falha = StateError('banco fora do ar');
+        await tocar(tester, 'session.sheet.end');
+        expect(tester.takeException(), isA<StateError>());
+        expect(_k('session.sheet'), findsOneWidget);
+        expect(
+          findAppText('Não deu para encerrar a sessão. Tente de novo.'),
+          findsOneWidget,
+        );
+        expect(aberta(), TelaInicio01b.sessao);
+        expect(writer.fins, isEmpty);
+        await tocar(tester, 'session.sheet.end');
+        expect(writer.fins, hasLength(1));
+        expect(_k('session.sheet'), findsNothing);
+        expect(aberta(), isNull);
+      },
+    );
+
+    testWidgets(
+      'encerrar com o livro fora da estante: a sessão sai com ele e a folha fecha, sem aviso nem relato',
+      (tester) async {
+        await abrir(tester);
+        writer.falha = livroSumiu;
+        await tocar(tester, 'session.sheet.end');
+        expect(_k('session.sheet'), findsNothing);
+        expect(aberta(), isNull);
+      },
+    );
+
+    testWidgets('descartar falha: volta da confirmação para a folha com "Não deu para descartar a sessão. Tente de '
+        'novo." e a sessão aberta', (tester) async {
+      await abrir(tester);
+      await tocar(tester, 'session.sheet.discard');
+      banco.falharAoLimpar = true;
+      await tocar(tester, 'session.sheet.confirmDiscard');
+      expect(tester.takeException(), isA<StateError>());
+      expect(_k('session.sheet.confirm'), findsNothing);
+      expect(
+        findAppText('Não deu para descartar a sessão. Tente de novo.'),
+        findsOneWidget,
+      );
+      expect(aberta(), TelaInicio01b.sessao);
+    });
+
+    testWidgets('pausar e retomar falham: "Não deu para pausar a sessão. Tente de novo." / "… retomar …"; o aviso sai '
+        'quando dá certo', (tester) async {
+      await abrir(tester);
+      banco.falharAoGravar = true;
+      await tocar(tester, 'session.sheet.toggle');
+      expect(tester.takeException(), isA<StateError>());
+      expect(
+        findAppText('Não deu para pausar a sessão. Tente de novo.'),
+        findsOneWidget,
+      );
+      expect(aberta()!.isRunning, isTrue);
+      banco.falharAoGravar = false;
+      await tocar(tester, 'session.sheet.toggle');
+      expect(_k('session.sheet.notice'), findsNothing);
+      expect(aberta()!.isRunning, isFalse);
+      banco.falharAoGravar = true;
+      await tocar(tester, 'session.sheet.toggle');
+      expect(tester.takeException(), isA<StateError>());
+      expect(
+        findAppText('Não deu para retomar a sessão. Tente de novo.'),
+        findsOneWidget,
+      );
+      expect(aberta()!.isRunning, isFalse);
+    });
+
+    testWidgets(
+      'D-262 o livro à espera que saiu da estante: encerrar fecha a folha e nada começa (sem relato)',
+      (tester) async {
+        await abrir(
+          tester,
+          pendente: const Book(
+            id: 'saiu-da-estante',
+            title: 'O Cortiço',
+            author: 'Aluísio Azevedo',
+            cover: PhotoCover(),
+          ),
+        );
+        await tocar(tester, 'session.sheet.end');
+        expect(writer.fins, hasLength(1));
+        expect(_k('session.sheet'), findsNothing);
+        expect(aberta(), isNull);
+      },
+    );
+
+    testWidgets('D-262 o livro à espera não começa por outra falha: vai ao relatório e a folha fecha (a sessão já foi '
+        'encerrada)', (tester) async {
+      await abrir(tester, pendente: TelaInicio01.orgulho);
+      banco.falharAoGravar = true;
+      await tocar(tester, 'session.sheet.end');
+      expect(tester.takeException(), isA<StateError>());
+      expect(writer.fins, hasLength(1));
+      expect(_k('session.sheet'), findsNothing);
+      expect(aberta(), isNull);
+    });
+
+    testWidgets(
+      'o catálogo do aparelho ilegível: vai ao relatório e o total fica vazio para digitar',
+      (tester) async {
+        await abrir(
+          tester,
+          catalogoQuebrado: true,
+          sessao: OpenPaperSession.start(
+            id: '01925a00-0000-7000-8000-0000000000c1',
+            userBookId: _semTotal.book.id,
+            now: TelaInicio01b.agora.subtract(const Duration(minutes: 20)),
+          ),
+        );
+        expect(tester.takeException(), isA<StateError>());
+        expect(_k('session.sheet.total'), findsOneWidget);
+        expect(
+          tester
+              .widget<EditableText>(
+                find.descendant(
+                  of: _k('session.sheet.total'),
+                  matching: find.byType(EditableText),
+                ),
+              )
+              .controller
+              .text,
+          isEmpty,
+        );
+      },
+    );
   });
 }
