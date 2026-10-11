@@ -1,0 +1,1787 @@
+{
+ "fonte": "docs/design/projeto/telas/MapaNavegacao.dc.html",
+ "secoes": [
+  "Entrar e começar",
+  "Início",
+  "Biblioteca e leitura",
+  "Scanner",
+  "Clubes",
+  "Perfil",
+  "Pessoas",
+  "Ajustes e conta",
+  "Plano Pro",
+  "Quem vê",
+  "Estados gerais"
+ ],
+ "cartoes": [
+  {
+   "numero": "35",
+   "titulo": "Abertura",
+   "faltando": false,
+   "x": 42.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "07",
+   "titulo": "Login",
+   "faltando": false,
+   "x": 42.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "08",
+   "titulo": "Cadastro por e-mail",
+   "faltando": false,
+   "x": 42.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "09",
+   "titulo": "Entrar com e-mail",
+   "faltando": false,
+   "x": 42.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "09b",
+   "titulo": "Senha incorreta",
+   "faltando": false,
+   "x": 42.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "10",
+   "titulo": "Código de 6 dígitos",
+   "faltando": false,
+   "x": 42.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "11",
+   "titulo": "Nova senha",
+   "faltando": false,
+   "x": 42.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "12",
+   "titulo": "Onboarding · meta",
+   "faltando": false,
+   "x": 42.0,
+   "y": 474.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "13",
+   "titulo": "Onboarding · gêneros",
+   "faltando": false,
+   "x": 42.0,
+   "y": 518.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "13b",
+   "titulo": "Dica do scanner",
+   "faltando": false,
+   "x": 42.0,
+   "y": 562.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "14",
+   "titulo": "Onboarding · primeiros livros",
+   "faltando": false,
+   "x": 42.0,
+   "y": 606.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "15",
+   "titulo": "Onboarding · foto e @",
+   "faltando": false,
+   "x": 42.0,
+   "y": 650.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "16",
+   "titulo": "Carteirinha pronta",
+   "faltando": false,
+   "x": 42.0,
+   "y": 694.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "36a",
+   "titulo": "Início · 1º acesso",
+   "faltando": false,
+   "x": 42.0,
+   "y": 738.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Entrar e começar"
+  },
+  {
+   "numero": "01",
+   "titulo": "Início",
+   "faltando": false,
+   "x": 278.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "01b",
+   "titulo": "Início · lendo agora",
+   "faltando": false,
+   "x": 278.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "60",
+   "titulo": "Grifos de hoje",
+   "faltando": false,
+   "x": 278.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "61",
+   "titulo": "Revisão · grifo 2/5",
+   "faltando": false,
+   "x": 278.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "62",
+   "titulo": "Revisão · fim",
+   "faltando": false,
+   "x": 278.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "63",
+   "titulo": "Imagem para compartilhar",
+   "faltando": false,
+   "x": 278.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": null,
+   "titulo": "Revisão · escrever nota",
+   "faltando": true,
+   "x": 278.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "30",
+   "titulo": "Notificações",
+   "faltando": false,
+   "x": 278.0,
+   "y": 474.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "30c",
+   "titulo": "Notificações · em dia",
+   "faltando": false,
+   "x": 278.0,
+   "y": 518.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "28",
+   "titulo": "Busca · explorar",
+   "faltando": false,
+   "x": 278.0,
+   "y": 562.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "28b",
+   "titulo": "Busca · resultados",
+   "faltando": false,
+   "x": 278.0,
+   "y": 606.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "28c",
+   "titulo": "Busca · nada encontrado",
+   "faltando": false,
+   "x": 278.0,
+   "y": 650.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "28d",
+   "titulo": "Adicionar à mão",
+   "faltando": false,
+   "x": 278.0,
+   "y": 694.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Início"
+  },
+  {
+   "numero": "02",
+   "titulo": "Biblioteca",
+   "faltando": false,
+   "x": 514.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "36",
+   "titulo": "Biblioteca vazia",
+   "faltando": false,
+   "x": 514.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": null,
+   "titulo": "Coleções · ver todas",
+   "faltando": true,
+   "x": 514.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "17",
+   "titulo": "Detalhes · físico",
+   "faltando": false,
+   "x": 514.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "17b",
+   "titulo": "Detalhes · e-book",
+   "faltando": false,
+   "x": 514.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": null,
+   "titulo": "Trocar a capa (foto)",
+   "faltando": true,
+   "x": 514.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "18",
+   "titulo": "Cronômetro",
+   "faltando": false,
+   "x": 514.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "18b",
+   "titulo": "Fim da sessão",
+   "faltando": false,
+   "x": 514.0,
+   "y": 474.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "19",
+   "titulo": "Leitor · limpo",
+   "faltando": false,
+   "x": 514.0,
+   "y": 518.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "20",
+   "titulo": "Leitor · controles",
+   "faltando": false,
+   "x": 514.0,
+   "y": 562.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "21",
+   "titulo": "Seleção de texto",
+   "faltando": false,
+   "x": 514.0,
+   "y": 606.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "22",
+   "titulo": "Modo anotação",
+   "faltando": false,
+   "x": 514.0,
+   "y": 650.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "23",
+   "titulo": "Ajustes da caneta",
+   "faltando": false,
+   "x": 514.0,
+   "y": 694.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "23b",
+   "titulo": "Ajustes do marca-texto",
+   "faltando": false,
+   "x": 514.0,
+   "y": 738.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "24",
+   "titulo": "Abrindo espaço",
+   "faltando": false,
+   "x": 514.0,
+   "y": 782.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "24b",
+   "titulo": "Nota à mão",
+   "faltando": false,
+   "x": 514.0,
+   "y": 826.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "25",
+   "titulo": "Grifos e notas",
+   "faltando": false,
+   "x": 514.0,
+   "y": 870.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "26",
+   "titulo": "Ajustes (Aa)",
+   "faltando": false,
+   "x": 514.0,
+   "y": 914.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "26b",
+   "titulo": "Tema Noite",
+   "faltando": false,
+   "x": 514.0,
+   "y": 958.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "27",
+   "titulo": "Sumário",
+   "faltando": false,
+   "x": 514.0,
+   "y": 1002.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "27b",
+   "titulo": "Sumário · Marcadas",
+   "faltando": false,
+   "x": 514.0,
+   "y": 1046.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": null,
+   "titulo": "Busca dentro do livro",
+   "faltando": true,
+   "x": 514.0,
+   "y": 1090.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Biblioteca e leitura"
+  },
+  {
+   "numero": "39",
+   "titulo": "Mirando",
+   "faltando": false,
+   "x": 750.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "03",
+   "titulo": "Livro encontrado",
+   "faltando": false,
+   "x": 750.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "40",
+   "titulo": "Não encontrado",
+   "faltando": false,
+   "x": 750.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "42",
+   "titulo": "Já está na estante",
+   "faltando": false,
+   "x": 750.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "41",
+   "titulo": "Sem permissão",
+   "faltando": false,
+   "x": 750.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "69",
+   "titulo": "Digitar o ISBN",
+   "faltando": false,
+   "x": 750.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "69b",
+   "titulo": "Digitar · não confere",
+   "faltando": false,
+   "x": 750.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Scanner"
+  },
+  {
+   "numero": "04",
+   "titulo": "Clube",
+   "faltando": false,
+   "x": 986.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "31",
+   "titulo": "Discussão da semana",
+   "faltando": false,
+   "x": 986.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "32",
+   "titulo": "Membros",
+   "faltando": false,
+   "x": 986.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "70",
+   "titulo": "Encontro · detalhe",
+   "faltando": false,
+   "x": 986.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "71",
+   "titulo": "Encontro · na hora",
+   "faltando": false,
+   "x": 986.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "72",
+   "titulo": "Mudar presença",
+   "faltando": false,
+   "x": 986.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "73",
+   "titulo": "Depois do encontro",
+   "faltando": false,
+   "x": 986.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "33",
+   "titulo": "Criar clube",
+   "faltando": false,
+   "x": 986.0,
+   "y": 474.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "34",
+   "titulo": "Convite (link e QR)",
+   "faltando": false,
+   "x": 986.0,
+   "y": 518.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "47",
+   "titulo": "Enquete · criar",
+   "faltando": false,
+   "x": 986.0,
+   "y": 562.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "48",
+   "titulo": "Enquete · indicar",
+   "faltando": false,
+   "x": 986.0,
+   "y": 606.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "49",
+   "titulo": "Enquete · votar",
+   "faltando": false,
+   "x": 986.0,
+   "y": 650.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "50",
+   "titulo": "Enquete · resultado",
+   "faltando": false,
+   "x": 986.0,
+   "y": 694.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": null,
+   "titulo": "Enquete · deu empate",
+   "faltando": true,
+   "x": 986.0,
+   "y": 738.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "102",
+   "titulo": "Quem votou · aberta",
+   "faltando": false,
+   "x": 986.0,
+   "y": 782.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "103",
+   "titulo": "Quem votou · final",
+   "faltando": false,
+   "x": 986.0,
+   "y": 826.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "104",
+   "titulo": "Voto secreto",
+   "faltando": false,
+   "x": 986.0,
+   "y": 870.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "37",
+   "titulo": "Sem internet (clube)",
+   "faltando": false,
+   "x": 986.0,
+   "y": 914.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Clubes"
+  },
+  {
+   "numero": "05",
+   "titulo": "Perfil",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "29",
+   "titulo": "Estatísticas · semana",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "77",
+   "titulo": "Estatísticas · mês",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "78",
+   "titulo": "Estatísticas · ano",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "43",
+   "titulo": "Resenhas",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "46",
+   "titulo": "Escrever resenha",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "74",
+   "titulo": "Resenha aberta",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "75",
+   "titulo": "Responder comentário",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 474.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "76",
+   "titulo": "Quem curtiu",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 518.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "44",
+   "titulo": "Grifos (mural)",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 562.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "45",
+   "titulo": "Listas",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 606.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "66",
+   "titulo": "Lista aberta",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 650.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "67",
+   "titulo": "Lista · editar ordem",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 694.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "68",
+   "titulo": "Adicionar à lista",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 738.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "64",
+   "titulo": "Editar perfil",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 782.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "65",
+   "titulo": "Trocar um dos 4",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 826.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "79",
+   "titulo": "Conquistas · álbum",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 870.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "80",
+   "titulo": "Conquistas · quase lá",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 914.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "81",
+   "titulo": "Conquista · detalhe",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 958.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "82",
+   "titulo": "Figurinha nova",
+   "faltando": false,
+   "x": 1222.0,
+   "y": 1002.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": null,
+   "titulo": "Carteirinha aberta",
+   "faltando": true,
+   "x": 1222.0,
+   "y": 1046.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Perfil"
+  },
+  {
+   "numero": "89",
+   "titulo": "Seguidores",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 166.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "90",
+   "titulo": "Seguindo · A–Z",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 210.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "91",
+   "titulo": "Remover seguidora",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 254.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "51",
+   "titulo": "Júlia · em comum",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 298.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "54",
+   "titulo": "Os 21 em comum",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 342.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "52",
+   "titulo": "Júlia · grifos públicos",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 386.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "92",
+   "titulo": "Seguidores da Júlia",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 430.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "53",
+   "titulo": "Perfil fechado",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 474.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Pessoas"
+  },
+  {
+   "numero": "06",
+   "titulo": "Ajustes",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 606.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "30b",
+   "titulo": "Lembretes e avisos",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 650.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "56",
+   "titulo": "Privacidade",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 694.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "57",
+   "titulo": "Pedidos para seguir",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 738.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "98",
+   "titulo": "Bloqueadas",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 782.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "99",
+   "titulo": "Desbloquear",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 826.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "100",
+   "titulo": "Bloquear",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 870.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "101",
+   "titulo": "Clube · recolhida",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 914.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "58",
+   "titulo": "Conta",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 958.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": null,
+   "titulo": "Exportar meus dados",
+   "faltando": true,
+   "x": 1458.0,
+   "y": 1002.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": null,
+   "titulo": "Importar CSV",
+   "faltando": true,
+   "x": 1458.0,
+   "y": 1046.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "59",
+   "titulo": "Excluir conta",
+   "faltando": false,
+   "x": 1458.0,
+   "y": 1090.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": null,
+   "titulo": "Aparência e acessibilidade",
+   "faltando": true,
+   "x": 1458.0,
+   "y": 1134.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Ajustes e conta"
+  },
+  {
+   "numero": "83",
+   "titulo": "Planos · anual",
+   "faltando": false,
+   "x": 750.0,
+   "y": 566.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "84",
+   "titulo": "Planos · mensal",
+   "faltando": false,
+   "x": 750.0,
+   "y": 610.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "85",
+   "titulo": "Júlia · bloqueado",
+   "faltando": false,
+   "x": 750.0,
+   "y": 654.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "86",
+   "titulo": "Mês e ano · no Pro",
+   "faltando": false,
+   "x": 750.0,
+   "y": 698.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "87",
+   "titulo": "Bem-vinda ao Pro",
+   "faltando": false,
+   "x": 750.0,
+   "y": 742.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "88",
+   "titulo": "Gerenciar assinatura",
+   "faltando": false,
+   "x": 750.0,
+   "y": 786.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "105",
+   "titulo": "Convite · sessão",
+   "faltando": false,
+   "x": 750.0,
+   "y": 830.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "106",
+   "titulo": "Convite · 4º clube",
+   "faltando": false,
+   "x": 750.0,
+   "y": 874.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "107",
+   "titulo": "Convite · Início",
+   "faltando": false,
+   "x": 750.0,
+   "y": 918.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "108",
+   "titulo": "Convite · fim do mês",
+   "faltando": false,
+   "x": 750.0,
+   "y": 962.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "109",
+   "titulo": "Convite · livro lido",
+   "faltando": false,
+   "x": 750.0,
+   "y": 1006.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "110",
+   "titulo": "Convite · ao enviar",
+   "faltando": false,
+   "x": 750.0,
+   "y": 1050.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "111",
+   "titulo": "Celular novo",
+   "faltando": false,
+   "x": 750.0,
+   "y": 1094.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Plano Pro"
+  },
+  {
+   "numero": "93",
+   "titulo": "Público · resenhas",
+   "faltando": false,
+   "x": 986.0,
+   "y": 1046.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Quem vê"
+  },
+  {
+   "numero": "94",
+   "titulo": "E as antigas?",
+   "faltando": false,
+   "x": 986.0,
+   "y": 1090.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Quem vê"
+  },
+  {
+   "numero": "95",
+   "titulo": "Público · uma lista",
+   "faltando": false,
+   "x": 986.0,
+   "y": 1134.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Quem vê"
+  },
+  {
+   "numero": "96",
+   "titulo": "Lista · perfil aberto",
+   "faltando": false,
+   "x": 986.0,
+   "y": 1178.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Quem vê"
+  },
+  {
+   "numero": "97",
+   "titulo": "Público · um livro",
+   "faltando": false,
+   "x": 986.0,
+   "y": 1222.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Quem vê"
+  },
+  {
+   "numero": "38",
+   "titulo": "Erro genérico",
+   "faltando": false,
+   "x": 42.0,
+   "y": 876.0,
+   "w": 196.0,
+   "h": 34.0,
+   "secao": "Estados gerais"
+  }
+ ],
+ "ligacoes": [
+  {
+   "de": "35 · Abertura",
+   "para": "07 · Login",
+   "ida_e_volta": false
+  },
+  {
+   "de": "07 · Login",
+   "para": "08 · Cadastro por e-mail",
+   "ida_e_volta": false
+  },
+  {
+   "de": "07 · Login",
+   "para": "09 · Entrar com e-mail",
+   "ida_e_volta": false
+  },
+  {
+   "de": "16 · Carteirinha pronta",
+   "para": "36a · Início · 1º acesso",
+   "ida_e_volta": false
+  },
+  {
+   "de": "01 · Início",
+   "para": "17b · Detalhes · e-book",
+   "ida_e_volta": false
+  },
+  {
+   "de": "01 · Início",
+   "para": "60 · Grifos de hoje",
+   "ida_e_volta": false
+  },
+  {
+   "de": "01 · Início",
+   "para": "30 · Notificações",
+   "ida_e_volta": false
+  },
+  {
+   "de": "01 · Início",
+   "para": "28 · Busca · explorar",
+   "ida_e_volta": false
+  },
+  {
+   "de": "28b · Busca · resultados",
+   "para": "17b · Detalhes · e-book",
+   "ida_e_volta": false
+  },
+  {
+   "de": "28c · Busca · nada encontrado",
+   "para": "28d · Adicionar à mão",
+   "ida_e_volta": false
+  },
+  {
+   "de": "02 · Biblioteca",
+   "para": "17 · Detalhes · físico",
+   "ida_e_volta": false
+  },
+  {
+   "de": "17 · Detalhes · físico",
+   "para": "18 · Cronômetro",
+   "ida_e_volta": false
+  },
+  {
+   "de": "17b · Detalhes · e-book",
+   "para": "19 · Leitor · limpo",
+   "ida_e_volta": false
+  },
+  {
+   "de": "20 · Leitor · controles",
+   "para": "25 · Grifos e notas",
+   "ida_e_volta": false
+  },
+  {
+   "de": "20 · Leitor · controles",
+   "para": "26 · Ajustes (Aa)",
+   "ida_e_volta": false
+  },
+  {
+   "de": "20 · Leitor · controles",
+   "para": "27 · Sumário",
+   "ida_e_volta": false
+  },
+  {
+   "de": "20 · Leitor · controles",
+   "para": "22 · Modo anotação",
+   "ida_e_volta": false
+  },
+  {
+   "de": "03 · Livro encontrado",
+   "para": "17 · Detalhes · físico",
+   "ida_e_volta": false
+  },
+  {
+   "de": "42 · Já está na estante",
+   "para": "18 · Cronômetro",
+   "ida_e_volta": false
+  },
+  {
+   "de": "40 · Não encontrado",
+   "para": "28d · Adicionar à mão",
+   "ida_e_volta": false
+  },
+  {
+   "de": "39 · Mirando",
+   "para": "69 · Digitar o ISBN",
+   "ida_e_volta": false
+  },
+  {
+   "de": "04 · Clube",
+   "para": "31 · Discussão da semana",
+   "ida_e_volta": false
+  },
+  {
+   "de": "04 · Clube",
+   "para": "32 · Membros",
+   "ida_e_volta": false
+  },
+  {
+   "de": "04 · Clube",
+   "para": "49 · Enquete · votar",
+   "ida_e_volta": false
+  },
+  {
+   "de": "04 · Clube",
+   "para": "70 · Encontro · detalhe",
+   "ida_e_volta": false
+  },
+  {
+   "de": "70 · Encontro · detalhe",
+   "para": "72 · Mudar presença",
+   "ida_e_volta": false
+  },
+  {
+   "de": "70 · Encontro · detalhe",
+   "para": "71 · Encontro · na hora",
+   "ida_e_volta": false
+  },
+  {
+   "de": "71 · Encontro · na hora",
+   "para": "73 · Depois do encontro",
+   "ida_e_volta": false
+  },
+  {
+   "de": "32 · Membros",
+   "para": "51 · Júlia · em comum",
+   "ida_e_volta": false
+  },
+  {
+   "de": "33 · Criar clube",
+   "para": "34 · Convite (link e QR)",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "06 · Ajustes",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "43 · Resenhas",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "44 · Grifos (mural)",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "45 · Listas",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "64 · Editar perfil",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "29 · Estatísticas · semana",
+   "ida_e_volta": false
+  },
+  {
+   "de": "29 · Estatísticas · semana",
+   "para": "77 · Estatísticas · mês",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "79 · Conquistas · álbum",
+   "ida_e_volta": false
+  },
+  {
+   "de": "79 · Conquistas · álbum",
+   "para": "81 · Conquista · detalhe",
+   "ida_e_volta": false
+  },
+  {
+   "de": "30 · Notificações",
+   "para": "82 · Figurinha nova",
+   "ida_e_volta": false
+  },
+  {
+   "de": "43 · Resenhas",
+   "para": "46 · Escrever resenha",
+   "ida_e_volta": false
+  },
+  {
+   "de": "43 · Resenhas",
+   "para": "74 · Resenha aberta",
+   "ida_e_volta": false
+  },
+  {
+   "de": "74 · Resenha aberta",
+   "para": "75 · Responder comentário",
+   "ida_e_volta": false
+  },
+  {
+   "de": "74 · Resenha aberta",
+   "para": "76 · Quem curtiu",
+   "ida_e_volta": false
+  },
+  {
+   "de": "30 · Notificações",
+   "para": "74 · Resenha aberta",
+   "ida_e_volta": false
+  },
+  {
+   "de": "45 · Listas",
+   "para": "66 · Lista aberta",
+   "ida_e_volta": false
+  },
+  {
+   "de": "51 · Júlia · em comum",
+   "para": "54 · Os 21 em comum",
+   "ida_e_volta": false
+  },
+  {
+   "de": "51 · Júlia · em comum",
+   "para": "52 · Júlia · grifos públicos",
+   "ida_e_volta": false
+  },
+  {
+   "de": "06 · Ajustes",
+   "para": "56 · Privacidade",
+   "ida_e_volta": false
+  },
+  {
+   "de": "06 · Ajustes",
+   "para": "58 · Conta",
+   "ida_e_volta": false
+  },
+  {
+   "de": "06 · Ajustes",
+   "para": "30b · Lembretes e avisos",
+   "ida_e_volta": false
+  },
+  {
+   "de": "56 · Privacidade",
+   "para": "57 · Pedidos para seguir",
+   "ida_e_volta": false
+  },
+  {
+   "de": "58 · Conta",
+   "para": "59 · Excluir conta",
+   "ida_e_volta": false
+  },
+  {
+   "de": "18b · Fim da sessão",
+   "para": "105 · Convite · sessão",
+   "ida_e_volta": false
+  },
+  {
+   "de": "30 · Notificações",
+   "para": "106 · Convite · 4º clube",
+   "ida_e_volta": false
+  },
+  {
+   "de": "01 · Início",
+   "para": "107 · Convite · Início",
+   "ida_e_volta": false
+  },
+  {
+   "de": "30 · Notificações",
+   "para": "108 · Convite · fim do mês",
+   "ida_e_volta": false
+  },
+  {
+   "de": "17 · Detalhes · físico",
+   "para": "109 · Convite · livro lido",
+   "ida_e_volta": false
+  },
+  {
+   "de": "25 · Grifos e notas",
+   "para": "110 · Convite · ao enviar",
+   "ida_e_volta": false
+  },
+  {
+   "de": "07 · Login",
+   "para": "111 · Celular novo",
+   "ida_e_volta": false
+  },
+  {
+   "de": "04 · Clube",
+   "para": "102 · Quem votou · aberta",
+   "ida_e_volta": false
+  },
+  {
+   "de": "50 · Enquete · resultado",
+   "para": "103 · Quem votou · final",
+   "ida_e_volta": false
+  },
+  {
+   "de": "102 · Quem votou · aberta",
+   "para": "104 · Voto secreto",
+   "ida_e_volta": false
+  },
+  {
+   "de": "56 · Privacidade",
+   "para": "98 · Bloqueadas",
+   "ida_e_volta": false
+  },
+  {
+   "de": "98 · Bloqueadas",
+   "para": "99 · Desbloquear",
+   "ida_e_volta": false
+  },
+  {
+   "de": "53 · Perfil fechado",
+   "para": "100 · Bloquear",
+   "ida_e_volta": false
+  },
+  {
+   "de": "31 · Discussão da semana",
+   "para": "101 · Clube · recolhida",
+   "ida_e_volta": false
+  },
+  {
+   "de": "56 · Privacidade",
+   "para": "93 · Público · resenhas",
+   "ida_e_volta": false
+  },
+  {
+   "de": "93 · Público · resenhas",
+   "para": "94 · E as antigas?",
+   "ida_e_volta": false
+  },
+  {
+   "de": "67 · Lista · editar ordem",
+   "para": "95 · Público · uma lista",
+   "ida_e_volta": false
+  },
+  {
+   "de": "95 · Público · uma lista",
+   "para": "96 · Lista · perfil aberto",
+   "ida_e_volta": false
+  },
+  {
+   "de": "17 · Detalhes · físico",
+   "para": "97 · Público · um livro",
+   "ida_e_volta": false
+  },
+  {
+   "de": "05 · Perfil",
+   "para": "89 · Seguidores",
+   "ida_e_volta": false
+  },
+  {
+   "de": "89 · Seguidores",
+   "para": "90 · Seguindo · A–Z",
+   "ida_e_volta": false
+  },
+  {
+   "de": "89 · Seguidores",
+   "para": "91 · Remover seguidora",
+   "ida_e_volta": false
+  },
+  {
+   "de": "89 · Seguidores",
+   "para": "57 · Pedidos para seguir",
+   "ida_e_volta": false
+  },
+  {
+   "de": "51 · Júlia · em comum",
+   "para": "92 · Seguidores da Júlia",
+   "ida_e_volta": false
+  },
+  {
+   "de": "32 · Membros",
+   "para": "85 · Júlia · bloqueado",
+   "ida_e_volta": false
+  },
+  {
+   "de": "29 · Estatísticas · semana",
+   "para": "86 · Mês e ano · no Pro",
+   "ida_e_volta": false
+  },
+  {
+   "de": "85 · Júlia · bloqueado",
+   "para": "83 · Planos · anual",
+   "ida_e_volta": false
+  },
+  {
+   "de": "86 · Mês e ano · no Pro",
+   "para": "83 · Planos · anual",
+   "ida_e_volta": false
+  },
+  {
+   "de": "83 · Planos · anual",
+   "para": "87 · Bem-vinda ao Pro",
+   "ida_e_volta": false
+  },
+  {
+   "de": "06 · Ajustes",
+   "para": "88 · Gerenciar assinatura",
+   "ida_e_volta": false
+  }
+ ],
+ "sem_par": [],
+ "barra_de_baixo": "liga as 5 áreas: Início · Biblioteca · Scanner · Clubes · Perfil. O botão amarelo do Scanner abre a 39 de qualquer lugar."
+}
