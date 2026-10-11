@@ -46,3 +46,32 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# G01: saída derivada da extração das pranchas (regenerável; só o relatório de hashes é versionado)
+tools/medicao/pranchas/*
+!tools/medicao/pranchas/extracao.json
+tools/medicao/tmp/
+
+# G02: dados baixados pelos spikes (EPUB de domínio público etc.) e dependências Node
+spikes/_dados/
+node_modules/
+spikes/**/build/
+# G04: segredos e configuração por ambiente — só os modelos vão para o git
+.env
+.env.*
+!.env.example
+env/*.json
+!env/*.example.json
+# G06: estado e segredos de DESENVOLVIMENTO local (senha do papel do PowerSync, tokens) — nunca no git
+/_local/
+# G07: caches do Python (pipeline do catálogo) e estado local do Worker (wrangler/Miniflare)
+__pycache__/
+.pytest_cache/
+.wrangler/
+.dev.vars
+# G21: saída da extração das pranchas do clube (regenerável)
+tools/medicao/pranchas_clube/
+# T02: saída da extração das pranchas da Início e da revisão (regenerável, D-242; só o relatório de hashes é versionado,
+# como na G01)
+tools/medicao/pranchas_inicio2/*
+!tools/medicao/pranchas_inicio2/extracao.json

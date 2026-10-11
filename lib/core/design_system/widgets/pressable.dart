@@ -1,7 +1,9 @@
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 import 'package:flutter/widgets.dart';
 
 /// D-04: feedback de toque sem ripple. Sempre um nó semântico PRÓPRIO (container) de botão/link:
-/// `semanticsLabel` != null → esse rótulo (= aria-label) e os filhos excluídos;
+/// `semanticsLabel` != null → esse rótulo (= aria-label) e os filhos excluídos (salvo [excludeSemantics] `false`:
+/// um botão DENTRO do link, como a mini-barra do cronômetro — T04);
 /// `semanticsLabel` == null → os textos dos filhos se fundem no nó (= nome calculado do conteúdo de um <a>).
 class Pressable extends StatefulWidget {
   const Pressable({
@@ -10,11 +12,51 @@ class Pressable extends StatefulWidget {
     this.onTap,
     this.semanticsLabel,
     this.isLink = false,
+    this.toggled,
+    this.selected,
+    this.hint,
+    this.enabled = true,
+    this.checked,
+    this.exclusive = true,
+    this.onLongPress,
+    this.customActions,
+    this.excludeSemantics,
   });
   final Widget child;
   final VoidCallback? onTap;
   final String? semanticsLabel;
   final bool isLink;
+
+  /// Botão de alternar (`aria-pressed`): o estado vai para a semântica (a fita do marcador — G12).
+  final bool? toggled;
+
+  /// Escolhido num grupo (a cor do grifo existente na barra de ações — G13).
+  final bool? selected;
+
+  /// O que o toque faz, quando não é o óbvio do rótulo (a cor do grifo existente apaga — G13).
+  final String? hint;
+
+  /// `false` = desabilitado: sem toque e "indisponível" para o leitor de tela (Fonte no PDF — D-122).
+  final bool enabled;
+
+  /// Opção de um grupo (radio — a fonte, o papel, a entrelinha e as margens da folha de ajustes, G14): marcada ou
+  /// não; o nó vira uma opção num grupo exclusivo, não um botão.
+  final bool? checked;
+
+  /// Com [checked]: `true` = opção de um grupo exclusivo (radio); `false` = caixa de seleção (as cores do filtro da
+  /// tela 25 — G19).
+  final bool exclusive;
+
+  /// Pressão longa (tirar uma favorita — G17, D-175).
+  final VoidCallback? onLongPress;
+
+  /// Ações nomeadas para o leitor de tela ("Tirar das favoritas" — G17).
+  final Map<CustomSemanticsAction, VoidCallback>? customActions;
+
+  /// Exclui os nós dos filhos. `null` = o padrão (exclui quando há [semanticsLabel]); `false` com rótulo = os filhos
+  /// que formam nó próprio (um botão) ficam dentro deste — os textos que se fundiriam no rótulo vão em
+  /// `ExcludeSemantics`.
+  final bool? excludeSemantics;
 
   /// Liga/desliga o feedback de escala (D-04: "desligável por flag"). O repouso não muda.
   static bool feedbackEnabled = true;
@@ -40,26 +82,42 @@ class _PressableState extends State<Pressable> {
   // mas dentro de um nó sem explicitChildNodes (um link, um cabeçalho, um Semantics(container) qualquer)
   // o flag/rótulo do botão se fundiria nesse pai.
   @override
-  Widget build(BuildContext context) => Semantics(
-    container: true,
-    button: !widget.isLink,
-    link: widget.isLink,
-    label: widget.semanticsLabel,
-    excludeSemantics: widget.semanticsLabel != null,
-    onTap: widget.onTap,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      excludeFromSemantics: true,
-      onTap: widget.onTap,
-      onTapDown: (_) => _setDown(true),
-      onTapUp: (_) => _setDown(false),
-      onTapCancel: () => _setDown(false),
-      child: AnimatedScale(
-        scale: Pressable.feedbackEnabled && _down ? _pressedScale : 1.0,
-        duration: _down ? _pressDuration : _releaseDuration,
-        curve: Curves.easeOut,
-        child: widget.child,
+  Widget build(BuildContext context) {
+    final onTap = widget.enabled ? widget.onTap : null;
+    return Semantics(
+      container: true,
+      button: !widget.isLink && widget.checked == null,
+      link: widget.isLink,
+      checked: widget.checked,
+      inMutuallyExclusiveGroup: widget.checked == null
+          ? null
+          : widget.exclusive,
+      label: widget.semanticsLabel,
+      toggled: widget.toggled,
+      selected: widget.selected,
+      hint: widget.hint,
+      enabled: widget.enabled ? null : false,
+      excludeSemantics:
+          widget.excludeSemantics ?? widget.semanticsLabel != null,
+      onTap: onTap,
+      onLongPress: widget.enabled ? widget.onLongPress : null,
+      customSemanticsActions: widget.enabled ? widget.customActions : null,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        excludeFromSemantics: true,
+        onTap: onTap,
+        onLongPress: widget.enabled ? widget.onLongPress : null,
+        // desabilitado: sem o "afundar" do toque (o resto continua como sempre foi)
+        onTapDown: widget.enabled ? (_) => _setDown(true) : null,
+        onTapUp: widget.enabled ? (_) => _setDown(false) : null,
+        onTapCancel: widget.enabled ? () => _setDown(false) : null,
+        child: AnimatedScale(
+          scale: Pressable.feedbackEnabled && _down ? _pressedScale : 1.0,
+          duration: _down ? _pressDuration : _releaseDuration,
+          curve: Curves.easeOut,
+          child: widget.child,
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

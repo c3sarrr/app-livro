@@ -1,0 +1,2024 @@
+{
+ "_doc": "G01.8 — exporta os <svg> das 13 pranchas (tools/medicao/tmp/svgs.json, de svgs.js) como arquivos, com as",
+ "arquivos": {
+  "assets/icons/leitor/ic_annotate.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_annotate_noite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_arrow_left.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2
+  },
+  "assets/icons/leitor/ic_arrow_left_noite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_arrows_vertical.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_check.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5
+  },
+  "assets/icons/leitor/ic_check_read.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 7
+  },
+  "assets/icons/leitor/ic_check_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_chevron_right.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_chevron_up.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_close.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2
+  },
+  "assets/icons/leitor/ic_close_round.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3
+  },
+  "assets/icons/leitor/ic_copy.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_flag.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_highlighter_reader.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_highlighter_reader_noite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_margins_medium.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_margins_narrow.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_margins_wide.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_moon.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_more_dots.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 8
+  },
+  "assets/icons/leitor/ic_note.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_pencil.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5
+  },
+  "assets/icons/leitor/ic_pencil_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_pencil_coral.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_pencil_heavy.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_people.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_people_chip.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_plus.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_plus_tiny.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_redo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5
+  },
+  "assets/icons/leitor/ic_ribbon.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 2
+  },
+  "assets/icons/leitor/ic_ribbon_coral.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 5
+  },
+  "assets/icons/leitor/ic_ribbon_marked.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_ribbon_marked_noite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_ribbon_tiny.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_search.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2
+  },
+  "assets/icons/leitor/ic_search_cinza.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_search_noite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_share.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2
+  },
+  "assets/icons/leitor/ic_spacing_loose.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_spacing_medium.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_spacing_tight.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_star_deco.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_sun.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_timer.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2
+  },
+  "assets/icons/leitor/ic_toc.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_toc_noite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#EDE3D1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_trash.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_underline.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_undo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5
+  },
+  "assets/illustrations/leitor/il_dica_gruda_nas_palavras.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/leitor/il_ferramenta_borracha.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FFC1C6",
+    "#FFFAF1"
+   ],
+   "usos": 5
+  },
+  "assets/illustrations/leitor/il_ferramenta_caneta.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/leitor/il_ferramenta_caneta_ativa.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 4
+  },
+  "assets/illustrations/leitor/il_ferramenta_espaco.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#CFC3AE",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 4
+  },
+  "assets/illustrations/leitor/il_ferramenta_espaco_ativa.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#8E83C4",
+    "#B6ACE4",
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/leitor/il_ferramenta_laco.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1",
+    "rgba(182,172,228,0.35)"
+   ],
+   "usos": 5
+  },
+  "assets/illustrations/leitor/il_ferramenta_marcatexto.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 5
+  },
+  "assets/illustrations/leitor/il_ferramenta_reta.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82"
+   ],
+   "usos": 5
+  },
+  "assets/illustrations/leitor/il_ponta_esferografica.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/leitor/il_ponta_pincel.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/leitor/il_ponta_tinteiro.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/leitor/il_previa_traco_caneta.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_graficos/anel_progresso_capitulo.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#E9DFCC",
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_graficos/onda_preenchimento_barra.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_graficos/onda_preenchimento_barra_noite.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#B6ACE4",
+    "#EDE3D1"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 4
+  },
+  "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca_amarelo.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 6
+  },
+  "handoff_v2/referencia/svg_tinta/miniatura_elipse_olhos_de_ressaca.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/miniatura_nota_mao_ressaca.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/miniatura_ondulado_fluido_misterioso.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/nota_mao_ressaca.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 4
+  },
+  "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso_amarelo.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/rastro_arrasto_espaco.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#552CB7"
+   ],
+   "usos": 1
+  },
+  "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FF552E"
+   ],
+   "usos": 4
+  },
+  "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca_amarelo.svg": {
+   "categoria": "tinta",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1
+  }
+ },
+ "usos": {
+  "ann.done.icon": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/icons/leitor/ic_check.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "ann.island.redo.icon": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/icons/leitor/ic_redo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "ann.island.undo.icon": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/icons/leitor/ic_undo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "ann.modePill.icon": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/icons/leitor/ic_pencil.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "ann.page.text.circled.ellipse": {
+   "22_modo_anotacao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca.svg",
+    "tamanho": [
+     186.55,
+     42
+    ],
+    "coresDinamicas": {
+     "#FF552E": "ink"
+    },
+    "armadilha": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+   }
+  },
+  "ann.page.text.circled.flourish": {
+   "22_modo_anotacao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca.svg",
+    "tamanho": [
+     34,
+     12
+    ],
+    "coresDinamicas": {
+     "#FF552E": "ink"
+    }
+   }
+  },
+  "ann.page.text.handHighlight.stroke": {
+   "22_modo_anotacao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg",
+    "tamanho": [
+     158.94,
+     26
+    ]
+   }
+  },
+  "ann.page.text.wavy.wave": {
+   "22_modo_anotacao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso.svg",
+    "tamanho": [
+     108.98,
+     10
+    ],
+    "coresDinamicas": {
+     "#FF552E": "ink"
+    }
+   }
+  },
+  "ann.toolShelf.eraser.art": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_borracha.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "ann.toolShelf.lasso.art": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_laco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "ann.toolShelf.line.art": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_reta.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "ann.toolShelf.marker.art": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_marcatexto.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "ann.toolShelf.pen.art": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_caneta_ativa.svg",
+    "tamanho": [
+     50,
+     70
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand",
+     "#FF552E": "ink"
+    }
+   }
+  },
+  "ann.toolShelf.space.art": {
+   "22_modo_anotacao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_espaco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "bm.sheet.bookmarks.item1.ribbon.icon": {
+   "27b_sumario_marcadas": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_coral.svg",
+    "tamanho": [
+     20,
+     22
+    ]
+   }
+  },
+  "bm.sheet.bookmarks.item2.ribbon.icon": {
+   "27b_sumario_marcadas": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_coral.svg",
+    "tamanho": [
+     20,
+     22
+    ]
+   }
+  },
+  "bm.sheet.bookmarks.item3.ribbon.icon": {
+   "27b_sumario_marcadas": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_coral.svg",
+    "tamanho": [
+     20,
+     22
+    ]
+   }
+  },
+  "bm.sheet.close.icon": {
+   "27b_sumario_marcadas": {
+    "arquivo": "assets/icons/leitor/ic_close_round.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "bm.sheet.hint.icon": {
+   "27b_sumario_marcadas": {
+    "arquivo": "assets/icons/leitor/ic_ribbon.svg",
+    "tamanho": [
+     11,
+     13
+    ]
+   }
+  },
+  "bm.sheet.tabs.bookmarks.icon": {
+   "27b_sumario_marcadas": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_coral.svg",
+    "tamanho": [
+     11,
+     13
+    ]
+   }
+  },
+  "hl.filters.clubOnly.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_people.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "hl.list.card1.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card2.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card3.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card4.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card5.body.club.chip.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_people_chip.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "hl.list.card5.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card6.body.quote.ink.stroke": {
+   "25_grifos_notas": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg",
+    "tamanho": [
+     127.94,
+     20
+    ]
+   }
+  },
+  "hl.list.card6.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card7.body.handNote.ink": {
+   "25_grifos_notas": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/miniatura_nota_mao_ressaca.svg",
+    "tamanho": [
+     322,
+     96
+    ],
+    "armadilha": "width=\"100%\"; miniatura da nota à mão (no app: renderizada a partir dos traços salvos, com cache em imagem)."
+   }
+  },
+  "hl.list.card7.body.handNote.tag.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_pencil_heavy.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "hl.list.card7.body.quote.ink.ellipse": {
+   "25_grifos_notas": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/miniatura_elipse_olhos_de_ressaca.svg",
+    "tamanho": [
+     151.77,
+     34
+    ]
+   }
+  },
+  "hl.list.card7.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.card8.body.quote.ink1.wave": {
+   "25_grifos_notas": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/miniatura_ondulado_fluido_misterioso.svg",
+    "tamanho": [
+     135.08,
+     9
+    ]
+   }
+  },
+  "hl.list.card8.head.more.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_more_dots.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.list.sep6.label.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_ribbon.svg",
+    "tamanho": [
+     12,
+     15
+    ]
+   }
+  },
+  "hl.search.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_search_cinza.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.sparkle": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_star_deco.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "hl.topBar.back.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hl.topBar.export.icon": {
+   "25_grifos_notas": {
+    "arquivo": "assets/icons/leitor/ic_share.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "hn.done.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_check.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "hn.island.redo.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_redo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hn.island.undo.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_undo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "hn.modePill.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_pencil.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "hn.page.handNote.actions.collapse.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_chevron_up.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "hn.page.handNote.actions.delete.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_trash.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "hn.page.handNote.ink": {
+   "24b_nota_mao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/nota_mao_ressaca.svg",
+    "tamanho": [
+     332,
+     150
+    ],
+    "armadilha": "width=\"100%\" (largura da caixa) e rótulo role=img com o texto escrito (D-31: no app o rótulo é genérico).",
+    "rotulo": "ressaca = o mar que puxa de volta (escrito à mão)"
+   }
+  },
+  "hn.page.handNote.tag.icon": {
+   "24b_nota_mao": {
+    "arquivo": "assets/icons/leitor/ic_pencil_bold.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "hn.page.text.circled.ellipse": {
+   "24b_nota_mao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca.svg",
+    "tamanho": [
+     186.55,
+     42
+    ],
+    "armadilha": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+   }
+  },
+  "hn.page.text.circled.flourish": {
+   "24b_nota_mao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca.svg",
+    "tamanho": [
+     34,
+     12
+    ]
+   }
+  },
+  "hn.page.text.handHighlight.stroke": {
+   "24b_nota_mao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg",
+    "tamanho": [
+     158.94,
+     26
+    ]
+   }
+  },
+  "hn.page.textBelow.wavy.wave": {
+   "24b_nota_mao": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso.svg",
+    "tamanho": [
+     167.14,
+     10
+    ]
+   }
+  },
+  "hn.toolShelf.eraser.art": {
+   "24b_nota_mao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_borracha.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "hn.toolShelf.lasso.art": {
+   "24b_nota_mao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_laco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "hn.toolShelf.line.art": {
+   "24b_nota_mao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_reta.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "hn.toolShelf.marker.art": {
+   "24b_nota_mao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_marcatexto.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "hn.toolShelf.pen.art": {
+   "24b_nota_mao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_caneta_ativa.svg",
+    "tamanho": [
+     50,
+     70
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    }
+   }
+  },
+  "hn.toolShelf.space.art": {
+   "24b_nota_mao": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_espaco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "mk.done.icon": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/icons/leitor/ic_check.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "mk.island.redo.icon": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/icons/leitor/ic_redo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "mk.island.undo.icon": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/icons/leitor/ic_undo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "mk.markerPanel.close.icon": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/icons/leitor/ic_close.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "mk.markerPanel.tip.icon": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_dica_gruda_nas_palavras.svg",
+    "tamanho": [
+     34,
+     22
+    ]
+   }
+  },
+  "mk.modePill.icon": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/icons/leitor/ic_pencil.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "mk.page.text.circled.ellipse": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca_amarelo.svg",
+    "tamanho": [
+     186.55,
+     42
+    ],
+    "armadilha": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+   }
+  },
+  "mk.page.text.circled.flourish": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca_amarelo.svg",
+    "tamanho": [
+     34,
+     12
+    ]
+   }
+  },
+  "mk.page.text.handHighlight.stroke": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg",
+    "tamanho": [
+     158.94,
+     26
+    ]
+   }
+  },
+  "mk.page.text.wavy.wave": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso_amarelo.svg",
+    "tamanho": [
+     108.98,
+     10
+    ]
+   }
+  },
+  "mk.toolShelf.eraser.art": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_borracha.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "mk.toolShelf.lasso.art": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_laco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "mk.toolShelf.line.art": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_reta.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "mk.toolShelf.marker.art": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_marcatexto.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "mk.toolShelf.pen.art": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_caneta_ativa.svg",
+    "tamanho": [
+     50,
+     70
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    }
+   }
+  },
+  "mk.toolShelf.space.art": {
+   "23b_ajustes_marcatexto": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_espaco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "pen.done.icon": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/icons/leitor/ic_check.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "pen.island.redo.icon": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/icons/leitor/ic_redo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "pen.island.undo.icon": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/icons/leitor/ic_undo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "pen.modePill.icon": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/icons/leitor/ic_pencil.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "pen.page.text.circled.ellipse": {
+   "23_ajustes_caneta": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca.svg",
+    "tamanho": [
+     186.55,
+     42
+    ],
+    "armadilha": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+   }
+  },
+  "pen.page.text.circled.flourish": {
+   "23_ajustes_caneta": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca.svg",
+    "tamanho": [
+     34,
+     12
+    ]
+   }
+  },
+  "pen.page.text.handHighlight.stroke": {
+   "23_ajustes_caneta": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg",
+    "tamanho": [
+     158.94,
+     26
+    ]
+   }
+  },
+  "pen.page.text.wavy.wave": {
+   "23_ajustes_caneta": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso.svg",
+    "tamanho": [
+     108.98,
+     10
+    ]
+   }
+  },
+  "pen.penPanel.close.icon": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/icons/leitor/ic_close.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "pen.penPanel.favorites.add.icon": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "pen.penPanel.preview.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_previa_traco_caneta.svg",
+    "tamanho": [
+     326,
+     56
+    ],
+    "armadilha": "width=\"100%\": a prévia ocupa a largura da faixa pautada; no app é desenhada com a ponta/espessura/cor atuais."
+   }
+  },
+  "pen.penPanel.tips.ballpoint.sample": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ponta_esferografica.svg",
+    "tamanho": [
+     80,
+     26
+    ]
+   }
+  },
+  "pen.penPanel.tips.brush.sample": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ponta_pincel.svg",
+    "tamanho": [
+     80,
+     26
+    ]
+   }
+  },
+  "pen.penPanel.tips.fountain.sample": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ponta_tinteiro.svg",
+    "tamanho": [
+     80,
+     26
+    ]
+   }
+  },
+  "pen.toolShelf.eraser.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_borracha.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "pen.toolShelf.lasso.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_laco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "pen.toolShelf.line.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_reta.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "pen.toolShelf.marker.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_marcatexto.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "pen.toolShelf.pen.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_caneta_ativa.svg",
+    "tamanho": [
+     50,
+     70
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    }
+   }
+  },
+  "pen.toolShelf.space.art": {
+   "23_ajustes_caneta": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_espaco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "r20.bottomIsland.scrubber.fill.wave": {
+   "20_leitor_controles": {
+    "arquivo": "handoff_v2/referencia/svg_graficos/onda_preenchimento_barra.svg",
+    "tamanho": [
+     10,
+     14
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    },
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): desenhar com CustomPainter esticando a forma na altura do trilho e traço fixo de 1,5."
+   },
+   "26b_tema_noite": {
+    "arquivo": "handoff_v2/referencia/svg_graficos/onda_preenchimento_barra_noite.svg",
+    "tamanho": [
+     10,
+     14
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    },
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): desenhar com CustomPainter esticando a forma na altura do trilho e traço fixo de 1,5."
+   }
+  },
+  "r20.bottomIsland.tools.annotate.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_annotate.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_annotate_noite.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "r20.bottomIsland.tools.notes.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_highlighter_reader.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_highlighter_reader_noite.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "r20.bottomIsland.tools.theme.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_sun.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_moon.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "r20.bottomIsland.tools.toc.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_toc.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_toc_noite.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "r20.timeChip.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_timer.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_timer.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "r20.topIsland.bookmark.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_marked.svg",
+    "tamanho": [
+     22,
+     24
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_marked_noite.svg",
+    "tamanho": [
+     22,
+     24
+    ]
+   }
+  },
+  "r20.topIsland.close.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left_noite.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "r20.topIsland.search.icon": {
+   "20_leitor_controles": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   },
+   "26b_tema_noite": {
+    "arquivo": "assets/icons/leitor/ic_search_noite.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "r21.toolbar.actions.copy.icon": {
+   "21_selecao_texto": {
+    "arquivo": "assets/icons/leitor/ic_copy.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "r21.toolbar.actions.note.icon": {
+   "21_selecao_texto": {
+    "arquivo": "assets/icons/leitor/ic_note.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "r21.toolbar.actions.search.icon": {
+   "21_selecao_texto": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "r21.toolbar.actions.share.icon": {
+   "21_selecao_texto": {
+    "arquivo": "assets/icons/leitor/ic_share.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "r21.toolbar.colors.other.icon": {
+   "21_selecao_texto": {
+    "arquivo": "assets/icons/leitor/ic_plus_tiny.svg",
+    "tamanho": [
+     8,
+     8
+    ]
+   }
+  },
+  "r21.toolbar.colors.underline.icon": {
+   "21_selecao_texto": {
+    "arquivo": "assets/icons/leitor/ic_underline.svg",
+    "tamanho": [
+     20,
+     20
+    ],
+    "armadilha": "tem <text> (\"a\" em Literata 13): o flutter_svg desenha texto com a fonte do sistema → desenhar o \"a\" com AppText (Literata13 não existe: usar a variável com opsz 13) por cima do traço ondulado."
+   }
+  },
+  "rs.sheet.close.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_close_round.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rs.sheet.margins.medium.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_margins_medium.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rs.sheet.margins.narrow.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_margins_narrow.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rs.sheet.margins.wide.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_margins_wide.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rs.sheet.papers.cream.check.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_check_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "rs.sheet.spacing.loose.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_spacing_loose.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rs.sheet.spacing.medium.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_spacing_medium.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rs.sheet.spacing.tight.icon": {
+   "26_ajustes_leitura": {
+    "arquivo": "assets/icons/leitor/ic_spacing_tight.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sp.done.icon": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/icons/leitor/ic_check.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "sp.island.redo.icon": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/icons/leitor/ic_redo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sp.island.undo.icon": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/icons/leitor/ic_undo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sp.modePill.icon": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/icons/leitor/ic_pencil.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "sp.page.spaceOpener.sizeChip.icon": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/icons/leitor/ic_arrows_vertical.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "sp.page.spaceOpener.trail": {
+   "24_abrindo_espaco": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/rastro_arrasto_espaco.svg",
+    "tamanho": [
+     24,
+     86
+    ]
+   }
+  },
+  "sp.page.text.circled.ellipse": {
+   "24_abrindo_espaco": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/elipse_olhos_de_ressaca.svg",
+    "tamanho": [
+     186.55,
+     42
+    ],
+    "armadilha": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+   }
+  },
+  "sp.page.text.circled.flourish": {
+   "24_abrindo_espaco": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/risco_sobre_olhos_de_ressaca.svg",
+    "tamanho": [
+     34,
+     12
+    ]
+   }
+  },
+  "sp.page.text.handHighlight.stroke": {
+   "24_abrindo_espaco": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/grifo_mao_livre_capitu.svg",
+    "tamanho": [
+     158.94,
+     26
+    ]
+   }
+  },
+  "sp.page.textBelow.wavy.wave": {
+   "24_abrindo_espaco": {
+    "arquivo": "handoff_v2/referencia/svg_tinta/ondulado_fluido_misterioso.svg",
+    "tamanho": [
+     167.14,
+     10
+    ]
+   }
+  },
+  "sp.toolShelf.eraser.art": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_borracha.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "sp.toolShelf.lasso.art": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_laco.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "sp.toolShelf.line.art": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_reta.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "sp.toolShelf.marker.art": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_marcatexto.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "sp.toolShelf.pen.art": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_caneta.svg",
+    "tamanho": [
+     50,
+     70
+    ]
+   }
+  },
+  "sp.toolShelf.space.art": {
+   "24_abrindo_espaco": {
+    "arquivo": "assets/illustrations/leitor/il_ferramenta_espaco_ativa.svg",
+    "tamanho": [
+     50,
+     70
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    }
+   }
+  },
+  "toc.sheet.chapters.ch25.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch26.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch27.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch28.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch29.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch30.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch31.read.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch32.marks.handwritten.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_pencil_coral.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "toc.sheet.chapters.ch32.progressRing": {
+   "27_sumario": {
+    "arquivo": "handoff_v2/referencia/svg_graficos/anel_progresso_capitulo.svg",
+    "tamanho": [
+     18,
+     18
+    ],
+    "armadilha": "stroke-dasharray/dashoffset = progresso no capítulo (44 de perímetro, offset 26 → 41 %): anel desenhado por CustomPainter com o valor real.",
+    "rotulo": "lendo"
+   }
+  },
+  "toc.sheet.chapters.ch32.youAreHere.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_tiny.svg",
+    "tamanho": [
+     9,
+     11
+    ]
+   }
+  },
+  "toc.sheet.close.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_close_round.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "toc.sheet.club.arrow.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_chevron_right.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "toc.sheet.club.flag.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_flag.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "toc.sheet.tabs.bookmarks.icon": {
+   "27_sumario": {
+    "arquivo": "assets/icons/leitor/ic_ribbon_coral.svg",
+    "tamanho": [
+     11,
+     13
+    ]
+   }
+  }
+ }
+}

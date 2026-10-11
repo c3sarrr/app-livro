@@ -5,8 +5,12 @@ import 'package:app_leitura/core/design_system/gallery/design_system_gallery.dar
 import 'package:app_leitura/core/design_system/text/app_text.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
+import 'package:app_leitura/features/account/presentation/account_block.dart';
+import 'package:app_leitura/features/highlights/presentation/highlights_screen.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/placeholder/presentation/placeholder_screen.dart';
+import 'package:app_leitura/features/reader/presentation/reader_screen.dart';
+import 'package:app_leitura/features/scanner/presentation/scanner_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +100,7 @@ void main() {
 
       unawaited(_router(tester).push<void>(AppRoutes.scanner));
       await tester.pumpAndSettle();
-      final scanner = _placeholder('Scanner');
+      final scanner = find.byType(ScannerScreen);
       expect(scanner, findsOneWidget);
       final route = ModalRoute.of(tester.element(scanner))! as PageRoute<void>;
       expect(route.fullscreenDialog, isTrue);
@@ -119,33 +123,44 @@ void main() {
   );
 
   testWidgets(
-    '2.6 destinos placeholder (usados na F12): cada um abre por push no navigator raiz',
+    '2.6 destinos (placeholders da F12 e o leitor de verdade da G11): cada um abre por push no navigator raiz',
     (tester) async {
       _device(tester);
       await pumpApp(tester);
-      for (final (location, title, params) in [
-        (AppRoutes.notificacoes, 'Notificações', <String, String>{}),
+      for (final (location, page, params) in [
+        (
+          AppRoutes.notificacoes,
+          _placeholder('Notificações'),
+          <String, String>{},
+        ),
         (
           AppRoutes.leitor('dom-casmurro'),
-          'Leitor',
+          find.byWidgetPredicate(
+            (w) => w is ReaderScreen && w.bookId == 'dom-casmurro',
+          ),
           {'bookId': 'dom-casmurro'},
         ),
-        (AppRoutes.livro('dom-casmurro'), 'Livro', {'bookId': 'dom-casmurro'}),
+        (
+          AppRoutes.livro('dom-casmurro'),
+          _placeholder('Livro'),
+          {'bookId': 'dom-casmurro'},
+        ),
         (
           AppRoutes.destaques('dom-casmurro'),
-          'Destaques e notas',
+          find.byWidgetPredicate(
+            (w) => w is HighlightsScreen && w.bookId == 'dom-casmurro',
+          ),
           {'bookId': 'dom-casmurro'},
         ),
-        (AppRoutes.paraVoce, 'Para você', <String, String>{}),
+        (AppRoutes.paraVoce, _placeholder('Para você'), <String, String>{}),
         (
           AppRoutes.discussao('leitoras-de-capitu'),
-          'Discussão',
+          _placeholder('Discussão'),
           {'clubId': 'leitoras-de-capitu'},
         ),
       ]) {
         unawaited(_router(tester).push<void>(location));
         await tester.pumpAndSettle();
-        final page = _placeholder(title);
         expect(page, findsOneWidget, reason: location);
         final route = ModalRoute.of(tester.element(page))! as PageRoute<void>;
         expect(route.fullscreenDialog, isFalse, reason: location);
@@ -164,6 +179,11 @@ void main() {
       expect(AppRoutes.leitor('x'), '/leitor/x');
       expect(AppRoutes.livro('x'), '/livro/x');
       expect(AppRoutes.destaques('x'), '/livro/x/destaques');
+      expect(
+        AppRoutes.destaques('x', fromReader: true),
+        '/livro/x/destaques?de=leitor',
+      );
+      expect(AppRoutes.leitor('x', goTo: 'a b'), '/leitor/x?ir=a+b');
       expect(AppRoutes.discussao('y'), '/clube/y/discussao');
     },
   );
@@ -186,9 +206,10 @@ void main() {
       _device(tester);
       await pumpApp(tester);
       final semantics = tester.ensureSemantics();
-      _router(tester).go(AppRoutes.perfil);
+      // Clubes: desde a G05 o Perfil ganhou o bloco da conta abaixo do título (D-69 — teste abaixo).
+      _router(tester).go(AppRoutes.clubes);
       await tester.pumpAndSettle();
-      final page = _placeholder('Perfil');
+      final page = _placeholder('Clubes');
       final box = tester.widget<ColoredBox>(
         find.descendant(of: page, matching: find.byType(ColoredBox)).first,
       );
@@ -206,7 +227,7 @@ void main() {
       final texts = find.descendant(of: page, matching: find.byType(AppText));
       expect(texts, findsOneWidget);
       final span = tester.widget<AppText>(texts).span as TextSpan;
-      expect(span.text, 'Perfil');
+      expect(span.text, 'Clubes');
       expect(span.style, same(AppTextStyles.sectionTitleL));
       // Centro da área segura: x = 195; y = 47 + (844 − 47 − 34) / 2 = 428,5.
       final center = tester.getCenter(texts);
@@ -214,9 +235,44 @@ void main() {
       expect(center.dy, moreOrLessEquals(428.5, epsilon: 1e-6));
       expect(
         tester.getSemantics(texts),
-        matchesSemantics(label: 'Perfil', isHeader: true),
+        matchesSemantics(label: 'Clubes', isHeader: true),
       );
       semantics.dispose();
+    },
+  );
+
+  testWidgets(
+    'Perfil (D-69): o título continua no centro e o bloco da conta fica abaixo dele, acima da barra',
+    (tester) async {
+      _device(tester);
+      await pumpApp(tester);
+      _router(tester).go(AppRoutes.perfil);
+      await tester.pumpAndSettle();
+      final page = _placeholder('Perfil');
+      expect(tester.widget<PlaceholderScreen>(page).below, isA<AccountBlock>());
+      final title = find.descendant(
+        of: page,
+        matching: find.byWidgetPredicate(
+          (w) => w is AppText && w.span.toPlainText() == 'Perfil',
+        ),
+      );
+      final center = tester.getCenter(title);
+      expect(center.dx, moreOrLessEquals(195, epsilon: 1e-6));
+      expect(center.dy, moreOrLessEquals(428.5, epsilon: 1e-6));
+      final block = tester.getRect(find.byType(AccountBlock));
+      // Começa 32 abaixo do meio da área segura; termina antes da barra (744) com folga.
+      expect(block.top, moreOrLessEquals(47 + 763 / 2 + 32, epsilon: 1e-6));
+      expect(block.left, 20); // AppSpacing.gutter
+      expect(block.right, 390 - 20);
+      expect(block.top, greaterThan(tester.getRect(title).bottom));
+      final viewport = tester.getRect(
+        find.ancestor(
+          of: find.byType(AccountBlock),
+          matching: find.byType(SingleChildScrollView),
+        ),
+      );
+      expect(viewport.bottom, moreOrLessEquals(844 - 34 - 116, epsilon: 1e-6));
+      expect(viewport.bottom, lessThan(744));
     },
   );
 }

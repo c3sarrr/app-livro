@@ -1,0 +1,33 @@
+# G02 · S2 — serviço PowerSync self-host local (npm @powersync/service-image 1.27.0).
+# Segredo do JWT só de teste local (gerado pelo spike, não é chave de projeto nenhum).
+replication:
+  connections:
+    - type: postgresql
+      uri: !env PS_FONTE_URI
+      sslmode: disable
+
+storage:
+  type: postgresql
+  uri: !env PS_STORAGE_URI
+  sslmode: disable
+
+port: !env PS_PORTA
+
+sync_config:
+  path: sync_config.yaml
+
+client_auth:
+  jwks:
+    keys:
+      - kty: oct
+        alg: HS256
+        kid: spike-s2
+        k: !env PS_JWT_K
+  audience: ['authenticated']
+
+api:
+  tokens:
+    - !env PS_API_TOKEN
+
+telemetry:
+  disable_telemetry_sharing: true

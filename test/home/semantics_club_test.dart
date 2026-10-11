@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/load_fonts.dart';
 import '../support/precache_svgs.dart';
@@ -19,6 +20,7 @@ Future<void> _pumpSection(
   await precacheAppIcons(tester);
   await tester.pumpWidget(
     ProviderScope(
+      overrides: overridesDoMundo,
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Align(
@@ -106,7 +108,7 @@ const _sectionChildren = [
   'Clube do livro',
   '11 participantes',
   'Leitoras de Capitu',
-  'Dom Casmurro · até o cap. 100',
+  'Dom Casmurro · até o cap. 50',
   'Progresso do grupo',
   'Você',
   'Grupo em 54%',
@@ -115,7 +117,7 @@ const _sectionChildren = [
   _meeting,
 ];
 
-/// F09 — semântica e toques da seção `club`.
+/// F09 — semântica e toques da seção `club`; desde a T03 com os dados da prancha 01 (até o cap. 50 — D-241).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -152,7 +154,7 @@ void main() {
         '11 participantes',
         'Clube do livro',
         'Leitoras de Capitu',
-        'Dom Casmurro · até o cap. 100',
+        'Dom Casmurro · até o cap. 50',
         'Você',
         'Progresso do grupo',
         'Grupo em 54%',
@@ -259,9 +261,9 @@ void main() {
       final link = nodes[8];
       expect(link.flagsCollection.isLink, isTrue);
       expect(link.flagsCollection.isButton, isFalse);
-      // Na tela a rota do CTA só é ligada na F12 (sem callback, sem ação); com o callback, ver o teste de
-      // toques abaixo.
-      expect(_actionsOf(link), isEmpty);
+      // Desde a F12 a tela liga o CTA a `/clube/:clubId/discussao`: o link tem a ação de toque (o teste de toques
+      // abaixo prova o callback da seção isolada).
+      expect(_actionsOf(link), {SemanticsAction.tap});
       expect(_childLabels(link), ['3 mensagens novas']);
       final badge = _children(link).single;
       expect(badge, same(_node(tester, 'club.cta.badge')));

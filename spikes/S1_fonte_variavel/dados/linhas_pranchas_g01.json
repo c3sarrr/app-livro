@@ -1,0 +1,2336 @@
+{
+ "origem": "tools/fonts/validacao_fontes.json (G01.7: larguras do Chromium 141 a zoom 100, 2 casas)",
+ "linhas": [
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.size.larger",
+   "linha": 1,
+   "texto": "A",
+   "tamanho": 25.0,
+   "peso": 500,
+   "chromium": 18.24
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch31.title",
+   "linha": 1,
+   "texto": "As curiosidades de",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 139.19
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item1.excerpt",
+   "linha": 2,
+   "texto": "para o Engenho Novo, encontrei no",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 257.54
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.bottomIsland.tools.font.circle",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 19.0,
+   "peso": 500,
+   "chromium": 24.46
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.bottomIsland.tools.font.circle",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 19.0,
+   "peso": 500,
+   "chromium": 24.46
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 8,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 8,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 16,
+   "texto": "partes vizinhas, às orelhas, aos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 297.41
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch33.title",
+   "linha": 1,
+   "texto": "O penteado",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 85.61
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch35.title",
+   "linha": 1,
+   "texto": "O protonotário",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 113.75
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.size.smaller",
+   "linha": 1,
+   "texto": "A",
+   "tamanho": 15.0,
+   "peso": 500,
+   "chromium": 11.08
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 7,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 7,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 15,
+   "texto": "arrastado, agarrei-me às outras",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 301.46
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch36.title",
+   "linha": 1,
+   "texto": "Ideia sem pernas",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 127.28
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item1.excerpt",
+   "linha": 3,
+   "texto": "trem da Central…",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 129.05
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch28.title",
+   "linha": 1,
+   "texto": "Na rua",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 50.63
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch32.title",
+   "linha": 1,
+   "texto": "Olhos de ressaca",
+   "tamanho": 17.0,
+   "peso": 500,
+   "chromium": 134.52
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch34.title",
+   "linha": 1,
+   "texto": "Sou homem!",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 96.01
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 9,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 9,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.papers.cream.sample",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 18.0,
+   "peso": 400,
+   "chromium": 22.81
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.papers.white.sample",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 18.0,
+   "peso": 400,
+   "chromium": 22.81
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.papers.sepia.sample",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 18.0,
+   "peso": 400,
+   "chromium": 22.81
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.papers.night.sample",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 18.0,
+   "peso": 400,
+   "chromium": 22.81
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 17,
+   "texto": "braços, aos cabelos espalhados",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.73
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch27.title",
+   "linha": 1,
+   "texto": "Ao portão",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 75.02
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch31.title",
+   "linha": 2,
+   "texto": "Capitu",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 50.62
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.43
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 1,
+   "texto": "É o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 325.69
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.43
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 1,
+   "texto": "É o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 325.69
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 11,
+   "texto": "fluido misterioso e enérgico, uma",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.57
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 11,
+   "texto": "fluido misterioso e enérgico, uma",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.57
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 11,
+   "texto": "fluido misterioso e enérgico, uma",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.57
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 3,
+   "texto": "fluido misterioso e enérgico, uma",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.57
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 3,
+   "texto": "fluido misterioso e enérgico, uma",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.57
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch30.title",
+   "linha": 1,
+   "texto": "O Santíssimo",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 99.59
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 5,
+   "texto": "imagem capaz de dizer, sem",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 267.46
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 14,
+   "texto": "dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 269.89
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 14,
+   "texto": "dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 269.89
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 14,
+   "texto": "dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 269.89
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 14,
+   "texto": "dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 269.89
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 2,
+   "texto": "uma comparação exata e poética",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 312.39
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 10,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 12,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 10,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 12,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 18,
+   "texto": "pelos ombros; mas tão depressa",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 302.87
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 20,
+   "texto": "saía delas vinha crescendo, cava e",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 322.79
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 4,
+   "texto": "olhos de Capitu. Não me acode",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 293.2
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 13,
+   "texto": "vaga que se retira da praia, nos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 296.32
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 13,
+   "texto": "vaga que se retira da praia, nos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 296.32
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 13,
+   "texto": "vaga que se retira da praia, nos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 296.32
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 13,
+   "texto": "vaga que se retira da praia, nos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 296.32
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 8,
+   "texto": "Olhos de ressaca? Vá, de ressaca. É",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 329.5
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 9,
+   "texto": "o que me dá ideia daquela feição",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.62
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 13,
+   "texto": "vaga que se retira da praia, nos",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 296.32
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 14,
+   "texto": "nos dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.34
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 14,
+   "texto": "nos dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.34
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 14,
+   "texto": "nos dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.34
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 6,
+   "texto": "nos dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.34
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 6,
+   "texto": "nos dias de ressaca. Para não ser",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 308.34
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que fluido",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 313.75
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que fluido",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 313.75
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que fluido",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 313.75
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que fluido",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 313.75
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que fluido",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 313.75
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 14,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 14,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 22,
+   "texto": "puxar-me e tragar-me.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 218.3
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch25.title",
+   "linha": 1,
+   "texto": "No Passeio Público",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 140.66
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch29.title",
+   "linha": 1,
+   "texto": "O imperador",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 96.5
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch37.title",
+   "linha": 2,
+   "texto": "mistérios",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 71.62
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.markerPanel.preview",
+   "linha": 1,
+   "texto": "Olhos de ressaca? Vá, de ressaca.",
+   "tamanho": 17.0,
+   "peso": 400,
+   "chromium": 259.28
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 6,
+   "texto": "quebra da dignidade do estilo, o",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.61
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 11,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 11,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.sheet.fonts.literata.sample",
+   "linha": 1,
+   "texto": "Aa",
+   "tamanho": 26.0,
+   "peso": 400,
+   "chromium": 32.71
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 19,
+   "texto": "buscava as pupilas, a onda que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 292.33
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item2.excerpt",
+   "linha": 1,
+   "texto": "Agora que expliquei o título, passo a",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 262.73
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 12,
+   "texto": "força que arrastava para dentro,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 309.03
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 12,
+   "texto": "força que arrastava para dentro,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 309.03
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 12,
+   "texto": "força que arrastava para dentro,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 309.03
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 4,
+   "texto": "força que arrastava para dentro,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 309.03
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 4,
+   "texto": "força que arrastava para dentro,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 309.03
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 13,
+   "texto": "como a vaga que se retira da praia,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 330.66
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 13,
+   "texto": "como a vaga que se retira da praia,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 330.66
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 13,
+   "texto": "como a vaga que se retira da praia,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 330.66
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 5,
+   "texto": "como a vaga que se retira da praia,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 330.66
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 5,
+   "texto": "como a vaga que se retira da praia,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 330.66
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 252.27
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 252.27
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 10,
+   "texto": "nova. Traziam não sei que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 252.27
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 2,
+   "texto": "nova. Traziam não sei que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 252.27
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 2,
+   "texto": "nova. Traziam não sei que",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 252.27
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.textBelow",
+   "linha": 13,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.textBelow",
+   "linha": 13,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 21,
+   "texto": "escura, ameaçando envolver-me,",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 317.21
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 3,
+   "texto": "para dizer o que foram aqueles",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 294.1
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item3.excerpt",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me uma",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 267.45
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item3.excerpt",
+   "linha": 2,
+   "texto": "comparação exata e poética…",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 214.02
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch26.title",
+   "linha": 1,
+   "texto": "As leis são belas",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 118.46
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch35.title",
+   "linha": 2,
+   "texto": "apostólico",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 77.98
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 11,
+   "texto": "misterioso e enérgico, uma força",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 315.35
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 11,
+   "texto": "misterioso e enérgico, uma força",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 315.35
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 11,
+   "texto": "misterioso e enérgico, uma força",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 315.35
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 11,
+   "texto": "misterioso e enérgico, uma força",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 315.35
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 11,
+   "texto": "misterioso e enérgico, uma força",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 315.35
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 12,
+   "texto": "que arrastava para dentro, como a",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 327.57
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 12,
+   "texto": "que arrastava para dentro, como a",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 327.57
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 12,
+   "texto": "que arrastava para dentro, como a",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 327.57
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 12,
+   "texto": "que arrastava para dentro, como a",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 327.57
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 12,
+   "texto": "que arrastava para dentro, como a",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 327.57
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 1,
+   "texto": "Retórica dos namorados, dá-me",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 305.35
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.sheet.chapters.ch37.title",
+   "linha": 1,
+   "texto": "A alma é cheia de",
+   "tamanho": 16.0,
+   "peso": 400,
+   "chromium": 129.23
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item1.excerpt",
+   "linha": 1,
+   "texto": "Uma noite destas, vindo da cidade",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 248.36
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.sheet.bookmarks.item2.excerpt",
+   "linha": 2,
+   "texto": "escrever o livro…",
+   "tamanho": 15.5,
+   "peso": 400,
+   "chromium": 125.6
+  },
+  {
+   "prancha": "19_leitor_limpo",
+   "id": "r19.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "20_leitor_controles",
+   "id": "r20.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "21_selecao_texto",
+   "id": "r21.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "22_modo_anotacao",
+   "id": "ann.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "23_ajustes_caneta",
+   "id": "pen.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "23b_ajustes_marcatexto",
+   "id": "mk.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "24_abrindo_espaco",
+   "id": "sp.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "24b_nota_mao",
+   "id": "hn.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "26b_tema_noite",
+   "id": "r20.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "27_sumario",
+   "id": "toc.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "27b_sumario_marcadas",
+   "id": "bm.page.text",
+   "linha": 7,
+   "texto": "que eles foram e me fizeram.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 274.05
+  },
+  {
+   "prancha": "26_ajustes_leitura",
+   "id": "rs.page.text",
+   "linha": 14,
+   "texto": "dias de ressaca.",
+   "tamanho": 20.5,
+   "peso": 400,
+   "chromium": 147.93
+  }
+ ]
+}

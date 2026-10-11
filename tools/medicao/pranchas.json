@@ -1,0 +1,176 @@
+{
+ "_doc": "Pranchas do arquivo 'Redesign mobile — App de leitura (1).html' (telas 19–27b). slug = pasta de saída; prefixo = prefixo dos ids semânticos; frame = seletor do retângulo da prancha depois que o bundle desempacota.",
+ "fonte": "handoff_v2/referencia/original/Redesign mobile — App de leitura (1).html",
+ "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+ "pranchas": [
+  {
+   "tela": "19",
+   "slug": "19_leitor_limpo",
+   "idInterno": "reader_clean",
+   "prefixo": "r19",
+   "uuid": "91a97e1c-dead-4c20-b29c-ef926bb6717c",
+   "titulo": "19 · Leitor — modo limpo (e-book)",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/19_leitor_limpo@2x.png"
+  },
+  {
+   "tela": "20",
+   "slug": "20_leitor_controles",
+   "idInterno": "reader_controls",
+   "prefixo": "r20",
+   "uuid": "cc3d0f9b-9d1d-4535-8004-e25500451fad",
+   "titulo": "20 · Leitor — com controles",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/20_leitor_controles@2x.png"
+  },
+  {
+   "tela": "21",
+   "slug": "21_selecao_texto",
+   "idInterno": "reader_selection",
+   "prefixo": "r21",
+   "uuid": "c43c6633-429a-4eaa-9c53-029271de779a",
+   "titulo": "21 · Leitor — seleção de texto",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/21_selecao_texto@2x.png"
+  },
+  {
+   "tela": "22",
+   "slug": "22_modo_anotacao",
+   "idInterno": "annotate",
+   "prefixo": "ann",
+   "uuid": "936fe9dc-23a6-44cf-b6fd-ef154a373ce4",
+   "titulo": "22 · Leitor — modo anotação",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/22_modo_anotacao@2x.png"
+  },
+  {
+   "tela": "23",
+   "slug": "23_ajustes_caneta",
+   "idInterno": "annotate_pen",
+   "prefixo": "pen",
+   "uuid": "0feb996a-6c82-4598-a573-7535ea3aede4",
+   "titulo": "23 · Leitor — ajustes da caneta",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/23_ajustes_caneta@2x.png"
+  },
+  {
+   "tela": "23b",
+   "slug": "23b_ajustes_marcatexto",
+   "idInterno": "annotate_marker",
+   "prefixo": "mk",
+   "uuid": "d1cd8441-18fb-4140-9b29-82f48c6975e8",
+   "titulo": "23b · Leitor — ajustes do marca-texto",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/23b_ajustes_marcatexto@2x.png"
+  },
+  {
+   "tela": "24",
+   "slug": "24_abrindo_espaco",
+   "idInterno": "annotate_space",
+   "prefixo": "sp",
+   "uuid": "c7149b95-eeb7-4596-9cb1-dfc6a4cdcbf7",
+   "titulo": "24 · Leitor — abrindo espaço (arrastar)",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/24_abrindo_espaco@2x.png"
+  },
+  {
+   "tela": "24b",
+   "slug": "24b_nota_mao",
+   "idInterno": "annotate_note",
+   "prefixo": "hn",
+   "uuid": "c432f17a-e26a-4527-902b-de71b6af0b4b",
+   "titulo": "24b · Leitor — nota à mão escrita",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/24b_nota_mao@2x.png"
+  },
+  {
+   "tela": "25",
+   "slug": "25_grifos_notas",
+   "idInterno": "highlights",
+   "prefixo": "hl",
+   "uuid": "34300c95-2aec-4ff2-9958-6ade53b122a5",
+   "titulo": "25 · Grifos e notas (Dom Casmurro)",
+   "canvas": [
+    390,
+    2170
+   ],
+   "previa": "handoff_v2/referencia/previa/25_grifos_notas@2x.png"
+  },
+  {
+   "tela": "26",
+   "slug": "26_ajustes_leitura",
+   "idInterno": "reader_settings",
+   "prefixo": "rs",
+   "uuid": "62640628-f1ab-4357-8025-88ece7ac307f",
+   "titulo": "26 · Leitor — ajustes de leitura (Aa)",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/26_ajustes_leitura@2x.png"
+  },
+  {
+   "tela": "26b",
+   "slug": "26b_tema_noite",
+   "idInterno": "reader_controls_night",
+   "prefixo": "r20",
+   "uuid": "2a20b8b9-cd9b-42f9-8a72-ad2264b76722",
+   "titulo": "26b · Leitor — tema Noite (com controles)",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/26b_tema_noite@2x.png"
+  },
+  {
+   "tela": "27",
+   "slug": "27_sumario",
+   "idInterno": "toc",
+   "prefixo": "toc",
+   "uuid": "f8ca91d9-9880-4373-85f3-c5428a75e416",
+   "titulo": "27 · Leitor — sumário",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/27_sumario@2x.png"
+  },
+  {
+   "tela": "27b",
+   "slug": "27b_sumario_marcadas",
+   "idInterno": "toc_bookmarks",
+   "prefixo": "bm",
+   "uuid": "9d9f0a48-10d1-4e8f-a54c-22eabbe2516d",
+   "titulo": "27b · Leitor — sumário, aba Marcadas",
+   "canvas": [
+    390,
+    844
+   ],
+   "previa": "handoff_v2/referencia/previa/27b_sumario_marcadas@2x.png"
+  }
+ ]
+}

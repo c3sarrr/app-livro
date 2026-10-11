@@ -1,0 +1,156 @@
+{
+ "fonte": "Redesign_mobile___App_de_leitura__1_.html",
+ "fonte_sha256": "942adf82885b8b3a99e8041912b3173ae6bd1e2ae9ef7253baa8d688e43fd783",
+ "pranchas": {
+  "001_inicio": {
+   "uuid": "0358e2f5-7d0c-4d95-b26d-af051a1c81cf",
+   "titulo": "01 · Início (Home)",
+   "canvas": [
+    390,
+    2650
+   ],
+   "props": [
+    "brand",
+    "weekColor"
+   ],
+   "arquivos": {
+    "assets/079b83f7-af45-47a2-94b7-f2c6428c3586.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/11572518-93e2-43fe-bf0c-ff4529455b5b.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/1aca56d6-373c-4403-aee1-bbb110ec0c3e.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/2c1e3cce-4bc2-40d8-b586-5eb5dd2ad62f.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/51c46f49-013b-4e9f-9ab8-5fb14f83435e.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/6b827835-51b0-428a-b38b-23c9217c9435.woff2": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+    "assets/97841d01-be81-4298-915b-1bdb61ab8f9c.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/b9b08fe9-a09a-46b4-8286-1a9044c14daf.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "original.html": "519b65fedc2f97b8f0b5d6bd8c9266ae803e1f9ac3d3aa3abc07d89f9625c6e9",
+    "props.json": "4af69effe87d5bc6a2691046d147d82dd61466da29730c75a0cf170f7f4565ab",
+    "template.html": "338f76ab50c0083e262baef310608783861eb5f29ba4fde13f35005f352de7eb"
+   }
+  },
+  "001b_inicio_lendo_agora": {
+   "uuid": "47b35e3f-609f-4190-9273-40d3bb3098c1",
+   "titulo": "01b · Início — lendo agora (cronômetro ativo)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "weekColor"
+   ],
+   "arquivos": {
+    "assets/46ba1a3a-c105-4464-967f-dee24eda1a9f.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/6cb75b9d-72fd-4c44-a0c3-f61e10f55f9f.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/9d985ab4-7b4f-4999-90ca-83fe67f5612b.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/a071c432-90cd-4650-b665-d3ac56fdea3a.woff2": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+    "assets/b1cc3bec-91cc-4974-ab8e-d26261723391.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/c022f7fc-5bed-47c7-b372-48467484beac.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/f0dfee88-ba21-4b23-8cb8-4214b878b1ed.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/f40fe2c0-9d06-44b3-863e-486b9625fc09.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "0319e6e92c04953ab83815aad23cc90cabfb2dc981f8ea03b48751677bc1de3a",
+    "props.json": "a6e0f94ad0c23aa17ded7cc6e83bf87045a488fef364dc38f3c3fa8bc06dfdb8",
+    "template.html": "09768ffd46d479ca37d0dede723555f7e6a4860046ac6930bf856d11d0898135"
+   }
+  },
+  "060_inicio_grifos_de_hoje": {
+   "uuid": "a3f79989-d0eb-4eee-b72d-449cf8723ae5",
+   "titulo": "60 · Início — grifos de hoje (revisão)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "weekColor"
+   ],
+   "arquivos": {
+    "assets/2986a3fb-1a4e-4045-ac54-0b04888b689e.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/2c6a31e9-3e32-424a-9329-61f32ec96fa6.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/37611b64-615d-4ca0-a34a-929b6ea8d642.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/395b1a8f-3275-4c6f-bb15-21eb11a3526f.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/55e432be-5198-4067-9f3c-7e3dbf49a113.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/58d2fad0-2bc4-498f-9c9f-079f3b5060a7.woff2": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+    "assets/75940868-9860-4e8e-b703-4e132bd8fade.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/e0811c18-6c76-42f3-94c1-68b29bc16d03.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "original.html": "98f9a0669f329dfb6cef28c909a7c8fffb139f9b89e1a3aa655b3566753dce0b",
+    "props.json": "a6e0f94ad0c23aa17ded7cc6e83bf87045a488fef364dc38f3c3fa8bc06dfdb8",
+    "template.html": "410c592b0eee970a9ad3f57369774955f457be840ed64ea7ffdb85a7aa68aa94"
+   }
+  },
+  "061_revisao_grifo_2_de_5": {
+   "uuid": "3fd943be-8de0-4fbb-a47a-78f155ebab5e",
+   "titulo": "61 · Revisão — grifo 2 de 5",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/697c6615-c091-428c-9c78-1bf6dde68fdd.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/6cda333a-3096-4026-a377-728cbd781595.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/6d9ad1d8-9ec4-4df2-a6e3-31e24a4c860e.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/8da3473b-31fe-4773-a3ed-9d4d7a322507.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/aead822c-039a-40f6-a301-4d0d0f313f09.woff2": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+    "assets/c1eb8d97-9123-4600-b079-405243e48746.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/ca6f9920-cf84-4b8a-82f5-73ca6544dfee.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/e63ed943-c43e-43b0-b7bd-d3f06bdf4a06.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/f985983d-d7f5-4d1e-93a7-09ebd45035eb.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "88d094a955e6c0c32163550cff06bac164440284840f9759a3e9e7e8e24986d7",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "template.html": "17f0f44ed3a44a371e7a80e7b19c62f7a0bd05f19ba8467db93e5f405d6def86"
+   }
+  },
+  "062_revisao_fim": {
+   "uuid": "10f5e3ff-7997-4b6e-8666-5fb3207fc2ef",
+   "titulo": "62 · Revisão — fim",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/01eb357e-591a-4dca-8430-ff3313ad145c.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/168effe9-ea9f-4c6d-9021-781b6057ba3b.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/186e2a6c-45ae-4091-bf26-e56cfd6b3f23.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/321429a4-f23e-46c9-b685-a60212c09ece.woff2": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+    "assets/4fb2d3e7-3e38-4ae2-8f3a-b4bf9c2a5a70.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/5dd13ce6-d92b-4438-8031-c3a1ce8f0710.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/8a9d94c0-93bb-4915-9c9a-78030eec2e95.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/a0bef8ac-81f3-4372-8e51-2d4b46777bdf.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/e013488f-a498-41c0-9177-5c044655fb8e.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "original.html": "b4a0e2aceb7cea9146a51da1cd00ea07ab2580a45cae6d78a1e02b58e28089e8",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "template.html": "3a26d55c8dc2e816d9487e74c85756fe1a77190981227e990c8c6e950937626c"
+   }
+  },
+  "063_revisao_imagem_compartilhar": {
+   "uuid": "f1cf70ed-a99d-4108-86c8-dedb778f80e8",
+   "titulo": "63 · Revisão — imagem para compartilhar",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "arquivos": {
+    "assets/24a06564-e20f-4141-b0ec-4b758c7bdae1.woff2": "bf7828e2c258cffcfa50a048ee388a36b95bc16b452e8d36fa797635dbe15965",
+    "assets/3d00300b-5e4f-4847-8fde-9bd7c3a2bc30.js": "654b7f6201e7e08c0aa3d9c670125d53b47f1438141ecd0d7df05589a877b324",
+    "assets/673a0064-1fcd-4df9-a839-5c173b7b383a.js": "35f4f974f4b2bcd44da73963347f8952e341f83909e4498227d4e26b98f66f0d",
+    "assets/6c08df9f-cde2-44ac-871e-b1d7193f09e9.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/70a65088-ad9d-46e3-a5f6-1c4c473ce3b8.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/70e9d007-fb0c-41fc-9377-4f4d1cfebf29.js": "d949f1c3687aedadcedac85261865f29b17cd273997e7f6b2bfc53b2f9d4c4dd",
+    "assets/94217a06-6d16-4572-975d-d4385de07061.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "assets/a19bfb44-1d98-4504-b3fe-2215ad0bfbe8.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/a397bf3d-c718-4fb7-906d-df0e64e29d7a.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "bea2f58c71804b5c427dae5a4d66fa2e4856b5ff9828db77e8f7fc1e4f609a7f",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "template.html": "3f1c6973185d6ce4fcdab9725371588923bcb97c32541576ed17dc0c21ccf84d"
+   }
+  }
+ }
+}

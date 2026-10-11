@@ -17,6 +17,7 @@ class NeoBox extends StatelessWidget {
     this.border,
     this.radius = BorderRadius.zero,
     this.shadow,
+    this.shadowColor = AppColors.ink,
     this.padding = EdgeInsets.zero,
     this.clip = false,
     this.child,
@@ -30,6 +31,9 @@ class NeoBox extends StatelessWidget {
 
   /// `AppShadows.*`.
   final Offset? shadow;
+
+  /// Cor da sombra dura (a tinta; no leitor Noite, `#0B0A08` — G12).
+  final Color shadowColor;
   final EdgeInsets padding;
   final bool clip;
   final Widget? child;
@@ -58,7 +62,7 @@ class NeoBox extends StatelessWidget {
             ? null
             : [
                 BoxShadow(
-                  color: AppColors.ink,
+                  color: shadowColor,
                   offset: shadow!,
                   blurRadius: 0,
                   spreadRadius: 0,

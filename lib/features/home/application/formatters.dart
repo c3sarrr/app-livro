@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import '../domain/models.dart';
 
 /// Frase com um trecho em negrito no meio (`<strong>` do arquivo): `before` + **`strong`** + `after`.
@@ -65,16 +63,42 @@ abstract final class HomeFormatters {
     'dezembro',
   ];
 
-  /// 5–11 h "Bom dia,"; 12–17 h "Boa tarde,"; 18–4 h "Boa noite,".
-  static String greeting(DateTime now) => switch (now.hour) {
-    >= 5 && <= 11 => 'Bom dia,',
-    >= 12 && <= 17 => 'Boa tarde,',
-    _ => 'Boa noite,',
+  /// 5–11 h "Bom dia,"; 12–17 h "Boa tarde,"; 18–4 h "Boa noite,". Sem nome embaixo (convidado — D-84),
+  /// sem a vírgula: "Boa noite".
+  static String greeting(DateTime now, {bool named = true}) {
+    final g = switch (now.hour) {
+      >= 5 && <= 11 => 'Bom dia',
+      >= 12 && <= 17 => 'Boa tarde',
+      _ => 'Boa noite',
+    };
+    return named ? '$g,' : g;
+  }
+
+  /// Página de referência no herói (D-254): "pág. 159 de 256".
+  static String pageLabel(int page, int totalPages) =>
+      'pág. $page de $totalPages';
+
+  /// Selo do formato no herói (D-254): "E-BOOK" · "PDF" · "PAPEL".
+  static String formatBadge(BookFormat format) => switch (format) {
+    BookFormat.epub => 'E-BOOK',
+    BookFormat.pdf => 'PDF',
+    BookFormat.physical => 'PAPEL',
   };
 
-  /// "Cap. 92 de 148".
-  static String chapterLabel(int chapter, int totalChapters) =>
-      'Cap. $chapter de $totalChapters';
+  /// Pílula do livro de papel no Também lendo (D-252, D-253): com página, "Papel · pág. 344"; sem página, o
+  /// tempo já lido ("Papel · 3h 40min"); sem nenhuma sessão ou com menos de 1 min lido, só "Papel" (nunca
+  /// "Papel · 0h 00min").
+  static String paperMeta({int? page, Duration? readTime}) {
+    final label = formatLabel(BookFormat.physical);
+    if (page != null) return '$label · pág. $page';
+    if (readTime != null && readTime.inMinutes >= 1) {
+      return '$label · ${durationLabel(readTime)}';
+    }
+    return label;
+  }
+
+  /// Título onde a prancha abrevia ("Brás Cubas"); sem título curto, o título.
+  static String bookTitleShort(Book book) => book.shortTitle ?? book.title;
 
   /// 0,62 → "62%".
   static String percent(double progress) => '${(progress * 100).round()}%';
@@ -94,27 +118,51 @@ abstract final class HomeFormatters {
     return '${durationLabel(Duration(minutes: total))} no total';
   }
 
-  /// "Faltam " + **"12 min"** + " para fechar a meta de hoje."
-  static EmphasisText remainingGoal(int goalMinutes, int readMinutes) => (
-    before: 'Faltam ',
-    strong: '${math.max(0, goalMinutes - readMinutes)} min',
-    after: ' para fechar a meta de hoje.',
-  );
+  /// "Faltam " + **"12 min"** + " para fechar a meta de hoje."; meta batida → "Meta de hoje cumprida."
+  /// (D-83 — estado que o arquivo não desenha).
+  static EmphasisText remainingGoal(int goalMinutes, int readMinutes) =>
+      readMinutes >= goalMinutes
+      ? (before: 'Meta de hoje cumprida.', strong: '', after: '')
+      : (
+          before: 'Faltam ',
+          strong: '${goalMinutes - readMinutes} min',
+          after: ' para fechar a meta de hoje.',
+        );
 
-  /// "24 páginas", "2 destaques", "12 dias" (singular só para 1).
+  /// "2 destaques", "12 dias", "5 GRIFOS" (singular só para 1).
   static String countLabel(int count, String singular, String plural) =>
       '$count ${count == 1 ? singular : plural}';
 
-  /// "Mais " + **"2 dias"** + " para o selo de 14 dias".
-  static EmphasisText badgeHint(int streakDays, int badgeTargetDays) => (
-    before: 'Mais ',
-    strong: countLabel(
-      math.max(0, badgeTargetDays - streakDays),
-      'dia',
-      'dias',
-    ),
-    after: ' para o selo de ${countLabel(badgeTargetDays, 'dia', 'dias')}',
-  );
+  /// Sessões de hoje: "2 sessões" · "1 sessão".
+  static String sessionsLabel(int sessions) =>
+      countLabel(sessions, 'sessão', 'sessões');
+
+  /// Cabeçalho do cartão da revisão: "REVISÃO · 5 GRIFOS · 2 MIN".
+  static String reviewKicker(int highlights, int minutes) =>
+      'REVISÃO · ${countLabel(highlights, 'GRIFO', 'GRIFOS')} · $minutes MIN';
+
+  /// De onde vêm os grifos da revisão: "De Dom Casmurro, Quincas Borba e Iracema.". Só a revisão visível chega
+  /// aqui, com ao menos um livro: a vazia some antes ([HomeSnapshot.visibleReview]).
+  static String reviewSubtitle(List<String> bookTitles) {
+    assert(bookTitles.isNotEmpty, 'a revisão tem ao menos um livro');
+    final last = bookTitles.last;
+    final rest = bookTitles.sublist(0, bookTitles.length - 1);
+    return rest.isEmpty ? 'De $last.' : 'De ${rest.join(', ')} e $last.';
+  }
+
+  /// "Mais " + **"2 dias"** + " para o selo de 14 dias"; selo alcançado → "Selo de " + **"14 dias"** +
+  /// " conquistado" (D-83 — estado que o arquivo não desenha).
+  static EmphasisText badgeHint(int streakDays, int badgeTargetDays) {
+    final target = countLabel(badgeTargetDays, 'dia', 'dias');
+    if (streakDays >= badgeTargetDays) {
+      return (before: 'Selo de ', strong: target, after: ' conquistado');
+    }
+    return (
+      before: 'Mais ',
+      strong: countLabel(badgeTargetDays - streakDays, 'dia', 'dias'),
+      after: ' para o selo de $target',
+    );
+  }
 
   /// Rótulos do gráfico da semana: inicial do dia ("S T Q Q S S") e "Hoje" no dia atual.
   static List<String> weekInitials(Iterable<WeekDayStat> week) => [
@@ -160,20 +208,22 @@ abstract final class HomeFormatters {
   static String userProgressLabel(double progress) =>
       'Você em ${percent(progress)}';
 
-  /// "EPUB" · "PDF".
+  /// "EPUB" · "PDF" · "Papel" (livro de papel — D-255; a v1 dizia "Físico").
   static String formatLabel(BookFormat format) => switch (format) {
     BookFormat.epub => 'EPUB',
     BookFormat.pdf => 'PDF',
+    BookFormat.physical => 'Papel',
   };
 
   /// "Mary Shelley · EPUB".
   static String recentSubtitle(RecentItem item) =>
       '${item.book.author} · ${formatLabel(item.format)}';
 
-  /// "Quero ler" · "Novo".
+  /// "Quero ler" · "Novo" · "Lido" (D-255).
   static String recentStatusLabel(RecentStatus status) => switch (status) {
     RecentStatus.wantToRead => 'Quero ler',
     RecentStatus.isNew => 'Novo',
+    RecentStatus.read => 'Lido',
   };
 
   /// 24/09/2026 → "QUI".
@@ -195,13 +245,24 @@ abstract final class HomeFormatters {
       'Próximo encontro: ${_weekdayName[meeting.weekday - 1]}, '
       '${meeting.day} de ${_monthName[meeting.month - 1]}, às ${hourLabel(meeting)}';
 
-  /// "Notificações, 2 novas".
-  static String notificationsAria(int unread) =>
-      'Notificações, ${countLabel(unread, 'nova', 'novas')}';
+  /// "Notificações, 2 novas"; sem novidades, só "Notificações".
+  static String notificationsAria(int unread) => unread == 0
+      ? 'Notificações'
+      : 'Notificações, ${countLabel(unread, 'nova', 'novas')}';
 
   /// "Destaques e notas deste livro (14)".
   static String highlightsAria(int highlightsCount) =>
       'Destaques e notas deste livro ($highlightsCount)';
+
+  /// A lupa do cabeçalho (sem ação até a busca ter prancha — D-243 b).
+  static const String searchAria = 'Buscar livros';
+
+  /// "Ler agora" do Seu dia (sem ação até a T04 — D-247).
+  static const String readNowAria = 'Iniciar leitura (cronômetro)';
+
+  /// O "play" do livro de papel (sem ação até a T04 — D-247): "Iniciar leitura de Brás Cubas".
+  static String startReadingAria(Book book) =>
+      'Iniciar leitura de ${bookTitleShort(book)}';
 
   /// "Mais opções para Frankenstein".
   static String moreOptionsAria(Book book) => 'Mais opções para ${book.title}';

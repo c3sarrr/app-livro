@@ -20,5 +20,10 @@ void main() {
     expect(text, contains('Bricolage Grotesque'));
     expect(text, contains('Figtree'));
     expect(text, contains('Instrument Serif'));
+    // G12 (D-54): o glifo "≈" da Inter Bold
+    expect(text, contains('Inter — Copyright 2016 The Inter Project Authors'));
+    // G14 (D-18): as fontes do texto do livro
+    expect(text, contains('Atkinson Hyperlegible'));
+    expect(text, contains('Reserved Font Name "Lora"'));
   });
 }

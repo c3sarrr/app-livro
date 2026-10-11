@@ -1,0 +1,19 @@
+name: spike_s3_paginacao
+description: "G02 · S3 — paginação com dart:ui (19 linhas da tela 19, tempo por página, N das páginas de referência). Fora do app."
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: ^3.13.2
+
+dependencies:
+  archive: ^4.3.0
+  flutter:
+    sdk: flutter
+  xml: ^7.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  crypto: ^3.0.7

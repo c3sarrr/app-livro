@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,9 +13,10 @@ import '../../../../core/design_system/widgets/pressable.dart';
 import '../../application/formatters.dart';
 import '../../application/home_providers.dart';
 import '../../domain/models.dart';
-import '../covers/memorias_postumas_cover.dart';
-import '../covers/o_cortico_cover.dart';
-import '../covers/quincas_borba_cover.dart';
+import '../covers/book_cover.dart';
+import '../covers/casa_de_pensao_cover.dart';
+import '../covers/esau_e_jaco_cover.dart';
+import '../covers/memorial_de_aires_cover.dart';
 
 /// Seção 6 — "Para você" (F08): coluna com gap 14 — cabeçalho (44), chip do motivo (32,6) e o carrossel
 /// (218,4) → 327. O retângulo da seção é 20→370 (Key `forYou` no `_fullBleed` da tela), mas o carrossel
@@ -32,12 +34,15 @@ class ForYouSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final forYou = ref.watch(homeSnapshotProvider.select((s) => s.forYou));
+    if (forYou == null) return const SizedBox.shrink();
     assert(
-      forYou.items.length == 3 &&
-          forYou.items[0].cover == CoverArt.memoriasPostumas &&
-          forYou.items[1].cover == CoverArt.quincasBorba &&
-          forYou.items[2].cover == CoverArt.oCortico,
-      'As artes de capa do arquivo nesta seção: Memórias Póstumas, Quincas Borba e O Cortiço.',
+      forYou.items.every((b) => b.cover is PhotoCover) ||
+          listEquals(_arts(forYou.items), const [
+            CoverArt.esauEJaco,
+            CoverArt.memorialDeAires,
+            CoverArt.casaDePensao,
+          ]),
+      'As artes de capa do arquivo nesta seção: Esaú e Jacó, Memorial de Aires e Casa de Pensão (prancha 01).',
     );
     final onBookTap = this.onBookTap;
     // <section aria-label="Para você"> (convenção §5.1 do prompt mestre).
@@ -68,30 +73,44 @@ class ForYouSection extends ConsumerWidget {
           const SizedBox(height: 14 + 4),
           // D-03: rola na horizontal com a física da plataforma; em repouso (offset 0) é o arquivo:
           // padding 20 dos dois lados e o 3º item cortado em 390 (`overflow: hidden`).
-          SingleChildScrollView(
-            key: const ValueKey('forYou.carousel'),
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.gutter),
-            clipBehavior: Clip.hardEdge,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 14,
-              children: [
-                for (final (i, book) in forYou.items.indexed)
-                  _Item(
-                    id: 'forYou.item${i + 1}',
-                    book: book,
-                    // Só o 1º título tem `nowrap` + `ellipsis` no arquivo ("Memórias Póstu…").
-                    ellipsis: i == 0,
-                    onTap: onBookTap == null ? null : () => onBookTap(book),
-                  ),
-              ],
+          // RepaintBoundary (F12 12.4): rolar a Início não repinta o carrossel e vice-versa. Medido: 0 pixels de
+          // diferença no golden (as boundaries nas capas e no gráfico mudam o anti-aliasing de curvas).
+          RepaintBoundary(
+            child: SingleChildScrollView(
+              key: const ValueKey('forYou.carousel'),
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.gutter,
+              ),
+              clipBehavior: Clip.hardEdge,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 14,
+                children: [
+                  for (final (i, book) in forYou.items.indexed)
+                    _Item(
+                      id: 'forYou.item${i + 1}',
+                      book: book,
+                      // Só o 1º título tem `nowrap` + `ellipsis` no arquivo ("Memórias Póstu…").
+                      ellipsis: i == 0,
+                      onTap: onBookTap == null ? null : () => onBookTap(book),
+                    ),
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
+
+  static List<CoverArt?> _arts(List<Book> items) => [
+    for (final b in items)
+      switch (b.cover) {
+        DesignedCover(:final art) => art,
+        PhotoCover() => null,
+      },
+  ];
 }
 
 /// Cabeçalho (44, `space-between`, centralizado): o `<h3>` 109,35 × 28,8 (→ y + 7,6) e o link "Ver tudo"
@@ -199,15 +218,25 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget cover = switch (book.cover) {
-      CoverArt.memoriasPostumas => const MemoriasPostumasCover(),
-      CoverArt.quincasBorba => const QuincasBorbaCover(),
-      CoverArt.oCortico => const OCorticoCover(),
-      _ => throw ArgumentError.value(
-        book.cover,
+      DesignedCover(art: CoverArt.esauEJaco) => const EsauEJacoCover(),
+      DesignedCover(art: CoverArt.memorialDeAires) =>
+        const MemorialDeAiresCover(),
+      DesignedCover(art: CoverArt.casaDePensao) => const CasaDePensaoCover(),
+      // Livro real (D-79): a foto na moldura do arquivo (116×174).
+      final PhotoCover c => PhotoBookCover(
+        key: ValueKey('$id.cover'),
+        book: book,
+        cover: c,
+        slot: CoverSlot.forYou,
+      ),
+      final other => throw ArgumentError.value(
+        other,
         'cover',
         'sem arte em "Para você"',
       ),
     };
+    // Livro real: título em até 2 linhas e autor em 1 (os do arquivo não precisam).
+    final real = book.cover is PhotoCover;
     return Pressable(
       isLink: true, // <a href>
       onTap: onTap,
@@ -228,16 +257,18 @@ class _Item extends StatelessWidget {
               children: [
                 // O arquivo abrevia o 1º título ("Memórias Póstumas") e ainda o corta com "…".
                 AppText(
-                  book.shortTitle ?? book.title,
+                  HomeFormatters.bookTitleShort(book),
                   key: ValueKey('$id.title'),
                   style: AppTextStyles.label14Bold,
-                  maxLines: ellipsis ? 1 : null,
-                  ellipsis: ellipsis,
+                  maxLines: ellipsis ? 1 : (real ? 2 : null),
+                  ellipsis: ellipsis || real,
                 ),
                 AppText(
                   book.author,
                   key: ValueKey('$id.author'),
                   style: AppTextStyles.body13Muted,
+                  maxLines: real ? 1 : null,
+                  ellipsis: real,
                 ),
               ],
             ),

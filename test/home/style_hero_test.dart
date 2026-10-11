@@ -7,13 +7,13 @@ import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
 import 'package:app_leitura/core/design_system/tokens/app_radii.dart';
 import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
 import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
-import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
 import '../support/load_fonts.dart';
@@ -74,8 +74,9 @@ void _expectInkBorder(BoxDecoration d, {double width = 1.5}) {
 Future<void> _pumpCanvas(WidgetTester tester) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
-    const ProviderScope(
-      child: RepaintBoundary(key: goldenRootKey, child: App.forTests()),
+    ProviderScope(
+      overrides: overridesDoMundo,
+      child: const RepaintBoundary(key: goldenRootKey, child: App.forTests()),
     ),
   );
   await tester.pumpAndSettle();
@@ -100,7 +101,10 @@ Offset _coverPoint(WidgetTester tester, Offset local) => tester
     .renderObject<RenderBox>(find.byKey(const ValueKey('hero.cover#rot')))
     .localToGlobal(local);
 
-/// F05 — camada 2 (estilo, sem tolerância) da seção `hero`.
+/// F05 — camada 2 (estilo, sem tolerância) da seção `hero`; desde a T03 o `HeroSection` da prancha 01 (L01a2): o
+/// cartão cresce a 282,8 (as pílulas "pág. 159 de 256" e "E-BOOK" em 2 linhas) e a capa é a nova (o olho e o mar, em
+/// SVG) — a estrutura e os textos dela são exatos em `test/home/inicio01/heroi_test.dart`; aqui ficam o cartão, os
+/// brilhos, as pílulas, os textos, a barra, as ações, os pixels e o tema.
 void main() {
   setUpAll(loadAppFonts);
 
@@ -130,7 +134,14 @@ void main() {
               )
               .first,
         ),
-        const Size(347, 272),
+        isA<Size>()
+            .having((z) => z.width, 'largura', 347)
+            // 282,8 − 2 × 1,5; a altura vem do texto (float32 do SkParagraph) → ±1e-3
+            .having(
+              (z) => z.height,
+              'altura',
+              moreOrLessEquals(279.8, epsilon: 1e-3),
+            ),
       );
     },
   );
@@ -154,134 +165,28 @@ void main() {
   );
 
   testWidgets(
-    '5.2 capa: #552CB7, borda 1,5, raio 4/10/10/4, sombra dura (3,3) blur 0; recorte interno 2,5/8,5/8,5/2,5',
+    '5.3 pílulas #FFFAF1 ("pág. 159 de 256") e #FED170 ("E-BOOK") borda 1,5 raio 999 (→ metade da altura); título Bricolage24 24/1,05 ls −0,6; autor Figtree 14/500 #2F2A40',
     (tester) async {
       setCanvasView(tester);
       await pumpApp(tester);
-      final d = _decorationOf(tester, 'hero.cover#rot');
-      expect(d.color!.toARGB32(), 0xFF552CB7);
-      _expectInkBorder(d);
-      expect(
-        d.borderRadius,
-        const BorderRadius.only(
-          topLeft: Radius.circular(4),
-          topRight: Radius.circular(10),
-          bottomRight: Radius.circular(10),
-          bottomLeft: Radius.circular(4),
-        ),
-      );
-      expect(d.borderRadius, AppRadii.coverL);
-      _expectHardShadow(d, const Offset(3, 3));
-      final clip = _clipOf(tester, 'hero.cover#rot');
-      expect(
-        clip.borderRadius,
-        const BorderRadius.only(
-          topLeft: Radius.circular(2.5),
-          topRight: Radius.circular(8.5),
-          bottomRight: Radius.circular(8.5),
-          bottomLeft: Radius.circular(2.5),
-        ),
-      );
-      final stack = tester.widget<Stack>(
-        find
-            .descendant(
-              of: find.byKey(const ValueKey('hero.cover#rot')),
-              matching: find.byType(Stack),
-            )
-            .first,
-      );
-      // Ordem de pintura do arquivo: lombada, sol, anel, bloco de texto.
-      expect(stack.children.map((w) => (w as Positioned).child.key), const [
-        ValueKey('hero.cover.spine'),
-        ValueKey('hero.cover.sun'),
-        ValueKey('hero.cover.ring'),
-        ValueKey('hero.cover.textBlock'),
-      ]);
-      final positions = [
-        for (final w in stack.children.cast<Positioned>())
-          (w.left, w.top, w.right, w.bottom, w.width, w.height),
-      ];
-      expect(positions, [
-        (0.0, 0.0, null, 0.0, 7.0, null), // lombada: altura toda
-        (null, -20.0, -20.0, null, null, null), // sol
-        (null, 38.0, 18.0, null, null, null), // anel
-        (15.0, null, 8.0, 12.0, null, null), // texto
-      ]);
-    },
-  );
-
-  testWidgets(
-    '5.2 filhos da capa: lombada 7 rgba(0,0,0,.22); sol 70 #FED170 redondo; anel 21×21 (content-box) borda 1,5 #FED170 vazado',
-    (tester) async {
-      setCanvasView(tester);
-      await pumpApp(tester);
-      final spine = _decorationOf(tester, 'hero.cover.spine');
-      expect(spine.color!.toARGB32(), 0x38000000); // round(0,22 × 255) = 56
-      expect(spine.color, AppColors.spine22);
-      expect((spine.border, spine.boxShadow), (null, null));
-      expect(spine.borderRadius, BorderRadius.zero);
-      final sun = _decorationOf(tester, 'hero.cover.sun');
-      expect(sun.color!.toARGB32(), 0xFFFED170);
-      expect(sun.borderRadius, BorderRadius.circular(35));
-      expect((sun.border, sun.boxShadow), (null, null));
-      final ring = _decorationOf(tester, 'hero.cover.ring');
-      expect(ring.color, isNull);
-      expect(ring.border, Border.all(width: 1.5, color: AppColors.sun));
-      expect((ring.border! as Border).top.color.toARGB32(), 0xFFFED170);
-      expect(ring.borderRadius, BorderRadius.circular(10.5));
-      expect(ring.boxShadow, isNull);
-      final box = tester.widget<NeoBox>(
-        find.byKey(const ValueKey('hero.cover.ring')),
-      );
-      expect((box.width, box.height), (21.0, 21.0)); // 18 + 2 × 1,5
-    },
-  );
-
-  testWidgets(
-    '5.2 textos da capa: Instrument Serif 22/0,92 #FED170; Figtree 6,5/700 ls 0,91 (0,14em) #F7F0E3',
-    (tester) async {
-      setCanvasView(tester);
-      await pumpApp(tester);
-      final t = _styleOf(tester, 'hero.cover.title');
-      expect(t, same(AppTextStyles.coverTitle22));
-      expect(
-        (t.fontFamily, t.fontSize, t.fontWeight, t.height, t.letterSpacing),
-        ('InstrumentSerif', 22.0, FontWeight.w400, 0.92, 0.0),
-      );
-      expect(t.fontStyle, FontStyle.normal);
-      expect(t.fontFamilyFallback, ['InstrumentSerifExt']);
-      expect(t.color!.toARGB32(), 0xFFFED170);
-      final a = _styleOf(tester, 'hero.cover.author');
-      expect(a, same(AppTextStyles.coverAuthorPaper));
-      expect(
-        (a.fontFamily, a.fontSize, a.fontWeight, a.height, a.letterSpacing),
-        ('Figtree', 6.5, FontWeight.w700, 1.2, 0.91),
-      );
-      expect(a.letterSpacing, moreOrLessEquals(0.14 * 6.5, epsilon: 1e-12));
-      expect(a.fontFamilyFallback, ['FigtreeExt']);
-      expect(a.color!.toARGB32(), 0xFFF7F0E3);
-      for (final s in [t, a]) {
-        expect(s.leadingDistribution, TextLeadingDistribution.even);
+      for (final (id, cor) in [
+        ('hero.pagePill', 0xFFFFFAF1),
+        ('hero.formatPill', 0xFFFED170),
+      ]) {
+        final pill = _decorationOf(tester, id);
+        expect(pill.color!.toARGB32(), cor, reason: id);
+        _expectInkBorder(pill);
+        expect(pill.borderRadius, BorderRadius.circular(999), reason: id);
+        expect(pill.boxShadow, isNull, reason: id);
+        final rect = tester.getRect(find.byKey(ValueKey(id)));
+        final rrect = BorderRadius.circular(999).toRRect(rect).scaleRadii();
+        expect(
+          rrect.tlRadiusX,
+          moreOrLessEquals(rect.height / 2, epsilon: 1e-9),
+          reason: id,
+        );
       }
-    },
-  );
-
-  testWidgets(
-    '5.3 pílula #FFFAF1 borda 1,5 raio 999 (→ 13,7) com 12/700 tinta; título Bricolage24 24/1,05 ls −0,6; autor Figtree 14/500 #2F2A40',
-    (tester) async {
-      setCanvasView(tester);
-      await pumpApp(tester);
-      final pill = _decorationOf(tester, 'hero.chapterPill');
-      expect(pill.color!.toARGB32(), 0xFFFFFAF1);
-      _expectInkBorder(pill);
-      expect(pill.borderRadius, BorderRadius.circular(999));
-      expect(pill.boxShadow, isNull);
-      final rect = tester.getRect(
-        find.byKey(const ValueKey('hero.chapterPill')),
-      );
-      final rrect = BorderRadius.circular(999).toRRect(rect).scaleRadii();
-      expect(rrect.tlRadiusX, moreOrLessEquals(13.7, epsilon: 1e-3));
-      final label = _styleOf(tester, 'hero.chapterPill');
+      final label = _styleOf(tester, 'hero.pagePill');
       expect(label, same(AppTextStyles.label12Bold));
       expect(
         (label.fontFamily, label.fontSize, label.fontWeight, label.height),
@@ -403,90 +308,81 @@ void main() {
   );
 
   testWidgets(
-    'pixels @3x: fundo brand, sombras duras do cartão e da capa girada, sol recortado no canto, anel vazado, brilhos, barra e badge',
+    'pixels @3x: fundo brand, sombras duras do cartão e da capa girada, brilhos, barra, CTA, botão e badge',
     (tester) async {
       setCanvasView(tester);
       await _pumpCanvas(tester);
       final (rgba, width) = await _capture(tester);
       int at(Offset p) => _argbAt(rgba, width, p);
+      Rect r(String id) => tester.getRect(find.byKey(ValueKey(id)));
+      final hero = r('hero'), bar = r('hero.progressBar'), cta = r('hero.cta');
+      final button = r('hero.notesButton'), badge = r('hero.notesButton.badge');
       final checks = <String, (Offset, int)>{
+        // a linha da capa termina em 185,8 e as ações começam em 205,8 (padding 20, gap 20)
         'fundo brand entre a linha e as ações': (
-          const Offset(30, 440),
+          hero.topLeft + const Offset(10, 195.8),
           0xFFB6ACE4,
         ),
-        'borda esquerda do cartão': (const Offset(20.5, 400), 0xFF1A1714),
-        'sombra do cartão (4 px à direita)': (
-          const Offset(372, 400),
+        'borda esquerda do cartão': (
+          Offset(hero.left + 0.5, hero.top + 150),
           0xFF1A1714,
         ),
-        'sombra do cartão (4 px abaixo)': (const Offset(200, 525), 0xFF1A1714),
-        'papel além da sombra': (const Offset(375, 400), 0xFFF7F0E3),
-        'capa: violeta no centro (acima do texto)': (
-          _coverPoint(tester, const Offset(52, 78)),
-          0xFF552CB7,
+        'sombra do cartão (4 px à direita)': (
+          Offset(hero.right + 2, hero.top + 150),
+          0xFF1A1714,
         ),
-        'capa: sol dentro da capa': (
-          _coverPoint(tester, const Offset(1.5 + 80, 1.5 + 10)),
-          0xFFFED170,
+        'sombra do cartão (4 px abaixo)': (
+          Offset(hero.center.dx, hero.bottom + 2),
+          0xFF1A1714,
         ),
-        'capa: sol recortado (fora da borda superior)': (
-          _coverPoint(tester, const Offset(1.5 + 95, -3.5)),
-          0xFFB6ACE4,
+        'papel além da sombra': (
+          Offset(hero.right + 5, hero.top + 150),
+          0xFFF7F0E3,
         ),
-        'capa: anel vazado (centro violeta)': (
-          _coverPoint(tester, const Offset(1.5 + 72.5, 1.5 + 48.5)),
-          0xFF552CB7,
-        ),
-        'capa: traço do anel': (
-          _coverPoint(tester, const Offset(1.5 + 62.75, 1.5 + 48.5)),
-          0xFFFED170,
-        ),
+        // A capa (−3°): a sombra dura 3/3 e o brand depois dela (a arte é SVG — o desenho está no gate visual).
         'capa: sombra girada à direita': (
           _coverPoint(tester, const Offset(105.5, 78)),
+          0xFF1A1714,
+        ),
+        'capa: sombra girada embaixo': (
+          _coverPoint(tester, const Offset(52, 157.5)),
           0xFF1A1714,
         ),
         'capa: brand além da sombra girada': (
           _coverPoint(tester, const Offset(108.5, 78)),
           0xFFB6ACE4,
         ),
+        'capa: borda esquerda tinta': (
+          _coverPoint(tester, const Offset(0.75, 78)),
+          0xFF1A1714,
+        ),
+        // Os brilhos (presos ao canto de cima, à direita): os miolos.
         'brilho grande: miolo #FFFAF1': (
-          const Offset(335.5, 282.66),
+          hero.topLeft + const Offset(315.5, 34.5),
           0xFFFFFAF1,
         ),
         'brilho pequeno: miolo tinta': (
-          const Offset(311.5, 310.66),
+          hero.topLeft + const Offset(291.5, 62.5),
           0xFF1A1714,
         ),
-        'barra: preenchimento': (const Offset(200, 422.66), 0xFF1A1714),
-        'barra: trilho após 62 %': (const Offset(300, 422.66), 0xFFFFFAF1),
-        'CTA: fundo tinta': (const Offset(50, 474.66), 0xFF1A1714),
-        'botão: fundo claro (fora do ícone)': (
-          const Offset(305, 485),
+        'barra: preenchimento': (
+          Offset(bar.left + bar.width * 0.3, bar.center.dy),
+          0xFF1A1714,
+        ),
+        'barra: trilho após 62 %': (
+          Offset(bar.left + bar.width * 0.85, bar.center.dy),
           0xFFFFFAF1,
         ),
-        'badge: fundo amarelo': (const Offset(329.5, 456.16), 0xFFFED170),
+        'CTA: fundo tinta': (Offset(cta.left + 12, cta.center.dy), 0xFF1A1714),
+        'botão: fundo claro (fora do ícone)': (
+          button.center + const Offset(15, 0),
+          0xFFFFFAF1,
+        ),
+        'badge: fundo amarelo': (
+          Offset(badge.left + 3.5, badge.center.dy),
+          0xFFFED170,
+        ),
       };
-      // Lombada: rgba(0,0,0,.22) sobre o violeta (src-over, alpha 56/255): canal × (1 − 56/255).
-      final spine = at(_coverPoint(tester, const Offset(1.5 + 3.5, 78)));
-      final spineWant = [
-        0x55,
-        0x2C,
-        0xB7,
-      ].map((c) => c * (1 - 56 / 255)).toList();
-      final spineGot = [
-        (spine >> 16) & 0xFF,
-        (spine >> 8) & 0xFF,
-        spine & 0xFF,
-      ];
-      debugPrint(
-        '[pixels] lombada: 0x${spine.toRadixString(16).toUpperCase()} '
-        '(src-over exato ${spineWant.map((v) => v.toStringAsFixed(2)).join(', ')})',
-      );
-      expect(spine >>> 24, 0xFF);
-      for (var c = 0; c < 3; c++) {
-        // Só o arredondamento de 8 bits da composição.
-        expect(spineGot[c], closeTo(spineWant[c], 1), reason: 'canal $c');
-      }
       final failures = <String>[];
       checks.forEach((what, check) {
         final got = at(check.$1);
@@ -504,7 +400,7 @@ void main() {
   );
 
   testWidgets(
-    'Tema: cada opção de brand (AppColors.brandOptions) muda só o fundo do cartão',
+    'Tema: cada opção de brand (AppColors.brandOptions) muda só o fundo do cartão e, desde a F11, o item ativo da navegação',
     (tester) async {
       setCanvasView(tester);
       await _pumpCanvas(tester);
@@ -513,13 +409,15 @@ void main() {
         tester.element(find.byType(HomeScreen)),
       );
       final hero = tester.getRect(find.byKey(const ValueKey('hero')));
+      // F11: o item ativo da barra (Início) usa o mesmo `brand` do hero — única região fora do cartão que muda.
+      final navItem = tester.getRect(find.byKey(const ValueKey('nav.home')));
       expect(AppColors.brandOptions, hasLength(4));
       for (final brand in AppColors.brandOptions) {
         container.read(homeThemeProvider.notifier).setBrand(brand);
         await tester.pumpAndSettle();
         expect(_decorationOf(tester, 'hero').color, brand);
         final (rgba, _) = await _capture(tester);
-        var changed = 0, outside = 0;
+        var changed = 0, outside = 0, inNavItem = 0;
         for (var i = 0; i < rgba.length; i += 4) {
           if (rgba[i] == base[i] &&
               rgba[i + 1] == base[i + 1] &&
@@ -535,19 +433,34 @@ void main() {
               px / 3 < hero.right &&
               (py + 1) / 3 > hero.top &&
               py / 3 < hero.bottom;
-          if (!touches) outside++;
+          // O pixel @3x cobre [px/3, (px+1)/3) × [py/3, (py+1)/3): precisa tocar o item ativo da navegação.
+          final touchesNav =
+              (px + 1) / 3 > navItem.left &&
+              px / 3 < navItem.right &&
+              (py + 1) / 3 > navItem.top &&
+              py / 3 < navItem.bottom;
+          if (touchesNav) inNavItem++;
+          if (!touches && !touchesNav) outside++;
         }
-        final bg = _argbAt(rgba, width, const Offset(30, 440));
+        final bg = _argbAt(rgba, width, hero.topLeft + const Offset(10, 195.8));
         debugPrint(
           '[tema] brand 0x${brand.toARGB32().toRadixString(16).toUpperCase()}: '
-          '$changed pixels mudaram, $outside fora do cartão; fundo 0x${bg.toRadixString(16).toUpperCase()}',
+          '$changed pixels mudaram, $inNavItem no item ativo da navegação, $outside fora do cartão e do item; '
+          'fundo 0x${bg.toRadixString(16).toUpperCase()}',
         );
         expect(outside, 0);
         expect(bg, brand.toARGB32());
+        // O fundo da pílula ativa (pixel dentro dela, longe do ícone e do rótulo) acompanha o hero.
+        expect(
+          _argbAt(rgba, width, navItem.topLeft + const Offset(4.5, 20.5)),
+          brand.toARGB32(),
+        );
         if (brand == AppColors.lavender) {
           expect(changed, 0); // é o padrão
+          expect(inNavItem, 0);
         } else {
           expect(changed, greaterThan(300000));
+          expect(inNavItem, greaterThan(5000)); // o preenchimento da pílula (≈ 21.500 px @3x, sem borda, ícone e rótulo) muda de cor
         }
       }
     },
@@ -597,6 +510,9 @@ void main() {
           reason: id,
         );
         await gesture.up();
+        await tester.pumpAndSettle();
+        // F12: soltar dentro do alvo agora navega (o callback está ligado): voltar devolve a Início.
+        await tester.binding.handlePopRoute();
         await tester.pumpAndSettle();
         expect(
           tester.widget<AnimatedScale>(scale.first).scale,

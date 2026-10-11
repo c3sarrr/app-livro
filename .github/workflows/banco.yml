@@ -1,0 +1,80 @@
+# CI do banco e das Edge Functions (G04): forma das migrations, lint do esquema, pgTAP no Postgres 17
+# do Supabase local, testes Deno (funções e a página web de exclusão — G05) e varredura de segredos.
+# Nada aqui fala com stg/prod.
+name: banco
+
+on:
+  push:
+    branches: [main]
+    paths: ['supabase/**', 'site/**', 'tools/supabase/**', '.github/workflows/banco.yml']
+  pull_request:
+    paths: ['supabase/**', 'site/**', 'tools/supabase/**', '.github/workflows/banco.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: banco-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  migrations:
+    name: forma das migrations
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with: { fetch-depth: 0 }
+      - name: regras de forma (bloco de permissões, search_path, migration já publicada não muda)
+        run: python3 tools/supabase/verificar_migrations.py --base "${{ github.event_name == 'pull_request' && format('origin/{0}', github.base_ref) || 'HEAD~1' }}"
+
+  postgres:
+    name: lint e pgTAP (Supabase local)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: supabase/setup-cli@v1
+        with: { version: 2.119.0 }
+      - name: sobe só o banco
+        run: supabase db start
+      - name: supabase db lint
+        run: supabase db lint --level warning --fail-on warning
+      - name: supabase test db
+        run: supabase test db
+
+  funcoes:
+    name: Edge Functions (Deno)
+    runs-on: ubuntu-24.04
+    defaults:
+      run: { working-directory: supabase/functions }
+    steps:
+      - uses: actions/checkout@v5
+      - uses: denoland/setup-deno@v2
+        with: { deno-version: v2.x }
+      - run: deno fmt --check
+      - run: deno lint
+      - run: deno check */index.ts
+      - run: deno test --allow-env --allow-net --allow-read
+
+  site:
+    name: página web de exclusão de conta (Deno)
+    runs-on: ubuntu-24.04
+    defaults:
+      run: { working-directory: site }
+    steps:
+      - uses: actions/checkout@v5
+      - uses: denoland/setup-deno@v2
+        with: { deno-version: v2.x }
+      - run: deno fmt --check
+      - run: deno lint
+      - run: deno test
+
+  segredos:
+    name: varredura de segredos (gitleaks)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with: { fetch-depth: 0 }
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

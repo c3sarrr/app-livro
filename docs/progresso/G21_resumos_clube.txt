@@ -1,0 +1,18 @@
+# G21.1 — 2026-10-09T18:16:33Z — Postgres 17.11 (Supabase local, WSL)
+# tools/supabase/medir_clube.sh: o clube grande de supabase/bench/04_clube_grande.sql (50 leitoras, 6 semanas,
+# 20 perguntas, 2.000 respostas — 1.000 na pergunta da semana 2 —, 100 grifos, 1.500 curtidas), como uma leitora
+# (papel authenticated + JWT). 7 rodadas por resumo; mediana e pior. Metas do Anexo 02 §10: feed < 30 ms,
+# respostas < 20 ms.
+## carga (04_clube_grande.sql)
+carga: 7.04 s
+## resumos (05_resumos_clube.sql)
+              rpc              | mediana_ms | pior_ms
+-------------------------------+------------+---------
+ club_members_overview         |        4.0 |     4.7
+ club_overview                 |       18.4 |    21.3
+ club_post_summaries (200 ids) |        2.1 |     2.5
+ meeting_overview              |        6.5 |     8.3
+ my_clubs                      |        4.0 |     9.8
+ week_thread likes (1ª página) |       12.2 |    13.1
+ week_thread likes (2ª página) |       12.5 |    13.3
+ week_thread recent            |       12.2 |    12.6

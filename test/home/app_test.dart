@@ -1,5 +1,9 @@
 import 'package:app_leitura/app/app.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_inicio.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_inicio.dart';
+import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
 import 'package:app_leitura/main.dart' as app;
@@ -7,9 +11,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/load_fonts.dart';
 import '../support/pump_app.dart';
@@ -134,15 +140,59 @@ void main() {
     );
 
     testWidgets(
-      'main(): licença OFL, edge-to-edge + retrato e ProviderScope(App) abrindo na Início',
+      'main()/runBookNest(): licença OFL, edge-to-edge + retrato e ProviderScope(App) abrindo na Início '
+      '(com a fixture do mundo de referência — a Início real é da G08)',
       (tester) async {
         setCanvasView(tester, logical: const Size(390, 844));
         final calls = _mockPlatformChannel();
         LicenseRegistry.reset();
         addTearDown(LicenseRegistry.reset);
-        await app.main();
+        // F12 12.4: o main() pré-carrega os SVGs (E/S real) antes do runApp → precisa rodar fora do FakeAsync.
+        svg.cache.clear();
+        await tester.runAsync(
+          () => app.runBookNest(overrides: overridesDoMundo),
+        );
         await tester.pumpAndSettle();
         _expectSystemUiCalls(calls);
+        // Os 18 SVGs do arquivo já estão no cache do flutter_svg quando a primeira tela aparece.
+        for (final asset in AppIcons.all) {
+          final loader = SvgAssetLoader(asset);
+          var loadedAgain = false;
+          await svg.cache.putIfAbsent(loader.cacheKey(null), () {
+            loadedAgain = true;
+            return loader.loadBytes(null);
+          });
+          expect(loadedAgain, isFalse, reason: '$asset deveria estar em cache');
+        }
+        // T03 (pendência 3): da Início nova, só o que a 01 desenha; os da 01b e da revisão ficam para as telas deles
+        Future<bool> emCache(String asset) async {
+          final loader = appSvgLoader(asset);
+          var carregou = false;
+          await tester.runAsync(
+            () => svg.cache.putIfAbsent(loader.cacheKey(null), () {
+              carregou = true;
+              return loader.loadBytes(null);
+            }),
+          );
+          return !carregou;
+        }
+
+        // T04: e os da 01b (o cronômetro)
+        final da01 = {
+          ...AppIconsInicio.inicio01,
+          ...AppIllustrationsInicio.inicio01,
+          ...AppIconsInicio.inicio01b,
+          ...AppIllustrationsInicio.inicio01b,
+        };
+        for (final asset in da01) {
+          expect(await emCache(asset), isTrue, reason: asset);
+        }
+        for (final asset in [
+          ...AppIconsInicio.all,
+          ...AppIllustrationsInicio.all,
+        ].where((a) => !da01.contains(a))) {
+          expect(await emCache(asset), isFalse, reason: asset);
+        }
         final licenses = await tester.runAsync(
           () => LicenseRegistry.licenses.toList(),
         );

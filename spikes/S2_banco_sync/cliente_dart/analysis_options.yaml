@@ -1,0 +1,11 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - lib/**.g.dart
+
+linter:
+  rules:
+    prefer_final_locals: true
+    avoid_print: false # o spike imprime o resumo dos números

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
 import '../support/load_fonts.dart';
@@ -190,8 +191,12 @@ void main() {
       setCanvasView(tester);
       await precacheSvgs(tester, AppIcons.all);
       await tester.pumpWidget(
-        const ProviderScope(
-          child: RepaintBoundary(key: goldenRootKey, child: App.forTests()),
+        ProviderScope(
+          overrides: overridesDoMundo,
+          child: const RepaintBoundary(
+            key: goldenRootKey,
+            child: App.forTests(),
+          ),
         ),
       );
       await tester.pumpAndSettle();
@@ -254,6 +259,9 @@ void main() {
         const Duration(milliseconds: 90),
       );
       await gesture.up();
+      await tester.pumpAndSettle();
+      // F12: soltar dentro do alvo agora navega (o callback está ligado): voltar devolve a Início.
+      await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
       expect(tester.widget<AnimatedScale>(scale).scale, 1.0);
     },

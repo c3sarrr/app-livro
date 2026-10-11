@@ -1,5 +1,4 @@
 import 'package:app_leitura/core/design_system/text/app_text.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/sections/also_reading_section.dart';
 import 'package:flutter/rendering.dart';
@@ -7,26 +6,31 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../support/canvas.dart';
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
+import '../support/fase_inicio.dart';
 import '../support/load_fonts.dart';
-import '../support/precache_svgs.dart';
-import '../support/pump_app.dart';
 
-/// Só a seção, com o callback (a tela liga o destino `/livro/:bookId` na F12).
+/// Só a seção, com os callbacks (a Início liga `/livro/:bookId` e o "sem ação" do "play" — D-243 b).
 Future<void> _pumpSection(
   WidgetTester tester, {
   ValueChanged<Book>? onBookTap,
+  ValueChanged<Book>? onStartReadingTap,
 }) async {
-  await precacheAppIcons(tester);
+  await precacheInicio01(tester);
   await tester.pumpWidget(
     ProviderScope(
+      overrides: overridesDoMundo,
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Align(
           alignment: Alignment.topLeft,
           child: SizedBox(
             width: 350,
-            child: AlsoReadingSection(onBookTap: onBookTap),
+            child: AlsoReadingSection(
+              onBookTap: onBookTap,
+              onStartReadingTap: onStartReadingTap,
+            ),
           ),
         ),
       ),
@@ -38,25 +42,37 @@ Future<void> _pumpSection(
 SemanticsNode _node(WidgetTester tester, String id) =>
     tester.getSemantics(find.byKey(ValueKey<String>(id)));
 
-/// Nome do link = textos do card na ordem do documento (como o nome calculado de um `<a>`); o Flutter
-/// junta os rótulos dos filhos fundidos com "\n". A capa mantém o `<br>` do arquivo e o título vai inteiro
-/// (as reticências são só da pintura).
-const _cardNames = {
-  'alsoReading.card1': 'Mrs.\nDalloway\n34%\nMrs. Dalloway\nVirginia Woolf',
-  'alsoReading.card2':
-      'Orgulho e\nPreconceito\n81%\nOrgulho e Preconceito\nJane Austen',
-};
+/// O `<a>` do cartão de papel com página (sem `aria-label`): o nome é o texto do cartão na ordem do documento —
+/// a capa (com o `<br>`), o anel, o título inteiro (as reticências são só da pintura), o autor e a pílula.
+const _card2 =
+    'Orgulho e\nPreconceito\n81%\nOrgulho e Preconceito\nJane Austen\nPapel · pág. 344';
 
-/// F06 — semântica e toques da seção `alsoReading`.
+/// Filhos da `<section aria-label="Também lendo">` na ordem do documento (prancha 01, L01a3): o h3, o contador, o
+/// cartão do livro de papel sem página (o link da capa com o `aria-label`, o botão "play" e os textos soltos) e o
+/// cartão do Orgulho (um link só).
+const _children = [
+  'Também lendo',
+  '3',
+  'Memórias Póstumas de Brás Cubas',
+  'Iniciar leitura de Brás Cubas',
+  'Brás Cubas',
+  'Machado de Assis',
+  'Papel · 3h 40min',
+  _card2,
+];
+
+/// F06 — semântica e toques da seção `alsoReading`; desde a T03 a da prancha 01 (L01a3, D-253): o Brás Cubas de
+/// papel sem página (capa = link com o título inteiro, "play" = botão sem ação até a T04) e o Orgulho de papel na
+/// pág. 344 (o cartão inteiro é o link).
 void main() {
   setUpAll(loadAppFonts);
 
   testWidgets(
-    'seção "Também lendo" (container + explicitChildNodes): h3, contador "2" e 2 links com o texto do card',
+    'seção "Também lendo" (container + explicitChildNodes): h3, contador "3", o link da capa e o botão do Brás '
+    'Cubas, os textos do cartão de papel e o link do Orgulho, na ordem do documento',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      setCanvasView(tester);
-      await pumpApp(tester);
+      await abrirInicio01(tester);
 
       // <section aria-label="Também lendo">: nó próprio que NÃO absorve os filhos.
       final section = _node(tester, 'alsoReading');
@@ -64,7 +80,12 @@ void main() {
       expect(section.flagsCollection.isHeader, isFalse);
       expect(section.flagsCollection.isLink, isFalse);
       expect(section.flagsCollection.isButton, isFalse);
-      expect(section.childrenCount, greaterThan(1));
+      final labels = <String>[];
+      section.visitChildren((n) {
+        labels.add(n.label);
+        return true;
+      });
+      expect(labels, _children);
 
       // <h3>Também lendo</h3>.
       final title = _node(tester, 'alsoReading.title');
@@ -72,62 +93,90 @@ void main() {
       expect(title.flagsCollection.isHeader, isTrue);
       expect(title.getSemanticsData().headingLevel, 3);
       expect(title.childrenCount, 0);
-      expect(
-        find.semantics.byPredicate(
-          (n) => n.flagsCollection.isHeader && n.label == 'Também lendo',
-        ),
-        findsOne,
-      );
       // "Também lendo" aparece 2 vezes: o rótulo da seção e o cabeçalho.
       expect(find.semantics.byLabel('Também lendo'), findsNWidgets(2));
 
-      // Contador: <span>2</span> visível, lido como texto (sem papel de botão). O nó é o do AppText de
-      // dentro do badge (a caixa do badge não tem nó próprio: `getSemantics` da Key cairia na seção).
+      // Contador: <span>3</span> visível, lido como texto (sem papel de botão). O nó é o do AppText de dentro do
+      // badge (a caixa do badge não tem nó próprio).
       final count = tester.getSemantics(
         find.descendant(
           of: find.byKey(const ValueKey('alsoReading.count')),
           matching: find.byType(AppText),
         ),
       );
-      expect(count.label, '2');
+      expect(count.label, '3');
       expect(count.flagsCollection.isButton, isFalse);
       expect(count, isNot(same(section)));
-      expect(find.semantics.byLabel('2'), findsOne);
 
-      // <a href>: link sem aria-label → o nome é o texto do card; tudo do card cai nesse nó.
-      for (final MapEntry(key: card, value: name) in _cardNames.entries) {
-        final link = _node(tester, card);
-        debugPrint(
-          '[semântica] $card: link "${link.label.replaceAll('\n', r'\n')}"',
-        );
-        expect(link.label, name, reason: card);
-        expect(link.flagsCollection.isLink, isTrue, reason: card);
-        expect(link.flagsCollection.isButton, isFalse, reason: card);
-        expect(link.childrenCount, 0, reason: card);
-        for (final id in [
-          '$card.top',
-          '$card.cover',
-          '$card.cover.title',
-          '$card.ring',
-          '$card.ring.svg', // aria-hidden: não acrescenta nada ao nome
-          '$card.ring.label',
-          '$card.textBlock',
-          '$card.title',
-          '$card.author',
-        ]) {
-          expect(_node(tester, id), same(link), reason: id);
-        }
+      // O cartão de papel sem página: <a aria-label="Memórias Póstumas de Brás Cubas"> na capa (o texto "Brás /
+      // Cubas" da capa não entra — o aria-label manda) e <button aria-label="Iniciar leitura de Brás Cubas">.
+      final capa = _node(tester, 'alsoReading.card1.cover');
+      expect(capa.label, 'Memórias Póstumas de Brás Cubas');
+      expect(capa.flagsCollection.isLink, isTrue);
+      expect(capa.flagsCollection.isButton, isFalse);
+      expect(capa.childrenCount, 0);
+      for (final id in [
+        'alsoReading.card1.cover.title',
+        'alsoReading.card1.cover.spine',
+        'alsoReading.card1.cover.hat',
+        'alsoReading.card1.cover.brim',
+      ]) {
+        expect(_node(tester, id), same(capa), reason: id);
       }
-      // Nenhum texto do card vira nó solto na seção.
+      final play = _node(tester, 'alsoReading.card1.play');
+      expect(play.label, 'Iniciar leitura de Brás Cubas');
+      expect(play.flagsCollection.isButton, isTrue);
+      expect(play.flagsCollection.isLink, isFalse);
+      expect(play.childrenCount, 0);
+      expect(_node(tester, 'alsoReading.card1.play.icon'), same(play));
+      // O resto do cartão é texto solto (o cartão de papel não é link): título, autor e a pílula — o ícone dela é
+      // `aria-hidden` e não muda o nome.
+      for (final (id, texto) in [
+        ('alsoReading.card1.title', 'Brás Cubas'),
+        ('alsoReading.card1.author', 'Machado de Assis'),
+        ('alsoReading.card1.meta', 'Papel · 3h 40min'),
+      ]) {
+        final n = tester.getSemantics(
+          find.descendant(
+            of: find.byKey(ValueKey<String>(id)),
+            matching: find.byType(AppText),
+            matchRoot: true,
+          ),
+        );
+        expect(n.label, texto, reason: id);
+        expect(n.flagsCollection.isLink, isFalse, reason: id);
+        expect(n.flagsCollection.isButton, isFalse, reason: id);
+      }
+      expect(find.semantics.byLabel('Brás\nCubas'), findsNothing);
+
+      // O cartão do Orgulho: <a href> sem aria-label → o nome é o texto do cartão; tudo dele cai nesse nó.
+      final link = _node(tester, 'alsoReading.card2');
+      expect(link.label, _card2);
+      expect(link.flagsCollection.isLink, isTrue);
+      expect(link.flagsCollection.isButton, isFalse);
+      expect(link.childrenCount, 0);
+      for (final id in [
+        'alsoReading.card2.top',
+        'alsoReading.card2.cover',
+        'alsoReading.card2.cover.title',
+        'alsoReading.card2.ring',
+        'alsoReading.card2.ring.svg', // aria-hidden: não acrescenta nada ao nome
+        'alsoReading.card2.ring.label',
+        'alsoReading.card2.textBlock',
+        'alsoReading.card2.title',
+        'alsoReading.card2.author',
+        'alsoReading.card2.meta',
+        'alsoReading.card2.meta.icon', // aria-hidden
+      ]) {
+        expect(_node(tester, id), same(link), reason: id);
+      }
+      // Nenhum texto do cartão do Orgulho vira nó solto na seção.
       for (final text in [
-        '34%',
         '81%',
-        'Mrs. Dalloway',
-        'Virginia Woolf',
         'Orgulho e Preconceito',
         'Jane Austen',
-        'Mrs.\nDalloway',
         'Orgulho e\nPreconceito',
+        'Papel · pág. 344',
       ]) {
         expect(find.semantics.byLabel(text), findsNothing, reason: text);
       }
@@ -136,66 +185,84 @@ void main() {
   );
 
   testWidgets(
-    'toques: cada card chama o callback com o seu livro (toque e ação semântica); fora dos cards não dispara',
+    'toques: a capa e o cartão do Orgulho chamam onBookTap com o livro, o "play" chama onStartReadingTap (toque e '
+    'ação semântica); título, textos do cartão de papel e o vão entre os cartões não disparam',
     (tester) async {
       final semantics = tester.ensureSemantics();
-      final tapped = <Book>[];
-      await _pumpSection(tester, onBookTap: tapped.add);
-      for (final card in _cardNames.keys) {
+      final abertos = <Book>[];
+      final plays = <Book>[];
+      await _pumpSection(
+        tester,
+        onBookTap: abertos.add,
+        onStartReadingTap: plays.add,
+      );
+      for (final id in [
+        'alsoReading.card1.cover',
+        'alsoReading.card1.play',
+        'alsoReading.card2',
+      ]) {
         expect(
-          _node(tester, card).getSemanticsData().hasAction(SemanticsAction.tap),
+          _node(tester, id).getSemanticsData().hasAction(SemanticsAction.tap),
           isTrue,
-          reason: card,
+          reason: id,
         );
       }
-      await tester.tap(find.byKey(const ValueKey('alsoReading.card1')));
-      await tester.pumpAndSettle();
-      expect(tapped, [HomeMockRepository.mrsDalloway]);
+      await tester.tap(find.byKey(const ValueKey('alsoReading.card1.cover')));
+      await tester.tap(find.byKey(const ValueKey('alsoReading.card1.play')));
       await tester.tap(find.byKey(const ValueKey('alsoReading.card2')));
       await tester.pumpAndSettle();
-      expect(tapped, [
-        HomeMockRepository.mrsDalloway,
-        HomeMockRepository.pridePrejudice,
+      expect(abertos, [
+        HomeMockRepository.brasCubas,
+        HomeMockRepository.orgulho,
       ]);
-      for (final name in _cardNames.values) {
-        tester.semantics.tap(
-          find.semantics.byPredicate(
-            (n) => n.flagsCollection.isLink && n.label == name,
-          ),
-        );
+      expect(plays, [HomeMockRepository.brasCubas]);
+      for (final rotulo in [
+        'Memórias Póstumas de Brás Cubas',
+        'Iniciar leitura de Brás Cubas',
+        _card2,
+      ]) {
+        tester.semantics.tap(find.semantics.byLabel(rotulo));
       }
       await tester.pumpAndSettle();
-      expect(tapped.map((b) => b.id), [
-        'mrs-dalloway',
+      expect(abertos.map((b) => b.id), [
+        'memorias-postumas-de-bras-cubas',
         'orgulho-e-preconceito',
-        'mrs-dalloway',
+        'memorias-postumas-de-bras-cubas',
         'orgulho-e-preconceito',
       ]);
-      // Cabeçalho e vão entre os cards: nenhum callback.
-      await tester.tap(find.byKey(const ValueKey('alsoReading.title')));
+      expect(plays, hasLength(2));
+      // Cabeçalho, textos do cartão de papel e vão entre os cartões: nenhum callback.
+      for (final id in [
+        'alsoReading.title',
+        'alsoReading.card1.title',
+        'alsoReading.card1.meta',
+      ]) {
+        await tester.tap(find.byKey(ValueKey<String>(id)), warnIfMissed: false);
+      }
       final c1 = tester.getRect(
         find.byKey(const ValueKey('alsoReading.card1')),
       );
       await tester.tapAt(Offset(c1.right + 6, c1.center.dy));
       await tester.pumpAndSettle();
-      expect(tapped, hasLength(4));
+      expect((abertos.length, plays.length), (4, 2));
       semantics.dispose();
     },
   );
 
   testWidgets(
-    'sem callback (tela antes da F12): os links existem, mas não anunciam ação de toque',
+    'sem callback: o link da capa, o botão e o link do cartão existem, mas não anunciam ação de toque',
     (tester) async {
       final semantics = tester.ensureSemantics();
       await _pumpSection(tester);
-      for (final card in _cardNames.keys) {
-        final link = _node(tester, card);
-        expect(link.flagsCollection.isLink, isTrue, reason: card);
-        expect(
-          link.getSemanticsData().hasAction(SemanticsAction.tap),
-          isFalse,
-          reason: card,
-        );
+      for (final (id, link) in [
+        ('alsoReading.card1.cover', true),
+        ('alsoReading.card1.play', false),
+        ('alsoReading.card2', true),
+      ]) {
+        final n = _node(tester, id).getSemanticsData();
+        expect(n.flagsCollection.isLink, link, reason: id);
+        expect(n.flagsCollection.isButton, !link, reason: id);
+        expect(n.hasAction(SemanticsAction.tap), isFalse, reason: id);
       }
       semantics.dispose();
     },

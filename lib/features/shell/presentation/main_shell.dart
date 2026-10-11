@@ -1,16 +1,27 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/router.dart' show AppRoutes;
 import '../../../core/design_system/tokens/app_spacing.dart';
+import '../../library/presentation/incoming_books.dart' show LibraryTabSwitcher;
+import '../../reading_session/application/paper_timer_controller.dart';
+import '../../reading_session/presentation/session_mini_bar.dart';
+import 'bottom_fade.dart';
+import 'floating_nav_bar.dart';
+import 'scanner_fab.dart';
+import 'shell_insets.dart';
 
 /// Camadas fixas sobre o conteúdo das abas (D-01), na ordem de pintura do HTML:
-/// conteúdo da aba → fade inferior → navegação (→ FAB do Scanner, na F11).
-/// Sem `Scaffold` aqui: o da `HomeScreen` é o único tratador do toque na status bar.
-class MainShell extends StatelessWidget {
+/// conteúdo da aba → fade inferior → mini-barra do cronômetro (com sessão aberta — D-259) → navegação → FAB do
+/// Scanner (que sobe 20,5 px acima da barra). Com a mini-barra, o degradê cresce (240 / 48 %) e as abas ganham 96 de
+/// folga no fim (`ShellInsets`). Sem `Scaffold` aqui: o da `HomeScreen` é o único tratador do toque na status bar.
+class MainShell extends ConsumerWidget {
   const MainShell({super.key, required this.shell});
 
   final StatefulNavigationShell shell;
@@ -31,33 +42,86 @@ class MainShell extends StatelessWidget {
     MediaQuery.viewPaddingOf(context).bottom - 4,
   );
 
+  /// Troca de aba. Tocar na aba já ativa volta à rota inicial dela (comportamento padrão do go_router).
+  void _selectTab(int branch) =>
+      shell.goBranch(branch, initialLocation: branch == shell.currentIndex);
+
+  /// D-08: o Scanner abre por push no navigator raiz; a aba ativa não muda.
+  void _openScanner(BuildContext context) =>
+      unawaited(context.push<void>(AppRoutes.scanner));
+
   @override
-  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
-    value: overlayStyle,
-    child: Stack(
-      children: [
-        // Conteúdo da aba.
-        Positioned.fill(child: shell),
-        // F11 desenha o gradiente.
-        const Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          height: 150,
-          child: IgnorePointer(
-            child: SizedBox.expand(key: ValueKey('bottomFade')),
-          ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final width = MediaQuery.sizeOf(context).width;
+    final navBottom = MainShell.navBottom(context);
+    // D-259: só a existência da sessão muda o shell (o tique e a pausa não chegam aqui)
+    final miniBar = ref.watch(
+      paperTimerProvider.select((t) => t.value?.session != null),
+    );
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlayStyle,
+      // G09 (D-87): o "Abrir com" chegou com outra aba aberta → Biblioteca
+      child: LibraryTabSwitcher(
+        onRequest: () => _selectTab(1),
+        child: Stack(
+          children: [
+            // Conteúdo da aba (com a folga da mini-barra para o fim de cada aba).
+            Positioned.fill(
+              child: ShellInsets(
+                extraBottom: miniBar ? ShellInsets.miniBar : 0,
+                child: shell,
+              ),
+            ),
+            // Fade inferior: `pointer-events: none`, pinta antes da barra.
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: miniBar ? 240 : 150,
+              child: IgnorePointer(
+                child: BottomFade(
+                  key: const ValueKey('bottomFade'),
+                  opaqueAt: miniBar ? 0.48 : 0.55,
+                ),
+              ),
+            ),
+            // T04 (D-259): a mini-barra do cronômetro do papel, entre o degradê e a barra (a ordem da 01b), 30 acima da
+            // barra. Sem sessão aberta, não ocupa nada nem pega toque.
+            Positioned(
+              left: AppSpacing.navSide,
+              right: AppSpacing.navSide,
+              bottom: navBottom + AppSpacing.navHeight + 30,
+              height: SessionMiniBar.height,
+              child: const SessionMiniBar(),
+            ),
+            // Barra flutuante.
+            Positioned(
+              left: AppSpacing.navSide,
+              right: AppSpacing.navSide,
+              bottom: navBottom,
+              height: AppSpacing.navHeight,
+              child: FloatingNavBar(
+                key: const ValueKey('nav'),
+                currentIndex: shell.currentIndex,
+                onSelect: _selectTab,
+                onScanner: () => _openScanner(context),
+              ),
+            ),
+            // FAB: centro horizontal da tela (o item do meio é simétrico) e topo = topo do item − 30. Irmão da barra,
+            // depois dela: pinta por cima e o toque vale no círculo inteiro.
+            Positioned(
+              left: (width - ScannerFab.size) / 2,
+              bottom: ScannerFab.bottom(navBottom),
+              width: ScannerFab.size,
+              height: ScannerFab.size,
+              child: ScannerFab(
+                key: const ValueKey('nav.scanner.fab'),
+                onTap: () => _openScanner(context),
+              ),
+            ),
+          ],
         ),
-        // F11 desenha a barra.
-        Positioned(
-          left: AppSpacing.navSide,
-          right: AppSpacing.navSide,
-          bottom: navBottom(context),
-          height: AppSpacing.navHeight,
-          child: const SizedBox.expand(key: ValueKey('nav')),
-        ),
-        // F11: ScannerFab posicionado aqui (acima da barra).
-      ],
-    ),
-  );
+      ),
+    );
+  }
 }

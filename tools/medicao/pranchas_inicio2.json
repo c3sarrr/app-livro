@@ -1,0 +1,93 @@
+{
+  "_doc": "As 6 pranchas da Início e da revisão (arquivo 1 do Claude Design, docs/design/referencia/, T02). slug = pasta de saída; prefixo = prefixo dos ids semânticos; frame = seletor do retângulo da prancha depois que o bundle desempacota. O arquivo não traz prévias (previa vazia). Extrair: python3 tools/medicao/extrair_bundle.py docs/design/referencia/Redesign_mobile___App_de_leitura__1_.html tools/medicao/pranchas_inicio2 --aninhado tools/medicao/pranchas_inicio2.json",
+  "fonte": "docs/design/referencia/Redesign_mobile___App_de_leitura__1_.html",
+  "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+  "pranchas": [
+    {
+      "tela": "01",
+      "slug": "001_inicio",
+      "idInterno": "001_inicio",
+      "prefixo": "i01",
+      "uuid": "0358e2f5-7d0c-4d95-b26d-af051a1c81cf",
+      "titulo": "01 · Início (Home)",
+      "canvas": [
+        390,
+        2650
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "01b",
+      "slug": "001b_inicio_lendo_agora",
+      "idInterno": "001b_inicio_lendo_agora",
+      "prefixo": "i01b",
+      "uuid": "47b35e3f-609f-4190-9273-40d3bb3098c1",
+      "titulo": "01b · Início — lendo agora (cronômetro ativo)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "60",
+      "slug": "060_inicio_grifos_de_hoje",
+      "idInterno": "060_inicio_grifos_de_hoje",
+      "prefixo": "i60",
+      "uuid": "a3f79989-d0eb-4eee-b72d-449cf8723ae5",
+      "titulo": "60 · Início — grifos de hoje (revisão)",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "61",
+      "slug": "061_revisao_grifo_2_de_5",
+      "idInterno": "061_revisao_grifo_2_de_5",
+      "prefixo": "rv61",
+      "uuid": "3fd943be-8de0-4fbb-a47a-78f155ebab5e",
+      "titulo": "61 · Revisão — grifo 2 de 5",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "62",
+      "slug": "062_revisao_fim",
+      "idInterno": "062_revisao_fim",
+      "prefixo": "rv62",
+      "uuid": "10f5e3ff-7997-4b6e-8666-5fb3207fc2ef",
+      "titulo": "62 · Revisão — fim",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": ""
+    },
+    {
+      "tela": "63",
+      "slug": "063_revisao_imagem_compartilhar",
+      "idInterno": "063_revisao_imagem_compartilhar",
+      "prefixo": "rv63",
+      "uuid": "f1cf70ed-a99d-4108-86c8-dedb778f80e8",
+      "titulo": "63 · Revisão — imagem para compartilhar",
+      "canvas": [
+        390,
+        844
+      ],
+      "previa": "",
+      "convergenciaFaixa": {
+        "y": [
+          60,
+          80
+        ],
+        "zoom": 15
+      },
+      "_convergencia": "T02 (R3): em alguns zooms o Skia desenha a border-top de 1,5 px com border-radius só em cima da folha ([role=dialog]) com uma faixa preta em y 63–76 — nos zooms 13, 14 e 16 a 20; nos 10, 11, 12 e 15 o traço sai certo e as quatro reduções batem na faixa (blur 0 %). Prova: com border-top-color transparente a faixa some. O gate confere a faixa y 60–80 com o zoom 15 × 10 e o resto com o 20 × 10; nenhum pixel fica sem conferência. A referência é o zoom 10, sem mudança."
+    }
+  ]
+}

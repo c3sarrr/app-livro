@@ -1,0 +1,126 @@
+import { deepStrictEqual as assertEquals } from 'node:assert/strict';
+import { criarHandler, type Dependencias, type EmailPendente } from './handler.ts';
+import { montar } from './modelos.ts';
+
+const pedido = (chave = 'chave-agendador') =>
+  new Request('http://local/email-sender', { method: 'POST', headers: { apikey: chave } });
+function fakes(fila: EmailPendente[], s: Partial<Dependencias> = {}) {
+  const log: string[] = [];
+  const h = criarHandler({
+    chavesAceitas: ['chave-agendador'],
+    configurado: true,
+    reservar: () => {
+      log.push('reservar');
+      return Promise.resolve(fila);
+    },
+    concluir: (id, e) => {
+      log.push(`concluir:${id}:${e ?? 'ok'}`);
+      return Promise.resolve();
+    },
+    enviar: (para, assunto) => {
+      log.push(`enviar:${para}:${assunto}`);
+      return Promise.resolve();
+    },
+    ...s,
+  });
+  return { h, log };
+}
+
+Deno.test('só o agendador chama (apikey); sem e-mail configurado não gasta tentativas', async () => {
+  const a = fakes([]);
+  assertEquals((await a.h(pedido('outra'))).status, 401);
+  assertEquals((await a.h(new Request('http://local/email-sender', { method: 'POST' }))).status, 401);
+  const b = fakes([], { configurado: false });
+  assertEquals((await b.h(pedido())).status, 503);
+  assertEquals([...a.log, ...b.log], []);
+});
+
+Deno.test('envia a fila e marca cada e-mail; sem endereço ou modelo desconhecido = falha registrada', async () => {
+  const { h, log } = fakes([
+    {
+      id: '1',
+      email: 'ana@exemplo.com',
+      template: 'retention_warning',
+      payload: { purge_after: '2027-10-04T00:00:00Z' },
+    },
+    { id: '2', email: null, template: 'welcome', payload: {} },
+    { id: '3', email: 'bia@exemplo.com', template: 'inventado', payload: {} },
+  ]);
+  const r = await h(pedido());
+  assertEquals(await r.json(), { enviados: 1, falhas: 2 });
+  assertEquals(log, [
+    'reservar',
+    'enviar:ana@exemplo.com:Seus dados de leitura na nuvem serão apagados',
+    'concluir:1:ok',
+    'concluir:2:sem_email',
+    'concluir:3:modelo_desconhecido:inventado',
+  ]);
+});
+
+Deno.test('erro do provedor fica registrado (a fila tenta de novo, até 5 vezes)', async () => {
+  const { h, log } = fakes([{ id: '9', email: 'x@exemplo.com', template: 'welcome', payload: {} }], {
+    enviar: () => Promise.reject(new Error('resend 500')),
+  });
+  assertEquals(await (await h(pedido())).json(), { enviados: 0, falhas: 1 });
+  assertEquals(log.at(-1), 'concluir:9:resend 500');
+});
+
+Deno.test('modelos: data do purge no fuso de Brasília', () => {
+  assertEquals(
+    montar('retention_warning', { purge_after: '2027-10-04T02:00:00Z' })!.texto.includes('03/10/2027'),
+    true,
+  );
+  assertEquals(montar('nao_existe', {}), null);
+});
+
+Deno.test('modelos: o e-mail do dia da moderação (D-221) com as abertas, as atrasadas e a data da mais antiga', () => {
+  const m = montar('moderation_digest', { open: 3, breached: 1, oldest: '2026-10-08T12:00:00Z' })!;
+  assertEquals(m.assunto, '3 denúncias abertas na moderação');
+  assertEquals(m.texto.includes('desde 08/10/2026'), true);
+  assertEquals(m.texto.includes('1 passou do prazo de 24 h'), true);
+  const uma = montar('moderation_digest', { open: 1, breached: 0, oldest: '2026-10-08T12:00:00Z' })!;
+  assertEquals(uma.assunto, '1 denúncia aberta na moderação');
+  assertEquals(uma.texto.includes('Nenhuma passou do prazo de 24 h'), true);
+});
+
+Deno.test('modelos: o e-mail do dia sem compra sandbox fica como era (D-48)', () => {
+  const m = montar('moderation_digest', {
+    open: 2,
+    breached: 1,
+    oldest: '2026-10-08T12:00:00Z',
+    sandbox_accounts: 0,
+  })!;
+  assertEquals(m.assunto, '2 denúncias abertas na moderação');
+  assertEquals(m.texto.includes('sandbox'), false);
+});
+
+Deno.test('modelos: só compra sandbox de conta comum (D-48): o assunto e o texto dela', () => {
+  const m = montar('moderation_digest', { open: 0, breached: 0, oldest: null, sandbox_accounts: 3 })!;
+  assertEquals(m.assunto, '3 contas comuns com compra de teste');
+  assertEquals(
+    m.texto,
+    'Nenhuma denúncia aberta.\n' +
+      '3 contas comuns tiveram compra de teste (sandbox) nas últimas 24 h. Confira se são da revisão das lojas ' +
+      'e, se forem, coloque-as na lista de contas de teste.',
+  );
+  const uma = montar('moderation_digest', { open: 0, breached: 0, oldest: null, sandbox_accounts: 1 })!;
+  assertEquals(uma.assunto, '1 conta comum com compra de teste');
+});
+
+Deno.test('modelos: denúncia e compra sandbox no mesmo dia: o assunto das denúncias e as duas partes', () => {
+  const m = montar('moderation_digest', {
+    open: 1,
+    breached: 0,
+    oldest: '2026-10-08T12:00:00Z',
+    sandbox_accounts: 1,
+  })!;
+  assertEquals(m.assunto, '1 denúncia aberta na moderação');
+  assertEquals(m.texto.includes('Nenhuma passou do prazo de 24 h'), true);
+  assertEquals(
+    m.texto.endsWith(
+      '1 conta comum teve compra de teste (sandbox) nas últimas 24 h. Confira se é da revisão das lojas ' +
+        'e, se for, coloque-a na lista de contas de teste.',
+    ),
+    true,
+  );
+});

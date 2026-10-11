@@ -12,7 +12,6 @@ import 'package:app_leitura/core/design_system/widgets/count_badge.dart';
 import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:app_leitura/core/design_system/widgets/pill.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:app_leitura/features/home/presentation/sections/book_club_ticket.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
 import '../support/load_fonts.dart';
@@ -128,8 +129,9 @@ void _expectInkBox(
 Future<void> _pumpCanvas(WidgetTester tester) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
-    const ProviderScope(
-      child: RepaintBoundary(key: goldenRootKey, child: App.forTests()),
+    ProviderScope(
+      overrides: overridesDoMundo,
+      child: const RepaintBoundary(key: goldenRootKey, child: App.forTests()),
     ),
   );
   await tester.pumpAndSettle();
@@ -139,7 +141,7 @@ Future<(Uint8List, int)> _capture(WidgetTester tester) async {
   final image = await captureAt(tester, find.byKey(goldenRootKey));
   expect(
     (image.width, image.height),
-    (390 * 3, 2390 * 3),
+    (390 * 3, 2650 * 3),
     reason: 'canvas inteiro @3x',
   );
   return (await rgbaOf(tester, image), image.width);
@@ -259,7 +261,7 @@ const _sun = 0xFFFED170;
 const _flame = 0xFFFF552E;
 const _muted = 0xFF5B544B;
 
-/// F09 — camada 2 (estilo, sem tolerância) da seção `club`.
+/// F09 — camada 2 (estilo, sem tolerância) da seção `club`; desde a T03 com os dados da prancha 01 (até o cap. 50).
 void main() {
   setUpAll(loadAppFonts);
 
@@ -948,7 +950,7 @@ void main() {
       final base = const HomeMockRepository().snapshot(
         HomeMockRepository.referenceNow,
       );
-      final c = base.club;
+      final c = base.club!;
       BookClub club(double group, {List<ClubParticipant>? shown, int? count}) =>
           BookClub(
             id: c.id,
@@ -970,6 +972,7 @@ void main() {
           ProviderScope(
             key: UniqueKey(),
             overrides: [
+              ...overridesDoMundo,
               homeSnapshotProvider.overrideWithValue(
                 HomeSnapshot(
                   now: base.now,
@@ -977,6 +980,7 @@ void main() {
                   continueReading: base.continueReading,
                   alsoReading: base.alsoReading,
                   readingDay: base.readingDay,
+                  dailyReview: base.dailyReview,
                   forYou: base.forYou,
                   club: data,
                   recent: base.recent,

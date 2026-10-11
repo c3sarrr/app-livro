@@ -2,33 +2,24 @@ import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/design_system/gallery/design_system_gallery.dart';
+import '../features/account/presentation/account_block.dart';
+import '../features/account/presentation/onboarding_screen.dart';
+import '../features/account/presentation/sign_in_screen.dart';
+import '../features/billing/application/paywall_triggers.dart'
+    show PaywallReason;
+import '../features/billing/presentation/paywall_home_hook.dart';
+import '../features/billing/presentation/pro_tech_screen.dart';
+import '../features/home/presentation/debug/design_system_screen.dart';
+import '../features/highlights/presentation/highlights_screen.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/library/presentation/library_import_block.dart';
 import '../features/placeholder/presentation/placeholder_screen.dart';
+import '../features/reader/presentation/reader_screen.dart';
+import '../features/scanner/presentation/scanner_screen.dart';
 import '../features/shell/presentation/main_shell.dart';
+import 'routes.dart';
 
-/// Caminhos das rotas (F02 2.6).
-abstract final class AppRoutes {
-  // Abas (ramos do StatefulShellRoute).
-  static const inicio = '/inicio';
-  static const biblioteca = '/biblioteca';
-  static const clubes = '/clubes';
-  static const perfil = '/perfil';
-
-  /// Full screen, fora do shell (D-08).
-  static const scanner = '/scanner';
-
-  // Destinos (placeholders; usados na F12).
-  static const notificacoes = '/notificacoes';
-  static const paraVoce = '/para-voce';
-  static String leitor(String bookId) => '/leitor/$bookId';
-  static String livro(String bookId) => '/livro/$bookId';
-  static String destaques(String bookId) => '/livro/$bookId/destaques';
-  static String discussao(String clubId) => '/clube/$clubId/discussao';
-
-  /// Galeria do design system (F01) — somente em debug.
-  static const designSystem = '/_ds';
-}
+export 'routes.dart';
 
 /// Roteador do app: `StatefulShellRoute.indexedStack` com as 4 abas (cada aba preserva o próprio
 /// estado, inclusive a rolagem) e as rotas full screen no navigator raiz.
@@ -37,6 +28,7 @@ abstract final class AppRoutes {
 GoRouter createRouter({
   String initialLocation = AppRoutes.inicio,
   bool overridePlatformDefaultLocation = false,
+  List<NavigatorObserver> observers = const [],
 }) {
   final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'raiz');
 
@@ -49,6 +41,7 @@ GoRouter createRouter({
       );
 
   StatefulShellBranch tab(String path, Widget screen) => StatefulShellBranch(
+    restorationScopeId: 'aba$path',
     routes: [
       GoRoute(
         path: path,
@@ -59,32 +52,101 @@ GoRouter createRouter({
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
+    // os observadores do navigator raiz (T04: o leitor pausa o cronômetro do papel — D-263)
+    observers: observers,
+    // D-207: a pilha de rotas e a aba voltam depois que o sistema fecha o app
+    restorationScopeId: 'raiz',
     initialLocation: initialLocation,
     overridePlatformDefaultLocation: overridePlatformDefaultLocation,
     routes: [
       StatefulShellRoute.indexedStack(
+        restorationScopeId: 'abas',
+        // D-207: a página das abas com o id de restauração fixo — o `pageKey` dela é o hash da rota, que muda a
+        // cada abertura do app e perderia o que as abas guardaram (a rolagem da Início)
         pageBuilder: (context, state, shell) =>
-            _page(state, MainShell(shell: shell)),
+            _page(state, MainShell(shell: shell), restorationId: 'abas.pagina'),
         branches: [
-          tab(AppRoutes.inicio, const HomeScreen()),
-          tab(AppRoutes.biblioteca, const PlaceholderScreen('Biblioteca')),
+          // G22 (R7): o gancho dos gatilhos do paywall envolve a Início sem mudar a tela
+          tab(AppRoutes.inicio, const PaywallHomeHook(child: HomeScreen())),
+          // G09 (D-87): até o design da Biblioteca, o placeholder ganha o bloco mínimo de importar (D-21).
+          tab(
+            AppRoutes.biblioteca,
+            const PlaceholderScreen('Biblioteca', below: LibraryImportBlock()),
+          ),
           tab(AppRoutes.clubes, const PlaceholderScreen('Clubes')),
-          tab(AppRoutes.perfil, const PlaceholderScreen('Perfil')),
+          // D-69: até o design do Perfil, o placeholder ganha o bloco mínimo da conta (D-21).
+          tab(
+            AppRoutes.perfil,
+            const PlaceholderScreen('Perfil', below: AccountBlock()),
+          ),
         ],
       ),
-      fullScreen(AppRoutes.scanner, 'Scanner', dialog: true),
+      // G07 (D-76): scanner provisório no estilo do app até o design das telas 01–18
+      GoRoute(
+        path: AppRoutes.scanner,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) =>
+            _page(state, const ScannerScreen(), fullscreenDialog: true),
+      ),
       fullScreen(AppRoutes.notificacoes, 'Notificações'),
-      fullScreen('/leitor/:bookId', 'Leitor'),
+      // G11: a tela 19 de verdade (o leitor limpo), aberta pelo id do livro na estante
+      GoRoute(
+        path: AppRoutes.leitorPath,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => _page(
+          state,
+          ReaderScreen(
+            bookId: state.pathParameters['bookId']!,
+            goTo: state.uri.queryParameters['ir'],
+          ),
+        ),
+      ),
       fullScreen('/livro/:bookId', 'Livro'),
-      fullScreen('/livro/:bookId/destaques', 'Destaques e notas'),
+      // G19: a tela 25 de verdade (grifos e notas do livro); `?de=leitor` = aberta pelo leitor (R13)
+      GoRoute(
+        path: '/livro/:bookId/destaques',
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => _page(
+          state,
+          HighlightsScreen(
+            bookId: state.pathParameters['bookId']!,
+            fromReader: state.uri.queryParameters['de'] == 'leitor',
+          ),
+        ),
+      ),
       fullScreen(AppRoutes.paraVoce, 'Para você'),
       fullScreen('/clube/:clubId/discussao', 'Discussão'),
+      GoRoute(
+        path: AppRoutes.entrar,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) =>
+            _page(state, const SignInScreen(), fullscreenDialog: true),
+      ),
+      GoRoute(
+        path: AppRoutes.cadastro,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => _page(state, const OnboardingScreen()),
+      ),
       if (kDebugMode)
         GoRoute(
           path: AppRoutes.designSystem,
           parentNavigatorKey: rootNavigatorKey,
           pageBuilder: (context, state) =>
-              _page(state, const DesignSystemGallery()),
+              _page(state, const DesignSystemScreen()),
+        ),
+      // G22 (D-230): o paywall de trabalho, sem design — só na depuração
+      if (kDebugMode)
+        GoRoute(
+          path: AppRoutes.proTecnico,
+          parentNavigatorKey: rootNavigatorKey,
+          pageBuilder: (context, state) => _page(
+            state,
+            ProTechScreen(
+              reason: PaywallReason.fromName(
+                state.uri.queryParameters['motivo'],
+              ),
+            ),
+          ),
         ),
     ],
   );
@@ -97,6 +159,7 @@ Page<void> _page(
   GoRouterState state,
   Widget child, {
   bool fullscreenDialog = false,
+  String? restorationId,
 }) => MaterialPage<void>(
   key: state.pageKey,
   name: state.name ?? state.path,
@@ -104,7 +167,7 @@ Page<void> _page(
     ...state.pathParameters,
     ...state.uri.queryParameters,
   },
-  restorationId: state.pageKey.value,
+  restorationId: restorationId ?? state.pageKey.value,
   fullscreenDialog: fullscreenDialog,
   child: child,
 );

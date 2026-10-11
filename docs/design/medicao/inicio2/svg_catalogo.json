@@ -1,0 +1,1344 @@
+{
+ "_doc": "T02 — os <svg> das 6 pranchas da Início e da revisão (tools/medicao/tmp/inicio2/svgs.json), com as cores aplicadas e sem duplicatas; os que já existem como asset apontam para o arquivo existente (reuso).",
+ "arquivos": {
+  "assets/icons/ic_arrow_right.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6,
+   "reuso": true
+  },
+  "assets/icons/ic_bell.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_book_open.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_flame.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_highlighter.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_message_circle.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_more_horizontal.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 9,
+   "reuso": true
+  },
+  "assets/icons/ic_nav_clubs.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_nav_home_active.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_nav_library.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_nav_profile.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_nav_scanner.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_sparkle_outline.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 3,
+   "reuso": true
+  },
+  "assets/icons/ic_sparkle_solid.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 9,
+   "reuso": true
+  },
+  "assets/icons/inicio2/ic_arrow_next.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_book_paper.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6
+  },
+  "assets/icons/inicio2/ic_book_read.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_calendar.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_check_tiny.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5
+  },
+  "assets/icons/inicio2/ic_close_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2
+  },
+  "assets/icons/inicio2/ic_copy_text.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_download.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_minus.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_more_circles.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_pause.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_pause_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_pencil_edit.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_play.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 2
+  },
+  "assets/icons/inicio2/ic_plus_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_search_home.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3
+  },
+  "assets/icons/inicio2/ic_sparkle_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 2
+  },
+  "assets/icons/inicio2/ic_sparkle_previa.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_sparkle_selo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_sparkle_solid_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 2
+  },
+  "assets/icons/inicio2/ic_sparkle_solid_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1
+  },
+  "assets/icons/inicio2/ic_stopwatch.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 3
+  },
+  "assets/icons/inicio2/ic_stories.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1
+  },
+  "assets/icons/leitor/ic_close_round.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true
+  },
+  "assets/icons/leitor/ic_share.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true
+  },
+  "assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg": {
+   "categoria": "il",
+   "cores": [
+    "#058CD7",
+    "#1A1714",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1
+  },
+  "assets/illustrations/inicio2/il_capa_dom_casmurro.svg": {
+   "categoria": "il",
+   "cores": [
+    "#058CD7",
+    "#1A1714",
+    "#552CB7",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FFC1C6",
+    "#FFFAF1"
+   ],
+   "usos": 3
+  },
+  "docs/design/medicao/inicio2/svg_graficos/anel_progresso_livro.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#EAE1CF"
+   ],
+   "usos": 3
+  },
+  "docs/design/medicao/inicio2/svg_graficos/mostrador_meta_diaria.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 3
+  }
+ },
+ "usos": {
+  "i01.alsoReading.card1.meta.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "i01.alsoReading.card1.play.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_play.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01.alsoReading.card2.meta.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "i01.alsoReading.card2.ring.svg": {
+   "001_inicio": {
+    "arquivo": "docs/design/medicao/inicio2/svg_graficos/anel_progresso_livro.svg",
+    "tamanho": [
+     46,
+     46
+    ],
+    "armadilha": "stroke-dasharray = progresso do livro (91,6 de 113,1 = 2π·18 → 81 %) com rotate(-90): anel desenhado por CustomPainter com o valor real (o rótulo \"81%\" é texto da página, não do SVG)."
+   }
+  },
+  "i01.club.cta.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_message_circle.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01.forYou.reasonChip.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "i01.forYou.seeAll.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01.header.bell.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_bell.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.header.search.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_search_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.hero.cover.art": {
+   "001_inicio": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_dom_casmurro.svg",
+    "tamanho": [
+     101,
+     153
+    ],
+    "armadilha": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor, em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(101/96, 153/144) = 1,0625): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-3deg)) — o tamanho do catálogo é o do layout, sem o giro."
+   }
+  },
+  "i01.hero.cta.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_book_open.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01.hero.notesButton.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_highlighter.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.hero.sparkleLarge": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "i01.hero.sparkleSmall": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "i01.nav.clubs.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.nav.home.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_nav_home_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.nav.library.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_nav_library.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.nav.profile.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_nav_profile.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01.nav.scanner.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "i01.recent.libraryLink.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01.recent.row0.more.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01.recent.row1.more.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01.recent.row2.more.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01.review.art.sparkle": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_amarelo.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "i01.review.cta.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_amarelo.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "i01.today.dial.svg": {
+   "001_inicio": {
+    "arquivo": "docs/design/medicao/inicio2/svg_graficos/mostrador_meta_diaria.svg",
+    "tamanho": [
+     112,
+     112
+    ],
+    "armadilha": "mostrador da meta: anel de progresso r 44 / traço 10 com dasharray 165,9 de 276,5 (= 18 de 30 min → 60 %), marcas r 44 com dasharray 1,5 + 7,71 = 2π·44/30 (uma por minuto da meta, opacidade 0,35) e a bolinha coral (r 6) na ponta do arco: CustomPainter com minutos/meta reais; a posição da bolinha é calculada (aqui 30,1 / 91,6)."
+   }
+  },
+  "i01.today.footer.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "i01.today.readNow.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/inicio2/ic_stopwatch.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "i01.today.streakPill.icon": {
+   "001_inicio": {
+    "arquivo": "assets/icons/ic_flame.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "i01b.alsoReading.card1.meta.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "i01b.alsoReading.card1.play.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/inicio2/ic_pause.svg",
+    "tamanho": [
+     16,
+     16
+    ],
+    "armadilha": "o \"pausar\": no Brás Cubas da 01b tem o id do \"play\" da 01 (alsoReading.card1.play: um botão com dois estados, cronômetro parado/rodando — não dois widgets), amarelo 16; a mini-barra usa o mesmo desenho em tinta 18 (ic_pause_tinta)."
+   }
+  },
+  "i01b.alsoReading.card2.meta.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "i01b.alsoReading.card2.ring.svg": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "docs/design/medicao/inicio2/svg_graficos/anel_progresso_livro.svg",
+    "tamanho": [
+     46,
+     46
+    ],
+    "armadilha": "stroke-dasharray = progresso do livro (91,6 de 113,1 = 2π·18 → 81 %) com rotate(-90): anel desenhado por CustomPainter com o valor real (o rótulo \"81%\" é texto da página, não do SVG)."
+   }
+  },
+  "i01b.club.cta.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_message_circle.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01b.forYou.reasonChip.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "i01b.forYou.seeAll.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01b.header.bell.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_bell.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.header.search.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/inicio2/ic_search_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.hero.cover.art": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_dom_casmurro.svg",
+    "tamanho": [
+     101,
+     153
+    ],
+    "armadilha": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor, em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(101/96, 153/144) = 1,0625): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-3deg)) — o tamanho do catálogo é o do layout, sem o giro."
+   }
+  },
+  "i01b.hero.cta.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_book_open.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01b.hero.notesButton.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_highlighter.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.hero.sparkleLarge": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "i01b.hero.sparkleSmall": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "i01b.miniBar.cover.art": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg",
+    "tamanho": [
+     29.6,
+     45.6
+    ],
+    "armadilha": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor; Figtree 800 4,6 em \"MEMÓRIAS PÓSTUMAS DE\", em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(29,6/96, 45,6/144) = 0,3167): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-5deg)) — o tamanho do catálogo é o do layout, sem o giro."
+   }
+  },
+  "i01b.miniBar.pause.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/inicio2/ic_pause_tinta.svg",
+    "tamanho": [
+     18,
+     18
+    ],
+    "armadilha": "o \"pausar\": no Brás Cubas da 01b tem o id do \"play\" da 01 (alsoReading.card1.play: um botão com dois estados, cronômetro parado/rodando — não dois widgets), amarelo 16; a mini-barra usa o mesmo desenho em tinta 18 (ic_pause_tinta)."
+   }
+  },
+  "i01b.nav.clubs.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.nav.home.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_nav_home_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.nav.library.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_nav_library.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.nav.profile.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_nav_profile.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i01b.nav.scanner.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "i01b.recent.libraryLink.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i01b.recent.row0.more.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01b.recent.row1.more.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01b.recent.row2.more.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i01b.today.dial.svg": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "docs/design/medicao/inicio2/svg_graficos/mostrador_meta_diaria.svg",
+    "tamanho": [
+     112,
+     112
+    ],
+    "armadilha": "mostrador da meta: anel de progresso r 44 / traço 10 com dasharray 165,9 de 276,5 (= 18 de 30 min → 60 %), marcas r 44 com dasharray 1,5 + 7,71 = 2π·44/30 (uma por minuto da meta, opacidade 0,35) e a bolinha coral (r 6) na ponta do arco: CustomPainter com minutos/meta reais; a posição da bolinha é calculada (aqui 30,1 / 91,6)."
+   }
+  },
+  "i01b.today.footer.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "i01b.today.readNow.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/inicio2/ic_stopwatch.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "i01b.today.streakPill.icon": {
+   "001b_inicio_lendo_agora": {
+    "arquivo": "assets/icons/ic_flame.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "i60.alsoReading.card1.meta.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "i60.alsoReading.card1.play.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_play.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i60.alsoReading.card2.meta.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "i60.alsoReading.card2.ring.svg": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "docs/design/medicao/inicio2/svg_graficos/anel_progresso_livro.svg",
+    "tamanho": [
+     46,
+     46
+    ],
+    "armadilha": "stroke-dasharray = progresso do livro (91,6 de 113,1 = 2π·18 → 81 %) com rotate(-90): anel desenhado por CustomPainter com o valor real (o rótulo \"81%\" é texto da página, não do SVG)."
+   }
+  },
+  "i60.club.cta.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_message_circle.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i60.forYou.reasonChip.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "i60.forYou.seeAll.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i60.header.bell.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_bell.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.header.search.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_search_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.hero.cover.art": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_dom_casmurro.svg",
+    "tamanho": [
+     101,
+     153
+    ],
+    "armadilha": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor, em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(101/96, 153/144) = 1,0625): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-3deg)) — o tamanho do catálogo é o do layout, sem o giro."
+   }
+  },
+  "i60.hero.cta.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_book_open.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i60.hero.notesButton.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_highlighter.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.hero.sparkleLarge": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "i60.hero.sparkleSmall": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "i60.nav.clubs.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.nav.home.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_nav_home_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.nav.library.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_nav_library.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.nav.profile.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_nav_profile.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "i60.nav.scanner.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "i60.recent.libraryLink.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "i60.recent.row0.more.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i60.recent.row1.more.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i60.recent.row2.more.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_more_horizontal.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "i60.review.art.sparkle": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_amarelo.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "i60.review.cta.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_amarelo.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "i60.today.dial.svg": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "docs/design/medicao/inicio2/svg_graficos/mostrador_meta_diaria.svg",
+    "tamanho": [
+     112,
+     112
+    ],
+    "armadilha": "mostrador da meta: anel de progresso r 44 / traço 10 com dasharray 165,9 de 276,5 (= 18 de 30 min → 60 %), marcas r 44 com dasharray 1,5 + 7,71 = 2π·44/30 (uma por minuto da meta, opacidade 0,35) e a bolinha coral (r 6) na ponta do arco: CustomPainter com minutos/meta reais; a posição da bolinha é calculada (aqui 30,1 / 91,6)."
+   }
+  },
+  "i60.today.footer.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "i60.today.readNow.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/inicio2/ic_stopwatch.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "i60.today.streakPill.icon": {
+   "060_inicio_grifos_de_hoje": {
+    "arquivo": "assets/icons/ic_flame.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "rv61.actions.less.icon": {
+   "061_revisao_grifo_2_de_5": {
+    "arquivo": "assets/icons/inicio2/ic_minus.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rv61.actions.more.icon": {
+   "061_revisao_grifo_2_de_5": {
+    "arquivo": "assets/icons/inicio2/ic_plus_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rv61.actions.next.icon": {
+   "061_revisao_grifo_2_de_5": {
+    "arquivo": "assets/icons/inicio2/ic_arrow_next.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rv61.actions.note.icon": {
+   "061_revisao_grifo_2_de_5": {
+    "arquivo": "assets/icons/inicio2/ic_pencil_edit.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "rv61.actions.share.icon": {
+   "061_revisao_grifo_2_de_5": {
+    "arquivo": "assets/icons/leitor/ic_share.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "rv61.header.close.icon": {
+   "061_revisao_grifo_2_de_5": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "rv62.footer.cta.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_book_read.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "rv62.header.close.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "rv62.summary.art.card1.check.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     10,
+     10
+    ],
+    "armadilha": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+   }
+  },
+  "rv62.summary.art.card2.check.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     10,
+     10
+    ],
+    "armadilha": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+   }
+  },
+  "rv62.summary.art.card3.check.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     10,
+     10
+    ],
+    "armadilha": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+   }
+  },
+  "rv62.summary.art.card4.check.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     10,
+     10
+    ],
+    "armadilha": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+   }
+  },
+  "rv62.summary.art.card5.check.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     10,
+     10
+    ],
+    "armadilha": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+   }
+  },
+  "rv62.summary.streakPill.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_selo.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "rv62.summary.tomorrow.icon": {
+   "062_revisao_fim": {
+    "arquivo": "assets/icons/inicio2/ic_calendar.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rv63.sheet.actions.copy.icon": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/inicio2/ic_copy_text.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "rv63.sheet.actions.more.icon": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/inicio2/ic_more_circles.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "rv63.sheet.actions.save.icon": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/inicio2/ic_download.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "rv63.sheet.actions.stories.icon": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/inicio2/ic_stories.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "rv63.sheet.close.icon": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/leitor/ic_close_round.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "rv63.sheet.preview.footer.brand.icon": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_creme.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "rv63.sheet.preview.sparkle": {
+   "063_revisao_imagem_compartilhar": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_previa.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,117 @@
+// G22.3 — as ligações da compra (Riverpod). Sem a chave do RevenueCat no env (os testes, o Windows, o build sem env)
+// o gateway é nulo e o app segue sem compra, como sem Supabase (D-64). Um build de produção com a chave da Test Store
+// também fica sem compra (o SDK derrubaria o app).
+import 'package:flutter/foundation.dart'
+    show TargetPlatform, debugPrint, defaultTargetPlatform, kReleaseMode;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart' show LaunchMode, launchUrl;
+
+import '../../../core/config/server_providers.dart';
+import '../../../core/data/database/daos/kv_dao.dart';
+import '../../../core/data/database/local_database.dart';
+import '../data/billing_gateway.dart';
+import '../data/pro_server_api.dart';
+import '../data/revenuecat_gateway.dart';
+import '../domain/billing_models.dart';
+import 'billing_controller.dart';
+
+/// A chave do RevenueCat para este build, ou nenhuma.
+String? billingKeyFor({
+  required String android,
+  required String ios,
+  required TargetPlatform platform,
+  required bool release,
+}) {
+  final key = switch (platform) {
+    TargetPlatform.android => android,
+    TargetPlatform.iOS => ios,
+    _ => '',
+  };
+  if (key.isEmpty || key.startsWith('<')) return null;
+  if (release && key.startsWith('test_')) return null;
+  return key;
+}
+
+final billingGatewayProvider = Provider<BillingGateway?>((ref) {
+  final env = ref.watch(appEnvProvider);
+  final platform = defaultTargetPlatform;
+  final key = billingKeyFor(
+    android: env.revenuecatKeyAndroid,
+    ios: env.revenuecatKeyIos,
+    platform: platform,
+    release: kReleaseMode,
+  );
+  if (key == null) {
+    final teste =
+        kReleaseMode &&
+        (env.revenuecatKeyAndroid.startsWith('test_') ||
+            env.revenuecatKeyIos.startsWith('test_'));
+    if (teste) {
+      debugPrint(
+        'RevenueCat: chave da Test Store num build de produção; a compra fica desligada.',
+      );
+    }
+    return null;
+  }
+  return RevenueCatGateway(apiKey: key, platform: platform);
+});
+
+/// O Pro do servidor ("conferir agora" e `my_entitlement`): só com o Supabase.
+final proServerApiProvider = Provider<ProServerApi?>((ref) {
+  final client = ref.watch(supabaseClientProvider);
+  return client == null ? null : SupabaseProServerApi(client);
+});
+
+/// A espera do recuo da ativação (R2); o teste troca por uma que não espera.
+final billingSleepProvider = Provider<Future<void> Function(Duration)>(
+  (ref) => Future<void>.delayed,
+);
+
+/// A plataforma da loja (R6: onde gerenciar); o teste escolhe.
+final billingPlatformProvider = Provider<TargetPlatform>(
+  (ref) => defaultTargetPlatform,
+);
+
+/// Abre a página de gestão da loja fora do app (R6). Devolve se abriu.
+final billingLauncherProvider = Provider<Future<bool> Function(Uri)>(
+  (ref) =>
+      (uri) => launchUrl(uri, mode: LaunchMode.externalApplication),
+);
+
+/// Os pacotes da offering `default` para a tela técnica (relidos a cada vez que ela abre). Sem a nova tentativa
+/// automática do Riverpod 3: com ela, a falha ficava em "Lendo os pacotes…" para sempre, sem o "Tentar de novo" da
+/// tela (G22.7, achado pela cobertura).
+final proPackagesProvider = FutureProvider.autoDispose<List<ProPackage>>(
+  (ref) => ref.read(billingControllerProvider.notifier).packages(),
+  retry: (_, _) => null,
+);
+
+/// O aparelho lembra as contas que já compraram ou restauraram nele (G22.7): só essas, e as que o servidor diz Pro,
+/// configuram o RevenueCat ao entrar. O Grátis que nunca comprou não fala com o RevenueCat até agir.
+abstract interface class BillingStoreMemory {
+  Future<bool> used(String owner);
+  Future<void> markUsed(String owner);
+}
+
+/// No `kv` do aparelho (`pro.loja.<dono>`).
+final class KvBillingStoreMemory implements BillingStoreMemory {
+  KvBillingStoreMemory(this.kv);
+
+  final Future<KvDao> Function() kv;
+
+  static String _key(String owner) => 'pro.loja.$owner';
+
+  @override
+  Future<bool> used(String owner) async =>
+      await (await kv()).get(_key(owner)) != null;
+
+  @override
+  Future<void> markUsed(String owner) async =>
+      (await kv()).set(_key(owner), '1');
+}
+
+final billingStoreMemoryProvider = Provider<BillingStoreMemory>(
+  (ref) => KvBillingStoreMemory(
+    () async => KvDao(await ref.read(localDatabaseProvider.future)),
+  ),
+);

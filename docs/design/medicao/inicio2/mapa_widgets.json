@@ -1,0 +1,3808 @@
+{
+ "001_inicio": {
+  "i01.frame": {
+   "widget": "NeoBox"
+  },
+  "i01.main": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.header.identity": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.header.avatar": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.header.greetingColumn": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.header.greeting": {
+   "widget": "AppText"
+  },
+  "i01.header.name": {
+   "widget": "AppText"
+  },
+  "i01.header.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.header.search": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Buscar livros"
+   }
+  },
+  "i01.header.search.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_search_home, size: 22)"
+  },
+  "i01.header.bell": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Notificações, 2 novas"
+   }
+  },
+  "i01.header.bell.icon": {
+   "widget": "AppSvg(AppIcons.ic_bell, size: 22)"
+  },
+  "i01.header.bell.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.headline": {
+   "widget": "AppText"
+  },
+  "i01.headline.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01.hero": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Continuar lendo"
+   }
+  },
+  "i01.hero.sparkleLarge": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_outline, size: 30)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.hero.sparkleSmall": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.hero.topRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.cover": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "i01.hero.cover.art": {
+   "widget": "AppSvg(AppIllustrationsInicio.il_capa_dom_casmurro, size: 101×153)",
+   "obs": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor, em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(101/96, 153/144) = 1,0625): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-3deg)) — o tamanho do catálogo é o do layout, sem o giro."
+  },
+  "i01.hero.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.hero.meta": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.meta.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.pills": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.pagePill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.hero.formatPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.hero.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.title": {
+   "widget": "AppText"
+  },
+  "i01.hero.author": {
+   "widget": "AppText"
+  },
+  "i01.hero.meta.bottom": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.progressRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.percent": {
+   "widget": "AppText"
+  },
+  "i01.hero.timeLeft": {
+   "widget": "AppText"
+  },
+  "i01.hero.progressBar": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Progresso do livro",
+    "role": "progressbar",
+    "aria-valuenow": "62",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+   }
+  },
+  "i01.hero.progressFill": {
+   "widget": "NeoBox"
+  },
+  "i01.hero.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.hero.cta": {
+   "widget": "NeoBox"
+  },
+  "i01.hero.cta.icon": {
+   "widget": "AppSvg(AppIcons.ic_book_open, size: 20)"
+  },
+  "i01.hero.cta.label": {
+   "widget": "AppText"
+  },
+  "i01.hero.notesButton": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Destaques e notas deste livro (12)"
+   }
+  },
+  "i01.hero.notesButton.icon": {
+   "widget": "AppSvg(AppIcons.ic_highlighter, size: 22)"
+  },
+  "i01.hero.notesButton.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.alsoReading": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Também lendo"
+   }
+  },
+  "i01.alsoReading.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.title": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.count": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.alsoReading.grid": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.card1": {
+   "widget": "NeoBox"
+  },
+  "i01.alsoReading.card1.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.card1.cover": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Memórias Póstumas de Brás Cubas"
+   },
+   "obs": "Transform: rotate(-4deg)"
+  },
+  "i01.alsoReading.card1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.alsoReading.card1.cover.hat": {
+   "widget": "NeoBox"
+  },
+  "i01.alsoReading.card1.cover.brim": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.alsoReading.card1.cover.title": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card1.play": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Iniciar leitura de Brás Cubas"
+   }
+  },
+  "i01.alsoReading.card1.play.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_play, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.alsoReading.card1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.card1.title": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card1.author": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card1.meta": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.alsoReading.card1.meta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_paper, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.alsoReading.card2": {
+   "widget": "NeoBox"
+  },
+  "i01.alsoReading.card2.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.card2.cover": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(3deg)"
+  },
+  "i01.alsoReading.card2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.alsoReading.card2.cover.circle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.alsoReading.card2.cover.title": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card2.ring": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.card2.ring.svg": {
+   "widget": "CustomPainter (anel_progresso_livro)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "stroke-dasharray = progresso do livro (91,6 de 113,1 = 2π·18 → 81 %) com rotate(-90): anel desenhado por CustomPainter com o valor real (o rótulo \"81%\" é texto da página, não do SVG)."
+  },
+  "i01.alsoReading.card2.ring.label": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.alsoReading.card2.title": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card2.author": {
+   "widget": "AppText"
+  },
+  "i01.alsoReading.card2.meta": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.alsoReading.card2.meta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_paper, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Seu dia de leitura"
+   }
+  },
+  "i01.today.decoCircleLarge": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today.decoCircleSmall": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.title": {
+   "widget": "AppText"
+  },
+  "i01.today.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01.today.streakPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.today.streakPill.icon": {
+   "widget": "AppSvg(AppIcons.ic_flame, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today.goalRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.dial": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.dial.svg": {
+   "widget": "CustomPainter (mostrador_meta_diaria)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "mostrador da meta: anel de progresso r 44 / traço 10 com dasharray 165,9 de 276,5 (= 18 de 30 min → 60 %), marcas r 44 com dasharray 1,5 + 7,71 = 2π·44/30 (uma por minuto da meta, opacidade 0,35) e a bolinha coral (r 6) na ponta do arco: CustomPainter com minutos/meta reais; a posição da bolinha é calculada (aqui 30,1 / 91,6)."
+  },
+  "i01.today.dial.center": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.dial.value": {
+   "widget": "AppText"
+  },
+  "i01.today.dial.caption": {
+   "widget": "AppText"
+  },
+  "i01.today.goalText": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.goalText.sentence": {
+   "widget": "AppText"
+  },
+  "i01.today.goalText.sentence.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01.today.readNow": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Iniciar leitura (cronômetro)"
+   }
+  },
+  "i01.today.readNow.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_stopwatch, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today.readNow.label": {
+   "widget": "AppText"
+  },
+  "i01.today.chips": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.chip.sessions": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.today.chip.highlights": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.today.week": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.week.title": {
+   "widget": "AppText"
+  },
+  "i01.today.week.total": {
+   "widget": "AppText"
+  },
+  "i01.today.week.chart": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Minutos lidos por dia: segunda 32, terça 45, quarta 30, quinta 22, sexta 38, sábado 55, hoje 18 de 30"
+   }
+  },
+  "i01.today.week.goalLine": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today.week.bar0": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar0.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.bar1": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar1.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.bar2": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar2.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.bar3": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar3.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.bar4": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar4.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.bar5": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar5.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.bar6": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01.today.week.bar6.fill": {
+   "widget": "NeoBox"
+  },
+  "i01.today.week.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.week.label0": {
+   "widget": "AppText"
+  },
+  "i01.today.week.label1": {
+   "widget": "AppText"
+  },
+  "i01.today.week.label2": {
+   "widget": "AppText"
+  },
+  "i01.today.week.label3": {
+   "widget": "AppText"
+  },
+  "i01.today.week.label4": {
+   "widget": "AppText"
+  },
+  "i01.today.week.label5": {
+   "widget": "AppText"
+  },
+  "i01.today.week.label6": {
+   "widget": "AppText"
+  },
+  "i01.today.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.today.footer.icon": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 16)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.today.footer.text": {
+   "widget": "AppText"
+  },
+  "i01.today.footer.text.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01.review": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Seus grifos de hoje"
+   }
+  },
+  "i01.review.art": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.review.art.card1": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-12deg)"
+  },
+  "i01.review.art.card1.line0": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card1.line1": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card1.line2": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card1.line3": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card2": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(8deg)"
+  },
+  "i01.review.art.card2.line0": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card2.line1": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card2.line2": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card2.line3": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card3": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-2deg)"
+  },
+  "i01.review.art.card3.line0": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card3.line1": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card3.line2": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.card3.line3": {
+   "widget": "NeoBox"
+  },
+  "i01.review.art.sparkle": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_amarelo, size: 26)"
+  },
+  "i01.review.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.review.kicker": {
+   "widget": "AppText"
+  },
+  "i01.review.title": {
+   "widget": "AppText"
+  },
+  "i01.review.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01.review.subtitle": {
+   "widget": "AppText"
+  },
+  "i01.review.cta": {
+   "widget": "NeoBox"
+  },
+  "i01.review.cta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_solid_amarelo, size: 15)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.review.cta.label": {
+   "widget": "AppText"
+  },
+  "i01.forYou": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Para você"
+   }
+  },
+  "i01.forYou.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.seeAll": {
+   "widget": "AppText"
+  },
+  "i01.forYou.seeAll.icon": {
+   "widget": "AppSvg(AppIcons.ic_arrow_right, size: 18)"
+  },
+  "i01.forYou.reasonChip": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.forYou.reasonChip.icon": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.forYou.carousel": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item1": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item1.cover": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item1.cover.blob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.forYou.item1.cover.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item1.cover.author": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item1.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item1.author": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item2.cover": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item2.cover.lines": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item2.cover.line1": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item2.cover.line2": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item2.cover.line3": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item2.cover.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item2.cover.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item2.cover.author": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item2.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item2.author": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item3": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item3.cover": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item3.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item3.cover.archOuter": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item3.cover.archInner": {
+   "widget": "NeoBox"
+  },
+  "i01.forYou.item3.cover.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item3.cover.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item3.cover.author": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item3.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.forYou.item3.title": {
+   "widget": "AppText"
+  },
+  "i01.forYou.item3.author": {
+   "widget": "AppText"
+  },
+  "i01.club": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Seu clube do livro"
+   }
+  },
+  "i01.club.ticket": {
+   "widget": "NeoBox"
+  },
+  "i01.club.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.topRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.club.avatars": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "11 participantes"
+   }
+  },
+  "i01.club.avatar0": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.club.avatar1": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.club.avatar2": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.club.avatar3": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.club.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.title": {
+   "widget": "AppText"
+  },
+  "i01.club.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01.club.subtitle": {
+   "widget": "AppText"
+  },
+  "i01.club.progressBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.progressTrack": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.progressBar": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Progresso do grupo",
+    "role": "progressbar",
+    "aria-valuenow": "54",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+   }
+  },
+  "i01.club.progressFill": {
+   "widget": "NeoBox"
+  },
+  "i01.club.youMarker": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Você"
+   }
+  },
+  "i01.club.progressLabels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.groupLabel": {
+   "widget": "AppText"
+  },
+  "i01.club.youLabel": {
+   "widget": "AppText"
+  },
+  "i01.club.cta": {
+   "widget": "NeoBox"
+  },
+  "i01.club.cta.icon": {
+   "widget": "AppSvg(AppIcons.ic_message_circle, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.club.cta.label": {
+   "widget": "AppText"
+  },
+  "i01.club.cta.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "label": "3 mensagens novas"
+   }
+  },
+  "i01.club.stub": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Próximo encontro: quinta, 24 de setembro, às 20h"
+   }
+  },
+  "i01.club.stub.label": {
+   "widget": "AppText"
+  },
+  "i01.club.stub.date": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.club.stub.weekday": {
+   "widget": "AppText"
+  },
+  "i01.club.stub.day": {
+   "widget": "AppText"
+  },
+  "i01.club.stub.month": {
+   "widget": "AppText"
+  },
+  "i01.club.stub.time": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.club.notchTop": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.club.notchBottom": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.recent": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Adicionados recentemente"
+   }
+  },
+  "i01.recent.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.recent.title": {
+   "widget": "AppText"
+  },
+  "i01.recent.libraryLink": {
+   "widget": "AppText"
+  },
+  "i01.recent.libraryLink.icon": {
+   "widget": "AppSvg(AppIcons.ic_arrow_right, size: 18)"
+  },
+  "i01.recent.list": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row0": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row0.cover": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row0.cover.moon": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.recent.row0.cover.bar": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row0.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.recent.row0.title": {
+   "widget": "AppText"
+  },
+  "i01.recent.row0.subtitle": {
+   "widget": "AppText"
+  },
+  "i01.recent.row0.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.recent.row0.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para Frankenstein"
+   }
+  },
+  "i01.recent.row0.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i01.recent.row1": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row1.cover": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row1.cover.ring": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.recent.row1.cover.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.recent.row1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.recent.row1.title": {
+   "widget": "AppText"
+  },
+  "i01.recent.row1.subtitle": {
+   "widget": "AppText"
+  },
+  "i01.recent.row1.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.recent.row1.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para O Alienista"
+   }
+  },
+  "i01.recent.row1.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i01.recent.row2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.recent.row2.cover": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row2.cover.arch": {
+   "widget": "NeoBox"
+  },
+  "i01.recent.row2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.recent.row2.title": {
+   "widget": "AppText"
+  },
+  "i01.recent.row2.subtitle": {
+   "widget": "AppText"
+  },
+  "i01.recent.row2.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01.recent.row2.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para Senhora"
+   }
+  },
+  "i01.recent.row2.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i01.bottomFade": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.nav": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Navegação principal"
+   }
+  },
+  "i01.nav.home": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-current": "page"
+   }
+  },
+  "i01.nav.home.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_home_active, size: 22)"
+  },
+  "i01.nav.home.label": {
+   "widget": "AppText"
+  },
+  "i01.nav.library": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.nav.library.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_library, size: 22)"
+  },
+  "i01.nav.library.label": {
+   "widget": "AppText"
+  },
+  "i01.nav.scanner": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Scanner: escanear livro ou página"
+   }
+  },
+  "i01.nav.scanner.fab": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01.nav.scanner.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_scanner, size: 28)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01.nav.scanner.label": {
+   "widget": "AppText"
+  },
+  "i01.nav.clubs": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.nav.clubs.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_clubs, size: 22)"
+  },
+  "i01.nav.clubs.label": {
+   "widget": "AppText"
+  },
+  "i01.nav.profile": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01.nav.profile.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_profile, size: 22)"
+  },
+  "i01.nav.profile.label": {
+   "widget": "AppText"
+  }
+ },
+ "001b_inicio_lendo_agora": {
+  "i01b.frame": {
+   "widget": "NeoBox"
+  },
+  "i01b.main": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.header.identity": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.header.avatar": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.header.greetingColumn": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.header.greeting": {
+   "widget": "AppText"
+  },
+  "i01b.header.name": {
+   "widget": "AppText"
+  },
+  "i01b.header.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.header.search": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Buscar livros"
+   }
+  },
+  "i01b.header.search.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_search_home, size: 22)"
+  },
+  "i01b.header.bell": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Notificações, 2 novas"
+   }
+  },
+  "i01b.header.bell.icon": {
+   "widget": "AppSvg(AppIcons.ic_bell, size: 22)"
+  },
+  "i01b.header.bell.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.headline": {
+   "widget": "AppText"
+  },
+  "i01b.headline.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01b.hero": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Continuar lendo"
+   }
+  },
+  "i01b.hero.sparkleLarge": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_outline, size: 30)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.hero.sparkleSmall": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.hero.topRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.cover": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "i01b.hero.cover.art": {
+   "widget": "AppSvg(AppIllustrationsInicio.il_capa_dom_casmurro, size: 101×153)",
+   "obs": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor, em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(101/96, 153/144) = 1,0625): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-3deg)) — o tamanho do catálogo é o do layout, sem o giro."
+  },
+  "i01b.hero.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.hero.meta": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.meta.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.pills": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.pagePill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.hero.formatPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.hero.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.title": {
+   "widget": "AppText"
+  },
+  "i01b.hero.author": {
+   "widget": "AppText"
+  },
+  "i01b.hero.meta.bottom": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.progressRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.percent": {
+   "widget": "AppText"
+  },
+  "i01b.hero.timeLeft": {
+   "widget": "AppText"
+  },
+  "i01b.hero.progressBar": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Progresso do livro",
+    "role": "progressbar",
+    "aria-valuenow": "62",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+   }
+  },
+  "i01b.hero.progressFill": {
+   "widget": "NeoBox"
+  },
+  "i01b.hero.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.hero.cta": {
+   "widget": "NeoBox"
+  },
+  "i01b.hero.cta.icon": {
+   "widget": "AppSvg(AppIcons.ic_book_open, size: 20)"
+  },
+  "i01b.hero.cta.label": {
+   "widget": "AppText"
+  },
+  "i01b.hero.notesButton": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Destaques e notas deste livro (12)"
+   }
+  },
+  "i01b.hero.notesButton.icon": {
+   "widget": "AppSvg(AppIcons.ic_highlighter, size: 22)"
+  },
+  "i01b.hero.notesButton.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.alsoReading": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Também lendo"
+   }
+  },
+  "i01b.alsoReading.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.title": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.count": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.alsoReading.grid": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.card1": {
+   "widget": "NeoBox"
+  },
+  "i01b.alsoReading.card1.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.card1.cover": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Memórias Póstumas de Brás Cubas"
+   },
+   "obs": "Transform: rotate(-4deg)"
+  },
+  "i01b.alsoReading.card1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.alsoReading.card1.cover.hat": {
+   "widget": "NeoBox"
+  },
+  "i01b.alsoReading.card1.cover.brim": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.alsoReading.card1.cover.title": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card1.play": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Pausar leitura de Brás Cubas"
+   }
+  },
+  "i01b.alsoReading.card1.play.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_pause, size: 16)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o \"pausar\": no Brás Cubas da 01b tem o id do \"play\" da 01 (alsoReading.card1.play: um botão com dois estados, cronômetro parado/rodando — não dois widgets), amarelo 16; a mini-barra usa o mesmo desenho em tinta 18 (ic_pause_tinta)."
+  },
+  "i01b.alsoReading.card1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.card1.title": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card1.author": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card1.meta": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.alsoReading.card1.meta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_paper, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.alsoReading.card2": {
+   "widget": "NeoBox"
+  },
+  "i01b.alsoReading.card2.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.card2.cover": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(3deg)"
+  },
+  "i01b.alsoReading.card2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.alsoReading.card2.cover.circle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.alsoReading.card2.cover.title": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card2.ring": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.card2.ring.svg": {
+   "widget": "CustomPainter (anel_progresso_livro)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "stroke-dasharray = progresso do livro (91,6 de 113,1 = 2π·18 → 81 %) com rotate(-90): anel desenhado por CustomPainter com o valor real (o rótulo \"81%\" é texto da página, não do SVG)."
+  },
+  "i01b.alsoReading.card2.ring.label": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.alsoReading.card2.title": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card2.author": {
+   "widget": "AppText"
+  },
+  "i01b.alsoReading.card2.meta": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.alsoReading.card2.meta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_paper, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Seu dia de leitura"
+   }
+  },
+  "i01b.today.decoCircleLarge": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today.decoCircleSmall": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.title": {
+   "widget": "AppText"
+  },
+  "i01b.today.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01b.today.streakPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.today.streakPill.icon": {
+   "widget": "AppSvg(AppIcons.ic_flame, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today.goalRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.dial": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.dial.svg": {
+   "widget": "CustomPainter (mostrador_meta_diaria)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "mostrador da meta: anel de progresso r 44 / traço 10 com dasharray 165,9 de 276,5 (= 18 de 30 min → 60 %), marcas r 44 com dasharray 1,5 + 7,71 = 2π·44/30 (uma por minuto da meta, opacidade 0,35) e a bolinha coral (r 6) na ponta do arco: CustomPainter com minutos/meta reais; a posição da bolinha é calculada (aqui 30,1 / 91,6)."
+  },
+  "i01b.today.dial.center": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.dial.value": {
+   "widget": "AppText"
+  },
+  "i01b.today.dial.caption": {
+   "widget": "AppText"
+  },
+  "i01b.today.goalText": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.goalText.sentence": {
+   "widget": "AppText"
+  },
+  "i01b.today.goalText.sentence.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01b.today.readNow": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Iniciar leitura (cronômetro)"
+   }
+  },
+  "i01b.today.readNow.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_stopwatch, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today.readNow.label": {
+   "widget": "AppText"
+  },
+  "i01b.today.chips": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.chip.sessions": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.today.chip.highlights": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.today.week": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.week.title": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.total": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.chart": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Minutos lidos por dia: segunda 32, terça 45, quarta 30, quinta 22, sexta 38, sábado 55, hoje 18 de 30"
+   }
+  },
+  "i01b.today.week.goalLine": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today.week.bar0": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar0.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.bar1": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar1.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.bar2": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar2.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.bar3": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar3.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.bar4": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar4.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.bar5": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar5.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.bar6": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i01b.today.week.bar6.fill": {
+   "widget": "NeoBox"
+  },
+  "i01b.today.week.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.week.label0": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.label1": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.label2": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.label3": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.label4": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.label5": {
+   "widget": "AppText"
+  },
+  "i01b.today.week.label6": {
+   "widget": "AppText"
+  },
+  "i01b.today.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.today.footer.icon": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 16)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.today.footer.text": {
+   "widget": "AppText"
+  },
+  "i01b.today.footer.text.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01b.forYou": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Para você"
+   }
+  },
+  "i01b.forYou.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.seeAll": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.seeAll.icon": {
+   "widget": "AppSvg(AppIcons.ic_arrow_right, size: 18)"
+  },
+  "i01b.forYou.reasonChip": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.forYou.reasonChip.icon": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.forYou.carousel": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item1": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item1.cover": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item1.cover.blob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.forYou.item1.cover.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item1.cover.author": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item1.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item1.author": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item2.cover": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item2.cover.lines": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item2.cover.line1": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item2.cover.line2": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item2.cover.line3": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item2.cover.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item2.cover.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item2.cover.author": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item2.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item2.author": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item3": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item3.cover": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item3.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item3.cover.archOuter": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item3.cover.archInner": {
+   "widget": "NeoBox"
+  },
+  "i01b.forYou.item3.cover.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item3.cover.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item3.cover.author": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item3.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.forYou.item3.title": {
+   "widget": "AppText"
+  },
+  "i01b.forYou.item3.author": {
+   "widget": "AppText"
+  },
+  "i01b.club": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Seu clube do livro"
+   }
+  },
+  "i01b.club.ticket": {
+   "widget": "NeoBox"
+  },
+  "i01b.club.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.topRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.club.avatars": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "11 participantes"
+   }
+  },
+  "i01b.club.avatar0": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.club.avatar1": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.club.avatar2": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.club.avatar3": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.club.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.title": {
+   "widget": "AppText"
+  },
+  "i01b.club.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i01b.club.subtitle": {
+   "widget": "AppText"
+  },
+  "i01b.club.progressBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.progressTrack": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.progressBar": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Progresso do grupo",
+    "role": "progressbar",
+    "aria-valuenow": "54",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+   }
+  },
+  "i01b.club.progressFill": {
+   "widget": "NeoBox"
+  },
+  "i01b.club.youMarker": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Você"
+   }
+  },
+  "i01b.club.progressLabels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.groupLabel": {
+   "widget": "AppText"
+  },
+  "i01b.club.youLabel": {
+   "widget": "AppText"
+  },
+  "i01b.club.cta": {
+   "widget": "NeoBox"
+  },
+  "i01b.club.cta.icon": {
+   "widget": "AppSvg(AppIcons.ic_message_circle, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.club.cta.label": {
+   "widget": "AppText"
+  },
+  "i01b.club.cta.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "label": "3 mensagens novas"
+   }
+  },
+  "i01b.club.stub": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Próximo encontro: quinta, 24 de setembro, às 20h"
+   }
+  },
+  "i01b.club.stub.label": {
+   "widget": "AppText"
+  },
+  "i01b.club.stub.date": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.club.stub.weekday": {
+   "widget": "AppText"
+  },
+  "i01b.club.stub.day": {
+   "widget": "AppText"
+  },
+  "i01b.club.stub.month": {
+   "widget": "AppText"
+  },
+  "i01b.club.stub.time": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.club.notchTop": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.club.notchBottom": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.recent": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Adicionados recentemente"
+   }
+  },
+  "i01b.recent.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.recent.title": {
+   "widget": "AppText"
+  },
+  "i01b.recent.libraryLink": {
+   "widget": "AppText"
+  },
+  "i01b.recent.libraryLink.icon": {
+   "widget": "AppSvg(AppIcons.ic_arrow_right, size: 18)"
+  },
+  "i01b.recent.list": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row0": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row0.cover": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row0.cover.moon": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.recent.row0.cover.bar": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row0.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.recent.row0.title": {
+   "widget": "AppText"
+  },
+  "i01b.recent.row0.subtitle": {
+   "widget": "AppText"
+  },
+  "i01b.recent.row0.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.recent.row0.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para Frankenstein"
+   }
+  },
+  "i01b.recent.row0.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i01b.recent.row1": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row1.cover": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row1.cover.ring": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.recent.row1.cover.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.recent.row1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.recent.row1.title": {
+   "widget": "AppText"
+  },
+  "i01b.recent.row1.subtitle": {
+   "widget": "AppText"
+  },
+  "i01b.recent.row1.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.recent.row1.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para O Alienista"
+   }
+  },
+  "i01b.recent.row1.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i01b.recent.row2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.recent.row2.cover": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row2.cover.arch": {
+   "widget": "NeoBox"
+  },
+  "i01b.recent.row2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.recent.row2.title": {
+   "widget": "AppText"
+  },
+  "i01b.recent.row2.subtitle": {
+   "widget": "AppText"
+  },
+  "i01b.recent.row2.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i01b.recent.row2.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para Senhora"
+   }
+  },
+  "i01b.recent.row2.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i01b.bottomFade": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.miniBar": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Sessão em andamento: Brás Cubas, 8 minutos e 42 segundos. Abrir cronômetro"
+   }
+  },
+  "i01b.miniBar.progress": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.miniBar.cover": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(-5deg)"
+  },
+  "i01b.miniBar.cover.art": {
+   "widget": "AppSvg(AppIllustrationsInicio.il_capa_bras_cubas_asas, size: 29.6×45.6)",
+   "obs": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor; Figtree 800 4,6 em \"MEMÓRIAS PÓSTUMAS DE\", em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(29,6/96, 45,6/144) = 0,3167): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-5deg)) — o tamanho do catálogo é o do layout, sem o giro."
+  },
+  "i01b.miniBar.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.miniBar.kicker": {
+   "widget": "AppText"
+  },
+  "i01b.miniBar.kicker.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.miniBar.title": {
+   "widget": "AppText"
+  },
+  "i01b.miniBar.time": {
+   "widget": "AppText"
+  },
+  "i01b.miniBar.pause": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Pausar"
+   }
+  },
+  "i01b.miniBar.pause.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_pause_tinta, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o \"pausar\": no Brás Cubas da 01b tem o id do \"play\" da 01 (alsoReading.card1.play: um botão com dois estados, cronômetro parado/rodando — não dois widgets), amarelo 16; a mini-barra usa o mesmo desenho em tinta 18 (ic_pause_tinta)."
+  },
+  "i01b.nav": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Navegação principal"
+   }
+  },
+  "i01b.nav.home": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-current": "page"
+   }
+  },
+  "i01b.nav.home.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_home_active, size: 22)"
+  },
+  "i01b.nav.home.label": {
+   "widget": "AppText"
+  },
+  "i01b.nav.library": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.nav.library.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_library, size: 22)"
+  },
+  "i01b.nav.library.label": {
+   "widget": "AppText"
+  },
+  "i01b.nav.scanner": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Scanner: escanear livro ou página"
+   }
+  },
+  "i01b.nav.scanner.fab": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i01b.nav.scanner.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_scanner, size: 28)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i01b.nav.scanner.label": {
+   "widget": "AppText"
+  },
+  "i01b.nav.clubs": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.nav.clubs.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_clubs, size: 22)"
+  },
+  "i01b.nav.clubs.label": {
+   "widget": "AppText"
+  },
+  "i01b.nav.profile": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i01b.nav.profile.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_profile, size: 22)"
+  },
+  "i01b.nav.profile.label": {
+   "widget": "AppText"
+  }
+ },
+ "060_inicio_grifos_de_hoje": {
+  "i60.frame": {
+   "widget": "NeoBox"
+  },
+  "i60.main": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.header.identity": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.header.avatar": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.header.greetingColumn": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.header.greeting": {
+   "widget": "AppText"
+  },
+  "i60.header.name": {
+   "widget": "AppText"
+  },
+  "i60.header.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.header.search": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Buscar livros"
+   }
+  },
+  "i60.header.search.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_search_home, size: 22)"
+  },
+  "i60.header.bell": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Notificações, 2 novas"
+   }
+  },
+  "i60.header.bell.icon": {
+   "widget": "AppSvg(AppIcons.ic_bell, size: 22)"
+  },
+  "i60.header.bell.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.headline": {
+   "widget": "AppText"
+  },
+  "i60.headline.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i60.hero": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Continuar lendo"
+   }
+  },
+  "i60.hero.sparkleLarge": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_outline, size: 30)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.hero.sparkleSmall": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.hero.topRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.cover": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "i60.hero.cover.art": {
+   "widget": "AppSvg(AppIllustrationsInicio.il_capa_dom_casmurro, size: 101×153)",
+   "obs": "tem <text> (Instrument Serif 19 no título; Figtree 700 5,2 no autor, em unidades do viewBox 96×144) e preserveAspectRatio=\"xMidYMid slice\" (escala max(101/96, 153/144) = 1,0625): o flutter_svg desenha <text> com a fonte do sistema e não faz \"slice\" → no app, o desenho sem os textos (BoxFit.cover) e os textos com AppText por cima, nas mesmas posições × escala; a capa fica dentro de uma caixa girada (rotate(-3deg)) — o tamanho do catálogo é o do layout, sem o giro."
+  },
+  "i60.hero.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.hero.meta": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.meta.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.pills": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.pagePill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.hero.formatPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.hero.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.title": {
+   "widget": "AppText"
+  },
+  "i60.hero.author": {
+   "widget": "AppText"
+  },
+  "i60.hero.meta.bottom": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.progressRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.percent": {
+   "widget": "AppText"
+  },
+  "i60.hero.timeLeft": {
+   "widget": "AppText"
+  },
+  "i60.hero.progressBar": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Progresso do livro",
+    "role": "progressbar",
+    "aria-valuenow": "62",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+   }
+  },
+  "i60.hero.progressFill": {
+   "widget": "NeoBox"
+  },
+  "i60.hero.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.hero.cta": {
+   "widget": "NeoBox"
+  },
+  "i60.hero.cta.icon": {
+   "widget": "AppSvg(AppIcons.ic_book_open, size: 20)"
+  },
+  "i60.hero.cta.label": {
+   "widget": "AppText"
+  },
+  "i60.hero.notesButton": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Destaques e notas deste livro (12)"
+   }
+  },
+  "i60.hero.notesButton.icon": {
+   "widget": "AppSvg(AppIcons.ic_highlighter, size: 22)"
+  },
+  "i60.hero.notesButton.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.alsoReading": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Também lendo"
+   }
+  },
+  "i60.alsoReading.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.title": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.count": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.alsoReading.grid": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.card1": {
+   "widget": "NeoBox"
+  },
+  "i60.alsoReading.card1.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.card1.cover": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Memórias Póstumas de Brás Cubas"
+   },
+   "obs": "Transform: rotate(-4deg)"
+  },
+  "i60.alsoReading.card1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.alsoReading.card1.cover.hat": {
+   "widget": "NeoBox"
+  },
+  "i60.alsoReading.card1.cover.brim": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.alsoReading.card1.cover.title": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card1.play": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Iniciar leitura de Brás Cubas"
+   }
+  },
+  "i60.alsoReading.card1.play.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_play, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.alsoReading.card1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.card1.title": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card1.author": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card1.meta": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.alsoReading.card1.meta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_paper, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.alsoReading.card2": {
+   "widget": "NeoBox"
+  },
+  "i60.alsoReading.card2.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.card2.cover": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(3deg)"
+  },
+  "i60.alsoReading.card2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.alsoReading.card2.cover.circle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.alsoReading.card2.cover.title": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card2.ring": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.card2.ring.svg": {
+   "widget": "CustomPainter (anel_progresso_livro)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "stroke-dasharray = progresso do livro (91,6 de 113,1 = 2π·18 → 81 %) com rotate(-90): anel desenhado por CustomPainter com o valor real (o rótulo \"81%\" é texto da página, não do SVG)."
+  },
+  "i60.alsoReading.card2.ring.label": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.alsoReading.card2.title": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card2.author": {
+   "widget": "AppText"
+  },
+  "i60.alsoReading.card2.meta": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.alsoReading.card2.meta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_paper, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Seu dia de leitura"
+   }
+  },
+  "i60.today.decoCircleLarge": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today.decoCircleSmall": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.title": {
+   "widget": "AppText"
+  },
+  "i60.today.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i60.today.streakPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.today.streakPill.icon": {
+   "widget": "AppSvg(AppIcons.ic_flame, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today.goalRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.dial": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.dial.svg": {
+   "widget": "CustomPainter (mostrador_meta_diaria)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "mostrador da meta: anel de progresso r 44 / traço 10 com dasharray 165,9 de 276,5 (= 18 de 30 min → 60 %), marcas r 44 com dasharray 1,5 + 7,71 = 2π·44/30 (uma por minuto da meta, opacidade 0,35) e a bolinha coral (r 6) na ponta do arco: CustomPainter com minutos/meta reais; a posição da bolinha é calculada (aqui 30,1 / 91,6)."
+  },
+  "i60.today.dial.center": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.dial.value": {
+   "widget": "AppText"
+  },
+  "i60.today.dial.caption": {
+   "widget": "AppText"
+  },
+  "i60.today.goalText": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.goalText.sentence": {
+   "widget": "AppText"
+  },
+  "i60.today.goalText.sentence.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i60.today.readNow": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Iniciar leitura (cronômetro)"
+   }
+  },
+  "i60.today.readNow.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_stopwatch, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today.readNow.label": {
+   "widget": "AppText"
+  },
+  "i60.today.chips": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.chip.sessions": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.today.chip.highlights": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.today.week": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.week.title": {
+   "widget": "AppText"
+  },
+  "i60.today.week.total": {
+   "widget": "AppText"
+  },
+  "i60.today.week.chart": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Minutos lidos por dia: segunda 32, terça 45, quarta 30, quinta 22, sexta 38, sábado 55, hoje 18 de 30"
+   }
+  },
+  "i60.today.week.goalLine": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today.week.bar0": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar0.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.bar1": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar1.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.bar2": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar2.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.bar3": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar3.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.bar4": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar4.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.bar5": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar5.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.bar6": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "i60.today.week.bar6.fill": {
+   "widget": "NeoBox"
+  },
+  "i60.today.week.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.week.label0": {
+   "widget": "AppText"
+  },
+  "i60.today.week.label1": {
+   "widget": "AppText"
+  },
+  "i60.today.week.label2": {
+   "widget": "AppText"
+  },
+  "i60.today.week.label3": {
+   "widget": "AppText"
+  },
+  "i60.today.week.label4": {
+   "widget": "AppText"
+  },
+  "i60.today.week.label5": {
+   "widget": "AppText"
+  },
+  "i60.today.week.label6": {
+   "widget": "AppText"
+  },
+  "i60.today.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.today.footer.icon": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 16)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.today.footer.text": {
+   "widget": "AppText"
+  },
+  "i60.today.footer.text.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i60.review": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Seus grifos de hoje"
+   }
+  },
+  "i60.review.art": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.review.art.card1": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-12deg)"
+  },
+  "i60.review.art.card1.line0": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card1.line1": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card1.line2": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card1.line3": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card2": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(8deg)"
+  },
+  "i60.review.art.card2.line0": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card2.line1": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card2.line2": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card2.line3": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card3": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-2deg)"
+  },
+  "i60.review.art.card3.line0": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card3.line1": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card3.line2": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.card3.line3": {
+   "widget": "NeoBox"
+  },
+  "i60.review.art.sparkle": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_amarelo, size: 26)"
+  },
+  "i60.review.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.review.kicker": {
+   "widget": "AppText"
+  },
+  "i60.review.title": {
+   "widget": "AppText"
+  },
+  "i60.review.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i60.review.subtitle": {
+   "widget": "AppText"
+  },
+  "i60.review.cta": {
+   "widget": "NeoBox"
+  },
+  "i60.review.cta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_solid_amarelo, size: 15)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.review.cta.label": {
+   "widget": "AppText"
+  },
+  "i60.forYou": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Para você"
+   }
+  },
+  "i60.forYou.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.seeAll": {
+   "widget": "AppText"
+  },
+  "i60.forYou.seeAll.icon": {
+   "widget": "AppSvg(AppIcons.ic_arrow_right, size: 18)"
+  },
+  "i60.forYou.reasonChip": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.forYou.reasonChip.icon": {
+   "widget": "AppSvg(AppIcons.ic_sparkle_solid, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.forYou.carousel": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item1": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item1.cover": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item1.cover.blob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.forYou.item1.cover.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item1.cover.author": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item1.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item1.author": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item2.cover": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item2.cover.lines": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item2.cover.line1": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item2.cover.line2": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item2.cover.line3": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item2.cover.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item2.cover.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item2.cover.author": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item2.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item2.author": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item3": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item3.cover": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item3.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item3.cover.archOuter": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item3.cover.archInner": {
+   "widget": "NeoBox"
+  },
+  "i60.forYou.item3.cover.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item3.cover.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item3.cover.author": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item3.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.forYou.item3.title": {
+   "widget": "AppText"
+  },
+  "i60.forYou.item3.author": {
+   "widget": "AppText"
+  },
+  "i60.club": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Seu clube do livro"
+   }
+  },
+  "i60.club.ticket": {
+   "widget": "NeoBox"
+  },
+  "i60.club.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.topRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.club.avatars": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "11 participantes"
+   }
+  },
+  "i60.club.avatar0": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.club.avatar1": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.club.avatar2": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.club.avatar3": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.club.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.title": {
+   "widget": "AppText"
+  },
+  "i60.club.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "i60.club.subtitle": {
+   "widget": "AppText"
+  },
+  "i60.club.progressBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.progressTrack": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.progressBar": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Progresso do grupo",
+    "role": "progressbar",
+    "aria-valuenow": "54",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100"
+   }
+  },
+  "i60.club.progressFill": {
+   "widget": "NeoBox"
+  },
+  "i60.club.youMarker": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Você"
+   }
+  },
+  "i60.club.progressLabels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.groupLabel": {
+   "widget": "AppText"
+  },
+  "i60.club.youLabel": {
+   "widget": "AppText"
+  },
+  "i60.club.cta": {
+   "widget": "NeoBox"
+  },
+  "i60.club.cta.icon": {
+   "widget": "AppSvg(AppIcons.ic_message_circle, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.club.cta.label": {
+   "widget": "AppText"
+  },
+  "i60.club.cta.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "label": "3 mensagens novas"
+   }
+  },
+  "i60.club.stub": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Próximo encontro: quinta, 24 de setembro, às 20h"
+   }
+  },
+  "i60.club.stub.label": {
+   "widget": "AppText"
+  },
+  "i60.club.stub.date": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.club.stub.weekday": {
+   "widget": "AppText"
+  },
+  "i60.club.stub.day": {
+   "widget": "AppText"
+  },
+  "i60.club.stub.month": {
+   "widget": "AppText"
+  },
+  "i60.club.stub.time": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.club.notchTop": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.club.notchBottom": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.recent": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Adicionados recentemente"
+   }
+  },
+  "i60.recent.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.recent.title": {
+   "widget": "AppText"
+  },
+  "i60.recent.libraryLink": {
+   "widget": "AppText"
+  },
+  "i60.recent.libraryLink.icon": {
+   "widget": "AppSvg(AppIcons.ic_arrow_right, size: 18)"
+  },
+  "i60.recent.list": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row0": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row0.cover": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row0.cover.moon": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.recent.row0.cover.bar": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row0.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.recent.row0.title": {
+   "widget": "AppText"
+  },
+  "i60.recent.row0.subtitle": {
+   "widget": "AppText"
+  },
+  "i60.recent.row0.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.recent.row0.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para Frankenstein"
+   }
+  },
+  "i60.recent.row0.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i60.recent.row1": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row1.cover": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row1.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row1.cover.ring": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.recent.row1.cover.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.recent.row1.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.recent.row1.title": {
+   "widget": "AppText"
+  },
+  "i60.recent.row1.subtitle": {
+   "widget": "AppText"
+  },
+  "i60.recent.row1.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.recent.row1.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para O Alienista"
+   }
+  },
+  "i60.recent.row1.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i60.recent.row2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.recent.row2.cover": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row2.cover.spine": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row2.cover.arch": {
+   "widget": "NeoBox"
+  },
+  "i60.recent.row2.textBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.recent.row2.title": {
+   "widget": "AppText"
+  },
+  "i60.recent.row2.subtitle": {
+   "widget": "AppText"
+  },
+  "i60.recent.row2.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "i60.recent.row2.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções para Senhora"
+   }
+  },
+  "i60.recent.row2.more.icon": {
+   "widget": "AppSvg(AppIcons.ic_more_horizontal, size: 20)"
+  },
+  "i60.bottomFade": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.nav": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Navegação principal"
+   }
+  },
+  "i60.nav.home": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-current": "page"
+   }
+  },
+  "i60.nav.home.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_home_active, size: 22)"
+  },
+  "i60.nav.home.label": {
+   "widget": "AppText"
+  },
+  "i60.nav.library": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.nav.library.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_library, size: 22)"
+  },
+  "i60.nav.library.label": {
+   "widget": "AppText"
+  },
+  "i60.nav.scanner": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Scanner: escanear livro ou página"
+   }
+  },
+  "i60.nav.scanner.fab": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "i60.nav.scanner.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_scanner, size: 28)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "i60.nav.scanner.label": {
+   "widget": "AppText"
+  },
+  "i60.nav.clubs": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.nav.clubs.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_clubs, size: 22)"
+  },
+  "i60.nav.clubs.label": {
+   "widget": "AppText"
+  },
+  "i60.nav.profile": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "i60.nav.profile.icon": {
+   "widget": "AppSvg(AppIcons.ic_nav_profile, size: 22)"
+  },
+  "i60.nav.profile.label": {
+   "widget": "AppText"
+  }
+ },
+ "061_revisao_grifo_2_de_5": {
+  "rv61.frame": {
+   "widget": "NeoBox"
+  },
+  "rv61.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.header.bar": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.header.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar revisão"
+   }
+  },
+  "rv61.header.close.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_close_bold, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.header.title": {
+   "widget": "AppText"
+  },
+  "rv61.header.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv61.header.counter": {
+   "widget": "AppText"
+  },
+  "rv61.header.progressBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.header.progress": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Revisão",
+    "role": "progressbar",
+    "aria-valuenow": "2",
+    "aria-valuemin": "0",
+    "aria-valuemax": "5"
+   }
+  },
+  "rv61.header.progress.step0": {
+   "widget": "NeoBox"
+  },
+  "rv61.header.progress.step1": {
+   "widget": "DecoratedBox(LinearGradient)"
+  },
+  "rv61.header.progress.step2": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "rv61.header.progress.step3": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "rv61.header.progress.step4": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno"
+  },
+  "rv61.deck": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.deck.behind2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(5deg)"
+  },
+  "rv61.deck.behind1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(-4deg)"
+  },
+  "rv61.deck.card": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo 2 de 5: Dom Casmurro, página 6"
+   }
+  },
+  "rv61.deck.card.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.deck.card.top.book": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.deck.card.top.book.spine": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.deck.card.top.book.label": {
+   "widget": "AppText"
+  },
+  "rv61.deck.card.top.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "rv61.deck.card.top.tag.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv61.deck.card.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.deck.card.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv61.deck.card.note": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-1.2deg)"
+  },
+  "rv61.deck.card.note.tape": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "rv61.deck.card.note.label": {
+   "widget": "AppText"
+  },
+  "rv61.deck.card.note.text": {
+   "widget": "AppText"
+  },
+  "rv61.deck.card.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.deck.card.footer": {
+   "widget": "NeoBox"
+  },
+  "rv61.deck.card.footer.when": {
+   "widget": "AppText"
+  },
+  "rv61.deck.card.footer.reviewed": {
+   "widget": "AppText"
+  },
+  "rv61.swipeHint": {
+   "widget": "AppText",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.actions.frequency": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.actions.less": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "rv61.actions.less.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_minus, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.actions.more": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "rv61.actions.more.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_plus_bold, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.actions.row": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv61.actions.note": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Escrever uma nota"
+   }
+  },
+  "rv61.actions.note.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_pencil_edit, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.actions.share": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Compartilhar como imagem"
+   }
+  },
+  "rv61.actions.share.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_share, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv61.actions.next": {
+   "widget": "NeoBox"
+  },
+  "rv61.actions.next.label": {
+   "widget": "AppText"
+  },
+  "rv61.actions.next.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_arrow_next, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "062_revisao_fim": {
+  "rv62.frame": {
+   "widget": "NeoBox"
+  },
+  "rv62.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.header.bar": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.header.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar revisão"
+   }
+  },
+  "rv62.header.close.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_close_bold, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv62.header.title": {
+   "widget": "AppText"
+  },
+  "rv62.header.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv62.header.counter": {
+   "widget": "AppText"
+  },
+  "rv62.header.progressBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.header.progress": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Revisão",
+    "role": "progressbar",
+    "aria-valuenow": "6",
+    "aria-valuemin": "0",
+    "aria-valuemax": "5"
+   }
+  },
+  "rv62.header.progress.step0": {
+   "widget": "NeoBox"
+  },
+  "rv62.header.progress.step1": {
+   "widget": "NeoBox"
+  },
+  "rv62.header.progress.step2": {
+   "widget": "NeoBox"
+  },
+  "rv62.header.progress.step3": {
+   "widget": "NeoBox"
+  },
+  "rv62.header.progress.step4": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.summary.art": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv62.summary.art.card1": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-10deg)"
+  },
+  "rv62.summary.art.card1.line0": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card1.line1": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card1.line2": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card1.check": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv62.summary.art.card1.check.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_check_tiny, size: 10)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+  },
+  "rv62.summary.art.card2": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-4deg)"
+  },
+  "rv62.summary.art.card2.line0": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card2.line1": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card2.line2": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card2.check": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv62.summary.art.card2.check.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_check_tiny, size: 10)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+  },
+  "rv62.summary.art.card3": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(2deg)"
+  },
+  "rv62.summary.art.card3.line0": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card3.line1": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card3.line2": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card3.check": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv62.summary.art.card3.check.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_check_tiny, size: 10)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+  },
+  "rv62.summary.art.card4": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(6deg)"
+  },
+  "rv62.summary.art.card4.line0": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card4.line1": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card4.line2": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card4.check": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv62.summary.art.card4.check.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_check_tiny, size: 10)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+  },
+  "rv62.summary.art.card5": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(11deg)"
+  },
+  "rv62.summary.art.card5.line0": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card5.line1": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card5.line2": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.art.card5.check": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv62.summary.art.card5.check.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_check_tiny, size: 10)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "o selo fica num cartão girado (rotate(-10deg) e outros): tamanho de uso 10 (atributo e layout); o retângulo visível de 11,6 é o do giro."
+  },
+  "rv62.summary.title": {
+   "widget": "AppText"
+  },
+  "rv62.summary.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv62.summary.streakPill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "rv62.summary.streakPill.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_selo, size: 16)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv62.summary.stats": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.summary.stats.more": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.stats.more.value": {
+   "widget": "AppText"
+  },
+  "rv62.summary.stats.more.label": {
+   "widget": "AppText"
+  },
+  "rv62.summary.stats.less": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.stats.less.value": {
+   "widget": "AppText"
+  },
+  "rv62.summary.stats.less.label": {
+   "widget": "AppText"
+  },
+  "rv62.summary.stats.newNote": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.stats.newNote.value": {
+   "widget": "AppText"
+  },
+  "rv62.summary.stats.newNote.label": {
+   "widget": "AppText"
+  },
+  "rv62.summary.newNote": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Sua nota nova"
+   }
+  },
+  "rv62.summary.newNote.top": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.summary.newNote.top.book": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.summary.newNote.top.book.spine": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv62.summary.newNote.top.book.label": {
+   "widget": "AppText"
+  },
+  "rv62.summary.newNote.top.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "rv62.summary.newNote.top.tag.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv62.summary.newNote.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.summary.newNote.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv62.summary.newNote.note": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-1.2deg)"
+  },
+  "rv62.summary.newNote.note.tape": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "rv62.summary.newNote.note.label": {
+   "widget": "AppText"
+  },
+  "rv62.summary.newNote.note.text": {
+   "widget": "AppText"
+  },
+  "rv62.summary.tomorrow": {
+   "widget": "NeoBox"
+  },
+  "rv62.summary.tomorrow.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_calendar, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv62.summary.tomorrow.text": {
+   "widget": "AppText"
+  },
+  "rv62.summary.tomorrow.text.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv62.footer": {
+   "widget": "DecoratedBox(LinearGradient)"
+  },
+  "rv62.footer.cta": {
+   "widget": "NeoBox"
+  },
+  "rv62.footer.cta.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_book_read, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv62.footer.cta.label": {
+   "widget": "AppText"
+  },
+  "rv62.footer.settings": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv62.footer.settings.link": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  }
+ },
+ "063_revisao_imagem_compartilhar": {
+  "rv63.frame": {
+   "widget": "NeoBox"
+  },
+  "rv63.scrim": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Compartilhar grifo como imagem",
+    "role": "dialog"
+   }
+  },
+  "rv63.sheet.handle": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv63.sheet.title": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv63.sheet.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar"
+   }
+  },
+  "rv63.sheet.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_close_round, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.previewWrap": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv63.sheet.preview": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Prévia da imagem: grifo de Dom Casmurro em fundo rosa",
+    "role": "img"
+   }
+  },
+  "rv63.sheet.preview.sparkle": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_previa, size: 30)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.preview.quoteMark": {
+   "widget": "AppText",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.preview.quote": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.preview.quote.highlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rv63.sheet.preview.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv63.sheet.preview.book": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.preview.author": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.preview.footer": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.preview.footer.handle": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.preview.footer.brand": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.preview.footer.brand.mark": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv63.sheet.preview.footer.brand.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_sparkle_solid_creme, size: 9)"
+  },
+  "rv63.sheet.colors": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Cor do fundo",
+    "role": "radiogroup"
+   }
+  },
+  "rv63.sheet.colors.cream": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fundo creme",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rv63.sheet.colors.yellow": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fundo amarelo",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rv63.sheet.colors.pink": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fundo rosa",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "rv63.sheet.colors.green": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fundo verde",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rv63.sheet.colors.lavender": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fundo lavanda",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rv63.sheet.colors.ink": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fundo tinta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rv63.sheet.toggles": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.toggles.note": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.toggles.note.label": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.toggles.note.switch": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Mostrar minha nota",
+    "role": "switch",
+    "aria-checked": "false"
+   }
+  },
+  "rv63.sheet.toggles.note.switch.knob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv63.sheet.toggles.handle": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv63.sheet.toggles.handle.label": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.toggles.handle.switch": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Mostrar meu @",
+    "role": "switch",
+    "aria-checked": "true"
+   }
+  },
+  "rv63.sheet.toggles.handle.switch.knob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rv63.sheet.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rv63.sheet.actions.save": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.actions.save.tile": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.actions.save.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_download, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.actions.stories": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.actions.stories.tile": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.actions.stories.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_stories, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.actions.copy": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.actions.copy.tile": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.actions.copy.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_copy_text, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rv63.sheet.actions.more": {
+   "widget": "AppText"
+  },
+  "rv63.sheet.actions.more.tile": {
+   "widget": "NeoBox"
+  },
+  "rv63.sheet.actions.more.icon": {
+   "widget": "AppSvg(AppIconsInicio.ic_more_circles, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ }
+}

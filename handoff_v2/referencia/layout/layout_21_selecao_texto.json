@@ -1,0 +1,1853 @@
+{
+ "meta": {
+  "source": "Redesign mobile — App de leitura (1).html",
+  "prancha": "21_selecao_texto",
+  "titulo": "21 · Leitor — seleção de texto",
+  "canvas": [
+   390,
+   844
+  ],
+  "prefixo": "r21",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), prancha isolada do bundle aninhado, rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "paper": "#F8F1E4"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "r21.page": [
+   28,
+   92,
+   334,
+   670
+  ],
+  "r21.toolbar": [
+   22,
+   353.12,
+   346,
+   116.5
+  ],
+  "r21.footer": [
+   28,
+   790.19,
+   334,
+   13.81
+  ]
+ },
+ "elements": {
+  "r21.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "style": {
+    "bg": "#F8F1E4",
+    "overflow": "hidden"
+   }
+  },
+  "r21.page": {
+   "tpl": 5,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "article",
+   "abs": [
+    28,
+    92,
+    334,
+    670
+   ],
+   "rel": [
+    0,
+    0,
+    334,
+    670
+   ],
+   "style": {
+    "position": {
+     "top": "92px",
+     "right": "28px",
+     "bottom": "82px",
+     "left": "28px"
+    }
+   },
+   "css": "position: absolute; left: 28px; right: 28px; top: 92px; bottom: 82px; overflow: visible",
+   "aria": "Dom Casmurro, página 159 de 256",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 556
+    }
+   ]
+  },
+  "r21.page.text": {
+   "tpl": 6,
+   "section": "r21.page",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    28,
+    92,
+    334,
+    775.72
+   ],
+   "rel": [
+    0,
+    0,
+    334,
+    775.72
+   ],
+   "style": {
+    "font": {
+     "family": "Literata",
+     "size": 20.5,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "35.26px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 20.5,
+     "textIndent": "26.65px"
+    }
+   },
+   "css": "margin: 0; font-family: 'Literata', Georgia, serif; font-size: 20.5px; font-weight: 400; line-height: 1.72; color: #2A2520; text-align: left; text-indent: 1.3em",
+   "lines": [
+    {
+     "text": "Retórica dos namorados, dá-me",
+     "left": 54.65,
+     "right": 360.0,
+     "top": 94.41,
+     "bottom": 124.85,
+     "baseline": 118.54,
+     "baselineRel": 26.54
+    },
+    {
+     "text": "uma comparação exata e poética",
+     "left": 28,
+     "right": 340.39,
+     "top": 129.67,
+     "bottom": 160.11,
+     "baseline": 153.8,
+     "baselineRel": 61.8
+    },
+    {
+     "text": "para dizer o que foram",
+     "left": 28,
+     "right": 245.48,
+     "top": 164.93,
+     "bottom": 195.37,
+     "baseline": 189.06,
+     "baselineRel": 97.06
+    },
+    {
+     "text": ". Não me acode",
+     "left": 176.92,
+     "right": 321.2,
+     "top": 200.19,
+     "bottom": 230.63,
+     "baseline": 224.32,
+     "baselineRel": 132.32
+    },
+    {
+     "text": "imagem capaz de dizer, sem",
+     "left": 28,
+     "right": 295.46,
+     "top": 235.45,
+     "bottom": 265.89,
+     "baseline": 259.58,
+     "baselineRel": 167.58
+    },
+    {
+     "text": "quebra da dignidade do estilo, o",
+     "left": 28,
+     "right": 333.61,
+     "top": 270.71,
+     "bottom": 301.15,
+     "baseline": 294.84,
+     "baselineRel": 202.84
+    },
+    {
+     "text": "que eles foram e me fizeram. É",
+     "left": 28,
+     "right": 357.5,
+     "top": 305.97,
+     "bottom": 371.67,
+     "baseline": 330.1,
+     "baselineRel": 238.1,
+     "baselineSpread": 35.26
+    },
+    {
+     "text": "o que me dá ideia daquela feição",
+     "left": 28,
+     "right": 336.62,
+     "top": 376.49,
+     "bottom": 406.93,
+     "baseline": 400.62,
+     "baselineRel": 308.62
+    },
+    {
+     "text": "nova. Traziam não sei que fluido",
+     "left": 28,
+     "right": 341.75,
+     "top": 411.75,
+     "bottom": 442.19,
+     "baseline": 435.88,
+     "baselineRel": 343.88
+    },
+    {
+     "text": "misterioso e enérgico, uma força",
+     "left": 28,
+     "right": 343.35,
+     "top": 447.01,
+     "bottom": 477.45,
+     "baseline": 471.14,
+     "baselineRel": 379.14
+    },
+    {
+     "text": "que arrastava para dentro,",
+     "left": 28,
+     "right": 282.77,
+     "top": 482.27,
+     "bottom": 512.71,
+     "baseline": 506.4,
+     "baselineRel": 414.4
+    },
+    {
+     "text": "Para não ser",
+     "left": 180.03,
+     "right": 297.89,
+     "top": 552.79,
+     "bottom": 583.23,
+     "baseline": 576.92,
+     "baselineRel": 484.92
+    },
+    {
+     "text": "arrastado, agarrei-me às outras",
+     "left": 28,
+     "right": 329.46,
+     "top": 588.05,
+     "bottom": 618.49,
+     "baseline": 612.18,
+     "baselineRel": 520.18
+    },
+    {
+     "text": "partes vizinhas, às orelhas, aos",
+     "left": 28,
+     "right": 325.41,
+     "top": 623.31,
+     "bottom": 653.75,
+     "baseline": 647.44,
+     "baselineRel": 555.44
+    },
+    {
+     "text": "braços, aos cabelos espalhados",
+     "left": 28,
+     "right": 321.73,
+     "top": 658.57,
+     "bottom": 689.01,
+     "baseline": 682.7,
+     "baselineRel": 590.7
+    },
+    {
+     "text": "pelos ombros; mas tão depressa",
+     "left": 28,
+     "right": 330.87,
+     "top": 693.83,
+     "bottom": 724.27,
+     "baseline": 717.96,
+     "baselineRel": 625.96
+    },
+    {
+     "text": "buscava as pupilas, a onda que",
+     "left": 28,
+     "right": 320.33,
+     "top": 729.09,
+     "bottom": 759.53,
+     "baseline": 753.22,
+     "baselineRel": 661.22
+    },
+    {
+     "text": "saía delas vinha crescendo, cava e",
+     "left": 28,
+     "right": 350.79,
+     "top": 764.35,
+     "bottom": 794.79,
+     "baseline": 788.48,
+     "baselineRel": 696.48
+    },
+    {
+     "text": "escura, ameaçando envolver-me,",
+     "left": 28,
+     "right": 345.21,
+     "top": 799.61,
+     "bottom": 830.05,
+     "baseline": 823.74,
+     "baselineRel": 731.74
+    },
+    {
+     "text": "puxar-me e tragar-me.",
+     "left": 28,
+     "right": 246.3,
+     "top": 834.87,
+     "bottom": 865.31,
+     "baseline": 859,
+     "baselineRel": 767
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Retórica dos namorados, dá-me",
+     "left": 54.65,
+     "right": 360.0,
+     "top": 94.41,
+     "bottom": 124.85,
+     "baseline": 118.54,
+     "baselineRel": 26.54
+    },
+    {
+     "text": "uma comparação exata e poética",
+     "left": 28,
+     "right": 340.39,
+     "top": 129.67,
+     "bottom": 160.11,
+     "baseline": 153.8,
+     "baselineRel": 61.8
+    },
+    {
+     "text": "para dizer o que foram aqueles",
+     "left": 28,
+     "right": 322.1,
+     "top": 164.93,
+     "bottom": 195.37,
+     "baseline": 189.06,
+     "baselineRel": 97.06
+    },
+    {
+     "text": "olhos de Capitu. Não me acode",
+     "left": 28,
+     "right": 321.2,
+     "top": 200.19,
+     "bottom": 230.63,
+     "baseline": 224.32,
+     "baselineRel": 132.32
+    },
+    {
+     "text": "imagem capaz de dizer, sem",
+     "left": 28,
+     "right": 295.46,
+     "top": 235.45,
+     "bottom": 265.89,
+     "baseline": 259.58,
+     "baselineRel": 167.58
+    },
+    {
+     "text": "quebra da dignidade do estilo, o",
+     "left": 28,
+     "right": 333.61,
+     "top": 270.71,
+     "bottom": 301.15,
+     "baseline": 294.84,
+     "baselineRel": 202.84
+    },
+    {
+     "text": "que eles foram e me fizeram.",
+     "left": 28,
+     "right": 302.05,
+     "top": 305.97,
+     "bottom": 336.41,
+     "baseline": 330.1,
+     "baselineRel": 238.1
+    },
+    {
+     "text": "Olhos de ressaca? Vá, de ressaca. É",
+     "left": 28,
+     "right": 357.5,
+     "top": 341.23,
+     "bottom": 371.67,
+     "baseline": 365.36,
+     "baselineRel": 273.36
+    },
+    {
+     "text": "o que me dá ideia daquela feição",
+     "left": 28,
+     "right": 336.62,
+     "top": 376.49,
+     "bottom": 406.93,
+     "baseline": 400.62,
+     "baselineRel": 308.62
+    },
+    {
+     "text": "nova. Traziam não sei que fluido",
+     "left": 28,
+     "right": 341.75,
+     "top": 411.75,
+     "bottom": 442.19,
+     "baseline": 435.88,
+     "baselineRel": 343.88
+    },
+    {
+     "text": "misterioso e enérgico, uma força",
+     "left": 28,
+     "right": 343.35,
+     "top": 447.01,
+     "bottom": 477.45,
+     "baseline": 471.14,
+     "baselineRel": 379.14
+    },
+    {
+     "text": "que arrastava para dentro, como a",
+     "left": 28,
+     "right": 355.57,
+     "top": 482.27,
+     "bottom": 512.71,
+     "baseline": 506.4,
+     "baselineRel": 414.4
+    },
+    {
+     "text": "vaga que se retira da praia, nos",
+     "left": 28,
+     "right": 324.32,
+     "top": 517.53,
+     "bottom": 547.97,
+     "baseline": 541.66,
+     "baselineRel": 449.66
+    },
+    {
+     "text": "dias de ressaca. Para não ser",
+     "left": 28,
+     "right": 297.89,
+     "top": 552.79,
+     "bottom": 583.23,
+     "baseline": 576.92,
+     "baselineRel": 484.92
+    },
+    {
+     "text": "arrastado, agarrei-me às outras",
+     "left": 28,
+     "right": 329.46,
+     "top": 588.05,
+     "bottom": 618.49,
+     "baseline": 612.18,
+     "baselineRel": 520.18
+    },
+    {
+     "text": "partes vizinhas, às orelhas, aos",
+     "left": 28,
+     "right": 325.41,
+     "top": 623.31,
+     "bottom": 653.75,
+     "baseline": 647.44,
+     "baselineRel": 555.44
+    },
+    {
+     "text": "braços, aos cabelos espalhados",
+     "left": 28,
+     "right": 321.73,
+     "top": 658.57,
+     "bottom": 689.01,
+     "baseline": 682.7,
+     "baselineRel": 590.7
+    },
+    {
+     "text": "pelos ombros; mas tão depressa",
+     "left": 28,
+     "right": 330.87,
+     "top": 693.83,
+     "bottom": 724.27,
+     "baseline": 717.96,
+     "baselineRel": 625.96
+    },
+    {
+     "text": "buscava as pupilas, a onda que",
+     "left": 28,
+     "right": 320.33,
+     "top": 729.09,
+     "bottom": 759.53,
+     "baseline": 753.22,
+     "baselineRel": 661.22
+    },
+    {
+     "text": "saía delas vinha crescendo, cava e",
+     "left": 28,
+     "right": 350.79,
+     "top": 764.35,
+     "bottom": 794.79,
+     "baseline": 788.48,
+     "baselineRel": 696.48
+    },
+    {
+     "text": "escura, ameaçando envolver-me,",
+     "left": 28,
+     "right": 345.21,
+     "top": 799.61,
+     "bottom": 830.05,
+     "baseline": 823.74,
+     "baselineRel": 731.74
+    },
+    {
+     "text": "puxar-me e tragar-me.",
+     "left": 28,
+     "right": 246.3,
+     "top": 834.87,
+     "bottom": 865.31,
+     "baseline": 859,
+     "baselineRel": 767
+    }
+   ],
+   "naturalWidth": 6672.012,
+   "minContentWidth": 118.712,
+   "text": "Retórica dos namorados, dá-me uma comparação exata e poética para dizer o que foram . Não me acode imagem capaz de dizer, sem quebra da dignidade do estilo, o que eles foram e me fizeram. É o que me dá ideia daquela feição nova. Traziam não sei que fluido misterioso e enérgico, uma força que arrastava para dentro, Para não ser arrastado, agarrei-me às outras partes vizinhas, às orelhas, aos braços, aos cabelos espalhados pelos ombros; mas tão depressa buscava as pupilas, a onda que saía delas vinha crescendo, cava e escura, ameaçando envolver-me, puxar-me e tragar-me.",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 665
+    }
+   ]
+  },
+  "r21.page.text.highlight": {
+   "tpl": 7,
+   "section": "r21.page",
+   "type": "inline",
+   "tag": "mark",
+   "abs": [
+    28,
+    164.93,
+    294.1,
+    65.7
+   ],
+   "rel": [
+    0,
+    72.93,
+    294.1,
+    65.7
+   ],
+   "style": {
+    "bgImage": "linear-gradient(#000000@0 12%, #FED170@0.85 12%, #FED170@0.85 92%, #000000@0 92%)",
+    "radius": "3px",
+    "font": {
+     "family": "Literata",
+     "size": 20.5,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "35.26px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 20.5,
+     "textIndent": "26.65px"
+    }
+   },
+   "css": "background: linear-gradient(transparent 12%, rgba(254,209,112,0.85) 12%, rgba(254,209,112,0.85) 92%, transparent 92%); color: inherit; border-radius: 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone",
+   "lines": [
+    {
+     "text": "aqueles",
+     "left": 249.58,
+     "right": 322.1,
+     "top": 164.93,
+     "bottom": 195.37,
+     "baseline": 189.06,
+     "baselineRel": 97.06
+    },
+    {
+     "text": "olhos de Capitu",
+     "left": 28,
+     "right": 176.92,
+     "top": 200.19,
+     "bottom": 230.63,
+     "baseline": 224.32,
+     "baselineRel": 132.32
+    }
+   ],
+   "naturalWidth": 252.192,
+   "minContentWidth": 99.169,
+   "text": "aqueles olhos de Capitu",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 22
+    }
+   ]
+  },
+  "r21.page.text.orphanLabel": {
+   "tpl": 8,
+   "section": "r21.page",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    28,
+    341.23,
+    312.43,
+    30.44
+   ],
+   "rel": [
+    0,
+    249.23,
+    312.43,
+    30.44
+   ],
+   "style": {
+    "font": {
+     "family": "Literata",
+     "size": 20.5,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "35.26px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 20.5,
+     "textIndent": "26.65px"
+    }
+   },
+   "css": "background: transparent",
+   "lines": [
+    {
+     "text": "Olhos de ressaca? Vá, de ressaca.",
+     "left": 28,
+     "right": 340.43,
+     "top": 341.23,
+     "bottom": 371.67,
+     "baseline": 365.36,
+     "baselineRel": 273.36
+    }
+   ],
+   "naturalWidth": 339.076,
+   "minContentWidth": 83.211,
+   "aria": "Trecho selecionado",
+   "text": "Olhos de ressaca? Vá, de ressaca.",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 33
+    }
+   ]
+  },
+  "r21.page.text.toolbarAnchor": {
+   "tpl": 9,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    286.87,
+    482.27,
+    0,
+    30.44
+   ],
+   "rel": [
+    258.87,
+    390.27,
+    0,
+    30.44
+   ],
+   "style": {},
+   "css": "position: static"
+  },
+  "r21.toolbar": {
+   "tpl": 10,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    22,
+    353.12,
+    346,
+    116.5
+   ],
+   "rel": [
+    0,
+    0.0,
+    346,
+    116.5
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "shadow": "#1A1714 3px 3px 0px 0px",
+    "zIndex": "5",
+    "padding": "10px 10px 6px 10px",
+    "position": {
+     "top": "423.12px",
+     "right": "-6px",
+     "bottom": "292.38px",
+     "left": "-6px"
+    }
+   },
+   "css": "position: absolute; left: -6px; right: -6px; margin-top: -162px; z-index: 5; display: block; padding: 10px 10px 6px; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 3px 3px 0 #1A1714; box-sizing: border-box; font-family: 'Figtree', sans-serif; text-indent: 0; line-height: 1",
+   "aria": "Ações para o trecho selecionado",
+   "role": "toolbar"
+  },
+  "r21.toolbar.colors": {
+   "tpl": 11,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    33.5,
+    364.62,
+    323,
+    43.5
+   ],
+   "rel": [
+    11.5,
+    11.5,
+    323,
+    43.5
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.5px dashed #CFC3AE",
+     "left": "0"
+    },
+    "padding": "0px 2px 8px 2px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 2px 8px; border-bottom: 1.5px dashed #CFC3AE",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "r21.toolbar.colors.label": {
+   "tpl": 12,
+   "section": "r21.toolbar",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    376.12,
+    47.14,
+    11
+   ],
+   "rel": [
+    13.5,
+    23.0,
+    47.14,
+    11
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "11px",
+     "letterSpacing": "1.2px",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 800; letter-spacing: 1.2px; color: #6F665B",
+   "lines": [
+    {
+     "text": "GRIFAR",
+     "left": 35.5,
+     "right": 82.64,
+     "top": 375.02,
+     "bottom": 388.22,
+     "baseline": 385.47,
+     "baselineRel": 32.35
+    }
+   ],
+   "naturalWidth": 47.141,
+   "minContentWidth": 47.141,
+   "text": "GRIFAR",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "r21.toolbar.colors.swatches": {
+   "tpl": 13,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    115.5,
+    364.62,
+    239,
+    34
+   ],
+   "rel": [
+    93.5,
+    11.5,
+    239,
+    34
+   ],
+   "style": {},
+   "css": "display: flex; gap: 7px"
+  },
+  "r21.toolbar.colors.yellow": {
+   "tpl": 14,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    115.5,
+    364.62,
+    34,
+    34
+   ],
+   "rel": [
+    93.5,
+    11.5,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box; padding: 0; flex-shrink: 0; background: #FED170",
+   "aria": "Grifar em amarelo"
+  },
+  "r21.toolbar.colors.pink": {
+   "tpl": 15,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    156.5,
+    364.62,
+    34,
+    34
+   ],
+   "rel": [
+    134.5,
+    11.5,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box; padding: 0; flex-shrink: 0; background: #FFC1C6",
+   "aria": "Grifar em rosa"
+  },
+  "r21.toolbar.colors.green": {
+   "tpl": 16,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    197.5,
+    364.62,
+    34,
+    34
+   ],
+   "rel": [
+    175.5,
+    11.5,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box; padding: 0; flex-shrink: 0; background: #ABCF82",
+   "aria": "Grifar em verde"
+  },
+  "r21.toolbar.colors.lavender": {
+   "tpl": 17,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    238.5,
+    364.62,
+    34,
+    34
+   ],
+   "rel": [
+    216.5,
+    11.5,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box; padding: 0; flex-shrink: 0; background: #B6ACE4",
+   "aria": "Grifar em lavanda"
+  },
+  "r21.toolbar.colors.other": {
+   "tpl": 18,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    279.5,
+    364.62,
+    34,
+    34
+   ],
+   "rel": [
+    257.5,
+    11.5,
+    34,
+    34
+   ],
+   "style": {
+    "bgImage": "conic-gradient(#FF552E, #F2A815, #FED170, #ABCF82, #00995E, #058CD7, #B6ACE4, #552CB7, #FFC1C6, #FF552E)",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box; padding: 0; flex-shrink: 0; background: conic-gradient(#FF552E, #F2A815, #FED170, #ABCF82, #00995E, #058CD7, #B6ACE4, #552CB7, #FFC1C6, #FF552E); display: flex; align-items: center; justify-content: center",
+   "aria": "Escolher outra cor"
+  },
+  "r21.toolbar.colors.other.center": {
+   "tpl": 19,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    289.5,
+    374.62,
+    14,
+    14
+   ],
+   "rel": [
+    267.5,
+    21.5,
+    14,
+    14
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 14px; height: 14px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "r21.toolbar.colors.other.icon": {
+   "tpl": 20,
+   "section": "r21.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    292.5,
+    377.62,
+    8,
+    8
+   ],
+   "rel": [
+    270.5,
+    24.5,
+    8,
+    8
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.colors.underline": {
+   "tpl": 22,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    320.5,
+    364.62,
+    34,
+    34
+   ],
+   "rel": [
+    298.5,
+    11.5,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box; padding: 0; flex-shrink: 0; background: #FFFAF1; display: flex; align-items: center; justify-content: center",
+   "aria": "Sublinhar"
+  },
+  "r21.toolbar.colors.underline.icon": {
+   "tpl": 23,
+   "section": "r21.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    327.5,
+    371.62,
+    20,
+    20
+   ],
+   "rel": [
+    305.5,
+    18.5,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "r21.toolbar.actions": {
+   "tpl": 26,
+   "section": "r21.toolbar",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    33.5,
+    412.12,
+    323,
+    50
+   ],
+   "rel": [
+    11.5,
+    59.0,
+    323,
+    50
+   ],
+   "style": {},
+   "css": "display: flex; margin-top: 4px"
+  },
+  "r21.toolbar.actions.note": {
+   "tpl": 27,
+   "section": "r21.toolbar",
+   "type": "text",
+   "tag": "button",
+   "abs": [
+    33.5,
+    412.12,
+    80.75,
+    50
+   ],
+   "rel": [
+    11.5,
+    59.0,
+    80.75,
+    50
+   ],
+   "style": {
+    "radius": "14px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex: 1 1 0; height: 50px; padding: 0; border: none; background: transparent; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 11.5px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "Nota",
+     "left": 60.67,
+     "right": 87.08,
+     "top": 442.21,
+     "bottom": 456.02,
+     "baseline": 453.14,
+     "baselineRel": 100.02
+    }
+   ],
+   "naturalWidth": 26.415,
+   "minContentWidth": 26.415,
+   "text": "Nota",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "r21.toolbar.actions.note.icon": {
+   "tpl": 28,
+   "section": "r21.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    63.88,
+    418.21,
+    20,
+    20
+   ],
+   "rel": [
+    41.88,
+    65.09,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.actions.copy": {
+   "tpl": 31,
+   "section": "r21.toolbar",
+   "type": "text",
+   "tag": "button",
+   "abs": [
+    114.25,
+    412.12,
+    80.75,
+    50
+   ],
+   "rel": [
+    92.25,
+    59.0,
+    80.75,
+    50
+   ],
+   "style": {
+    "radius": "14px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex: 1 1 0; height: 50px; padding: 0; border: none; background: transparent; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 11.5px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "Copiar",
+     "left": 136.64,
+     "right": 172.61,
+     "top": 442.21,
+     "bottom": 456.02,
+     "baseline": 453.14,
+     "baselineRel": 100.02
+    }
+   ],
+   "naturalWidth": 35.972,
+   "minContentWidth": 35.972,
+   "text": "Copiar",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "r21.toolbar.actions.copy.icon": {
+   "tpl": 32,
+   "section": "r21.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    144.62,
+    418.21,
+    20,
+    20
+   ],
+   "rel": [
+    122.62,
+    65.09,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.actions.share": {
+   "tpl": 35,
+   "section": "r21.toolbar",
+   "type": "text",
+   "tag": "button",
+   "abs": [
+    195,
+    412.12,
+    80.75,
+    50
+   ],
+   "rel": [
+    173,
+    59.0,
+    80.75,
+    50
+   ],
+   "style": {
+    "radius": "14px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex: 1 1 0; height: 50px; padding: 0; border: none; background: transparent; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 11.5px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "Compartilhar",
+     "left": 199.76,
+     "right": 270.99,
+     "top": 442.21,
+     "bottom": 456.02,
+     "baseline": 453.14,
+     "baselineRel": 100.02
+    }
+   ],
+   "naturalWidth": 71.231,
+   "minContentWidth": 71.231,
+   "text": "Compartilhar",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "r21.toolbar.actions.share.icon": {
+   "tpl": 36,
+   "section": "r21.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    225.38,
+    418.21,
+    20,
+    20
+   ],
+   "rel": [
+    203.38,
+    65.09,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.actions.search": {
+   "tpl": 39,
+   "section": "r21.toolbar",
+   "type": "text",
+   "tag": "button",
+   "abs": [
+    275.75,
+    412.12,
+    80.75,
+    50
+   ],
+   "rel": [
+    253.75,
+    59.0,
+    80.75,
+    50
+   ],
+   "style": {
+    "radius": "14px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex: 1 1 0; height: 50px; padding: 0; border: none; background: transparent; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 11.5px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "Buscar",
+     "left": 298.01,
+     "right": 334.24,
+     "top": 442.21,
+     "bottom": 456.02,
+     "baseline": 453.14,
+     "baselineRel": 100.02
+    }
+   ],
+   "naturalWidth": 36.237,
+   "minContentWidth": 36.237,
+   "text": "Buscar",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "r21.toolbar.actions.search.icon": {
+   "tpl": 40,
+   "section": "r21.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    306.12,
+    418.21,
+    20,
+    20
+   ],
+   "rel": [
+    284.12,
+    65.09,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.page.text.handleStart": {
+   "tpl": 43,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    286.87,
+    490,
+    0,
+    20.5
+   ],
+   "rel": [
+    258.87,
+    398,
+    0,
+    20.5
+   ],
+   "style": {},
+   "css": "position: relative; display: inline-block; width: 0; height: 1em; vertical-align: -0.2em",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.page.text.handleStart.stem": {
+   "tpl": 44,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    285.87,
+    488,
+    2,
+    28.5
+   ],
+   "rel": [
+    257.87,
+    396,
+    2,
+    28.5
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "position": {
+     "top": "-2px",
+     "right": "-1px",
+     "bottom": "-6px",
+     "left": "-1px"
+    }
+   },
+   "css": "position: absolute; left: -1px; top: -2px; bottom: -6px; width: 2px; background: #552CB7"
+  },
+  "r21.page.text.handleStart.knob": {
+   "tpl": 45,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    279.87,
+    477,
+    12,
+    12
+   ],
+   "rel": [
+    251.87,
+    385,
+    12,
+    12
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "radius": "50%",
+    "position": {
+     "top": "-13px",
+     "right": "-5px",
+     "bottom": "21.5px",
+     "left": "-7px"
+    }
+   },
+   "css": "position: absolute; left: -7px; top: -13px; width: 12px; height: 12px; border-radius: 50%; background: #552CB7"
+  },
+  "r21.page.text.selection": {
+   "tpl": 46,
+   "section": "r21.page",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    28,
+    482.27,
+    327.57,
+    100.96
+   ],
+   "rel": [
+    0,
+    390.27,
+    327.57,
+    100.96
+   ],
+   "style": {
+    "bg": "#B6ACE4@0.62",
+    "radius": "2px",
+    "font": {
+     "family": "Literata",
+     "size": 20.5,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "35.26px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 20.5,
+     "textIndent": "26.65px"
+    }
+   },
+   "css": "background: rgba(182,172,228,0.62); border-radius: 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone",
+   "lines": [
+    {
+     "text": "como a",
+     "left": 286.87,
+     "right": 355.57,
+     "top": 482.27,
+     "bottom": 512.71,
+     "baseline": 506.4,
+     "baselineRel": 414.4
+    },
+    {
+     "text": "vaga que se retira da praia, nos",
+     "left": 28,
+     "right": 324.32,
+     "top": 517.53,
+     "bottom": 547.97,
+     "baseline": 541.66,
+     "baselineRel": 449.66
+    },
+    {
+     "text": "dias de ressaca.",
+     "left": 28,
+     "right": 175.93,
+     "top": 552.79,
+     "bottom": 583.23,
+     "baseline": 576.92,
+     "baselineRel": 484.92
+    }
+   ],
+   "naturalWidth": 547.795,
+   "minContentWidth": 80.219,
+   "aria": "Trecho selecionado",
+   "text": "como a vaga que se retira da praia, nos dias de ressaca.",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 54
+    }
+   ]
+  },
+  "r21.page.text.handleEnd": {
+   "tpl": 47,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    175.93,
+    560.52,
+    0,
+    20.5
+   ],
+   "rel": [
+    147.93,
+    468.52,
+    0,
+    20.5
+   ],
+   "style": {},
+   "css": "position: relative; display: inline-block; width: 0; height: 1em; vertical-align: -0.2em",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.page.text.handleEnd.stem": {
+   "tpl": 48,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    174.93,
+    558.52,
+    2,
+    28.5
+   ],
+   "rel": [
+    146.93,
+    466.52,
+    2,
+    28.5
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "position": {
+     "top": "-2px",
+     "right": "-1px",
+     "bottom": "-6px",
+     "left": "-1px"
+    }
+   },
+   "css": "position: absolute; left: -1px; top: -2px; bottom: -6px; width: 2px; background: #552CB7"
+  },
+  "r21.page.text.handleEnd.knob": {
+   "tpl": 49,
+   "section": "r21.page",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    169.93,
+    586.02,
+    12,
+    12
+   ],
+   "rel": [
+    141.93,
+    494.02,
+    12,
+    12
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "radius": "50%",
+    "position": {
+     "top": "25.5px",
+     "right": "-6px",
+     "bottom": "-17px",
+     "left": "-6px"
+    }
+   },
+   "css": "position: absolute; left: -6px; bottom: -17px; width: 12px; height: 12px; border-radius: 50%; background: #552CB7"
+  },
+  "r21.footer": {
+   "tpl": 50,
+   "section": "r21.footer",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    28,
+    790.19,
+    334,
+    13.81
+   ],
+   "rel": [
+    0,
+    0.0,
+    334,
+    13.81
+   ],
+   "style": {
+    "position": {
+     "top": "790.19px",
+     "right": "28px",
+     "bottom": "40px",
+     "left": "28px"
+    }
+   },
+   "css": "position: absolute; left: 28px; right: 28px; bottom: 40px; display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: 600; color: #A89D8B; font-variant-numeric: tabular-nums",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "r21.footer.pageLabel": {
+   "tpl": 51,
+   "section": "r21.footer",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    28,
+    790.19,
+    87.22,
+    13.81
+   ],
+   "rel": [
+    0,
+    0.0,
+    87.22,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#A89D8B",
+     "features": [
+      "tnum"
+     ]
+    }
+   },
+   "lines": [
+    {
+     "text": "pág. 159 de 256",
+     "left": 28,
+     "right": 115.22,
+     "top": 790.19,
+     "bottom": 804,
+     "baseline": 801.12,
+     "baselineRel": 10.93
+    }
+   ],
+   "naturalWidth": 87.216,
+   "minContentWidth": 22.367,
+   "text": "pág. 159 de 256",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "r21.footer.percent": {
+   "tpl": 52,
+   "section": "r21.footer",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    338.31,
+    790.19,
+    23.69,
+    13.81
+   ],
+   "rel": [
+    310.31,
+    0.0,
+    23.69,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#A89D8B",
+     "features": [
+      "tnum"
+     ]
+    }
+   },
+   "lines": [
+    {
+     "text": "62%",
+     "left": 338.31,
+     "right": 362,
+     "top": 790.19,
+     "bottom": 804,
+     "baseline": 801.12,
+     "baselineRel": 10.93
+    }
+   ],
+   "naturalWidth": 23.69,
+   "minContentWidth": 23.69,
+   "text": "62%",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  }
+ },
+ "fontMetrics": {
+  "Literata|400|normal|20.5px": {
+   "ascent": 24.13,
+   "descent": 6.31
+  },
+  "Figtree|800|normal|11px": {
+   "ascent": 10.45,
+   "descent": 2.75
+  },
+  "Figtree|800|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  },
+  "Figtree|600|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "41983375-4fed-416d-9aa7-42abc337d300"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "4027d396-17fd-4a67-a471-bf203810ec9d"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "4027d396-17fd-4a67-a471-bf203810ec9d"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "4027d396-17fd-4a67-a471-bf203810ec9d"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "4027d396-17fd-4a67-a471-bf203810ec9d"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "4027d396-17fd-4a67-a471-bf203810ec9d"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "b4b35b1c-15e9-40c1-b8cb-94e023633f1b"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "88fcb8ac-ae5a-462d-9bef-e0e49f029b9a"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "88fcb8ac-ae5a-462d-9bef-e0e49f029b9a"
+  }
+ ]
+}

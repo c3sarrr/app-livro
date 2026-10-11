@@ -1,0 +1,259 @@
+{
+ "_doc": "Fases de tela L (G01.9) e o que cada uma cobre: seções da prancha (sem o prefixo). Usado por recortar.py (G01.5) e gen_fases.py (G01.9).",
+ "fases": [
+  {
+   "fase": "L19_leitor_limpo",
+   "prancha": "19_leitor_limpo",
+   "secoes": [
+    "page",
+    "footer"
+   ],
+   "titulo": "Leitor — modo limpo"
+  },
+  {
+   "fase": "L20a_ilha_superior",
+   "prancha": "20_leitor_controles",
+   "secoes": [
+    "page",
+    "footer",
+    "fade",
+    "topIsland"
+   ],
+   "titulo": "Leitor com controles — página esmaecida e ilha superior"
+  },
+  {
+   "fase": "L20b_ilha_inferior",
+   "prancha": "20_leitor_controles",
+   "secoes": [
+    "bottomIsland"
+   ],
+   "titulo": "Leitor com controles — ilha inferior (posição e ferramentas)"
+  },
+  {
+   "fase": "L20c_chip_tempo",
+   "prancha": "20_leitor_controles",
+   "secoes": [
+    "timeChip"
+   ],
+   "titulo": "Leitor com controles — chip de tempo"
+  },
+  {
+   "fase": "L21a_selecao_e_alcas",
+   "prancha": "21_selecao_texto",
+   "secoes": [
+    "page",
+    "footer"
+   ],
+   "titulo": "Seleção de texto — grifo, seleção e alças"
+  },
+  {
+   "fase": "L21b_barra_de_acoes",
+   "prancha": "21_selecao_texto",
+   "secoes": [
+    "toolbar"
+   ],
+   "titulo": "Seleção de texto — barra de ações"
+  },
+  {
+   "fase": "L22a_pagina_anotada",
+   "prancha": "22_modo_anotacao",
+   "secoes": [
+    "page",
+    "deskEdge"
+   ],
+   "titulo": "Modo anotação — página com tinta"
+  },
+  {
+   "fase": "L22b_topo_modo_anotacao",
+   "prancha": "22_modo_anotacao",
+   "secoes": [
+    "modePill",
+    "done"
+   ],
+   "titulo": "Modo anotação — pílula do modo e Concluir"
+  },
+  {
+   "fase": "L22c_prateleira_ferramentas",
+   "prancha": "22_modo_anotacao",
+   "secoes": [
+    "toolShelf"
+   ],
+   "titulo": "Modo anotação — prateleira de ferramentas"
+  },
+  {
+   "fase": "L22d_ilha_anotacao",
+   "prancha": "22_modo_anotacao",
+   "secoes": [
+    "island"
+   ],
+   "titulo": "Modo anotação — ilha (cor, espessura, desfazer)"
+  },
+  {
+   "fase": "L23_painel_caneta",
+   "prancha": "23_ajustes_caneta",
+   "secoes": [
+    "fade",
+    "penPanel"
+   ],
+   "titulo": "Ajustes da caneta",
+   "reusa": {
+    "base": "22_modo_anotacao",
+    "secoes": [
+     "page",
+     "deskEdge",
+     "modePill",
+     "done",
+     "toolShelf",
+     "island"
+    ]
+   }
+  },
+  {
+   "fase": "L23b_painel_marcatexto",
+   "prancha": "23b_ajustes_marcatexto",
+   "secoes": [
+    "fade",
+    "markerPanel"
+   ],
+   "titulo": "Ajustes do marca-texto",
+   "reusa": {
+    "base": "22_modo_anotacao",
+    "secoes": [
+     "page",
+     "deskEdge",
+     "modePill",
+     "done",
+     "toolShelf",
+     "island"
+    ]
+   }
+  },
+  {
+   "fase": "L24_abrindo_espaco",
+   "prancha": "24_abrindo_espaco",
+   "secoes": [
+    "page"
+   ],
+   "titulo": "Abrindo espaço (arrastar)",
+   "reusa": {
+    "base": "22_modo_anotacao",
+    "secoes": [
+     "deskEdge",
+     "modePill",
+     "done",
+     "toolShelf",
+     "island"
+    ]
+   }
+  },
+  {
+   "fase": "L24b_nota_mao",
+   "prancha": "24b_nota_mao",
+   "secoes": [
+    "page"
+   ],
+   "titulo": "Nota à mão escrita",
+   "reusa": {
+    "base": "22_modo_anotacao",
+    "secoes": [
+     "deskEdge",
+     "modePill",
+     "done",
+     "toolShelf",
+     "island"
+    ]
+   }
+  },
+  {
+   "fase": "L25a_topo_e_busca",
+   "prancha": "25_grifos_notas",
+   "secoes": [
+    "topBar",
+    "sparkle",
+    "title",
+    "subtitle",
+    "search"
+   ],
+   "titulo": "Grifos e notas — topo, título e busca"
+  },
+  {
+   "fase": "L25b_filtros",
+   "prancha": "25_grifos_notas",
+   "secoes": [
+    "types",
+    "filters"
+   ],
+   "titulo": "Grifos e notas — filtros de tipo e cor"
+  },
+  {
+   "fase": "L25c_lista",
+   "prancha": "25_grifos_notas",
+   "secoes": [
+    "list"
+   ],
+   "titulo": "Grifos e notas — lista agrupada por página"
+  },
+  {
+   "fase": "L25d_fim",
+   "prancha": "25_grifos_notas",
+   "secoes": [
+    "end"
+   ],
+   "titulo": "Grifos e notas — fim da lista"
+  },
+  {
+   "fase": "L26_ajustes_leitura",
+   "prancha": "26_ajustes_leitura",
+   "secoes": [
+    "page",
+    "livePill",
+    "sheet"
+   ],
+   "titulo": "Ajustes de leitura (Aa)"
+  },
+  {
+   "fase": "L26b_tema_noite",
+   "prancha": "26b_tema_noite",
+   "secoes": [
+    "page",
+    "footer",
+    "fade",
+    "topIsland",
+    "bottomIsland",
+    "timeChip"
+   ],
+   "titulo": "Leitor com controles — tema Noite",
+   "reusa": {
+    "base": "20_leitor_controles",
+    "secoes": [
+     "page",
+     "footer",
+     "fade",
+     "topIsland",
+     "bottomIsland",
+     "timeChip"
+    ]
+   }
+  },
+  {
+   "fase": "L27_sumario",
+   "prancha": "27_sumario",
+   "secoes": [
+    "page",
+    "fade",
+    "sheet"
+   ],
+   "titulo": "Sumário — aba Capítulos"
+  },
+  {
+   "fase": "L27b_sumario_marcadas",
+   "prancha": "27b_sumario_marcadas",
+   "secoes": [
+    "page",
+    "fade",
+    "sheet"
+   ],
+   "titulo": "Sumário — aba Marcadas"
+  }
+ ]
+}

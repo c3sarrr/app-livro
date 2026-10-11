@@ -1,0 +1,182 @@
+# G04.6 — 2026-10-04T19:32:02Z — Postgres 17.11
+## carga (01_dados_sinteticos.sql)
+ setseed 
+---------
+ 
+(1 row)
+
+ ensure_session_partitions 
+---------------------------
+ 
+(1 row)
+
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_authid", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_subscription", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_database", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_db_role_setting", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_tablespace", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_auth_members", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_shdepend", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_shdescription", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_replication_origin", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_shseclabel", skipping it
+psql:supabase/bench/01_dados_sinteticos.sql:103: WARNING:  permission denied to analyze "pg_parameter_acl", skipping it
+ usuarios | posts  | seguidas | posts_clube | respostas | notificacoes | edicoes | anotacoes | sessoes 
+----------+--------+----------+-------------+-----------+--------------+---------+-----------+---------
+   100000 | 100000 |   499994 |      202000 |    404001 |      1000000 |  200002 |    200000 |  300000
+(1 row)
+
+carga: 213.52 s
+## consultas quentes (02_consultas_quentes.sql)
+                                 set_config                                 
+----------------------------------------------------------------------------
+ {"sub" : "00000000-0000-7000-8000-00000000000a", "role" : "authenticated"}
+(1 row)
+
+### 1. Feed do clube — 1ª página (keyset, 20 por página) — meta < 30 ms
+                                                                    QUERY PLAN                                                                     
+---------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=12.00..215.82 rows=20 width=70) (actual time=1.124..1.127 rows=20 loops=1)
+   Buffers: shared hit=166 read=30 written=30
+   InitPlan 1
+     ->  Result  (cost=0.00..0.03 rows=1 width=16) (never executed)
+   ->  Incremental Sort  (cost=11.97..6024.65 rows=590 width=70) (actual time=1.123..1.125 rows=20 loops=1)
+         Sort Key: club_posts.created_at DESC, club_posts.id DESC
+         Presorted Key: club_posts.created_at
+         Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+         Buffers: shared hit=166 read=30 written=30
+         ->  Index Scan using club_posts_club_idx on club_posts  (cost=0.42..6000.55 rows=590 width=70) (actual time=0.592..1.068 rows=21 loops=1)
+               Index Cond: (club_id = '00000000-0000-7000-8000-0000000f4241'::uuid)
+               Filter: private.is_club_member(club_id)
+               Buffers: shared hit=157 read=30 written=30
+ Planning:
+   Buffers: shared hit=194 read=10 written=10
+ Planning Time: 0.685 ms
+ Execution Time: 1.170 ms
+(17 rows)
+
+### 1b. Feed do clube — página seguinte (keyset)
+                                                                                            QUERY PLAN                                                                                            
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=12.03..216.30 rows=20 width=70) (actual time=0.519..0.522 rows=20 loops=1)
+   Buffers: shared hit=107 read=1 written=1
+   InitPlan 1
+     ->  Result  (cost=0.00..0.03 rows=1 width=16) (never executed)
+   ->  Incremental Sort  (cost=11.99..6037.93 rows=590 width=70) (actual time=0.519..0.520 rows=20 loops=1)
+         Sort Key: club_posts.created_at DESC, club_posts.id DESC
+         Presorted Key: club_posts.created_at
+         Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 27kB  Peak Memory: 27kB
+         Buffers: shared hit=107 read=1 written=1
+         ->  Index Scan using club_posts_club_idx on club_posts  (cost=0.42..6013.83 rows=590 width=70) (actual time=0.181..0.505 rows=21 loops=1)
+               Index Cond: ((club_id = '00000000-0000-7000-8000-0000000f4241'::uuid) AND (created_at <= '2026-10-04 19:33:29.305107+00'::timestamp with time zone))
+               Filter: ((ROW(created_at, id) < ROW('2026-10-04 19:33:29.305107+00'::timestamp with time zone, '00a28367-5dad-4278-9631-422537ff856b'::uuid)) AND private.is_club_member(club_id))
+               Rows Removed by Filter: 20
+               Buffers: shared hit=107 read=1 written=1
+ Planning:
+   Buffers: shared hit=12
+ Planning Time: 0.207 ms
+ Execution Time: 0.586 ms
+(18 rows)
+
+### 2. Respostas de um post — meta < 20 ms
+                                                                      QUERY PLAN                                                                      
+------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.45..12.99 rows=1 width=49) (actual time=0.199..0.288 rows=3 loops=1)
+   Buffers: shared hit=12 read=6 written=6
+   InitPlan 1
+     ->  Result  (cost=0.00..0.03 rows=1 width=16) (never executed)
+   ->  Index Scan using club_post_replies_post_idx on club_post_replies  (cost=0.42..12.96 rows=1 width=49) (actual time=0.199..0.287 rows=3 loops=1)
+         Index Cond: (post_id = '6f0a035a-901e-4777-8f04-7966565c63d9'::uuid)
+         Filter: ((deleted_at IS NULL) AND ((deleted_at IS NULL) OR (author_id = (InitPlan 1).col1)) AND private.is_club_member(club_id))
+         Buffers: shared hit=12 read=6 written=6
+ Planning:
+   Buffers: shared hit=84
+ Planning Time: 0.391 ms
+ Execution Time: 0.315 ms
+(12 rows)
+
+### 3. Notificações não lidas (contador do sino) — meta < 10 ms
+                                                                     QUERY PLAN                                                                      
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=24.38..24.39 rows=1 width=8) (actual time=0.107..0.107 rows=1 loops=1)
+   Buffers: shared read=13
+   InitPlan 1
+     ->  Result  (cost=0.00..0.03 rows=1 width=16) (actual time=0.010..0.010 rows=1 loops=1)
+   ->  Index Only Scan using notifications_unread_idx on notifications  (cost=0.42..24.33 rows=5 width=0) (actual time=0.052..0.103 rows=10 loops=1)
+         Index Cond: (user_id = (InitPlan 1).col1)
+         Heap Fetches: 10
+         Buffers: shared read=13
+ Planning:
+   Buffers: shared hit=112
+ Planning Time: 0.373 ms
+ Execution Time: 0.143 ms
+(12 rows)
+
+### 3b. Lista de notificações (20 mais recentes)
+                                                                   QUERY PLAN                                                                   
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=0.46..44.41 rows=10 width=95) (actual time=0.046..0.058 rows=10 loops=1)
+   Buffers: shared hit=10 read=3
+   InitPlan 1
+     ->  Result  (cost=0.00..0.03 rows=1 width=16) (actual time=0.011..0.011 rows=1 loops=1)
+   ->  Index Scan using notifications_user_idx on notifications  (cost=0.42..44.38 rows=10 width=95) (actual time=0.045..0.056 rows=10 loops=1)
+         Index Cond: (user_id = (InitPlan 1).col1)
+         Buffers: shared hit=10 read=3
+ Planning:
+   Buffers: shared hit=22
+ Planning Time: 0.159 ms
+ Execution Time: 0.079 ms
+(11 rows)
+
+### 4. Prévia de perfil (RPC security definer) — meta < 20 ms
+                                     QUERY PLAN                                      
+-------------------------------------------------------------------------------------
+ Result  (cost=0.00..0.26 rows=1 width=32) (actual time=2.988..2.988 rows=1 loops=1)
+   Buffers: shared hit=665 read=46 dirtied=1
+ Planning Time: 0.015 ms
+ Execution Time: 3.002 ms
+(4 rows)
+
+### 5. Busca no catálogo referenciado (trigramas, sem acento) — meta < 80 ms
+                                                    QUERY PLAN                                                     
+-------------------------------------------------------------------------------------------------------------------
+ Function Scan on search_editions  (cost=0.25..10.25 rows=1000 width=48) (actual time=9.653..9.654 rows=1 loops=1)
+   Buffers: shared hit=352 read=92 written=59
+ Planning Time: 0.028 ms
+ Execution Time: 9.672 ms
+(4 rows)
+
+### 5b. A mesma busca, com o plano de dentro da função (SQL com search_path fixo não é "inline")
+                                                                    QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=3878.15..3878.20 rows=20 width=40) (actual time=6.351..6.352 rows=1 loops=1)
+   Buffers: shared hit=114
+   ->  Sort  (cost=3878.15..3883.15 rows=2000 width=40) (actual time=6.350..6.351 rows=1 loops=1)
+         Sort Key: (similarity(private.f_unaccent(lower(title)), 'memorias postumas'::text)) DESC, id
+         Sort Method: quicksort  Memory: 25kB
+         Buffers: shared hit=114
+         ->  Bitmap Heap Scan on editions e  (cost=261.14..3824.93 rows=2000 width=40) (actual time=6.343..6.344 rows=1 loops=1)
+               Recheck Cond: (private.f_unaccent(lower(title)) % 'memorias postumas'::text)
+               Rows Removed by Index Recheck: 22
+               Heap Blocks: exact=23
+               Buffers: shared hit=114
+               ->  Bitmap Index Scan on editions_title_trgm_idx  (cost=0.00..260.64 rows=2000 width=0) (actual time=5.779..5.779 rows=23 loops=1)
+                     Index Cond: (private.f_unaccent(lower(title)) % 'memorias postumas'::text)
+                     Buffers: shared hit=91
+ Planning:
+   Buffers: shared hit=4
+ Planning Time: 0.207 ms
+ Execution Time: 6.378 ms
+(18 rows)
+
+## RPC de sync, lotes de 500 (03_sync_500.sql)
+                                 set_config                                 
+----------------------------------------------------------------------------
+ {"sub" : "00000000-0000-7000-8000-000000000014", "role" : "authenticated"}
+(1 row)
+
+ lotes | aplicadas | recusadas | p50_ms | p95_ms | max_ms 
+-------+-----------+-----------+--------+--------+--------
+    30 |     13800 |         0 |   46.9 |   64.7 |   83.6
+(1 row)
+

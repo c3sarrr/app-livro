@@ -30,7 +30,8 @@ const _children = [
   '18',
   'de 30 min',
   'Faltam 12 min para fechar a meta de hoje.',
-  '24 páginas',
+  'Iniciar leitura (cronômetro)',
+  '2 sessões',
   '2 destaques',
   'Esta semana',
   '4h 00min no total',
@@ -45,7 +46,8 @@ const _children = [
   'Mais 2 dias para o selo de 14 dias',
 ];
 
-/// F07 — semântica da seção `today`.
+/// F07 — semântica da seção `today`; desde a T03 a da prancha 01 (L01a4): o link "Ler agora" (`aria-label`
+/// "Iniciar leitura (cronômetro)", sem ação até a T04 — D-243 b) e a pílula "2 sessões" no lugar das páginas.
 void main() {
   setUpAll(loadAppFonts);
 
@@ -99,7 +101,7 @@ void main() {
           'today.goalText.sentence',
           'Faltam 12 min para fechar a meta de hoje.',
         ),
-        ('today.chip.pages', '24 páginas'),
+        ('today.chip.sessions', '2 sessões'),
         ('today.chip.highlights', '2 destaques'),
         ('today.week.title', 'Esta semana'),
         ('today.week.total', '4h 00min no total'),
@@ -141,7 +143,15 @@ void main() {
         expect(_node(tester, id), same(section), reason: id);
       }
 
-      // Nenhuma ação na seção (o arquivo não tem links nem botões aqui).
+      // A única ação da seção é o link "Ler agora" (a prancha 01 não tem outros links nem botões aqui).
+      final readNow = _node(tester, 'today.readNow');
+      expect(readNow.label, 'Iniciar leitura (cronômetro)');
+      expect(readNow.flagsCollection.isLink, isTrue);
+      expect(readNow.getSemanticsData().hasAction(SemanticsAction.tap), isTrue);
+      // o cronômetro e o "Ler agora" visível não geram nós (o nome é o aria-label)
+      for (final id in ['today.readNow.icon', 'today.readNow.label']) {
+        expect(_node(tester, id), same(readNow), reason: id);
+      }
       final actionable = <String>[];
       void visit(SemanticsNode n) {
         final data = n.getSemanticsData();
@@ -157,7 +167,7 @@ void main() {
       }
 
       visit(section);
-      expect(actionable, isEmpty);
+      expect(actionable, ['Iniciar leitura (cronômetro)']);
       semantics.dispose();
     },
   );

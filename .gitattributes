@@ -6,3 +6,30 @@ assets/** -text
 test/reference/*.dart -text
 tools/compare_images.py -text
 docs/handoff_checksums.txt -text
+handoff_v2/** -text
+# G01: referências do leitor e saídas da medição também byte a byte (o manifesto docs/progresso/G01_hashes_saida.txt confere estes bytes)
+test/reference/**/*.dart -text
+tools/medicao/idmaps/** -text
+tools/medicao/pranchas/extracao.json -text
+tools/fonts/** -text
+docs/progresso/G01_hashes_saida.txt -text
+# G02: spikes (pacotes fora do app) byte a byte iguais aos do container onde parte deles roda
+spikes/** -text
+# G04: Supabase (migrations, testes pgTAP, Edge Functions) e o contrato de colunas sempre com LF:
+# o sha256 da migration vai no contrato e o mesmo arquivo roda no Linux (WSL/CI).
+supabase/** text eol=lf
+test/data/contracts/** text eol=lf
+# G04: scripts de shell e workflows do CI rodam no Linux (WSL/GitHub) — sempre LF
+tools/**/*.sh text eol=lf
+.github/** text eol=lf
+# G07: catálogo de teste do app (gerado pelo pipeline; o manifesto confere os bytes) — byte a byte
+test/fixtures/catalogo/** -text
+# G09: EPUB e PDF de fixture byte a byte (o PDF tem tabela de posições: CRLF no checkout o quebraria)
+test/fixtures/livros/** -text
+# G21: os arquivos HTML do design (a Início e a revisão; o clube) byte a byte, como vieram
+docs/design/referencia/** -text
+# T02: saídas da medição da Início e da revisão byte a byte (o manifesto docs/progresso/T02_hashes_saida.txt confere estes bytes)
+docs/design/medicao/** -text
+docs/design/fases/** -text
+docs/progresso/T02_hashes_saida.txt -text
+tools/medicao/pranchas_inicio2/extracao.json -text

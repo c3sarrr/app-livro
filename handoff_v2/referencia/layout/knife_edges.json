@@ -1,0 +1,2025 @@
+{
+ "19_leitor_limpo": {
+  "r19.page.text": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que fluido",
+     "largura": 313.753,
+     "disponivel": 334,
+     "sobra": 20.247,
+     "estouroComProxima": 87.509
+    },
+    {
+     "linha": 11,
+     "texto": "misterioso e enérgico, uma força",
+     "largura": 315.35,
+     "disponivel": 334,
+     "sobra": 18.65,
+     "estouroComProxima": 21.14
+    },
+    {
+     "linha": 12,
+     "texto": "que arrastava para dentro, como a",
+     "largura": 327.569,
+     "disponivel": 334,
+     "sobra": 6.431,
+     "estouroComProxima": 42.613
+    },
+    {
+     "linha": 13,
+     "texto": "vaga que se retira da praia, nos",
+     "largura": 296.317,
+     "disponivel": 334,
+     "sobra": 37.683,
+     "estouroComProxima": 5.884
+    },
+    {
+     "linha": 14,
+     "texto": "dias de ressaca. Para não ser",
+     "largura": 269.886,
+     "disponivel": 334,
+     "sobra": 64.114,
+     "estouroComProxima": 39.913
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "20_leitor_controles": {
+  "r20.page.text": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que fluido",
+     "largura": 313.753,
+     "disponivel": 334,
+     "sobra": 20.247,
+     "estouroComProxima": 87.509
+    },
+    {
+     "linha": 11,
+     "texto": "misterioso e enérgico, uma força",
+     "largura": 315.35,
+     "disponivel": 334,
+     "sobra": 18.65,
+     "estouroComProxima": 21.14
+    },
+    {
+     "linha": 12,
+     "texto": "que arrastava para dentro, como a",
+     "largura": 327.569,
+     "disponivel": 334,
+     "sobra": 6.431,
+     "estouroComProxima": 42.613
+    },
+    {
+     "linha": 13,
+     "texto": "vaga que se retira da praia, nos",
+     "largura": 296.317,
+     "disponivel": 334,
+     "sobra": 37.683,
+     "estouroComProxima": 5.884
+    },
+    {
+     "linha": 14,
+     "texto": "dias de ressaca. Para não ser",
+     "largura": 269.886,
+     "disponivel": 334,
+     "sobra": 64.114,
+     "estouroComProxima": 39.913
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "21_selecao_texto": {
+  "r21.page.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que fluido",
+     "largura": 313.753,
+     "disponivel": 334,
+     "sobra": 20.247,
+     "estouroComProxima": 87.509
+    },
+    {
+     "linha": 11,
+     "texto": "misterioso e enérgico, uma força",
+     "largura": 315.35,
+     "disponivel": 334,
+     "sobra": 18.65,
+     "estouroComProxima": 21.14
+    },
+    {
+     "linha": 12,
+     "texto": "que arrastava para dentro, como a",
+     "largura": 327.569,
+     "disponivel": 334,
+     "sobra": 6.431,
+     "estouroComProxima": 42.613
+    },
+    {
+     "linha": 13,
+     "texto": "vaga que se retira da praia, nos",
+     "largura": 296.317,
+     "disponivel": 334,
+     "sobra": 37.683,
+     "estouroComProxima": 5.884
+    },
+    {
+     "linha": 14,
+     "texto": "dias de ressaca. Para não ser",
+     "largura": 269.886,
+     "disponivel": 334,
+     "sobra": 64.114,
+     "estouroComProxima": 39.913
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "22_modo_anotacao": {
+  "ann.page.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [
+    10
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que",
+     "largura": 252.269,
+     "disponivel": 334,
+     "sobra": 81.731,
+     "estouroComProxima": -20.247
+    },
+    {
+     "linha": 11,
+     "texto": "fluido misterioso e enérgico, uma",
+     "largura": 322.574,
+     "disponivel": 334,
+     "sobra": 11.426,
+     "estouroComProxima": 42.833
+    },
+    {
+     "linha": 12,
+     "texto": "força que arrastava para dentro,",
+     "largura": 309.031,
+     "disponivel": 334,
+     "sobra": 24.969,
+     "estouroComProxima": 32.7
+    },
+    {
+     "linha": 13,
+     "texto": "como a vaga que se retira da praia,",
+     "largura": 330.659,
+     "disponivel": 334,
+     "sobra": 3.341,
+     "estouroComProxima": 35.115
+    },
+    {
+     "linha": 14,
+     "texto": "nos dias de ressaca. Para não ser",
+     "largura": 308.342,
+     "disponivel": 334,
+     "sobra": 25.658,
+     "estouroComProxima": 78.369
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "23_ajustes_caneta": {
+  "pen.page.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [
+    10
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que",
+     "largura": 252.269,
+     "disponivel": 334,
+     "sobra": 81.731,
+     "estouroComProxima": -20.247
+    },
+    {
+     "linha": 11,
+     "texto": "fluido misterioso e enérgico, uma",
+     "largura": 322.574,
+     "disponivel": 334,
+     "sobra": 11.426,
+     "estouroComProxima": 42.833
+    },
+    {
+     "linha": 12,
+     "texto": "força que arrastava para dentro,",
+     "largura": 309.031,
+     "disponivel": 334,
+     "sobra": 24.969,
+     "estouroComProxima": 32.7
+    },
+    {
+     "linha": 13,
+     "texto": "como a vaga que se retira da praia,",
+     "largura": 330.659,
+     "disponivel": 334,
+     "sobra": 3.341,
+     "estouroComProxima": 35.115
+    },
+    {
+     "linha": 14,
+     "texto": "nos dias de ressaca. Para não ser",
+     "largura": 308.342,
+     "disponivel": 334,
+     "sobra": 25.658,
+     "estouroComProxima": 78.369
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "23b_ajustes_marcatexto": {
+  "mk.page.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [
+    10
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que",
+     "largura": 252.269,
+     "disponivel": 334,
+     "sobra": 81.731,
+     "estouroComProxima": -20.247
+    },
+    {
+     "linha": 11,
+     "texto": "fluido misterioso e enérgico, uma",
+     "largura": 322.574,
+     "disponivel": 334,
+     "sobra": 11.426,
+     "estouroComProxima": 42.833
+    },
+    {
+     "linha": 12,
+     "texto": "força que arrastava para dentro,",
+     "largura": 309.031,
+     "disponivel": 334,
+     "sobra": 24.969,
+     "estouroComProxima": 32.7
+    },
+    {
+     "linha": 13,
+     "texto": "como a vaga que se retira da praia,",
+     "largura": 330.659,
+     "disponivel": 334,
+     "sobra": 3.341,
+     "estouroComProxima": 35.115
+    },
+    {
+     "linha": 14,
+     "texto": "nos dias de ressaca. Para não ser",
+     "largura": 308.342,
+     "disponivel": 334,
+     "sobra": 25.658,
+     "estouroComProxima": 78.369
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "24_abrindo_espaco": {
+  "sp.page.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca.",
+     "largura": 312.426,
+     "disponivel": 334,
+     "sobra": 21.574,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "sp.page.textBelow": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 11,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [
+    2
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "É o que me dá ideia daquela feição",
+     "largura": 325.695,
+     "disponivel": 334,
+     "sobra": 8.305,
+     "estouroComProxima": 50.356
+    },
+    {
+     "linha": 2,
+     "texto": "nova. Traziam não sei que",
+     "largura": 252.269,
+     "disponivel": 334,
+     "sobra": 81.731,
+     "estouroComProxima": -20.247
+    },
+    {
+     "linha": 3,
+     "texto": "fluido misterioso e enérgico, uma",
+     "largura": 322.574,
+     "disponivel": 334,
+     "sobra": 11.426,
+     "estouroComProxima": 42.833
+    },
+    {
+     "linha": 4,
+     "texto": "força que arrastava para dentro,",
+     "largura": 309.031,
+     "disponivel": 334,
+     "sobra": 24.969,
+     "estouroComProxima": 32.7
+    },
+    {
+     "linha": 5,
+     "texto": "como a vaga que se retira da praia,",
+     "largura": 330.659,
+     "disponivel": 334,
+     "sobra": 3.341,
+     "estouroComProxima": 35.115
+    },
+    {
+     "linha": 6,
+     "texto": "nos dias de ressaca. Para não ser",
+     "largura": 308.342,
+     "disponivel": 334,
+     "sobra": 25.658,
+     "estouroComProxima": 78.369
+    },
+    {
+     "linha": 7,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 8,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 9,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 10,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 11,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 12,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 13,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 14,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "24b_nota_mao": {
+  "hn.page.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca.",
+     "largura": 312.426,
+     "disponivel": 334,
+     "sobra": 21.574,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "hn.page.textBelow": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 11,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [
+    2
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "É o que me dá ideia daquela feição",
+     "largura": 325.695,
+     "disponivel": 334,
+     "sobra": 8.305,
+     "estouroComProxima": 50.356
+    },
+    {
+     "linha": 2,
+     "texto": "nova. Traziam não sei que",
+     "largura": 252.269,
+     "disponivel": 334,
+     "sobra": 81.731,
+     "estouroComProxima": -20.247
+    },
+    {
+     "linha": 3,
+     "texto": "fluido misterioso e enérgico, uma",
+     "largura": 322.574,
+     "disponivel": 334,
+     "sobra": 11.426,
+     "estouroComProxima": 42.833
+    },
+    {
+     "linha": 4,
+     "texto": "força que arrastava para dentro,",
+     "largura": 309.031,
+     "disponivel": 334,
+     "sobra": 24.969,
+     "estouroComProxima": 32.7
+    },
+    {
+     "linha": 5,
+     "texto": "como a vaga que se retira da praia,",
+     "largura": 330.659,
+     "disponivel": 334,
+     "sobra": 3.341,
+     "estouroComProxima": 35.115
+    },
+    {
+     "linha": 6,
+     "texto": "nos dias de ressaca. Para não ser",
+     "largura": 308.342,
+     "disponivel": 334,
+     "sobra": 25.658,
+     "estouroComProxima": 78.369
+    },
+    {
+     "linha": 7,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 8,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 9,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 10,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 11,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 12,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 13,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 14,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "25_grifos_notas": {},
+ "26_ajustes_leitura": {
+  "rs.page.text": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que fluido",
+     "largura": 313.753,
+     "disponivel": 334,
+     "sobra": 20.247,
+     "estouroComProxima": 87.509
+    },
+    {
+     "linha": 11,
+     "texto": "misterioso e enérgico, uma força",
+     "largura": 315.35,
+     "disponivel": 334,
+     "sobra": 18.65,
+     "estouroComProxima": 21.14
+    },
+    {
+     "linha": 12,
+     "texto": "que arrastava para dentro, como a",
+     "largura": 327.569,
+     "disponivel": 334,
+     "sobra": 6.431,
+     "estouroComProxima": 42.613
+    },
+    {
+     "linha": 13,
+     "texto": "vaga que se retira da praia, nos",
+     "largura": 296.317,
+     "disponivel": 334,
+     "sobra": 37.683,
+     "estouroComProxima": 5.884
+    },
+    {
+     "linha": 14,
+     "texto": "dias de ressaca.",
+     "largura": 147.93,
+     "disponivel": 334,
+     "sobra": 186.07,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "26b_tema_noite": {
+  "r20.page.text": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Retórica dos namorados, dá-me",
+     "largura": 305.349,
+     "disponivel": 307.35,
+     "sobra": 2.001,
+     "estouroComProxima": 45.887
+    },
+    {
+     "linha": 2,
+     "texto": "uma comparação exata e poética",
+     "largura": 312.394,
+     "disponivel": 334,
+     "sobra": 21.606,
+     "estouroComProxima": 26.712
+    },
+    {
+     "linha": 3,
+     "texto": "para dizer o que foram aqueles",
+     "largura": 294.099,
+     "disponivel": 334,
+     "sobra": 39.901,
+     "estouroComProxima": 17.078
+    },
+    {
+     "linha": 4,
+     "texto": "olhos de Capitu. Não me acode",
+     "largura": 293.196,
+     "disponivel": 334,
+     "sobra": 40.804,
+     "estouroComProxima": 42.18
+    },
+    {
+     "linha": 5,
+     "texto": "imagem capaz de dizer, sem",
+     "largura": 267.464,
+     "disponivel": 334,
+     "sobra": 66.536,
+     "estouroComProxima": 5.648
+    },
+    {
+     "linha": 6,
+     "texto": "quebra da dignidade do estilo, o",
+     "largura": 305.608,
+     "disponivel": 334,
+     "sobra": 28.392,
+     "estouroComProxima": 11.398
+    },
+    {
+     "linha": 7,
+     "texto": "que eles foram e me fizeram.",
+     "largura": 274.05,
+     "disponivel": 334,
+     "sobra": 59.95,
+     "estouroComProxima": 0.711
+    },
+    {
+     "linha": 8,
+     "texto": "Olhos de ressaca? Vá, de ressaca. É",
+     "largura": 329.503,
+     "disponivel": 334,
+     "sobra": 4.497,
+     "estouroComProxima": 11.595
+    },
+    {
+     "linha": 9,
+     "texto": "o que me dá ideia daquela feição",
+     "largura": 308.619,
+     "disponivel": 334,
+     "sobra": 25.381,
+     "estouroComProxima": 33.28
+    },
+    {
+     "linha": 10,
+     "texto": "nova. Traziam não sei que fluido",
+     "largura": 313.753,
+     "disponivel": 334,
+     "sobra": 20.247,
+     "estouroComProxima": 87.509
+    },
+    {
+     "linha": 11,
+     "texto": "misterioso e enérgico, uma força",
+     "largura": 315.35,
+     "disponivel": 334,
+     "sobra": 18.65,
+     "estouroComProxima": 21.14
+    },
+    {
+     "linha": 12,
+     "texto": "que arrastava para dentro, como a",
+     "largura": 327.569,
+     "disponivel": 334,
+     "sobra": 6.431,
+     "estouroComProxima": 42.613
+    },
+    {
+     "linha": 13,
+     "texto": "vaga que se retira da praia, nos",
+     "largura": 296.317,
+     "disponivel": 334,
+     "sobra": 37.683,
+     "estouroComProxima": 5.884
+    },
+    {
+     "linha": 14,
+     "texto": "dias de ressaca. Para não ser",
+     "largura": 269.886,
+     "disponivel": 334,
+     "sobra": 64.114,
+     "estouroComProxima": 39.913
+    },
+    {
+     "linha": 15,
+     "texto": "arrastado, agarrei-me às outras",
+     "largura": 301.464,
+     "disponivel": 334,
+     "sobra": 32.536,
+     "estouroComProxima": 32.489
+    },
+    {
+     "linha": 16,
+     "texto": "partes vizinhas, às orelhas, aos",
+     "largura": 297.414,
+     "disponivel": 334,
+     "sobra": 36.586,
+     "estouroComProxima": 38.164
+    },
+    {
+     "linha": 17,
+     "texto": "braços, aos cabelos espalhados",
+     "largura": 293.725,
+     "disponivel": 334,
+     "sobra": 40.275,
+     "estouroComProxima": 14.406
+    },
+    {
+     "linha": 18,
+     "texto": "pelos ombros; mas tão depressa",
+     "largura": 302.871,
+     "disponivel": 334,
+     "sobra": 31.129,
+     "estouroComProxima": 50.609
+    },
+    {
+     "linha": 19,
+     "texto": "buscava as pupilas, a onda que",
+     "largura": 292.328,
+     "disponivel": 334,
+     "sobra": 41.672,
+     "estouroComProxima": 0.538
+    },
+    {
+     "linha": 20,
+     "texto": "saía delas vinha crescendo, cava e",
+     "largura": 322.787,
+     "disponivel": 334,
+     "sobra": 11.213,
+     "estouroComProxima": 63.07
+    },
+    {
+     "linha": 21,
+     "texto": "escura, ameaçando envolver-me,",
+     "largura": 317.213,
+     "disponivel": 334,
+     "sobra": 16.787,
+     "estouroComProxima": 82.412
+    },
+    {
+     "linha": 22,
+     "texto": "puxar-me e tragar-me.",
+     "largura": 218.304,
+     "disponivel": 334,
+     "sobra": 115.696,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "27_sumario": {
+  "toc.sheet.chapters.ch31.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "As curiosidades de",
+     "largura": 139.185,
+     "disponivel": 139.238,
+     "sobra": 0.053,
+     "estouroComProxima": 53.769
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "As curiosidades de",
+     "largura": 139.185,
+     "disponivel": 139.238,
+     "sobra": 0.053,
+     "estouroComProxima": 53.769
+    },
+    {
+     "linha": 2,
+     "texto": "Capitu",
+     "largura": 50.623,
+     "disponivel": 139.238,
+     "sobra": 88.615,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "27b_sumario_marcadas": {}
+}

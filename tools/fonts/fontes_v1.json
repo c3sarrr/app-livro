@@ -1,0 +1,133 @@
+{
+ "gerado_por": "tools/fonts/build_fonts.py v1 (D-249)",
+ "arquivos": [
+  {
+   "arquivo": "Figtree-Regular.ttf",
+   "bytes": 29080
+  },
+  {
+   "arquivo": "FigtreeExt-Regular.ttf",
+   "bytes": 15584
+  },
+  {
+   "arquivo": "Figtree-Medium.ttf",
+   "bytes": 29164
+  },
+  {
+   "arquivo": "FigtreeExt-Medium.ttf",
+   "bytes": 15616
+  },
+  {
+   "arquivo": "Figtree-SemiBold.ttf",
+   "bytes": 29200
+  },
+  {
+   "arquivo": "FigtreeExt-SemiBold.ttf",
+   "bytes": 15624
+  },
+  {
+   "arquivo": "Figtree-Bold.ttf",
+   "bytes": 29128
+  },
+  {
+   "arquivo": "FigtreeExt-Bold.ttf",
+   "bytes": 15568
+  },
+  {
+   "arquivo": "Bricolage12-ExtraBold.ttf",
+   "bytes": 54260
+  },
+  {
+   "arquivo": "Bricolage12Ext-ExtraBold.ttf",
+   "bytes": 27836
+  },
+  {
+   "arquivo": "Bricolage12Vi-ExtraBold.ttf",
+   "bytes": 14764
+  },
+  {
+   "arquivo": "Bricolage18-ExtraBold.ttf",
+   "bytes": 54284
+  },
+  {
+   "arquivo": "Bricolage18Ext-ExtraBold.ttf",
+   "bytes": 27840
+  },
+  {
+   "arquivo": "Bricolage18Vi-ExtraBold.ttf",
+   "bytes": 14744
+  },
+  {
+   "arquivo": "Bricolage20-ExtraBold.ttf",
+   "bytes": 54304
+  },
+  {
+   "arquivo": "Bricolage20Ext-ExtraBold.ttf",
+   "bytes": 27836
+  },
+  {
+   "arquivo": "Bricolage20Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage22-ExtraBold.ttf",
+   "bytes": 54272
+  },
+  {
+   "arquivo": "Bricolage22Ext-ExtraBold.ttf",
+   "bytes": 27832
+  },
+  {
+   "arquivo": "Bricolage22Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage24-ExtraBold.ttf",
+   "bytes": 54292
+  },
+  {
+   "arquivo": "Bricolage24Ext-ExtraBold.ttf",
+   "bytes": 27844
+  },
+  {
+   "arquivo": "Bricolage24Vi-ExtraBold.ttf",
+   "bytes": 14756
+  },
+  {
+   "arquivo": "Bricolage26-ExtraBold.ttf",
+   "bytes": 54256
+  },
+  {
+   "arquivo": "Bricolage26Ext-ExtraBold.ttf",
+   "bytes": 27816
+  },
+  {
+   "arquivo": "Bricolage26Vi-ExtraBold.ttf",
+   "bytes": 14732
+  },
+  {
+   "arquivo": "Bricolage34-ExtraBold.ttf",
+   "bytes": 54248
+  },
+  {
+   "arquivo": "Bricolage34Ext-ExtraBold.ttf",
+   "bytes": 27828
+  },
+  {
+   "arquivo": "Bricolage34Vi-ExtraBold.ttf",
+   "bytes": 14736
+  },
+  {
+   "arquivo": "Bricolage42-ExtraBold.ttf",
+   "bytes": 54244
+  },
+  {
+   "arquivo": "Bricolage42Ext-ExtraBold.ttf",
+   "bytes": 27824
+  },
+  {
+   "arquivo": "Bricolage42Vi-ExtraBold.ttf",
+   "bytes": 14720
+  }
+ ]
+}

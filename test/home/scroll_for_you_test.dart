@@ -10,10 +10,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../reference/reference_layout.dart';
+import '../fixtures/overrides_do_mundo.dart';
+import '../reference/inicio2/referencias_inicio2.dart';
 import '../support/canvas.dart';
 import '../support/capture.dart';
-import '../support/geometry.dart';
+import '../support/fase_inicio.dart';
 import '../support/load_fonts.dart';
 import '../support/precache_svgs.dart';
 import '../support/pump_app.dart';
@@ -37,27 +38,24 @@ Finder _homeScrollables() => find.descendant(
 Rect _rect(WidgetTester tester, String id) =>
     tester.getRect(find.byKey(ValueKey<String>(id)));
 
-/// Alturas e posições que somam alturas de texto carregam o ruído float32 do SkParagraph (±1e-3).
-const _eps = 1e-3;
-
 /// Conteúdo do carrossel: padding 20 + 3 × 116 + 2 × 14 + padding 20 = 416; viewport 390 → extensão 26.
 const _content = 20 + 3 * 116 + 2 * 14 + 20;
 const _viewport = 390.0;
 const _maxExtent = _content - _viewport; // 26
 
-/// Faixa do carrossel no canvas (y 1316,16 → 1534,56) e em pixels @3x: linhas [3948, 4604).
-final _band = kRefLayout['forYou.carousel']!.rect;
-final _bandTop = (_band.top * 3).floor(); // 3948
-final _bandBottom = (_band.bottom * 3).ceil(); // 4604 (exclusivo)
+/// Faixa do carrossel no canvas da prancha 01 (y 1573,12 → 1791,52) e em pixels @3x: linhas [4719, 5375).
+final _band = kRef01.elements['i01.forYou.carousel']!.rect;
+final _bandTop = (_band.top * 3).floor(); // 4719
+final _bandBottom = (_band.bottom * 3).ceil(); // 5375 (exclusivo)
 
 /// Ids que ficam DENTRO do conteúdo rolável (os 33 dos itens) e os de fora (seção, cabeçalho, chip e o
 /// próprio viewport do carrossel).
-final _itemIds = idsOfSection('forYou')
-    .where((id) => id.startsWith('forYou.item'))
-    .toList();
-final _fixedIds = idsOfSection('forYou')
-    .where((id) => !id.startsWith('forYou.item'))
-    .toList();
+final _itemIds = [
+  for (final id in kRef01.idsOfSection('i01.forYou')) keyDoId(id),
+].where((id) => id.startsWith('forYou.item')).toList();
+final _fixedIds = [
+  for (final id in kRef01.idsOfSection('i01.forYou')) keyDoId(id),
+].where((id) => !id.startsWith('forYou.item')).toList();
 
 /// Roda [body] com [platform] em `debugDefaultTargetPlatformOverride` e restaura o override num
 /// `finally` DENTRO do corpo do teste: o flutter_test confere as variáveis de depuração da foundation
@@ -78,27 +76,28 @@ Future<void> _onPlatform(
 Future<void> _pumpCanvas(WidgetTester tester) async {
   await precacheAppIcons(tester);
   await tester.pumpWidget(
-    const ProviderScope(
-      child: RepaintBoundary(key: goldenRootKey, child: App.forTests()),
+    ProviderScope(
+      overrides: overridesDoMundo,
+      child: const RepaintBoundary(key: goldenRootKey, child: App.forTests()),
     ),
   );
   await tester.pumpAndSettle();
 }
 
-/// Captura @3x do canvas inteiro (1170 × 7170) como palavras RGBA de 32 bits.
+/// Captura @3x do canvas inteiro (1170 × 7950) como palavras RGBA de 32 bits.
 Future<Uint32List> _capture(WidgetTester tester) async {
   final image = await captureAt(tester, find.byKey(goldenRootKey));
-  expect((image.width, image.height), (1170, 7170));
+  expect((image.width, image.height), (1170, 7950));
   final rgba = await rgbaOf(tester, image);
   return rgba.buffer.asUint32List(rgba.offsetInBytes, rgba.lengthInBytes ~/ 4);
 }
 
-/// Linhas @3x da seção "Para você" (y 1207,56 → 1534,56): [3622, 4604). A comparação com o golden em disco fica
+/// Linhas @3x da seção "Para você" (y 1464,52 → 1791,52): [4393, 5375). A comparação com o golden em disco fica
 /// restrita a elas — o golden é regenerado pelo `golden_canvas_test` a cada fase, e as outras seções não são
 /// assunto deste teste.
-final _sectionTop = (kRefSections['forYou']!.top * 3).floor(); // 3622
-final _sectionBottom = (kRefSections['forYou']!.bottom * 3)
-    .ceil(); // 4604 (exclusivo)
+final _sectionTop = (kRef01.sections['i01.forYou']!.top * 3).floor(); // 4393
+final _sectionBottom = (kRef01.sections['i01.forYou']!.bottom * 3)
+    .ceil(); // 5375 (exclusivo)
 
 /// O golden do canvas (`test/golden/goldens/inicio_canvas@3x.png`, gerado pelo `golden_canvas_test`)
 /// decodificado como palavras RGBA de 32 bits — só leitura, este teste nunca o grava.
@@ -109,7 +108,7 @@ Future<Uint32List> _goldenCanvas(WidgetTester tester) async {
     final codec = await ui.instantiateImageCodec(bytes);
     return (await codec.getNextFrame()).image;
   });
-  expect((image!.width, image.height), (1170, 7170));
+  expect((image!.width, image.height), (1170, 7950));
   final rgba = await rgbaOf(tester, image);
   return rgba.buffer.asUint32List(rgba.offsetInBytes, rgba.lengthInBytes ~/ 4);
 }
@@ -137,8 +136,8 @@ bool _isEdge(Uint32List img, int x, int y) {
 
 /// Diferença de suavização (rasterização), não de forma nem de cor: o pixel [value] é uma mistura das
 /// cores que [img] tem ali — cada canal fica entre o mínimo e o máximo da vizinhança 3 × 3 de
-/// ([x]; [y]) em [img] — e essa vizinhança é uma borda (não uniforme). Num preenchimento chapado
-/// (vizinhança uniforme) qualquer diferença é defeito.
+/// ([x]; [y]) em [img], com folga de [_aaFolga] — e essa vizinhança é uma borda (não uniforme). Num
+/// preenchimento chapado (vizinhança uniforme) qualquer diferença é defeito.
 bool _isEdgeBlend(Uint32List img, int x, int y, int value) {
   const width = 1170;
   var edge = false;
@@ -153,11 +152,16 @@ bool _isEdgeBlend(Uint32List img, int x, int y, int value) {
       }
     }
     final v = (value >> (8 * k)) & 255;
-    if (v < lo || v > hi) return false;
+    if (v < lo - _aaFolga || v > hi + _aaFolga) return false;
     if (hi > lo) edge = true;
   }
   return edge;
 }
+
+/// Folga da mistura, em níveis de 0–255 (T03): na prancha 01 o canto inferior direito da capa do Esaú e Jacó, cortado
+/// pela borda do viewport em 26, suaviza 3 níveis acima do vermelho máximo da vizinhança 3 × 3 do repouso (um pixel
+/// @3x: (310; 5234), 4c × 49). Continua sendo borda (a vizinhança não é uniforme) e não é cor nova.
+const _aaFolga = 4;
 
 /// Pixels diferentes entre [a] e [b] (largura 1170) e o retângulo @3x que os contém (vazio → null).
 (int, Rect?) _diff(Uint32List a, Uint32List b, {int fromRow = 0, int? toRow}) {
@@ -312,9 +316,10 @@ void main() {
           for (final (i, x) in [(1, -6.0), (2, 124.0), (3, 254.0)]) {
             final item = _rect(tester, 'forYou.item$i');
             expect(item.left, x, reason: 'item$i');
+            // o arredondamento a 2 casas da prancha: −0,01 desde o Também lendo (pagina_test)
             expect(
               item.top,
-              moreOrLessEquals(_band.top, epsilon: _eps),
+              moreOrLessEquals(_band.top, epsilon: 0.011),
               reason: 'item$i',
             );
           }
@@ -335,7 +340,7 @@ void main() {
             expect(_rect(tester, id), rest[id], reason: id);
           }
           // Em repouso de novo, a seção inteira volta ao arquivo.
-          expectGeometry(tester, idsOfSection('forYou'));
+          expect(geometria01(tester, ['i01.forYou']), isEmpty);
           debugPrint(
             '[rolagem D-03 ${platform.name}] depois de +100: pixels ${back.pixels} | '
             'item3.right ${_rect(tester, 'forYou.item3').right} | '
@@ -415,7 +420,7 @@ void main() {
     );
 
     testWidgets(
-      '8.3 D-03 ($label): o golden do repouso volta a ser idêntico depois de ir e voltar; em 26 a captura difere só dentro da faixa do carrossel (y 1316,16 → 1534,56), com o item 2 igual ao repouso deslocado 26 (78 px @3x)',
+      '8.3 D-03 ($label): o golden do repouso volta a ser idêntico depois de ir e voltar; em 26 a captura difere só dentro da faixa do carrossel (y 1573,12 → 1791,52), com o item 2 igual ao repouso deslocado 26 (78 px @3x)',
       (tester) async {
         setCanvasView(tester);
         await _onPlatform(platform, () async {
@@ -423,7 +428,7 @@ void main() {
           expect(_position(tester).pixels, 0);
           final rest = await _capture(tester);
           // Na faixa da seção, o repouso capturado aqui É o golden do canvas (mesma raiz, mesma captura @3x).
-          expect((_sectionTop, _sectionBottom), (3622, 4604));
+          expect((_sectionTop, _sectionBottom), (4393, 5375));
           final golden = await _goldenCanvas(tester);
           final (restVsGolden, restVsGoldenBox) = _diff(
             golden,
@@ -445,9 +450,9 @@ void main() {
           final (count, box) = _diff(rest, scrolled);
           expect(count, greaterThan(0));
           expect(box, isNotNull);
-          // Só dentro da faixa do carrossel: linhas [3948, 4604) @3x.
-          expect(_bandTop, 3948);
-          expect(_bandBottom, 4604);
+          // Só dentro da faixa do carrossel: linhas [4719, 5375) @3x.
+          expect(_bandTop, 4719);
+          expect(_bandBottom, 5375);
           expect(box!.top, greaterThanOrEqualTo(_bandTop));
           expect(box.bottom, lessThanOrEqualTo(_bandBottom));
           // Dentro da faixa, o que se vê em x é o que o repouso mostrava em x + 78 (26 × 3). O item 2

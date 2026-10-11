@@ -22,6 +22,82 @@ abstract final class AppColors {
   /// Legenda "de 30 min", texto do selo "Novo".
   static const Color inkWarm = Color(0xFF4A4238);
 
+  // Leitor (telas 19–27b): papéis e texto do livro (Anexo 01 §0, Anexo 03 §7.1) e rodapé (D-110)
+
+  /// Papel Creme (tela 19) e o texto do livro nele.
+  static const Color paperCream = Color(0xFFF8F1E4);
+  static const Color bookText = Color(0xFF2A2520);
+
+  /// Papel Branco (o texto do livro nele é [ink]).
+  static const Color paperWhite = Color(0xFFFFFDF8);
+
+  /// Papel Sépia (D-51 b) e o texto do livro nele.
+  static const Color paperSepia = Color(0xFFEEDDBF);
+  static const Color bookTextSepia = Color(0xFF4A3622);
+
+  /// Papel Noite (tela 26b) e o texto do livro nele.
+  static const Color paperNight = Color(0xFF1F1B17);
+  static const Color bookTextNight = Color(0xFFE3D9C6);
+
+  /// "pág. X de Y · %": Creme (tela 19) e Noite (26b) medidos; Branco e Sépia com o contraste do Creme (D-110).
+  static const Color readerFooter = Color(0xFFA89D8B);
+  static const Color readerFooterWhite = Color(0xFFA9A6A2);
+  static const Color readerFooterSepia = Color(0xFFA08E74);
+  static const Color readerFooterNight = Color(0xFF8A8073);
+
+  // Leitor — ilhas dos controles (telas 20 e 26b, G12; medidas no arquivo — L20a/L20b/L26b).
+  /// Hachura da barra de posição (`#E9DFCC` sobre `#FFFAF1`).
+  static const Color hatchReader = Color(0xFFE9DFCC);
+
+  /// Tracejado acima das ferramentas.
+  static const Color dashReader = Color(0xFFCFC3AE);
+
+  /// Noite: fundo das ilhas, tinta clara (borda, título, rótulos), sombra dura, texto apagado.
+  static const Color islandNight = Color(0xFF2A2520);
+  static const Color inkNight = Color(0xFFEDE3D1);
+  static const Color shadowNight = Color(0xFF0B0A08);
+  static const Color mutedNight = Color(0xFFB5AA98);
+
+  /// O fio da faixa pautada da prévia da caneta (tela 23, G17).
+  static const Color rulePen = Color(0xFFE6DBC6);
+
+  /// Tela 23b (G17): a borda das linhas de cor não marcadas, o tracejado da dica e o texto dela.
+  static const Color markerRowBorder = Color(0xFFE2D7C4);
+  static const Color tipDash = Color(0xFF8A7F63);
+  static const Color tipText = Color(0xFF3D3830);
+
+  /// Rótulos pequenos do leitor nos papéis claros ("GRIFAR", "NOTA" — L21b nº 3).
+  static const Color labelReader = Color(0xFF6F665B);
+  static const Color hatchNight = Color(0xFF3A332B);
+  static const Color dashNight = Color(0xFF4A433A);
+
+  /// Legendas dos cartões de fonte fora da escolhida (L26 `rs.sheet.fonts.*.caption`; "inkSoft" da L00).
+  static const Color inkSoft = Color(0xFF8A8073);
+
+  /// Legenda do cartão de fonte escolhido, sobre a `brand` (L26).
+  static const Color captionOnBrand = Color(0xFF3B3466);
+
+  /// G15 — a linha de cima da faixa do clube (`toc.sheet.club.kicker`) e o tracejado entre as linhas do sumário.
+  static const Color clubKicker = Color(0xFF5B3A3E);
+  static const Color tocRule = Color(0xFFE3D8C4);
+
+  /// G19 (tela 25): o texto de exemplo do campo (o padrão do Chromium — `hl.search.input`).
+  static const Color placeholder = Color(0xFF757575);
+
+  /// G19 (tela 25): o "NOTA" do post-it amarelo (`hl.list.card*.body.note.label`).
+  static const Color noteLabel = Color(0xFF5B4A1C);
+
+  /// As duas linhas dos cartões de papel (L26 `rs.sheet.papers.*.line*`); as do Noite são o [dashNight].
+  static const Color paperLineCream = Color(0xFFD9CCB4);
+  static const Color paperLineWhite = Color(0xFFE3DCCD);
+  static const Color paperLineSepia = Color(0xFFCDB48C);
+
+  /// G18 — as pautas da caixa da nota à mão (24b): `#EFE5D3`; no Noite, o tracejado do Noite ([dashNight]).
+  static const Color noteRule = Color(0xFFEFE5D3);
+
+  /// Noite: véu da página (a 55 %).
+  static const Color veilNight = Color(0xFF14110E);
+
   // Paleta
 
   /// Brand padrão e weekColor padrão; capa O Alienista; lua do Frankenstein.
@@ -70,6 +146,13 @@ abstract final class AppColors {
   static const Color tagLavenderFg = Color(0xFF3B2D86);
   static const Color tagSandBg = Color(0xFFEFE7D7);
 
+  /// Pílula "Lido" dos Recém-chegados (prancha 01, D-255).
+  static const Color tagReadBg = Color(0xFFE1EDD0);
+  static const Color tagReadFg = Color(0xFF2E5314);
+
+  /// Os traços neutros dos cartõezinhos de grifo da revisão (prancha 01 e 60–62; T02: `reviewLineNeutral`).
+  static const Color reviewLineNeutral = Color(0xFFE4DACA);
+
   // Translúcidas
 
   /// rgba(0,0,0,.22) lombada Dom Casmurro.
@@ -95,6 +178,12 @@ abstract final class AppColors {
 
   /// Tinta com opacity .35 (marcações do dial).
   static const Color dialTick = Color(0x591A1714);
+
+  /// rgba(26,23,20,.35): a sombra 0/4 da mini-barra do cronômetro (prancha 01b).
+  static const Color miniBarShadow = Color(0x591A1714);
+
+  /// `#B9AE9C`: o "LENDO · PAPEL" da mini-barra sobre a tinta e o ponto da sessão em pausa (D-257).
+  static const Color kickerOnInk = Color(0xFFB9AE9C);
 
   /// Início do fade inferior.
   static const Color paperTransparent = Color(0x00F7F0E3);

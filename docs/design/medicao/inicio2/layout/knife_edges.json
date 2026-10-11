@@ -1,0 +1,75 @@
+{
+ "001_inicio": {},
+ "001b_inicio_lendo_agora": {},
+ "060_inicio_grifos_de_hoje": {},
+ "061_revisao_grifo_2_de_5": {},
+ "062_revisao_fim": {
+  "rv62.summary.newNote.quote": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "O meu fim evidente era atar as duas pontas",
+     "largura": 299.576,
+     "disponivel": 319,
+     "sobra": 19.424,
+     "estouroComProxima": 0.838
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "O meu fim evidente era atar as duas pontas",
+     "largura": 299.576,
+     "disponivel": 319,
+     "sobra": 19.424,
+     "estouroComProxima": 0.838
+    },
+    {
+     "linha": 2,
+     "texto": "da vida…",
+     "largura": 64.607,
+     "disponivel": 319,
+     "sobra": 254.393,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "rv62.summary.newNote.note.text": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Bento quer voltar no tempo desde a pág. 6 — e",
+     "largura": 279.656,
+     "disponivel": 296,
+     "sobra": 16.344,
+     "estouroComProxima": 1.336
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Bento quer voltar no tempo desde a pág. 6 — e",
+     "largura": 279.656,
+     "disponivel": 296,
+     "sobra": 16.344,
+     "estouroComProxima": 1.336
+    },
+    {
+     "linha": 2,
+     "texto": "eu só percebi agora.",
+     "largura": 120.25,
+     "disponivel": 296,
+     "sobra": 175.75,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "063_revisao_imagem_compartilhar": {}
+}

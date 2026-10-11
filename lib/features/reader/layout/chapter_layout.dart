@@ -1,0 +1,290 @@
+// G10.2 — layout e paginação de um capítulo em passos pequenos (Anexo 03 §7.2 e §12): cada passo monta um
+// bloco ou um pedaço de parágrafo longo e entrega ao paginador; [ChapterLayoutJob.runFor] trabalha até o
+// orçamento de tempo da fatia (4 ms) e devolve o controle. [layoutPageFrom] monta só a página que começa num
+// caractere conhecido (o início que o cache de páginas guardou) para mostrar a posição antes do resto. G18: os dois
+// recebem os espaços abertos do capítulo (`SpaceCut`); a página avulsa pode começar num espaço e ter outra altura
+// (a página do modo anotação, que vai até o pé da tela).
+import 'dart:math' as math;
+import 'dart:ui' as ui;
+
+import '../content/chapter_content.dart';
+import '../content/content_blocks.dart';
+import 'laid_block.dart';
+import 'paginator.dart';
+import 'reader_typography.dart';
+import 'space_cut.dart';
+
+/// Orçamento de cada fatia de trabalho por quadro (Anexo 03 §7.2).
+const Duration layoutSliceBudget = Duration(milliseconds: 4);
+
+/// Folga dentro do orçamento para o que a previsão não vê (glifo novo no cache da fonte, coleta de lixo).
+const int _sliceMarginMicros = 400;
+
+/// Um capítulo pronto: os blocos com layout e as páginas.
+final class ChapterLayout {
+  ChapterLayout({
+    required this.spineIndex,
+    required this.item,
+    required this.blocks,
+    required this.pages,
+  });
+
+  final int spineIndex;
+  final ParsedItem item;
+  final List<LaidBlock> blocks;
+  final List<ReaderPage> pages;
+
+  /// Página que contém o caractere [offset] do item (antes do 1º → a 1ª; depois do último → a última).
+  int pageAt(int offset) {
+    if (pages.isEmpty) return 0;
+    var lo = 0;
+    var hi = pages.length - 1;
+    while (lo < hi) {
+      final m = (lo + hi + 1) >> 1;
+      if (pages[m].start <= offset) {
+        lo = m;
+      } else {
+        hi = m - 1;
+      }
+    }
+    return lo;
+  }
+
+  /// Início de cada página (o que o cache guarda).
+  List<int> get pageStarts => [for (final p in pages) p.start];
+
+  void dispose() {
+    for (final b in blocks) {
+      b.dispose();
+    }
+  }
+}
+
+/// Layout + paginação de um capítulo, em passos.
+final class ChapterLayoutJob {
+  ChapterLayoutJob(this.content, ReaderTypography t, {this.cuts = const []})
+    : _layouter = BlockLayouter(t, imageSize: _sizes(content)),
+      _paginator = ChapterPaginator(t.contentHeight);
+
+  final ChapterContent content;
+
+  /// Os espaços abertos do capítulo (G18).
+  final List<SpaceCut> cuts;
+  final BlockLayouter _layouter;
+  final ChapterPaginator _paginator;
+  final List<LaidBlock> _blocks = [];
+  BlockLayoutTask? _task;
+  int _next = 0;
+  ChapterLayout? _result;
+  bool _disposed = false;
+
+  /// Maior tempo gasto num passo (µs) — para medir as fatias.
+  int maxStepMicros = 0;
+
+  /// Custo de um passo ≈ fixo + por caractere (médias móveis dos passos já feitos, no aparelho que roda):
+  /// o próximo é previsto pelo tamanho dele, e um pedaço de parágrafo longo depois de vários parágrafos
+  /// curtos não estoura a fatia.
+  double _fixedMicros = 0;
+  double _microsPerChar = 0;
+
+  bool get done => _result != null;
+
+  /// Páginas já fechadas (as primeiras ficam prontas antes do fim).
+  List<ReaderPage> get pagesSoFar => _paginator.pages;
+
+  /// Blocos já montados, pelo índice no capítulo (para pintar as páginas já fechadas).
+  List<LaidBlock> get blocksSoFar => _blocks;
+
+  ChapterLayout get result => _result!;
+
+  /// Um passo. `true` = terminou.
+  bool step() {
+    if (_result != null) return true;
+    if (_disposed) throw StateError('job descartado');
+    final blocks = content.item.blocks;
+    if (_next >= blocks.length && _task == null) {
+      _result = ChapterLayout(
+        spineIndex: content.spineIndex,
+        item: content.item,
+        blocks: List.unmodifiable(_blocks),
+        pages: List.unmodifiable(_paginator.finish()),
+      );
+      return true;
+    }
+    final chars = _nextChars();
+    final sw = Stopwatch()..start();
+    var task = _task;
+    if (task == null) {
+      final i = _next++;
+      task = _layouter.begin(
+        blocks[i],
+        start: content.item.blockStarts[i],
+        previous: i == 0 ? null : blocks[i - 1],
+        next: i + 1 < blocks.length ? blocks[i + 1] : null,
+        cuts: cuts,
+      );
+      _task = task;
+    }
+    if (task.step()) {
+      _task = null;
+      _blocks.add(task.result);
+      _paginator.add(task.result);
+    }
+    final us = sw.elapsedMicroseconds;
+    if (us > maxStepMicros) maxStepMicros = us;
+    _learn(chars, us);
+    return false;
+  }
+
+  /// Caracteres que o próximo passo monta: o próximo pedaço do parágrafo em andamento ou o próximo bloco
+  /// (até o tamanho de um pedaço); imagem e quebra de cena ≈ 0.
+  int _nextChars() {
+    final task = _task;
+    if (task != null) return task.nextChars;
+    final item = content.item;
+    if (_next >= item.blocks.length || item.blocks[_next] is! TextBlock) {
+      return 0;
+    }
+    final end = _next + 1 < item.blockStarts.length
+        ? item.blockStarts[_next + 1]
+        : item.text.length;
+    return math.min(end - item.blockStarts[_next], _layouter.pieceChars);
+  }
+
+  void _learn(int chars, int us) {
+    const a = 0.25;
+    if (chars < 64) {
+      _fixedMicros = _fixedMicros == 0
+          ? us.toDouble()
+          : a * us + (1 - a) * _fixedMicros;
+    } else {
+      final per = math.max(0, us - _fixedMicros) / chars;
+      _microsPerChar = _microsPerChar == 0
+          ? per
+          : a * per + (1 - a) * _microsPerChar;
+    }
+  }
+
+  /// Quanto o próximo passo deve levar (µs), com 25 % de folga.
+  double get _expectedMicros =>
+      1.25 * (_fixedMicros + _microsPerChar * _nextChars());
+
+  /// Trabalha até terminar ou até o próximo passo (pela previsão) não caber em [budget]: a fatia passa do
+  /// orçamento só quando um passo demora mais do que o tamanho dele prevê. `true` = terminou.
+  bool runFor(Duration budget) {
+    final sw = Stopwatch()..start();
+    final limit = budget.inMicroseconds;
+    while (true) {
+      if (step()) return true;
+      final next = sw.elapsedMicroseconds + _expectedMicros;
+      if (next + _sliceMarginMicros > limit) return false;
+    }
+  }
+
+  /// Tudo de uma vez (testes e medidas).
+  ChapterLayout runAll() {
+    while (!step()) {}
+    return result;
+  }
+
+  /// Descarta o que foi montado (o capítulo saiu da vizinhança antes de terminar).
+  void dispose() {
+    _disposed = true;
+    if (_result != null) {
+      _result!.dispose();
+    } else {
+      for (final b in _blocks) {
+        b.dispose();
+      }
+      // o bloco no meio: descarta os pedaços já montados, sem montar mais nenhum
+      _task?.dispose();
+      _task = null;
+    }
+  }
+}
+
+ImageSizeOf _sizes(ChapterContent c) => (img) {
+  final s = c.imageSizes[img.path];
+  return s == null
+      ? (img.width != null &&
+                img.height != null &&
+                img.width! > 0 &&
+                img.height! > 0
+            ? ui.Size(img.width!.toDouble(), img.height!.toDouble())
+            : null)
+      : ui.Size(s.$1.toDouble(), s.$2.toDouble());
+};
+
+/// Uma página que começa no caractere [start] do item (um início de página guardado no cache): monta só os
+/// blocos dela. `null` quando [start] não cai no começo de uma linha nem na âncora de um espaço (o cache não vale
+/// para este layout). [cuts] = os espaços do capítulo; [contentHeight] = a altura da página (a do modo — G18); com
+/// [snap], um início que não é começo de linha vai ao começo da linha dele (a página do modo depois que um espaço sai
+/// ou entra no começo dela); com [keepSpaces], o espaço que não cabe fica na página (a do modo — R3).
+({ReaderPage page, List<LaidBlock> blocks, int firstBlock})? layoutPageFrom(
+  ChapterContent content,
+  ReaderTypography t,
+  int start, {
+  List<SpaceCut> cuts = const [],
+  double? contentHeight,
+  bool snap = false,
+  bool keepSpaces = false,
+}) {
+  final item = content.item;
+  if (item.blocks.isEmpty) return null;
+  final layouter = BlockLayouter(t, imageSize: _sizes(content));
+  // bloco que contém o início
+  var k = 0;
+  for (var i = 0; i < item.blocks.length; i++) {
+    if (item.blockStarts[i] <= start) k = i;
+  }
+  final paginator = ChapterPaginator(
+    contentHeight ?? t.contentHeight,
+    firstBlock: k,
+    keepSpaces: keepSpaces,
+  );
+  final laid = <LaidBlock>[];
+  var firstLine = 0;
+  for (var i = k; i < item.blocks.length; i++) {
+    final b = layouter.layout(
+      item.blocks[i],
+      start: item.blockStarts[i],
+      previous: i == 0 ? null : item.blocks[i - 1],
+      next: i + 1 < item.blocks.length ? item.blocks[i + 1] : null,
+      cuts: cuts,
+    );
+    laid.add(b);
+    if (i == k) {
+      int? gap;
+      if (b is LaidText) {
+        // a página que começa num espaço aberto começa na âncora dele (G18)
+        final g = b.gaps.indexWhere((x) => x.at == start);
+        if (g >= 0) {
+          gap = g;
+          firstLine = b.gaps[g].afterLine + 1;
+        } else {
+          firstLine = b.lines.indexWhere((l) => l.start == start);
+          if (firstLine < 0 && snap && b.lines.isNotEmpty) {
+            firstLine = b.lineAt(start);
+          }
+        }
+        if (firstLine < 0) {
+          for (final x in laid) {
+            x.dispose();
+          }
+          return null;
+        }
+      } else if (b.start != start && !snap) {
+        b.dispose();
+        return null;
+      }
+      paginator.addFrom(b, firstLine, gap: gap);
+    } else {
+      paginator.add(b);
+    }
+    if (paginator.pages.isNotEmpty) break;
+  }
+  final pages = paginator.pages.isNotEmpty
+      ? paginator.pages
+      : paginator.finish();
+  return (page: pages.first, blocks: laid, firstBlock: k);
+}

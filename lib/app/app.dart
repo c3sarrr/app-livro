@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:go_router/go_router.dart';
 
 import '../core/design_system/tokens/app_colors.dart';
 import '../core/design_system/tokens/app_typography.dart';
+import '../core/design_system/widgets/tap_target.dart';
+import '../features/reading_session/application/reader_pause_observer.dart';
+import '../features/shell/presentation/main_shell.dart' show MainShell;
 import 'router.dart';
 
 /// Raiz do app (F02 2.5): `MaterialApp.router` com tema mínimo (sem splash/realce do Material),
@@ -24,6 +28,8 @@ class _AppState extends State<App> {
   late final GoRouter _router = createRouter(
     initialLocation: AppRoutes.inicio,
     overridePlatformDefaultLocation: widget._forTests,
+    // D-263: abrir o leitor pausa a sessão do cronômetro do papel
+    observers: [ReaderPausesPaperTimer()],
   );
 
   @override
@@ -37,6 +43,8 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) => MaterialApp.router(
     debugShowCheckedModeBanner: false,
+    // D-207: o sistema fecha o app em segundo plano e o reabre na mesma tela (a pilha de rotas, a aba, a rolagem)
+    restorationScopeId: 'app',
     theme: ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: AppColors.paper,
@@ -54,7 +62,13 @@ class _AppState extends State<App> {
         // Corpo do arquivo: Figtree 16/400, cor tinta.
         child: DefaultTextStyle(
           style: AppFonts.figtree(16, FontWeight.w400),
-          child: child!,
+          // D-13 (F12 12.5): status bar transparente com ícones escuros e barra de navegação do Android
+          // transparente, sem scrim — em TODAS as rotas (as telas cheias fora do shell também), não só nas abas.
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: MainShell.overlayStyle,
+            // R7 (G20): os alvos de toque menores que 48 crescem por dentro — o escopo entrega o toque da área nova
+            child: TapTargetScope(child: child!),
+          ),
         ),
       ),
     ),

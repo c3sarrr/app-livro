@@ -1,17 +1,19 @@
-import 'dart:io';
-
 import 'package:app_leitura/features/home/application/formatters.dart';
-import 'package:app_leitura/features/home/data/home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-/// F02 2.3: cada formatador produz a saída IDÊNTICA ao arquivo, a partir dos dados do mock.
+import '../fixtures/home_mock_repository.dart';
+import '../support/html_prancha01.dart';
+
+/// F02 2.3: cada formatador produz a saída IDÊNTICA à prancha, a partir dos dados do mock — desde a T03 a prancha
+/// 01 (D-240) e o mock dela (`TelaInicio01`); os formatadores novos da T03 têm os casos à parte em
+/// `formatters_t03_test.dart`.
 void main() {
   final snap = const HomeMockRepository().snapshot(
     HomeMockRepository.referenceNow,
   );
   final week = snap.readingDay.week;
-  final meeting = snap.club.nextMeeting;
+  final meeting = snap.club!.nextMeeting;
 
   group('tabela 2.3 (entrada do mock → saída exata)', () {
     test('greeting(20:00) → "Boa noite," e faixas 5–11 / 12–17 / 18–4', () {
@@ -36,28 +38,31 @@ void main() {
       }
     });
 
-    test('chapterLabel(92, 148) → "Cap. 92 de 148"', () {
-      final c = snap.continueReading;
-      expect(
-        HomeFormatters.chapterLabel(c.chapter, c.totalChapters),
-        'Cap. 92 de 148',
-      );
-    });
+    test(
+      'pageLabel(159, 256) → "pág. 159 de 256" · formatBadge(epub) → "E-BOOK"',
+      () {
+        final c = snap.continueReading!;
+        expect(
+          HomeFormatters.pageLabel(c.refPage!, c.refPagesTotal!),
+          'pág. 159 de 256',
+        );
+        expect(HomeFormatters.formatBadge(c.format), 'E-BOOK');
+      },
+    );
 
     test('percent(0.62) → "62%"', () {
-      expect(HomeFormatters.percent(snap.continueReading.progress), '62%');
-      // Demais frações do mock (anéis e clube) também arredondam sem resíduo de ponto flutuante.
-      expect(HomeFormatters.percent(snap.alsoReading[0].progress), '34%');
+      expect(HomeFormatters.percent(snap.continueReading!.progress), '62%');
+      // Demais frações do mock (o anel do Orgulho e o clube) também arredondam sem resíduo de ponto flutuante.
       expect(HomeFormatters.percent(snap.alsoReading[1].progress), '81%');
-      expect(HomeFormatters.percent(snap.club.groupProgress), '54%');
-      expect(HomeFormatters.percent(snap.club.userProgress), '62%');
+      expect(HomeFormatters.percent(snap.club!.groupProgress), '54%');
+      expect(HomeFormatters.percent(snap.club!.userProgress), '62%');
     });
 
     test('durationLabel(130 min, approx: true) → "~2h 10min"', () {
-      expect(snap.continueReading.timeLeft, const Duration(minutes: 130));
+      expect(snap.continueReading!.timeLeft, const Duration(minutes: 130));
       expect(
         HomeFormatters.durationLabel(
-          snap.continueReading.timeLeft,
+          snap.continueReading!.timeLeft!,
           approx: true,
         ),
         '~2h 10min',
@@ -74,6 +79,22 @@ void main() {
       expect(HomeFormatters.weekTotalLabel(week), '4h 00min no total');
     });
 
+    test('paperMeta: "Papel · 3h 40min" (Brás Cubas) · "Papel · pág. 344" (Orgulho)', () {
+      final [bras, orgulho, _] =
+          snap.alsoReading; // o 3º não tem cartão (o contador diz 3)
+      expect(
+        HomeFormatters.paperMeta(page: bras.paperPage, readTime: bras.readTime),
+        'Papel · 3h 40min',
+      );
+      expect(
+        HomeFormatters.paperMeta(
+          page: orgulho.paperPage,
+          readTime: orgulho.readTime,
+        ),
+        'Papel · pág. 344',
+      );
+    });
+
     test('remainingGoal(30, 18) → "Faltam " + **"12 min"** + " para fechar a meta de hoje."', () {
       final d = snap.readingDay;
       expect(HomeFormatters.remainingGoal(d.goalMinutes, d.readMinutes), (
@@ -83,19 +104,16 @@ void main() {
       ));
     });
 
-    test('countLabel → "24 páginas", "2 destaques", "12 dias" (singular só para 1)', () {
+    test('sessionsLabel/countLabel → "2 sessões", "2 destaques", "12 dias" (singular só para 1)', () {
       final d = snap.readingDay;
-      expect(
-        HomeFormatters.countLabel(d.pagesToday, 'página', 'páginas'),
-        '24 páginas',
-      );
+      expect(HomeFormatters.sessionsLabel(d.sessionsToday), '2 sessões');
       expect(
         HomeFormatters.countLabel(d.highlightsToday, 'destaque', 'destaques'),
         '2 destaques',
       );
       expect(HomeFormatters.countLabel(d.streakDays, 'dia', 'dias'), '12 dias');
-      expect(HomeFormatters.countLabel(1, 'página', 'páginas'), '1 página');
-      expect(HomeFormatters.countLabel(0, 'página', 'páginas'), '0 páginas');
+      expect(HomeFormatters.countLabel(1, 'dia', 'dias'), '1 dia');
+      expect(HomeFormatters.countLabel(0, 'dia', 'dias'), '0 dias');
     });
 
     test(
@@ -131,11 +149,23 @@ void main() {
       );
     });
 
+    test('reviewKicker(5, 2) → "REVISÃO · 5 GRIFOS · 2 MIN" · reviewSubtitle → "De Dom Casmurro, Quincas Borba e Iracema."', () {
+      final r = snap.dailyReview!;
+      expect(
+        HomeFormatters.reviewKicker(r.highlights, r.minutes),
+        'REVISÃO · 5 GRIFOS · 2 MIN',
+      );
+      expect(
+        HomeFormatters.reviewSubtitle(r.bookTitles),
+        'De Dom Casmurro, Quincas Borba e Iracema.',
+      );
+    });
+
     test(
       'forYouReason("Machado de Assis") → "Porque você lê Machado de Assis"',
       () {
         expect(
-          HomeFormatters.forYouReason(snap.forYou.reasonAuthor),
+          HomeFormatters.forYouReason(snap.forYou!.reasonAuthor),
           'Porque você lê Machado de Assis',
         );
         expect(
@@ -146,7 +176,7 @@ void main() {
     );
 
     test('participantsExtra(11, 3) → "+8" · aria "11 participantes"', () {
-      final c = snap.club;
+      final c = snap.club!;
       expect(
         HomeFormatters.participantsExtra(
           c.participantsCount,
@@ -160,27 +190,30 @@ void main() {
       );
     });
 
-    test('clubSubtitle(...) → "Dom Casmurro · até o cap. 100" (U+00B7 com espaços)', () {
-      final s = HomeFormatters.clubSubtitle(
-        snap.club.book,
-        snap.club.untilChapter,
-      );
-      expect(s, 'Dom Casmurro · até o cap. 100');
-      final dot = String.fromCharCode(0x00B7);
-      expect(s.indexOf(' $dot '), 'Dom Casmurro'.length);
-    });
+    test(
+      'clubSubtitle(...) → "Dom Casmurro · até o cap. 50" (U+00B7 com espaços)',
+      () {
+        final s = HomeFormatters.clubSubtitle(
+          snap.club!.book,
+          snap.club!.untilChapter,
+        );
+        expect(s, 'Dom Casmurro · até o cap. 50');
+        final dot = String.fromCharCode(0x00B7);
+        expect(s.indexOf(' $dot '), 'Dom Casmurro'.length);
+      },
+    );
 
     test('clubName(club) → "Leitoras de Capitu" (espaço no lugar do <br>)', () {
-      expect(HomeFormatters.clubName(snap.club), 'Leitoras de Capitu');
+      expect(HomeFormatters.clubName(snap.club!), 'Leitoras de Capitu');
     });
 
     test('groupProgressLabel(0,54) → "Grupo em 54%" · userProgressLabel(0,62) → "Você em 62%"', () {
       expect(
-        HomeFormatters.groupProgressLabel(snap.club.groupProgress),
+        HomeFormatters.groupProgressLabel(snap.club!.groupProgress),
         'Grupo em 54%',
       );
       expect(
-        HomeFormatters.userProgressLabel(snap.club.userProgress),
+        HomeFormatters.userProgressLabel(snap.club!.userProgress),
         'Você em 62%',
       );
       // Derivados dos dados (o percentual sai de `percent`).
@@ -188,20 +221,20 @@ void main() {
       expect(HomeFormatters.userProgressLabel(1), 'Você em 100%');
     });
 
-    test('recentSubtitle(...) → "Mary Shelley · EPUB" · "Machado de Assis · PDF" · "José de Alencar · EPUB"', () {
+    test('recentSubtitle(...) → "Mary Shelley · EPUB" · "Machado de Assis · PDF" · "José de Alencar · Papel"', () {
       expect(snap.recent.map(HomeFormatters.recentSubtitle).toList(), [
         'Mary Shelley · EPUB',
         'Machado de Assis · PDF',
-        'José de Alencar · EPUB',
+        'José de Alencar · Papel',
       ]);
     });
 
-    test('recentStatusLabel → "Quero ler" · "Novo"', () {
+    test('recentStatusLabel → "Quero ler" · "Lido" · "Novo"', () {
       expect(
         snap.recent
             .map((r) => HomeFormatters.recentStatusLabel(r.status))
             .toList(),
-        ['Quero ler', 'Quero ler', 'Novo'],
+        ['Quero ler', 'Lido', 'Novo'],
       );
     });
 
@@ -229,10 +262,10 @@ void main() {
       );
     });
 
-    test('highlightsAria(14) → "Destaques e notas deste livro (14)"', () {
+    test('highlightsAria(12) → "Destaques e notas deste livro (12)"', () {
       expect(
-        HomeFormatters.highlightsAria(snap.continueReading.highlightsCount),
-        'Destaques e notas deste livro (14)',
+        HomeFormatters.highlightsAria(snap.continueReading!.highlightsCount),
+        'Destaques e notas deste livro (12)',
       );
     });
 
@@ -249,7 +282,7 @@ void main() {
 
     test('messagesAria(3) → "3 mensagens novas"', () {
       expect(
-        HomeFormatters.messagesAria(snap.club.unreadMessages),
+        HomeFormatters.messagesAria(snap.club!.unreadMessages),
         '3 mensagens novas',
       );
     });
@@ -293,28 +326,27 @@ void main() {
     test('rótulos de formato do livro', () {
       expect(HomeFormatters.formatLabel(BookFormat.epub), 'EPUB');
       expect(HomeFormatters.formatLabel(BookFormat.pdf), 'PDF');
+      expect(HomeFormatters.formatLabel(BookFormat.physical), 'Papel');
     });
   });
 
-  // Conferência contra a fonte da verdade nº 1 (prompt mestre §2): cada saída aparece LITERALMENTE no
-  // HTML original. No bundle, o HTML está escapado: aspas = \" e "/" dos fechamentos = /.
-  group('as saídas aparecem literalmente no HTML original', () {
-    final html = File(
-      'design_handoff/referencia/original/Redesign mobile — App de leitura.html',
-    ).readAsStringSync();
-    const q = r'\"';
-    // Fechamento de tag no bundle: "<", barra invertida, "u002F" (montado por código).
-    final close = '<${String.fromCharCode(0x5C)}u002F';
-    String aria(String label) => 'aria-label=$q$label$q';
+  // Conferência contra a fonte da verdade nº 1 (prompt mestre §2): cada saída aparece LITERALMENTE no HTML da
+  // prancha 01 (as fases L01a1…L01a9; até a T03, o HTML original da v1).
+  group('as saídas aparecem literalmente na prancha 01', () {
+    final html = htmlDaPrancha01();
+    String aria(String label) => 'aria-label="$label"';
     String node(String text) => '>$text<';
+    // Texto solto entre tags (depois de um ícone, com a indentação do HTML em volta).
+    bool loose(String text) =>
+        RegExp('>\\s*${RegExp.escape(text)}\\s*<').hasMatch(html);
     String strong(EmphasisText t) =>
-        '${t.before}<strong style=${q}font-weight: 800;$q>${t.strong}${close}strong>${t.after}';
+        '${t.before}<strong style="font-weight: 800;">${t.strong}</strong>${t.after}';
 
     test('aria-labels', () {
-      final c = snap.club;
+      final c = snap.club!;
       for (final label in [
         HomeFormatters.notificationsAria(snap.user.unreadNotifications),
-        HomeFormatters.highlightsAria(snap.continueReading.highlightsCount),
+        HomeFormatters.highlightsAria(snap.continueReading!.highlightsCount),
         HomeFormatters.weekAria(week, snap.readingDay.goalMinutes),
         HomeFormatters.participantsAria(c.participantsCount),
         HomeFormatters.messagesAria(c.unreadMessages),
@@ -326,24 +358,22 @@ void main() {
     });
 
     test('textos visíveis (nós de texto exatos)', () {
-      final c = snap.club;
+      final c = snap.club!;
       final d = snap.readingDay;
+      final hero = snap.continueReading!;
+      final r = snap.dailyReview!;
       for (final text in [
         HomeFormatters.greeting(snap.now),
-        HomeFormatters.chapterLabel(
-          snap.continueReading.chapter,
-          snap.continueReading.totalChapters,
-        ),
-        HomeFormatters.percent(snap.continueReading.progress),
-        HomeFormatters.percent(snap.alsoReading[0].progress),
+        HomeFormatters.pageLabel(hero.refPage!, hero.refPagesTotal!),
+        HomeFormatters.formatBadge(hero.format),
+        HomeFormatters.percent(hero.progress),
         HomeFormatters.percent(snap.alsoReading[1].progress),
-        HomeFormatters.durationLabel(
-          snap.continueReading.timeLeft,
-          approx: true,
-        ),
+        HomeFormatters.durationLabel(hero.timeLeft!, approx: true),
         HomeFormatters.weekTotalLabel(week),
-        HomeFormatters.countLabel(d.pagesToday, 'página', 'páginas'),
+        HomeFormatters.sessionsLabel(d.sessionsToday),
         HomeFormatters.countLabel(d.highlightsToday, 'destaque', 'destaques'),
+        HomeFormatters.reviewKicker(r.highlights, r.minutes),
+        HomeFormatters.reviewSubtitle(r.bookTitles),
         HomeFormatters.participantsExtra(
           c.participantsCount,
           c.shownParticipants.length,
@@ -360,33 +390,21 @@ void main() {
       ]) {
         expect(html.contains(node(text)), isTrue, reason: text);
       }
-      // "12 dias" é texto solto depois do ícone da chama (espaços e \n do bundle em volta).
-      final streak = HomeFormatters.countLabel(d.streakDays, 'dia', 'dias');
-      expect(
-        RegExp(r'>(?:\\n| )*' + RegExp.escape(streak) + r'(?:\\n| )*<')
-            .hasMatch(html),
-        isTrue,
-        reason: streak,
-      );
-      // Motivo de "Para você": texto solto depois do brilho do chip (espaços e \n do bundle em volta).
-      final reason = HomeFormatters.forYouReason(snap.forYou.reasonAuthor);
-      expect(
-        RegExp(r'>(?:\\n| )*' + RegExp.escape(reason) + r'(?:\\n| )*<')
-            .hasMatch(html),
-        isTrue,
-        reason: reason,
-      );
-      // Nome do clube: um único <h3> com as duas partes separadas por <br> (o nome acessível do
-      // `clubName` troca o <br> por um espaço).
-      // As duas partes são capturadas do HTML (texto do <h3> até o <br> e o texto do <span> itálico) e
-      // comparadas com os dados e com o nome acessível.
+      // Soltos depois de um ícone: "12 dias" (a chama), o motivo de "Para você" (o brilho do chip) e as pílulas
+      // do papel (o livro de papel).
+      for (final text in [
+        HomeFormatters.countLabel(d.streakDays, 'dia', 'dias'),
+        HomeFormatters.forYouReason(snap.forYou!.reasonAuthor),
+        for (final i in snap.alsoReading.take(2))
+          HomeFormatters.paperMeta(page: i.paperPage, readTime: i.readTime),
+      ]) {
+        expect(loose(text), isTrue, reason: text);
+      }
+      // Nome do clube: um único <h3> com as duas partes separadas por <br> (o nome acessível do `clubName`
+      // troca o <br> por um espaço). As duas partes são capturadas do HTML (o texto do <h3> até o <br> e o texto
+      // do <span> itálico) e comparadas com os dados e com o nome acessível.
       final h3 = RegExp(
-        r'>([^<>]+)<br><span style=' +
-            RegExp.escape(q) +
-            r'[^"\\]*' + // estilo do itálico (sem aspas nem barras)
-            RegExp.escape(q) +
-            r'>([^<>]+)' +
-            RegExp.escape('${close}span>${close}h3>'),
+        r'>\s*([^<>]+?)<br><span style="[^"]*">([^<>]+)</span></h3>',
       );
       final match = h3.allMatches(html).toList();
       expect(match, hasLength(1), reason: h3.pattern);
@@ -403,15 +421,15 @@ void main() {
       final badge = strong(
         HomeFormatters.badgeHint(d.streakDays, d.badgeTargetDays),
       );
-      expect(html.contains('$goal${close}p>'), isTrue, reason: goal);
-      expect(html.contains('<span>$badge${close}span>'), isTrue, reason: badge);
+      expect(html.contains('>$goal</p>'), isTrue, reason: goal);
+      expect(html.contains('<span>$badge</span>'), isTrue, reason: badge);
     });
 
     test('rótulos da semana (6 iniciais + "Hoje" em destaque)', () {
       final initials = HomeFormatters.weekInitials(week);
       final expected = [
-        for (final i in initials.take(6)) '<span>$i${close}span>',
-        '<span style=${q}color: #1A1714; font-weight: 800;$q>${initials.last}${close}span>',
+        for (final i in initials.take(6)) '<span>$i</span>',
+        '<span style="color: #1A1714; font-weight: 800;">${initials.last}</span>',
       ].join();
       expect(html.contains(expected), isTrue, reason: expected);
     });

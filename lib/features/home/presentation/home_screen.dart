@@ -1,21 +1,42 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../app/router.dart' show AppRoutes;
 import '../../../core/design_system/tokens/app_colors.dart';
 import '../../../core/design_system/tokens/app_spacing.dart';
+import '../../../core/design_system/tokens/app_icons.dart';
+import '../../account/application/account_controller.dart';
+import '../../reading_session/application/paper_timer_controller.dart';
+import '../../reading_session/data/paper_timer_store.dart'
+    show reportPaperTimerError;
+import '../../reading_session/presentation/paper_timer_actions.dart';
+import '../../shell/presentation/shell_insets.dart';
+import '../application/home_providers.dart';
+import '../application/read_now.dart';
+import '../domain/models.dart';
+import 'home_states.dart';
 import 'sections/also_reading_section.dart';
 import 'sections/book_club_ticket.dart';
-import 'sections/continue_reading_hero.dart';
 import 'sections/for_you_section.dart';
 import 'sections/header_section.dart';
 import 'sections/headline_section.dart';
-import 'sections/reading_day_card.dart';
+import 'sections/hero_section.dart';
+import 'sections/recently_added_section.dart';
+import 'sections/review_section.dart';
+import 'sections/today_section.dart';
 
-/// Tela Início (esqueleto da F02): ritmo vertical exato do arquivo — inset superior, as 8 seções como
-/// blocos vazios na altura de referência, gaps entre seções e padding inferior (total 2355,16 no canvas).
-/// Cada fase de seção substitui o seu placeholder; o teste de geometria do bloco continua valendo.
-class HomeScreen extends StatelessWidget {
+/// Tela Início da prancha 01 (T03, D-240): ritmo vertical exato da prancha — inset superior, as 9 seções, os 8 gaps
+/// entre elas e o padding inferior (o conteúdo termina em 2612,12 no canvas de 390 × 2650).
+///
+/// F12 12.1: é aqui que os toques das seções viram navegação (mapa de toques da fase). As seções só expõem
+/// callbacks; os destinos são as rotas-placeholder da F02 e os ids vêm do snapshot lido no momento do toque
+/// (`ref.read`). G08: a tela assiste só o tipo do estado (carregando/dados/erro — D-85) e quais seções têm
+/// dados (D-78); os dados de cada seção não a reconstroem.
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   /// D-02: inset superior do conteúdo = max(62, viewPadding.top + 15).
@@ -24,41 +45,264 @@ class HomeScreen extends StatelessWidget {
     MediaQuery.viewPaddingOf(context).top + 15,
   );
 
+  /// Lupa do cabeçalho (`header.search`, prancha 01): a busca não tem prancha (C14) — D-243 b: o elemento fica
+  /// idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
+  static void onSearch() {}
+
+  /// "Play" do livro de papel sem página (`alsoReading.cardN.play`, prancha 01 — "ganhou ação na T04"): começa a
+  /// sessão do cronômetro; com outra sessão aberta, a folha dela com este livro à espera (D-262).
+  static Future<void> onStartReading(
+    BuildContext context,
+    WidgetRef ref,
+    Book book,
+  ) => startPaperSession(context, ref, book);
+
+  /// O botão da sessão do cronômetro aberta no cartão (`alsoReading.cardN.play` em sessão, prancha 01b — R6): pausa a
+  /// que roda, retoma a pausada (D-257). A falha (o kv fora do ar) vai para o relatório do cronômetro.
+  static void onSessionToggle(WidgetRef ref) =>
+      ref.read(paperTimerProvider.notifier).toggleFromTap();
+
+  /// "Ler agora" (`today.readNow`, prancha 01 — "ganhou ação na T04"), a D-258: com a sessão do papel aberta, retoma a
+  /// pausada (a que roda fica); sem ela, o cronômetro do livro de papel em leitura mais recente; sem livro de papel,
+  /// o herói no leitor; sem nada em leitura, nada (R11). Espera a sessão carregar para decidir.
+  static Future<void> onReadNow(BuildContext context, WidgetRef ref) async {
+    try {
+      final timer = ref.read(paperTimerProvider.notifier);
+      // o cronômetro que não abre (o kv fora do ar) conta como sem sessão
+      final open = await ref
+          .read(paperTimerProvider.future)
+          .then((t) => t.session, onError: (Object _) => null);
+      if (!context.mounted) return;
+      final s = ref.read(homeSnapshotProvider);
+      switch (readNowAction(
+        hero: s.continueReading,
+        alsoReading: s.alsoReading,
+        open: open,
+      )) {
+        case ResumeSession():
+          await timer.resume();
+        case StartTimer(:final book):
+          await startPaperSession(context, ref, book);
+        case OpenReader(:final book):
+          unawaited(context.push<void>(AppRoutes.leitor(book.id)));
+        case KeepRunning() || NoAction():
+          break;
+      }
+    } on Object catch (e, st) {
+      reportPaperTimerError(e, st);
+    }
+  }
+
+  /// "Revisar" do cartão "Seus grifos de hoje" (`review.cta`, prancha 01): a revisão é da T05 — D-243 b: o elemento
+  /// fica idêntico à prancha e o toque não faz nada (`docs/design/estados_sem_design.md`).
+  static void onReview() {}
+
+  /// "Mais opções para …" (`recent.rowN.more`): o arquivo não define o menu, então o toque não abre nada.
+  /// TODO(produto): definir o menu do livro (compartilhar, remover da lista…) antes de implementar.
+  static void onMoreOptions(Book book) {}
+
   @override
-  Widget build(BuildContext context) {
-    const gaps = AppSpacing.sectionGaps; // 24, 24, 32, 36, 40, 40, 40
-    // Scaffold sem appBar/drawer/FAB: só pinta o fundo e, no iOS, trata o toque na status bar
-    // (anima o PrimaryScrollController para o topo — `primary: true` sozinho não faz isso).
+  Widget build(BuildContext context, WidgetRef ref) {
+    // D-85: carregando → dados → erro. Só o tipo do estado e quais seções existem fazem a tela reconstruir;
+    // os dados de cada seção são assistidos por ela mesma.
+    final status = ref.watch(
+      homeStateProvider.select(
+        (s) => switch (s) {
+          AsyncData() => _Status.data,
+          AsyncError() => _Status.error,
+          _ => _Status.loading,
+        },
+      ),
+    );
     return Scaffold(
       backgroundColor: AppColors.paper,
+      // Scaffold sem appBar/drawer/FAB: só pinta o fundo e, no iOS, trata o toque na status bar
+      // (anima o PrimaryScrollController para o topo — `primary: true` sozinho não faz isso).
       body: SingleChildScrollView(
         primary: true,
+        // D-207: a rolagem volta depois que o sistema fecha o app
+        restorationId: 'inicio.rolagem',
         padding: EdgeInsets.only(
           top: topInset(context),
-          bottom: AppSpacing.bottomPadding,
+          // D-259: + 96 com a mini-barra do cronômetro (140 → 236)
+          bottom: AppSpacing.bottomPadding + ShellInsets.extraBottomOf(context),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _gutter(const HeaderSection()),
-            SizedBox(height: gaps[0]),
-            _gutter(const HeadlineSection()),
-            SizedBox(height: gaps[1]),
-            _gutter(const ContinueReadingHero()),
-            SizedBox(height: gaps[2]),
-            _gutter(const AlsoReadingSection()),
-            SizedBox(height: gaps[3]),
-            _gutter(const ReadingDayCard()),
-            SizedBox(height: gaps[4]),
-            // O carrossel vai até as bordas (F08).
-            _fullBleed('forYou', const ForYouSection()),
-            SizedBox(height: gaps[5]),
-            _gutter(const BookClubTicket()),
-            SizedBox(height: gaps[6]),
-            _gutter(const _Placeholder('recent', 334)),
-          ],
+        child: switch (status) {
+          _Status.data => const _HomeSections(),
+          _Status.loading => const _NoData(child: HomeLoadingView()),
+          _Status.error => _NoData(
+            child: HomeErrorView(
+              icon: AppIcons.bookOpen,
+              onRetry: () => ref.read(homeStateProvider.notifier).retry(),
+            ),
+          ),
+        },
+      ),
+    );
+  }
+}
+
+enum _Status { loading, data, error }
+
+/// Carregando ou erro (D-85): o cabeçalho (conta + relógio) e o aviso, com o ritmo do arquivo (gap 24).
+class _NoData extends ConsumerWidget {
+  const _NoData({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = homeUserOf(ref.watch(accountControllerProvider));
+    final now = ref.watch(clockProvider)();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _gutter(
+          HeaderSection(
+            user: user,
+            now: now,
+            onNotificationsTap: () =>
+                unawaited(context.push<void>(AppRoutes.notificacoes)),
+            onSearchTap: HomeScreen.onSearch,
+          ),
+        ),
+        SizedBox(height: AppSpacing.sectionGaps[0]),
+        _gutter(child),
+      ],
+    );
+  }
+}
+
+/// As 9 seções da prancha 01, na ordem e com os gaps da prancha; a que não tem dados some junto com o gap de antes
+/// dela (a seguinte fica com o próprio gap).
+class _HomeSections extends ConsumerWidget {
+  const _HomeSections();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const gaps = AppSpacing.sectionGaps; // 24, 24, 32, 36, 40, 40, 40, 40
+    // Quais seções têm dados (D-78/D-80/D-81, D-247): só isto muda a estrutura da tela.
+    final layout = ref.watch(
+      homeSnapshotProvider.select(
+        (s) => (
+          also: s.alsoReading.isNotEmpty,
+          review: s.visibleReview != null,
+          forYou: s.forYou != null,
+          club: s.club != null,
+          recent: s.recent.isNotEmpty,
         ),
       ),
+    );
+    // Rota por empilhamento: o botão voltar devolve a Início exatamente como estava (mesma rolagem).
+    void push(String location) => unawaited(context.push<void>(location));
+    HomeSnapshot snapshot() => ref.read(homeSnapshotProvider);
+    void openBook(Book book) => push(AppRoutes.livro(book.id));
+    // Os toques só existem quando a seção aparece (com dados); a leitura no toque é o instantâneo atual.
+    void withReading(void Function(ContinueReading r) f) {
+      final r = snapshot().continueReading;
+      if (r != null) f(r);
+    }
+
+    // (índice da seção no arquivo, widget) — o gap antes da seção i é gaps[i − 1].
+    final sections = <(int, Widget)>[
+      (
+        0,
+        _gutter(
+          HeaderSection(
+            onNotificationsTap: () => push(AppRoutes.notificacoes),
+            onSearchTap: HomeScreen.onSearch,
+          ),
+        ),
+      ),
+      (1, _gutter(const HeadlineSection())),
+      (
+        2,
+        _gutter(
+          HeroSection(
+            // o exemplar físico não tem arquivo: vai à página do livro, não ao leitor (D-123)
+            onContinueTap: () => withReading(
+              (r) => push(
+                r.format == BookFormat.physical
+                    ? AppRoutes.livro(r.book.id)
+                    : AppRoutes.leitor(r.book.id),
+              ),
+            ),
+            onHighlightsTap: () =>
+                withReading((r) => push(AppRoutes.destaques(r.book.id))),
+            onScanTap: () => push(AppRoutes.scanner),
+            // Troca de aba (não empilha): a Biblioteca é um ramo do shell.
+            onLibraryTap: () => context.go(AppRoutes.biblioteca),
+          ),
+        ),
+      ),
+      if (layout.also)
+        (
+          3,
+          _gutter(
+            AlsoReadingSection(
+              onBookTap: openBook,
+              onStartReadingTap: (book) =>
+                  unawaited(HomeScreen.onStartReading(context, ref, book)),
+              onSessionTap: (_) => HomeScreen.onSessionToggle(ref),
+            ),
+          ),
+        ),
+      (
+        4,
+        _gutter(
+          TodaySection(
+            onReadNowTap: () => unawaited(HomeScreen.onReadNow(context, ref)),
+          ),
+        ),
+      ),
+      // Só com a fixture até a T05 (D-247): com dados reais a revisão some com o gap.
+      if (layout.review)
+        (5, _gutter(const ReviewSection(onReviewTap: HomeScreen.onReview))),
+      // O carrossel vai até as bordas (F08).
+      if (layout.forYou)
+        (
+          6,
+          _fullBleed(
+            'forYou',
+            ForYouSection(
+              onBookTap: openBook,
+              onSeeAllTap: () => push(AppRoutes.paraVoce),
+            ),
+          ),
+        ),
+      if (layout.club)
+        (
+          7,
+          _gutter(
+            BookClubTicket(
+              onDiscussionTap: () {
+                final club = snapshot().club;
+                if (club != null) push(AppRoutes.discussao(club.id));
+              },
+            ),
+          ),
+        ),
+      if (layout.recent)
+        (
+          8,
+          _gutter(
+            RecentlyAddedSection(
+              onBookTap: openBook,
+              onMoreTap: HomeScreen.onMoreOptions,
+              // Troca de aba (não empilha): a Biblioteca é um ramo do shell.
+              onLibraryTap: () => context.go(AppRoutes.biblioteca),
+            ),
+          ),
+        ),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final (k, (i, w)) in sections.indexed) ...[
+          if (k > 0) SizedBox(height: gaps[i - 1]),
+          w,
+        ],
+      ],
     );
   }
 }
@@ -83,15 +327,3 @@ Widget _fullBleed(String id, Widget child) => Stack(
     child,
   ],
 );
-
-/// Bloco vazio na altura de referência da seção.
-class _Placeholder extends StatelessWidget {
-  const _Placeholder(this.id, this.height);
-
-  final String id;
-  final double height;
-
-  @override
-  Widget build(BuildContext context) =>
-      SizedBox(key: ValueKey<String>(id), height: height);
-}

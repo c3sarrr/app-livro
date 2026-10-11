@@ -32,11 +32,53 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^3.4.3
   flutter_svg: ^2.3.0
+  # G12: o ícone esmaecido/tingido vai pelo caminho rasterizado (sem a camada `saveLayer` do caminho por picture).
+  vector_graphics: ^1.2.3
   go_router: ^18.0.1
+  # G03 (ADR-002): SQLite do SDK PowerSync + drift como dono do esquema local.
+  drift: ^2.35.1
+  drift_sqlite_async: ^0.3.1
+  powersync: ^2.4.0
+  # G05 (conta e login — D-64…D-69): Supabase Auth com sessão no armazenamento seguro do sistema,
+  # Google/Apple nativos (credenciais reais quando houver projeto na nuvem — D-67), sinal de idade
+  # das lojas (D-66), arquivo de exportação (D-65).
+  supabase_flutter: ^2.18.0
+  flutter_secure_storage: ^11.2.0
+  google_sign_in: ^7.2.0
+  sign_in_with_apple: ^8.2.0
+  age_range_signals: ^0.10.0
+  http: ^1.6.0
+  crypto: ^3.0.7
+  path_provider: ^2.1.6
+  share_plus: ^13.3.1
+  sqlite_async: ^0.14.5
+  connectivity_plus: ^7.3.2
+  mobile_scanner: ^7.4.2
+  google_mlkit_text_recognition: ^0.17.1
+  image_picker: ^1.2.3
+  archive: 4.3.0
+  xml: 7.0.1
+  unorm_dart: 0.3.3
+  pdfrx: 2.6.5
+  wakelock_plus: 1.8.1
+  file_picker: 13.1.0
+  pdfium_dart: 0.3.1
+  ffi: 2.2.0
+  # G22 (Anexo 04, D-228…D-232): a compra do Pro pelo RevenueCat (a versão do Anexo 04) e a página de
+  # gestão da assinatura na loja (R6). O url_launcher já vinha pelo supabase_flutter: a mesma versão.
+  purchases_flutter: 10.14.0
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # G20 (R9): o teste de aparelho dos orçamentos do Anexo 03 §12 (só desenvolvimento — ADR-005)
+  integration_test:
+    sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  build_runner: ^2.16.1
+  drift_dev: ^2.35.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -52,13 +94,21 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Ícones SVG oficiais do arquivo (design_handoff/assets/icons) e licença OFL das fontes.
+  # Ícones SVG oficiais do arquivo (design_handoff/assets/icons), os do leitor (telas 19–27b, G01.8) e
+  # licença OFL das fontes.
   assets:
     - assets/icons/
+    - assets/icons/leitor/
+    - assets/icons/leitor_extra/
+    # G16: os objetos da prateleira do modo anotação (tela 22), exportados na G01.8.
+    - assets/illustrations/leitor/
+    # T02 (D-242): os ícones e as capas da Início nova e da revisão (telas 01, 01b, 60–63), exportados na T02.
+    - assets/icons/inicio2/
+    - assets/illustrations/inicio2/
     - assets/fonts/LICENCAS_FONTES_OFL.txt
 
   # Bloco copiado literalmente de design_handoff/ferramentas/pubspec_fonts.yaml.
-  # NÃO use google_fonts. NÃO declare pesos que não existem. Bricolage = 1 família por tamanho (opsz).
+  # NÃO use pacote de fontes remotas nem fontes do sistema. NÃO declare pesos que não existem. Bricolage = 1 família por tamanho (opsz).
   fonts:
     - family: Bricolage12
       fonts:
@@ -156,6 +206,32 @@ flutter:
       fonts:
         - asset: assets/fonts/Bricolage42Vi-ExtraBold.ttf
           weight: 800
+    # G12: Bricolage 17/800 (título da ilha de cima do leitor — L20a), gerada na G01.7.
+    - family: Bricolage17
+      fonts:
+        - asset: assets/fonts/Bricolage17-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17Ext
+      fonts:
+        - asset: assets/fonts/Bricolage17Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17Vi
+      fonts:
+        - asset: assets/fonts/Bricolage17Vi-ExtraBold.ttf
+          weight: 800
+    # G16: Bricolage 15,5/800 (o título da pílula do modo anotação — L22b), gerada na G01.7.
+    - family: Bricolage15_5
+      fonts:
+        - asset: assets/fonts/Bricolage15_5-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage15_5Ext
+      fonts:
+        - asset: assets/fonts/Bricolage15_5Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage15_5Vi
+      fonts:
+        - asset: assets/fonts/Bricolage15_5Vi-ExtraBold.ttf
+          weight: 800
     - family: Figtree
       fonts:
         - asset: assets/fonts/Figtree-Regular.ttf
@@ -166,6 +242,8 @@ flutter:
           weight: 600
         - asset: assets/fonts/Figtree-Bold.ttf
           weight: 700
+        - asset: assets/fonts/Figtree-ExtraBold.ttf
+          weight: 800
     - family: FigtreeExt
       fonts:
         - asset: assets/fonts/FigtreeExt-Regular.ttf
@@ -176,6 +254,8 @@ flutter:
           weight: 600
         - asset: assets/fonts/FigtreeExt-Bold.ttf
           weight: 700
+        - asset: assets/fonts/FigtreeExt-ExtraBold.ttf
+          weight: 800
     - family: InstrumentSerif
       fonts:
         - asset: assets/fonts/InstrumentSerif-Regular.ttf
@@ -189,4 +269,248 @@ flutter:
           weight: 400
         - asset: assets/fonts/InstrumentSerifExt-Italic.ttf
           weight: 400
+          style: italic
+    # G10 (D-17/ADR-004): Literata VARIÁVEL (opsz + wght) para o texto do livro, normal e itálica, com os
+    # subconjuntos como fallback na ordem do unicode-range. O estilo é montado só em ReaderTypography
+    # (opsz = tamanho e wght sempre explícitos; fontWeight fica 400 para não haver negrito sintético).
+    - family: LiterataVF
+      fonts:
+        - asset: assets/fonts/Literata-VF.ttf
+        - asset: assets/fonts/LiterataItalic-VF.ttf
+          style: italic
+    - family: LiterataVFExt
+      fonts:
+        - asset: assets/fonts/Literata-VFExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFExt.ttf
+          style: italic
+    - family: LiterataVFVi
+      fonts:
+        - asset: assets/fonts/Literata-VFVi.ttf
+        - asset: assets/fonts/LiterataItalic-VFVi.ttf
+          style: italic
+    - family: LiterataVFCyr
+      fonts:
+        - asset: assets/fonts/Literata-VFCyr.ttf
+        - asset: assets/fonts/LiterataItalic-VFCyr.ttf
+          style: italic
+    - family: LiterataVFCyrExt
+      fonts:
+        - asset: assets/fonts/Literata-VFCyrExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFCyrExt.ttf
+          style: italic
+    - family: LiterataVFGr
+      fonts:
+        - asset: assets/fonts/Literata-VFGr.ttf
+        - asset: assets/fonts/LiterataItalic-VFGr.ttf
+          style: italic
+    - family: LiterataVFGrExt
+      fonts:
+        - asset: assets/fonts/Literata-VFGrExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFGrExt.ttf
+          style: italic
+    # G12 (D-104): Literata ESTÁTICA na interface do leitor — 19/500 no "Aa" da ferramenta Fonte (L20b) e 17 no trecho
+    # dos resultados da busca (D-120). Instâncias da G01.7, uma família por tamanho (opsz).
+    - family: Literata17
+      fonts:
+        - asset: assets/fonts/Literata17-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17-Medium.ttf
+          weight: 500
+    - family: Literata17Ext
+      fonts:
+        - asset: assets/fonts/Literata17Ext-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17Ext-Medium.ttf
+          weight: 500
+    - family: Literata17Vi
+      fonts:
+        - asset: assets/fonts/Literata17Vi-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17Vi-Medium.ttf
+          weight: 500
+    - family: Literata19
+      fonts:
+        - asset: assets/fonts/Literata19-Medium.ttf
+          weight: 500
+    - family: Literata19Ext
+      fonts:
+        - asset: assets/fonts/Literata19Ext-Medium.ttf
+          weight: 500
+    - family: Literata19Vi
+      fonts:
+        - asset: assets/fonts/Literata19Vi-Medium.ttf
+          weight: 500
+    # G12 (D-54): só o glifo "≈" da Inter Bold 4.0 (tools/fontes/gerar_aprox_inter.py), fallback da Figtree do
+    # leitor ("≈ 2 h 10 min" das telas 20/26b, em 700).
+    - family: BookNestApprox
+      fonts:
+        - asset: assets/fonts/BookNestApprox-Bold.ttf
+          weight: 700
+    # G14 (L26): instâncias da G01 para a folha de ajustes — a Bricolage 23 do título e a Literata estática dos "A"
+    # (15 e 25/500) e do "Aa" dos cartões (18 e 26), D-104.
+    - family: Bricolage23
+      fonts:
+        - asset: assets/fonts/Bricolage23-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23Ext
+      fonts:
+        - asset: assets/fonts/Bricolage23Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23Vi
+      fonts:
+        - asset: assets/fonts/Bricolage23Vi-ExtraBold.ttf
+          weight: 800
+    - family: Literata15
+      fonts:
+        - asset: assets/fonts/Literata15-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata15-Medium.ttf
+          weight: 500
+    - family: Literata15Ext
+      fonts:
+        - asset: assets/fonts/Literata15Ext-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata15Ext-Medium.ttf
+          weight: 500
+    - family: Literata15Vi
+      fonts:
+        - asset: assets/fonts/Literata15Vi-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata15Vi-Medium.ttf
+          weight: 500
+    # G15 (D-104): os títulos dos capítulos (Literata 16) e os excertos das Marcadas (15,5), telas 27/27b
+    - family: Literata16
+      fonts:
+        - asset: assets/fonts/Literata16-Regular.ttf
+          weight: 400
+    - family: Literata16Ext
+      fonts:
+        - asset: assets/fonts/Literata16Ext-Regular.ttf
+          weight: 400
+    - family: Literata16Vi
+      fonts:
+        - asset: assets/fonts/Literata16Vi-Regular.ttf
+          weight: 400
+    # G19: a citação dos cartões da tela 25 (Literata 16,5 — D-104)
+    - family: Literata16_5
+      fonts:
+        - asset: assets/fonts/Literata16_5-Regular.ttf
+          weight: 400
+    - family: Literata16_5Ext
+      fonts:
+        - asset: assets/fonts/Literata16_5Ext-Regular.ttf
+          weight: 400
+    - family: Literata16_5Vi
+      fonts:
+        - asset: assets/fonts/Literata16_5Vi-Regular.ttf
+          weight: 400
+    - family: Literata15_5
+      fonts:
+        - asset: assets/fonts/Literata15_5-Regular.ttf
+          weight: 400
+    - family: Literata15_5Ext
+      fonts:
+        - asset: assets/fonts/Literata15_5Ext-Regular.ttf
+          weight: 400
+    - family: Literata15_5Vi
+      fonts:
+        - asset: assets/fonts/Literata15_5Vi-Regular.ttf
+          weight: 400
+    - family: Literata18
+      fonts:
+        - asset: assets/fonts/Literata18-Regular.ttf
+          weight: 400
+    - family: Literata18Ext
+      fonts:
+        - asset: assets/fonts/Literata18Ext-Regular.ttf
+          weight: 400
+    - family: Literata18Vi
+      fonts:
+        - asset: assets/fonts/Literata18Vi-Regular.ttf
+          weight: 400
+    - family: Literata25
+      fonts:
+        - asset: assets/fonts/Literata25-Medium.ttf
+          weight: 500
+    - family: Literata25Ext
+      fonts:
+        - asset: assets/fonts/Literata25Ext-Medium.ttf
+          weight: 500
+    - family: Literata25Vi
+      fonts:
+        - asset: assets/fonts/Literata25Vi-Medium.ttf
+          weight: 500
+    - family: Literata26
+      fonts:
+        - asset: assets/fonts/Literata26-Regular.ttf
+          weight: 400
+    - family: Literata26Ext
+      fonts:
+        - asset: assets/fonts/Literata26Ext-Regular.ttf
+          weight: 400
+    - family: Literata26Vi
+      fonts:
+        - asset: assets/fonts/Literata26Vi-Regular.ttf
+          weight: 400
+    # T02 (D-246): instâncias da Início nova e da revisão — Bricolage 14 (63) e 32 (62); Literata 22 (o grifo da 61) e
+    # 15 em 400 (a nota nova da 62, junto da 15/500 da G14 acima).
+    - family: Bricolage14
+      fonts:
+        - asset: assets/fonts/Bricolage14-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage14Ext
+      fonts:
+        - asset: assets/fonts/Bricolage14Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage14Vi
+      fonts:
+        - asset: assets/fonts/Bricolage14Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage32
+      fonts:
+        - asset: assets/fonts/Bricolage32-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage32Ext
+      fonts:
+        - asset: assets/fonts/Bricolage32Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage32Vi
+      fonts:
+        - asset: assets/fonts/Bricolage32Vi-ExtraBold.ttf
+          weight: 800
+    - family: Literata22
+      fonts:
+        - asset: assets/fonts/Literata22-Regular.ttf
+          weight: 400
+    - family: Literata22Ext
+      fonts:
+        - asset: assets/fonts/Literata22Ext-Regular.ttf
+          weight: 400
+    - family: Literata22Vi
+      fonts:
+        - asset: assets/fonts/Literata22Vi-Regular.ttf
+          weight: 400
+    # G14 (D-18): o texto do livro nas 4 fontes da tela 26 — arquivos completos do google/fonts, SEM modificação
+    # (a Lora tem Reserved Font Name). Lora e Figtree variáveis (eixo wght) com itálico; Atkinson em 4 estáticas.
+    - family: LoraBook
+      fonts:
+        - asset: assets/fonts/livro/Lora-Wght.ttf
+        - asset: assets/fonts/livro/Lora-Italic-Wght.ttf
+          style: italic
+    - family: FigtreeBook
+      fonts:
+        - asset: assets/fonts/livro/Figtree-Wght.ttf
+        - asset: assets/fonts/livro/Figtree-Italic-Wght.ttf
+          style: italic
+    - family: AtkinsonBook
+      fonts:
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/livro/AtkinsonHyperlegible-BoldItalic.ttf
+          weight: 700
           style: italic

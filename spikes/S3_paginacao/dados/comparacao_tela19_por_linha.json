@@ -1,0 +1,15 @@
+{
+ "pagina": {
+  "raw_mismatch_%": 6.6094,
+  "blur_mismatch_%": 0.2149,
+  "mean_abs_diff": 9.895,
+  "max_diff": 206,
+  "rect_logico": [
+   0.0,
+   92.0,
+   390.0,
+   670.0
+  ],
+  "passou": true
+ }
+}

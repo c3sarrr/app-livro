@@ -1,0 +1,171 @@
+{
+ "19_leitor_limpo": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 12.1572,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 5.52,
+   "max_diff": 141,
+   "nitidez_raiz_sobre_isolada": 0.12
+  },
+  "ok": true
+ },
+ "20_leitor_controles": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 8.5049,
+   "blur_mismatch_%": 0.494,
+   "mean_abs_diff": 4.716,
+   "max_diff": 230,
+   "nitidez_raiz_sobre_isolada": 0.142
+  },
+  "ok": true
+ },
+ "21_selecao_texto": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 2,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 12.7714,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 5.759,
+   "max_diff": 155,
+   "nitidez_raiz_sobre_isolada": 0.122
+  },
+  "ok": true
+ },
+ "22_modo_anotacao": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 2,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 13.8866,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 6.175,
+   "max_diff": 178,
+   "nitidez_raiz_sobre_isolada": 0.125
+  },
+  "ok": true
+ },
+ "23_ajustes_caneta": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 2,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 8.8411,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 4.167,
+   "max_diff": 192,
+   "nitidez_raiz_sobre_isolada": 0.166
+  },
+  "ok": true
+ },
+ "23b_ajustes_marcatexto": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 10.7768,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 5.161,
+   "max_diff": 162,
+   "nitidez_raiz_sobre_isolada": 0.162
+  },
+  "ok": true
+ },
+ "24_abrindo_espaco": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 12.0339,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 5.347,
+   "max_diff": 186,
+   "nitidez_raiz_sobre_isolada": 0.125
+  },
+  "ok": true
+ },
+ "24b_nota_mao": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 2,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 11.726,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 5.142,
+   "max_diff": 194,
+   "nitidez_raiz_sobre_isolada": 0.128
+  },
+  "ok": true
+ },
+ "25_grifos_notas": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 2,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 10.7475,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 4.901,
+   "max_diff": 193,
+   "nitidez_raiz_sobre_isolada": 0.138
+  },
+  "ok": true
+ },
+ "26_ajustes_leitura": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 2,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 10.741,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 5.249,
+   "max_diff": 160,
+   "nitidez_raiz_sobre_isolada": 0.143
+  },
+  "ok": true
+ },
+ "26b_tema_noite": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 8.7312,
+   "blur_mismatch_%": 0.6938,
+   "mean_abs_diff": 4.248,
+   "max_diff": 219,
+   "nitidez_raiz_sobre_isolada": 0.143
+  },
+  "ok": true
+ },
+ "27_sumario": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 8.7421,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 4.092,
+   "max_diff": 155,
+   "nitidez_raiz_sobre_isolada": 0.143
+  },
+  "ok": true
+ },
+ "27b_sumario_marcadas": {
+  "A1_pixels_diferentes_1x": 0,
+  "A2_linha": 0,
+  "A2_pixels_diferentes": 0,
+  "A3": {
+   "raw_mismatch_%": 10.0494,
+   "blur_mismatch_%": 0.0,
+   "mean_abs_diff": 4.673,
+   "max_diff": 189,
+   "nitidez_raiz_sobre_isolada": 0.151
+  },
+  "ok": true
+ }
+}

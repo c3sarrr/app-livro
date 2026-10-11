@@ -1,0 +1,6486 @@
+{
+ "data": "2026-10-05",
+ "catalogo": "2026-09-30.1",
+ "catalog_db_registros": 600000,
+ "estratos": {
+  "br": {
+   "universo": {
+    "isbns": 299,
+    "origem": "amostra do spike S6 (Wikidata, 978-85/978-65)"
+   },
+   "resumo": {
+    "n": 299,
+    "aparelho_catalog_db": {
+     "acertos": 5,
+     "taxa_falha": 0.983
+    },
+    "gratis_aparelho_mais_borda": {
+     "acertos": 200,
+     "taxa_falha": 0.331
+    },
+    "final_com_apis": {
+     "acertos": 290,
+     "taxa_falha": 0.03
+    },
+    "apis_usadas_no_resto_por_provedor": {
+     "cbl": 90
+    },
+    "consultas_externas_por_100_leituras": 33.1,
+    "indeterminados_api": 0
+   },
+   "linhas": [
+    {
+     "isbn": "9788526218888",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586546897",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413722",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788595462861",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575114872",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786556302973",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786556300849",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586903133",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575114445",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786585915335",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786556520131",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788568334799",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557080894",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786550190194",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788526814790",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575413784",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788524402562",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788568334614",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579836992",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539303533",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788578791179",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788560281992",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586545067",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575415832",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413067",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523006150",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786586383829",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786555110463",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788579837005",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788585676506",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788522127184",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786555412796",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557080184",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786588211625",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786527227137",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788599662519",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786556308890",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575412350",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413487",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786526019276",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788532231574",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788578791872",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523211752",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557852309",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575415368",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788550901947",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557080856",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788561673567",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788539303540",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523211530",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788501097095",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9786586546910",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557080542",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786550190569",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9786501843087",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788582930458",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788568334690",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575034491",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788536303086",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788536402390",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788571082281",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579836671",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788570090119",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788535914016",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788561346256",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788561499006",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523212322",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523218591",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579820038",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557081952",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788504010831",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786588808061",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788501014641",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788523208837",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557082287",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586603071",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786588211595",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575412619",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575415283",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579831157",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786559214983",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786559572588",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523211509",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579820441",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413913",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786502158821",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788539303182",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788576284444",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575415122",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786588211991",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586039474",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586383010",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788527303262",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523209094",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788547000653",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788573341218",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586213690",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575416419",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788573029765",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523220181",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575323489",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786559542475",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523212193",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788571260580",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523217259",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788525047724",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788521101437",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788598349749",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575412541",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786502411940",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575116067",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788573024876",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788526015074",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575415481",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788574300139",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786587206912",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788532624130",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575114568",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557081136",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523209216",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523220150",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579820618",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788572166751",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575415719",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788595712386",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786586464238",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786556304991",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539304356",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788531414343",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523209377",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788560168446",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9786558580829",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788581100197",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788560160501",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413463",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575415115",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786555652888",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557080948",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557081891",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788562477492",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788539302871",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788526816534",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786587626086",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557080870",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579820205",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788500005428",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788595462830",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788574555485",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786526622841",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413807",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575412268",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786589524977",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788572166522",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786558461692",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788534224710",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557081723",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575412497",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786558460527",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788586156038",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539303342",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539304509",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557081181",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788578880828",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786589524991",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786559721696",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788579820281",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557144527",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575415405",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788526807020",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788573003628",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786500070477",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788538603900",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788535902990",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786500945492",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786586383058",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788508042487",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786588211137",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788544106976",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523220020",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523209186",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523208943",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557082331",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788579831263",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575412800",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786555653045",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788568165003",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786586221671",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786556301976",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786553934399",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788523211950",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579835605",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586221664",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557170519",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788574555270",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788573341164",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786590041920",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786587949109",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788551841983",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557080801",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575416136",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579801556",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413548",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788574554860",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788578794866",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788599662540",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788561673673",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786500981605",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788520920664",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788577982325",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586546903",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579820069",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788568334546",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575413937",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586383041",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786556301945",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788527311588",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557080597",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557143025",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788579830051",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786558461708",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786501478449",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786583140067",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786558421344",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788526816701",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786558580461",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786589824015",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523220051",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786559280803",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557145036",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788524402951",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557081624",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788576351542",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523211516",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523209315",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788585813338",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788577982318",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788584392445",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788568334805",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539303120",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788531400933",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788585490164",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788582930472",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788561024260",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786587233734",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788578616397",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788534704236",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788594066008",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788503008709",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786550190507",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786599345258",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788594631916",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788562942075",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557146095",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 404
+      },
+      {
+       "fonte": "brasilapi:global",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788586831010",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586832358",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557145227",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788576287414",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586768459",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539302550",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575115732",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586113013",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788523208905",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575415238",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788576286547",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788520013649",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788552600602",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557145180",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788585676667",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788574801216",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786559542505",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786586546934",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788573932638",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575421857",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788578614249",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788578792770",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788576797937",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788575415542",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786559541300",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539303090",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788562042072",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523211561",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788539303359",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557081709",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786557080689",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788575410912",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788571238855",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788588742192",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788576003649",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557145029",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788580410198",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786500468069",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788585994310",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788521101956",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9788585008895",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788577162772",
+     "catalog_db": false,
+     "shards": false,
+     "api": true,
+     "api_provedor": "cbl",
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "brasilapi:br",
+       "status": 200
+      }
+     ]
+    },
+    {
+     "isbn": "9786557080788",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523208936",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788523219604",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788578793470",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    }
+   ]
+  },
+  "popular": {
+   "universo": {
+    "isbns_sorteados": 9350,
+    "edicoes_no_wikidata": 9368,
+    "sorteio_cortado_em": null
+   },
+   "resumo": {
+    "n": 150,
+    "aparelho_catalog_db": {
+     "acertos": 44,
+     "taxa_falha": 0.707
+    },
+    "gratis_aparelho_mais_borda": {
+     "acertos": 82,
+     "taxa_falha": 0.453
+    },
+    "final_com_apis": {
+     "acertos": 82,
+     "taxa_falha": 0.453
+    },
+    "apis_usadas_no_resto_por_provedor": {},
+    "consultas_externas_por_100_leituras": 45.3,
+    "indeterminados_api": 0
+   },
+   "linhas": [
+    {
+     "isbn": "9788758810508",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798633466102",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9782743420796",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782377350377",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788880701170",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780307916082",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9783462046335",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788807901874",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781539127239",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781727005417",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789878466187",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798495938274",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798840428924",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798585689239",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780140444957",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781773225272",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798580538563",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781539428756",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798356116681",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780439227148",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9785170565733",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798759133254",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788075933225",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9783442480623",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780143106265",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788129300201",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798576290383",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788826025902",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798483835103",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781513263397",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781402510595",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781544190112",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781607148968",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781542559263",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798664374285",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781451648539",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780763647322",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9784592171621",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798531482440",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9789754709612",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780141439563",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788073323721",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781985078338",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780971646674",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780141198354",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780375757372",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788809057821",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781533067647",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789520453688",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781072826750",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781980582731",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798500510280",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780553896923",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798403291798",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798583409716",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798217093472",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798550216699",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798841909002",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781725537590",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780877794066",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781973313328",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9785170142842",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780698189621",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798485000219",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798518862692",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780307823823",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780340278383",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781542518673",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788071977704",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780061092190",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781497472464",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788075934253",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9786052032039",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9784088651071",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782266142366",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798625356039",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780143105701",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780224062527",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780062132673",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798406671139",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788074073823",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780593467329",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9783730691731",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798504607177",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780812505153",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798731273282",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788822886217",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781983757938",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781984961334",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789634194613",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780140447972",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9786257966498",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780027595208",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9785063698050",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781718159280",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798597146188",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798581465240",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780253012418",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781908357168",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781570020506",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780195455373",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780099589563",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798789267134",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780394498218",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781175000804",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788025737644",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780062024053",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9783337709150",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788412304398",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780261103252",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780143107729",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781541056459",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780140449334",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788806255633",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798839275409",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9789354403217",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789589494707",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781974925759",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781546306207",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9786002296979",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781472976451",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780143105923",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781101043110",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781241204969",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9783502551829",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780593311844",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781546594055",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781719557856",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780553900934",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798631305274",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798592683107",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781466224797",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781720553359",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9798754646520",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781162711881",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9789500732154",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788483086049",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788845109102",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781101022498",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9798834571124",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780140432442",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782012815377",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788055142869",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780140187403",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789635397617",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780451121585",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781985023215",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9785170416318",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781079922561",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781075882678",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    }
+   ]
+  },
+  "cauda": {
+   "universo": {
+    "isbns_sorteados": 24838,
+    "edicoes_no_wikidata": 24851,
+    "sorteio_cortado_em": null
+   },
+   "resumo": {
+    "n": 150,
+    "aparelho_catalog_db": {
+     "acertos": 18,
+     "taxa_falha": 0.88
+    },
+    "gratis_aparelho_mais_borda": {
+     "acertos": 127,
+     "taxa_falha": 0.153
+    },
+    "final_com_apis": {
+     "acertos": 127,
+     "taxa_falha": 0.153
+    },
+    "apis_usadas_no_resto_por_provedor": {},
+    "consultas_externas_por_100_leituras": 15.3,
+    "indeterminados_api": 0
+   },
+   "linhas": [
+    {
+     "isbn": "9788479013707",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780525659082",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781639737345",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780380733040",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782754038850",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781419128943",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780958073905",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780345525451",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780312094195",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9783518456279",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780399118166",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789025867638",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9783868831580",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780679433323",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780862438937",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782915793376",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780142414330",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782070702923",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788087282847",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780671721329",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780691147727",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780099522867",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780345315724",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780553238037",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780590703475",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780593329207",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780892966486",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780101371827",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780593320433",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780345434470",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780670071388",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780316727747",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789630566117",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789381810781",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782246331612",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780553374391",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780374330606",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780870540974",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780393315639",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780399185793",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780316734745",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780399156236",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781603580557",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780812626889",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781508299226",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782081312807",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780231067379",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781844075218",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780523480558",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9784041304013",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780425228944",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788484876212",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9785343016376",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780886469924",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780785263715",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780671877392",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780374213541",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789516431133",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780312538354",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9784048737005",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780141380780",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781400049523",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780330304832",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9783351037628",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788427021259",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780676978094",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780345463715",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789187853906",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780525473176",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781101609507",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780747589457",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781850491804",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789176991053",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780140268331",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780768932904",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780863814228",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781848514102",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781855963061",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780905775050",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781906396411",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780394756950",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782915159417",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780674073517",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780822323433",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780143127529",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780553897913",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780375847530",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781580800563",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307567963",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782070563319",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782020012072",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780698173354",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780500510889",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780879973841",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307711113",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9789175035055",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788075450845",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9782226086938",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781580056229",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780862435059",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307595515",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9789629968229",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780814731116",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780374299620",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781570623295",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780803262010",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307827111",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9781847925398",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780394751733",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307705310",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9782020088879",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307705457",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780707402499",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780060929688",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781871083361",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780307566409",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780708326695",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780394584324",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781843235194",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788664571661",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9782020285469",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782264012715",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780586057063",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788412226546",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780759297746",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788027711420",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9782020043588",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9788074329104",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9780139550621",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781416544623",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781878252357",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780448089287",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780613635318",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780732269982",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780960432042",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780142410509",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9789753294997",
+     "catalog_db": false,
+     "shards": false,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": [
+      {
+       "fonte": "openlibrary",
+       "status": 404
+      }
+     ]
+    },
+    {
+     "isbn": "9788420635774",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780671802820",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780449240021",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782070766536",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780684827605",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780552551281",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9785170830152",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780345357625",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9781400046843",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780312956615",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782265087767",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9782253136453",
+     "catalog_db": false,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    },
+    {
+     "isbn": "9780743219587",
+     "catalog_db": true,
+     "shards": true,
+     "api": false,
+     "api_provedor": null,
+     "api_erro": false,
+     "api_tentativas": []
+    }
+   ]
+  }
+ },
+ "total_nao_ponderado": {
+  "n": 599,
+  "aparelho_catalog_db": {
+   "acertos": 67,
+   "taxa_falha": 0.888
+  },
+  "gratis_aparelho_mais_borda": {
+   "acertos": 409,
+   "taxa_falha": 0.317
+  },
+  "final_com_apis": {
+   "acertos": 499,
+   "taxa_falha": 0.167
+  },
+  "apis_usadas_no_resto_por_provedor": {
+   "cbl": 90
+  },
+  "consultas_externas_por_100_leituras": 31.7,
+  "indeterminados_api": 0
+ }
+}

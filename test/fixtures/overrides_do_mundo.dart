@@ -1,0 +1,65 @@
+// G03 — liga a Início ao mundo de referência (D-34): relógio no "agora" de referência (D-09) e o
+// repositório da fixture. Sem `flutter_test` aqui: também serve ao app de desenvolvimento
+// (`main_mundo_referencia.dart`).
+import 'dart:async';
+
+import 'package:app_leitura/core/preferences/brand_preference.dart';
+import 'package:app_leitura/features/highlights/application/highlights_controller.dart';
+import 'package:app_leitura/features/highlights/application/highlights_providers.dart';
+import 'package:app_leitura/features/home/application/home_providers.dart';
+import 'package:app_leitura/features/reader/application/reader_providers.dart';
+import 'package:app_leitura/features/reader/application/reader_session_controller.dart';
+import 'package:app_leitura/features/reading_session/application/second_ticker.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
+
+import 'home_mock_repository.dart';
+import 'paper_timer_fakes.dart';
+
+final Override relogioDoMundo = clockProvider.overrideWithValue(
+  () => HomeMockRepository.referenceNow,
+);
+
+final Override repositorioDoMundo = homeRepositoryProvider.overrideWithValue(
+  const HomeMockRepository(),
+);
+
+/// A cor `brand` (D-33) fica na memória: a fixture não abre banco.
+final Override brandDoMundo = brandStoreProvider.overrideWith(
+  (ref) => MemoryBrandStore(),
+);
+
+/// O leitor (G11) abre livros da estante do aparelho; a Início da fixture não tem banco: a tela do leitor fica
+/// no "abrindo" (os testes da Início só conferem que ela abre — os do leitor montam um livro de verdade).
+final Override leitorDoMundo = readerDepsProvider.overrideWith(
+  (ref) => Completer<ReaderDeps>().future,
+);
+
+/// G19: a tela 25 fica no topo (sem banco) — os testes dela trocam pelo mundo no banco (`depsDaTela25`).
+final Override destaquesDoMundo = highlightsDepsProvider.overrideWith(
+  (ref) => Completer<HighlightsDeps>().future,
+);
+
+/// T04: o cronômetro do papel sem banco — nenhuma sessão aberta, a estante de papel da 01 (o Brás Cubas e o Orgulho e
+/// Preconceito), o writer que só anota e o tique manual (o de verdade nunca deixa o `pumpAndSettle` assentar; o app de
+/// desenvolvimento passa o [tique] de 1 s). Os arneses que trocam a sessão (a 01b) passam outra lista no lugar desta.
+List<Override> cronometroDoMundo({SecondTicker? tique}) =>
+    overridesDaSessao(livros: estanteDePapel01(), ticker: tique);
+
+final List<Override> _mundoSemCronometro = [
+  relogioDoMundo,
+  repositorioDoMundo,
+  brandDoMundo,
+  leitorDoMundo,
+  destaquesDoMundo,
+];
+
+final List<Override> overridesDoMundo = List.unmodifiable([
+  ..._mundoSemCronometro,
+  ...cronometroDoMundo(),
+]);
+
+/// O mundo no aparelho (`main_mundo_referencia.dart`): o cronômetro anda de verdade.
+final List<Override> overridesDoMundoNoAparelho = List.unmodifiable([
+  ..._mundoSemCronometro,
+  ...cronometroDoMundo(tique: const PeriodicSecondTicker()),
+]);

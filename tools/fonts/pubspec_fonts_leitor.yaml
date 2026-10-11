@@ -1,0 +1,247 @@
+# Bloco PROPOSTO para a G11 (design system do leitor) — NÃO está no pubspec.yaml ainda.
+# GERADO a partir de tools/fonts/build_fonts.py (G01.7). Mesmas regras da v1: não usar google_fonts; não declarar
+# pesos que não existem; Bricolage e Literata estáticas = 1 família por tamanho (opsz = tamanho);
+# subconjuntos em famílias separadas (Ext, Vi, Cyr…) usadas como fontFamilyFallback, na ordem do unicode-range.
+#
+# 1) ACRESCENTAR às famílias existentes da v1 (Figtree 800 real nas telas 19–27b — D-16; a Início continua
+#    pedindo w700 explicitamente para o CSS 800, D-14, então nada muda nela):
+#    - family: Figtree     → + asset: assets/fonts/Figtree-ExtraBold.ttf     weight: 800
+#    - family: FigtreeExt  → + asset: assets/fonts/FigtreeExt-ExtraBold.ttf  weight: 800
+#    (CSS 900 da tela 23b renderiza 800: o @font-face do arquivo vai só até 800.)
+#
+# 2) FAMÍLIAS NOVAS:
+  fonts:
+    - family: Bricolage15_5
+      fonts:
+        - asset: assets/fonts/Bricolage15_5-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage15_5Ext
+      fonts:
+        - asset: assets/fonts/Bricolage15_5Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage15_5Vi
+      fonts:
+        - asset: assets/fonts/Bricolage15_5Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17
+      fonts:
+        - asset: assets/fonts/Bricolage17-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17Ext
+      fonts:
+        - asset: assets/fonts/Bricolage17Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage17Vi
+      fonts:
+        - asset: assets/fonts/Bricolage17Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23
+      fonts:
+        - asset: assets/fonts/Bricolage23-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23Ext
+      fonts:
+        - asset: assets/fonts/Bricolage23Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage23Vi
+      fonts:
+        - asset: assets/fonts/Bricolage23Vi-ExtraBold.ttf
+          weight: 800
+    - family: Literata15
+      fonts:
+        - asset: assets/fonts/Literata15-Medium.ttf
+          weight: 500
+    - family: Literata15Ext
+      fonts:
+        - asset: assets/fonts/Literata15Ext-Medium.ttf
+          weight: 500
+    - family: Literata15Vi
+      fonts:
+        - asset: assets/fonts/Literata15Vi-Medium.ttf
+          weight: 500
+    - family: Literata15_5
+      fonts:
+        - asset: assets/fonts/Literata15_5-Regular.ttf
+          weight: 400
+    - family: Literata15_5Ext
+      fonts:
+        - asset: assets/fonts/Literata15_5Ext-Regular.ttf
+          weight: 400
+    - family: Literata15_5Vi
+      fonts:
+        - asset: assets/fonts/Literata15_5Vi-Regular.ttf
+          weight: 400
+    - family: Literata16
+      fonts:
+        - asset: assets/fonts/Literata16-Regular.ttf
+          weight: 400
+    - family: Literata16Ext
+      fonts:
+        - asset: assets/fonts/Literata16Ext-Regular.ttf
+          weight: 400
+    - family: Literata16Vi
+      fonts:
+        - asset: assets/fonts/Literata16Vi-Regular.ttf
+          weight: 400
+    - family: Literata16_5
+      fonts:
+        - asset: assets/fonts/Literata16_5-Regular.ttf
+          weight: 400
+    - family: Literata16_5Ext
+      fonts:
+        - asset: assets/fonts/Literata16_5Ext-Regular.ttf
+          weight: 400
+    - family: Literata16_5Vi
+      fonts:
+        - asset: assets/fonts/Literata16_5Vi-Regular.ttf
+          weight: 400
+    - family: Literata17
+      fonts:
+        - asset: assets/fonts/Literata17-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17-Medium.ttf
+          weight: 500
+    - family: Literata17Ext
+      fonts:
+        - asset: assets/fonts/Literata17Ext-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17Ext-Medium.ttf
+          weight: 500
+    - family: Literata17Vi
+      fonts:
+        - asset: assets/fonts/Literata17Vi-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata17Vi-Medium.ttf
+          weight: 500
+    - family: Literata18
+      fonts:
+        - asset: assets/fonts/Literata18-Regular.ttf
+          weight: 400
+    - family: Literata18Ext
+      fonts:
+        - asset: assets/fonts/Literata18Ext-Regular.ttf
+          weight: 400
+    - family: Literata18Vi
+      fonts:
+        - asset: assets/fonts/Literata18Vi-Regular.ttf
+          weight: 400
+    - family: Literata19
+      fonts:
+        - asset: assets/fonts/Literata19-Medium.ttf
+          weight: 500
+    - family: Literata19Ext
+      fonts:
+        - asset: assets/fonts/Literata19Ext-Medium.ttf
+          weight: 500
+    - family: Literata19Vi
+      fonts:
+        - asset: assets/fonts/Literata19Vi-Medium.ttf
+          weight: 500
+    - family: Literata20_5
+      fonts:
+        - asset: assets/fonts/Literata20_5-Regular.ttf
+          weight: 400
+    - family: Literata20_5Ext
+      fonts:
+        - asset: assets/fonts/Literata20_5Ext-Regular.ttf
+          weight: 400
+    - family: Literata20_5Vi
+      fonts:
+        - asset: assets/fonts/Literata20_5Vi-Regular.ttf
+          weight: 400
+    - family: Literata25
+      fonts:
+        - asset: assets/fonts/Literata25-Medium.ttf
+          weight: 500
+    - family: Literata25Ext
+      fonts:
+        - asset: assets/fonts/Literata25Ext-Medium.ttf
+          weight: 500
+    - family: Literata25Vi
+      fonts:
+        - asset: assets/fonts/Literata25Vi-Medium.ttf
+          weight: 500
+    - family: Literata26
+      fonts:
+        - asset: assets/fonts/Literata26-Regular.ttf
+          weight: 400
+    - family: Literata26Ext
+      fonts:
+        - asset: assets/fonts/Literata26Ext-Regular.ttf
+          weight: 400
+    - family: Literata26Vi
+      fonts:
+        - asset: assets/fonts/Literata26Vi-Regular.ttf
+          weight: 400
+    # Literata VARIÁVEL (opsz 7–72, wght 400–900): texto do livro em qualquer tamanho/peso (D-17, spike S1).
+    # No Flutter: TextStyle(fontFamily: 'LiterataVF', fontVariations: [FontVariation('opsz', tamanho), FontVariation('wght', peso)]).
+    - family: LiterataVF
+      fonts:
+        - asset: assets/fonts/Literata-VF.ttf
+        - asset: assets/fonts/LiterataItalic-VF.ttf
+          style: italic
+    - family: LiterataVFExt
+      fonts:
+        - asset: assets/fonts/Literata-VFExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFExt.ttf
+          style: italic
+    - family: LiterataVFVi
+      fonts:
+        - asset: assets/fonts/Literata-VFVi.ttf
+        - asset: assets/fonts/LiterataItalic-VFVi.ttf
+          style: italic
+    - family: LiterataVFCyr
+      fonts:
+        - asset: assets/fonts/Literata-VFCyr.ttf
+        - asset: assets/fonts/LiterataItalic-VFCyr.ttf
+          style: italic
+    - family: LiterataVFCyrExt
+      fonts:
+        - asset: assets/fonts/Literata-VFCyrExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFCyrExt.ttf
+          style: italic
+    - family: LiterataVFGr
+      fonts:
+        - asset: assets/fonts/Literata-VFGr.ttf
+        - asset: assets/fonts/LiterataItalic-VFGr.ttf
+          style: italic
+    - family: LiterataVFGrExt
+      fonts:
+        - asset: assets/fonts/Literata-VFGrExt.ttf
+        - asset: assets/fonts/LiterataItalic-VFGrExt.ttf
+          style: italic
+    # Lora (opção de fonte do leitor): variável wght 400–700 sem modificação (Reserved Font Name "Lora").
+    - family: LoraVF
+      fonts:
+        - asset: assets/fonts/Lora-VF.ttf
+    - family: LoraVFExt
+      fonts:
+        - asset: assets/fonts/Lora-VFExt.ttf
+    - family: LoraVFVi
+      fonts:
+        - asset: assets/fonts/Lora-VFVi.ttf
+    - family: LoraVFCyr
+      fonts:
+        - asset: assets/fonts/Lora-VFCyr.ttf
+    - family: LoraVFCyrExt
+      fonts:
+        - asset: assets/fonts/Lora-VFCyrExt.ttf
+    - family: LoraVFMath
+      fonts:
+        - asset: assets/fonts/Lora-VFMath.ttf
+    - family: LoraVFSym
+      fonts:
+        - asset: assets/fonts/Lora-VFSym.ttf
+    # Atkinson Hyperlegible (opção "dislexia"): estática.
+    - family: AtkinsonHyperlegible
+      fonts:
+        - asset: assets/fonts/AtkinsonHyperlegible-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/AtkinsonHyperlegible-Bold.ttf
+          weight: 700
+    - family: AtkinsonHyperlegibleExt
+      fonts:
+        - asset: assets/fonts/AtkinsonHyperlegibleExt-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/AtkinsonHyperlegibleExt-Bold.ttf
+          weight: 700

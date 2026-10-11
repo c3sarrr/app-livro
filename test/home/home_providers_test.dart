@@ -1,17 +1,31 @@
+import 'dart:async';
 import 'dart:ui' show Color;
 
+import 'package:app_leitura/core/data/database/app_database.dart';
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
+import 'package:app_leitura/features/account/application/account_controller.dart';
+import 'package:app_leitura/features/account/domain/account_summary.dart';
+import 'package:app_leitura/features/clubs/application/clubs_providers.dart';
+import 'package:app_leitura/features/clubs/data/clubs_cache.dart';
 import 'package:app_leitura/features/home/application/formatters.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/home/data/home_repository.dart';
+import 'package:app_leitura/features/home/data/local_home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
+import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../fixtures/home_mock_repository.dart';
+import '../fixtures/overrides_do_mundo.dart';
+
 /// Repositório falso: prova que o snapshot vem do repositório injetado.
-class _FakeRepository implements HomeRepository {
+class _FakeRepository implements SyncHomeRepository {
   const _FakeRepository(this.firstName);
   final String firstName;
+
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => const Stream.empty();
 
   @override
   HomeSnapshot snapshot(DateTime now) {
@@ -26,6 +40,7 @@ class _FakeRepository implements HomeRepository {
       continueReading: base.continueReading,
       alsoReading: base.alsoReading,
       readingDay: base.readingDay,
+      dailyReview: base.dailyReview,
       forYou: base.forYou,
       club: base.club,
       recent: base.recent,
@@ -35,8 +50,21 @@ class _FakeRepository implements HomeRepository {
 
 void main() {
   group('2.4 clock / homeRepository / homeSnapshot', () {
-    test('padrões: relógio = agora de referência; repositório = mock; snapshot = mock nesse agora', () {
+    test('padrões de produção (G08, D-85): relógio do sistema e a fonte real do banco local — nenhum dado de '
+        'usuário no código (D-34)', () {
       final container = ProviderContainer.test();
+      final antes = DateTime.now();
+      final agora = container.read(clockProvider)();
+      expect(agora.isBefore(antes), isFalse);
+      expect(agora.difference(antes).inSeconds, lessThan(5));
+      expect(
+        container.read(homeRepositoryProvider),
+        isA<LocalHomeRepository>(),
+      );
+    });
+
+    test('com a fixture do mundo de referência: relógio = agora de referência; repositório = mock; snapshot = mock nesse agora', () {
+      final container = ProviderContainer.test(overrides: overridesDoMundo);
       expect(container.read(clockProvider)(), HomeMockRepository.referenceNow);
       expect(container.read(homeRepositoryProvider), isA<HomeMockRepository>());
       final snap = container.read(homeSnapshotProvider);
@@ -57,6 +85,7 @@ void main() {
         final container = ProviderContainer.test(
           overrides: [
             clockProvider.overrideWithValue(() => DateTime(2026, 9, 20, 9)),
+            repositorioDoMundo,
           ],
         );
         final snap = container.read(homeSnapshotProvider);
@@ -77,12 +106,12 @@ void main() {
     });
 
     test('seções leem só o recorte com select', () {
-      final container = ProviderContainer.test();
+      final container = ProviderContainer.test(overrides: overridesDoMundo);
       final slice = container.read(
         homeSnapshotProvider.select((s) => s.continueReading),
       );
-      expect(slice.book.title, 'Dom Casmurro');
-      expect(slice.chapter, 92);
+      expect(slice!.book.title, 'Dom Casmurro');
+      expect((slice.refPage, slice.refPagesTotal), (159, 256));
     });
   });
 
@@ -172,4 +201,164 @@ void main() {
       expect(seen, [0xFFFFC1C6]);
     });
   });
+
+  group('G08: estado da Início e usuário da conta (revisão)', () {
+    test('erro depois de dados: os dados continuam na tela e o erro vai para o relatório', () async {
+      final fonte = _Fluxo();
+      final relatados = <Object>[];
+      final container = ProviderContainer.test(
+        overrides: [
+          relogioDoMundo,
+          homeRepositoryProvider.overrideWithValue(fonte),
+          homeAccountUserProvider.overrideWithValue(null),
+          homeErrorReporterProvider.overrideWithValue(
+            (e, _) => relatados.add(e),
+          ),
+        ],
+      );
+      container.listen(homeStateProvider, (_, _) {});
+      expect(container.read(homeStateProvider).isLoading, isTrue);
+      final dados = const HomeMockRepository().snapshot(
+        HomeMockRepository.referenceNow,
+      );
+      fonte.c.add(dados);
+      await pumpEventQueue();
+      expect(container.read(homeSnapshotProvider).recent, same(dados.recent));
+      fonte.c.addError(StateError('banco'));
+      await pumpEventQueue();
+      final st = container.read(homeStateProvider);
+      expect(st.hasValue, isTrue);
+      expect(st.hasError, isFalse);
+      expect(relatados, [isA<StateError>()]);
+      expect(container.read(homeSnapshotProvider).recent, same(dados.recent));
+    });
+
+    test(
+      'fonte real: o cabeçalho vem da conta; fixture: do próprio instantâneo',
+      () async {
+        const ana = UserSummary(
+          firstName: 'Ana',
+          initial: 'A',
+          unreadNotifications: 0,
+        );
+        final fonte = _Fluxo();
+        final real = ProviderContainer.test(
+          overrides: [
+            relogioDoMundo,
+            homeRepositoryProvider.overrideWithValue(fonte),
+            homeAccountUserProvider.overrideWithValue(ana),
+          ],
+        );
+        real.listen(homeStateProvider, (_, _) {});
+        fonte.c.add(
+          const HomeMockRepository().snapshot(HomeMockRepository.referenceNow),
+        );
+        await pumpEventQueue();
+        expect(real.read(homeSnapshotProvider).user, same(ana));
+        // a fixture (fonte síncrona) mantém a Marina do arquivo
+        final fixture = ProviderContainer.test(overrides: overridesDoMundo);
+        expect(fixture.read(homeAccountUserProvider), isNull);
+        expect(fixture.read(homeSnapshotProvider).user.firstName, 'Marina');
+      },
+    );
+
+    test(
+      'perfil → cabeçalho: primeiro nome e inicial; sem perfil, convidado',
+      () {
+        AccountSummary resumo(String nome) => AccountSummary(
+          id: 'u',
+          handle: 'h',
+          displayName: nome,
+          isPrivate: false,
+          handleProvisional: false,
+          ageBand: null,
+          pro: false,
+        );
+        final u = homeUserOf(
+          MemberView(userId: 'u', summary: resumo('  ana   lima ')),
+        );
+        expect(
+          (u.firstName, u.initial, u.unreadNotifications),
+          ('ana', 'A', 0),
+        );
+        expect(
+          homeUserOf(MemberView(userId: 'u', summary: resumo('Élida'))).initial,
+          'É',
+        );
+        expect(homeUserOf(const MemberView(userId: 'u')).firstName, isNull);
+        expect(homeUserOf(const GuestView(canSignIn: true)).firstName, isNull);
+        expect(homeUserOf(const AccountLoading()).initial, isNull);
+      },
+    );
+  });
+
+  group('G21: o ponto do sininho (D-212)', () {
+    AccountSummary resumo(String nome) => AccountSummary(
+      id: 'u',
+      handle: 'h',
+      displayName: nome,
+      isPrivate: false,
+      handleProvisional: false,
+      ageBand: null,
+      pro: false,
+    );
+
+    test(
+      'o cabeçalho leva as não lidas; sem nome e com não lidas, só o ponto',
+      () {
+        expect(
+          homeUserOf(
+            MemberView(userId: 'u', summary: resumo('Ana')),
+            unread: 3,
+          ).unreadNotifications,
+          3,
+        );
+        final semNome = homeUserOf(const MemberView(userId: 'u'), unread: 2);
+        expect((semNome.firstName, semNome.unreadNotifications), (null, 2));
+        expect(
+          homeUserOf(const GuestView(canSignIn: true)).unreadNotifications,
+          0,
+        );
+      },
+    );
+
+    test(
+      'a contagem vem do cache da conta e acompanha; convidado, 0',
+      () async {
+        final db = AppDatabase(NativeDatabase.memory(), withSyncQueue: false);
+        addTearDown(db.close);
+        final cache = ClubsCache(() async => db);
+        final c = ProviderContainer.test(
+          overrides: [
+            socialOwnerProvider.overrideWithValue('u'),
+            clubsCacheProvider.overrideWithValue(cache),
+          ],
+        );
+        c.listen(homeUnreadNotificationsProvider, (_, _) {});
+        await pumpEventQueue();
+        expect(c.read(homeUnreadNotificationsProvider).value, 0);
+        await cache.saveNotifications('u', 3);
+        await pumpEventQueue();
+        expect(c.read(homeUnreadNotificationsProvider).value, 3);
+        await cache.saveNotifications('outra', 9);
+        await pumpEventQueue();
+        expect(c.read(homeUnreadNotificationsProvider).value, 3);
+
+        final convidado = ProviderContainer.test(
+          overrides: [socialOwnerProvider.overrideWithValue(null)],
+        );
+        convidado.listen(homeUnreadNotificationsProvider, (_, _) {});
+        await pumpEventQueue();
+        expect(convidado.read(homeUnreadNotificationsProvider).value, 0);
+      },
+    );
+  });
+}
+
+/// Fonte assíncrona controlada pelo teste (como a do banco).
+final class _Fluxo implements HomeRepository {
+  final c = StreamController<HomeSnapshot>();
+
+  @override
+  Stream<HomeSnapshot> watch(DateTime Function() clock) => c.stream;
 }

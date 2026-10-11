@@ -1,0 +1,17 @@
+name: spike_s2_cliente
+description: "G02 · S2 — cliente Dart: PowerSync (tabelas próprias) + drift + FTS5 + migração, offline no Windows."
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: ^3.13.2
+dependencies:
+  drift: ^2.35.1
+  drift_sqlite_async: ^0.3.1
+  path: ^1.9.1
+  powersync: ^2.4.0
+dev_dependencies:
+  build_runner: ^2.16.1
+  drift_dev: ^2.35.1
+  lints: ^6.1.0
+  test: ^1.32.0

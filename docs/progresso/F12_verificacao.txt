@@ -1,0 +1,116 @@
+# F12 — saídas literais dos comandos finais (prompt mestre §7)
+
+$ dart format --set-exit-if-changed lib test
+Formatted 132 files (0 changed) in 1.04 seconds.
+exit: 0
+
+$ flutter analyze
+Analyzing app_livros...
+No issues found! (ran in 5.8s)
+exit: 0
+
+# Integridade do handoff (a F12 não toca em design_handoff/)
+$ sha256sum -c docs/handoff_checksums.txt | grep -vc ": OK"
+0                      (131 arquivos, todos OK)
+$ git status --short design_handoff | wc -l
+0
+
+# Golden da Início: IDÊNTICO ao aprovado na F11 (rodado SEM --update-goldens)
+$ sha256sum test/golden/goldens/inicio_canvas@3x.png test/golden/goldens/inicio_viewport@3x.png      (antes)
+fdf4a823933bc095f05c61decbc11f789bd03474b241a7b1f593aef125c31743 *test/golden/goldens/inicio_canvas@3x.png
+35ba1eb8c93e56837796f9f2511d183ebe7d072669fbeac70f894a87775948a3 *test/golden/goldens/inicio_viewport@3x.png
+
+$ flutter test test/home/golden_canvas_test.dart test/home/golden_viewport_test.dart
+00:04 +2: All tests passed!
+exit: 0
+
+$ sha256sum ...   (depois) → idênticos aos de antes (diff vazio: "sha256 IGUAIS antes/depois")
+mtime dos dois PNGs: 2026-10-02 01:16:03 / 01:16:02 (gerados na F11; nenhum arquivo regravado na F12)
+
+# Comparação com a referência (mesmos comandos da F11; resultados idênticos aos da F11)
+$ python3 tools/compare_images.py --flutter test/golden/goldens/inicio_canvas@3x.png --ref design_handoff/referencia/png/inicio_canvas_390x2390@3x.png --scale 3 --rect 0,2230,390,160 --out build/visual_diff/F12 --name F12_nav_fade
+região          blur_mismatch_%  raw_mismatch_%  mean_abs   max  resultado
+F12_nav_fade                0.0          0.1255     0.258    99  PASSOU
+
+$ python3 tools/compare_images.py --flutter test/golden/goldens/inicio_canvas@3x.png --ref design_handoff/referencia/png/inicio_canvas_390x2390@3x.png --scale 3 --layout design_handoff/referencia/layout/layout_inicio.json --out build/visual_diff/F12/todas
+região          blur_mismatch_%  raw_mismatch_%  mean_abs   max  resultado
+header                      0.0          0.4113      0.53   142  PASSOU
+headline                    0.0          1.3126     1.306   221  PASSOU
+hero                        0.0          0.6195     0.687   128  PASSOU
+alsoReading                 0.0          0.8922     0.982   189  PASSOU
+today                       0.0          1.3001     1.139   228  PASSOU
+forYou                      0.0          2.1986      1.77   229  PASSOU
+club                        0.0          2.2549      2.02   229  PASSOU
+recent                      0.0          0.8938     0.976   189  PASSOU
+bottomFade                  0.0          0.1288     0.264    99  PASSOU
+nav                         0.0          0.2545     0.512    99  PASSOU
+
+$ python3 tools/compare_images.py --flutter test/golden/goldens/inicio_viewport@3x.png --ref design_handoff/referencia/png/inicio_viewport_390x844_DERIVADA@3x.png --scale 3 --rect 0,0,390,844 --out build/visual_diff/F12/viewport --name F12_viewport
+F12_viewport                0.0          0.5499     0.648   221  PASSOU
+
+$ ... --rect 0,694,390,150 (faixa inferior do viewport)
+F12_viewport_faixa_inferior              0.0          0.1502     0.473   108  PASSOU
+
+Evidências em: build/visual_diff/F12  (heatmap, lado_a_lado, onion, relatorio.json) — subpastas todas/ e viewport/
+
+# Temas (12.3): 8 opções contra o golden padrão (test/home/golden_theme_test.dart)
+[tema] brand #b6ace4: 0 pixels diferentes do golden padrão → hero 0 · pílula 0 · FORA 0
+[tema] brand #ffc1c6: 520237 pixels diferentes do golden padrão → hero 498726 · pílula 21511 · FORA 0
+[tema] brand #abcf82: 520259 pixels diferentes do golden padrão → hero 498744 · pílula 21515 · FORA 0
+[tema] brand #fed170: 520259 pixels diferentes do golden padrão → hero 498744 · pílula 21515 · FORA 0
+[tema] weekColor #b6ace4: 0 pixels diferentes do golden padrão → por barra [0, 0, 0, 0, 0, 0, 0] · FORA 0
+[tema] weekColor #ffb39e: 71024 pixels diferentes do golden padrão → por barra [10014, 14764, 9171, 6442, 12241, 18392, 0] · FORA 0
+[tema] weekColor #f2a815: 71079 pixels diferentes do golden padrão → por barra [10023, 14771, 9179, 6461, 12247, 18398, 0] · FORA 0
+[tema] weekColor #abcf82: 71035 pixels diferentes do golden padrão → por barra [10017, 14766, 9171, 6446, 12242, 18393, 0] · FORA 0
+(a barra de hoje, índice 6, tem 0 pixels diferentes nas 4 opções; "FORA" = pixels fora das regiões esperadas)
+
+# Toques (12.1) — test/home/touch_home_test.dart: +23 · rota alcançada e rolagem antes/depois de voltar
+[toques] header.bell → /notificacoes · rolagem antes/depois: 40.0 → 40.0
+[toques] hero.cta → /leitor/dom-casmurro · rolagem antes/depois: 174.66000175476074 → 174.66000175476074
+[toques] hero.notesButton → /livro/dom-casmurro/destaques · rolagem antes/depois: 174.66000175476074 → 174.66000175476074
+[toques] alsoReading.card1 → /livro/mrs-dalloway · rolagem antes/depois: 368.9600019454956 → 368.9600019454956
+[toques] alsoReading.card2 → /livro/orgulho-e-preconceito · rolagem antes/depois: 368.9600019454956 → 368.9600019454956
+[toques] forYou.seeAll → /para-voce · rolagem antes/depois: 929.5600037574768 → 929.5600037574768
+[toques] forYou.item1 → /livro/memorias-postumas-de-bras-cubas · rolagem antes/depois: 1125.3600053787231 → 1125.3600053787231
+[toques] forYou.item2 → /livro/quincas-borba · rolagem antes/depois: 1125.3600053787231 → 1125.3600053787231
+[toques] forYou.item3 → /livro/o-cortico · rolagem antes/depois: 1125.3600053787231 → 1125.3600053787231
+[toques] club.cta → /clube/leitoras-de-capitu/discussao · rolagem antes/depois: 1498.6600065231323 → 1498.6600065231323
+[toques] recent.row0.textBlock → /livro/frankenstein · rolagem antes/depois: 1511.1600065231323 → 1511.1600065231323
+[toques] recent.row1.textBlock → /livro/o-alienista · rolagem antes/depois: 1511.1600065231323 → 1511.1600065231323
+[toques] recent.row2.textBlock → /livro/senhora · rolagem antes/depois: 1511.1600065231323 → 1511.1600065231323
+(+ "Biblioteca" → troca de aba, volta na mesma rolagem; "Mais opções" → no-op sem UI nova; alvos respondem nos 4 lados e não 4 px fora)
+
+# Semântica e diretrizes (12.2) — test/home/semantics_home_test.dart: +10
+[semântica] 28 (rótulo, papel) do arquivo → 24 rótulos distintos, todos em nós próprios; árvore com 77 nós rotulados
+[diretrizes] iOSTapTargetGuideline (44×44): PASSOU · labeledTapTargetGuideline: PASSOU
+[diretrizes] androidTapTargetGuideline (48×48): REPROVOU 3 nós — Mais opções para Frankenstein | Mais opções para O Alienista | Mais opções para Senhora (44 × 44 no arquivo)
+[diretrizes] textContrastGuideline:
+  padrão (brand #B6ACE4, weekColor #B6ACE4): PASSOU
+  brand #FFC1C6: PASSOU · brand #ABCF82: PASSOU · brand #FED170: PASSOU
+  weekColor #FFB39E: PASSOU · weekColor #F2A815: PASSOU · weekColor #ABCF82: PASSOU
+[semântica] travessia × árvore: 77 nós rotulados, 14 posições diferentes   (informativo; decisão do usuário)
+
+# Desempenho (12.4) — test/home/performance_test.dart: +16
+[rebuild] brand → {FloatingNavBar, ContinueReadingHero, StadiumProgressBar + filhos de cada um}   (nada mais é reconstruído)
+[rebuild] weekColor → {ReadingDayCard + _Header, _GoalRow, _GoalDial, _WeekCard, _Bar, _Footer ...}   (só o cartão do dia)
+(rolar: 0 reconstruções; dial e carrossel: mesmo conjunto de PictureLayers antes/depois de rolar → sem regravação; sem Opacity/saveLayer em lib/;
+ shouldRepaint dos 6 pintores compara todos os campos)
+
+# Sistema (12.5) — test/home/platform_test.dart: +9
+[plataforma] SystemChrome.setSystemUIOverlayStyle → {systemNavigationBarColor: 0, systemNavigationBarDividerColor: null, systemStatusBarContrastEnforced: null, statusBarColor: 0, statusBarBrightness: Brightness.light, statusBarIconBrightness: Brightness.dark, systemNavigationBarIconBrightness: Brightness.dark, systemNavigationBarContrastEnforced: false}
+
+# Arquivos de teste novos (execução isolada, mesma máquina)
+touch_home_test.dart      00:08 +23: All tests passed!
+semantics_home_test.dart  00:03 +10: All tests passed!
+theme_selector_test.dart  00:02 +3: All tests passed!
+performance_test.dart     00:03 +16: All tests passed!
+platform_test.dart        00:03 +9: All tests passed!
+golden_theme_test.dart    00:03 +2: All tests passed!   (acima)
+total novo: 23 + 10 + 3 + 16 + 9 + 2 = 63
+
+# Suíte completa — 3 execuções (build/F12_flutter_test_run1..3.txt), sem "did not complete"
+$ flutter test
+run 1: 01:13 +528: All tests passed!
+run 2: 00:57 +528: All tests passed!
+run 3: 00:59 +528: All tests passed!
+(465 testes anteriores + 63 novos = 528)

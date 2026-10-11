@@ -1,0 +1,138 @@
+-- Privilégios: falha se anon/authenticated/PUBLIC tiverem qualquer privilégio além do previsto
+-- (Anexo 02 §5.4). Nos projetos antigos do Supabase tudo em `public` nascia com ALL para anon e
+-- authenticated; cada migration revoga isso e concede só o previsto — este teste é a rede.
+-- Para mudar um privilégio: mudar a migration E a lista abaixo (de propósito).
+begin;
+create extension if not exists pgtap with schema extensions;
+select plan(7);
+
+create temp view privilegios_de_tabela as
+select coalesce(r.rolname, 'PUBLIC') as papel, n.nspname || '.' || c.relname as objeto, a.privilege_type as priv
+  from pg_class c
+  join pg_namespace n on n.oid = c.relnamespace
+  cross join lateral aclexplode(coalesce(c.relacl, acldefault('r', c.relowner))) a
+  left join pg_roles r on r.oid = a.grantee
+ where n.nspname in ('public', 'personal', 'catalog', 'billing', 'private')
+   and c.relkind in ('r', 'p', 'v', 'm', 'f', 'S')
+   and (a.grantee = 0 or r.rolname in ('anon', 'authenticated'));
+
+create temp view privilegios_de_coluna as
+select coalesce(r.rolname, 'PUBLIC') as papel, n.nspname || '.' || c.relname || '.' || at.attname as objeto, a.privilege_type as priv
+  from pg_attribute at
+  join pg_class c on c.oid = at.attrelid
+  join pg_namespace n on n.oid = c.relnamespace
+  cross join lateral aclexplode(at.attacl) a
+  left join pg_roles r on r.oid = a.grantee
+ where n.nspname in ('public', 'personal', 'catalog', 'billing', 'private')
+   and at.attnum > 0 and not at.attisdropped and at.attacl is not null
+   and (a.grantee = 0 or r.rolname in ('anon', 'authenticated'));
+
+create temp view privilegios_de_funcao as
+select coalesce(r.rolname, 'PUBLIC') as papel,
+       n.nspname || '.' || p.proname || '(' || oidvectortypes(p.proargtypes) || ')' as objeto, a.privilege_type as priv
+  from pg_proc p
+  join pg_namespace n on n.oid = p.pronamespace
+  cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a
+  left join pg_roles r on r.oid = a.grantee
+ where n.nspname in ('public', 'personal', 'catalog', 'billing', 'private')
+   and not exists (select 1 from pg_depend d where d.classid = 'pg_proc'::regclass and d.objid = p.oid and d.deptype = 'e')
+   and (a.grantee = 0 or r.rolname in ('anon', 'authenticated'));
+
+-- ---------------------------------------------------------------- tabelas
+select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_de_tabela $$,
+  $$ select 'authenticated SELECT ' || t from unnest(array[
+       'public.profiles', 'public.profile_stats', 'public.follows', 'public.user_blocks', 'public.posts',
+       'public.post_comments', 'public.post_likes', 'public.clubs', 'public.club_members', 'public.club_invites',
+       'public.club_meetings', 'public.club_posts', 'public.club_post_replies', 'public.notifications', 'public.device_tokens',
+       'public.club_readings', 'public.club_weeks', 'public.meeting_rsvps', 'public.meeting_notes', 'public.club_likes',
+       'catalog.authors', 'catalog.works', 'catalog.work_authors', 'catalog.editions',
+       'catalog.submission_confirmations',
+       'personal.user_books', 'personal.reading_positions', 'personal.reading_sessions', 'personal.bookmarks',
+       'personal.ink_layers', 'personal.annotations', 'personal.highlight_labels', 'personal.reader_settings',
+       'personal.pen_presets', 'personal.reading_goals']) t
+     union all
+     select 'authenticated DELETE ' || t from unnest(array[
+       'public.follows', 'public.user_blocks', 'public.post_likes', 'public.club_members', 'public.club_invites',
+       'public.club_meetings', 'public.device_tokens', 'public.club_likes']) t $$,
+  'tabelas: só SELECT/DELETE previstos para authenticated; nada para anon nem PUBLIC');
+
+-- ---------------------------------------------------------------- colunas (INSERT/UPDATE por coluna)
+select set_eq($$ select papel || ' ' || priv || ' ' || objeto from privilegios_de_coluna $$,
+  $$ select 'authenticated ' || g.priv || ' ' || g.tabela || '.' || c
+       from (values
+         ('UPDATE', 'public.profiles', array['handle', 'display_name', 'avatar_path', 'bio', 'visibility', 'timezone']),
+         ('INSERT', 'public.follows', array['follower_id', 'followee_id']),
+         ('UPDATE', 'public.follows', array['status']),
+         ('INSERT', 'public.user_blocks', array['blocker_id', 'blocked_id']),
+         ('INSERT', 'public.posts', array['author_id', 'kind', 'edition_id', 'work_id', 'rating', 'quote_text', 'body']),
+         ('UPDATE', 'public.posts', array['rating', 'quote_text', 'body', 'edited_at', 'deleted_at']),
+         ('INSERT', 'public.post_comments', array['post_id', 'author_id', 'body']),
+         ('UPDATE', 'public.post_comments', array['deleted_at']),
+         ('INSERT', 'public.post_likes', array['post_id', 'user_id']),
+         -- G21.1: a meta do clube saiu (é a semana); o progresso e o lido só pelas RPCs
+         ('INSERT', 'public.clubs', array['owner_id', 'name', 'name_highlight', 'work_id', 'edition_id', 'privacy',
+                                          'category', 'color', 'progress_colors', 'spoiler_protection', 'meeting_weekday', 'meeting_time', 'meeting_minutes', 'meeting_mode', 'timezone']),
+         ('UPDATE', 'public.clubs', array['name', 'name_highlight', 'privacy',
+                                          'category', 'color', 'progress_colors', 'spoiler_protection', 'meeting_weekday', 'meeting_time', 'meeting_minutes', 'meeting_mode', 'timezone']),
+         ('INSERT', 'public.club_invites', array['club_id', 'created_by', 'expires_at', 'max_uses']),
+         ('UPDATE', 'public.club_invites', array['expires_at', 'max_uses']),
+         ('INSERT', 'public.club_meetings', array['club_id', 'starts_at', 'location', 'until_chapter', 'created_by', 'timezone']),
+         ('UPDATE', 'public.club_meetings', array['starts_at', 'location', 'until_chapter', 'timezone']),
+         ('INSERT', 'public.club_posts', array['club_id', 'author_id', 'kind', 'chapter_index', 'ref_page', 'quote_text', 'quote_color', 'body',
+                                               'reading_id', 'week_no', 'spoiler_ratio', 'spoiler_page']),
+         ('UPDATE', 'public.club_posts', array['body', 'edited_at', 'deleted_at']),
+         ('INSERT', 'public.club_post_replies', array['post_id', 'author_id', 'body', 'parent_reply_id', 'spoiler_ratio',
+                                                      'spoiler_page', 'quote_text', 'quote_color', 'quote_page']),
+         ('INSERT', 'public.club_likes', array['target_type', 'target_id', 'user_id']),
+         ('UPDATE', 'public.club_post_replies', array['deleted_at']),
+         ('UPDATE', 'public.notifications', array['read_at']),
+         ('INSERT', 'public.content_reports', array['reporter_id', 'target_type', 'target_id', 'reason', 'details']),
+         -- G07 (D-74): quem enviou (submitted_by) não é lido; envio e confirmação só pelas RPCs
+         ('SELECT', 'catalog.community_submissions', array['id', 'isbn13', 'title', 'authors', 'publisher', 'status', 'confirmations', 'created_at'])
+       ) as g(priv, tabela, colunas), unnest(g.colunas) c $$,
+  'colunas: o cliente só escreve as colunas previstas (contadores, papéis, status e datas de servidor ficam de fora)');
+
+-- ---------------------------------------------------------------- funções
+select set_eq($$ select papel || ' ' || objeto from privilegios_de_funcao $$,
+  $$ select 'authenticated ' || f from unnest(array[
+       'public.sync_apply_changes(jsonb)', 'public.my_entitlement()', 'public.profile_preview(text)',
+       'public.publish_my_stats(integer, integer, integer, integer)', 'public.join_club(text)',
+       'public.join_public_club(uuid)', 'public.search_editions(text, integer)', 'public.export_my_data()',
+       'public.register_device_token(text, text, text)',
+       'public.set_my_age_band(text, text)', 'public.my_account()',
+       'public.catalog_by_isbn(text)', 'public.catalog_submit(text, text, text, text)', 'public.catalog_confirm(uuid)',
+       'private.uuid_generate_v7()', 'private.f_unaccent(text)', 'private.is_pro()', 'private.user_is_pro(uuid)',
+       'private.can_sync(uuid)', 'private.is_club_member(uuid)', 'private.is_club_admin(uuid)',
+       'private.is_blocked_between(uuid, uuid)', 'private.can_view_profile_content(uuid)',
+       -- G21.1: as RPCs do clube e a chave do trecho (coluna gerada: roda como quem insere)
+       'public.create_club(jsonb)', 'public.create_invite(uuid, integer, integer)', 'public.revoke_invite(text)',
+       'public.publish_progress(uuid, numeric, integer)', 'public.mark_club_read(uuid)',
+       'public.set_rsvp(uuid, text, text, text)', 'public.suggest_question(uuid, integer, text)',
+       'public.order_questions(uuid, integer, uuid[])', 'public.set_question_status(uuid, text, text)',
+       'public.share_highlight(uuid, text, text, integer, integer, numeric)', 'public.my_clubs()',
+       'public.club_overview(uuid)', 'public.week_thread(uuid, integer, text, uuid, jsonb, integer)',
+       'public.meeting_overview(uuid)', 'public.club_members_overview(uuid)', 'public.club_post_summaries(uuid[])',
+       'private.quote_key(text)',
+       -- G21.2 (D-222): os termos
+       'public.my_terms()', 'public.accept_terms(text)',
+       -- G21.2 (D-225): a política do canal club:<id> em realtime.messages
+       'private.club_topic_member(text)']) f $$,
+  'funções: anon e PUBLIC não executam nada; authenticated só as RPCs e as funções usadas pela RLS');
+
+-- ---------------------------------------------------------------- esquemas
+select ok(not has_schema_privilege('anon', 'personal', 'usage') and not has_schema_privilege('anon', 'catalog', 'usage')
+          and not has_schema_privilege('anon', 'billing', 'usage') and not has_schema_privilege('anon', 'private', 'usage'),
+  'anon não enxerga os esquemas personal, catalog, billing e private');
+select ok(not has_schema_privilege('authenticated', 'billing', 'usage'), 'authenticated não enxerga billing');
+select ok(has_schema_privilege('service_role', 'billing', 'usage') and has_schema_privilege('service_role', 'private', 'usage'),
+  'service_role (Edge Functions) enxerga billing e private');
+
+-- toda tabela dos nossos esquemas tem RLS ligada — inclusive cada partição (partição NÃO herda a
+-- RLS da tabela particionada no acesso direto; revisão da G04)
+select is_empty($$ select n.nspname || '.' || c.relname from pg_class c join pg_namespace n on n.oid = c.relnamespace
+                    where n.nspname in ('public', 'personal', 'catalog', 'billing', 'private')
+                      and c.relkind in ('r', 'p') and not c.relrowsecurity $$,
+  'RLS ligada em todas as tabelas e partições');
+
+select * from finish();
+rollback;

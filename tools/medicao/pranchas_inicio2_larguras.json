@@ -1,0 +1,37 @@
+{
+ "_doc": "T03 — as larguras da prancha 01 (conjunto inicio2_larguras): cada entrada abre a extração de \"base\" e troca a largura do quadro para \"largura\" antes de medir e fotografar. Rodar: MSYS_NO_PATHCONV=1 wsl bash tools/medicao/wsl.sh 'bash tools/medicao/rodar_larguras.sh'",
+ "fonte": "docs/design/referencia/Redesign_mobile___App_de_leitura__1_.html",
+ "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+ "pranchas": [
+  {
+   "tela": "01w360",
+   "slug": "001_inicio_w360",
+   "base": "001_inicio",
+   "idInterno": "001_inicio",
+   "prefixo": "i01",
+   "uuid": "0358e2f5-7d0c-4d95-b26d-af051a1c81cf",
+   "titulo": "01 · Início (Home) — largura 360",
+   "canvas": [
+    360,
+    2650
+   ],
+   "largura": 360,
+   "previa": ""
+  },
+  {
+   "tela": "01w430",
+   "slug": "001_inicio_w430",
+   "base": "001_inicio",
+   "idInterno": "001_inicio",
+   "prefixo": "i01",
+   "uuid": "0358e2f5-7d0c-4d95-b26d-af051a1c81cf",
+   "titulo": "01 · Início (Home) — largura 430",
+   "canvas": [
+    430,
+    2650
+   ],
+   "largura": 430,
+   "previa": ""
+  }
+ ]
+}

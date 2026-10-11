@@ -1,0 +1,751 @@
+// G11.3 — a página do leitor e os gestos de virar (D-22, D-107, D-113):
+// - toque pelo terço da largura: esquerdo volta, direito avança, centro chama [onCenter]; o toque num link
+//   (no desenho das letras) vale antes dos terços;
+// - arrasto horizontal: a página segue o dedo e a vizinha vem junto (carrossel, como o "Deslizar" do Apple
+//   Books); ao soltar, completa se passou de 1/4 da largura ou se foi rápido (≥ 300 px/s no sentido), senão
+//   volta — 220 ms `easeOutCubic` nos dois casos; no começo e no fim do livro a página anda 1/3 do dedo e volta
+//   (batente). Se a vizinha ainda não está montada, desliza o papel e ela aparece quando chega;
+// - pressão longa: a seleção da G13 (D-45), avisada à tela; a vizinha que não abre não é batente: soltar vira e a
+//   sessão mostra o aviso (D-21). Seguir um link segura os gestos até ele terminar.
+// - G13 (D-132, D-136): com uma seleção na tela, o toque é dela ([onTapSelecting]); sem seleção, o link vale
+//   primeiro, depois o grifo ([onTapHighlight]), depois os terços.
+// - G12 (D-117): com os controles abertos, qualquer toque só fecha os controles ([onCenter]); o arrasto vira como
+//   sempre e avisa [onDragStarted] (a tela fecha os controles). A ocorrência da busca (D-120) é pintada por trás
+//   das letras na cor [foundColor].
+// - G16 (D-59, D-161): por cima do texto, a mancha dos grifos feitos à mão e a tinta salva ([ink]), na atual e na
+//   vizinha; os desenhos de cada página ficam num `ui.Picture` guardado pela página e pela revisão da tinta. Os
+//   controles esmaecem a tinta junto com a página (o véu deles fica por cima de tudo).
+// - G18 (R11, D-183, D-184): as notas à mão nos espaços da página (a caixa com a etiqueta, as pautas e a tinta, ou a
+//   faixa recolhida), por baixo do texto; o toque na faixa ([onTapNote]) vem depois do grifo e antes dos terços.
+// A página atual é lida do documento na hora de pintar (ele avisa quando ela muda por dentro).
+import 'dart:async';
+
+import 'package:flutter/foundation.dart' show ValueListenable;
+import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:flutter/widgets.dart';
+
+import '../annotations/ink/ink_stroke.dart';
+import '../application/reader_document.dart';
+import '../application/reader_errors.dart';
+import '../application/reader_ink.dart';
+import 'hand_note.dart' show paintPageNotes;
+import 'ink_painter.dart';
+import 'page_marks.dart';
+
+/// D-22 / D-107.
+const Duration readerTurnDuration = Duration(milliseconds: 220);
+const Curve readerTurnCurve = Curves.easeOutCubic;
+
+/// Fração da largura que completa a virada ao soltar (D-107).
+const double readerTurnThreshold = 1 / 4;
+
+/// Velocidade (px/s, no sentido do arrasto) que completa a virada mesmo curta (D-107).
+const double readerTurnFling = 300;
+
+/// No começo e no fim do livro a página anda esta fração do dedo (batente — D-107).
+const double readerEdgeFactor = 1 / 3;
+
+/// Quanto o toque nos terços espera a vizinha antes de deslizar (normalmente ela já está montada).
+const Duration readerPeekWait = Duration(milliseconds: 50);
+
+class ReaderPageView extends StatefulWidget {
+  const ReaderPageView({
+    super.key,
+    required this.document,
+    required this.onTurn,
+    required this.onCenter,
+    required this.onLink,
+    required this.onInteraction,
+    this.controlsOpen = false,
+    this.onDragStarted,
+    this.foundColor,
+    this.foundLightText,
+    this.highlights,
+    this.ink,
+    this.selection,
+    this.selectionColor,
+    this.selecting = false,
+    this.onTapSelecting,
+    this.onTapHighlight,
+    this.onTapNote,
+    this.onLongPressStart,
+    this.onLongPressMove,
+    this.onLongPressEnd,
+  });
+
+  final ReaderDocument document;
+
+  /// Há uma seleção na tela (G13): o toque vai para [onTapSelecting] (fechar ou não — D-136).
+  final bool selecting;
+  final ValueChanged<Offset>? onTapSelecting;
+
+  /// Toque fora de link: `true` = era um grifo e a tela abriu a barra dele (D-132); senão valem os terços.
+  final bool Function(Offset p)? onTapHighlight;
+
+  /// G18 (D-184): toque fora de link e de grifo: `true` = era a faixa de uma nota recolhida (a tela a abriu).
+  final bool Function(Offset p)? onTapNote;
+
+  /// Pressão longa (a seleção — D-45), arrastar sem soltar e soltar.
+  final ValueChanged<Offset>? onLongPressStart;
+  final ValueChanged<Offset>? onLongPressMove;
+  final VoidCallback? onLongPressEnd;
+
+  /// Os controles estão abertos: o toque só os fecha (D-117).
+  final bool controlsOpen;
+
+  /// Um arrasto começou (a tela fecha os controles — D-117).
+  final VoidCallback? onDragStarted;
+
+  /// Cor da marca da busca (a `brand` — D-120); `null` = não pinta.
+  final Color? foundColor;
+
+  /// A cor das letras quando são mais claras que o papel (o Noite): a palavra marcada fica escura (D-127), e o
+  /// mesmo nos grifos e na seleção (D-133).
+  final Color? foundLightText;
+
+  /// Os grifos do livro, pintados por trás das letras (G13).
+  final HighlightSource? highlights;
+
+  /// A tinta salva e os grifos feitos à mão (G16), pintados por cima das letras.
+  final InkSource? ink;
+
+  /// A seleção (G13), pintada na cor [selectionColor] (a `brand`).
+  final ValueListenable<ReaderRange?>? selection;
+  final Color? selectionColor;
+
+  /// Vira de verdade (a sessão conta a virada); `false` = começo/fim do livro, ou não deu (a sessão mostra o
+  /// aviso).
+  final Future<bool> Function(PageDirection d) onTurn;
+  final VoidCallback onCenter;
+
+  /// Segue um link; a página não aceita outro gesto até ele terminar.
+  final Future<void> Function(LinkHit link) onLink;
+
+  /// Qualquer toque ou arrasto (tempo automático e tela acesa).
+  final VoidCallback onInteraction;
+
+  @override
+  State<ReaderPageView> createState() => _ReaderPageViewState();
+}
+
+class _ReaderPageViewState extends State<ReaderPageView>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _anim = AnimationController(
+    vsync: this,
+    duration: readerTurnDuration,
+  );
+
+  /// Deslocamento da página atual (negativo = indo para a próxima).
+  double _dx = 0;
+
+  /// Para onde a página está indo e a vizinha desse lado (`null` = ainda não chegou).
+  PageDirection? _dir;
+  DisplayPage? _neighbor;
+
+  /// A vizinha desse lado não existe (começo/fim do livro).
+  bool _edge = false;
+
+  /// Arrasto bruto (sem o batente).
+  double _drag = 0;
+  bool _dragging = false;
+
+  /// Uma virada (ou volta) animando ou esperando o documento: gestos novos esperam.
+  bool _busy = false;
+  int _peekGen = 0;
+
+  /// Os desenhos das páginas já pintadas (G16).
+  /// As 4 páginas das vizinhas × as 3 passadas do Noite (R26, achado 17).
+  final InkPictureCache _inkPictures = InkPictureCache(capacity: 12);
+
+  double get _width => context.size?.width ?? 0;
+
+  @override
+  void dispose() {
+    _anim.dispose();
+    _inkPictures.dispose();
+    super.dispose();
+  }
+
+  // ---- vizinha ---------------------------------------------------------------------------------------
+
+  /// Pede a vizinha de [d]; quando chega (ainda do mesmo lado), aparece ou vira batente.
+  Future<DisplayPage?> _peek(PageDirection d) {
+    final gen = ++_peekGen;
+    _dir = d;
+    _neighbor = null;
+    _edge = false;
+    final f = widget.document.peek(d);
+    unawaited(
+      f.then(
+        (page) {
+          if (!mounted || gen != _peekGen) return;
+          setState(() {
+            _neighbor = page;
+            _edge = page == null;
+            if (_dragging) _dx = _offsetFor(_drag);
+          });
+        },
+        // vizinha que não abre não é batente: soltar vira, e a sessão mostra o aviso
+        onError: (Object _) {},
+      ),
+    );
+    return f;
+  }
+
+  double _offsetFor(double drag) => _edge ? drag * readerEdgeFactor : drag;
+
+  // ---- toque -----------------------------------------------------------------------------------------
+
+  void _tapUp(TapUpDetails d) {
+    if (_busy) return;
+    widget.onInteraction();
+    if (widget.controlsOpen) {
+      // com os controles abertos o toque só os fecha: nem vira, nem segue link (D-117)
+      widget.onCenter();
+      return;
+    }
+    if (widget.selecting) {
+      // com uma seleção na tela o toque é dela: fecha ou não (D-136), nunca vira nem segue link
+      widget.onTapSelecting?.call(d.localPosition);
+      return;
+    }
+    // sem seleção: o link primeiro (G11), depois o grifo (a barra dele — D-132), depois os terços
+    final hit = widget.document.current.linkAt(d.localPosition);
+    if (hit != null) {
+      unawaited(_follow(hit));
+      return;
+    }
+    if (widget.onTapHighlight?.call(d.localPosition) ?? false) return;
+    // G18 (D-184): a faixa de uma nota recolhida abre com um toque
+    if (widget.onTapNote?.call(d.localPosition) ?? false) return;
+    final x = d.localPosition.dx / _width;
+    if (x < 1 / 3) {
+      unawaited(_tapTurn(PageDirection.backward));
+    } else if (x > 2 / 3) {
+      unawaited(_tapTurn(PageDirection.forward));
+    } else {
+      widget.onCenter();
+    }
+  }
+
+  Future<void> _follow(LinkHit hit) async {
+    _busy = true;
+    try {
+      await widget.onLink(hit);
+    } on Object catch (e, st) {
+      reportReaderError(e, st);
+    } finally {
+      _busy = false;
+    }
+  }
+
+  Future<void> _tapTurn(PageDirection d) async {
+    _busy = true;
+    final f = _peek(d);
+    DisplayPage? page;
+    var arrived = false;
+    var failed = false;
+    await Future.any<void>([
+      f.then(
+        (p) {
+          page = p;
+          arrived = true;
+        },
+        onError: (Object _) {
+          arrived = true;
+          failed = true;
+        },
+      ),
+      Future<void>.delayed(readerPeekWait),
+    ]);
+    if (!mounted) return;
+    if (arrived && page == null && !failed) {
+      // começo/fim do livro: o toque nas laterais não faz nada (D-107)
+      _reset();
+      return;
+    }
+    await _complete(d);
+  }
+
+  // ---- arrasto ---------------------------------------------------------------------------------------
+
+  void _dragStart(DragStartDetails _) {
+    if (_busy) return;
+    widget.onInteraction();
+    widget.onDragStarted?.call();
+    _dragging = true;
+    _drag = 0;
+    _dir = null;
+    _neighbor = null;
+    _edge = false;
+  }
+
+  void _dragUpdate(DragUpdateDetails d) {
+    if (!_dragging) return;
+    _drag += d.delta.dx;
+    if (_drag == 0) return;
+    final dir = _drag < 0 ? PageDirection.forward : PageDirection.backward;
+    if (dir != _dir) unawaited(_peek(dir));
+    setState(() => _dx = _offsetFor(_drag));
+  }
+
+  void _dragEnd(DragEndDetails d) {
+    if (!_dragging) return;
+    _dragging = false;
+    final dir = _dir;
+    final v = d.velocity.pixelsPerSecond.dx;
+    final fast = v.abs() >= readerTurnFling && v.sign == _dx.sign && _dx != 0;
+    final far = _dx.abs() >= _width * readerTurnThreshold;
+    widget.onInteraction();
+    if (dir != null && !_edge && (far || fast)) {
+      _busy = true;
+      unawaited(_complete(dir));
+    } else {
+      _busy = true;
+      unawaited(_animateTo(0).then((_) => _reset()));
+    }
+  }
+
+  // ---- animação --------------------------------------------------------------------------------------
+
+  Future<void> _animateTo(double target) async {
+    final from = _dx;
+    if (from == target) return;
+    void tick() {
+      if (!mounted) return;
+      setState(() {
+        _dx = from + (target - from) * readerTurnCurve.transform(_anim.value);
+      });
+    }
+
+    _anim
+      ..removeListener(tick)
+      ..addListener(tick);
+    try {
+      await _anim.forward(from: 0).orCancel;
+    } on TickerCanceled {
+      // a tela saiu no meio
+    } finally {
+      _anim.removeListener(tick);
+    }
+  }
+
+  /// Desliza até a vizinha ocupar a tela, vira de verdade e volta o deslocamento a 0 (a página nova é a atual).
+  /// Aconteça o que acontecer na virada, a página volta a aceitar gestos.
+  Future<void> _complete(PageDirection d) async {
+    try {
+      final w = _width;
+      await _animateTo(d == PageDirection.forward ? -w : w);
+      if (!mounted) return;
+      bool ok;
+      try {
+        ok = await widget.onTurn(d);
+      } on Object catch (e, st) {
+        reportReaderError(e, st);
+        ok = false;
+      }
+      if (!mounted) return;
+      if (!ok) {
+        // não virou (fim do livro descoberto tarde, ou falhou — a sessão mostra o aviso): volta
+        setState(() => _edge = true);
+        await _animateTo(0);
+      }
+    } finally {
+      _reset();
+    }
+  }
+
+  void _reset() {
+    if (!mounted) return;
+    _peekGen++;
+    setState(() {
+      _dx = 0;
+      _dir = null;
+      _neighbor = null;
+      _edge = false;
+      _busy = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    // o leitor de tela usa as ações do nó da página (r19.page), não um toque sem rótulo no meio da tela
+    excludeFromSemantics: true,
+    // pressão longa: a seleção da tela 21 (D-45); segurar e soltar nunca vale como toque (D-113)
+    onLongPressStart: (d) {
+      if (_busy || widget.onLongPressStart == null) return;
+      widget.onInteraction();
+      widget.onLongPressStart!(d.localPosition);
+    },
+    onLongPressMoveUpdate: (d) => widget.onLongPressMove?.call(d.localPosition),
+    onLongPressEnd: (_) => widget.onLongPressEnd?.call(),
+    // o deslocamento conta do ponto onde o dedo encostou (a página acompanha o dedo desde o começo)
+    dragStartBehavior: DragStartBehavior.down,
+    onTapUp: _tapUp,
+    onHorizontalDragStart: _dragStart,
+    onHorizontalDragUpdate: _dragUpdate,
+    onHorizontalDragEnd: _dragEnd,
+    child: CustomPaint(
+      key: const ValueKey('leitor.paginas'),
+      size: Size.infinite,
+      painter: ReaderPagesPainter(
+        document: widget.document,
+        dx: _dx,
+        dir: _dir,
+        neighbor: _neighbor,
+        foundColor: widget.foundColor,
+        foundLightText: widget.foundLightText,
+        highlights: widget.highlights,
+        ink: widget.ink,
+        inkPictures: _inkPictures,
+        selection: widget.selection,
+        selectionColor: widget.selectionColor,
+      ),
+    ),
+  );
+}
+
+/// A página atual deslocada por [dx] e a vizinha encostada nela, do lado de [dir]. Repinta quando o documento
+/// avisa que a página atual mudou por dentro ([ReaderDocument.changes]) ou quando um dos campos muda. A marca da
+/// busca ([ReaderDocument.found]) vai por trás das letras da página atual, na cor [foundColor]; com letras
+/// claras ([foundLightText], o Noite) a palavra marcada fica escura (D-127). G13: os grifos ([highlights]) e a
+/// seleção ([selection]) também, com recorte por prioridade (`page_marks.dart`); o sublinhado vai por cima. A
+/// vizinha que chega no arrasto vem com os grifos dela. G16: depois do sublinhado, a mancha dos grifos feitos à mão
+/// e a tinta salva ([ink]), de cada página (a `Picture` dela vem de [inkPictures]).
+class ReaderPagesPainter extends CustomPainter {
+  ReaderPagesPainter({
+    required this.document,
+    required this.dx,
+    required this.dir,
+    required this.neighbor,
+    this.foundColor,
+    this.foundLightText,
+    this.highlights,
+    this.ink,
+    this.inkPictures,
+    this.selection,
+    this.selectionColor,
+  }) : super(
+         repaint: Listenable.merge(<Listenable?>[
+           document.changes,
+           highlights,
+           ink,
+           selection,
+         ]),
+       );
+
+  final ReaderDocument document;
+  final double dx;
+  final PageDirection? dir;
+  final DisplayPage? neighbor;
+  final Color? foundColor;
+  final Color? foundLightText;
+  final HighlightSource? highlights;
+  final InkSource? ink;
+
+  /// Onde ficam as `Picture` da tinta de cada página; sem ele, a tinta é pintada traço a traço.
+  final InkPictureCache? inkPictures;
+  final ValueListenable<ReaderRange?>? selection;
+  final Color? selectionColor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas
+      ..save()
+      ..clipRect(Offset.zero & size)
+      ..translate(dx, 0);
+    final page = document.current;
+    if (page.opaque) {
+      // a imagem do PDF cobriria a marca: ela vai por cima, multiplicada (G12)
+      page.paint(canvas);
+      final f = document.found;
+      final color = foundColor;
+      if (f != null && color != null) {
+        final paint = Paint()
+          ..color = color
+          ..blendMode = BlendMode.multiply;
+        for (final r in page.rectsOf(f.unit, f.from, f.to)) {
+          canvas.drawRRect(
+            RRect.fromRectAndRadius(
+              r.inflate(foundInflate),
+              const Radius.circular(foundRadius),
+            ),
+            paint,
+          );
+        }
+      }
+    } else {
+      _paintText(
+        canvas,
+        page,
+        found: document.found,
+        selection: selection?.value,
+      );
+    }
+    canvas.restore();
+    final n = neighbor;
+    if (n == null || dir == null || dx == 0) return;
+    final offset = dir == PageDirection.forward
+        ? dx + size.width
+        : dx - size.width;
+    canvas
+      ..save()
+      ..clipRect(Offset.zero & size)
+      ..translate(offset, 0);
+    // a vizinha chega com os grifos e a tinta dela; a seleção e a marca da busca são só da atual
+    if (n.opaque) {
+      n.paint(canvas);
+    } else {
+      _paintText(canvas, n);
+    }
+    canvas.restore();
+  }
+
+  /// Uma página de texto, com os grifos, a tinta e os grifos feitos à mão dela ([paintTextPage]).
+  void _paintText(
+    Canvas canvas,
+    DisplayPage page, {
+    FoundRange? found,
+    ReaderRange? selection,
+  }) {
+    final shown = page.shown;
+    final ink = this.ink;
+    // G18 (R11): as notas à mão nos espaços da página, por baixo do texto e da tinta
+    if (ink != null) {
+      paintPageNotes(
+        canvas,
+        page,
+        ink.notesOn(page),
+        lightText: foundLightText,
+      );
+    }
+    paintTextPage(
+      canvas,
+      page,
+      highlights: shown == null
+          ? const <PaintedHighlight>[]
+          : highlights?.highlightsIn(shown) ?? const <PaintedHighlight>[],
+      inkHighlights: shown == null || ink == null
+          ? const <PaintedHighlight>[]
+          : ink.inkHighlightsIn(shown),
+      found: found,
+      foundColor: foundColor,
+      selection: selection,
+      selectionColor: selectionColor,
+      lightText: foundLightText,
+      paintInkBehind: shown == null || ink == null
+          ? null
+          : _inkOf(page, ink, InkPass.behind),
+      paintInkFill: shown == null || ink == null
+          ? null
+          : _inkOf(page, ink, InkPass.fill),
+      paintInkLayer: shown == null || ink == null
+          ? null
+          : _inkOf(page, ink, InkPass.top),
+    );
+  }
+
+  /// A passada [pass] dos desenhos de [page] (no Noite, com a cor das letras — R26, achado 17): a `Picture` guardada
+  /// (pela página, pela revisão e pela passada) ou, sem o cache, traço a traço; `null` sem nada a pintar nela.
+  void Function(Canvas canvas)? _inkOf(
+    DisplayPage page,
+    InkSource ink,
+    InkPass pass,
+  ) {
+    final light = foundLightText;
+    List<InkStroke> strokes() => [
+      for (final d in ink.drawingsOn(page)) ...d.strokes,
+    ];
+    final cache = inkPictures;
+    if (cache == null) {
+      if (pass == InkPass.top) {
+        return (c) => paintInk(c, strokes(), lightText: light);
+      }
+      if (light == null) return null;
+      final markers = [
+        for (final s in strokes())
+          if (InkTool.fromCode(s.tool) == InkTool.marker) s,
+      ];
+      if (markers.isEmpty) return null;
+      return pass == InkPass.behind
+          ? (c) => paintInkBehind(c, markers, lightText: light)
+          : (c) => paintInkFill(c, markers, lightText: light);
+    }
+    final picture = cache.pictureOf(
+      page,
+      ink.revision,
+      strokes,
+      lightText: light,
+      pass: pass,
+    );
+    return picture == null ? null : (c) => c.drawPicture(picture);
+  }
+
+  @override
+  bool shouldRepaint(ReaderPagesPainter old) =>
+      old.dx != dx ||
+      old.dir != dir ||
+      old.foundColor != foundColor ||
+      old.foundLightText != foundLightText ||
+      !identical(old.highlights, highlights) ||
+      !identical(old.ink, ink) ||
+      !identical(old.inkPictures, inkPictures) ||
+      !identical(old.selection, selection) ||
+      old.selectionColor != selectionColor ||
+      !identical(old.neighbor, neighbor) ||
+      !identical(old.document, document);
+}
+
+/// Uma página de texto (G13, G16): os fundos ([highlights] de fundo, a marca da busca [found], a seleção) por trás
+/// das letras — com letras claras ([lightText], o Noite), pela técnica da D-127/D-133 —, os sublinhados, a mancha dos
+/// grifos feitos à mão ([inkHighlights], D-161) e, por último, a tinta ([paintInkLayer], D-59). O modo anotação
+/// pinta a página por aqui também. G17 (R26): no Noite, o Marca-texto vai por trás das letras ([paintInkBehind]) e
+/// por cima, com os fundos ([paintInkFill]); a caneta e a Reta por último ([paintInkLayer]). Achado 17: no Noite, onde
+/// dois fundos se cruzam (os grifos, a busca, a seleção, as manchas e o Marca-texto) vale o de cima, e a conta da D-133
+/// é feita uma vez (`_paintNightTops`).
+void paintTextPage(
+  Canvas canvas,
+  DisplayPage page, {
+  List<PaintedHighlight> highlights = const [],
+  List<PaintedHighlight> inkHighlights = const [],
+  ReaderRange? found,
+  Color? foundColor,
+  ReaderRange? selection,
+  Color? selectionColor,
+  Color? lightText,
+  void Function(Canvas canvas)? paintInkBehind,
+  void Function(Canvas canvas)? paintInkFill,
+  void Function(Canvas canvas)? paintInkLayer,
+}) {
+  final bands = backgroundBands(
+    page,
+    highlights: highlights,
+    found: found,
+    foundColor: foundColor,
+    selection: selection,
+    selectionColor: selectionColor,
+    night: lightText != null,
+  );
+  if (lightText == null) {
+    // letras escuras: os fundos vão por trás delas
+    for (final b in bands) {
+      paintBand(canvas, b, b.color);
+    }
+    page.paint(canvas);
+  } else {
+    // letras claras (o Noite — D-127/D-133): a palavra fica escura no fundo sem refazer a página e sem camada. Com
+    // D = o maior de letra e cor em cada canal, por trás vai D − cor e, por cima, D em diferença: o fundo volta a ser
+    // a cor exata e a letra vira D − letra (quase preta), passando pelas bordas sem degrau. Por trás, o Marca-texto
+    // vai primeiro, depois os fundos e as manchas (o de cima vale onde se cruzam)
+    paintInkBehind?.call(canvas);
+    for (final b in bands) {
+      paintBand(
+        canvas,
+        b,
+        channelMinus(channelMax(lightText, b.color), b.color),
+      );
+    }
+    paintHandHighlightsBehind(
+      canvas,
+      page,
+      inkHighlights,
+      lightText: lightText,
+    );
+    page.paint(canvas);
+    _paintNightTops(
+      canvas,
+      page,
+      bands,
+      inkHighlights,
+      lightText,
+      paintInkFill,
+    );
+  }
+  // os sublinhados e os ondulados, de seleção e à mão (R25)
+  paintUnderlines(canvas, page, [...highlights, ...inkHighlights]);
+  // no Creme, a mancha vai por cima, multiplicada
+  if (lightText == null) paintHandHighlights(canvas, page, inkHighlights);
+  paintInkLayer?.call(canvas);
+}
+
+/// Um fundo do Noite: onde ele está, a forma, D e como ele se pinta sozinho.
+typedef _NightTop = ({
+  Rect bounds,
+  Path Function() shape,
+  Color color,
+  void Function(Paint) draw,
+});
+
+/// Achado 17, sem camada (a regra 12.4): no Noite, a parte de cima (D em diferença) de cada fundo vai só onde nenhum
+/// fundo pintado depois dele o cobre — por trás vale o de cima, e por cima cada pixel leva a diferença uma vez. A
+/// ordem é a de trás: o Marca-texto ([paintInkFill], recortado fora dos fundos e das manchas), os fundos [bands] e as
+/// manchas dos grifos à mão. O que não se cruza com nada vai direto, como antes.
+void _paintNightTops(
+  Canvas canvas,
+  DisplayPage page,
+  List<MarkBand> bands,
+  List<PaintedHighlight> inkHighlights,
+  Color light,
+  void Function(Canvas canvas)? paintInkFill,
+) {
+  final items = <_NightTop>[
+    for (final b in bands)
+      (
+        bounds: Rect.fromLTRB(
+          b.left,
+          b.clipTop ?? b.top,
+          b.right,
+          b.clipBottom ?? b.bottom,
+        ),
+        shape: () => bandPath(b),
+        color: channelMax(light, b.color),
+        draw: (p) => paintBand(canvas, b, p.color, p.blendMode),
+      ),
+    for (final (:box, :color) in handHighlightBoxes(page, inkHighlights))
+      (
+        bounds: box,
+        shape: () => handHighlightPath(box),
+        color: channelMax(light, color),
+        draw: (p) => canvas.drawPath(handHighlightPath(box), p),
+      ),
+  ];
+  Path union(Iterable<Path> paths) =>
+      paths.reduce((a, b) => Path.combine(PathOperation.union, a, b));
+  if (paintInkFill != null) {
+    if (items.isEmpty) {
+      paintInkFill(canvas);
+    } else {
+      canvas
+        ..save()
+        ..clipPath(
+          Path.combine(
+            PathOperation.difference,
+            Path()..addRect(const Rect.fromLTRB(-1e5, -1e5, 1e5, 1e5)),
+            union([for (final i in items) i.shape()]),
+          ),
+        );
+      paintInkFill(canvas);
+      canvas.restore();
+    }
+  }
+  for (var k = 0; k < items.length; k++) {
+    final item = items[k];
+    final paint = Paint()
+      ..color = item.color
+      ..blendMode = BlendMode.difference
+      ..isAntiAlias = true;
+    final above = [
+      for (final o in items.skip(k + 1))
+        if (o.bounds.overlaps(item.bounds)) o.shape(),
+    ];
+    if (above.isEmpty) {
+      item.draw(paint);
+      continue;
+    }
+    canvas.drawPath(
+      Path.combine(PathOperation.difference, item.shape(), union(above)),
+      paint,
+    );
+  }
+}

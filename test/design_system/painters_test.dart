@@ -14,8 +14,8 @@ import 'package:app_leitura/core/design_system/widgets/neo_box.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../reference/reference_layout.dart';
 import '../support/capture.dart';
+import '../support/geometry.dart';
 import '../support/load_fonts.dart';
 
 List<RecordedInvocation> _record(CustomPainter painter, Size size) {
@@ -67,9 +67,9 @@ Matcher _isColor(Color expected, {int tolerance = 2}) => predicate<Color>(
 );
 
 // ── Cenas alinhadas à grade @3x da referência ────────────────────────────────────────────────
-// A caixa da cena começa e termina em pixels físicos inteiros da referência @3x; os filhos são
-// posicionados em coordenadas ABSOLUTAS do canvas 390×2390. Assim o golden é comparável 1:1 com
-// o recorte da referência na mesma caixa (tools: ver relatório da F01).
+// A caixa da cena começa e termina em pixels físicos inteiros da referência @3x; os filhos são posicionados em
+// coordenadas ABSOLUTAS do canvas da prancha 01 (390×2650; até a T03, o 390×2390 da v1). Assim o golden é comparável
+// 1:1 com o recorte da referência na mesma caixa (tools: ver relatório da F01).
 
 const _kScale = 3.0;
 const _goldenKey = Key('golden');
@@ -342,14 +342,17 @@ void main() {
       );
     });
 
+    // Os dois anéis da v1 (34 % e 81 %); a prancha 01 tem só o do Orgulho (81 %, `alsoReading.card2.ring` — o 1º
+    // cartão é o papel com o "play", D-253): as duas cenas ficam alinhadas a ele (o de 34 % segue como regressão do
+    // pintor, sem recorte na prancha).
     for (final (id, progress, label) in [
-      ('alsoReading.card1.ring', 0.34, '34%'),
+      ('alsoReading.card2.ring', 0.34, '34%'),
       ('alsoReading.card2.ring', 0.81, '81%'),
     ]) {
       testWidgets(
         'golden isolado ${(progress * 100).round()}% (cena alinhada a $id, com o rótulo)',
         (tester) async {
-          final rect = kRefLayout[id]!.rect;
+          final rect = ref01(id).rect;
           await tester.pumpWidget(
             _scene(
               rect,
@@ -472,9 +475,9 @@ void main() {
     testWidgets(
       'golden isolado (cena alinhada a today.dial, com "18" e "de 30 min")',
       (tester) async {
-        final dial = kRefLayout['today.dial']!.rect;
-        final value = kRefLayout['today.dial.value']!.rect;
-        final caption = kRefLayout['today.dial.caption']!.rect;
+        final dial = ref01('today.dial').rect;
+        final value = ref01('today.dial.value').rect;
+        final caption = ref01('today.dial.caption').rect;
         await tester.pumpWidget(
           _scene(
             dial,
@@ -605,8 +608,8 @@ void main() {
   testWidgets(
     'cena de verificação: gráfico da semana (hachuras + meias-luas + linha da meta, alinhada a today.week.goalLine/chart)',
     (tester) async {
-      final chart = kRefLayout['today.week.chart']!.rect;
-      final goal = kRefLayout['today.week.goalLine']!.rect;
+      final chart = ref01('today.week.chart').rect;
+      final goal = ref01('today.week.goalLine').rect;
       final region = Rect.fromLTRB(
         goal.left,
         chart.top,
@@ -619,7 +622,7 @@ void main() {
           AppColors.surface,
           (at) => [
             for (var i = 0; i < 7; i++)
-              at(kRefLayout['today.week.bar$i']!.rect, _weekBar(i)),
+              at(ref01('today.week.bar$i').rect, _weekBar(i)),
             at(
               goal,
               const CustomPaint(
@@ -641,7 +644,7 @@ void main() {
               matching: find.byType(CustomPaint),
             )
             .last;
-        final ref = kRefLayout['today.week.bar$i.fill']!.rect;
+        final ref = ref01('today.week.bar$i.fill').rect;
         final got = tester.getRect(fill);
         expect(
           got.left,

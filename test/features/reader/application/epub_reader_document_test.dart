@@ -1,0 +1,375 @@
+// G11.2 — o livro EPUB aberto para a tela (Dom Casmurro real): abre onde a pessoa parou, os números saem da 1ª
+// letra visível, virar grava a posição e avisa a tela, a vizinha aparece sem virar, e os links internos levam
+// ao destino — o "Indice" da folha de rosto vai ao índice no fim (D-108).
+import 'package:app_leitura/core/data/database/daos/reader_daos.dart';
+import 'package:app_leitura/features/reader/application/epub_reader_document.dart';
+import 'package:app_leitura/features/reader/application/reader_document.dart';
+import 'package:app_leitura/features/reader/content/book_index.dart';
+import 'package:app_leitura/features/reader/content/chapter_content.dart';
+import 'package:app_leitura/features/reader/content/content_blocks.dart';
+import 'package:app_leitura/features/reader/content/ref_pages.dart';
+import 'package:app_leitura/features/reader/domain/locator.dart';
+import 'package:app_leitura/features/reader/domain/reader_numbers.dart';
+import 'package:app_leitura/features/reader/domain/reader_settings.dart';
+import 'package:app_leitura/features/reader/layout/page_snapshot.dart';
+import 'package:app_leitura/features/reader/layout/reader_typography.dart';
+import 'package:app_leitura/features/reader/layout/space_cut.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import '../../../support/load_fonts.dart';
+import '../../../support/reader_harness.dart';
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(loadAppFonts);
+
+  late LivroNaEstante livro;
+  setUp(() async => livro = await LivroNaEstante.domCasmurro());
+  tearDown(() async => livro.close());
+
+  Future<EpubReaderDocument> abrir() async {
+    final d = await EpubReaderDocument.open(livro.deps());
+    addTearDown(d.dispose);
+    return d;
+  }
+
+  test('abre onde a pessoa parou; números pela 1ª letra visível', () async {
+    final meio = livro.index.spine[2].chars ~/ 2;
+    await livro.guardarPosicao(2, meio);
+    final d = await abrir();
+    expect(d.title, 'Dom Casmurro');
+    expect(d.mark.spine, 2);
+    expect(d.mark.offset, lessThanOrEqualTo(meio));
+    final n = numbersAt(livro.index, 2, d.mark.offset);
+    expect(
+      d.numbers,
+      ReaderNumbersView(
+        refPage: n.refPage,
+        refTotal: livro.index.refPagesTotal,
+        progression: n.progression,
+      ),
+    );
+    expect(
+      d.numbers.pageLabel,
+      'pág. ${n.refPage} de ${livro.index.refPagesTotal}',
+    );
+    expect(d.shownRange.fromRef, n.refPage);
+    expect(d.shownRange.toRef, greaterThanOrEqualTo(n.refPage));
+  });
+
+  test('sem posição: o começo do livro; voltar no começo = false', () async {
+    final d = await abrir();
+    expect(d.mark, (
+      spine: livro.index.spine.indexWhere((s) => s.linear),
+      offset: 0,
+    ));
+    expect(await d.turn(PageDirection.backward), isFalse);
+    expect(await d.peek(PageDirection.backward), isNull);
+  });
+
+  test('virar: a vizinha vista antes é a página nova; a tela é avisada; a posição grava', () async {
+    final d = await abrir();
+    final antes = d.mark;
+    var avisos = 0;
+    d.changes.addListener(() => avisos++);
+    final vizinha = (await d.peek(PageDirection.forward))!;
+    expect(await d.turn(PageDirection.forward), isTrue);
+    expect(avisos, greaterThan(0));
+    expect(d.mark, isNot(antes));
+    expect(d.current.spokenText, vizinha.spokenText);
+    await d.flush();
+    final pos = await ReadingPositionsDao(livro.db).forBook(livro.userBookId);
+    final l = pos!.locator as EpubLocator;
+    expect((l.spine, l.offset), (d.mark.spine, d.mark.offset));
+  });
+
+  test('G20 (D-210): a página com o fim do XXXI e o começo do XXXII — o lugar é o 1º caractere, o capítulo é o último '
+      'que começa na página', () async {
+    final xxxii = livro.index.toc.firstWhere(
+      (t) => t.title.startsWith('Olhos de ressaca'),
+    );
+    await livro.guardarPosicao(xxxii.spine!, xxxii.offset!);
+    final d = await abrir();
+    final (inicio, fim) = (d.mark, d.markEnd);
+    expect(inicio.spine, xxxii.spine);
+    expect(
+      inicio.offset,
+      lessThan(xxxii.offset!),
+      reason: 'a página começa no fim do XXXI',
+    );
+    expect(fim.spine, inicio.spine);
+    expect(
+      fim.offset,
+      greaterThanOrEqualTo(xxxii.offset!),
+      reason: 'e mostra o começo do XXXII',
+    );
+    // o capítulo esperado, contado à mão: a última folha que começa até o último caractere da página
+    var folha = -1;
+    var esperado = -1;
+    for (final t in livro.index.toc) {
+      if (!t.leaf) continue;
+      folha++;
+      final s = t.spine;
+      if (s != null &&
+          (s < fim.spine ||
+              (s == fim.spine && (t.offset ?? 0) <= fim.offset))) {
+        esperado = folha;
+      }
+    }
+    await d.flush();
+    final pos = (await ReadingPositionsDao(livro.db)
+        .forBook(livro.userBookId))!;
+    expect(pos.chapterIndex, esperado);
+    expect(
+      (pos.locator as EpubLocator).offset,
+      inicio.offset,
+      reason: 'o lugar continua o 1º caractere visível',
+    );
+    expect(await d.turn(PageDirection.forward), isTrue);
+    expect(
+      d.mark.offset,
+      greaterThan(fim.offset),
+      reason: 'o último caractere é desta página, não da seguinte',
+    );
+  });
+
+  test(
+    'o "Indice" da folha de rosto leva ao índice no fim do livro (D-108)',
+    () async {
+      final rosto = livro.index.spine.indexWhere(
+        (s) => s.path.endsWith('55752-h-0.htm.xhtml'),
+      );
+      final item = chapterOf(livro.epub, rosto).item;
+      final run = [
+        for (final b in item.blocks)
+          if (b is TextBlock)
+            for (final r in b.runs)
+              if (r.link != null && r.text.trim() == 'Indice') r,
+      ].single;
+      expect(run.link, endsWith('55752-h-2.htm.xhtml#INDICE'));
+      await livro.guardarPosicao(rosto, 0);
+      final d = await abrir();
+      final origem = d.mark;
+      expect(
+        await d.follow((target: run.link!, spine: rosto, offset: 0)),
+        isTrue,
+      );
+      final alvo = livro.index.spine.indexWhere(
+        (s) => s.path.endsWith('55752-h-2.htm.xhtml'),
+      );
+      final c = chapterOf(livro.epub, alvo);
+      expect(d.mark.spine, alvo);
+      expect(d.mark.offset, lessThanOrEqualTo(c.item.idOffsets['INDICE']!));
+      expect(d.current.spokenText.toUpperCase(), contains('INDICE'));
+      await d.goTo(origem);
+      expect(d.mark, origem);
+      expect(
+        await d.follow((
+          target: 'OEBPS/nao_existe.xhtml#x',
+          spine: rosto,
+          offset: 0,
+        )),
+        isFalse,
+      );
+      expect(d.mark, origem);
+    },
+  );
+
+  test('resolveEpubLink: item + id; sem fragmento ou id desconhecido → começo; caminho fora → null', () async {
+    final index = BookIndex(
+      contentSha256: 's' * 64,
+      layout: 'reflowable',
+      spine: const [
+        SpineInfo(path: 'OEBPS/a.xhtml', linear: true, chars: 10),
+        SpineInfo(path: 'OEBPS/n.xhtml', linear: false, chars: 50),
+      ],
+      toc: const [],
+      refPages: RefPageMap.synthetic(const [0]),
+    );
+    final lidos = <int>[];
+    Future<ChapterContent> conteudo(int s) async {
+      lidos.add(s);
+      return ChapterContent(
+        spineIndex: s,
+        item: ParsedItem(
+          blocks: const [],
+          text: 'x' * 50,
+          blockStarts: const [],
+          idOffsets: const {'n7': 31},
+        ),
+        imageSizes: const {},
+      );
+    }
+
+    expect(await resolveEpubLink(index, 'OEBPS/n.xhtml#n7', conteudo), (
+      spine: 1,
+      offset: 31,
+    ));
+    expect(await resolveEpubLink(index, 'OEBPS/n.xhtml', conteudo), (
+      spine: 1,
+      offset: 0,
+    ));
+    expect(await resolveEpubLink(index, 'OEBPS/n.xhtml#', conteudo), (
+      spine: 1,
+      offset: 0,
+    ));
+    expect(await resolveEpubLink(index, 'OEBPS/n.xhtml#sumiu', conteudo), (
+      spine: 1,
+      offset: 0,
+    ));
+    expect(
+      await resolveEpubLink(index, 'OEBPS/fora.xhtml#x', conteudo),
+      isNull,
+    );
+    expect(lidos, [1, 1], reason: 'só lê o item quando há fragmento');
+  });
+
+  test('números do rodapé: rótulos, igualdade e texto', () {
+    const n = ReaderNumbersView(
+      refPage: 159,
+      refTotal: 256,
+      progression: 0.62113,
+    );
+    expect((n.pageLabel, n.percentLabel), ('pág. 159 de 256', '62%'));
+    expect(
+      n,
+      const ReaderNumbersView(
+        refPage: 159,
+        refTotal: 256,
+        progression: 0.62113,
+      ),
+    );
+    expect(
+      n.hashCode,
+      const ReaderNumbersView(
+        refPage: 159,
+        refTotal: 256,
+        progression: 0.62113,
+      ).hashCode,
+    );
+    expect(
+      n,
+      isNot(
+        const ReaderNumbersView(
+          refPage: 160,
+          refTotal: 256,
+          progression: 0.62113,
+        ),
+      ),
+    );
+    expect(n.toString(), 'pág. 159 de 256 · 62%');
+  });
+
+  group('G14 — retypeset', () {
+    test('repagina na página do caractere que a pessoa lia; voltar aos ajustes de antes volta à mesma página', () async {
+      await livro.guardarPosicao(2, 0);
+      final doc = await EpubReaderDocument.open(livro.deps());
+      addTearDown(doc.dispose);
+      for (var i = 0; i < 3; i++) {
+        expect(await doc.turn(PageDirection.forward), isTrue);
+      }
+      final lendo = doc.mark;
+      final avisos = <ReaderMark>[];
+      doc.changes.addListener(() => avisos.add(doc.mark));
+      await doc.retypeset(
+        const ReaderTypography(
+          fontSize: 26,
+          font: ReaderFontFamily.atkinson,
+          sideMargin: 40,
+        ),
+      );
+      final p = doc.current as PageSnapshot;
+      expect(
+        (p.typography.font, p.typography.fontSize),
+        (ReaderFontFamily.atkinson, 26.0),
+      );
+      final s = p.shown!;
+      expect(s.unit, lendo.spine);
+      expect(
+        lendo.offset,
+        inInclusiveRange(s.from, s.to - 1),
+        reason: 'o caractere que a pessoa lia está na página',
+      );
+      expect(avisos, isNotEmpty, reason: 'a tela é avisada');
+      await doc.retypeset(const ReaderTypography());
+      expect(
+        doc.mark,
+        lendo,
+        reason: 'de volta aos ajustes de antes, a mesma página',
+      );
+    });
+  });
+
+  group('espaço aberto (G18)', () {
+    test('respace: a página atual ganha o espaço; a página do modo é refeita do mesmo começo, mais alta', () async {
+      final meio = livro.index.spine[2].chars ~/ 2;
+      await livro.guardarPosicao(2, meio);
+      final d = await abrir();
+      final pagina = d.current;
+      final shown = pagina.shown!;
+      final texto = d.anchors.textOf(2)!;
+      final at = texto.indexOf('. ', shown.from) + 1;
+      expect(at, inInclusiveRange(shown.from + 1, shown.to));
+      final corte = SpaceCut(at: at, height: 206, id: 'n1');
+      (d as SpacedDocument).spaces = (spine, t) =>
+          spine == 2 ? [corte] : const [];
+      await d.respace();
+      expect(spacesOf(d.current).map((s) => s.id), ['n1']);
+      // a página do modo: o mesmo começo, com o espaço, e mais linhas quando mais alta
+      final modo = d.pageWithSpaces(d.current, [
+        corte,
+      ], contentHeight: d.typography.contentHeight + 200)!;
+      addTearDown(modo.dispose);
+      expect(modo.page.shown!.from, d.current.shown!.from);
+      expect(spacesOf(modo.page).single.id, 'n1');
+      expect(modo.page.shown!.to, greaterThan(d.current.shown!.to));
+      // sem o espaço (a nota saiu no modo): ainda monta, do mesmo começo
+      final sem = d.pageWithSpaces(d.current, const [])!;
+      addTearDown(sem.dispose);
+      expect(spacesOf(sem.page), isEmpty);
+      sem.dispose();
+      expect(sem.page.alive, isFalse);
+    });
+
+    test(
+      'abre já com os espaços das notas (a abertura não pisca — revisão 7)',
+      () async {
+        final meio = livro.index.spine[2].chars ~/ 2;
+        await livro.guardarPosicao(2, meio);
+        final sem = await abrir();
+        expect(spacesOf(sem.current), isEmpty);
+        final shown = sem.current.shown!;
+        final at = sem.anchors.textOf(2)!.indexOf('. ', shown.from) + 1;
+        expect(at, inInclusiveRange(shown.from + 1, shown.to));
+        final corte = SpaceCut(at: at, height: 206, id: 'n1');
+        final d = await EpubReaderDocument.open(
+          livro.deps(espacos: (spine, t) => spine == 2 ? [corte] : const []),
+        );
+        addTearDown(d.dispose);
+        expect(spacesOf(d.current).map((s) => s.id), ['n1']);
+      },
+    );
+
+    test('a página do modo guarda o espaço que não cabe no resto dela; o texto de baixo sai (R3)', () async {
+      final meio = livro.index.spine[2].chars ~/ 2;
+      await livro.guardarPosicao(2, meio);
+      final d = await abrir();
+      final pagina = d.current;
+      final shown = pagina.shown!;
+      final texto = d.anchors.textOf(2)!;
+      final at = texto.indexOf('. ', shown.from) + 1;
+      expect(at, inInclusiveRange(shown.from + 1, shown.to));
+      // mais alto que a página: no leitor iria para a seguinte (R12); no modo, fica
+      final alto = SpaceCut(
+        at: at,
+        height: (d as SpacedDocument).typography.contentHeight,
+        id: 'n2',
+      );
+      final modo = d.pageWithSpaces(pagina, [alto])!;
+      addTearDown(modo.dispose);
+      expect(modo.page.shown!.from, shown.from);
+      expect(spacesOf(modo.page).single.id, 'n2');
+      expect(modo.page.shown!.to, lessThanOrEqualTo(at + 1));
+    });
+  });
+}

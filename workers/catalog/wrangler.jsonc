@@ -1,0 +1,26 @@
+// Worker do catálogo do BookNest (G07 · Anexo 02 §7 · ADR-008 · D-73/D-75).
+// Na G07 roda só local (wrangler dev / Miniflare, R2 emulado em .wrangler/state); a conta Cloudflare e o
+// bucket de verdade entram na publicação (D-75).
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "booknest-catalog",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-04",
+  "r2_buckets": [
+    { "binding": "CATALOGO", "bucket_name": "booknest-catalogo" }
+  ],
+  // Limite por IP nas consultas de ISBN (o scanner faz ~10 por pessoa por dia; 120/min sobra para escolas e
+  // bibliotecas atrás do mesmo IP). O download do catalog.db é limitado à parte (arquivo grande, poucas vezes).
+  "ratelimits": [
+    { "name": "LIMITE_ISBN", "namespace_id": "7001", "simple": { "limit": 120, "period": 60 } },
+    { "name": "LIMITE_DOWNLOAD", "namespace_id": "7002", "simple": { "limit": 30, "period": 60 } }
+  ],
+  "vars": {
+    "VERSAO_API": "1"
+  },
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  }
+}

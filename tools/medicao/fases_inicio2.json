@@ -1,0 +1,158 @@
+{
+ "_doc": "T02 — fases de tela L da Início e da revisão (01, 01b, 60, 61, 62, 63) e o que cada uma cobre: seções da prancha (sem o prefixo). Usado por recortar.py e gen_fases.py com CONJUNTO=inicio2. As seções da 01 são L01a1…L01a9 (o plano pedia 'L01a…' e 'L01b'; com letras, a 2ª seção da 01 seria L01b e colidiria com a fase da prancha 01b, que a T04 cita como L01b). A 01b e a 60 reutilizam as widgets da 01 (reusa = diferenças em relação à 01).",
+ "fases": [
+  {
+   "fase": "L01a1_cabecalho",
+   "prancha": "001_inicio",
+   "secoes": [
+    "header",
+    "headline"
+   ],
+   "titulo": "Início — cabeçalho (saudação, busca, sino) e título"
+  },
+  {
+   "fase": "L01a2_heroi",
+   "prancha": "001_inicio",
+   "secoes": [
+    "hero"
+   ],
+   "titulo": "Início — herói \"Continuar lendo\" (Dom Casmurro)"
+  },
+  {
+   "fase": "L01a3_tambem_lendo",
+   "prancha": "001_inicio",
+   "secoes": [
+    "alsoReading"
+   ],
+   "titulo": "Início — Também lendo (livro de papel e e-book)"
+  },
+  {
+   "fase": "L01a4_seu_dia",
+   "prancha": "001_inicio",
+   "secoes": [
+    "today"
+   ],
+   "titulo": "Início — Seu dia de leitura (meta, Ler agora, semana)"
+  },
+  {
+   "fase": "L01a5_revisao",
+   "prancha": "001_inicio",
+   "secoes": [
+    "review"
+   ],
+   "titulo": "Início — cartão \"Seus grifos de hoje\" (revisão)"
+  },
+  {
+   "fase": "L01a6_para_voce",
+   "prancha": "001_inicio",
+   "secoes": [
+    "forYou"
+   ],
+   "titulo": "Início — Para você"
+  },
+  {
+   "fase": "L01a7_clube",
+   "prancha": "001_inicio",
+   "secoes": [
+    "club"
+   ],
+   "titulo": "Início — ingresso do Clube do livro"
+  },
+  {
+   "fase": "L01a8_recem_chegados",
+   "prancha": "001_inicio",
+   "secoes": [
+    "recent"
+   ],
+   "titulo": "Início — Recém-chegados"
+  },
+  {
+   "fase": "L01a9_barra",
+   "prancha": "001_inicio",
+   "secoes": [
+    "bottomFade",
+    "nav"
+   ],
+   "titulo": "Início — degradê inferior e barra de navegação"
+  },
+  {
+   "fase": "L01b_lendo_agora",
+   "prancha": "001b_inicio_lendo_agora",
+   "secoes": [
+    "alsoReading",
+    "miniBar",
+    "bottomFade",
+    "nav"
+   ],
+   "titulo": "Início lendo agora — livro de papel em sessão e mini-barra do cronômetro",
+   "reusa": {
+    "base": "001_inicio",
+    "secoes": [
+     "header",
+     "headline",
+     "hero",
+     "alsoReading",
+     "today",
+     "forYou",
+     "club",
+     "recent"
+    ],
+    "relativoASecao": true
+   }
+  },
+  {
+   "fase": "L60_grifos_de_hoje",
+   "prancha": "060_inicio_grifos_de_hoje",
+   "secoes": [
+    "review",
+    "bottomFade",
+    "nav"
+   ],
+   "titulo": "Início rolada até o cartão \"Seus grifos de hoje\"",
+   "reusa": {
+    "base": "001_inicio",
+    "secoes": [
+     "header",
+     "headline",
+     "hero",
+     "alsoReading",
+     "today",
+     "forYou",
+     "club",
+     "recent"
+    ],
+    "relativoASecao": true
+   }
+  },
+  {
+   "fase": "L61_revisao_grifo",
+   "prancha": "061_revisao_grifo_2_de_5",
+   "secoes": [
+    "header",
+    "deck",
+    "swipeHint",
+    "actions"
+   ],
+   "titulo": "Revisão dos grifos — grifo 2 de 5"
+  },
+  {
+   "fase": "L62_revisao_fim",
+   "prancha": "062_revisao_fim",
+   "secoes": [
+    "header",
+    "summary",
+    "footer"
+   ],
+   "titulo": "Revisão dos grifos — fim (revisão feita)"
+  },
+  {
+   "fase": "L63_compartilhar_grifo",
+   "prancha": "063_revisao_imagem_compartilhar",
+   "secoes": [
+    "scrim",
+    "sheet"
+   ],
+   "titulo": "Revisão — folha \"Compartilhar grifo\" (imagem)"
+  }
+ ]
+}

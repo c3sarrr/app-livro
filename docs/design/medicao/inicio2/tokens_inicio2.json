@@ -1,0 +1,3014 @@
+{
+ "cores": [
+  {
+   "cor": "#1A1714",
+   "existe": "ink",
+   "nomeProposto": null,
+   "usos": 555,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.header.avatar",
+    "i01.header.name",
+    "i01.header.search",
+    "i01.header.bell"
+   ]
+  },
+  {
+   "cor": "#FFFAF1",
+   "existe": "surface",
+   "nomeProposto": null,
+   "usos": 149,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.header.search",
+    "i01.header.bell",
+    "i01.header.bell.dot",
+    "i01.hero.pagePill"
+   ]
+  },
+  {
+   "cor": "#5B544B",
+   "existe": "inkMuted",
+   "nomeProposto": null,
+   "usos": 65,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.header.greeting",
+    "i01.alsoReading.card1.author",
+    "i01.alsoReading.card2.author",
+    "i01.today.week.total"
+   ]
+  },
+  {
+   "cor": "#F7F0E3",
+   "existe": "paper",
+   "nomeProposto": null,
+   "usos": 52,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.frame",
+    "i01.hero.cta.label",
+    "i01.alsoReading.count",
+    "i01.alsoReading.card1.meta"
+   ]
+  },
+  {
+   "cor": "#B6ACE4",
+   "existe": "lavender",
+   "nomeProposto": null,
+   "usos": 49,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.hero",
+    "i01.today.week.bar0.fill",
+    "i01.today.week.bar1.fill",
+    "i01.today.week.bar2.fill"
+   ]
+  },
+  {
+   "cor": "#EFE6D4",
+   "existe": "hatch",
+   "nomeProposto": null,
+   "usos": 42,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.week.bar0",
+    "i01.today.week.bar1",
+    "i01.today.week.bar2",
+    "i01.today.week.bar3"
+   ]
+  },
+  {
+   "cor": "#FED170",
+   "existe": "sun",
+   "nomeProposto": null,
+   "usos": 33,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.header.avatar",
+    "i01.hero.formatPill",
+    "i01.hero.notesButton.badge",
+    "i01.alsoReading.card1.cover.title"
+   ]
+  },
+  {
+   "cor": "#FFC1C6",
+   "existe": "blush",
+   "nomeProposto": null,
+   "usos": 25,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card2.cover",
+    "i01.review.art.card2.line0",
+    "i01.review.art.card2.line1",
+    "i01.club.pill"
+   ]
+  },
+  {
+   "cor": "#ABCF82",
+   "existe": "leaf",
+   "nomeProposto": null,
+   "usos": 22,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.review.art.card1.line0",
+    "i01.review.art.card1.line1",
+    "i01.club.avatar1",
+    "i01b.club.avatar1"
+   ]
+  },
+  {
+   "cor": "#FF552E",
+   "existe": "flame",
+   "nomeProposto": null,
+   "usos": 17,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.header.bell.dot",
+    "i01.today.week.bar6.fill",
+    "i01.forYou.item1.cover",
+    "i01.forYou.item1.cover.author"
+   ]
+  },
+  {
+   "cor": "#E4DACA",
+   "existe": null,
+   "nomeProposto": "reviewLineNeutral (traços dos cartõezinhos da revisão)",
+   "usos": 17,
+   "pranchas": [
+    "001",
+    "060",
+    "062"
+   ],
+   "exemplos": [
+    "i01.review.art.card1.line2",
+    "i01.review.art.card1.line3",
+    "i01.review.art.card2.line2",
+    "i01.review.art.card2.line3"
+   ]
+  },
+  {
+   "cor": "#000000@0.18",
+   "existe": "spine18",
+   "nomeProposto": null,
+   "usos": 9,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card1.cover.spine",
+    "i01.forYou.item2.cover.spine",
+    "i01.forYou.item3.cover.spine",
+    "i01b.alsoReading.card1.cover.spine"
+   ]
+  },
+  {
+   "cor": "#000000@0.12",
+   "existe": "spine12",
+   "nomeProposto": null,
+   "usos": 9,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card2.cover.spine",
+    "i01.recent.row1.cover.spine",
+    "i01.recent.row2.cover.spine",
+    "i01b.alsoReading.card2.cover.spine"
+   ]
+  },
+  {
+   "cor": "#058CD7",
+   "existe": "azure",
+   "nomeProposto": null,
+   "usos": 7,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card1.cover",
+    "i01.forYou.item2.cover",
+    "i01b.alsoReading.card1.cover",
+    "i01b.forYou.item2.cover"
+   ]
+  },
+  {
+   "cor": "#E2D7C4",
+   "existe": "markerRowBorder",
+   "nomeProposto": null,
+   "usos": 7,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "063"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card1.meta",
+    "i01.alsoReading.card2.meta",
+    "i01b.alsoReading.card1.meta",
+    "i01b.alsoReading.card2.meta"
+   ]
+  },
+  {
+   "cor": "#2F2A40",
+   "existe": "inkPlum",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.author",
+    "i01.hero.timeLeft",
+    "i01b.hero.author",
+    "i01b.hero.timeLeft"
+   ]
+  },
+  {
+   "cor": "#1A1714@0.14",
+   "existe": "decoRing",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.decoCircleLarge",
+    "i01.today.decoCircleSmall",
+    "i01b.today.decoCircleLarge",
+    "i01b.today.decoCircleSmall"
+   ]
+  },
+  {
+   "cor": "#4A4238",
+   "existe": "inkWarm",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.dial.caption",
+    "i01.recent.row2.tag",
+    "i01b.today.dial.caption",
+    "i01b.recent.row2.tag"
+   ]
+  },
+  {
+   "cor": "#FFFAF1@0.7",
+   "existe": "chipGlass",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.chip.sessions",
+    "i01.today.chip.highlights",
+    "i01b.today.chip.sessions",
+    "i01b.today.chip.highlights"
+   ]
+  },
+  {
+   "cor": "#FDE2B2",
+   "existe": "hatchToday",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.week.bar6",
+    "i01b.today.week.bar6",
+    "i60.today.week.bar6"
+   ]
+  },
+  {
+   "cor": "#00995E",
+   "existe": "emerald",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item3.cover",
+    "i01.forYou.item3.cover.archInner",
+    "i01b.forYou.item3.cover",
+    "i01b.forYou.item3.cover.archInner"
+   ]
+  },
+  {
+   "cor": "#E9E1D2",
+   "existe": "divider",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row0",
+    "i01.recent.row1",
+    "i01b.recent.row0",
+    "i01b.recent.row1"
+   ]
+  },
+  {
+   "cor": "#E9DFCC",
+   "existe": "hatchReader",
+   "nomeProposto": null,
+   "usos": 6,
+   "pranchas": [
+    "061"
+   ],
+   "exemplos": [
+    "rv61.header.progress.step2",
+    "rv61.header.progress.step3",
+    "rv61.header.progress.step4"
+   ]
+  },
+  {
+   "cor": "#000000@0",
+   "existe": null,
+   "nomeProposto": "—",
+   "usos": 6,
+   "pranchas": [
+    "061",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "rv61.deck.card.quote.mark",
+    "rv62.summary.newNote.quote.mark",
+    "rv63.sheet.preview.quote.highlight"
+   ]
+  },
+  {
+   "cor": "#552CB7",
+   "existe": "violet",
+   "nomeProposto": null,
+   "usos": 5,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "i01.hero.cover",
+    "i01b.hero.cover",
+    "i60.hero.cover",
+    "rv61.deck.card.top.book.spine"
+   ]
+  },
+  {
+   "cor": "#F7F0E3@0",
+   "existe": "paperTransparent",
+   "nomeProposto": null,
+   "usos": 4,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "062"
+   ],
+   "exemplos": [
+    "i01.bottomFade",
+    "i01b.bottomFade",
+    "i60.bottomFade",
+    "rv62.footer"
+   ]
+  },
+  {
+   "cor": "#2A2520",
+   "existe": "bookText",
+   "nomeProposto": null,
+   "usos": 4,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.quote",
+    "rv61.deck.card.quote.mark",
+    "rv62.summary.newNote.quote",
+    "rv62.summary.newNote.quote.mark"
+   ]
+  },
+  {
+   "cor": "#FFC1C6@0.95",
+   "existe": null,
+   "nomeProposto": "highlightPink @ 0,95 (grifo da revisão)",
+   "usos": 4,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.quote.mark",
+    "rv62.summary.newNote.quote.mark"
+   ]
+  },
+  {
+   "cor": "#000000@0.22",
+   "existe": "spine22",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.cover.spine",
+    "i01b.hero.cover.spine",
+    "i60.hero.cover.spine"
+   ]
+  },
+  {
+   "cor": "#6F665B",
+   "existe": "labelReader",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "060",
+    "062"
+   ],
+   "exemplos": [
+    "i01.review.kicker",
+    "i60.review.kicker",
+    "rv62.footer.settings"
+   ]
+  },
+  {
+   "cor": "#000000@0.15",
+   "existe": "spine15",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item1.cover.spine",
+    "i01b.forYou.item1.cover.spine",
+    "i60.forYou.item1.cover.spine"
+   ]
+  },
+  {
+   "cor": "#4A2F33",
+   "existe": "stubLabel",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.stub.label",
+    "i01b.club.stub.label",
+    "i60.club.stub.label"
+   ]
+  },
+  {
+   "cor": "#ECE7FA",
+   "existe": "tagLavenderBg",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row0.tag",
+    "i01b.recent.row0.tag",
+    "i60.recent.row0.tag"
+   ]
+  },
+  {
+   "cor": "#3B2D86",
+   "existe": "tagLavenderFg",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row0.tag",
+    "i01b.recent.row0.tag",
+    "i60.recent.row0.tag"
+   ]
+  },
+  {
+   "cor": "#E1EDD0",
+   "existe": null,
+   "nomeProposto": "tagReadBg (pílula \"Lido\")",
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row1.tag",
+    "i01b.recent.row1.tag",
+    "i60.recent.row1.tag"
+   ]
+  },
+  {
+   "cor": "#2E5314",
+   "existe": null,
+   "nomeProposto": "tagReadText (pílula \"Lido\")",
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row1.tag",
+    "i01b.recent.row1.tag",
+    "i60.recent.row1.tag"
+   ]
+  },
+  {
+   "cor": "#F2A815",
+   "existe": "amber",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row2.cover",
+    "i01b.recent.row2.cover",
+    "i60.recent.row2.cover"
+   ]
+  },
+  {
+   "cor": "#EFE7D7",
+   "existe": "tagSandBg",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row2.tag",
+    "i01b.recent.row2.tag",
+    "i60.recent.row2.tag"
+   ]
+  },
+  {
+   "cor": "#8A8073",
+   "existe": "readerFooterNight",
+   "nomeProposto": null,
+   "usos": 3,
+   "pranchas": [
+    "061"
+   ],
+   "exemplos": [
+    "rv61.deck.card.footer.when",
+    "rv61.deck.card.footer.reviewed",
+    "rv61.swipeHint"
+   ]
+  },
+  {
+   "cor": "#FFFAF1@0.85",
+   "existe": null,
+   "nomeProposto": "surface @ 0,85 (fita da nota)",
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.note.tape",
+    "rv62.summary.newNote.note.tape"
+   ]
+  },
+  {
+   "cor": "#5B4A1C",
+   "existe": "noteLabel",
+   "nomeProposto": null,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.note.label",
+    "rv62.summary.newNote.note.label"
+   ]
+  },
+  {
+   "cor": "#3E2A2D",
+   "existe": null,
+   "nomeProposto": "shareInkPink (textos da prévia rosa)",
+   "usos": 2,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.preview.author",
+    "rv63.sheet.preview.footer.handle"
+   ]
+  },
+  {
+   "cor": "#1A1714@0.35",
+   "existe": "dialTick",
+   "nomeProposto": null,
+   "usos": 1,
+   "pranchas": [
+    "001b"
+   ],
+   "exemplos": [
+    "i01b.miniBar"
+   ]
+  },
+  {
+   "cor": "#B9AE9C",
+   "existe": null,
+   "nomeProposto": "miniBarKicker (\"LENDO · PAPEL\")",
+   "usos": 1,
+   "pranchas": [
+    "001b"
+   ],
+   "exemplos": [
+    "i01b.miniBar.kicker"
+   ]
+  },
+  {
+   "cor": "#CFC3AE",
+   "existe": "dashReader",
+   "nomeProposto": null,
+   "usos": 1,
+   "pranchas": [
+    "061"
+   ],
+   "exemplos": [
+    "rv61.deck.card.footer"
+   ]
+  },
+  {
+   "cor": "#8A7F63",
+   "existe": "tipDash",
+   "nomeProposto": null,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.tomorrow"
+   ]
+  },
+  {
+   "cor": "#3D3830",
+   "existe": "tipText",
+   "nomeProposto": null,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.tomorrow.text"
+   ]
+  },
+  {
+   "cor": "#1A1714@0.25",
+   "existe": null,
+   "nomeProposto": "ink @ 0,25 / 0,35 (sombras do CTA e da mini-barra)",
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.footer.cta"
+   ]
+  },
+  {
+   "cor": "#2B2521",
+   "existe": null,
+   "nomeProposto": "scrimShare (fundo da 63)",
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.scrim"
+   ]
+  },
+  {
+   "cor": "#D9CFBD",
+   "existe": null,
+   "nomeProposto": "sheetHandle",
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.handle"
+   ]
+  },
+  {
+   "cor": "#EDE4D3",
+   "existe": null,
+   "nomeProposto": "toggleDivider",
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.toggles.note"
+   ]
+  },
+  {
+   "cor": "#F1E7D5",
+   "existe": null,
+   "nomeProposto": "toggleTrackOff",
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.toggles.note.switch"
+   ]
+  }
+ ],
+ "raios": [
+  {
+   "raio": "999px",
+   "existe": "pill",
+   "usos": 129,
+   "exemplos": [
+    "i01.hero.pagePill",
+    "i01.hero.formatPill",
+    "i01.hero.progressBar"
+   ]
+  },
+  {
+   "raio": "50%",
+   "existe": null,
+   "usos": 98,
+   "exemplos": [
+    "i01.header.avatar",
+    "i01.header.search",
+    "i01.header.bell"
+   ]
+  },
+  {
+   "raio": "3px",
+   "existe": null,
+   "usos": 30,
+   "exemplos": [
+    "i01.review.art.card1.line0",
+    "i01.review.art.card1.line1",
+    "i01.review.art.card1.line2"
+   ]
+  },
+  {
+   "raio": "28px",
+   "existe": "card",
+   "usos": 17,
+   "exemplos": [
+    "i01.hero",
+    "i01.today",
+    "i01.review"
+   ]
+  },
+  {
+   "raio": "3px 7px 7px 3px",
+   "existe": null,
+   "usos": 15,
+   "exemplos": [
+    "i01.alsoReading.card1.cover",
+    "i01.alsoReading.card2.cover",
+    "i01.recent.row0.cover"
+   ]
+  },
+  {
+   "raio": "20px",
+   "existe": "navItem",
+   "usos": 15,
+   "exemplos": [
+    "i01.nav.home",
+    "i01.nav.library",
+    "i01.nav.scanner"
+   ]
+  },
+  {
+   "raio": "2px",
+   "existe": null,
+   "usos": 15,
+   "exemplos": [
+    "rv62.summary.art.card1.line0",
+    "rv62.summary.art.card1.line1",
+    "rv62.summary.art.card1.line2"
+   ]
+  },
+  {
+   "raio": "4px 10px 10px 4px",
+   "existe": null,
+   "usos": 12,
+   "exemplos": [
+    "i01.hero.cover",
+    "i01.forYou.item1.cover",
+    "i01.forYou.item2.cover"
+   ]
+  },
+  {
+   "raio": "22px",
+   "existe": "cardM",
+   "usos": 11,
+   "exemplos": [
+    "i01.alsoReading.card1",
+    "i01.alsoReading.card2",
+    "i01.today.week"
+   ]
+  },
+  {
+   "raio": "6px",
+   "existe": null,
+   "usos": 9,
+   "exemplos": [
+    "i01.forYou.item2.cover.line1",
+    "i01.forYou.item2.cover.line2",
+    "i01.forYou.item2.cover.line3"
+   ]
+  },
+  {
+   "raio": "10px",
+   "existe": null,
+   "usos": 8,
+   "exemplos": [
+    "i01.review.art.card1",
+    "i01.review.art.card2",
+    "i01.review.art.card3"
+   ]
+  },
+  {
+   "raio": "18px",
+   "existe": null,
+   "usos": 7,
+   "exemplos": [
+    "rv62.summary.tomorrow",
+    "rv63.sheet.preview",
+    "rv63.sheet.toggles"
+   ]
+  },
+  {
+   "raio": "9px",
+   "existe": null,
+   "usos": 5,
+   "exemplos": [
+    "rv62.summary.art.card1",
+    "rv62.summary.art.card2",
+    "rv62.summary.art.card3"
+   ]
+  },
+  {
+   "raio": "2px 2px 0px 0px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "i01.alsoReading.card1.cover.hat",
+    "i01b.alsoReading.card1.cover.hat",
+    "i60.alsoReading.card1.cover.hat"
+   ]
+  },
+  {
+   "raio": "34px 34px 0px 0px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "i01.forYou.item3.cover.archOuter",
+    "i01b.forYou.item3.cover.archOuter",
+    "i60.forYou.item3.cover.archOuter"
+   ]
+  },
+  {
+   "raio": "14px 14px 0px 0px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "i01.forYou.item3.cover.archInner",
+    "i01b.forYou.item3.cover.archInner",
+    "i60.forYou.item3.cover.archInner"
+   ]
+  },
+  {
+   "raio": "24px",
+   "existe": "list",
+   "usos": 3,
+   "exemplos": [
+    "i01.recent.list",
+    "i01b.recent.list",
+    "i60.recent.list"
+   ]
+  },
+  {
+   "raio": "13px 13px 0px 0px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "i01.recent.row2.cover.arch",
+    "i01b.recent.row2.cover.arch",
+    "i60.recent.row2.cover.arch"
+   ]
+  },
+  {
+   "raio": "26px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "rv61.deck.behind2",
+    "rv61.deck.behind1",
+    "rv61.deck.card"
+   ]
+  },
+  {
+   "raio": "16px",
+   "existe": null,
+   "usos": 3,
+   "exemplos": [
+    "rv62.summary.stats.more",
+    "rv62.summary.stats.less",
+    "rv62.summary.stats.newNote"
+   ]
+  },
+  {
+   "raio": "1.5px 3px 3px 1.5px",
+   "existe": null,
+   "usos": 2,
+   "exemplos": [
+    "rv61.deck.card.top.book.spine",
+    "rv62.summary.newNote.top.book.spine"
+   ]
+  },
+  {
+   "raio": "0px 4px 4px 0px",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "i01b.miniBar.progress"
+   ]
+  },
+  {
+   "raio": "2px 5px 5px 2px",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "i01b.miniBar.cover"
+   ]
+  },
+  {
+   "raio": "32px 32px 0px 0px",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "rv63.sheet"
+   ]
+  }
+ ],
+ "bordas": [
+  {
+   "borda": "1.5px solid",
+   "existe": "regular",
+   "usos": 202,
+   "exemplos": [
+    "i01.header.avatar",
+    "i01.header.search",
+    "i01.header.bell"
+   ]
+  },
+  {
+   "borda": "1.2px solid",
+   "existe": "thin",
+   "usos": 51,
+   "exemplos": [
+    "i01.alsoReading.card1.meta",
+    "i01.alsoReading.card2.meta",
+    "i01.today.chip.sessions"
+   ]
+  },
+  {
+   "borda": "1.3px solid",
+   "existe": null,
+   "usos": 10,
+   "exemplos": [
+    "rv61.header.progress.step0",
+    "rv61.header.progress.step1",
+    "rv61.header.progress.step2"
+   ]
+  },
+  {
+   "borda": "1px solid",
+   "existe": "divider",
+   "usos": 7,
+   "exemplos": [
+    "i01.recent.row0",
+    "i01.recent.row1",
+    "i01b.recent.row0"
+   ]
+  },
+  {
+   "borda": "1.5px dashed",
+   "existe": "regular",
+   "usos": 6,
+   "exemplos": [
+    "i01.today.week.goalLine",
+    "i01.club.stub",
+    "i01b.today.week.goalLine"
+   ]
+  },
+  {
+   "borda": "1.4px solid",
+   "existe": null,
+   "usos": 5,
+   "exemplos": [
+    "rv62.summary.art.card1",
+    "rv62.summary.art.card2",
+    "rv62.summary.art.card3"
+   ]
+  },
+  {
+   "borda": "1.1px solid",
+   "existe": null,
+   "usos": 2,
+   "exemplos": [
+    "rv61.deck.card.top.tag.dot",
+    "rv62.summary.newNote.top.tag.dot"
+   ]
+  },
+  {
+   "borda": "1px dashed",
+   "existe": "divider",
+   "usos": 1,
+   "exemplos": [
+    "rv61.deck.card.footer"
+   ]
+  },
+  {
+   "borda": "1.3px dashed",
+   "existe": null,
+   "usos": 1,
+   "exemplos": [
+    "rv62.summary.tomorrow"
+   ]
+  },
+  {
+   "borda": "1.2px dashed",
+   "existe": "thin",
+   "usos": 1,
+   "exemplos": [
+    "rv63.sheet.preview.footer"
+   ]
+  }
+ ],
+ "sombras": [
+  {
+   "sombra": "#1A1714 2px 2px 0px 0px",
+   "usos": 21,
+   "exemplos": [
+    "i01.alsoReading.card1.cover",
+    "i01.alsoReading.card2.cover",
+    "i01.review.art.card1"
+   ]
+  },
+  {
+   "sombra": "#1A1714 4px 4px 0px 0px",
+   "usos": 9,
+   "exemplos": [
+    "i01.hero",
+    "i01.today",
+    "i01.review"
+   ]
+  },
+  {
+   "sombra": "#1A1714 3px 3px 0px 0px",
+   "usos": 6,
+   "exemplos": [
+    "i01.hero.cover",
+    "i01b.hero.cover",
+    "i60.hero.cover"
+   ]
+  },
+  {
+   "sombra": "#1A1714 0px 4px 0px 0px",
+   "usos": 6,
+   "exemplos": [
+    "i01.nav",
+    "i01.nav.scanner.fab",
+    "i01b.nav"
+   ]
+  },
+  {
+   "sombra": "#FF552E 0px 0px 0px 3px",
+   "usos": 1,
+   "exemplos": [
+    "i01b.alsoReading.card1.play"
+   ]
+  },
+  {
+   "sombra": "#1A1714@0.35 0px 4px 0px 0px",
+   "usos": 1,
+   "exemplos": [
+    "i01b.miniBar"
+   ]
+  },
+  {
+   "sombra": "#1A1714@0.25 0px 4px 0px 0px",
+   "usos": 1,
+   "exemplos": [
+    "rv62.footer.cta"
+   ]
+  },
+  {
+   "sombra": "#1A1714 5px 5px 0px 0px",
+   "usos": 1,
+   "exemplos": [
+    "rv63.sheet.preview"
+   ]
+  },
+  {
+   "sombra": "#FFFAF1 0px 0px 0px 2.5px, #1A1714 0px 0px 0px 4px",
+   "usos": 1,
+   "exemplos": [
+    "rv63.sheet.colors.pink"
+   ]
+  }
+ ],
+ "sombrasExistentes": {
+  "hard4": [
+   4.0,
+   4.0
+  ],
+  "hard3": [
+   3.0,
+   3.0
+  ],
+  "hard2": [
+   2.0,
+   2.0
+  ],
+  "drop4": [
+   0.0,
+   4.0
+  ]
+ },
+ "estilosDeTexto": [
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "063"
+   ],
+   "exemplos": [
+    "i01.club.youMarker",
+    "i01b.club.youMarker",
+    "i60.club.youMarker",
+    "rv63.sheet.preview.footer.brand"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 14.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "15.4px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.preview.book"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 17.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.3px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.header.title",
+    "rv62.header.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 18.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.header.avatar",
+    "i01b.header.avatar",
+    "i60.header.avatar"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 18.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.3px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.title",
+    "i01b.alsoReading.title",
+    "i60.alsoReading.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 20.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.4px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 4,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "063"
+   ],
+   "exemplos": [
+    "i01.today.title",
+    "i01b.today.title",
+    "i60.today.title",
+    "rv63.sheet.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 20.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "21px",
+   "espacamento": "-0.5px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "001",
+    "060"
+   ],
+   "exemplos": [
+    "i01.review.title",
+    "i60.review.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 22.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "22px",
+   "espacamento": "-0.5px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.title",
+    "i01b.club.title",
+    "i60.club.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 22.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "23.1px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.stats.more.value",
+    "rv62.summary.stats.less.value",
+    "rv62.summary.stats.newNote.value"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 24.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "25.2px",
+   "espacamento": "-0.6px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.title",
+    "i01b.hero.title",
+    "i60.hero.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 24.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.6px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.title",
+    "i01.recent.title",
+    "i01b.forYou.title",
+    "i01b.recent.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 24.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.6px",
+   "cor": "#F7F0E3",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "001b"
+   ],
+   "exemplos": [
+    "i01b.miniBar.time"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 26.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.6px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.percent",
+    "i01b.hero.percent",
+    "i60.hero.percent"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 32.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "31.36px",
+   "espacamento": "-1px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.title"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 34.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "34px",
+   "espacamento": "-1px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.dial.value",
+    "i01b.today.dial.value",
+    "i60.today.dial.value"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 42.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "41.16px",
+   "espacamento": "-1.4px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.headline",
+    "i01b.headline",
+    "i60.headline"
+   ]
+  },
+  {
+   "familia": "Bricolage Grotesque",
+   "tamanho": 42.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "39.9px",
+   "espacamento": "-1.5px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.stub.day",
+    "i01b.club.stub.day",
+    "i60.club.stub.day"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 6.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.91px",
+   "cor": "#FF552E",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item1.cover.author",
+    "i01b.forYou.item1.cover.author",
+    "i60.forYou.item1.cover.author"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 6.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.91px",
+   "cor": "#FFFAF1",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item2.cover.author",
+    "i01.forYou.item3.cover.author",
+    "i01b.forYou.item2.cover.author",
+    "i01b.forYou.item3.cover.author"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.avatar3",
+    "i01b.club.avatar3",
+    "i60.club.avatar3"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1px",
+   "cor": "#4A2F33",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.stub.label",
+    "i01b.club.stub.label",
+    "i60.club.stub.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1px",
+   "cor": "#5B4A1C",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.note.label",
+    "rv62.summary.newNote.note.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#3E2A2D",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.preview.footer.handle"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 10.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1.4px",
+   "cor": "#B9AE9C",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "001b"
+   ],
+   "exemplos": [
+    "i01b.miniBar.kicker"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 9,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.nav.library.label",
+    "i01.nav.clubs.label",
+    "i01.nav.profile.label",
+    "i01b.nav.library.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#4A4238",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.dial.caption",
+    "i01b.today.dial.caption",
+    "i60.today.dial.caption"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 18,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.week.label0",
+    "i01.today.week.label1",
+    "i01.today.week.label2",
+    "i01.today.week.label3"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.nav.scanner.label",
+    "i01b.nav.scanner.label",
+    "i60.nav.scanner.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#3E2A2D",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.preview.author"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 26,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "i01.hero.notesButton.badge",
+    "i01.alsoReading.card2.ring.label",
+    "i01.today.week.label6",
+    "i01.club.avatar0"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "1px",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "001",
+    "060"
+   ],
+   "exemplos": [
+    "i01.review.kicker",
+    "i60.review.kicker"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.0,
+   "peso": 900,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.8px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.formatPill",
+    "i01b.hero.formatPill",
+    "i60.hero.formatPill"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card1.meta",
+    "i01.alsoReading.card2.meta",
+    "i01b.alsoReading.card1.meta",
+    "i01b.alsoReading.card2.meta"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 11.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.top.book.label",
+    "rv62.summary.newNote.top.book.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#2F2A40",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.timeLeft",
+    "i01b.hero.timeLeft",
+    "i60.hero.timeLeft"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.week.total",
+    "i01.club.groupLabel",
+    "i01b.today.week.total",
+    "i01b.club.groupLabel"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 19,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "062",
+    "063"
+   ],
+   "exemplos": [
+    "i01.hero.pagePill",
+    "i01.today.chip.sessions",
+    "i01.today.chip.highlights",
+    "i01.club.pill"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#3B2D86",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row0.tag",
+    "i01b.recent.row0.tag",
+    "i60.recent.row0.tag"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#2E5314",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row1.tag",
+    "i01b.recent.row1.tag",
+    "i60.recent.row1.tag"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#4A4238",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row2.tag",
+    "i01b.recent.row2.tag",
+    "i60.recent.row2.tag"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#8A8073",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "061"
+   ],
+   "exemplos": [
+    "rv61.deck.card.footer.when",
+    "rv61.deck.card.footer.reviewed",
+    "rv61.swipeHint"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.count",
+    "i01b.alsoReading.count",
+    "i60.alsoReading.count"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.youLabel",
+    "i01b.club.youLabel",
+    "i60.club.youLabel"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "0.96px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.stub.weekday",
+    "i01.club.stub.month",
+    "i01b.club.stub.weekday",
+    "i01b.club.stub.month"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "16.875px",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "001",
+    "060"
+   ],
+   "exemplos": [
+    "i01.review.subtitle",
+    "i60.review.subtitle"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#6F665B",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.footer.settings"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 12.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.footer.settings.link"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#5B544B",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 30,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.header.greeting",
+    "i01.alsoReading.card1.author",
+    "i01.alsoReading.card2.author",
+    "i01.forYou.item1.author"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.footer.text",
+    "i01.forYou.reasonChip",
+    "i01b.today.footer.text",
+    "i01b.forYou.reasonChip"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "18.2px",
+   "espacamento": "normal",
+   "cor": "#3D3830",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.tomorrow.text"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "17.55px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.deck.card.note.text",
+    "rv62.summary.newNote.note.text"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 13,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "062"
+   ],
+   "exemplos": [
+    "i01.today.streakPill",
+    "i01.today.week.title",
+    "i01.today.footer.text.strong",
+    "i01.club.stub.time"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": "tnum",
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.header.counter",
+    "rv62.header.counter"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 13.0,
+   "peso": 900,
+   "estilo": "normal",
+   "alturaLinha": "18.2px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.tomorrow.text.strong"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 500,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#2F2A40",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.author",
+    "i01b.hero.author",
+    "i60.hero.author"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 8,
+   "pranchas": [
+    "001",
+    "001b",
+    "060",
+    "063"
+   ],
+   "exemplos": [
+    "i01.forYou.seeAll",
+    "i01.recent.libraryLink",
+    "i01b.forYou.seeAll",
+    "i01b.recent.libraryLink"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "16.8px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 9,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item1.title",
+    "i01.forYou.item2.title",
+    "i01.forYou.item3.title",
+    "i01b.forYou.item1.title"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.cta.label",
+    "i01b.club.cta.label",
+    "i60.club.cta.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 5,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.readNow.label",
+    "i01.review.cta.label",
+    "i01b.today.readNow.label",
+    "i60.today.readNow.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 14.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 2,
+   "pranchas": [
+    "061"
+   ],
+   "exemplos": [
+    "rv61.actions.less",
+    "rv61.actions.more"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 600,
+   "estilo": "normal",
+   "alturaLinha": "19.5px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.goalText.sentence",
+    "i01b.today.goalText.sentence",
+    "i60.today.goalText.sentence"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "18px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card1.title",
+    "i01.alsoReading.card2.title",
+    "i01b.alsoReading.card1.title",
+    "i01b.alsoReading.card2.title"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 9,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.recent.row0.title",
+    "i01.recent.row1.title",
+    "i01.recent.row2.title",
+    "i01b.recent.row0.title"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "19.5px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.goalText.sentence.strong",
+    "i01b.today.goalText.sentence.strong",
+    "i60.today.goalText.sentence.strong"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.0,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "18px",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 1,
+   "pranchas": [
+    "001b"
+   ],
+   "exemplos": [
+    "i01b.miniBar.title"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 15.5,
+   "peso": 800,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.actions.next.label",
+    "rv62.footer.cta.label"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 16.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "-0.1px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.header.name",
+    "i01b.header.name",
+    "i60.header.name"
+   ]
+  },
+  {
+   "familia": "Figtree",
+   "tamanho": 16.0,
+   "peso": 700,
+   "estilo": "normal",
+   "alturaLinha": "normal",
+   "espacamento": "normal",
+   "cor": "#F7F0E3",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.hero.cta.label",
+    "i01b.hero.cta.label",
+    "i60.hero.cta.label"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 9.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "8.55px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card2.cover.title",
+    "i01b.alsoReading.card2.cover.title",
+    "i60.alsoReading.card2.cover.title"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 11.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "10.45px",
+   "espacamento": "normal",
+   "cor": "#FED170",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.alsoReading.card1.cover.title",
+    "i01b.alsoReading.card1.cover.title",
+    "i60.alsoReading.card1.cover.title"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 20.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "normal",
+   "espacamento": "-0.3px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "061",
+    "062"
+   ],
+   "exemplos": [
+    "rv61.header.title.serif",
+    "rv62.header.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 22.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "20.9px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item1.cover.title",
+    "i01b.forYou.item1.cover.title",
+    "i60.forYou.item1.cover.title"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 23.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "normal",
+   "espacamento": "-0.2px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.today.title.serif",
+    "i01b.today.title.serif",
+    "i60.today.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 24.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "25.2px",
+   "espacamento": "-0.5px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "001",
+    "060"
+   ],
+   "exemplos": [
+    "i01.review.title.serif",
+    "i60.review.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 24.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "normal",
+   "espacamento": "-0.4px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 25.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "27px",
+   "espacamento": "-0.2px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.preview.quote",
+    "rv63.sheet.preview.quote.highlight"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 26.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "23.4px",
+   "espacamento": "normal",
+   "cor": "#FFFAF1",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 6,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.forYou.item2.cover.title",
+    "i01.forYou.item3.cover.title",
+    "i01b.forYou.item2.cover.title",
+    "i01b.forYou.item3.cover.title"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 36.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "34.2px",
+   "espacamento": "-0.4px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.club.title.serif",
+    "i01b.club.title.serif",
+    "i60.club.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 40.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "39.2px",
+   "espacamento": "-1px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.title.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 50.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "49px",
+   "espacamento": "-0.6px",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": true,
+   "usos": 3,
+   "pranchas": [
+    "001",
+    "001b",
+    "060"
+   ],
+   "exemplos": [
+    "i01.headline.serif",
+    "i01b.headline.serif",
+    "i60.headline.serif"
+   ]
+  },
+  {
+   "familia": "Instrument Serif",
+   "tamanho": 64.0,
+   "peso": 400,
+   "estilo": "italic",
+   "alturaLinha": "38.4px",
+   "espacamento": "normal",
+   "cor": "#1A1714",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 1,
+   "pranchas": [
+    "063"
+   ],
+   "exemplos": [
+    "rv63.sheet.preview.quoteMark"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 15.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "22.5px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "062"
+   ],
+   "exemplos": [
+    "rv62.summary.newNote.quote",
+    "rv62.summary.newNote.quote.mark"
+   ]
+  },
+  {
+   "familia": "Literata",
+   "tamanho": 22.0,
+   "peso": 400,
+   "estilo": "normal",
+   "alturaLinha": "34.1px",
+   "espacamento": "normal",
+   "cor": "#2A2520",
+   "recursos": null,
+   "familiaETamanhoNaV1": false,
+   "usos": 2,
+   "pranchas": [
+    "061"
+   ],
+   "exemplos": [
+    "rv61.deck.card.quote",
+    "rv61.deck.card.quote.mark"
+   ]
+  }
+ ]
+}

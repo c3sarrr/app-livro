@@ -1,0 +1,5330 @@
+{
+ "meta": {
+  "source": "Redesign mobile — App de leitura (1).html",
+  "prancha": "27_sumario",
+  "titulo": "27 · Leitor — sumário",
+  "canvas": [
+   390,
+   844
+  ],
+  "prefixo": "toc",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), prancha isolada do bundle aninhado, rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "toc.page": [
+   28,
+   92,
+   334,
+   200
+  ],
+  "toc.fade": [
+   0,
+   0,
+   390,
+   844
+  ],
+  "toc.sheet": [
+   10,
+   112,
+   370,
+   722
+  ]
+ },
+ "elements": {
+  "toc.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "style": {
+    "bg": "#F8F1E4",
+    "overflow": "hidden"
+   }
+  },
+  "toc.page": {
+   "tpl": 5,
+   "section": "toc.page",
+   "type": "box",
+   "tag": "article",
+   "abs": [
+    28,
+    92,
+    334,
+    200
+   ],
+   "rel": [
+    0,
+    0,
+    334,
+    200
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "92px",
+     "right": "28px",
+     "bottom": "552px",
+     "left": "28px"
+    }
+   },
+   "css": "position: absolute; left: 28px; right: 28px; top: 92px; height: 200px; overflow: hidden",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 203
+    }
+   ]
+  },
+  "toc.page.text": {
+   "tpl": 6,
+   "section": "toc.page",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    28,
+    92,
+    334,
+    246.82
+   ],
+   "rel": [
+    0,
+    0,
+    334,
+    246.82
+   ],
+   "style": {
+    "font": {
+     "family": "Literata",
+     "size": 20.5,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "35.26px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 20.5,
+     "textIndent": "26.65px"
+    }
+   },
+   "css": "margin: 0; font-family: 'Literata', Georgia, serif; font-size: 20.5px; line-height: 1.72; color: #2A2520; text-indent: 1.3em",
+   "lines": [
+    {
+     "text": "Retórica dos namorados, dá-me",
+     "left": 54.65,
+     "right": 360.0,
+     "top": 94.41,
+     "bottom": 124.85,
+     "baseline": 118.54,
+     "baselineRel": 26.54
+    },
+    {
+     "text": "uma comparação exata e poética",
+     "left": 28,
+     "right": 340.39,
+     "top": 129.67,
+     "bottom": 160.11,
+     "baseline": 153.8,
+     "baselineRel": 61.8
+    },
+    {
+     "text": "para dizer o que foram aqueles",
+     "left": 28,
+     "right": 322.1,
+     "top": 164.93,
+     "bottom": 195.37,
+     "baseline": 189.06,
+     "baselineRel": 97.06
+    },
+    {
+     "text": "olhos de Capitu. Não me acode",
+     "left": 28,
+     "right": 321.2,
+     "top": 200.19,
+     "bottom": 230.63,
+     "baseline": 224.32,
+     "baselineRel": 132.32
+    },
+    {
+     "text": "imagem capaz de dizer, sem",
+     "left": 28,
+     "right": 295.46,
+     "top": 235.45,
+     "bottom": 265.89,
+     "baseline": 259.58,
+     "baselineRel": 167.58
+    },
+    {
+     "text": "quebra da dignidade do estilo, o",
+     "left": 28,
+     "right": 333.61,
+     "top": 270.71,
+     "bottom": 301.15,
+     "baseline": 294.84,
+     "baselineRel": 202.84
+    },
+    {
+     "text": "que eles foram e me fizeram.",
+     "left": 28,
+     "right": 302.05,
+     "top": 305.97,
+     "bottom": 336.41,
+     "baseline": 330.1,
+     "baselineRel": 238.1,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 2103.41,
+   "minContentWidth": 118.712,
+   "text": "Retórica dos namorados, dá-me uma comparação exata e poética para dizer o que foram aqueles olhos de Capitu. Não me acode imagem capaz de dizer, sem quebra da dignidade do estilo, o que eles foram e me fizeram.",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 203
+    }
+   ]
+  },
+  "toc.fade": {
+   "tpl": 7,
+   "section": "toc.fade",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "style": {
+    "bg": "#1A1714@0.28",
+    "position": {
+     "top": "0px",
+     "right": "0px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; inset: 0; background: rgba(26,23,20,0.28)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet": {
+   "tpl": 8,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    10,
+    112,
+    370,
+    722
+   ],
+   "rel": [
+    0,
+    0,
+    370,
+    722
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "32px",
+     "32px",
+     "44px",
+     "44px"
+    ],
+    "shadow": "#1A1714 0px 4px 0px 0px",
+    "padding": "10px 14px 0px 14px",
+    "overflow": "hidden",
+    "position": {
+     "top": "112px",
+     "right": "10px",
+     "bottom": "10px",
+     "left": "10px"
+    }
+   },
+   "css": "position: absolute; left: 10px; right: 10px; top: 112px; bottom: 10px; padding: 10px 14px 0; border-radius: 32px 32px 44px 44px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 0 4px 0 #1A1714; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden",
+   "aria": "Sumário",
+   "role": "dialog"
+  },
+  "toc.sheet.grabber": {
+   "tpl": 9,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    175,
+    123.5,
+    40,
+    5
+   ],
+   "rel": [
+    165,
+    11.5,
+    40,
+    5
+   ],
+   "style": {
+    "bg": "#CFC3AE",
+    "radius": "3px"
+   },
+   "css": "display: block; width: 40px; height: 5px; margin: 0 auto; border-radius: 3px; background: #CFC3AE; flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.header": {
+   "tpl": 10,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    25.5,
+    136.5,
+    339,
+    44.6
+   ],
+   "rel": [
+    15.5,
+    24.5,
+    339,
+    44.6
+   ],
+   "style": {
+    "padding": "0px 4px 0px 4px"
+   },
+   "css": "margin-top: 8px; padding: 0 4px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0"
+  },
+  "toc.sheet.header.texts": {
+   "tpl": 11,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    29.5,
+    136.5,
+    177.12,
+    44.6
+   ],
+   "rel": [
+    19.5,
+    24.5,
+    177.12,
+    44.6
+   ],
+   "style": {},
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 28
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "toc.sheet.title": {
+   "tpl": 12,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    29.5,
+    136.5,
+    177.12,
+    26
+   ],
+   "rel": [
+    19.5,
+    24.5,
+    177.12,
+    26
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 26.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "26px",
+     "letterSpacing": "-0.6px",
+     "color": "#1A1714",
+     "opsz": 26.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px; line-height: 1; letter-spacing: -0.6px",
+   "lines": [
+    {
+     "text": "Sumário",
+     "left": 29.5,
+     "right": 132.58,
+     "top": 133.9,
+     "bottom": 165.1,
+     "baseline": 158.08,
+     "baselineRel": 46.08
+    }
+   ],
+   "naturalWidth": 103.08,
+   "minContentWidth": 103.08,
+   "text": "Sumário",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "toc.sheet.subtitle": {
+   "tpl": 13,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    29.5,
+    165.5,
+    177.12,
+    15.6
+   ],
+   "rel": [
+    19.5,
+    53.5,
+    177.12,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "display: block; margin-top: 3px; font-size: 13px; font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "Dom Casmurro · 148 capítulos",
+     "left": 29.5,
+     "right": 206.62,
+     "top": 165.5,
+     "bottom": 181.1,
+     "baseline": 177.85,
+     "baselineRel": 65.85
+    }
+   ],
+   "naturalWidth": 177.125,
+   "minContentWidth": 57.824,
+   "text": "Dom Casmurro · 148 capítulos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 28
+    }
+   ]
+  },
+  "toc.sheet.close": {
+   "tpl": 14,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    316.5,
+    136.8,
+    44,
+    44
+   ],
+   "rel": [
+    306.5,
+    24.8,
+    44,
+    44
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 44px; height: 44px; flex-shrink: 0; padding: 0; border-radius: 50%; background: #F7F0E3; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Fechar"
+  },
+  "toc.sheet.close.icon": {
+   "tpl": 15,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    329.5,
+    149.8,
+    18,
+    18
+   ],
+   "rel": [
+    319.5,
+    37.8,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.tabs": {
+   "tpl": 17,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    25.5,
+    193.1,
+    339,
+    46
+   ],
+   "rel": [
+    15.5,
+    81.1,
+    339,
+    46
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "3px 3px 3px 3px"
+   },
+   "css": "margin-top: 12px; height: 46px; padding: 3px; border-radius: 999px; background: #F7F0E3; border: 1.5px solid #1A1714; box-sizing: border-box; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; flex-shrink: 0",
+   "role": "tablist",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "toc.sheet.tabs.chapters": {
+   "tpl": 18,
+   "section": "toc.sheet",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    30,
+    197.6,
+    163.5,
+    37
+   ],
+   "rel": [
+    20,
+    85.6,
+    163.5,
+    37
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "padding: 0; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; font-size: 14px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Capítulos",
+     "left": 67.27,
+     "right": 129.62,
+     "top": 207.7,
+     "bottom": 224.5,
+     "baseline": 221,
+     "baselineRel": 109
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Capítulos 148",
+     "left": 67.27,
+     "right": 156.24,
+     "top": 207.7,
+     "bottom": 224.5,
+     "baseline": 221,
+     "baselineRel": 109
+    }
+   ],
+   "naturalWidth": 91.97,
+   "minContentWidth": 65.356,
+   "role": "tab",
+   "text": "Capítulos",
+   "ariaAttrs": {
+    "aria-selected": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "toc.sheet.tabs.chapters.count": {
+   "tpl": 19,
+   "section": "toc.sheet",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    132.9,
+    207.7,
+    23.34,
+    16.8
+   ],
+   "rel": [
+    122.9,
+    95.7,
+    23.34,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#3B3466",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-weight: 700; color: #3B3466",
+   "lines": [
+    {
+     "text": "148",
+     "left": 132.9,
+     "right": 156.24,
+     "top": 207.7,
+     "bottom": 224.5,
+     "baseline": 221,
+     "baselineRel": 109
+    }
+   ],
+   "naturalWidth": 23.338,
+   "minContentWidth": 23.338,
+   "text": "148",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.tabs.bookmarks": {
+   "tpl": 20,
+   "section": "toc.sheet",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    196.5,
+    197.6,
+    163.5,
+    37
+   ],
+   "rel": [
+    186.5,
+    85.6,
+    163.5,
+    37
+   ],
+   "style": {
+    "border": "1.5px solid #000000@0",
+    "radius": "999px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "padding: 0; border-radius: 999px; background: transparent; border: 1.5px solid transparent; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px; font-weight: 700",
+   "lines": [
+    {
+     "text": "Marcadas",
+     "left": 248.76,
+     "right": 310.95,
+     "top": 207.7,
+     "bottom": 224.5,
+     "baseline": 221,
+     "baselineRel": 109
+    }
+   ],
+   "naturalWidth": 95.972,
+   "minContentWidth": 95.972,
+   "role": "tab",
+   "text": "Marcadas",
+   "ariaAttrs": {
+    "aria-selected": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "toc.sheet.tabs.bookmarks.icon": {
+   "tpl": 21,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    231.76,
+    209.6,
+    11,
+    13
+   ],
+   "rel": [
+    221.76,
+    97.6,
+    11,
+    13
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.tabs.bookmarks.count": {
+   "tpl": 23,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    316.95,
+    207.7,
+    7.78,
+    16.8
+   ],
+   "rel": [
+    306.95,
+    95.7,
+    7.78,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#8A8073",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-weight: 700; color: #8A8073",
+   "lines": [
+    {
+     "text": "3",
+     "left": 316.95,
+     "right": 324.74,
+     "top": 207.7,
+     "bottom": 224.5,
+     "baseline": 221,
+     "baselineRel": 109
+    }
+   ],
+   "naturalWidth": 7.784,
+   "minContentWidth": 7.784,
+   "text": "3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.club": {
+   "tpl": 24,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    251.1,
+    339,
+    61
+   ],
+   "rel": [
+    15.5,
+    139.1,
+    339,
+    61
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": "18px",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "padding": "10px 8px 10px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin-top: 12px; padding: 10px 8px 10px 10px; border-radius: 18px; background: #FFC1C6; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; display: flex; align-items: center; gap: 10px; flex-shrink: 0"
+  },
+  "toc.sheet.club.flag": {
+   "tpl": 25,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    37,
+    262.6,
+    38,
+    38
+   ],
+   "rel": [
+    27,
+    150.6,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "toc.sheet.club.flag.icon": {
+   "tpl": 26,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    47,
+    272.6,
+    18,
+    18
+   ],
+   "rel": [
+    37,
+    160.6,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.club.texts": {
+   "tpl": 29,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85,
+    265,
+    226,
+    33.2
+   ],
+   "rel": [
+    75,
+    153,
+    226,
+    33.2
+   ],
+   "style": {},
+   "css": "min-width: 0; flex-grow: 1",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 53
+    }
+   ]
+  },
+  "toc.sheet.club.kicker": {
+   "tpl": 30,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85,
+    265,
+    226,
+    13.2
+   ],
+   "rel": [
+    75,
+    153,
+    226,
+    13.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.8px",
+     "color": "#5B3A3E",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; color: #5B3A3E; white-space: nowrap",
+   "lines": [
+    {
+     "text": "LEITORAS DE CAPITU · QUI 24/9",
+     "left": 85,
+     "right": 276.17,
+     "top": 265,
+     "bottom": 278.2,
+     "baseline": 275.45,
+     "baselineRel": 163.45
+    }
+   ],
+   "naturalWidth": 191.17,
+   "minContentWidth": 59.387,
+   "text": "LEITORAS DE CAPITU · QUI 24/9",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 29
+    }
+   ]
+  },
+  "toc.sheet.club.goal": {
+   "tpl": 31,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85,
+    280.2,
+    226,
+    18
+   ],
+   "rel": [
+    75,
+    168.2,
+    226,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "display: block; margin-top: 2px; font-size: 15px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Até o cap. L · faltam 18",
+     "left": 85,
+     "right": 242.43,
+     "top": 280.2,
+     "bottom": 298.2,
+     "baseline": 294.45,
+     "baselineRel": 182.45
+    }
+   ],
+   "naturalWidth": 157.425,
+   "minContentWidth": 45.135,
+   "text": "Até o cap. L · faltam 18",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "toc.sheet.club.arrow": {
+   "tpl": 32,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    321,
+    264.6,
+    34,
+    34
+   ],
+   "rel": [
+    311,
+    152.6,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.club.arrow.icon": {
+   "tpl": 33,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    330,
+    273.6,
+    16,
+    16
+   ],
+   "rel": [
+    320,
+    161.6,
+    16,
+    16
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "toc.sheet.chapters": {
+   "tpl": 35,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "nav",
+   "abs": [
+    11.5,
+    320.1,
+    367,
+    512.4
+   ],
+   "rel": [
+    1.5,
+    208.1,
+    367,
+    512.4
+   ],
+   "style": {
+    "padding": "0px 14px 0px 14px",
+    "overflow": "hidden",
+    "mask": "linear-gradient(#000000@0 0px, #000000 22px, #000000 calc(100% - 40px), #000000@0)"
+   },
+   "css": "position: relative; margin: 8px -14px 0; padding: 0 14px; flex-grow: 1; overflow: hidden; -webkit-mask-image: linear-gradient(transparent 0, #000 22px, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(transparent 0, #000 22px, #000 calc(100% - 40px), transparent)",
+   "aria": "Capítulos"
+  },
+  "toc.sheet.chapters.list": {
+   "tpl": 36,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "ul",
+   "abs": [
+    25.5,
+    314.1,
+    339,
+    743.65
+   ],
+   "rel": [
+    15.5,
+    202.1,
+    339,
+    743.65
+   ],
+   "style": {},
+   "css": "margin-top: -6px"
+  },
+  "toc.sheet.chapters.ch25": {
+   "tpl": 37,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    314.1,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    202.1,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch25.link": {
+   "tpl": 38,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    314.1,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    202.1,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 18
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch25.numeral": {
+   "tpl": 39,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    331.9,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    219.9,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXV",
+     "left": 35.5,
+     "right": 62.85,
+     "top": 331.9,
+     "bottom": 346.3,
+     "baseline": 343.3,
+     "baselineRel": 231.3
+    }
+   ],
+   "naturalWidth": 27.348,
+   "minContentWidth": 27.348,
+   "text": "XXV",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch25.title": {
+   "tpl": 40,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    317.1,
+    151.1,
+    44
+   ],
+   "rel": [
+    87.5,
+    205.1,
+    151.1,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "No Passeio Público",
+     "left": 97.5,
+     "right": 238.16,
+     "top": 327.22,
+     "bottom": 350.98,
+     "baseline": 346.05,
+     "baselineRel": 234.05
+    }
+   ],
+   "naturalWidth": 140.658,
+   "minContentWidth": 56.848,
+   "text": "No Passeio Público",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch25.marks": {
+   "tpl": 41,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    258.6,
+    331.1,
+    25.9,
+    16
+   ],
+   "rel": [
+    248.6,
+    219.1,
+    25.9,
+    16
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 5px; flex-shrink: 0",
+   "aria": "1 marcas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch25.marks.symbols": {
+   "tpl": 42,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    258.6,
+    331.1,
+    16,
+    16
+   ],
+   "rel": [
+    248.6,
+    219.1,
+    16,
+    16
+   ],
+   "style": {},
+   "css": "display: flex"
+  },
+  "toc.sheet.chapters.ch25.marks.highlight": {
+   "tpl": 43,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    258.6,
+    331.1,
+    16,
+    16
+   ],
+   "rel": [
+    248.6,
+    219.1,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 16px; height: 16px; border-radius: 50%; background: #FED170; border: 1.3px solid #1A1714; box-sizing: border-box"
+  },
+  "toc.sheet.chapters.ch25.marks.count": {
+   "tpl": 44,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    279.6,
+    332.19,
+    4.9,
+    13.81
+   ],
+   "rel": [
+    269.6,
+    220.19,
+    4.9,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 11.5px; font-weight: 800; color: #6F665B",
+   "lines": [
+    {
+     "text": "1",
+     "left": 279.6,
+     "right": 284.5,
+     "top": 332.19,
+     "bottom": 346.0,
+     "baseline": 343.12,
+     "baselineRel": 231.12
+    }
+   ],
+   "naturalWidth": 4.899,
+   "minContentWidth": 4.899,
+   "text": "1",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch25.page": {
+   "tpl": 45,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    331.3,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    219.3,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "121",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 331.3,
+     "bottom": 346.9,
+     "baseline": 343.65,
+     "baselineRel": 231.65
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "121",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch25.read": {
+   "tpl": 46,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    330.1,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    218.1,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch25.read.icon": {
+   "tpl": 47,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    333.6,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    221.6,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch26": {
+   "tpl": 49,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    365.3,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    253.3,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch26.link": {
+   "tpl": 50,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    365.3,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    253.3,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 17
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch26.numeral": {
+   "tpl": 51,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    383.1,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    271.1,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXVI",
+     "left": 35.5,
+     "right": 66.91,
+     "top": 383.1,
+     "bottom": 397.5,
+     "baseline": 394.5,
+     "baselineRel": 282.5
+    }
+   ],
+   "naturalWidth": 31.412,
+   "minContentWidth": 31.412,
+   "text": "XXVI",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch26.title": {
+   "tpl": 52,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    368.3,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    256.3,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "As leis são belas",
+     "left": 97.5,
+     "right": 215.96,
+     "top": 378.42,
+     "bottom": 402.18,
+     "baseline": 397.25,
+     "baselineRel": 285.25
+    }
+   ],
+   "naturalWidth": 118.458,
+   "minContentWidth": 38.793,
+   "text": "As leis são belas",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 17
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch26.page": {
+   "tpl": 53,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    382.5,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    270.5,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "126",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 382.5,
+     "bottom": 398.1,
+     "baseline": 394.85,
+     "baselineRel": 282.85
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "126",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch26.read": {
+   "tpl": 54,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    381.3,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    269.3,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch26.read.icon": {
+   "tpl": 55,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    384.8,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    272.8,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch27": {
+   "tpl": 57,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    416.5,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    304.5,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch27.link": {
+   "tpl": 58,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    416.5,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    304.5,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 9
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch27.numeral": {
+   "tpl": 59,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    434.3,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    322.3,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXVII",
+     "left": 35.5,
+     "right": 70.98,
+     "top": 434.3,
+     "bottom": 448.7,
+     "baseline": 445.7,
+     "baselineRel": 333.7
+    }
+   ],
+   "naturalWidth": 35.476,
+   "minContentWidth": 35.476,
+   "text": "XXVII",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch27.title": {
+   "tpl": 60,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    419.5,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    307.5,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "Ao portão",
+     "left": 97.5,
+     "right": 172.52,
+     "top": 429.62,
+     "bottom": 453.38,
+     "baseline": 448.45,
+     "baselineRel": 336.45
+    }
+   ],
+   "naturalWidth": 75.022,
+   "minContentWidth": 50.826,
+   "text": "Ao portão",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch27.page": {
+   "tpl": 61,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    433.7,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    321.7,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "131",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 433.7,
+     "bottom": 449.3,
+     "baseline": 446.05,
+     "baselineRel": 334.05
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "131",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch27.read": {
+   "tpl": 62,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    432.5,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    320.5,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch27.read.icon": {
+   "tpl": 63,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    436,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    324,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch28": {
+   "tpl": 65,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    467.7,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    355.7,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch28.link": {
+   "tpl": 66,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    467.7,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    355.7,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 6
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch28.numeral": {
+   "tpl": 67,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    485.5,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    373.5,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXVIII",
+     "left": 35.5,
+     "right": 75.04,
+     "top": 485.5,
+     "bottom": 499.9,
+     "baseline": 496.9,
+     "baselineRel": 384.9
+    }
+   ],
+   "naturalWidth": 39.54,
+   "minContentWidth": 39.54,
+   "text": "XXVIII",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch28.title": {
+   "tpl": 68,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    470.7,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    358.7,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "Na rua",
+     "left": 97.5,
+     "right": 148.13,
+     "top": 480.82,
+     "bottom": 504.58,
+     "baseline": 499.65,
+     "baselineRel": 387.65
+    }
+   ],
+   "naturalWidth": 50.626,
+   "minContentWidth": 26.304,
+   "text": "Na rua",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch28.page": {
+   "tpl": 69,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    484.9,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    372.9,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "136",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 484.9,
+     "bottom": 500.5,
+     "baseline": 497.25,
+     "baselineRel": 385.25
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "136",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch28.read": {
+   "tpl": 70,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    483.7,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    371.7,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch28.read.icon": {
+   "tpl": 71,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    487.2,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    375.2,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch29": {
+   "tpl": 73,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    518.9,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    406.9,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch29.link": {
+   "tpl": 74,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    518.9,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    406.9,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch29.numeral": {
+   "tpl": 75,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    536.7,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    424.7,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXIX",
+     "left": 35.5,
+     "right": 66.59,
+     "top": 536.7,
+     "bottom": 551.1,
+     "baseline": 548.1,
+     "baselineRel": 436.1
+    }
+   ],
+   "naturalWidth": 31.088,
+   "minContentWidth": 31.088,
+   "text": "XXIX",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch29.title": {
+   "tpl": 76,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    521.9,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    409.9,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "O imperador",
+     "left": 97.5,
+     "right": 194.0,
+     "top": 532.02,
+     "bottom": 555.78,
+     "baseline": 550.85,
+     "baselineRel": 438.85
+    }
+   ],
+   "naturalWidth": 96.497,
+   "minContentWidth": 81.153,
+   "text": "O imperador",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch29.page": {
+   "tpl": 77,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    536.1,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    424.1,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "141",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 536.1,
+     "bottom": 551.7,
+     "baseline": 548.45,
+     "baselineRel": 436.45
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "141",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch29.read": {
+   "tpl": 78,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    534.9,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    422.9,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch29.read.icon": {
+   "tpl": 79,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    538.4,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    426.4,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch30": {
+   "tpl": 81,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    570.1,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    458.1,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch30.link": {
+   "tpl": 82,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    570.1,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    458.1,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch30.numeral": {
+   "tpl": 83,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    587.9,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    475.9,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXX",
+     "left": 35.5,
+     "right": 62.52,
+     "top": 587.9,
+     "bottom": 602.3,
+     "baseline": 599.3,
+     "baselineRel": 487.3
+    }
+   ],
+   "naturalWidth": 27.024,
+   "minContentWidth": 27.024,
+   "text": "XXX",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch30.title": {
+   "tpl": 84,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    573.1,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    461.1,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "O Santíssimo",
+     "left": 97.5,
+     "right": 197.09,
+     "top": 583.22,
+     "bottom": 606.98,
+     "baseline": 602.05,
+     "baselineRel": 490.05
+    }
+   ],
+   "naturalWidth": 99.591,
+   "minContentWidth": 84.247,
+   "text": "O Santíssimo",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch30.page": {
+   "tpl": 85,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    587.3,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    475.3,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "146",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 587.3,
+     "bottom": 602.9,
+     "baseline": 599.65,
+     "baselineRel": 487.65
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "146",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch30.read": {
+   "tpl": 86,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    586.1,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    474.1,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch30.read.icon": {
+   "tpl": 87,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    589.6,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    477.6,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch31": {
+   "tpl": 89,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    621.3,
+    339,
+    65.2
+   ],
+   "rel": [
+    15.5,
+    509.3,
+    339,
+    65.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch31.link": {
+   "tpl": 90,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    621.3,
+    339,
+    65.2
+   ],
+   "rel": [
+    15.5,
+    509.3,
+    339,
+    65.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 24
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch31.numeral": {
+   "tpl": 91,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    646.1,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    534.1,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXXI",
+     "left": 35.5,
+     "right": 66.59,
+     "top": 646.1,
+     "bottom": 660.5,
+     "baseline": 657.5,
+     "baselineRel": 545.5
+    }
+   ],
+   "naturalWidth": 31.088,
+   "minContentWidth": 31.088,
+   "text": "XXXI",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch31.title": {
+   "tpl": 92,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    621.3,
+    139.24,
+    64
+   ],
+   "rel": [
+    87.5,
+    509.3,
+    139.24,
+    64
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#2A2520",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #2A2520",
+   "lines": [
+    {
+     "text": "As curiosidades de",
+     "left": 97.5,
+     "right": 236.69,
+     "top": 631.42,
+     "bottom": 655.18,
+     "baseline": 650.25,
+     "baselineRel": 538.25
+    },
+    {
+     "text": "Capitu",
+     "left": 97.5,
+     "right": 148.12,
+     "top": 651.42,
+     "bottom": 675.18,
+     "baseline": 670.25,
+     "baselineRel": 558.25
+    }
+   ],
+   "naturalWidth": 193.007,
+   "minContentWidth": 95.921,
+   "text": "As curiosidades de Capitu",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch31.marks": {
+   "tpl": 93,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    246.74,
+    645.3,
+    37.76,
+    16
+   ],
+   "rel": [
+    236.74,
+    533.3,
+    37.76,
+    16
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 5px; flex-shrink: 0",
+   "aria": "2 marcas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch31.marks.symbols": {
+   "tpl": 94,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    246.74,
+    645.3,
+    26,
+    16
+   ],
+   "rel": [
+    236.74,
+    533.3,
+    26,
+    16
+   ],
+   "style": {},
+   "css": "display: flex"
+  },
+  "toc.sheet.chapters.ch31.marks.highlight": {
+   "tpl": 95,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    246.74,
+    645.3,
+    16,
+    16
+   ],
+   "rel": [
+    236.74,
+    533.3,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 16px; height: 16px; border-radius: 50%; background: #B6ACE4; border: 1.3px solid #1A1714; box-sizing: border-box"
+  },
+  "toc.sheet.chapters.ch31.marks.note": {
+   "tpl": 96,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    258.74,
+    646.3,
+    14,
+    14
+   ],
+   "rel": [
+    248.74,
+    534.3,
+    14,
+    14
+   ],
+   "vis": [
+    258.05,
+    645.61,
+    15.39,
+    15.39
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.3px solid #1A1714",
+    "radius": "3px",
+    "transformMatrix": "matrix(0.994522, -0.104528, 0.104528, 0.994522, 0, 0)",
+    "transform": "rotate(-6deg)"
+   },
+   "css": "margin-left: -4px; width: 14px; height: 14px; margin-top: 1px; border-radius: 3px; background: #FED170; border: 1.3px solid #1A1714; box-sizing: border-box; transform: rotate(-6deg)"
+  },
+  "toc.sheet.chapters.ch31.marks.count": {
+   "tpl": 97,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    277.74,
+    646.39,
+    6.76,
+    13.81
+   ],
+   "rel": [
+    267.74,
+    534.39,
+    6.76,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 11.5px; font-weight: 800; color: #6F665B",
+   "lines": [
+    {
+     "text": "2",
+     "left": 277.74,
+     "right": 284.5,
+     "top": 646.39,
+     "bottom": 660.21,
+     "baseline": 657.33,
+     "baselineRel": 545.33
+    }
+   ],
+   "naturalWidth": 6.762,
+   "minContentWidth": 6.762,
+   "text": "2",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch31.page": {
+   "tpl": 98,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    645.5,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    533.5,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "152",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 645.5,
+     "bottom": 661.1,
+     "baseline": 657.85,
+     "baselineRel": 545.85
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "152",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch31.read": {
+   "tpl": 99,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    644.3,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    532.3,
+    18,
+    18
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "lido"
+  },
+  "toc.sheet.chapters.ch31.read.icon": {
+   "tpl": 100,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    647.8,
+    11,
+    11
+   ],
+   "rel": [
+    328,
+    535.8,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch32": {
+   "tpl": 102,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    692.5,
+    339,
+    75.25
+   ],
+   "rel": [
+    15.5,
+    580.5,
+    339,
+    75.25
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch32.link": {
+   "tpl": 103,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    692.5,
+    339,
+    75.25
+   ],
+   "rel": [
+    15.5,
+    580.5,
+    339,
+    75.25
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "padding": "10px 12px 10px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin: 6px 0; padding: 10px 12px 10px 10px; border-radius: 16px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; display: block",
+   "ariaAttrs": {
+    "aria-current": "location"
+   }
+  },
+  "toc.sheet.chapters.ch32.row": {
+   "tpl": 104,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    37,
+    704,
+    314,
+    21.25
+   ],
+   "rel": [
+    27,
+    592,
+    314,
+    21.25
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 16
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch32.numeral": {
+   "tpl": 105,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    37,
+    707.42,
+    52,
+    14.4
+   ],
+   "rel": [
+    27,
+    595.42,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #1A1714",
+   "lines": [
+    {
+     "text": "XXXII",
+     "left": 37,
+     "right": 72.15,
+     "top": 707.42,
+     "bottom": 721.83,
+     "baseline": 718.83,
+     "baselineRel": 606.83
+    }
+   ],
+   "naturalWidth": 35.152,
+   "minContentWidth": 35.152,
+   "text": "XXXII",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch32.title": {
+   "tpl": 106,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    99,
+    704,
+    184,
+    21.25
+   ],
+   "rel": [
+    89,
+    592,
+    184,
+    21.25
+   ],
+   "style": {
+    "font": {
+     "family": "Literata",
+     "size": 17.0,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "21.25px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 17.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 17px; line-height: 1.25; font-weight: 500",
+   "lines": [
+    {
+     "text": "Olhos de ressaca",
+     "left": 99,
+     "right": 233.52,
+     "top": 702,
+     "bottom": 727.25,
+     "baseline": 722.01,
+     "baselineRel": 610.01
+    }
+   ],
+   "naturalWidth": 134.524,
+   "minContentWidth": 60.278,
+   "text": "Olhos de ressaca",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch32.page": {
+   "tpl": 107,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    293,
+    706.83,
+    30,
+    15.6
+   ],
+   "rel": [
+    283,
+    594.83,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "157",
+     "left": 298.2,
+     "right": 323,
+     "top": 706.83,
+     "bottom": 722.42,
+     "baseline": 719.17,
+     "baselineRel": 607.17
+    }
+   ],
+   "naturalWidth": 24.804,
+   "minContentWidth": 24.804,
+   "text": "157",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch32.progressRing": {
+   "tpl": 108,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    333,
+    705.62,
+    18,
+    18
+   ],
+   "rel": [
+    323,
+    593.62,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden",
+    "transformMatrix": "matrix(0, -1, 1, 0, 0, 0)",
+    "transform": "rotate(-90deg)"
+   },
+   "css": "flex-shrink: 0; transform: rotate(-90deg)",
+   "aria": "lendo"
+  },
+  "toc.sheet.chapters.ch32.meta": {
+   "tpl": 111,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    99,
+    732.25,
+    252,
+    24
+   ],
+   "rel": [
+    89,
+    620.25,
+    252,
+    24
+   ],
+   "style": {},
+   "css": "margin: 7px 0 0 62px; display: flex; align-items: center; gap: 10px"
+  },
+  "toc.sheet.chapters.ch32.youAreHere": {
+   "tpl": 112,
+   "section": "toc.sheet",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    99,
+    732.25,
+    146.29,
+    24
+   ],
+   "rel": [
+    89,
+    620.25,
+    146.29,
+    24
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 9px 0px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 24px; padding: 0 9px 0 7px; border-radius: 999px; background: #FF552E; border: 1.3px solid #1A1714; box-sizing: border-box; display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "você está na pág. 159",
+     "left": 121.3,
+     "right": 234.99,
+     "top": 737.35,
+     "bottom": 751.15,
+     "baseline": 748.27,
+     "baselineRel": 636.27
+    }
+   ],
+   "naturalWidth": 146.289,
+   "minContentWidth": 58.429,
+   "text": "você está na pág. 159",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 21
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch32.youAreHere.icon": {
+   "tpl": 113,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    107.3,
+    738.75,
+    9,
+    11
+   ],
+   "rel": [
+    97.3,
+    626.75,
+    9,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch32.marks": {
+   "tpl": 115,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    255.29,
+    736.25,
+    51.72,
+    16
+   ],
+   "rel": [
+    245.29,
+    624.25,
+    51.72,
+    16
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 5px; flex-shrink: 0",
+   "aria": "5 marcas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch32.marks.symbols": {
+   "tpl": 116,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    255.29,
+    736.25,
+    40,
+    16
+   ],
+   "rel": [
+    245.29,
+    624.25,
+    40,
+    16
+   ],
+   "style": {},
+   "css": "display: flex"
+  },
+  "toc.sheet.chapters.ch32.marks.highlight": {
+   "tpl": 117,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    255.29,
+    736.25,
+    16,
+    16
+   ],
+   "rel": [
+    245.29,
+    624.25,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 16px; height: 16px; border-radius: 50%; background: #FED170; border: 1.3px solid #1A1714; box-sizing: border-box"
+  },
+  "toc.sheet.chapters.ch32.marks.ink": {
+   "tpl": 118,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    267.29,
+    736.25,
+    16,
+    16
+   ],
+   "rel": [
+    257.29,
+    624.25,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "margin-left: -4px; width: 16px; height: 16px; border-radius: 50%; background: #FF552E; border: 1.3px solid #1A1714; box-sizing: border-box"
+  },
+  "toc.sheet.chapters.ch32.marks.handwritten": {
+   "tpl": 119,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    279.29,
+    736.25,
+    16,
+    16
+   ],
+   "rel": [
+    269.29,
+    624.25,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.3px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "margin-left: -4px; width: 16px; height: 16px; border-radius: 50%; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "toc.sheet.chapters.ch32.marks.handwritten.icon": {
+   "tpl": 120,
+   "section": "toc.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    282.79,
+    739.75,
+    9,
+    9
+   ],
+   "rel": [
+    272.79,
+    627.75,
+    9,
+    9
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch32.marks.count": {
+   "tpl": 122,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    300.29,
+    737.35,
+    6.72,
+    13.81
+   ],
+   "rel": [
+    290.29,
+    625.35,
+    6.72,
+    13.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 11.5px; font-weight: 800; color: #6F665B",
+   "lines": [
+    {
+     "text": "5",
+     "left": 300.29,
+     "right": 307.0,
+     "top": 737.35,
+     "bottom": 751.15,
+     "baseline": 748.27,
+     "baselineRel": 636.27
+    }
+   ],
+   "naturalWidth": 6.716,
+   "minContentWidth": 6.716,
+   "text": "5",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch33": {
+   "tpl": 123,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    773.75,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    661.75,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch33.link": {
+   "tpl": 124,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    773.75,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    661.75,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 10
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch33.numeral": {
+   "tpl": 125,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    791.55,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    679.55,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXXIII",
+     "left": 35.5,
+     "right": 74.72,
+     "top": 791.55,
+     "bottom": 805.95,
+     "baseline": 802.95,
+     "baselineRel": 690.95
+    }
+   ],
+   "naturalWidth": 39.216,
+   "minContentWidth": 39.216,
+   "text": "XXXIII",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch33.title": {
+   "tpl": 126,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    776.75,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    664.75,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #1A1714",
+   "lines": [
+    {
+     "text": "O penteado",
+     "left": 97.5,
+     "right": 183.11,
+     "top": 786.87,
+     "bottom": 810.63,
+     "baseline": 805.7,
+     "baselineRel": 693.7
+    }
+   ],
+   "naturalWidth": 85.614,
+   "minContentWidth": 70.27,
+   "text": "O penteado",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch33.page": {
+   "tpl": 127,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    790.95,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    678.95,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "163",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 790.95,
+     "bottom": 806.55,
+     "baseline": 803.3,
+     "baselineRel": 691.3
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "163",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch33.status": {
+   "tpl": 128,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    789.75,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    677.75,
+    18,
+    18
+   ],
+   "style": {},
+   "css": "width: 18px; height: 18px; flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch34": {
+   "tpl": 129,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    824.95,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    712.95,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch34.link": {
+   "tpl": 130,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    824.95,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    712.95,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 10
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch34.numeral": {
+   "tpl": 131,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    842.75,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    730.75,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXXIV",
+     "left": 35.5,
+     "right": 75.92,
+     "top": 842.75,
+     "bottom": 857.15,
+     "baseline": 854.15,
+     "baselineRel": 742.15,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 40.42,
+   "minContentWidth": 40.42,
+   "text": "XXXIV",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch34.title": {
+   "tpl": 132,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    827.95,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    715.95,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #1A1714",
+   "lines": [
+    {
+     "text": "Sou homem!",
+     "left": 97.5,
+     "right": 193.51,
+     "top": 838.07,
+     "bottom": 861.83,
+     "baseline": 856.9,
+     "baselineRel": 744.9,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 96.013,
+   "minContentWidth": 63.826,
+   "text": "Sou homem!",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch34.page": {
+   "tpl": 133,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    842.15,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    730.15,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "166",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 842.15,
+     "bottom": 857.75,
+     "baseline": 854.5,
+     "baselineRel": 742.5,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "166",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch34.status": {
+   "tpl": 134,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    840.95,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    728.95,
+    18,
+    18
+   ],
+   "style": {},
+   "css": "width: 18px; height: 18px; flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch35": {
+   "tpl": 135,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    876.15,
+    339,
+    65.2
+   ],
+   "rel": [
+    15.5,
+    764.15,
+    339,
+    65.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch35.link": {
+   "tpl": 136,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    876.15,
+    339,
+    65.2
+   ],
+   "rel": [
+    15.5,
+    764.15,
+    339,
+    65.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 24
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch35.numeral": {
+   "tpl": 137,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    900.95,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    788.95,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXXV",
+     "left": 35.5,
+     "right": 71.86,
+     "top": 900.95,
+     "bottom": 915.35,
+     "baseline": 912.35,
+     "baselineRel": 800.35,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 36.356,
+   "minContentWidth": 36.356,
+   "text": "XXXV",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch35.title": {
+   "tpl": 138,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    876.15,
+    187,
+    64
+   ],
+   "rel": [
+    87.5,
+    764.15,
+    187,
+    64
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #1A1714",
+   "lines": [
+    {
+     "text": "O protonotário",
+     "left": 97.5,
+     "right": 211.25,
+     "top": 886.27,
+     "bottom": 910.03,
+     "baseline": 905.1,
+     "baselineRel": 793.1,
+     "oculta": true
+    },
+    {
+     "text": "apostólico",
+     "left": 97.5,
+     "right": 175.48,
+     "top": 906.27,
+     "bottom": 930.03,
+     "baseline": 925.1,
+     "baselineRel": 813.1,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 194.933,
+   "minContentWidth": 98.41,
+   "text": "O protonotário apostólico",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch35.page": {
+   "tpl": 139,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    900.35,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    788.35,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "170",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 900.35,
+     "bottom": 915.95,
+     "baseline": 912.7,
+     "baselineRel": 800.7,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "170",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch35.status": {
+   "tpl": 140,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    899.15,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    787.15,
+    18,
+    18
+   ],
+   "style": {},
+   "css": "width: 18px; height: 18px; flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch36": {
+   "tpl": 141,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    941.35,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    829.35,
+    339,
+    51.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch36.link": {
+   "tpl": 142,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    941.35,
+    339,
+    51.2
+   ],
+   "rel": [
+    15.5,
+    829.35,
+    339,
+    51.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 16
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch36.numeral": {
+   "tpl": 143,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    959.15,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    847.15,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXXVI",
+     "left": 35.5,
+     "right": 75.92,
+     "top": 959.15,
+     "bottom": 973.55,
+     "baseline": 970.55,
+     "baselineRel": 858.55,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 40.42,
+   "minContentWidth": 40.42,
+   "text": "XXXVI",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch36.title": {
+   "tpl": 144,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    944.35,
+    187,
+    44
+   ],
+   "rel": [
+    87.5,
+    832.35,
+    187,
+    44
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #1A1714",
+   "lines": [
+    {
+     "text": "Ideia sem pernas",
+     "left": 97.5,
+     "right": 224.78,
+     "top": 954.47,
+     "bottom": 978.23,
+     "baseline": 973.3,
+     "baselineRel": 861.3,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 127.284,
+   "minContentWidth": 51.817,
+   "text": "Ideia sem pernas",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch36.page": {
+   "tpl": 145,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    958.55,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    846.55,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "175",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 958.55,
+     "bottom": 974.15,
+     "baseline": 970.9,
+     "baselineRel": 858.9,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "175",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch36.status": {
+   "tpl": 146,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    957.35,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    845.35,
+    18,
+    18
+   ],
+   "style": {},
+   "css": "width: 18px; height: 18px; flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch37": {
+   "tpl": 147,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "li",
+   "abs": [
+    25.5,
+    992.55,
+    339,
+    65.2
+   ],
+   "rel": [
+    15.5,
+    880.55,
+    339,
+    65.2
+   ],
+   "style": {}
+  },
+  "toc.sheet.chapters.ch37.link": {
+   "tpl": 148,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    992.55,
+    339,
+    65.2
+   ],
+   "rel": [
+    15.5,
+    880.55,
+    339,
+    65.2
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.2px dashed #E3D8C4",
+     "left": "0"
+    },
+    "padding": "0px 12px 0px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 50px; padding: 0 12px 0 10px; border-bottom: 1.2px dashed #E3D8C4; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 26
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch37.numeral": {
+   "tpl": 149,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1017.35,
+    52,
+    14.4
+   ],
+   "rel": [
+    25.5,
+    905.35,
+    52,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.5px",
+     "color": "#8A8073"
+    }
+   },
+   "css": "width: 52px; flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: 0.5px; color: #8A8073",
+   "lines": [
+    {
+     "text": "XXXVII",
+     "left": 35.5,
+     "right": 79.98,
+     "top": 1017.35,
+     "bottom": 1031.75,
+     "baseline": 1028.75,
+     "baselineRel": 916.75,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 44.484,
+   "minContentWidth": 44.484,
+   "text": "XXXVII",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch37.title": {
+   "tpl": 150,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    97.5,
+    992.55,
+    187,
+    64
+   ],
+   "rel": [
+    87.5,
+    880.55,
+    187,
+    64
+   ],
+   "style": {
+    "padding": "12px 0px 12px 0px",
+    "font": {
+     "family": "Literata",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 16.0
+    }
+   },
+   "css": "min-width: 0; flex-grow: 1; font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.25; padding: 12px 0; color: #1A1714",
+   "lines": [
+    {
+     "text": "A alma é cheia de",
+     "left": 97.5,
+     "right": 226.73,
+     "top": 1002.67,
+     "bottom": 1026.43,
+     "baseline": 1021.5,
+     "baselineRel": 909.5,
+     "oculta": true
+    },
+    {
+     "text": "mistérios",
+     "left": 97.5,
+     "right": 169.12,
+     "top": 1022.67,
+     "bottom": 1046.43,
+     "baseline": 1041.5,
+     "baselineRel": 929.5,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 204.048,
+   "minContentWidth": 71.618,
+   "text": "A alma é cheia de mistérios",
+   "platformFonts": [
+    {
+     "family": "Literata",
+     "postScript": "Literata-Regular",
+     "custom": true,
+     "glyphs": 26
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch37.page": {
+   "tpl": 151,
+   "section": "toc.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.5,
+    1016.75,
+    30,
+    15.6
+   ],
+   "rel": [
+    284.5,
+    904.75,
+    30,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "features": [
+      "tnum"
+     ],
+     "textAlign": "right"
+    }
+   },
+   "css": "width: 30px; flex-shrink: 0; text-align: right; font-size: 13px; font-weight: 700; color: #6F665B; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "179",
+     "left": 299.85,
+     "right": 324.5,
+     "top": 1016.75,
+     "bottom": 1032.35,
+     "baseline": 1029.1,
+     "baselineRel": 917.1,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 24.648,
+   "minContentWidth": 24.648,
+   "text": "179",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "toc.sheet.chapters.ch37.status": {
+   "tpl": 152,
+   "section": "toc.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    334.5,
+    1015.55,
+    18,
+    18
+   ],
+   "rel": [
+    324.5,
+    903.55,
+    18,
+    18
+   ],
+   "style": {},
+   "css": "width: 18px; height: 18px; flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "fontMetrics": {
+  "Literata|400|normal|20.5px": {
+   "ascent": 24.13,
+   "descent": 6.31
+  },
+  "Bricolage Grotesque|800|normal|26px": {
+   "ascent": 24.18,
+   "descent": 7.02
+  },
+  "Figtree|600|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Figtree|800|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|700|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|800|normal|11px": {
+   "ascent": 10.45,
+   "descent": 2.75
+  },
+  "Figtree|800|normal|15px": {
+   "ascent": 14.25,
+   "descent": 3.75
+  },
+  "Figtree|800|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Literata|400|normal|16px": {
+   "ascent": 18.83,
+   "descent": 4.93
+  },
+  "Figtree|800|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  },
+  "Figtree|700|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Literata|500|normal|17px": {
+   "ascent": 20.01,
+   "descent": 5.24
+  },
+  "Figtree|800|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "894ac73f-5975-4448-bf69-116c8836ef47"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "83c62fb9-9e0d-410d-b97d-7471e662ef1f"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "83c62fb9-9e0d-410d-b97d-7471e662ef1f"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "83c62fb9-9e0d-410d-b97d-7471e662ef1f"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "83c62fb9-9e0d-410d-b97d-7471e662ef1f"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "83c62fb9-9e0d-410d-b97d-7471e662ef1f"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "8e1cd9af-7f3d-46c8-99ed-ed63ef63fbc0"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "026ece85-d581-4bfa-9b4a-07939ffee5c4"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "026ece85-d581-4bfa-9b4a-07939ffee5c4"
+  }
+ ]
+}

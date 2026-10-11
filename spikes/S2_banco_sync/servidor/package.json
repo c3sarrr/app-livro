@@ -1,0 +1,18 @@
+{
+  "name": "spike-s2-banco-sync",
+  "private": true,
+  "version": "0.0.1",
+  "description": "G02 · S2 — PowerSync + Postgres local + RPC sync_apply_changes, 2 aparelhos simulados",
+  "type": "module",
+  "scripts": {
+    "servico": "powersync-service start -c config/powersync.yaml",
+    "cenarios": "node --test --test-concurrency=1 --test-force-exit cenarios/*.test.mjs"
+  },
+  "dependencies": {
+    "@powersync/node": "^1.1.1",
+    "@powersync/service-image": "^1.27.0",
+    "better-sqlite3": "^13.0.3",
+    "jose": "^6.2.12",
+    "pg": "^8.23.1"
+  }
+}

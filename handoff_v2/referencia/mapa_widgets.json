@@ -1,0 +1,4764 @@
+{
+ "19_leitor_limpo": {
+  "r19.frame": {
+   "widget": "NeoBox"
+  },
+  "r19.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256"
+   }
+  },
+  "r19.page.text": {
+   "widget": "AppText"
+  },
+  "r19.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r19.footer.pageLabel": {
+   "widget": "AppText"
+  },
+  "r19.footer.percent": {
+   "widget": "AppText"
+  }
+ },
+ "20_leitor_controles": {
+  "r20.frame": {
+   "widget": "NeoBox"
+  },
+  "r20.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256"
+   }
+  },
+  "r20.page.text": {
+   "widget": "AppText"
+  },
+  "r20.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.footer.pageLabel": {
+   "widget": "AppText"
+  },
+  "r20.footer.percent": {
+   "widget": "AppText"
+  },
+  "r20.fade": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.topIsland": {
+   "widget": "NeoBox"
+  },
+  "r20.topIsland.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar o livro"
+   }
+  },
+  "r20.topIsland.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_arrow_left, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.topIsland.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.topIsland.title": {
+   "widget": "AppText"
+  },
+  "r20.topIsland.author": {
+   "widget": "AppText"
+  },
+  "r20.topIsland.search": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Buscar no livro"
+   }
+  },
+  "r20.topIsland.search.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_search, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.topIsland.bookmark": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Página marcada",
+    "aria-pressed": "true"
+   }
+  },
+  "r20.topIsland.bookmark.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_marked, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Controles de leitura"
+   }
+  },
+  "r20.bottomIsland.scrubber": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.bottomIsland.scrubber.track": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Posição no livro",
+    "role": "slider",
+    "aria-valuemin": "1",
+    "aria-valuemax": "256",
+    "aria-valuenow": "159",
+    "aria-valuetext": "página 159 de 256"
+   }
+  },
+  "r20.bottomIsland.scrubber.fill": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.scrubber.fill.wave": {
+   "widget": "CustomPainter (onda_preenchimento_barra)",
+   "obs": "cores dinâmicas: #B6ACE4 = brand · preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): desenhar com CustomPainter esticando a forma na altura do trilho e traço fixo de 1,5."
+  },
+  "r20.bottomIsland.scrubber.knob": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.scrubber.bubble": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: translateX(-50%)"
+  },
+  "r20.bottomIsland.scrubber.bubble.tail": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(45deg)"
+  },
+  "r20.bottomIsland.progressRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.bottomIsland.progressRow.position": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.progressRow.position.percent": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "r20.bottomIsland.progressRow.timeLeft": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.font": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.font.circle": {
+   "widget": "NeoBox + AppText"
+  },
+  "r20.bottomIsland.tools.theme": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.theme.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.theme.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_sun, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.tools.notes": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.notes.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.notes.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_highlighter_reader, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.tools.notes.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "r20.bottomIsland.tools.annotate": {
+   "widget": "AppText",
+   "semantica": {
+    "label": "Anotar à mão"
+   }
+  },
+  "r20.bottomIsland.tools.annotate.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.annotate.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_annotate, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.tools.toc": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.toc.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.toc.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_toc, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.timeChip": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "obs": "Transform: translateX(-50%)"
+  },
+  "r20.timeChip.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_timer, size: 15)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "21_selecao_texto": {
+  "r21.frame": {
+   "widget": "NeoBox"
+  },
+  "r21.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256"
+   }
+  },
+  "r21.page.text": {
+   "widget": "AppText"
+  },
+  "r21.page.text.highlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "r21.page.text.orphanLabel": {
+   "widget": "TextSpan dentro do AppText.rich do pai",
+   "semantica": {
+    "label": "Trecho selecionado"
+   }
+  },
+  "r21.page.text.toolbarAnchor": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r21.toolbar": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Ações para o trecho selecionado",
+    "role": "toolbar"
+   }
+  },
+  "r21.toolbar.colors": {
+   "widget": "NeoBox"
+  },
+  "r21.toolbar.colors.label": {
+   "widget": "AppText"
+  },
+  "r21.toolbar.colors.swatches": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r21.toolbar.colors.yellow": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grifar em amarelo"
+   }
+  },
+  "r21.toolbar.colors.pink": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grifar em rosa"
+   }
+  },
+  "r21.toolbar.colors.green": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grifar em verde"
+   }
+  },
+  "r21.toolbar.colors.lavender": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grifar em lavanda"
+   }
+  },
+  "r21.toolbar.colors.other": {
+   "widget": "ConicRingPainter (anel arco-íris)",
+   "semantica": {
+    "label": "Escolher outra cor"
+   }
+  },
+  "r21.toolbar.colors.other.center": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "r21.toolbar.colors.other.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_plus_tiny, size: 8)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.colors.underline": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Sublinhar"
+   }
+  },
+  "r21.toolbar.colors.underline.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_underline, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "tem <text> (\"a\" em Literata 13): o flutter_svg desenha texto com a fonte do sistema → desenhar o \"a\" com AppText (Literata13 não existe: usar a variável com opsz 13) por cima do traço ondulado."
+  },
+  "r21.toolbar.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r21.toolbar.actions.note": {
+   "widget": "AppText"
+  },
+  "r21.toolbar.actions.note.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_note, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.actions.copy": {
+   "widget": "AppText"
+  },
+  "r21.toolbar.actions.copy.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_copy, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.actions.share": {
+   "widget": "AppText"
+  },
+  "r21.toolbar.actions.share.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_share, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.toolbar.actions.search": {
+   "widget": "AppText"
+  },
+  "r21.toolbar.actions.search.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_search, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.page.text.handleStart": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.page.text.handleStart.stem": {
+   "widget": "NeoBox"
+  },
+  "r21.page.text.handleStart.knob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "r21.page.text.selection": {
+   "widget": "TextSpan dentro do AppText.rich do pai",
+   "semantica": {
+    "label": "Trecho selecionado"
+   }
+  },
+  "r21.page.text.handleEnd": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r21.page.text.handleEnd.stem": {
+   "widget": "NeoBox"
+  },
+  "r21.page.text.handleEnd.knob": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "r21.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r21.footer.pageLabel": {
+   "widget": "AppText"
+  },
+  "r21.footer.percent": {
+   "widget": "AppText"
+  }
+ },
+ "22_modo_anotacao": {
+  "ann.frame": {
+   "widget": "NeoBox"
+  },
+  "ann.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256 — modo anotação"
+   }
+  },
+  "ann.page.text": {
+   "widget": "AppText"
+  },
+  "ann.page.text.handHighlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "ann.page.text.handHighlight.stroke": {
+   "widget": "InkStrokesPainter (traços da fixture: grifo_mao_livre_capitu)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.page.text.circled": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "ann.page.text.circled.ellipse": {
+   "widget": "InkStrokesPainter (traços da fixture: elipse_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #FF552E = ink · vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+  },
+  "ann.page.text.circled.flourish": {
+   "widget": "InkStrokesPainter (traços da fixture: risco_sobre_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #FF552E = ink"
+  },
+  "ann.page.text.wavy": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "ann.page.text.wavy.wave": {
+   "widget": "InkStrokesPainter (traços da fixture: ondulado_fluido_misterioso)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #FF552E = ink"
+  },
+  "ann.page.text.wavy.touchRing": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.page.text.wavy.touchDot": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.page.text.doubleUnderline": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "ann.page.text.doubleUnderline.line1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.page.text.doubleUnderline.line2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.deskEdge": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.modePill": {
+   "widget": "NeoBox"
+  },
+  "ann.modePill.iconCircle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "ann.modePill.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.modePill.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "ann.modePill.title": {
+   "widget": "AppText"
+  },
+  "ann.modePill.subtitle": {
+   "widget": "AppText"
+  },
+  "ann.done": {
+   "widget": "NeoBox + AppText"
+  },
+  "ann.done.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.toolShelf": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Ferramentas de anotação",
+    "role": "radiogroup"
+   }
+  },
+  "ann.toolShelf.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Caneta",
+    "role": "radio",
+    "aria-checked": "true"
+   },
+   "obs": "Transform: translateY(-12px)"
+  },
+  "ann.toolShelf.pen.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_caneta_ativa, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #B6ACE4 = brand, #FF552E = ink"
+  },
+  "ann.toolShelf.marker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Marca-texto",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.toolShelf.marker.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_marcatexto, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.toolShelf.eraser": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Borracha",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.toolShelf.eraser.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_borracha, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.toolShelf.lasso": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Laço — selecionar e mover traços",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.toolShelf.lasso.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_laco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.toolShelf.line": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Linha reta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.toolShelf.line.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_reta, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.toolShelf.space": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Espaço — arrastar entre as linhas para abrir lugar de escrever",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.toolShelf.space.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_espaco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.island": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Barra de anotação"
+   }
+  },
+  "ann.island.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.island.labels.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "ann.island.labels.pen.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "ann.island.labels.marker": {
+   "widget": "AppText"
+  },
+  "ann.island.labels.eraser": {
+   "widget": "AppText"
+  },
+  "ann.island.labels.lasso": {
+   "widget": "AppText"
+  },
+  "ann.island.labels.line": {
+   "widget": "AppText"
+  },
+  "ann.island.labels.space": {
+   "widget": "AppText"
+  },
+  "ann.island.row": {
+   "widget": "NeoBox"
+  },
+  "ann.island.colorWell": {
+   "widget": "ConicRingPainter (anel arco-íris)",
+   "semantica": {
+    "label": "Cor da caneta: coral. Toque para escolher qualquer cor"
+   }
+  },
+  "ann.island.colorWell.ink": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "ann.island.width": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Espessura do traço",
+    "role": "radiogroup"
+   }
+  },
+  "ann.island.width.thin": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fina",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.island.width.thin.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "ann.island.width.medium": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Média",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "ann.island.width.medium.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "ann.island.width.thick": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grossa",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "ann.island.width.thick.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "ann.island.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "ann.island.undo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Desfazer"
+   }
+  },
+  "ann.island.undo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_undo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "ann.island.redo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Refazer",
+    "aria-disabled": "true"
+   }
+  },
+  "ann.island.redo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_redo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "23_ajustes_caneta": {
+  "pen.frame": {
+   "widget": "NeoBox"
+  },
+  "pen.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256 — modo anotação"
+   }
+  },
+  "pen.page.text": {
+   "widget": "AppText"
+  },
+  "pen.page.text.handHighlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "pen.page.text.handHighlight.stroke": {
+   "widget": "InkStrokesPainter (traços da fixture: grifo_mao_livre_capitu)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.page.text.circled": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "pen.page.text.circled.ellipse": {
+   "widget": "InkStrokesPainter (traços da fixture: elipse_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+  },
+  "pen.page.text.circled.flourish": {
+   "widget": "InkStrokesPainter (traços da fixture: risco_sobre_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.page.text.wavy": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "pen.page.text.wavy.wave": {
+   "widget": "InkStrokesPainter (traços da fixture: ondulado_fluido_misterioso)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.page.text.doubleUnderline": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "pen.page.text.doubleUnderline.line1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.page.text.doubleUnderline.line2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.deskEdge": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.modePill": {
+   "widget": "NeoBox"
+  },
+  "pen.modePill.iconCircle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "pen.modePill.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.modePill.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.modePill.title": {
+   "widget": "AppText"
+  },
+  "pen.modePill.subtitle": {
+   "widget": "AppText"
+  },
+  "pen.done": {
+   "widget": "NeoBox + AppText"
+  },
+  "pen.done.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.fade": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.toolShelf": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Ferramentas de anotação",
+    "role": "radiogroup"
+   }
+  },
+  "pen.toolShelf.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Caneta",
+    "role": "radio",
+    "aria-checked": "true"
+   },
+   "obs": "Transform: translateY(-12px)"
+  },
+  "pen.toolShelf.pen.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_caneta_ativa, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #B6ACE4 = brand"
+  },
+  "pen.toolShelf.marker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Marca-texto",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.toolShelf.marker.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_marcatexto, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.toolShelf.eraser": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Borracha",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.toolShelf.eraser.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_borracha, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.toolShelf.lasso": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Laço — selecionar e mover traços",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.toolShelf.lasso.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_laco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.toolShelf.line": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Linha reta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.toolShelf.line.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_reta, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.toolShelf.space": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Espaço — arrastar entre as linhas para abrir lugar de escrever",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.toolShelf.space.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_espaco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.island": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Barra de anotação"
+   }
+  },
+  "pen.island.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.island.labels.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.island.labels.pen.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "pen.island.labels.marker": {
+   "widget": "AppText"
+  },
+  "pen.island.labels.eraser": {
+   "widget": "AppText"
+  },
+  "pen.island.labels.lasso": {
+   "widget": "AppText"
+  },
+  "pen.island.labels.line": {
+   "widget": "AppText"
+  },
+  "pen.island.labels.space": {
+   "widget": "AppText"
+  },
+  "pen.island.row": {
+   "widget": "NeoBox"
+  },
+  "pen.island.colorWell": {
+   "widget": "ConicRingPainter (anel arco-íris)",
+   "semantica": {
+    "label": "Cor da caneta: coral. Toque para escolher qualquer cor"
+   }
+  },
+  "pen.island.colorWell.ink": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "pen.island.width": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Espessura do traço",
+    "role": "radiogroup"
+   }
+  },
+  "pen.island.width.thin": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fina",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.island.width.thin.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "pen.island.width.medium": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Média",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "pen.island.width.medium.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "pen.island.width.thick": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grossa",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.island.width.thick.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "pen.island.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.island.undo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Desfazer"
+   }
+  },
+  "pen.island.undo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_undo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.island.redo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Refazer",
+    "aria-disabled": "true"
+   }
+  },
+  "pen.island.redo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_redo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Ajustes da caneta",
+    "role": "dialog"
+   }
+  },
+  "pen.penPanel.arrow": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(45deg)"
+  },
+  "pen.penPanel.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.penPanel.header.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.penPanel.title": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.subtitle": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar ajustes"
+   }
+  },
+  "pen.penPanel.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_close, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.preview": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Prévia do traço",
+    "role": "img"
+   }
+  },
+  "pen.penPanel.preview.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_previa_traco_caneta, size: 326×56)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "width=\"100%\": a prévia ocupa a largura da faixa pautada; no app é desenhada com a ponta/espessura/cor atuais."
+  },
+  "pen.penPanel.tipLabel": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.tips": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tipo de ponta",
+    "role": "radiogroup"
+   }
+  },
+  "pen.penPanel.tips.ballpoint": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "pen.penPanel.tips.ballpoint.sample": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ponta_esferografica, size: 80×26)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.tips.fountain": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.tips.fountain.sample": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ponta_tinteiro, size: 80×26)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.tips.brush": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.tips.brush.sample": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ponta_pincel, size: 80×26)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.sizeHeader": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.penPanel.sizeHeader.label": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.sizeHeader.value": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.size": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.penPanel.size.minDot": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.size.slider": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Espessura",
+    "role": "slider",
+    "aria-valuemin": "0.3",
+    "aria-valuemax": "4",
+    "aria-valuenow": "1.2",
+    "aria-valuetext": "1,2 milímetro"
+   }
+  },
+  "pen.penPanel.size.slider.fill": {
+   "widget": "NeoBox"
+  },
+  "pen.penPanel.size.slider.knob": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.size.maxDot": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.colorLabel": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.favorites": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Cores favoritas",
+    "role": "radiogroup"
+   }
+  },
+  "pen.penPanel.favorites.coral": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Coral",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "pen.penPanel.favorites.purple": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Roxo",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.favorites.blue": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Azul",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.favorites.green": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Verde",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.favorites.gold": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Dourado",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.favorites.black": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Tinta preta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "pen.penPanel.favorites.add": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Salvar a cor atual nas favoritas"
+   }
+  },
+  "pen.penPanel.favorites.add.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_plus, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.picker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.penPanel.picker.wheel": {
+   "widget": "ColorWheelPainter (cônico HSV + radial branco)",
+   "semantica": {
+    "label": "Roda de cores: tom e intensidade",
+    "role": "slider",
+    "aria-valuetext": "coral"
+   }
+  },
+  "pen.penPanel.picker.wheel.cursor": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.picker.side": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "pen.penPanel.picker.brightnessLabel": {
+   "widget": "AppText"
+  },
+  "pen.penPanel.picker.brightness": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "label": "Brilho",
+    "role": "slider",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100",
+    "aria-valuenow": "100"
+   }
+  },
+  "pen.penPanel.picker.brightness.knob": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.picker.hex": {
+   "widget": "NeoBox"
+  },
+  "pen.penPanel.picker.hex.swatch": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "pen.penPanel.picker.hex.value": {
+   "widget": "AppText"
+  }
+ },
+ "23b_ajustes_marcatexto": {
+  "mk.frame": {
+   "widget": "NeoBox"
+  },
+  "mk.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256 — modo anotação"
+   }
+  },
+  "mk.page.text": {
+   "widget": "AppText"
+  },
+  "mk.page.text.handHighlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.page.text.handHighlight.stroke": {
+   "widget": "InkStrokesPainter (traços da fixture: grifo_mao_livre_capitu)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.page.text.circled": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.page.text.circled.ellipse": {
+   "widget": "InkStrokesPainter (traços da fixture: elipse_olhos_de_ressaca_amarelo)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+  },
+  "mk.page.text.circled.flourish": {
+   "widget": "InkStrokesPainter (traços da fixture: risco_sobre_olhos_de_ressaca_amarelo)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.page.text.wavy": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.page.text.wavy.wave": {
+   "widget": "InkStrokesPainter (traços da fixture: ondulado_fluido_misterioso_amarelo)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.page.text.doubleUnderline": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.page.text.doubleUnderline.line1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.page.text.doubleUnderline.line2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.deskEdge": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.modePill": {
+   "widget": "NeoBox"
+  },
+  "mk.modePill.iconCircle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "mk.modePill.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.modePill.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.modePill.title": {
+   "widget": "AppText"
+  },
+  "mk.modePill.subtitle": {
+   "widget": "AppText"
+  },
+  "mk.done": {
+   "widget": "NeoBox + AppText"
+  },
+  "mk.done.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.fade": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.toolShelf": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Ferramentas de anotação",
+    "role": "radiogroup"
+   }
+  },
+  "mk.toolShelf.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Caneta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.toolShelf.pen.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_caneta_ativa, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #B6ACE4 = brand"
+  },
+  "mk.toolShelf.marker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Marca-texto",
+    "role": "radio",
+    "aria-checked": "true"
+   },
+   "obs": "Transform: translateY(-12px)"
+  },
+  "mk.toolShelf.marker.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_marcatexto, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.toolShelf.eraser": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Borracha",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.toolShelf.eraser.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_borracha, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.toolShelf.lasso": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Laço — selecionar e mover traços",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.toolShelf.lasso.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_laco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.toolShelf.line": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Linha reta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.toolShelf.line.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_reta, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.toolShelf.space": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Espaço — arrastar entre as linhas para abrir lugar de escrever",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.toolShelf.space.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_espaco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.island": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Barra de anotação"
+   }
+  },
+  "mk.island.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.island.labels.pen": {
+   "widget": "AppText"
+  },
+  "mk.island.labels.marker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.island.labels.marker.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "mk.island.labels.eraser": {
+   "widget": "AppText"
+  },
+  "mk.island.labels.lasso": {
+   "widget": "AppText"
+  },
+  "mk.island.labels.line": {
+   "widget": "AppText"
+  },
+  "mk.island.labels.space": {
+   "widget": "AppText"
+  },
+  "mk.island.row": {
+   "widget": "NeoBox"
+  },
+  "mk.island.colorWell": {
+   "widget": "ConicRingPainter (anel arco-íris)",
+   "semantica": {
+    "label": "Cor do marca-texto: amarelo, lindo. Toque para trocar"
+   }
+  },
+  "mk.island.colorWell.ink": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "mk.island.width": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Espessura do traço",
+    "role": "radiogroup"
+   }
+  },
+  "mk.island.width.thin": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fina",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.island.width.thin.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "mk.island.width.medium": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Média",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "mk.island.width.medium.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "mk.island.width.thick": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grossa",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.island.width.thick.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "mk.island.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.island.undo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Desfazer"
+   }
+  },
+  "mk.island.undo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_undo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.island.redo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Refazer",
+    "aria-disabled": "true"
+   }
+  },
+  "mk.island.redo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_redo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Ajustes do marca-texto",
+    "role": "dialog"
+   }
+  },
+  "mk.markerPanel.arrow": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(45deg)"
+  },
+  "mk.markerPanel.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.header.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.title": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.subtitle": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar ajustes"
+   }
+  },
+  "mk.markerPanel.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_close, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.preview": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "label": "Prévia: Olhos de ressaca, com fundo amarelo na palavra ressaca",
+    "role": "img"
+   }
+  },
+  "mk.markerPanel.preview.highlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.markerPanel.styleLabel": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.styles": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Estilo do marca-texto",
+    "role": "radiogroup"
+   }
+  },
+  "mk.markerPanel.styles.fill": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "mk.markerPanel.styles.fill.sample": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.styles.fill.sample.word": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.markerPanel.styles.underline": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.styles.underline.sample": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.styles.underline.sample.word": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.markerPanel.styles.wavy": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.styles.wavy.sample": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.styles.wavy.sample.word": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "mk.markerPanel.colorsHeader": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.colorsHeader.label": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colorsHeader.editLabels": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Cor do marca-texto",
+    "role": "radiogroup"
+   }
+  },
+  "mk.markerPanel.colors.yellow": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "amarelo, rótulo lindo, 5 grifos",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "mk.markerPanel.colors.yellow.swatch": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.colors.yellow.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.colors.yellow.label": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.yellow.count": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.pink": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "rosa, rótulo personagem, 3 grifos",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.colors.pink.swatch": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.colors.pink.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.colors.pink.label": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.pink.count": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.green": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "verde, rótulo ideia, 2 grifos",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.colors.green.swatch": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.colors.green.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.colors.green.label": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.green.count": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.lavender": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "lavanda, rótulo pro clube, 2 grifos",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.colors.lavender.swatch": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.colors.lavender.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "mk.markerPanel.colors.lavender.label": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.colors.lavender.count": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.heightLabel": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.heights": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Altura do fundo",
+    "role": "radiogroup"
+   }
+  },
+  "mk.markerPanel.heights.low": {
+   "widget": "AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.heights.low.sample": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.heights.medium": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "mk.markerPanel.heights.medium.sample": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.heights.high": {
+   "widget": "AppText",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "mk.markerPanel.heights.high.sample": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.tip": {
+   "widget": "NeoBox"
+  },
+  "mk.markerPanel.tip.icon": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_dica_gruda_nas_palavras, size: 34×22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "mk.markerPanel.tip.text": {
+   "widget": "AppText"
+  },
+  "mk.markerPanel.tip.text.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  }
+ },
+ "24_abrindo_espaco": {
+  "sp.frame": {
+   "widget": "NeoBox"
+  },
+  "sp.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256 — modo anotação"
+   }
+  },
+  "sp.page.text": {
+   "widget": "AppText"
+  },
+  "sp.page.text.handHighlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "sp.page.text.handHighlight.stroke": {
+   "widget": "InkStrokesPainter (traços da fixture: grifo_mao_livre_capitu)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.text.circled": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "sp.page.text.circled.ellipse": {
+   "widget": "InkStrokesPainter (traços da fixture: elipse_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+  },
+  "sp.page.text.circled.flourish": {
+   "widget": "InkStrokesPainter (traços da fixture: risco_sobre_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Abrindo espaço: 3 linhas",
+    "role": "status"
+   }
+  },
+  "sp.page.spaceOpener.area": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener.seam": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener.seamDotLeft": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener.seamDotRight": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener.trail": {
+   "widget": "InkStrokesPainter (traços da fixture: rastro_arrasto_espaco)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener.finger": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.spaceOpener.sizeChip": {
+   "widget": "NeoBox + AppText"
+  },
+  "sp.page.spaceOpener.sizeChip.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_arrows_vertical, size: 14)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.textBelow": {
+   "widget": "AppText"
+  },
+  "sp.page.textBelow.wavy": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "sp.page.textBelow.wavy.wave": {
+   "widget": "InkStrokesPainter (traços da fixture: ondulado_fluido_misterioso)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.textBelow.doubleUnderline": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "sp.page.textBelow.doubleUnderline.line1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.page.textBelow.doubleUnderline.line2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.deskEdge": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.modePill": {
+   "widget": "NeoBox"
+  },
+  "sp.modePill.iconCircle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "sp.modePill.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.modePill.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "sp.modePill.title": {
+   "widget": "AppText"
+  },
+  "sp.modePill.subtitle": {
+   "widget": "AppText"
+  },
+  "sp.done": {
+   "widget": "NeoBox + AppText"
+  },
+  "sp.done.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.toolShelf": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Ferramentas de anotação",
+    "role": "radiogroup"
+   }
+  },
+  "sp.toolShelf.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Caneta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.toolShelf.pen.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_caneta, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.toolShelf.marker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Marca-texto",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.toolShelf.marker.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_marcatexto, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.toolShelf.eraser": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Borracha",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.toolShelf.eraser.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_borracha, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.toolShelf.lasso": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Laço — selecionar e mover traços",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.toolShelf.lasso.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_laco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.toolShelf.line": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Linha reta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.toolShelf.line.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_reta, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.toolShelf.space": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Espaço — arrastar entre as linhas para abrir lugar de escrever",
+    "role": "radio",
+    "aria-checked": "true"
+   },
+   "obs": "Transform: translateY(-12px)"
+  },
+  "sp.toolShelf.space.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_espaco_ativa, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #B6ACE4 = brand"
+  },
+  "sp.island": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Barra de anotação"
+   }
+  },
+  "sp.island.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.island.labels.pen": {
+   "widget": "AppText"
+  },
+  "sp.island.labels.marker": {
+   "widget": "AppText"
+  },
+  "sp.island.labels.eraser": {
+   "widget": "AppText"
+  },
+  "sp.island.labels.lasso": {
+   "widget": "AppText"
+  },
+  "sp.island.labels.line": {
+   "widget": "AppText"
+  },
+  "sp.island.labels.space": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "sp.island.labels.space.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "sp.island.row": {
+   "widget": "NeoBox"
+  },
+  "sp.island.colorWell": {
+   "widget": "ConicRingPainter (anel arco-íris)",
+   "semantica": {
+    "label": "Cor da caneta: coral. Toque para escolher qualquer cor"
+   }
+  },
+  "sp.island.colorWell.ink": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "sp.island.width": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Espessura do traço",
+    "role": "radiogroup"
+   }
+  },
+  "sp.island.width.thin": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fina",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.island.width.thin.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "sp.island.width.medium": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Média",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "sp.island.width.medium.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "sp.island.width.thick": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grossa",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "sp.island.width.thick.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "sp.island.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "sp.island.undo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Desfazer"
+   }
+  },
+  "sp.island.undo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_undo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "sp.island.redo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Refazer",
+    "aria-disabled": "true"
+   }
+  },
+  "sp.island.redo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_redo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "24b_nota_mao": {
+  "hn.frame": {
+   "widget": "NeoBox"
+  },
+  "hn.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256 — modo anotação"
+   }
+  },
+  "hn.page.text": {
+   "widget": "AppText"
+  },
+  "hn.page.text.handHighlight": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hn.page.text.handHighlight.stroke": {
+   "widget": "InkStrokesPainter (traços da fixture: grifo_mao_livre_capitu)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.text.circled": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hn.page.text.circled.ellipse": {
+   "widget": "InkStrokesPainter (traços da fixture: elipse_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "vector-effect=\"non-scaling-stroke\" e preserveAspectRatio=\"none\" (esticado sobre o trecho): na app é tinta (traços salvos), não asset."
+  },
+  "hn.page.text.circled.flourish": {
+   "widget": "InkStrokesPainter (traços da fixture: risco_sobre_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.handNote": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Nota à mão, depois de “Vá, de ressaca.”",
+    "role": "group"
+   }
+  },
+  "hn.page.handNote.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hn.page.handNote.tag.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil_bold, size: 13)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.handNote.rule1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.handNote.rule2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.handNote.actions": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hn.page.handNote.actions.collapse": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Recolher a nota"
+   }
+  },
+  "hn.page.handNote.actions.collapse.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_chevron_up, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.handNote.actions.delete": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Apagar a nota"
+   }
+  },
+  "hn.page.handNote.actions.delete.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_trash, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.handNote.ink": {
+   "widget": "InkStrokesPainter (traços da fixture: nota_mao_ressaca)",
+   "semantica": {
+    "label": "ressaca = o mar que puxa de volta (escrito à mão)",
+    "role": "img"
+   },
+   "obs": "width=\"100%\" (largura da caixa) e rótulo role=img com o texto escrito (D-31: no app o rótulo é genérico)."
+  },
+  "hn.page.handNote.hint": {
+   "widget": "AppText"
+  },
+  "hn.page.handNote.handle": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Arrastar para mudar a altura do espaço"
+   }
+  },
+  "hn.page.handNote.handle.bar1": {
+   "widget": "NeoBox"
+  },
+  "hn.page.handNote.handle.bar2": {
+   "widget": "NeoBox"
+  },
+  "hn.page.textBelow": {
+   "widget": "AppText"
+  },
+  "hn.page.textBelow.wavy": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hn.page.textBelow.wavy.wave": {
+   "widget": "InkStrokesPainter (traços da fixture: ondulado_fluido_misterioso)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.textBelow.doubleUnderline": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hn.page.textBelow.doubleUnderline.line1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.page.textBelow.doubleUnderline.line2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.deskEdge": {
+   "widget": "DecoratedBox(LinearGradient)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.modePill": {
+   "widget": "NeoBox"
+  },
+  "hn.modePill.iconCircle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hn.modePill.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.modePill.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hn.modePill.title": {
+   "widget": "AppText"
+  },
+  "hn.modePill.subtitle": {
+   "widget": "AppText"
+  },
+  "hn.done": {
+   "widget": "NeoBox + AppText"
+  },
+  "hn.done.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check, size: 19)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.toolShelf": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Ferramentas de anotação",
+    "role": "radiogroup"
+   }
+  },
+  "hn.toolShelf.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Caneta",
+    "role": "radio",
+    "aria-checked": "true"
+   },
+   "obs": "Transform: translateY(-12px)"
+  },
+  "hn.toolShelf.pen.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_caneta_ativa, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "cores dinâmicas: #B6ACE4 = brand"
+  },
+  "hn.toolShelf.marker": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Marca-texto",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.toolShelf.marker.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_marcatexto, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.toolShelf.eraser": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Borracha",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.toolShelf.eraser.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_borracha, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.toolShelf.lasso": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Laço — selecionar e mover traços",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.toolShelf.lasso.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_laco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.toolShelf.line": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Linha reta",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.toolShelf.line.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_reta, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.toolShelf.space": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Espaço — arrastar entre as linhas para abrir lugar de escrever",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.toolShelf.space.art": {
+   "widget": "AppSvg(AppIllustrationsLeitor.il_ferramenta_espaco, size: 50×70)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.island": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Barra de anotação"
+   }
+  },
+  "hn.island.labels": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.island.labels.pen": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hn.island.labels.pen.pill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hn.island.labels.marker": {
+   "widget": "AppText"
+  },
+  "hn.island.labels.eraser": {
+   "widget": "AppText"
+  },
+  "hn.island.labels.lasso": {
+   "widget": "AppText"
+  },
+  "hn.island.labels.line": {
+   "widget": "AppText"
+  },
+  "hn.island.labels.space": {
+   "widget": "AppText"
+  },
+  "hn.island.row": {
+   "widget": "NeoBox"
+  },
+  "hn.island.colorWell": {
+   "widget": "ConicRingPainter (anel arco-íris)",
+   "semantica": {
+    "label": "Cor da caneta: coral. Toque para escolher qualquer cor"
+   }
+  },
+  "hn.island.colorWell.ink": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hn.island.width": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Espessura do traço",
+    "role": "radiogroup"
+   }
+  },
+  "hn.island.width.thin": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fina",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.island.width.thin.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hn.island.width.medium": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Média",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "hn.island.width.medium.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hn.island.width.thick": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Grossa",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hn.island.width.thick.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hn.island.spacer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hn.island.undo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Desfazer"
+   }
+  },
+  "hn.island.undo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_undo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hn.island.redo": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Refazer",
+    "aria-disabled": "true"
+   }
+  },
+  "hn.island.redo.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_redo, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "25_grifos_notas": {
+  "hl.frame": {
+   "widget": "NeoBox"
+  },
+  "hl.topBar": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.topBar.back": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Voltar ao livro"
+   }
+  },
+  "hl.topBar.back.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_arrow_left, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.topBar.export": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "label": "Exportar grifos e notas"
+   }
+  },
+  "hl.topBar.export.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_share, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.sparkle": {
+   "widget": "AppSvg(AppIconsLeitor.ic_star_deco, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.main": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.title": {
+   "widget": "AppText"
+  },
+  "hl.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.subtitle": {
+   "widget": "AppText"
+  },
+  "hl.subtitle.strong": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.search": {
+   "widget": "NeoBox"
+  },
+  "hl.search.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_search_cinza, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.search.input": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Buscar nos grifos e notas"
+   }
+  },
+  "hl.types": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tipo",
+    "role": "radiogroup"
+   },
+   "obs": "ShaderMask com o degradê da máscara: linear-gradient(90deg, #000000 85%, #000000@0)"
+  },
+  "hl.types.all": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "hl.types.all.count": {
+   "widget": "AppText"
+  },
+  "hl.types.highlights": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hl.types.highlights.count": {
+   "widget": "AppText"
+  },
+  "hl.types.notes": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hl.types.notes.count": {
+   "widget": "AppText"
+  },
+  "hl.types.handwritten": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hl.types.handwritten.count": {
+   "widget": "AppText"
+  },
+  "hl.types.drawings": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "hl.types.drawings.count": {
+   "widget": "AppText"
+  },
+  "hl.filters": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.filters.colors": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Filtrar por cor",
+    "role": "group"
+   }
+  },
+  "hl.filters.colors.label": {
+   "widget": "AppText"
+  },
+  "hl.filters.colors.yellow": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Amarelo",
+    "role": "checkbox",
+    "aria-checked": "false"
+   }
+  },
+  "hl.filters.colors.pink": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Rosa",
+    "role": "checkbox",
+    "aria-checked": "false"
+   }
+  },
+  "hl.filters.colors.green": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Verde",
+    "role": "checkbox",
+    "aria-checked": "false"
+   }
+  },
+  "hl.filters.colors.lavender": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Lavanda",
+    "role": "checkbox",
+    "aria-checked": "false"
+   }
+  },
+  "hl.filters.colors.coral": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Tinta coral",
+    "role": "checkbox",
+    "aria-checked": "false"
+   }
+  },
+  "hl.filters.clubOnly": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "switch",
+    "aria-checked": "false"
+   }
+  },
+  "hl.filters.clubOnly.circle": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.filters.clubOnly.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_people, size: 15)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Grifos e notas na ordem do livro"
+   }
+  },
+  "hl.list.sep1": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.sep1.label": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.sep1.rule": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo amarelo, página 3"
+   }
+  },
+  "hl.list.card1.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card1.head.highlight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card1.head.highlight.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card1.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card1.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card1.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card1.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card1.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card1.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card1.body.quote.context": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card1.body.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.sep2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.sep2.label": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.sep2.rule": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo rosa com nota, página 6"
+   }
+  },
+  "hl.list.card2.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card2.head.highlight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card2.head.highlight.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card2.head.note": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card2.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card2.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card2.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card2.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card2.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card2.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card2.body.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card2.body.note": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-0.6deg)"
+  },
+  "hl.list.card2.body.note.tape": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "hl.list.card2.body.note.label": {
+   "widget": "AppText"
+  },
+  "hl.list.card2.body.note.text": {
+   "widget": "AppText"
+  },
+  "hl.list.sep3": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.sep3.label": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.sep3.rule": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card3": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo verde, página 41"
+   }
+  },
+  "hl.list.card3.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card3.head.highlight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card3.head.highlight.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card3.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card3.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card3.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card3.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card3.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card3.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card3.body.quote.context": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card3.body.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.sep4": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.sep4.label": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.sep4.rule": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card4": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo amarelo, página 121"
+   }
+  },
+  "hl.list.card4.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card4.head.highlight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card4.head.highlight.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card4.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card4.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card4.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card4.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card4.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card4.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card4.body.quote.context": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card4.body.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.sep5": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.sep5.label": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.sep5.rule": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card5": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo lavanda com nota, compartilhado no clube, página 152"
+   }
+  },
+  "hl.list.card5.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card5.head.highlight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card5.head.highlight.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card5.head.note": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card5.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card5.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card5.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card5.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card5.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card5.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card5.body.quote.mark": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card5.body.note": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-0.6deg)"
+  },
+  "hl.list.card5.body.note.tape": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: rotate(-3deg)"
+  },
+  "hl.list.card5.body.note.label": {
+   "widget": "AppText"
+  },
+  "hl.list.card5.body.note.text": {
+   "widget": "AppText"
+  },
+  "hl.list.card5.body.club": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card5.body.club.chip": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card5.body.club.chip.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_people_chip, size: 17)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card5.body.club.chip.replies": {
+   "widget": "AppText"
+  },
+  "hl.list.sep6": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.sep6.label": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.sep6.label.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.sep6.rule": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card6": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Grifo à mão livre, página 159"
+   }
+  },
+  "hl.list.card6.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card6.head.highlight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card6.head.highlight.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card6.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card6.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card6.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card6.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card6.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card6.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card6.body.quote.context": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card6.body.quote.ink": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card6.body.quote.ink.stroke": {
+   "widget": "InkStrokesPainter (traços da fixture: grifo_mao_livre_capitu)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card6.body.quote.after": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card7": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Desenho e nota à mão, página 159"
+   }
+  },
+  "hl.list.card7.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card7.head.drawing": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card7.head.drawing.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card7.head.handwritten": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card7.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card7.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card7.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card7.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card7.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card7.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card7.body.quote.ink": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card7.body.quote.ink.ellipse": {
+   "widget": "InkStrokesPainter (traços da fixture: miniatura_elipse_olhos_de_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card7.body.quote.after": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card7.body.handNote": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Nota à mão: ressaca = o mar que puxa de volta",
+    "role": "img"
+   }
+  },
+  "hl.list.card7.body.handNote.tag": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card7.body.handNote.tag.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil_heavy, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card7.body.handNote.rule1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card7.body.handNote.rule2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card7.body.handNote.ink": {
+   "widget": "InkStrokesPainter (traços da fixture: miniatura_nota_mao_ressaca)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "width=\"100%\"; miniatura da nota à mão (no app: renderizada a partir dos traços salvos, com cache em imagem)."
+  },
+  "hl.list.card8": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Dois desenhos, página 159"
+   }
+  },
+  "hl.list.card8.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card8.head.drawings": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "hl.list.card8.head.drawings.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "hl.list.card8.head.sep": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card8.head.date": {
+   "widget": "AppText"
+  },
+  "hl.list.card8.head.more": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Mais opções"
+   }
+  },
+  "hl.list.card8.head.more.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_more_dots, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card8.body": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card8.body.quote": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "hl.list.card8.body.quote.before": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card8.body.quote.ink1": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card8.body.quote.ink1.wave": {
+   "widget": "InkStrokesPainter (traços da fixture: miniatura_ondulado_fluido_misterioso)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card8.body.quote.between": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card8.body.quote.ink2": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.list.card8.body.quote.ink2.line1": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card8.body.quote.ink2.line2": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "hl.list.card8.body.quote.after": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "hl.end": {
+   "widget": "NeoBox"
+  },
+  "hl.end.text": {
+   "widget": "AppText"
+  },
+  "hl.end.cta": {
+   "widget": "NeoBox"
+  },
+  "hl.end.cta.label": {
+   "widget": "AppText"
+  }
+ },
+ "26_ajustes_leitura": {
+  "rs.frame": {
+   "widget": "NeoBox"
+  },
+  "rs.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Prévia da página"
+   }
+  },
+  "rs.page.text": {
+   "widget": "AppText"
+  },
+  "rs.livePill": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: translateX(-50%)"
+  },
+  "rs.livePill.dot": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Ajustes de leitura",
+    "role": "dialog"
+   }
+  },
+  "rs.sheet.grabber": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rs.sheet.title": {
+   "widget": "AppText"
+  },
+  "rs.sheet.title.serif": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "rs.sheet.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar"
+   }
+  },
+  "rs.sheet.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_close_round, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.size": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "rs.sheet.size.smaller": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Diminuir a letra"
+   }
+  },
+  "rs.sheet.size.steps": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Tamanho da letra",
+    "role": "slider",
+    "aria-valuemin": "1",
+    "aria-valuemax": "7",
+    "aria-valuenow": "4"
+   }
+  },
+  "rs.sheet.size.step1": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.step2": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.step3": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.step4": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.step5": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.step6": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.step7": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.size.larger": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Aumentar a letra"
+   }
+  },
+  "rs.sheet.fontLabel": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Fonte",
+    "role": "radiogroup"
+   }
+  },
+  "rs.sheet.fonts.literata": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Literata, tela",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "rs.sheet.fonts.literata.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.literata.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.literata.caption": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.lora": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Lora, clássica",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.fonts.lora.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.lora.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.lora.caption": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.figtree": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Figtree, sem serifa",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.fonts.figtree.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.figtree.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.figtree.caption": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.atkinson": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Atkinson, dislexia",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.fonts.atkinson.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.atkinson.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.fonts.atkinson.caption": {
+   "widget": "AppText"
+  },
+  "rs.sheet.paperLabel": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tema do papel",
+    "role": "radiogroup"
+   }
+  },
+  "rs.sheet.papers.cream": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tema Creme",
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "rs.sheet.papers.cream.card": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.cream.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.cream.line1": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.cream.line2": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.cream.check": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "rs.sheet.papers.cream.check.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_small, size: 12)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.papers.cream.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.white": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tema Branco",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.papers.white.card": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.white.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.white.line1": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.white.line2": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.white.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.sepia": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tema Sépia",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.papers.sepia.card": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.sepia.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.sepia.line1": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.sepia.line2": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.sepia.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.night": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tema Noite",
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.papers.night.card": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.night.sample": {
+   "widget": "AppText"
+  },
+  "rs.sheet.papers.night.line1": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.night.line2": {
+   "widget": "NeoBox"
+  },
+  "rs.sheet.papers.night.name": {
+   "widget": "AppText"
+  },
+  "rs.sheet.spacingLabel": {
+   "widget": "AppText"
+  },
+  "rs.sheet.spacing": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Entrelinha",
+    "role": "radiogroup"
+   }
+  },
+  "rs.sheet.spacing.tight": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.spacing.tight.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_spacing_tight, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.spacing.medium": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "rs.sheet.spacing.medium.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_spacing_medium, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.spacing.loose": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.spacing.loose.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_spacing_loose, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.marginsLabel": {
+   "widget": "AppText"
+  },
+  "rs.sheet.margins": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Margens",
+    "role": "radiogroup"
+   }
+  },
+  "rs.sheet.margins.narrow": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.margins.narrow.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_margins_narrow, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.margins.medium": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "true"
+   }
+  },
+  "rs.sheet.margins.medium.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_margins_medium, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "rs.sheet.margins.wide": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "radio",
+    "aria-checked": "false"
+   }
+  },
+  "rs.sheet.margins.wide.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_margins_wide, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "26b_tema_noite": {
+  "r20.frame": {
+   "widget": "NeoBox"
+  },
+  "r20.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Dom Casmurro, página 159 de 256"
+   }
+  },
+  "r20.page.text": {
+   "widget": "AppText"
+  },
+  "r20.footer": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.footer.pageLabel": {
+   "widget": "AppText"
+  },
+  "r20.footer.percent": {
+   "widget": "AppText"
+  },
+  "r20.fade": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.topIsland": {
+   "widget": "NeoBox"
+  },
+  "r20.topIsland.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar o livro"
+   }
+  },
+  "r20.topIsland.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_arrow_left_noite, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.topIsland.titleBlock": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.topIsland.title": {
+   "widget": "AppText"
+  },
+  "r20.topIsland.author": {
+   "widget": "AppText"
+  },
+  "r20.topIsland.search": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Buscar no livro"
+   }
+  },
+  "r20.topIsland.search.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_search_noite, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.topIsland.bookmark": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Página marcada",
+    "aria-pressed": "true"
+   }
+  },
+  "r20.topIsland.bookmark.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_marked_noite, size: 22)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Controles de leitura"
+   }
+  },
+  "r20.bottomIsland.scrubber": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.bottomIsland.scrubber.track": {
+   "widget": "HatchPainter (hachura 135°) dentro do contorno",
+   "semantica": {
+    "label": "Posição no livro",
+    "role": "slider",
+    "aria-valuemin": "1",
+    "aria-valuemax": "256",
+    "aria-valuenow": "159",
+    "aria-valuetext": "página 159 de 256"
+   }
+  },
+  "r20.bottomIsland.scrubber.fill": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.scrubber.fill.wave": {
+   "widget": "CustomPainter (onda_preenchimento_barra_noite)",
+   "obs": "cores dinâmicas: #B6ACE4 = brand · preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): desenhar com CustomPainter esticando a forma na altura do trilho e traço fixo de 1,5."
+  },
+  "r20.bottomIsland.scrubber.knob": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.scrubber.bubble": {
+   "widget": "NeoBox + AppText",
+   "semantica": {
+    "aria-hidden": "true"
+   },
+   "obs": "Transform: translateX(-50%)"
+  },
+  "r20.bottomIsland.scrubber.bubble.tail": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(45deg)"
+  },
+  "r20.bottomIsland.progressRow": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "r20.bottomIsland.progressRow.position": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.progressRow.position.percent": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "r20.bottomIsland.progressRow.timeLeft": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.font": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.font.circle": {
+   "widget": "NeoBox + AppText"
+  },
+  "r20.bottomIsland.tools.theme": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.theme.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.theme.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_moon, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.tools.notes": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.notes.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.notes.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_highlighter_reader_noite, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.tools.notes.badge": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "r20.bottomIsland.tools.annotate": {
+   "widget": "AppText",
+   "semantica": {
+    "label": "Anotar à mão"
+   }
+  },
+  "r20.bottomIsland.tools.annotate.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.annotate.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_annotate_noite, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.bottomIsland.tools.toc": {
+   "widget": "AppText"
+  },
+  "r20.bottomIsland.tools.toc.circle": {
+   "widget": "NeoBox"
+  },
+  "r20.bottomIsland.tools.toc.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_toc_noite, size: 21)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "r20.timeChip": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "obs": "Transform: translateX(-50%)"
+  },
+  "r20.timeChip.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_timer, size: 15)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "27_sumario": {
+  "toc.frame": {
+   "widget": "NeoBox"
+  },
+  "toc.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.page.text": {
+   "widget": "AppText"
+  },
+  "toc.fade": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Sumário",
+    "role": "dialog"
+   }
+  },
+  "toc.sheet.grabber": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.header.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.subtitle": {
+   "widget": "AppText"
+  },
+  "toc.sheet.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar"
+   }
+  },
+  "toc.sheet.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_close_round, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.tabs": {
+   "widget": "NeoBox",
+   "semantica": {
+    "role": "tablist"
+   }
+  },
+  "toc.sheet.tabs.chapters": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "tab",
+    "aria-selected": "true"
+   }
+  },
+  "toc.sheet.tabs.chapters.count": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "toc.sheet.tabs.bookmarks": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "tab",
+    "aria-selected": "false"
+   }
+  },
+  "toc.sheet.tabs.bookmarks.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_coral, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.tabs.bookmarks.count": {
+   "widget": "AppText"
+  },
+  "toc.sheet.club": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.club.flag": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "toc.sheet.club.flag.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_flag, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.club.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.club.kicker": {
+   "widget": "AppText"
+  },
+  "toc.sheet.club.goal": {
+   "widget": "AppText"
+  },
+  "toc.sheet.club.arrow": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.club.arrow.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_chevron_right, size: 16)"
+  },
+  "toc.sheet.chapters": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Capítulos"
+   },
+   "obs": "ShaderMask com o degradê da máscara: linear-gradient(#000000@0 0px, #000000 22px, #000000 calc(100% - 40px), #000000@0)"
+  },
+  "toc.sheet.chapters.list": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch25": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch25.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch25.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch25.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch25.marks": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "1 marcas"
+   }
+  },
+  "toc.sheet.chapters.ch25.marks.symbols": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch25.marks.highlight": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "toc.sheet.chapters.ch25.marks.count": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch25.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch25.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch25.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch26": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch26.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch26.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch26.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch26.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch26.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch26.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch27": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch27.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch27.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch27.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch27.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch27.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch27.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch28": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch28.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch28.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch28.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch28.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch28.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch28.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch29": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch29.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch29.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch29.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch29.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch29.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch29.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch30": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch30.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch30.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch30.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch30.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch30.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch30.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch31": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch31.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch31.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch31.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch31.marks": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "2 marcas"
+   }
+  },
+  "toc.sheet.chapters.ch31.marks.symbols": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch31.marks.highlight": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "toc.sheet.chapters.ch31.marks.note": {
+   "widget": "NeoBox",
+   "obs": "Transform: rotate(-6deg)"
+  },
+  "toc.sheet.chapters.ch31.marks.count": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch31.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch31.read": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "lido"
+   }
+  },
+  "toc.sheet.chapters.ch31.read.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_check_read, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch32": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch32.link": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-current": "location"
+   }
+  },
+  "toc.sheet.chapters.ch32.row": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch32.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch32.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch32.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch32.progressRing": {
+   "widget": "CustomPainter (anel_progresso_capitulo)",
+   "semantica": {
+    "label": "lendo"
+   },
+   "obs": "stroke-dasharray/dashoffset = progresso no capítulo (44 de perímetro, offset 26 → 41 %): anel desenhado por CustomPainter com o valor real."
+  },
+  "toc.sheet.chapters.ch32.meta": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch32.youAreHere": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "toc.sheet.chapters.ch32.youAreHere.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_tiny, size: 9)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch32.marks": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "5 marcas"
+   }
+  },
+  "toc.sheet.chapters.ch32.marks.symbols": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch32.marks.highlight": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "toc.sheet.chapters.ch32.marks.ink": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "toc.sheet.chapters.ch32.marks.handwritten": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "toc.sheet.chapters.ch32.marks.handwritten.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_pencil_coral, size: 9)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch32.marks.count": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch33": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch33.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch33.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch33.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch33.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch33.status": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch34": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch34.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch34.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch34.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch34.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch34.status": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch35": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch35.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch35.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch35.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch35.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch35.status": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch36": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch36.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch36.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch36.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch36.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch36.status": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "toc.sheet.chapters.ch37": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "toc.sheet.chapters.ch37.link": {
+   "widget": "NeoBox"
+  },
+  "toc.sheet.chapters.ch37.numeral": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch37.title": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch37.page": {
+   "widget": "AppText"
+  },
+  "toc.sheet.chapters.ch37.status": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "27b_sumario_marcadas": {
+  "bm.frame": {
+   "widget": "NeoBox"
+  },
+  "bm.page": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.page.text": {
+   "widget": "AppText"
+  },
+  "bm.fade": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet": {
+   "widget": "NeoBox",
+   "semantica": {
+    "label": "Sumário",
+    "role": "dialog"
+   }
+  },
+  "bm.sheet.grabber": {
+   "widget": "NeoBox",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.header": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.header.texts": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.title": {
+   "widget": "AppText"
+  },
+  "bm.sheet.subtitle": {
+   "widget": "AppText"
+  },
+  "bm.sheet.close": {
+   "widget": "CircleIconButton / NeoBox circular",
+   "semantica": {
+    "label": "Fechar"
+   }
+  },
+  "bm.sheet.close.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_close_round, size: 18)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.tabs": {
+   "widget": "NeoBox",
+   "semantica": {
+    "role": "tablist"
+   }
+  },
+  "bm.sheet.tabs.chapters": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "tab",
+    "aria-selected": "false"
+   }
+  },
+  "bm.sheet.tabs.chapters.count": {
+   "widget": "TextSpan dentro do AppText.rich do pai"
+  },
+  "bm.sheet.tabs.bookmarks": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)",
+   "semantica": {
+    "role": "tab",
+    "aria-selected": "true"
+   }
+  },
+  "bm.sheet.tabs.bookmarks.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_coral, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.tabs.bookmarks.count": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Páginas marcadas"
+   }
+  },
+  "bm.sheet.bookmarks.list": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item1": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item1.row": {
+   "widget": "NeoBox"
+  },
+  "bm.sheet.bookmarks.item1.link": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Abrir na página 3"
+   }
+  },
+  "bm.sheet.bookmarks.item1.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item1.head.page": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "bm.sheet.bookmarks.item1.head.chapter": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item1.excerpt": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item1.date": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item1.ribbon": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tirar a marca da página 3",
+    "aria-pressed": "true"
+   }
+  },
+  "bm.sheet.bookmarks.item1.ribbon.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_coral, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.bookmarks.item2": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item2.row": {
+   "widget": "NeoBox"
+  },
+  "bm.sheet.bookmarks.item2.link": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Abrir na página 6"
+   }
+  },
+  "bm.sheet.bookmarks.item2.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item2.head.page": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "bm.sheet.bookmarks.item2.head.chapter": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item2.excerpt": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item2.date": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item2.ribbon": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tirar a marca da página 6",
+    "aria-pressed": "true"
+   }
+  },
+  "bm.sheet.bookmarks.item2.ribbon.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_coral, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.bookmarks.item3": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item3.row": {
+   "widget": "NeoBox"
+  },
+  "bm.sheet.bookmarks.item3.link": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Abrir na página 159"
+   }
+  },
+  "bm.sheet.bookmarks.item3.head": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.bookmarks.item3.head.page": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "bm.sheet.bookmarks.item3.head.chapter": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item3.head.here": {
+   "widget": "Pill / CountBadge (NeoBox com raio de pílula + AppText)"
+  },
+  "bm.sheet.bookmarks.item3.excerpt": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item3.date": {
+   "widget": "AppText"
+  },
+  "bm.sheet.bookmarks.item3.ribbon": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)",
+   "semantica": {
+    "label": "Tirar a marca da página 159",
+    "aria-pressed": "true"
+   }
+  },
+  "bm.sheet.bookmarks.item3.ribbon.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon_coral, size: 20)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.hint": {
+   "widget": "layout (Row/Column/Stack/Padding/SizedBox)"
+  },
+  "bm.sheet.hint.iconWrap": {
+   "widget": "CircleIconButton / NeoBox circular"
+  },
+  "bm.sheet.hint.icon": {
+   "widget": "AppSvg(AppIconsLeitor.ic_ribbon, size: 11)",
+   "semantica": {
+    "aria-hidden": "true"
+   }
+  },
+  "bm.sheet.hint.text": {
+   "widget": "AppText"
+  }
+ }
+}

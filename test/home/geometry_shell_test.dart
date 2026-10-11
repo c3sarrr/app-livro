@@ -1,24 +1,32 @@
 import 'package:app_leitura/core/design_system/tokens/app_colors.dart';
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
+import 'package:app_leitura/features/reading_session/presentation/session_mini_bar.dart';
+import 'package:app_leitura/features/shell/presentation/bottom_fade.dart';
+import 'package:app_leitura/features/shell/presentation/floating_nav_bar.dart';
 import 'package:app_leitura/features/shell/presentation/main_shell.dart';
+import 'package:app_leitura/features/shell/presentation/scanner_fab.dart';
+import 'package:app_leitura/features/shell/presentation/shell_insets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import '../reference/reference_layout.dart';
+import '../reference/inicio2/referencias_inicio2.dart';
 import '../support/canvas.dart';
-import '../support/geometry.dart';
 import '../support/load_fonts.dart';
 import '../support/pump_app.dart';
 
-/// Os 10 blocos da F02 (8 seções + camadas fixas), na ordem do HTML.
+// F02 2.7/2.8 — o shell e o ritmo da Início no canvas e no aparelho (D-02, D-13). Desde a troca da T03 (D-240) a
+// Início é a da prancha 01: 9 seções + as camadas fixas, conteúdo até 2612,12 no canvas de 390 × 2650.
+
+/// Os 11 blocos da prancha 01 (9 seções + camadas fixas), na ordem do HTML.
 const _blocks = [
   'header',
   'headline',
   'hero',
   'alsoReading',
   'today',
+  'review',
   'forYou',
   'club',
   'recent',
@@ -30,75 +38,44 @@ const _blocks = [
 /// do SkParagraph (título: 90,16000175 em vez de 90,16). A referência tem 2 casas decimais.
 const _float32Noise = 1e-3;
 
+/// A prancha arredonda as alturas a 2 casas: o Também lendo mede 205,80 no app e 205,81 na prancha, e tudo o que fica
+/// abaixo dele herda os −0,01 (`test/home/inicio01/pagina_test.dart`).
+const _arredondamento = 0.011;
+
+/// Fim do conteúdo da prancha 01: recém-chegados (2138,12 + 334) + padding 140.
+const _fim = 2612.12;
+
 Rect _rect(WidgetTester tester, String id) =>
     tester.getRect(find.byKey(ValueKey<String>(id)));
-
-/// Registra todos os desvios (x, y, w, h) e o maior, para o relatório.
-void _logDeviations(WidgetTester tester, Iterable<String> ids) {
-  var worst = ('', '', 0.0);
-  for (final id in ids) {
-    final got = layoutRect(tester, id), ref = kRefLayout[id]!.rect;
-    final d = [
-      ('x', got.left - ref.left),
-      ('y', got.top - ref.top),
-      ('w', got.width - ref.width),
-      ('h', got.height - ref.height),
-    ];
-    for (final (what, v) in d) {
-      if (v.abs() > worst.$3.abs()) worst = (id, what, v);
-    }
-    debugPrint(
-      '[geometria] $id: obtido (${got.left}, ${got.top}, ${got.width}, ${got.height}) | '
-      'referência (${ref.left}, ${ref.top}, ${ref.width}, ${ref.height}) | '
-      'Δ ${d.map((e) => '${e.$1} ${e.$2.toStringAsFixed(4)}').join(', ')}',
-    );
-  }
-  debugPrint(
-    '[geometria] ${ids.length} ids; maior desvio ${worst.$1}.${worst.$2} = ${worst.$3.toStringAsFixed(6)}',
-  );
-}
 
 void main() {
   setUpAll(loadAppFonts);
 
-  group('2.8 geometria no canvas 390×2390 (DPR 3)', () {
-    testWidgets('os 10 blocos dentro da tolerância', (tester) async {
+  group('2.8 geometria no canvas 390×2650 (DPR 3)', () {
+    testWidgets('os 11 blocos da prancha 01 dentro da tolerância (±0,5)', (
+      tester,
+    ) async {
       setCanvasView(tester);
       await pumpApp(tester);
-      expectGeometry(tester, _blocks);
-      _logDeviations(tester, _blocks);
+      for (final b in _blocks) {
+        final got = _rect(tester, b), ref = kRef01.sections['i01.$b']!;
+        for (final (o, g, r) in [
+          ('x', got.left, ref.left),
+          ('y', got.top, ref.top),
+          ('w', got.width, ref.width),
+          ('h', got.height, ref.height),
+        ]) {
+          expect(g, moreOrLessEquals(r, epsilon: 0.5), reason: '$b.$o');
+        }
+      }
     });
 
     testWidgets(
-      'ritmo vertical: inset 62, gaps 24/24/32/36/40/40/40, padding inferior 140 → 2355,16',
+      'conteúdo: padding 62/140 em volta da coluna das seções → 2612,12',
       (tester) async {
         setCanvasView(tester);
         await pumpApp(tester);
-        const sections = [
-          'header',
-          'headline',
-          'hero',
-          'alsoReading',
-          'today',
-          'forYou',
-          'club',
-          'recent',
-        ];
         expect(_rect(tester, 'header').top, 62);
-        final gaps = [
-          for (var i = 1; i < sections.length; i++)
-            _rect(tester, sections[i]).top -
-                _rect(tester, sections[i - 1]).bottom,
-        ];
-        expect(gaps.map((g) => double.parse(g.toStringAsFixed(6))), [
-          24,
-          24,
-          32,
-          36,
-          40,
-          40,
-          40,
-        ]);
         // Altura total do conteúdo = padding do SingleChildScrollView + coluna.
         final content = tester.getSize(
           find
@@ -107,13 +84,12 @@ void main() {
         );
         expect(
           content.height,
-          moreOrLessEquals(2355.16, epsilon: _float32Noise),
+          moreOrLessEquals(_fim, epsilon: _arredondamento),
         );
         expect(
           content.height - _rect(tester, 'recent').bottom,
           moreOrLessEquals(140, epsilon: 1e-9),
         );
-        debugPrint('[ritmo] gaps $gaps | conteúdo ${content.height}');
       },
     );
 
@@ -122,7 +98,7 @@ void main() {
       (tester) async {
         setCanvasView(tester);
         await pumpApp(tester);
-        for (final id in _blocks.take(8)) {
+        for (final id in _blocks.take(9)) {
           final r = _rect(tester, id);
           expect((r.left, r.width), (20.0, 350.0), reason: id);
         }
@@ -136,70 +112,86 @@ void main() {
         final r = tester.getRect(stack);
         expect(r.left, 0);
         expect(r.width, 390);
-        expect(r.top, moreOrLessEquals(1207.56, epsilon: _float32Noise));
+        expect(r.top, moreOrLessEquals(1464.52, epsilon: _arredondamento));
         expect(r.height, moreOrLessEquals(327, epsilon: _float32Noise));
       },
     );
   });
 
   group('2.7 MainShell', () {
-    testWidgets(
-      'camadas na ordem do HTML: conteúdo da aba → fade inferior → navegação',
-      (tester) async {
-        setCanvasView(tester);
-        await pumpApp(tester);
-        final stack = tester.widget<Stack>(
-          find
-              .descendant(
-                of: find.byType(MainShell),
-                matching: find.byType(Stack),
-              )
-              .first,
-        );
-        expect(stack.children, hasLength(3));
-        final [content, fade, nav] = stack.children.cast<Positioned>();
-        expect(content.child, isA<StatefulNavigationShell>());
-        expect(
-          (content.left, content.top, content.right, content.bottom),
-          (0.0, 0.0, 0.0, 0.0),
-        );
-        expect(
-          (fade.left, fade.right, fade.bottom, fade.height),
-          (0.0, 0.0, 0.0, 150.0),
-        );
-        final ignore = fade.child as IgnorePointer;
-        expect(ignore.ignoring, isTrue);
-        expect((ignore.child! as SizedBox).key, const ValueKey('bottomFade'));
-        expect(
-          (nav.left, nav.right, nav.bottom, nav.height),
-          (16.0, 16.0, 30.0, 70.0),
-        );
-        expect((nav.child as SizedBox).key, const ValueKey('nav'));
-        // O fade não intercepta toques (pointer-events: none).
-        expect(
-          tester
-              .hitTestOnBinding(const Offset(195, 2250))
-              .path
-              .any(
-                (e) =>
-                    e.target ==
-                    tester.renderObject(
-                      find.byKey(const ValueKey('bottomFade')),
-                    ),
-              ),
-          isFalse,
-        );
-        // O MainShell não usa Scaffold: o único Scaffold do app é o da Início.
-        expect(find.byType(Scaffold, skipOffstage: false), findsOneWidget);
-        expect(
-          find.ancestor(
-            of: find.byType(Scaffold),
-            matching: find.byType(HomeScreen),
-          ),
-          findsOneWidget,
-        );
-      },
-    );
+    testWidgets('camadas na ordem do HTML: conteúdo da aba → fade inferior → mini-barra do cronômetro (T04, D-259) → navegação '
+        '→ FAB do Scanner', (tester) async {
+      setCanvasView(tester);
+      await pumpApp(tester);
+      final stack = tester.widget<Stack>(
+        find
+            .descendant(
+              of: find.byType(MainShell),
+              matching: find.byType(Stack),
+            )
+            .first,
+      );
+      expect(stack.children, hasLength(5));
+      final [content, fade, miniBar, nav, fab] = stack.children
+          .cast<Positioned>();
+      // T04 (D-259): a aba fica sob a folga da mini-barra
+      expect(
+        (content.child as ShellInsets).child,
+        isA<StatefulNavigationShell>(),
+      );
+      expect(
+        (content.left, content.top, content.right, content.bottom),
+        (0.0, 0.0, 0.0, 0.0),
+      );
+      expect(
+        (fade.left, fade.right, fade.bottom, fade.height),
+        (0.0, 0.0, 0.0, 150.0),
+      );
+      final ignore = fade.child as IgnorePointer;
+      expect(ignore.ignoring, isTrue);
+      expect(ignore.child, isA<BottomFade>());
+      expect(ignore.child!.key, const ValueKey('bottomFade'));
+      expect(
+        (nav.left, nav.right, nav.bottom, nav.height),
+        (16.0, 16.0, 30.0, 70.0),
+      );
+      // T04: a mini-barra fica 30 acima da barra (sem sessão aberta, vazia)
+      expect(
+        (miniBar.left, miniBar.right, miniBar.bottom, miniBar.height),
+        (16.0, 16.0, 130.0, 66.0),
+      );
+      expect(miniBar.child, isA<SessionMiniBar>());
+      expect(nav.child, isA<FloatingNavBar>());
+      expect(nav.child.key, const ValueKey('nav'));
+      // F11: o FAB é irmão da barra, DEPOIS dela (pinta por cima e o toque vale no círculo inteiro).
+      expect(
+        (fab.left, fab.bottom, fab.width, fab.height),
+        (165.0, 60.5, 60.0, 60.0),
+      );
+      expect(fab.child, isA<ScannerFab>());
+      expect(fab.child.key, const ValueKey('nav.scanner.fab'));
+      // O fade não intercepta toques (pointer-events: none): 10 px abaixo do topo dele, acima do FAB.
+      expect(
+        tester
+            .hitTestOnBinding(const Offset(195, 2510))
+            .path
+            .any(
+              (e) =>
+                  e.target ==
+                  tester.renderObject(find.byKey(const ValueKey('bottomFade'))),
+            ),
+        isFalse,
+      );
+      // O MainShell não usa Scaffold: o único Scaffold do app é o da Início.
+      expect(find.byType(Scaffold, skipOffstage: false), findsOneWidget);
+      expect(
+        find.ancestor(
+          of: find.byType(Scaffold),
+          matching: find.byType(HomeScreen),
+        ),
+        findsOneWidget,
+      );
+    });
 
     testWidgets(
       'status bar transparente com ícones escuros; Android edge-to-edge (D-13)',
@@ -224,7 +216,7 @@ void main() {
         expect(region.value, MainShell.overlayStyle);
         expect(
           tester.getRect(find.byType(MainShell)),
-          const Rect.fromLTWH(0, 0, 390, 2390),
+          const Rect.fromLTWH(0, 0, 390, 2650),
         );
       },
     );
@@ -279,7 +271,7 @@ void main() {
         // O fundo pintado é só o papel (nenhum placeholder desenha nada).
         expect(
           tester.getRect(find.byType(Scaffold)),
-          const Rect.fromLTWH(0, 0, 390, 2390),
+          const Rect.fromLTWH(0, 0, 390, 2650),
         );
       },
     );
@@ -350,7 +342,7 @@ void main() {
     });
 
     testWidgets(
-      'rolagem até o fim (extensão total 2355,16) com a nav fixa em 744',
+      'rolagem até o fim (extensão total 2612,12) com a nav fixa em 744',
       (tester) async {
         setCanvasView(
           tester,
@@ -363,7 +355,7 @@ void main() {
         expect(position.viewportDimension, 844);
         expect(
           position.maxScrollExtent + position.viewportDimension,
-          moreOrLessEquals(2355.16, epsilon: _float32Noise),
+          moreOrLessEquals(_fim, epsilon: _arredondamento),
         );
 
         // No meio da rolagem a nav não se move.
@@ -373,14 +365,14 @@ void main() {
         expect(_rect(tester, 'nav').top, 744);
 
         // Até o fim.
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 4; i++) {
           await tester.drag(homeScrollView(), const Offset(0, -700));
           await tester.pumpAndSettle();
         }
         expect(position.pixels, position.maxScrollExtent);
         expect(
           position.pixels,
-          moreOrLessEquals(2355.16 - 844, epsilon: _float32Noise),
+          moreOrLessEquals(_fim - 844, epsilon: _arredondamento),
         );
         // O último bloco termina 140 px acima da borda inferior; a nav continua em 744.
         expect(

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://*.supabase.co http://127.0.0.1:54321 http://localhost:54321; base-uri 'none'; form-action 'none'">
+    <meta name="referrer" content="no-referrer">
+    <title>Excluir conta — BookNest</title>
+    <link rel="stylesheet" href="estilo.css">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>Excluir sua conta do BookNest</h1>
+      <p>Você pode excluir a conta pelo app (Perfil → Excluir conta) ou por esta página, sem instalar nada.</p>
+
+      <h2>O que é apagado</h2>
+      <ul>
+        <li>
+          Na hora, no servidor: perfil, @, posts, comentários, clubes, seguidores, notificações, dados da
+          assinatura e os livros e anotações guardados na nuvem (plano Pro).
+        </li>
+        <li>As cópias de segurança cifradas do servidor são substituídas no ciclo de rotação delas.</li>
+        <li>
+          O que está só no seu aparelho (no plano Grátis: livros, grifos e tempo de leitura) não passa pelo
+          servidor: apague pelo app ou desinstalando-o.
+        </li>
+      </ul>
+      <p class="suave">
+        A assinatura é cobrada pela loja: para parar a cobrança, cancele também no Google Play ou na App Store.
+      </p>
+
+      <section id="etapa-email">
+        <h2>1. Confirme que a conta é sua</h2>
+        <form id="form-email" novalidate>
+          <label for="email">E-mail da conta</label>
+          <input id="email" type="email" autocomplete="email" required placeholder="seu@email.com">
+          <div class="acoes"><button class="principal" type="submit">Enviar código</button></div>
+        </form>
+      </section>
+
+      <section id="etapa-codigo" hidden>
+        <h2>2. Digite o código e confirme</h2>
+        <form id="form-codigo" novalidate>
+          <label for="codigo">Código de 6 dígitos</label>
+          <input id="codigo" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="7"
+            placeholder="000000">
+          <label class="ciente">
+            <input id="ciente" type="checkbox"> Entendo que a exclusão é imediata e não pode ser desfeita.
+          </label>
+          <div class="acoes">
+            <button class="perigo" type="submit">Excluir minha conta</button>
+            <button id="voltar" type="button">Trocar e-mail</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="etapa-fim" hidden>
+        <h2>Conta excluída</h2>
+        <p>
+          Pronto. Se o app estiver instalado em algum aparelho, ele sai da conta sozinho; o que estava só no aparelho
+          continua lá até você apagar.
+        </p>
+      </section>
+
+      <p id="aviso" class="aviso" role="status" aria-live="polite" hidden></p>
+    </main>
+  </body>
+</html>
