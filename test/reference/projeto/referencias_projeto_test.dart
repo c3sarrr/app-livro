@@ -35,7 +35,18 @@ String _sem(String prefixo, String id) => id.substring(prefixo.length + 1);
 /// As telas medidas até agora, por etapa, na ordem do índice (tools/medicao/pranchas_projeto.json).
 const _porEtapa = <String, List<String>>{
   'T14': ['02', '36', '17', '17b'],
+  'T15': ['03', '39', '40', '41', '42', '69', '69b', '28', '28b', '28c', '28d'],
 };
+
+/// Os elementos de uma tela sem o prefixo ('sc03.sheet' → 'sheet').
+Map<String, LeitorRefElement> _de(String tela) {
+  final r = kRefProjeto[tela]!;
+  return {for (final x in r.elements.entries) _sem(r.prefix, x.key): x.value};
+}
+
+/// Os ids de uma lista de seções (a própria seção e o que está dentro dela).
+bool _em(String k, Iterable<String> secoes) =>
+    secoes.any((s) => k == s || k.startsWith('$s.'));
 
 void main() {
   final telas = [for (final t in _porEtapa.values) ...t];
@@ -294,5 +305,367 @@ void main() {
     }
     expect(v.elements['b36.bottomFade']!.rect.height, 130);
     expect(b.elements['b02.bottomFade']!.rect.height, 170);
+  });
+
+  // R8 (T13): o texto que o sistema desenha — o teclado numérico da 69/69b — é só informativo: a referência Dart traz
+  // o mapa id → motivo, o mesmo do layout e do índice. As outras reservas (o "≈" da 17b, a "→" da 28c) são do app.
+  test('R8: o texto só informativo = o do índice, com o motivo', () {
+    final esperado = <String, Map<String, String>>{};
+    for (final p in indice.where((p) => telas.contains(p['tela']))) {
+      final ref = kRefProjeto[p['tela']]!;
+      final reserva = (p['reserva'] ?? <String, dynamic>{}) as Map;
+      final inf = <String, String>{
+        for (final e in reserva.entries)
+          if ((e.value as Map)['informativo'] == true)
+            '${ref.prefix}.${e.key}': (e.value as Map)['motivo'] as String,
+      };
+      if (inf.isNotEmpty) esperado[p['tela'] as String] = inf;
+      final lay = _json('$_layout/layout_${ref.slug}.json');
+      final doLayout = <String, String>{
+        for (final e in (lay['elements'] as Map<String, dynamic>).entries)
+          if ((e.value as Map<String, dynamic>).containsKey('informativo'))
+            e.key: (e.value as Map<String, dynamic>)['informativo'] as String,
+      };
+      expect(doLayout, inf, reason: ref.slug);
+    }
+    expect(kInformativoProjeto, esperado);
+    expect(kInformativoProjeto.keys, ['69', '69b']);
+    // as 10 teclas, os 10 números e as letras de 2 a 9
+    expect(kInformativo69.length, 28);
+    expect(kInformativo69b.keys, [
+      for (final k in kInformativo69.keys) k.replaceFirst('sc69.', 'sc69b.'),
+    ]);
+  });
+
+  // T13.5: a Busca põe o título e a lista de cada seção direto no <main>, sem contêiner — a caixa da seção é a união
+  // das caixas de topo dela (build_layout.py, listadas no meta do layout). Em todas as outras telas a seção é um
+  // elemento.
+  test('seções sem contêiner = a união das caixas de topo', () {
+    const semContainer = <String, Map<String, List<String>>>{
+      '28': {
+        'recent': ['recent.header', 'recent.list'],
+        'mood': ['mood.header', 'mood.chips'],
+        'genres': ['genres.header', 'genres.grid'],
+        'trending': [
+          'trending.header',
+          'trending.subtitle',
+          'trending.carousel',
+        ],
+      },
+      '28b': {
+        'books': ['books.header', 'books.list'],
+        'clubs': ['clubs.header', 'clubs.list'],
+        'highlights': ['highlights.header', 'highlights.list'],
+      },
+      '28c': {
+        'actions': ['actions.scan', 'actions.manual'],
+      },
+    };
+    for (final tela in telas) {
+      final ref = kRefProjeto[tela]!;
+      final meta = _json('$_layout/layout_${ref.slug}.json')['meta'] as Map;
+      final esperado = semContainer[tela] ?? const <String, List<String>>{};
+      expect(meta['secoesSemElemento'] ?? <String, dynamic>{}, {
+        for (final e in esperado.entries)
+          '${ref.prefix}.${e.key}': [
+            for (final k in e.value) '${ref.prefix}.$k',
+          ],
+      }, reason: ref.slug);
+      for (final s in ref.sections.entries) {
+        final curto = _sem(ref.prefix, s.key);
+        if (!esperado.containsKey(curto)) {
+          expect(ref.elements[s.key]?.rect, s.value, reason: s.key);
+          continue;
+        }
+        expect(ref.elements.containsKey(s.key), isFalse, reason: s.key);
+        final uniao = esperado[curto]!
+            .map((k) => ref.elements['${ref.prefix}.$k']!.rect)
+            .reduce((a, b) => a.expandToInclude(b));
+        // a união é feita antes do arredondamento a 0,01 px do layout
+        expect(uniao.left, closeTo(s.value.left, 0.02), reason: s.key);
+        expect(uniao.top, closeTo(s.value.top, 0.02), reason: s.key);
+        expect(uniao.right, closeTo(s.value.right, 0.02), reason: s.key);
+        expect(uniao.bottom, closeTo(s.value.bottom, 0.02), reason: s.key);
+      }
+    }
+  });
+
+  // R4 (telas irmãs) — o Scanner: a câmera, a moldura e a barra do topo da 03 são as mesmas na 39, na 40 e na 42 (a
+  // 40 com outro livro na câmera; a 39 ainda procurando o código, sem o realce); a 41 (sem câmera) guarda os cantos e
+  // a barra; a aba Digitar (69, 69b) guarda a barra, com a ajuda no lugar da lanterna e o "Digitar" marcado.
+  test('Scanner: a câmera, a moldura e a barra do topo nas 7 telas', () {
+    final base = _de('03');
+    const camera = [
+      'camera',
+      'dim',
+      'detected',
+      'corners',
+      'status',
+      'controls',
+    ];
+    void mesmos(
+      String tela,
+      List<String> secoes, {
+      Set<String> falta = const {},
+      Set<String> difere = const {},
+    }) {
+      final m = _de(tela);
+      final ks = base.keys.where((k) => _em(k, secoes)).toList();
+      expect(ks.where((k) => !m.containsKey(k)).toSet(), falta, reason: tela);
+      for (final k in ks.where(m.containsKey)) {
+        final a = base[k]!, b = m[k]!;
+        if (difere.contains(k)) {
+          expect(
+            b.rect == a.rect &&
+                _texts(b.lines).join('|') == _texts(a.lines).join('|'),
+            isFalse,
+            reason: '$tela $k',
+          );
+          continue;
+        }
+        expect(b.rect, a.rect, reason: '$tela $k');
+        expect(_texts(b.lines), _texts(a.lines), reason: '$tela $k');
+        expect(_texts(b.linesAll), _texts(a.linesAll), reason: '$tela $k');
+      }
+    }
+
+    mesmos(
+      '39',
+      camera,
+      falta: {
+        'camera.book.ring',
+        'detected',
+        'detected.badge',
+        'detected.badge.icon',
+      },
+      difere: {'status.chip', 'status.chip.badge', 'status.chip.badge.icon'},
+    );
+    mesmos(
+      '40',
+      camera,
+      falta: {'camera.book.ring'},
+      difere: {'camera.book.quote', 'camera.book.author', 'camera.label.isbn'},
+    );
+    mesmos('42', camera, falta: {'camera.book.ring'});
+    mesmos('41', ['corners', 'controls']);
+    for (final t in ['69', '69b']) {
+      mesmos(
+        t,
+        ['controls'],
+        falta: {'controls.torch', 'controls.torch.icon'},
+        difere: {
+          'controls.mode',
+          'controls.mode.code',
+          'controls.mode.code.icon',
+          'controls.mode.type',
+          'controls.mode.type.icon',
+        },
+      );
+      expect(_de(t)['controls.help']!.rect, base['controls.torch']!.rect);
+    }
+    expect(_de('39')['scanLine'], isNotNull);
+    expect(_de('41')['backdrop'], isNotNull);
+  });
+
+  // A folha que sobe de baixo (03, 39, 40, 41, 42): a mesma caixa presa ao fundo (10 da borda), de altura do que
+  // diz; a alça e o topo (chip e ISBN) no mesmo lugar dentro dela. Na 40 o desenho com o texto é 20 mais baixo que o
+  // livro da 03 (106 × 126): o resto sobe 20; na 42 a capa menor e a meta do dia sobem as ações e o rodapé 38,7.
+  test('Scanner: a folha de baixo e o que muda dentro dela', () {
+    Rect rel(LeitorRefElement e, Rect folha) => e.rect.shift(-folha.topLeft);
+    // a diferença de duas coordenadas absolutas carrega ruído de ponto flutuante (~1e-13)
+    void igual(Rect a, Rect b, String reason, {bool tamanho = true}) {
+      expect(a.left, closeTo(b.left, 1e-6), reason: reason);
+      expect(a.top, closeTo(b.top, 1e-6), reason: reason);
+      if (!tamanho) return;
+      expect(a.width, closeTo(b.width, 1e-6), reason: reason);
+      expect(a.height, closeTo(b.height, 1e-6), reason: reason);
+    }
+
+    final base = _de('03');
+    final f03 = base['sheet']!.rect;
+    final alturas = <String, double>{};
+    for (final t in ['03', '39', '40', '41', '42']) {
+      final m = _de(t);
+      final f = m['sheet']!.rect;
+      expect(f.left, 10, reason: t);
+      expect(f.width, 370, reason: t);
+      expect(f.bottom, closeTo(834, 1e-9), reason: t);
+      alturas[t] = f.height;
+      igual(
+        rel(m['sheet.handle']!, f),
+        rel(base['sheet.handle']!, f03),
+        '$t sheet.handle',
+      );
+      if (t == '39' || t == '41') continue;
+      for (final k in ['sheet.top', 'sheet.isbn']) {
+        igual(rel(m[k]!, f), rel(base[k]!, f03), '$t $k');
+      }
+      // o chip muda de texto (e de largura), não de lugar
+      igual(
+        rel(m['sheet.chip']!, f),
+        rel(base['sheet.chip']!, f03),
+        '$t sheet.chip',
+        tamanho: false,
+      );
+    }
+    const esperadas = {
+      '03': 408.61,
+      '39': 243.71,
+      '40': 388.61,
+      '41': 480.36,
+      '42': 369.91,
+    };
+    esperadas.forEach((t, h) => expect(alturas[t], closeTo(h, 1e-9)));
+    void sobe(
+      String tela,
+      Iterable<String> secoes,
+      double dy, {
+      Set<String> exceto = const {},
+    }) {
+      final m = _de(tela);
+      final f = m['sheet']!.rect;
+      final ks = base.keys.where(
+        (k) => _em(k, secoes) && m.containsKey(k) && !exceto.contains(k),
+      );
+      expect(ks, isNotEmpty, reason: tela);
+      for (final k in ks) {
+        expect(
+          rel(m[k]!, f).top,
+          closeTo(rel(base[k]!, f03).top + dy, 1e-6),
+          reason: '$tela $k',
+        );
+      }
+    }
+
+    sobe('40', ['sheet.saveAs', 'sheet.actions', 'sheet.footer'], -20);
+    // o ícone de "Iniciar leitura" é 21 (o de "Adicionar" é 20): desce 0,5 a mais
+    sobe(
+      '42',
+      ['sheet.actions', 'sheet.footer'],
+      -38.7,
+      exceto: {'sheet.actions.primary.icon'},
+    );
+    expect(
+      rel(
+        _de('42')['sheet.actions.primary.icon']!,
+        _de('42')['sheet']!.rect,
+      ).top,
+      closeTo(rel(base['sheet.actions.primary.icon']!, f03).top - 39.2, 1e-6),
+    );
+  });
+
+  // 69b × 69: a mesma tela de digitar depois de completar com o dígito errado — a etiqueta treme (as 2 marcas) e
+  // ganha o aviso no lugar da dica, o "X" entra no lugar do cursor, "Colar" vira "Apagar tudo". O resto é igual.
+  test('69b × 69: o que muda quando o ISBN não confere', () {
+    final a = _de('69'), b = _de('69b');
+    expect(a.keys.where((k) => !b.containsKey(k)).toSet(), {
+      'sticker.card.digits.slot',
+      'sticker.card.digits.slot.caret',
+      'sticker.card.hint',
+      'sticker.card.hint.key',
+      'sticker.card.barcode.prefix',
+      'toolbar.paste',
+      'toolbar.paste.icon',
+    });
+    expect(b.keys.where((k) => !a.containsKey(k)).toSet(), {
+      'sticker.shakeLeft',
+      'sticker.shakeRight',
+      'sticker.card.digits.check',
+      'sticker.card.alert',
+      'sticker.card.alert.icon',
+      'sticker.card.alert.text',
+      'toolbar.clearAll',
+      'toolbar.clearAll.icon',
+    });
+    const difere = {
+      'sticker',
+      'sticker.tilt',
+      'sticker.card',
+      'sticker.card.count',
+      'sticker.card.digits',
+      'sticker.card.digits.number',
+      'sticker.card.digits.number.dash1',
+      'sticker.card.digits.number.dash2',
+      'sticker.card.digits.dash3',
+      'sticker.card.barcode',
+      'sticker.card.barcode.bars',
+      'sticker.notes',
+      'sticker.notes.line',
+      'sticker.notes.noIsbn',
+      'sticker.notes.noIsbn.link',
+      'toolbar.spacer',
+    };
+    var iguais = 0;
+    for (final k in a.keys.where(b.containsKey)) {
+      if (difere.contains(k)) {
+        expect(a[k]!.rect == b[k]!.rect, isFalse, reason: k);
+        continue;
+      }
+      expect(b[k]!.rect, a[k]!.rect, reason: k);
+      expect(_texts(b[k]!.lines), _texts(a[k]!.lines), reason: k);
+      iguais++;
+    }
+    expect(iguais, 59);
+  });
+
+  // Os fios de navalha da T15 (2+ linhas pela regra da G01, a linha única pela D-275; a linha que dá a largura da
+  // caixa não conta, D-276): o título da capa do Brás Cubas na folha da 03 ("Póstumas de", 1,20 de sobra), o texto
+  // ao lado do livro em branco da 40 (0,29 e 1,02) e a meta do dia da 42 (0,98 na última linha). O "dígito / final"
+  // do X (69, 69b) dá a largura da caixa e saiu (D-276). E o "Quadrinhos" da 28 não cabe na caixa de 92 (max-width) e
+  // passa 3,10 — no Flutter uma palavra que não cabe é quebrada no meio: armadilha para a T15.
+  test('fios de navalha da T15 e o texto que estoura a caixa', () {
+    final facas = [
+      for (final t in _porEtapa['T15']!) ...kRefProjeto[t]!.knifeEdges,
+    ];
+    expect(facas.map((k) => '${k.id}:${k.line}').toList(), [
+      'sc03.sheet.book.cover.title:2',
+      'sc40.sheet.lead.body:1',
+      'sc40.sheet.lead.body:2',
+      'sc42.sheet.goal.text:2',
+    ]);
+    const sobras = [1.201, 0.286, 1.023, 0.978];
+    for (var i = 0; i < facas.length; i++) {
+      expect(facas[i].slack, closeTo(sobras[i], 1e-9), reason: facas[i].id);
+    }
+    expect(facas.last.joinOverflow, isNull);
+    for (final t in ['69', '69b']) {
+      expect(kRefProjeto[t]!.knifeEdges, isEmpty, reason: t);
+    }
+
+    final kni = _json('$_layout/knife_edges.json');
+    final quadrinhos =
+        (kni['028_busca_explorar'] as Map)['bu28.genres.tile8.label'] as Map;
+    expect(quadrinhos['riscos'], isEmpty);
+    final linha = (quadrinhos['linhas'] as List).single as Map;
+    expect(linha['texto'], 'Quadrinhos');
+    expect(linha['disponivel'], 92);
+    expect(linha['sobra'], closeTo(-3.103, 1e-9));
+    final label = kRefProjeto['28']!.elements['bu28.genres.tile8.label']!;
+    expect(label.rect.width, 92);
+    expect(_texts(label.lines), ['Quadrinhos']);
+  });
+
+  // A barra de busca: a mesma na 28, na 28b e na 28c; com texto (28b, 28c) entra o X de limpar, o campo encolhe e o
+  // navegador encolhe também a lupa (o <svg> do flex: 20 → 16,78 de largura) — armadilha anotada para a T15.
+  test('28 × 28b × 28c: a mesma barra de busca', () {
+    final a = _de('28'), b = _de('28b'), c = _de('28c');
+    final barra = b.keys.where((k) => _em(k, ['searchBar'])).toList();
+    expect(barra.length, 10);
+    for (final k in barra) {
+      expect(c[k]!.rect, b[k]!.rect, reason: k);
+    }
+    expect(barra.where((k) => !a.containsKey(k)).toSet(), {
+      'searchBar.field.clear',
+      'searchBar.field.clear.icon',
+    });
+    for (final k in barra.where(a.containsKey)) {
+      if (k == 'searchBar.field.icon' || k == 'searchBar.field.input') {
+        continue;
+      }
+      expect(b[k]!.rect, a[k]!.rect, reason: k);
+    }
+    expect(a['searchBar.field.icon']!.rect.width, 20);
+    expect(b['searchBar.field.icon']!.rect.width, closeTo(16.78, 1e-9));
+    expect(b['searchBar.field.icon']!.rect.height, 20);
   });
 }

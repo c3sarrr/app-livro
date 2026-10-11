@@ -1,0 +1,49 @@
+{
+ "prancha": "028c_busca_nada_encontrado",
+ "prefixo": "bu28c",
+ "secoes": [
+  "bu28c.searchBar",
+  "bu28c.illustration",
+  "bu28c.title",
+  "bu28c.body",
+  "bu28c.actions",
+  "bu28c.tips"
+ ],
+ "especiais": [
+  "bu28c.frame",
+  "bu28c.main"
+ ],
+ "ids": {
+  "4": "bu28c.frame",
+  "5": "bu28c.searchBar",
+  "6": "bu28c.searchBar.back",
+  "7": "bu28c.searchBar.back.icon",
+  "10": "bu28c.searchBar.field",
+  "11": "bu28c.searchBar.field.icon",
+  "14": "bu28c.searchBar.field.input",
+  "15": "bu28c.searchBar.field.clear",
+  "16": "bu28c.searchBar.field.clear.icon",
+  "18": "bu28c.searchBar.scan",
+  "19": "bu28c.searchBar.scan.icon",
+  "22": "bu28c.main",
+  "23": "bu28c.illustration",
+  "39": "bu28c.title",
+  "40": "bu28c.title.serif",
+  "41": "bu28c.body",
+  "42": "bu28c.body.query",
+  "43": "bu28c.actions.scan",
+  "44": "bu28c.actions.scan.icon",
+  "47": "bu28c.actions.manual",
+  "48": "bu28c.actions.manual.icon",
+  "50": "bu28c.actions.manual.label",
+  "51": "bu28c.tips",
+  "52": "bu28c.tips.label",
+  "53": "bu28c.tips.list",
+  "54": "bu28c.tips.tip1",
+  "55": "bu28c.tips.tip1.arrow",
+  "56": "bu28c.tips.tip2",
+  "57": "bu28c.tips.tip2.arrow",
+  "58": "bu28c.tips.tip3",
+  "59": "bu28c.tips.tip3.arrow"
+ }
+}

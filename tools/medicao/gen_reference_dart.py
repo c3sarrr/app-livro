@@ -142,6 +142,10 @@ def const_name(tela):
     return f'kRef{tela}'
 
 
+def const_info(tela):
+    return f'kInformativo{tela}'
+
+
 def prancha(p, dep, kni):
     L = json.load(open(os.path.join(LAY, f"layout_{p['slug']}.json"), encoding='utf-8'))
     W, H = L['meta']['canvas']
@@ -183,6 +187,13 @@ def prancha(p, dep, kni):
             jo = 'null' if r['estouroComProxima'] is None else num(r['estouroComProxima'])
             out.append(f"    LeitorKnifeEdge({dstr(k)}, {r['linha']}, {dstr(r['texto'])}, {num(r['sobra'])}, {jo}),")
     out += ['  ],', ');']
+    # R8 (T13): o texto que o app não desenha (o teclado do sistema, o botão da Apple) foi medido como o Chromium o
+    # desenha, mas é só informativo; o motivo vem do índice (reserva), copiado no layout pelo build_layout.py.
+    inf = {k: v['informativo'] for k, v in els.items() if v.get('informativo') and 'section' in v}
+    if inf:
+        out += ['', '/// R8 (T13) — medido, mas desenhado pelo sistema, não pelo app (só informativo): id → motivo.',
+                f"const Map<String, String> {const_info(p['tela'])} = <String, String>{{"]
+        out += [f'  {dstr(k)}: {dstr(m)},' for k, m in inf.items()] + ['};']
     return '\n'.join(out) + '\n', n
 
 
@@ -211,14 +222,22 @@ def main():
         with open(os.path.join(OUT, f"reference_layout_{p['slug']}.dart"), 'w', encoding='utf-8', newline='\n') as f:
             f.write(src)
         print(f"{p['slug']:24s} {n:>4d} elementos → reference_layout_{p['slug']}.dart")
-    imps, mapa = [], []
+    imps, mapa, infos = [], [], []
     for p in CFG['pranchas']:
-        if not os.path.exists(os.path.join(OUT, f"reference_layout_{p['slug']}.dart")):
+        arq = os.path.join(OUT, f"reference_layout_{p['slug']}.dart")
+        if not os.path.exists(arq):
             continue
         imps.append(f"import 'reference_layout_{p['slug']}.dart';")
         mapa.append(f"  {dstr(p['tela'])}: {const_name(p['tela'])},")
+        with open(arq, encoding='utf-8') as f:
+            if f"const Map<String, String> {const_info(p['tela'])} " in f.read():
+                infos.append(f"  {dstr(p['tela'])}: {const_info(p['tela'])},")
     idx += imps + ['', f"export '{TIPOS_DART}';"] + [i.replace('import', 'export') for i in imps] + [
         '', f'const Map<String, LeitorRefPrancha> {MAPA_DART} = <String, LeitorRefPrancha>{{'] + mapa + ['};']
+    if CFG.get('formato') == 'dc':  # R8 (T13): as telas com texto só informativo → o mapa id → motivo de cada uma
+        idx += ['', '/// R8 (T13): tela → (id → motivo) do texto desenhado pelo sistema, não pelo app (só informativo).',
+                'const Map<String, Map<String, String>> kInformativoProjeto = <String, Map<String, String>>{'
+                ] + infos + ['};']
     with open(os.path.join(OUT, INDICE_DART), 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(idx) + '\n')
 

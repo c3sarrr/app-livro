@@ -96,7 +96,9 @@ const UNICA = !!require('./conjunto').C.facaLinhaUnica;
         }
         // risco = linha cheia por < 1,5 px (sobra) ou próxima palavra entraria faltando < 1,5 px (estouro ≥ 0).
         // estouro < 0 = a próxima palavra caberia, mas a quebra é imposta (<br>, trecho nowrap, regra de quebra).
-        const riscos = info.filter(x => (a.lines.length > 1 && x.sobra >= 0 && x.sobra < LIMIAR) || (x.estouroComProxima !== null && x.estouroComProxima >= 0 && x.estouroComProxima < LIMIAR));
+        // D-276: sobra 0 = a linha dá a largura da caixa (a caixa é do tamanho do texto e cresce junto): não é risco,
+        // como na linha única (D-275). Nenhum risco do leitor e da Início tinha sobra 0.
+        const riscos = info.filter(x => (a.lines.length > 1 && x.sobra > 0.001 && x.sobra < LIMIAR) || (x.estouroComProxima !== null && x.estouroComProxima >= 0 && x.estouroComProxima < LIMIAR));
         const impostas = info.filter(x => x.estouroComProxima !== null && x.estouroComProxima < 0).map(x => x.linha);
         if (riscos.length || info.some(x => x.sobra < -0.01)) res[a.k] = { composto: a.composto, quebraPadrao: cs.textWrapStyle || 'auto', riscos, quebrasImpostas: impostas, linhas: info };
       }

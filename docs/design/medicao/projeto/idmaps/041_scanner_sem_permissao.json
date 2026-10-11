@@ -1,0 +1,42 @@
+{
+ "prancha": "041_scanner_sem_permissao",
+ "prefixo": "sc41",
+ "secoes": [
+  "sc41.backdrop",
+  "sc41.corners",
+  "sc41.controls",
+  "sc41.sheet"
+ ],
+ "especiais": [
+  "sc41.frame"
+ ],
+ "ids": {
+  "4": "sc41.frame",
+  "5": "sc41.backdrop",
+  "6": "sc41.corners",
+  "8": "sc41.controls",
+  "9": "sc41.controls.close",
+  "10": "sc41.controls.close.icon",
+  "12": "sc41.controls.mode",
+  "13": "sc41.controls.mode.code",
+  "14": "sc41.controls.mode.code.icon",
+  "18": "sc41.controls.mode.type",
+  "19": "sc41.controls.mode.type.icon",
+  "22": "sc41.controls.torch",
+  "23": "sc41.controls.torch.icon",
+  "25": "sc41.sheet",
+  "26": "sc41.sheet.handle",
+  "27": "sc41.sheet.art",
+  "28": "sc41.sheet.art.image",
+  "42": "sc41.sheet.title",
+  "43": "sc41.sheet.title.serif",
+  "44": "sc41.sheet.body",
+  "45": "sc41.sheet.path",
+  "46": "sc41.sheet.path.icon",
+  "49": "sc41.sheet.path.text",
+  "50": "sc41.sheet.path.text.strong",
+  "51": "sc41.sheet.openSettings",
+  "52": "sc41.sheet.typeIsbn",
+  "53": "sc41.sheet.typeIsbn.icon"
+ }
+}

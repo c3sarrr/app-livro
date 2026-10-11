@@ -139,6 +139,248 @@
     "highlights"
    ],
    "titulo": "Detalhes (e-book) — Seus grifos (Ver os 12) e o próximo encontro do clube"
+  },
+  {
+   "fase": "L03_1_camera",
+   "prancha": "003_scanner_encontrado",
+   "secoes": [
+    "camera",
+    "dim",
+    "detected",
+    "corners",
+    "status"
+   ],
+   "titulo": "Scanner — a câmera congelada no verso do livro, a moldura, o código lido e o chip \"Código lido\""
+  },
+  {
+   "fase": "L03_2_controles",
+   "prancha": "003_scanner_encontrado",
+   "secoes": [
+    "controls"
+   ],
+   "titulo": "Scanner — barra do topo (fechar, Código | Digitar e a lanterna)"
+  },
+  {
+   "fase": "L03_3_folha",
+   "prancha": "003_scanner_encontrado",
+   "secoes": [
+    "sheet"
+   ],
+   "titulo": "Scanner (livro encontrado) — a folha: o livro, a coleção, Salvar como e Adicionar à biblioteca"
+  },
+  {
+   "fase": "L39_mirando",
+   "prancha": "039_scanner_mirando",
+   "secoes": [
+    "scanLine",
+    "sheet"
+   ],
+   "titulo": "Scanner (mirando) — a linha que varre a moldura e a folha de dicas",
+   "reusa": {
+    "base": "003_scanner_encontrado",
+    "secoes": [
+     "camera",
+     "dim",
+     "corners",
+     "status",
+     "controls"
+    ]
+   }
+  },
+  {
+   "fase": "L40_nao_encontrado",
+   "prancha": "040_scanner_nao_encontrado",
+   "secoes": [
+    "sheet"
+   ],
+   "titulo": "Scanner (livro não encontrado) — a folha: fora da nossa base, Salvar como e Adicionar à mão",
+   "reusa": {
+    "base": "003_scanner_encontrado",
+    "secoes": [
+     "camera",
+     "dim",
+     "detected",
+     "corners",
+     "status",
+     "controls"
+    ]
+   }
+  },
+  {
+   "fase": "L41_sem_permissao",
+   "prancha": "041_scanner_sem_permissao",
+   "secoes": [
+    "backdrop",
+    "sheet"
+   ],
+   "titulo": "Scanner (sem permissão de câmera) — o fundo listrado e a folha que pede a câmera",
+   "reusa": {
+    "base": "003_scanner_encontrado",
+    "secoes": [
+     "corners",
+     "controls"
+    ]
+   }
+  },
+  {
+   "fase": "L42_na_estante",
+   "prancha": "042_scanner_na_estante",
+   "secoes": [
+    "sheet"
+   ],
+   "titulo": "Scanner (já está na estante) — a folha: o progresso, a meta do dia e Iniciar leitura",
+   "reusa": {
+    "base": "003_scanner_encontrado",
+    "secoes": [
+     "camera",
+     "dim",
+     "detected",
+     "corners",
+     "status",
+     "controls"
+    ]
+   }
+  },
+  {
+   "fase": "L69_1_titulo_e_etiqueta",
+   "prancha": "069_scanner_digitar_isbn",
+   "secoes": [
+    "backdrop",
+    "heading",
+    "sticker"
+   ],
+   "titulo": "Digitar o ISBN — o título e a etiqueta que imprime as barras enquanto a pessoa digita",
+   "reusa": {
+    "base": "003_scanner_encontrado",
+    "secoes": [
+     "controls"
+    ]
+   }
+  },
+  {
+   "fase": "L69_2_teclado",
+   "prancha": "069_scanner_digitar_isbn",
+   "secoes": [
+    "toolbar",
+    "keypad"
+   ],
+   "titulo": "Digitar o ISBN — a barra de teclas do app (X, colar, esconder) sobre o teclado numérico do sistema"
+  },
+  {
+   "fase": "L69b_nao_confere",
+   "prancha": "069b_scanner_isbn_nao_confere",
+   "secoes": [
+    "sticker"
+   ],
+   "titulo": "Digitar o ISBN (não confere) — a etiqueta tremida, o X digitado e o aviso",
+   "reusa": {
+    "base": "069_scanner_digitar_isbn",
+    "secoes": [
+     "backdrop",
+     "controls",
+     "heading",
+     "toolbar",
+     "keypad"
+    ]
+   }
+  },
+  {
+   "fase": "L28_1_busca_e_titulo",
+   "prancha": "028_busca_explorar",
+   "secoes": [
+    "searchBar",
+    "sparkle",
+    "title"
+   ],
+   "titulo": "Busca (Explorar) — barra de busca, brilho e o título \"O que vamos ler agora?\""
+  },
+  {
+   "fase": "L28_2_recentes_e_clima",
+   "prancha": "028_busca_explorar",
+   "secoes": [
+    "recent",
+    "mood"
+   ],
+   "titulo": "Busca (Explorar) — buscas recentes e os climas"
+  },
+  {
+   "fase": "L28_3_generos",
+   "prancha": "028_busca_explorar",
+   "secoes": [
+    "genres"
+   ],
+   "titulo": "Busca (Explorar) — os 8 gêneros (cada um com o livrinho inclinado)"
+  },
+  {
+   "fase": "L28_4_em_alta",
+   "prancha": "028_busca_explorar",
+   "secoes": [
+    "trending"
+   ],
+   "titulo": "Busca (Explorar) — Em alta nos clubes (carrossel de 4 livros)"
+  },
+  {
+   "fase": "L28b_1_abas_e_livros",
+   "prancha": "028b_busca_resultados",
+   "secoes": [
+    "tabs",
+    "books"
+   ],
+   "titulo": "Busca (resultados) — as abas por tipo e os livros (o seu e o novo)",
+   "reusa": {
+    "base": "028_busca_explorar",
+    "secoes": [
+     "searchBar"
+    ]
+   }
+  },
+  {
+   "fase": "L28b_2_clubes_e_trechos",
+   "prancha": "028b_busca_resultados",
+   "secoes": [
+    "clubs",
+    "highlights",
+    "scanCard"
+   ],
+   "titulo": "Busca (resultados) — os clubes, os seus trechos e o cartão do scanner"
+  },
+  {
+   "fase": "L28c_nada_encontrado",
+   "prancha": "028c_busca_nada_encontrado",
+   "secoes": [
+    "illustration",
+    "title",
+    "body",
+    "actions",
+    "tips"
+   ],
+   "titulo": "Busca (nada encontrado) — o desenho, o texto, Escanear e Adicionar à mão, e as dicas",
+   "reusa": {
+    "base": "028b_busca_resultados",
+    "secoes": [
+     "searchBar"
+    ]
+   }
+  },
+  {
+   "fase": "L28d_1_topo_e_capa",
+   "prancha": "028d_adicionar_a_mao",
+   "secoes": [
+    "header",
+    "title",
+    "cover"
+   ],
+   "titulo": "Adicionar à mão — o topo, o título e a capa automática (trocar, fotos e as 5 cores)"
+  },
+  {
+   "fase": "L28d_2_formulario",
+   "prancha": "028d_adicionar_a_mao",
+   "secoes": [
+    "form",
+    "submit",
+    "footnote"
+   ],
+   "titulo": "Adicionar à mão — o formulário (título, autor, formato, páginas, ISBN, Salvar como) e o botão"
   }
  ]
 }

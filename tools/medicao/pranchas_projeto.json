@@ -142,7 +142,121 @@
         390,
         844
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "keypad.key0": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key0.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        }
+      }
     },
     {
       "tela": "69b",
@@ -155,7 +269,121 @@
         390,
         844
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "keypad.key0": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key0.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        }
+      }
     },
     {
       "tela": "28",
@@ -194,7 +422,33 @@
         390,
         844
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "tips.tip1": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip2": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip3": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip1.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip2.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip3.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        }
+      }
     },
     {
       "tela": "28d",

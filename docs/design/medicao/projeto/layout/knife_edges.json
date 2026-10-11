@@ -29,5 +29,159 @@
     }
    ]
   }
- }
+ },
+ "003_scanner_encontrado": {
+  "sc03.sheet.book.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "Póstumas de",
+     "largura": 61.799,
+     "disponivel": 63,
+     "sobra": 1.201,
+     "estouroComProxima": 22.796
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Memórias",
+     "largura": 48.865,
+     "disponivel": 63,
+     "sobra": 14.135,
+     "estouroComProxima": 35.89
+    },
+    {
+     "linha": 2,
+     "texto": "Póstumas de",
+     "largura": 61.799,
+     "disponivel": 63,
+     "sobra": 1.201,
+     "estouroComProxima": 22.796
+    },
+    {
+     "linha": 3,
+     "texto": "Brás Cubas",
+     "largura": 54.041,
+     "disponivel": 63,
+     "sobra": 8.959,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "039_scanner_mirando": {},
+ "040_scanner_nao_encontrado": {
+  "sc40.sheet.lead.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Edição independente, antiga ou muito",
+     "largura": 232.714,
+     "disponivel": 233,
+     "sobra": 0.286,
+     "estouroComProxima": 39.243
+    },
+    {
+     "linha": 2,
+     "texto": "nova? Adicione à mão — o ISBN já vai",
+     "largura": 231.977,
+     "disponivel": 233,
+     "sobra": 1.023,
+     "estouroComProxima": 74.982
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Edição independente, antiga ou muito",
+     "largura": 232.714,
+     "disponivel": 233,
+     "sobra": 0.286,
+     "estouroComProxima": 39.243
+    },
+    {
+     "linha": 2,
+     "texto": "nova? Adicione à mão — o ISBN já vai",
+     "largura": 231.977,
+     "disponivel": 233,
+     "sobra": 1.023,
+     "estouroComProxima": 74.982
+    },
+    {
+     "linha": 3,
+     "texto": "preenchido.",
+     "largura": 72.751,
+     "disponivel": 233,
+     "sobra": 160.249,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "041_scanner_sem_permissao": {},
+ "042_scanner_na_estante": {
+  "sc42.sheet.goal.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "dia; a sequência de 12 dias já está garantida.",
+     "largura": 259.422,
+     "disponivel": 260.4,
+     "sobra": 0.978,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "18 de 30 min hoje. Faltam 12 para a meta do",
+     "largura": 256.957,
+     "disponivel": 260.4,
+     "sobra": 3.443,
+     "estouroComProxima": 21.166
+    },
+    {
+     "linha": 2,
+     "texto": "dia; a sequência de 12 dias já está garantida.",
+     "largura": 259.422,
+     "disponivel": 260.4,
+     "sobra": 0.978,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "069_scanner_digitar_isbn": {},
+ "069b_scanner_isbn_nao_confere": {},
+ "028_busca_explorar": {
+  "bu28.genres.tile8.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Quadrinhos",
+     "largura": 95.103,
+     "disponivel": 92,
+     "sobra": -3.103,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "028b_busca_resultados": {},
+ "028c_busca_nada_encontrado": {},
+ "028d_adicionar_a_mao": {}
 }

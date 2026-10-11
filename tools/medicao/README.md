@@ -95,9 +95,16 @@ que já têm referência). O fechamento roda as 41 de uma vez com `rodar_tudo.sh
 Fonte de reserva (R8): no índice do projeto, `reserva` diz, por tela, os ids cujo texto o Chromium desenha com uma
 fonte de fora das `@font-face` (o motivo e se é `informativo`: texto que o sistema desenha, não o app — o botão da
 Apple, o teclado). O `build_layout.py` falha com qualquer outra e com a declarada que não aparece; o `informativo` vai
-para o layout. O CDP atribui a fonte do texto também ao pai em alguns casos (como o `progressRow` da 20): os dois entram.
+para o layout e para a referência Dart (`kInformativo<tela>`, id → motivo, e o `kInformativoProjeto` do índice). O CDP
+atribui a fonte do texto também ao pai em alguns casos (como o `progressRow` da 20): os dois entram.
+
+Seção sem contêiner (T13.5): no projeto há seções sem um elemento que as embrulhe (a Busca põe o título e a lista de
+cada seção direto no `<main>`). Nesse caso a caixa da seção é a união das caixas dos ids de topo dela (os que não estão
+dentro de outro id da mesma seção) — a mesma de um contêiner justo —, e o layout lista esses ids em
+`meta.secoesSemElemento`. Fora do projeto toda seção continua sendo um elemento (o `build_layout.py` para).
 
 Fio de navalha de uma linha (D-275): nos conjuntos com `"facaLinhaUnica": true` (o projeto), o `perturbar.js`
 também marca a linha única que pode quebrar (tem espaço; caixa que não é flex/grid) numa caixa de largura imposta
 com sobra entre 0 e 1,5 px, medida pela largura real da linha (um Range sobre os nós de texto). O leitor e a Início
-seguem a regra da G01 (só texto de 2+ linhas).
+seguem a regra da G01 (só texto de 2+ linhas). Em todos os conjuntos (D-276), a linha que dá a largura da caixa (sobra
+0: a caixa é do tamanho do texto e cresce junto) não é fio de navalha, nem no texto de 2+ linhas.

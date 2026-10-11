@@ -3174,5 +3174,4509 @@
    "w": true,
    "h": false
   }
+ },
+ "003_scanner_encontrado": {
+  "sc03.camera": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.camera.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.camera.book.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.camera.book.quote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "sc03.camera.book.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.camera.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.camera.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.camera.label.barcode": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.camera.label.isbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.controls.torch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.controls.torch.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.corners": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.detected": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.detected.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.detected.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.dim": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.actions.primary": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.actions.primary.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.actions.primary.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.sheet.actions.scanAgain": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.actions.scanAgain.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.collection": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.sheet.book.collection.check": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.collection.check.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.collection.pile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.collection.pile.spine1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.collection.pile.spine2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.collection.pile.spine3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.cover.ellipse": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "sc03.sheet.book.meta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.book.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.chip": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.sheet.chip.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.footer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.footer.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.sheet.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.isbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.sheet.saveAs.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.saveAs.options": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.saveAs.options.read": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.saveAs.options.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.saveAs.options.wantToRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.sheet.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.status.chip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc03.status.chip.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc03.status.chip.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "039_scanner_mirando": {
+  "sc39.camera": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.camera.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.camera.book.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.camera.book.quote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "sc39.camera.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.camera.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.camera.label.barcode": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.camera.label.isbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.controls.torch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.controls.torch.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.corners": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.dim": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.scanLine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.footer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.footer.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.sheet.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.lead.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.lead.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.lead.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.lead.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.lead.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.sheet.tips": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.sheet.tips.distance": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.sheet.tips.light": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.status.chip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc39.status.chip.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc39.status.chip.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "040_scanner_nao_encontrado": {
+  "sc40.camera": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.camera.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.camera.book.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.camera.book.quote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.camera.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.camera.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.camera.label.barcode": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.camera.label.isbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.controls.torch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.controls.torch.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.corners": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.detected": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.detected.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.detected.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.dim": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.actions.primary": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.actions.primary.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.actions.primary.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.sheet.actions.scanAgain": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.actions.scanAgain.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.chip": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.sheet.chip.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.footer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.footer.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.sheet.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.isbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.lead.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.lead.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.lead.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.lead.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.lead.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.sheet.saveAs.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.saveAs.options": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.saveAs.options.read": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.saveAs.options.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.saveAs.options.wantToRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.sheet.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.status.chip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc40.status.chip.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc40.status.chip.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "041_scanner_sem_permissao": {
+  "sc41.backdrop": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc41.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc41.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc41.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls.torch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.controls.torch.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.corners": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.art.image": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.openSettings": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.path": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.path.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.path.text": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc41.sheet.path.text.strong": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc41.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc41.sheet.typeIsbn": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc41.sheet.typeIsbn.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "042_scanner_na_estante": {
+  "sc42.camera": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.camera.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.camera.book.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.camera.book.quote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "sc42.camera.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.camera.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.camera.label.barcode": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.camera.label.isbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.controls.torch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.controls.torch.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.corners": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.detected": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.detected.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.detected.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.dim": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "sc42.sheet.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.actions.primary": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.actions.primary.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.actions.primary.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.actions.scanAgain": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.actions.scanAgain.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.author": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.chevron": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.cover": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.cover.author": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.cover.ellipse": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.cover.spine": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.cover.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.progress": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.progress.bar": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.book.progress.bar.fill": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.book.progress.percent": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.book.reading": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.reading.page": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.book.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.book.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.chip": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.chip.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.footer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.footer.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.goal": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "sc42.sheet.goal.ring": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.goal.text": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "sc42.sheet.goal.text.strong": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.handle": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.sheet.isbn": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "sc42.sheet.top": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "sc42.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.status.chip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc42.status.chip.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc42.status.chip.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "069_scanner_digitar_isbn": {
+  "sc69.backdrop": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls.help": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls.help.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.heading.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.heading.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.blank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.delete": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.delete.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key0": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key0.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key1.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key2.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key2.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key3.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key3.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key4.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key4.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key5.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key5.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key6.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key6.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key7": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key7.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key7.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key8": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key8.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key8.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key9": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.keypad.key9.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.keypad.key9.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.barcode": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.barcode.bars": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.barcode.prefix": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.count.total": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.digits": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.digits.dash3": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.digits.number": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.digits.number.dash1": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.digits.number.dash2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.digits.slot": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.digits.slot.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.hint.key": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.kind": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.card.kind.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.card.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.notes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.notes.line": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.notes.noIsbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.notes.noIsbn.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.sticker.tapeLeft": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.tapeRight": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.sticker.tilt": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.toolbar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.toolbar.hide": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.toolbar.hide.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.toolbar.paste": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.toolbar.paste.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69.toolbar.spacer": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.toolbar.x": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.toolbar.x.caption": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69.toolbar.x.key": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "069b_scanner_isbn_nao_confere": {
+  "sc69b.backdrop": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls.help": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls.help.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls.mode": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.controls.mode.code": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.controls.mode.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.controls.mode.type": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.controls.mode.type.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.heading.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.heading.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.blank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.delete": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.delete.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key0": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key0.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key1.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key2.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key2.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key3.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key3.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key4.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key4.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key5.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key5.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key6.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key6.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key7": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key7.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key7.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key8": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key8.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key8.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key9": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.keypad.key9.digit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.keypad.key9.letters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.alert": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.alert.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.alert.text": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.barcode": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.barcode.bars": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.count.total": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.digits": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.digits.check": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.digits.dash3": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.digits.number": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.digits.number.dash1": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.digits.number.dash2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.kind": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.card.kind.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.card.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.notes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.notes.line": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.notes.noIsbn": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.notes.noIsbn.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.sticker.shakeLeft": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.shakeRight": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.tapeLeft": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.tapeRight": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.sticker.tilt": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.toolbar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.toolbar.clearAll": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.toolbar.clearAll.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.toolbar.hide": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.toolbar.hide.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "sc69b.toolbar.spacer": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.toolbar.x": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.toolbar.x.caption": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "sc69b.toolbar.x.key": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "028_busca_explorar": {
+  "bu28.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.seeAll": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.genres.tile1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile1.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile1.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile1.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile1.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile1.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile2.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile2.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile2.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile2.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile2.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile3.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile3.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile3.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile3.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile3.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile4.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile4.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile4.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile4.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile4.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile5.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile5.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile5.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile5.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile5.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile6.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile6.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile6.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile6.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile6.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile7": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile7.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile7.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile7.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile7.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile7.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile8": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile8.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile8.book.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile8.book.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile8.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.tile8.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.genres.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.mood.chips": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.mood.chips.chip1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip3": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip4": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip5": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip6": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip7": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.chips.chip8": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.mood.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.mood.voters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.recent.clear": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.recent.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.recent.item1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.recent.item1.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.recent.item2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.recent.item2.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.recent.item3": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.recent.item3.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.recent.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.recent.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.searchBar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.searchBar.scan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.trending.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.clubs": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.trending.book1.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window10": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window11": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window12": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window7": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window8": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.cover.window9": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book1.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.clubs": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.trending.book2.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book2.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.clubs": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.trending.book3.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book3.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.clubs": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28.trending.book4.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.book4.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.carousel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.subtitle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28.trending.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "028b_busca_resultados": {
+  "bu28b.books.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.match": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.match.mark": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.books.result1.open": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.open.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.status.chip": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.books.result1.status.progress": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.books.result1.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result1.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.add": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.add.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.meta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.books.result2.title.mark": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.books.seeAll": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.books.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.club1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.avatar.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.link": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.member": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.member.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.meta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club1.name.mark": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.club2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club2.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club2.avatar.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.club2.join": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.club2.link": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.club2.meta": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.club2.name": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.club2.name.mark": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.clubs.seeAll": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.clubs.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.privacy": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.highlights.quote1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote1.source": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote1.source.dot": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote1.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote1.text.mark1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.highlights.quote1.text.mark2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.highlights.quote2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote2.source": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote2.source.dot": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote2.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.highlights.quote2.text.mark": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.highlights.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard.subtitle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.scanCard.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.field.clear": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.field.clear.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.searchBar.scan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.tabs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28b.tabs.all": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.all.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.books": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.books.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.clubs": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.clubs.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.highlights": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28b.tabs.highlights.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "028c_busca_nada_encontrado": {
+  "bu28c.actions.manual": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.actions.manual.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.actions.manual.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28c.actions.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.actions.scan.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.body.query": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28c.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.illustration": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.field.clear": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.field.clear.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.searchBar.scan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips.tip1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips.tip1.arrow": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28c.tips.tip2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips.tip2.arrow": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28c.tips.tip3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.tips.tip3.arrow": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28c.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28c.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "028d_adicionar_a_mao": {
+  "bu28d.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.camera": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.camera.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colorLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colors": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colors.swatch1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colors.swatch2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colors.swatch3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colors.swatch4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.colors.swatch5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.gallery": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.options.gallery.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.book.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.book.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.book.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.book.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.change": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.change.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.cover.preview.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28d.footnote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.author.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.author.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.author.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.author.label.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28d.form.format.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.format.options": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.format.options.ebook": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.format.options.paper": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.isbn.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.isbn.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.isbn.field.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.isbn.field.scan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.isbn.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.isbn.label.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28d.form.pages.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.pages.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.pages.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.pages.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.pages.label.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28d.form.saveAs.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.saveAs.options": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.saveAs.options.read": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.saveAs.options.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.saveAs.options.wantToRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.title.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.title.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.form.title.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.header.badge": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28d.header.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.header.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.submit": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.submit.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.submit.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "bu28d.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "bu28d.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
  }
 }

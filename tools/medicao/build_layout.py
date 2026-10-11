@@ -167,9 +167,25 @@ def build(p):
                 'esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + '
                 'ascent medido (fontMetrics).'},
         'sections': {}, 'elements': {}, 'fontMetrics': m['fontMetrics'], 'fontFaces': faces}
+    tpl_de = {k: tpl for tpl, k in im['ids'].items()}
     for s in secoes:
-        e = E[s]
-        out['sections'][s] = [r2(e['x']), r2(e['y']), r2(e['w']), r2(e['h'])]
+        if s in E:
+            e = E[s]
+            out['sections'][s] = [r2(e['x']), r2(e['y']), r2(e['w']), r2(e['h'])]
+            continue
+        # T13: no projeto há seções sem contêiner (a Busca põe o título e a lista lado a lado, direto no <main>): a
+        # caixa da seção é a união das caixas dos ids de topo dela — os que não estão dentro de outro id da seção —,
+        # a mesma que um contêiner justo teria. Fora do projeto toda seção é um elemento.
+        if not dc:
+            sys.exit(f'{slug}: a seção {s} não é um elemento')
+        topo = [k for k in im['ids'].values() if section_of(k) == s
+                and section_of(im['ids'].get(str(nodes[tpl_de[k]]['parent']), '')) != s]
+        if not topo:
+            sys.exit(f'{slug}: a seção {s} não tem ids')
+        x0, y0 = min(E[k]['x'] for k in topo), min(E[k]['y'] for k in topo)
+        x1, y1 = max(E[k]['x'] + E[k]['w'] for k in topo), max(E[k]['y'] + E[k]['h'] for k in topo)
+        out['sections'][s] = [r2(x0), r2(y0), r2(x1 - x0), r2(y1 - y0)]
+        out['meta'].setdefault('secoesSemElemento', {})[s] = sorted(topo, key=lambda k: int(tpl_de[k]))
     order = sorted(im['ids'].items(), key=lambda kv: int(kv[0]))
     for tpl, k in order:
         e = E[k]
