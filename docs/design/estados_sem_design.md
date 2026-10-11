@@ -386,7 +386,7 @@ Elementos da prancha 01 que aparecem **idênticos ao desenho e sem ação** até
 A lupa e o "Revisar" também estão em `test/home/touch_home_test.dart` no app inteiro (o toque não muda a rota, não
 empilha nada, não abre diálogo, folha nem menu); o "play" e o "Ler agora" saíram de lá quando ganharam ação.
 
-## T04 — o cronômetro do livro de papel (prancha 01b, D-256…D-263)
+## T04 — o cronômetro do livro de papel (prancha 01b, D-256…D-266)
 
 A prancha 01b desenha só a sessão **rodando** na Início (a mini-barra e o cartão do Brás Cubas com o "pausar"). O
 resto do cronômetro não tem desenho e segue a D-21 (`docs/progresso/T04.md`):
@@ -400,3 +400,6 @@ resto do cronômetro não tem desenho e segue a D-21 (`docs/progresso/T04.md`):
 | Capa da mini-barra com dados reais (R10) | A foto do livro (ou a capa gerada, D-79) na moldura 32 × 48 de borda 1,2 `#F7F0E3`, raio 2/5/5/2, girada −5° (a capa com asas só existe na fixture) | `test/features/reading_session/presentation/session_mini_bar_test.dart` |
 | Sessão de um livro de papel com página (R6) | O botão da sessão entra no lugar do anel (o cartão vira `<div>`: a capa é o link); a pílula fica "Papel · pág. N" | `test/home/inicio01b/cartao_test.dart` |
 | "Ler agora" sem nada em leitura (R11) | O link continua igual e o toque não faz nada | `test/home/inicio01b/toques_test.dart` |
+| Falha na folha da sessão (D-266) — o banco do aparelho fora do ar | O aviso de erro da folha (o `AccountNotice` em `#FF552E`, no lugar dos avisos da página): "Não deu para encerrar a sessão. Tente de novo.", "Não deu para descartar a sessão. Tente de novo." (a confirmação volta para a folha), "Não deu para pausar a sessão. Tente de novo." e "Não deu para retomar a sessão. Tente de novo."; os botões voltam e a sessão fica como estava. Fora da folha (o play, o pausar do cartão e da mini-barra, o "Ler agora"), nada aparece: o botão fica como estava e a falha vai ao relatório | `test/features/reading_session/presentation/session_sheet_test.dart`, `test/home/inicio01b/toques_test.dart` |
+| Sessão de quem saiu da conta (D-264) | Pausa no instante da troca; quando a conta entra de novo, a mini-barra volta como a pausada (D-257), com o tempo até a saída | `test/features/reading_session/application/paper_timer_controller_test.dart` |
+| 24 h de tempo ativo com o app aberto (R2) | O tique pausa a sessão: a mini-barra fica como a pausada, em "24:00:00" | `test/features/reading_session/presentation/session_mini_bar_test.dart` |
