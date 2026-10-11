@@ -177,14 +177,17 @@ e onde cada uma está no app.
 No alvo (1) do modo demonstração (D-267: o app de verdade sobre o banco do demo, com o mundo de referência; o banco do
 app normal não é aberto). Pelo computador, com o celular no USB:
 
-```
-flutter run --profile -t test/fixtures/main_demonstracao.dart -d RXCT200CA6F
+```bash
+python3 tools/celular/demo.py
 ```
 
-`--dart-define=BOOKNEST_DEMO_RECOMECAR=true` apaga o banco e as pastas do demo antes de abrir (o mundo volta ao estado de
-referência). **Nunca `flutter install`** (desinstala o app antes — e com ele os dados do app normal); o `flutter drive`
-só com `--keep-app-running`; o `flutter test integration_test` só com `--no-uninstall`. A Início igual à prancha (com o
-cartão da revisão e o Para você) é o alvo (2): `-t test/fixtures/main_mundo_referencia.dart`.
+O script confere a assinatura e o espaço, guarda o APK do app normal e instala por cima com `adb install -r`;
+`python3 tools/celular/demo.py --voltar` devolve o app normal. `--recomecar` apaga o banco e as pastas do demo a cada
+abertura (o mundo volta ao estado de referência; rode de novo sem ele depois). **Nunca `flutter install`** (desinstala o
+app antes — e com ele os dados do app normal); o `flutter run` e o `flutter drive` desinstalam quando a instalação por
+cima falha, então só depois da conferência do script; o `flutter drive` só com `--keep-app-running`; o
+`flutter test integration_test` só com `--no-uninstall`. A Início igual à prancha (com o cartão da revisão e o Para
+você) é o alvo (2): `--alvo 2`.
 
 | Tela | Como chegar |
 |---|---|

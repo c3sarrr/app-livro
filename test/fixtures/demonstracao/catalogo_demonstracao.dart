@@ -1,6 +1,6 @@
-// R00 (D-267) — o catálogo do aparelho no modo demonstração: um `catalog.db` só do demo, no formato 1 do pipeline
-// (`tools/catalog/catalogo/catalogo_db.py`: `meta`, `editions`, o FTS5 de título e autores e os gatilhos), com as
-// edições que o "Para você" do mundo sugere, e o atualizador que nunca vai à rede (o demo não liga o serviço do
+// R00 (D-267, D-269) — o catálogo do aparelho no modo demonstração: um `catalog.db` só do demo, no formato 1 do
+// pipeline (`tools/catalog/catalogo/catalogo_db.py`: `meta`, `editions`, o FTS5 de título e autores e os gatilhos), com
+// as edições que o "Para você" do mundo sugere, e o atualizador que nunca vai à rede (o demo não liga o serviço do
 // catálogo — a rede dele é "nenhuma" e o cliente recusa qualquer pedido). Sem flutter_test.
 import 'dart:convert';
 import 'dart:io';

@@ -360,6 +360,9 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
 >   demo troca o `appEnvProvider` e o `supabaseClientProvider` (`semServicos`); a pasta do catálogo também é do demo.
 >   Na rede, só capas de hosts públicos (`coverHostAllowed`), como no app normal.
 > - O alvo (2) virou função (`overridesDaPranchaNoAparelho({suporte, tique})`) para os testes passarem a pasta.
+> - O comando do celular é o `tools/celular/demo.py` (confere a assinatura e o espaço, guarda o APK do app normal,
+>   instala com `adb install -r` e sabe voltar): o `flutter run` do esboço acima desinstala o app quando a instalação por
+>   cima falha (R00.md, Desvio 14). O `--recomecar` é só do alvo (1); o alvo (2) usa o mesmo banco.
 > - Testes: `semear_mundo_test` (3), `overrides_demonstracao_test` (9, com o PowerSync de verdade num arquivo e um app
 >   normal ao lado que fica byte a byte), `sem_test_em_lib_test` (5), `test/app/modo_demonstracao_test` (os 2 alvos no
 >   app inteiro: Início, "Continuar lendo" → leitor na pág. 159 de 256 → voltar). Mutação: 11/11 mortas.

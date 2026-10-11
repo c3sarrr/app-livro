@@ -1,7 +1,7 @@
-// R00 (D-267) — o catálogo do modo demonstração: o `catalog.db` semeado é um catálogo do formato 1 que o app abre
-// (versão, as 3 edições, a busca por autor do "Para você" e o hash do conteúdo igual ao do `meta`); semear de novo não
-// regrava; um arquivo pela metade de uma semeadura interrompida é trocado; os ISBN são válidos; e o cliente do demo
-// recusa qualquer pedido.
+// R00 (D-267, D-269) — o catálogo do modo demonstração: o `catalog.db` semeado é um catálogo do formato 1 que o app
+// abre (versão, as 3 edições, a busca por autor do "Para você" e o hash do conteúdo igual ao do `meta`); semear de novo
+// não regrava; um arquivo pela metade de uma semeadura interrompida é trocado; os ISBN são válidos; e o cliente do
+// demo recusa qualquer pedido.
 import 'dart:io';
 
 import 'package:app_leitura/features/catalog/data/local_catalog.dart';

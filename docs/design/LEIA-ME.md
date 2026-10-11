@@ -14,6 +14,23 @@ app está em `docs/ROTEIRO.md`.
 
 Os três arquivos abaixo são exportações de uma página só e continuam como a referência medida das telas já feitas.
 
+### A conferência, a cobertura e o mapa (R00, 11/10/2026)
+
+- **O `support.js`** que os `.dc.html` chamam é o próprio `dc-runtime.js` do projeto: ele junta, byte a byte e nessa
+  ordem, os 3 scripts que renderizavam as pranchas antigas (React, ReactDOM e o runtime).
+- **As pranchas já medidas não mudaram no projeto:** `tools/medicao/conferir_projeto.py` compara as 35 que tinham
+  exportação antiga (as 6 da Início e da revisão: 01, 01b, 60–63; as 13 do leitor 19–27b; as 16 do clube) com os
+  `.dc.html` — DOM normalizado e CSS sem as `@font-face` — e grava `medicao/projeto/conferencia_projeto.md`: **35/35
+  iguais**. Rodar de novo quando o projeto mudar (uma pasta nova, com `--projeto`):
+  `PYTHONIOENCODING=utf-8 python3 tools/medicao/conferir_projeto.py`.
+- **Renderizar um `.dc.html`** no Chromium do WSL, com o `dc-runtime.js` servido como `support.js`:
+  `MSYS_NO_PATHCONV=1 wsl bash tools/medicao/wsl.sh 'node tools/medicao/renderizar_dc.js telas/MainLendo.dc.html --dsf 3'`
+  (a 01b do projeto sai igual pixel a pixel à exportação antiga; o método de medida continua o da T02 — ROTEIRO §6b).
+- **`projeto/COBERTURA.md`:** as 128 telas (rota no app, situação ✅/🟠/⬜, etapa), as 9 que o Mapa marca como faltando
+  (D-268) e o futuro; `test/design/cobertura_test.dart` confere com o `CATALOGO.md` e o ROTEIRO §3.
+- **`medicao/projeto/mapa_navegacao.json`:** as ligações do Mapa de navegação (00), lidas da geometria das setas
+  (`tools/medicao/mapa_navegacao.py`); a `docs/NAVEGACAO.md` (c) as põe ao lado do que o app faz.
+
 ## Os arquivos
 
 | Arquivo | Telas | sha256 |
