@@ -73,18 +73,18 @@ Se o projeto, um HTML antigo e qualquer outro texto discordarem: **parar e pergu
 | 4 | T04 | Cronômetro do livro de papel na Início (01b): mini-barra e folha mínima | plano de fidelidade §5 | ✅ |
 | 5 | R00 | **Arrumação:** main em dia, cobertura das 128 telas, mapa de navegação, prova no celular, modo demonstração | este arquivo §7 | ▶ |
 | 6 | T13 | **Medição do projeto:** a ferramenta de medição passa a ler os `.dc.html`; mede as telas das etapas 7–11 | modelo da T02 + §6b | ⏳ |
-| 7 | T14 | **Biblioteca** (02), Biblioteca vazia (36), **Detalhes do livro** físico e e-book (17, 17b) | modelo da T03 | ⏳ |
-| 8 | T15 | **Scanner** (03, 39, 40, 41, 42, 69, 69b), **Busca** (28, 28b, 28c), Adicionar à mão (28d) | modelo da T03 | ⏳ |
+| 7 | T14 | **Biblioteca** (02), Biblioteca vazia (36), **Detalhes do livro** físico e e-book (17, 17b); + as que faltam (D-268): Coleções · ver todas, Trocar a capa | modelo da T03 | ⏳ |
+| 8 | T15 | **Scanner** (03, 39, 40, 41, 42, 69, 69b), **Busca** (28, 28b, 28c), Adicionar à mão (28d); + a que falta (D-268): Busca dentro do livro | modelo da T03 | ⏳ |
 | 9 | T16 | **Entrada:** Abertura (35), Login (07), Cadastro (08), Entrar (09, 09b), Código (10), Nova senha (11), Onboarding (12, 13, 13b, 14, 15, 16), Início primeiro acesso (36a) | modelo da T03 | ⏳ |
-| 10 | T17 | **Perfil** (05), Editar perfil (64, 65), **Ajustes** (06), Conta (58), Excluir conta (59), Privacidade (56), **Notificações** (30, 30b, 30c) | modelo da T03 | ⏳ |
+| 10 | T17 | **Perfil** (05), Editar perfil (64, 65), **Ajustes** (06), Conta (58), Excluir conta (59), Privacidade (56), **Notificações** (30, 30b, 30c); + as que faltam (D-268): Exportar meus dados, Importar CSV de outro app, Aparência e acessibilidade, Carteirinha aberta | modelo da T03 | ⏳ |
 | 11 | T18 | **Cronômetro** (18) e **Fim da sessão** (18b): substituem a folha mínima da T04 | modelo da T03 | ⏳ |
-| 12 | T05 | Revisão dos grifos (61, 62, 63) e o cartão da Início ligado | plano de fidelidade §5 | ⏳ |
+| 12 | T05 | Revisão dos grifos (61, 62, 63) e o cartão da Início ligado; + a que falta (D-268): Revisão · escrever nota | plano de fidelidade §5 | ⏳ |
 | 13 | T06 | Medição das 16 telas do clube (com a ferramenta da T13) | plano de fidelidade §5 | ⏳ |
 | 14 | T07 | **Aba Clubes** (04) | plano de fidelidade §5 | ⏳ |
 | 15 | T08 | Discussão da semana (31) | plano de fidelidade §5 | ⏳ |
 | 16 | T09 | Membros (32) | plano de fidelidade §5 | ⏳ |
 | 17 | T10 | Encontro (70, 71, 72, 73) | plano de fidelidade §5 | ⏳ |
-| 18 | T11 | Enquete (47, 48, 49, 50, 102, 103, 104) | plano de fidelidade §5 | ⏳ |
+| 18 | T11 | Enquete (47, 48, 49, 50, 102, 103, 104); + a que falta (D-268): Enquete · deu empate | plano de fidelidade §5 | ⏳ |
 | 19 | T12 | Criar clube e convite (33, 34) | plano de fidelidade §5 | ⏳ |
 | 20 | T19 | **Pro:** topo A e B (83), Planos anual e mensal (83, 84), perfil bloqueado (85), estatísticas bloqueadas (86), Bem-vinda (87), Gerenciar assinatura (88). Sem elas o build de loja não vende (D-230) | modelo da T03 + Anexo 04 | ⏳ |
 | 21 | T20 | **Perfil completo:** Resenhas (43, 46, 74, 75, 76), Grifos em mural (44), Listas (45, 66, 67, 68) | modelo da T03 | ⏳ |
@@ -101,7 +101,8 @@ Se o projeto, um HTML antigo e qualquer outro texto discordarem: **parar e pergu
 | 32 | G28 | QA final → **v1.0** | prompt mestre §6 | ⏳ |
 
 Regras da fila:
-- As 128 telas têm etapa. Não existe G29: o roteiro do prompt mestre acaba na G28.
+- As 128 telas têm etapa, e as 9 que o Mapa (00) marca como faltando também (D-268, pela §5): a cobertura de cada uma
+  está em `docs/design/projeto/COBERTURA.md`. Não existe G29: o roteiro do prompt mestre acaba na G28.
 - Etapa grande demais para uma sessão pode ser dividida em partes (T16a, T16b…), **só com pergunta**, registrando aqui.
 - Trocar a ordem, juntar ou criar etapa: só com pergunta, e a mudança é registrada aqui.
 - Etapa de tela que precisa de dado ou servidor novo faz o dado na mesma etapa (como a D-244): banco local, servidor,
@@ -159,8 +160,13 @@ Os arquivos de `docs/design/projeto/telas/` são o formato de origem do Claude D
 `tools/medicao/` para renderizar esse formato no Chromium (390 × altura da tela no `CATALOGO.md`, fontes embutidas,
 rede bloqueada) e gerar as mesmas saídas da T02 (layout, texto, estilos, PNG @1x/@2x/@3x, redlines, fases L). As
 medições novas vão para `docs/design/medicao/projeto/` e `test/reference/projeto/`. Cada etapa de tela seguinte começa
-medindo as suas telas com essa ferramenta, se a T13 ainda não mediu. Atenção: os `.dc.html` chamam `./support.js`, que não veio no
-projeto (só o `dc-runtime.js`); a T13 descobre como renderizar sem ele ou pede o arquivo.
+medindo as suas telas com essa ferramenta, se a T13 ainda não mediu. O `./support.js` que os
+`.dc.html` chamam é o próprio `dc-runtime.js` (a R00 conferiu: ele junta, byte a byte, o React, o ReactDOM e o runtime
+das pranchas antigas, e a 01b do projeto renderiza **igual pixel a pixel** à exportação antiga no mesmo Chromium —
+`tools/medicao/renderizar_dc.js`). Atenção ao método: a referência medida da T02 sai do zoom 10 (o avanço das letras
+sem arredondar), e a 1 px de diferença muda quebras no limite — na 01b, o "pág. 159 de 256" tem 108,97 px no zoom 10 e
+107,97 no zoom 1, e o "E-BOOK" só cabe na linha do herói no zoom 1. A T13 renderiza os `.dc.html` com o mesmo método
+da T02 (zoom 10 e redução), nunca com uma foto direta no zoom 1.
 
 ## 7. R00 · Arrumação (P/M)
 
@@ -205,4 +211,5 @@ Objetivo: o app inteiro ligado como o Mapa de navegação (00), sem nenhum camin
 
 Entram como roteiros próprios só depois da G28, para não atrapalhar este:
 - idiomas e moedas (textos em `.arb`, preços vindos das lojas);
-- motion design e gamificação extra (estudo de referências; uma camada por cima das telas prontas).
+- motion design e gamificação extra (estudo de referências; uma camada por cima das telas prontas);
+- "Livros do ano" (só em dezembro), que o design marca como futuro combinado (D-268).
