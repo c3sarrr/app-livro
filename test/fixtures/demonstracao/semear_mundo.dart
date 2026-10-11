@@ -14,14 +14,14 @@ import 'package:app_leitura/features/reader/content/book_index.dart';
 
 import '../../support/mundo_epub.dart';
 import '../mundo_2026_09_20.dart';
-import '../telas/indice_t19.dart';
 import 'camada_inicio01.dart';
 import 'clube_demonstracao.dart';
+import 'indice_demonstracao.dart';
 
 /// A marca do banco já semeado, com a versão da semeadura (um banco com a marca de outra versão recomeça do zero —
 /// `bancoDaDemonstracao`).
 const String chaveSemeado = 'demonstracao.semeado';
-const String versaoDaSemeadura = 'r00-v1';
+const String versaoDaSemeadura = 'r00-v2';
 
 /// O banco [db] já tem o mundo desta versão.
 Future<bool> semeado(AppDatabase db) async =>
@@ -49,11 +49,11 @@ Future<void> semearMundo(AppDatabase db, {required Directory livros}) async {
     sha256: sha,
     now: m.agora,
   );
-  // as contagens de um livro inteiro (pág. 159 de 256, 62 %) sobre o EPUB curto do mundo — o índice das telas
-  // 19–27b (G11.5, D-34); os números continuam calculados pelo leitor
+  // as contagens de um livro inteiro (pág. 159 de 256, 62 %) sobre o EPUB curto do mundo, com cada capítulo na página
+  // do sumário do mundo (`indice_demonstracao.dart`); os números continuam calculados pelo leitor
   await BookContentIndexDao(db).upsert(
     dc.id,
-    indiceDaTela19(indexEpubFile(arquivo.path, sha)),
+    indiceDoDemo(indexEpubFile(arquivo.path, sha)),
     builtAt: m.agora,
   );
 

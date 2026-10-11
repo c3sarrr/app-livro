@@ -139,8 +139,13 @@ Future<void> _trazer(
   await quadros(t, 8);
 }
 
-/// Um toque no centro de [chave] (trazida para a área visível antes).
-Future<void> tocarChave(WidgetTester t, String chave) async {
+/// Um toque no centro de [chave] (trazida para a área visível antes). [exigirAcerto]: falha se o centro da chave não
+/// recebe o toque (um ⏸ que tocasse outra coisa passaria em vão).
+Future<void> tocarChave(
+  WidgetTester t,
+  String chave, {
+  bool exigirAcerto = false,
+}) async {
   final naTela = _k(chave);
   await _trazer(
     t,
@@ -148,8 +153,49 @@ Future<void> tocarChave(WidgetTester t, String chave) async {
     naTela,
     chave,
   );
+  if (exigirAcerto) {
+    expect(
+      naTela.first.hitTestable(),
+      findsOneWidget,
+      reason: '"$chave": o toque no centro não chega à chave',
+    );
+  }
   await t.tap(naTela.first, warnIfMissed: false);
   await quadros(t, 8);
+}
+
+/// O número da página de um texto "pág. N" (ou "pág. N de M", ou só "N", como no sumário) na chave [chave].
+int _paginaEm(WidgetTester t, String chave) {
+  final texto = [
+    for (final e
+        in find
+            .descendant(
+              of: _k(chave),
+              matching: find.byType(AppText),
+              matchRoot: true,
+            )
+            .evaluate())
+      (e.widget as AppText).span.toPlainText(includeSemanticsLabels: false),
+  ].join(' ');
+  final m = RegExp(r'(?:pág.\s*)?(\d+)').firstMatch(texto);
+  if (m == null) fail('"$chave" sem "pág. N": "$texto"');
+  return int.parse(m.group(1)!);
+}
+
+/// A página que o toque de chegada promete (o capítulo, o marcador, o grifo), lida da lista antes do toque.
+int? _paginaPrometida;
+
+/// O leitor chegou à página prometida (o rodapé "pág. N de 256").
+Future<void> _naPaginaPrometida(WidgetTester t) async {
+  final esperada = _paginaPrometida;
+  _paginaPrometida = null;
+  if (esperada == null) fail('nenhuma página prometida antes do toque');
+  await ate(t, chave: 'r19.footer.pageLabel');
+  expect(
+    _paginaEm(t, 'r19.footer.pageLabel'),
+    esperada,
+    reason: 'o leitor não chegou à página da lista',
+  );
 }
 
 /// Um toque na primeira chave que casa com [padrao] (as linhas que dependem do livro: o cartão do clube).
@@ -180,6 +226,11 @@ Future<void> tocarUltimaVisivel(WidgetTester t, RegExp padrao) async {
     for (final e in f.evaluate())
       if (t.getRect(find.byWidget(e.widget)).bottom < _tela(t).height - 40) e,
   ];
+  final alvo = (visiveis.last.widget.key! as ValueKey<String>).value;
+  final pagina = alvo.replaceFirst(RegExp(r'\.link$'), '.page');
+  if (pagina != alvo && _k(pagina).evaluate().isNotEmpty) {
+    _paginaPrometida = _paginaEm(t, pagina);
+  }
   await t.tap(find.byWidget(visiveis.last.widget), warnIfMissed: false);
   await quadros(t, 8);
 }
@@ -812,10 +863,13 @@ final List<Ligacao> ligacoes = List.unmodifiable([
     Classe.leva,
     some: () => _k('toc.sheet.close'),
     destino: _leitor,
+    confere: _naPaginaPrometida,
     decisao: 'D-151',
-    // a lista abre no capítulo atual: o último que aparece (um outro capítulo)
-    tocar: (t) =>
-        tocarUltimaVisivel(t, RegExp(r'^toc\.sheet\.chapters\.ch\d+\.link$')),
+    // a lista abre no capítulo atual (o XXXII): o último outro capítulo que aparece; o leitor vai à página dele
+    tocar: (t) => tocarUltimaVisivel(
+      t,
+      RegExp(r'^toc\.sheet\.chapters\.ch(?!32\.)\d+\.link$'),
+    ),
   ),
   const Ligacao(
     'leitor27',
@@ -844,7 +898,13 @@ final List<Ligacao> ligacoes = List.unmodifiable([
     Classe.leva,
     some: () => _k('bm.sheet.close'),
     destino: _leitor,
+    confere: _naPaginaPrometida,
     decisao: 'D-151, D-158',
+    // o leitor vai à página do marcador ("pág. 3")
+    tocar: (t) async {
+      _paginaPrometida = _paginaEm(t, 'bm.sheet.bookmarks.item1.head.page');
+      await tocarChave(t, 'bm.sheet.bookmarks.item1.link');
+    },
   ),
 
   // ---- os grifos (25, abertos pelo leitor) ----
@@ -869,7 +929,13 @@ final List<Ligacao> ligacoes = List.unmodifiable([
     Classe.leva,
     some: () => find.byType(HighlightsScreen),
     destino: _leitor,
+    confere: _naPaginaPrometida,
     decisao: 'D-195',
+    // o leitor vai à página do grifo: a do separador acima do 1º cartão ("pág. 3")
+    tocar: (t) async {
+      _paginaPrometida = _paginaEm(t, 'hl.list.sep1.label');
+      await tocarChave(t, 'hl.list.card1.body.quote');
+    },
   ),
   Ligacao(
     'grifos',
@@ -948,8 +1014,11 @@ Future<List<String>> percorrer(
     log('NAV $l');
     try {
       await chegar(t, l.origem);
-      final antes = l.classe == Classe.semAcao ? _retrato(t) : null;
-      await (l.tocar ?? (t) => tocarChave(t, l.chave))(t);
+      final semAcao = l.classe == Classe.semAcao;
+      final antes = semAcao ? _retrato(t) : null;
+      await (l.tocar ?? (t) => tocarChave(t, l.chave, exigirAcerto: semAcao))(
+        t,
+      );
       switch (l.classe) {
         case Classe.leva:
           if (l.destino != null) {
@@ -966,6 +1035,11 @@ Future<List<String>> percorrer(
         case Classe.semAcao:
           await quadros(t, 30);
           expect(_retrato(t), antes, reason: '$l: algo mudou');
+          expect(
+            _aviso(avisoProximaFase),
+            findsNothing,
+            reason: '$l: apareceu o aviso de próxima fase (seria 🟡)',
+          );
         case Classe.placeholder:
           final titulo = l.titulo!;
           await ate(
@@ -978,12 +1052,17 @@ Future<List<String>> percorrer(
           amarelas.add('🟡 ${l.origem} · ${l.chave} → $titulo (${l.etapa})');
       }
       await l.depois?.call(t);
-    } on TestFailure catch (e) {
-      falhas.add('$l\n  ${e.message}');
-      log('NAV FALHOU $l: ${e.message}');
+    } on Object catch (e) {
+      // uma falha (ou um erro) numa ligação não esconde as outras
+      final msg = e is TestFailure ? e.message : '$e';
+      falhas.add('$l\n  $msg');
+      log('NAV FALHOU $l: $msg');
     }
   }
-  await voltarAoInicio(t);
-  expect(falhas, isEmpty, reason: falhas.join('\n'));
+  try {
+    await voltarAoInicio(t);
+  } finally {
+    expect(falhas, isEmpty, reason: falhas.join('\n'));
+  }
   return amarelas;
 }
