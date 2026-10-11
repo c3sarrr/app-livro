@@ -4,6 +4,16 @@
 do design. O HTML é a fonte da verdade do visual e dos dados que a tela mostra (textos, números, estados). Se a tela
 não está em nenhum arquivo daqui nem do `handoff_v2/`, pergunte antes de inventar.
 
+## O projeto completo (fonte principal desde 10/10/2026)
+
+`docs/design/projeto/` tem o projeto inteiro do Claude Design ("Redesign mobile — App de leitura"): **128 telas** e o
+**Mapa de navegação** (00), no formato de origem (`telas/*.dc.html`, renderizados pelo `dc-runtime.js`), com o índice
+original (`canvas.json`), o catálogo (`CATALOGO.md`: número, título, arquivo e tamanho de cada tela) e as notas do
+design para o Flutter (`NOTAS.md`). Não edite: uma versão nova entra numa pasta nova. A ordem em que as telas entram no
+app está em `docs/ROTEIRO.md`.
+
+Os três arquivos abaixo são exportações de uma página só e continuam como a referência medida das telas já feitas.
+
 ## Os arquivos
 
 | Arquivo | Telas | sha256 |

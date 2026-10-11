@@ -28,6 +28,8 @@ test/fixtures/catalogo/** -text
 test/fixtures/livros/** -text
 # G21: os arquivos HTML do design (a Início e a revisão; o clube) byte a byte, como vieram
 docs/design/referencia/** -text
+# R00: o projeto completo do Claude Design (128 telas + o mapa) byte a byte, como veio (os sha256 do CATALOGO.md)
+docs/design/projeto/** -text
 # T02: saídas da medição da Início e da revisão byte a byte (o manifesto docs/progresso/T02_hashes_saida.txt confere estes bytes)
 docs/design/medicao/** -text
 docs/design/fases/** -text

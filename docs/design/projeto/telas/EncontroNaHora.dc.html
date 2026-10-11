@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Encontro — na hora</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap">
+<style>
+body{margin:0;background:#F7F0E3;font-family:'Figtree',ui-sans-serif,system-ui,sans-serif;color:#1A1714;-webkit-font-smoothing:antialiased}
+a{color:#1A1714;text-decoration:none}a:hover{color:#1A1714}
+button{font-family:inherit;color:inherit;cursor:pointer}
+</style>
+</helmet>
+
+<div style="position: relative; width: 390px; height: 990px; overflow: hidden; background: #F7F0E3;">
+
+  <header style="position: absolute; left: 20px; right: 20px; top: 58px; height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 10px; z-index: 3;">
+    <button aria-label="Voltar ao clube" style="width: 48px; height: 48px; flex-shrink: 0; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+    <span style="height: 30px; padding: 0 11px 0 8px; border-radius: 999px; background: {{club}}; border: 1.3px solid #1A1714; box-sizing: border-box; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 800; white-space: nowrap;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"></path><path d="M18.5 14a6.5 6.5 0 0 1 3 6"></path></svg>Leitoras de Capitu</span>
+    <span style="display: flex; gap: 8px;"><button aria-label="Mais opções" style="width: 48px; height: 48px; flex-shrink: 0; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="12" r="1.3"></circle><circle cx="12" cy="12" r="1.3"></circle><circle cx="18.5" cy="12" r="1.3"></circle></svg></button></span>
+  </header>
+  <main style="position: absolute; left: 0; right: 0; top: 122px; padding: 0 20px; box-sizing: border-box; display: flex; flex-direction: column;">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 0.98; letter-spacing: -1px;">A sala<span style="font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 39px; letter-spacing: -0.4px;"> está aberta.</span></h1>
+    <p style="margin: 6px 0 0; font-size: 13.5px; font-weight: 600; color: #5B544B;">Quinta, 24 set · Encontro 2 de 6 · caps. 26–50</p>
+
+    <!-- The room is open: big call button, who's already inside -->
+    <section aria-label="Sala aberta" style="margin-top: 18px; padding: 18px; border-radius: 28px; background: #FED170; border: 1.5px solid #1A1714; box-shadow: 4px 4px 0 #1A1714;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <svg aria-hidden="true" width="64" height="64" viewBox="0 0 64 64" style="flex-shrink: 0;"><circle cx="32" cy="32" r="26" fill="#FFFAF1" stroke="#1A1714" stroke-width="1.5"></circle><circle cx="32" cy="32" r="21" fill="none" stroke="#F1E7D5" stroke-width="7"></circle><circle cx="32" cy="32" r="21" fill="none" stroke="#FF552E" stroke-width="7" stroke-dasharray="17.6 200" transform="rotate(-90 32 32)"></circle><text x="32" y="31" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-weight="800" font-size="17">13</text><text x="32" y="43" text-anchor="middle" font-family="Figtree, sans-serif" font-weight="800" font-size="8.5">MIN</text></svg>
+        <span style="min-width: 0; display: flex; flex-direction: column; gap: 3px;">
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; letter-spacing: 0.08em;"><span style="width: 9px; height: 9px; border-radius: 50%; background: #00995E; border: 1.2px solid #1A1714;"></span>SALA ABERTA DESDE 19H45</span>
+          <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 21px; line-height: 1.1; letter-spacing: -0.4px;">Começa às 20h</span>
+          <span style="font-size: 13px; font-weight: 600; color: #4A3B12;">Online · até 21h30</span>
+        </span>
+      </div>
+      <div style="margin-top: 16px; padding: 10px 12px; border-radius: 18px; background: #FFFAF1; border: 1.3px solid #1A1714; display: flex; align-items: center; gap: 10px;">
+        <span aria-hidden="true" style="display: flex; align-items: center;"><span style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #B6ACE4; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 12.6px; font-weight: 800;">A</span><span style="width: 30px; height: 30px; flex-shrink: 0; margin-left: -8px; border-radius: 50%; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 12.6px; font-weight: 800;">R</span><span style="width: 30px; height: 30px; flex-shrink: 0; margin-left: -8px; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 12.6px; font-weight: 800;">J</span></span>
+        <span style="min-width: 0; font-size: 13px; font-weight: 700; line-height: 1.3;">Ana, Rafa e Júlia já estão na sala</span>
+      </div>
+      <button style="margin-top: 14px; width: 100%; height: 58px; border-radius: 999px; background: #1A1714; border: none; box-shadow: 0 4px 0 rgba(26,23,20,0.25); display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 17px; font-weight: 800;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FED170" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6.5" width="13" height="11" rx="2.5"></rect><path d="m15.5 10.5 6-3.5v10l-6-3.5"></path></svg><span style="color: #F7F0E3;">Entrar na chamada</span></button>
+      <p style="margin: 10px 0 0; text-align: center; font-size: 12.5px; font-weight: 600; color: #4A3B12;">Câmera e microfone: você escolhe ao entrar.</p>
+    </section>
+    <div role="status" style="margin-top: 14px; padding: 12px 14px; border-radius: 18px; background: #E1EDD0; border: 1.3px solid #1A1714; display: flex; align-items: center; gap: 10px;">
+      <span style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg></span>
+      <span style="font-size: 13.5px; font-weight: 700; line-height: 1.35;">Meta da semana cumprida: você chegou ao cap. 50 ontem.</span>
+    </div>
+    <section aria-label="Perguntas à mão" style="margin-top: 22px; padding: 6px 16px 2px; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714;">
+      <div style="padding: 10px 0 8px;"><div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -0.3px;">Perguntas à mão</span><span style="font-size: 12.5px; font-weight: 700; color: #8A8073;">4</span></div></div>
+      <ol style="margin: 0; padding: 0; list-style: none;"><li style="padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; border-top: 1px solid #EDE4D3;"><span style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1A1714; color: #FFFAF1; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 12px;">1</span><span style="min-width: 0; flex-grow: 1; font-size: 14px; font-weight: 700; line-height: 1.35;">Bentinho é um narrador confiável?</span><span style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #B6ACE4; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800;">A</span></li><li style="padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; border-top: 1px solid #EDE4D3;"><span style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1A1714; color: #FFFAF1; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 12px;">2</span><span style="min-width: 0; flex-grow: 1; font-size: 14px; font-weight: 700; line-height: 1.35;">Os “olhos de ressaca”: é amor ou é medo?</span><span style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800;">J</span></li><li style="padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; border-top: 1px solid #EDE4D3;"><span style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1A1714; color: #FFFAF1; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 12px;">3</span><span style="min-width: 0; flex-grow: 1; font-size: 14px; font-weight: 700; line-height: 1.35;">O que o José Dias ganha mexendo na vida dos outros?</span><span style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800;">R</span></li><li style="padding: 10px 0; display: flex; align-items: flex-start; gap: 10px; border-top: 1px solid #EDE4D3;"><span style="width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; background: #1A1714; color: #FFFAF1; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 12px;">4</span><span style="min-width: 0; flex-grow: 1; font-size: 14px; font-weight: 700; line-height: 1.35;">Por que a Capitu sempre pensa mais rápido que o Bentinho?</span><span style="width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; background: #058CD7; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800;">B</span></li></ol>
+    </section>
+    <div style="margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <button style="height: 44px; padding: 0 14px 0 11px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 800; white-space: nowrap;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5V12l3 2"></path></svg>Vou atrasar uns minutos</button>
+      <a href="#" style="font-size: 13.5px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap;">Não vou conseguir</a>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"brand":{"editor":"color","default":"#B6ACE4","options":["#B6ACE4","#FFC1C6","#ABCF82","#FED170"]},"club":{"editor":"color","default":"#FFC1C6","options":["#FFC1C6","#B6ACE4","#ABCF82","#FED170"]},"$preview":{"width":390,"height":990}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      brand: this.props.brand ?? '#B6ACE4',
+      club: this.props.club ?? '#FFC1C6'
+    };
+  }
+}
+</script>
+</body>
+</html>

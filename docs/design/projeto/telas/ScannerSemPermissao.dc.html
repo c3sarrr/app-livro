@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Scanner — sem permissão de câmera</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
+<style>
+body{margin:0;background:#1E1A17;font-family:'Figtree',ui-sans-serif,system-ui,sans-serif;color:#1A1714;-webkit-font-smoothing:antialiased}
+a{color:#1A1714;text-decoration:none}a:hover{color:#1A1714}
+button{font-family:inherit;color:inherit;cursor:pointer}
+</style>
+</helmet>
+
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #1E1A17;">
+  <!-- no camera: dark, hatched placeholder where the preview would be -->
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #221D19 0 10px, #1E1A17 10px 20px);"></div>
+  <svg aria-hidden="true" width="290" height="170" viewBox="0 0 290 170" fill="none" stroke-linecap="round" style="position: absolute; left: 50px; top: 176px; opacity: 0.35;">
+    <path d="M5 45V27A22 22 0 0 1 27 5H45M245 5H263A22 22 0 0 1 285 27V45M285 125V143A22 22 0 0 1 263 165H245M45 165H27A22 22 0 0 1 5 143V125" stroke="#FFFAF1" stroke-width="5.5" stroke-dasharray="2 9"></path>
+  </svg>
+
+  <!-- Top controls (below the real status bar) -->
+  <div style="position: absolute; left: 20px; right: 20px; top: 58px; height: 48px; display: flex; align-items: center; justify-content: space-between;">
+    <button aria-label="Fechar scanner" style="width: 48px; height: 48px; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+    </button>
+    <div role="radiogroup" aria-label="Como adicionar" style="height: 48px; padding: 3px; box-sizing: border-box; display: flex; gap: 2px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714;">
+      <button role="radio" aria-checked="true" style="height: 100%; padding: 0 14px 0 12px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; font-size: 14px; font-weight: 800;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M4 6v12M20 6v12" stroke-width="2"></path><path d="M7.5 6v12M13.5 6v12" stroke-width="1.2"></path><path d="M10.5 6v12M16.8 6v12" stroke-width="2.4"></path></svg>
+        Código
+      </button>
+      <button role="radio" aria-checked="false" style="height: 100%; padding: 0 14px 0 12px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: transparent; border: none; font-size: 14px; font-weight: 600;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"></rect><path d="M6.5 10h.01M10 10h.01M14 10h.01M17.5 10h.01M7.5 14h9"></path></svg>
+        Digitar
+      </button>
+    </div>
+    <button aria-label="Ligar lanterna" disabled style="width: 48px; height: 48px; padding: 0; border-radius: 50%; background: #FFFAF1; opacity: 0.35; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2z"></path></svg>
+    </button>
+  </div>
+
+  <section role="dialog" aria-label="Permitir câmera" style="position: absolute; left: 10px; right: 10px; bottom: 10px; box-sizing: border-box; padding: 10px 18px 22px; border-radius: 30px 30px 44px 44px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 0 4px 0 #1A1714; display: flex; flex-direction: column;">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: #D9CFBD;"></span>
+    <div style="margin-top: 16px;"><svg aria-hidden="true" width="150" height="120" viewBox="0 0 150 120" style="display: block; margin: 0 auto; overflow: visible;">
+        <rect x="27" y="31" width="100" height="72" rx="14" fill="#1A1714"></rect>
+        <rect x="23" y="27" width="100" height="72" rx="14" fill="#FED170" stroke="#1A1714" stroke-width="1.6"></rect>
+        <path d="M50 27l8-12h30l8 12" fill="#FED170" stroke="#1A1714" stroke-width="1.6" stroke-linejoin="round"></path>
+        <circle cx="73" cy="63" r="22" fill="#FFFAF1" stroke="#1A1714" stroke-width="1.6"></circle>
+        <circle cx="73" cy="63" r="12" fill="#B6ACE4" stroke="#1A1714" stroke-width="1.5"></circle>
+        <g transform="translate(98 66)">
+          <rect x="3" y="12" width="36" height="30" rx="7" fill="#1A1714"></rect>
+          <rect x="0" y="9" width="36" height="30" rx="7" fill="#FFC1C6" stroke="#1A1714" stroke-width="1.6"></rect>
+          <path d="M8 9V3a10 10 0 0 1 20 0v6" fill="none" stroke="#1A1714" stroke-width="2.4"></path>
+          <circle cx="18" cy="22" r="3.5" fill="#1A1714"></circle><path d="M18 24v6" stroke="#1A1714" stroke-width="2.4" stroke-linecap="round"></path>
+        </g>
+        <g transform="translate(4 6) scale(.9)"><path d="M12 1.5C12.4 7.2 13.6 10.9 22.5 12 13.6 13.1 12.4 16.8 12 22.5 11.6 16.8 10.4 13.1 1.5 12 10.4 10.9 11.6 7.2 12 1.5Z" fill="#FFFAF1" stroke="#1A1714" stroke-width="1.4" stroke-linejoin="round"></path></g>
+      </svg></div>
+    <h2 style="margin: 14px 0 0; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 25px; line-height: 1.02; letter-spacing: -0.6px;">A câmera está<span style="font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 29px;"> desligada para nós.</span></h2>
+    <p style="margin: 8px 6px 0; text-align: center; font-size: 14px; font-weight: 600; line-height: 1.45; color: #5B544B;">Ela só serve para ler o código de barras — nenhuma foto é guardada ou enviada.</p>
+    <div style="margin-top: 14px; padding: 10px 12px; border-radius: 16px; background: #F7F0E3; border: 1.3px dashed #1A1714; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2.5v3M12 18.5v3M4.2 6.5l2.6 1.5M17.2 16l2.6 1.5M2.5 12h3M18.5 12h3M4.2 17.5 6.8 16M17.2 8l2.6-1.5"></path></svg><span>Ajustes do celular › BookNest › <strong style="font-weight: 800;">Câmera</strong></span></div>
+    <a href="#" style="margin-top: 14px; height: 54px; border-radius: 999px; background: #FED170; border: 1.5px solid #1A1714; box-shadow: 3px 3px 0 #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 16px; font-weight: 800;">Abrir os ajustes do celular</a>
+    <a href="#" style="margin-top: 10px; height: 50px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 800;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"></rect><path d="M6.5 10h.01M10 10h.01M14 10h.01M17.5 10h.01M7.5 14h9"></path></svg>Digitar o ISBN</a>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"brand":{"editor":"color","default":"#B6ACE4","options":["#B6ACE4","#FFC1C6","#ABCF82","#FED170"]},"reticle":{"editor":"color","default":"#FED170","options":["#FED170","#FFFAF1","#B6ACE4","#ABCF82"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { brand: this.props.brand ?? '#B6ACE4', reticle: this.props.reticle ?? '#FED170' };
+  }
+}
+</script>
+</body>
+</html>

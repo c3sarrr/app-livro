@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Scanner — digitar o ISBN</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap">
+<style>
+body{margin:0;background:#1E1A17;font-family:'Figtree',ui-sans-serif,system-ui,sans-serif;color:#1A1714;-webkit-font-smoothing:antialiased}
+a{color:#1A1714;text-decoration:none}a:hover{color:#1A1714}
+button{font-family:inherit;color:inherit;cursor:pointer}
+</style>
+</helmet>
+
+
+<div style="position: relative; width: 390px; height: 844px; overflow: hidden; background: #1E1A17;">
+  <!-- Camera is paused on this tab: dark backdrop with a faint dot grid -->
+  <div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(rgba(255,250,241,0.09) 1px, transparent 1.4px); background-size: 18px 18px;"></div>
+
+  <!-- Top controls: same bar as the camera tab; torch gives way to help (camera is off here) -->
+  <div style="position: absolute; left: 20px; right: 20px; top: 58px; height: 48px; display: flex; align-items: center; justify-content: space-between;">
+    <button aria-label="Fechar scanner" style="width: 48px; height: 48px; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+    </button>
+    <div role="radiogroup" aria-label="Como adicionar" style="height: 48px; padding: 3px; box-sizing: border-box; display: flex; gap: 2px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714;">
+      <button role="radio" aria-checked="false" style="height: 100%; padding: 0 14px 0 12px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: transparent; border: none; font-size: 14px; font-weight: 600;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true"><path d="M4 6v12M20 6v12" stroke-width="2"></path><path d="M7.5 6v12M13.5 6v12" stroke-width="1.2"></path><path d="M10.5 6v12M16.8 6v12" stroke-width="2.4"></path></svg>
+        Código
+      </button>
+      <button role="radio" aria-checked="true" style="height: 100%; padding: 0 14px 0 12px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; font-size: 14px; font-weight: 800;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"></rect><path d="M6.5 10h.01M10 10h.01M14 10h.01M17.5 10h.01M7.5 14h9"></path></svg>
+        Digitar
+      </button>
+    </div>
+    <button aria-label="Onde encontrar o ISBN" style="width: 48px; height: 48px; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6"></path><path d="M12 17h.01"></path></svg>
+    </button>
+  </div>
+
+  <!-- Heading -->
+  <div style="position: absolute; left: 24px; right: 24px; top: 128px;">
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 27px; line-height: 1.05; letter-spacing: -0.6px; color: #FFFAF1;">Digite o ISBN<span style="font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 31px; color: #FED170;"> do verso.</span></h1>
+    <p style="margin: 6px 0 0; font-size: 13.5px; font-weight: 600; line-height: 1.4; color: #CFC6B8;">Fica embaixo do código de barras ou na ficha catalográfica, nas primeiras páginas.</p>
+  </div>
+
+  <!-- The label: an ISBN sticker that prints its bars as the person types -->
+  <div style="position: absolute; left: 22px; right: 22px; top: 226px; display: flex; flex-direction: column;">
+  <div style="position: relative; transform: rotate(-1.5deg);">
+    <span aria-hidden="true" style="position: absolute; left: -14px; top: -6px; width: 74px; height: 22px; transform: rotate(-24deg); background: repeating-linear-gradient(90deg, #FED170 0 7px, #F6C24A 7px 10px); opacity: 0.92; border-left: 1.5px dashed rgba(26,23,20,0.25); border-right: 1.5px dashed rgba(26,23,20,0.25); z-index: 2;"></span>
+    <span aria-hidden="true" style="position: absolute; left: 268px; top: -5px; width: 74px; height: 22px; transform: rotate(21deg); background: repeating-linear-gradient(90deg, #FFC1C6 0 7px, #F8AEB5 7px 10px); opacity: 0.92; border-left: 1.5px dashed rgba(26,23,20,0.25); border-right: 1.5px dashed rgba(26,23,20,0.25); z-index: 2;"></span>
+    <section role="group" aria-label="ISBN digitado: 85-08-06294, 9 de 10 dígitos. Falta o dígito final." style="position: relative; padding: 16px 16px 14px; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 5px 5px 0 #1A1714; display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+        <span style="height: 26px; padding: 0 10px 0 8px; box-sizing: border-box; display: flex; align-items: center; gap: 6px; border-radius: 999px; background: #F7F0E3; border: 1.2px solid #1A1714; font-size: 12px; font-weight: 800; white-space: nowrap;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"></path><path d="M5 17a3 3 0 0 1 3-3h10"></path></svg>ISBN-10 · edição antiga</span>
+        <span style="font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap;">9 <span style="font-weight: 600; color: #5B544B;">de 10</span></span>
+      </div>
+      <div style="margin-top: 14px; display: flex; align-items: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; letter-spacing: 0.5px; font-variant-numeric: tabular-nums; white-space: nowrap;"><span style="color: #1A1714;">85<span style="color: #A79C8B;">-</span>08<span style="color: #A79C8B;">-</span>06294</span><span style="color: #A79C8B;">-</span><span aria-hidden="true" style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 38px; margin-left: 2px; border-radius: 9px; border: 1.6px dashed #1A1714; background: #FFF3CF; box-sizing: border-box; vertical-align: middle;"><span style="width: 2.5px; height: 24px; border-radius: 2px; background: #FF552E;"></span></span></div>
+      <p style="margin: 9px 0 0; font-size: 13px; font-weight: 600; line-height: 1.35; color: #5B544B; white-space: nowrap;">Falta o dígito final: um número ou <strong style="padding: 0 5px; border-radius: 5px; background: #FED170; border: 1px solid #1A1714; color: #1A1714; font-weight: 800;">X</strong>.</p>
+      <div style="margin-top: 14px; padding-top: 12px; border-top: 1.5px dashed #CFC3AE; display: flex; flex-direction: column; align-items: center;">
+        <svg aria-hidden="true" width="267" height="74" viewBox="0 0 267.0 74" font-family="Figtree, sans-serif" style="display: block; overflow: visible;"><defs><pattern id="hatch69" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" fill="#F7F0E3"></rect><rect width="2" height="5" fill="#E2D7C3"></rect></pattern></defs><rect x="16.0" y="0" width="2.6" height="57" fill="#1A1714"></rect><rect x="21.2" y="0" width="2.6" height="57" fill="#1A1714"></rect><rect x="26.4" y="0" width="7.8" height="50" fill="#552CB7"></rect><rect x="36.8" y="0" width="5.2" height="50" fill="#552CB7"></rect><rect x="49.8" y="0" width="2.6" height="50" fill="#552CB7"></rect><rect x="57.6" y="0" width="2.6" height="50" fill="#552CB7"></rect><rect x="68.0" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="75.8" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="81.0" y="0" width="5.2" height="50" fill="#1A1714"></rect><rect x="94.0" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="99.2" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="107.0" y="0" width="7.8" height="50" fill="#1A1714"></rect><rect x="117.4" y="0" width="5.2" height="50" fill="#1A1714"></rect><rect x="125.2" y="0" width="7.8" height="50" fill="#1A1714"></rect><rect x="135.6" y="0" width="2.6" height="57" fill="#1A1714"></rect><rect x="140.8" y="0" width="2.6" height="57" fill="#1A1714"></rect><rect x="146.0" y="0" width="7.8" height="50" fill="#1A1714"></rect><rect x="159.0" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="164.2" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="169.4" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="182.4" y="0" width="5.2" height="50" fill="#1A1714"></rect><rect x="190.2" y="0" width="5.2" height="50" fill="#1A1714"></rect><rect x="200.6" y="0" width="7.8" height="50" fill="#1A1714"></rect><rect x="211.0" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="218.8" y="0" width="2.6" height="50" fill="#1A1714"></rect><rect x="224.0" y="0" width="7.8" height="50" fill="#1A1714"></rect><rect x="255.2" y="0" width="2.6" height="57" fill="#1A1714"></rect><rect x="260.4" y="0" width="2.6" height="57" fill="#1A1714"></rect><rect x="237.5" y="0" width="17.2" height="50" rx="2" fill="url(#hatch69)" stroke="#8B8173" stroke-width="1.1" stroke-dasharray="3 2.5"></rect><text x="6" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#552CB7">9</text><text x="32.9" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#552CB7">7</text><text x="51.1" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#552CB7">8</text><text x="69.3" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">8</text><text x="87.5" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">5</text><text x="105.7" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">0</text><text x="123.9" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">8</text><text x="155.1" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">0</text><text x="173.3" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">6</text><text x="191.5" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">2</text><text x="209.7" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">9</text><text x="227.9" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#1A1714">4</text><text x="246.1" y="63" text-anchor="middle" font-size="12" font-weight="700" fill="#8B8173">?</text><path d="M2.0 67 v4 H60.2 v-4" fill="none" stroke="#552CB7" stroke-width="1.3" stroke-linecap="round"></path></svg>
+        <span style="align-self: flex-start; margin: 3px 0 0 2px; font-size: 11px; font-weight: 800; color: #552CB7; white-space: nowrap;">978 · o app completa sozinho</span>
+      </div>
+    </section>
+  </div>
+    <div style="margin-top: 16px; display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center;">
+      <p style="margin: 0; font-size: 13px; font-weight: 600; color: #CFC6B8;">Completou, a gente confere e já busca.</p>
+      <p style="margin: 0; font-size: 13.5px; font-weight: 500; color: #CFC6B8;">Livro sem ISBN? <a href="#" style="font-weight: 800; color: #FFFAF1; text-decoration: underline; text-underline-offset: 3px;">Buscar pelo título</a></p>
+    </div>
+  </div>
+
+
+
+  <!-- Accessory bar: app widget pinned on top of the system number pad (keeps the X the pad lacks) -->
+  <div role="toolbar" aria-label="Teclas extras" style="position: absolute; left: 0; right: 0; top: 538px; height: 56px; padding: 0 12px; box-sizing: border-box; display: flex; align-items: center; gap: 8px; background: #FFFAF1; border-top: 1.5px solid #1A1714; border-radius: 20px 20px 0 0;">
+    <button aria-label="Digitar X, o dígito final do ISBN-10" style="height: 42px; padding: 0 14px 0 12px; border-radius: 13px; background: #FED170; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 8px;">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1;">X</span>
+      <span style="font-size: 11.5px; font-weight: 700; line-height: 1.1; text-align: left; color: #1A1714;">dígito<br>final</span>
+    </button>
+    <button aria-label="Colar ISBN copiado" style="height: 42px; padding: 0 14px 0 11px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 800;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="4" width="10" height="4" rx="1.5"></rect><path d="M9 6H6.5A1.5 1.5 0 0 0 5 7.5v12A1.5 1.5 0 0 0 6.5 21h11a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 17.5 6H15"></path></svg>Colar</button>
+    <span style="flex-grow: 1;"></span>
+    <button aria-label="Esconder teclado" style="width: 44px; height: 44px; padding: 0; border-radius: 50%; background: #F7F0E3; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#1A1714" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="11" rx="2.5"></rect><path d="M6.5 7.5h.01M10 7.5h.01M14 7.5h.01M17.5 7.5h.01M8 11h8"></path><path d="m9 18 3 3 3-3"></path></svg></button>
+  </div>
+
+  <!-- System number pad (phone's own keyboard; shown for context, not styled by the app) -->
+  <div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 594px; bottom: 0; padding: 6px 6px 0; box-sizing: border-box; background: #D1D4DA; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 46px; gap: 7px 6px;">
+    <span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">1</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">2</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">ABC</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">3</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">DEF</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">4</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">GHI</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">5</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">JKL</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">6</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">MNO</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">7</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">PQRS</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">8</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">TUV</span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">9</span><span style="margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1;">WXYZ</span></span><span></span><span style="height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000;"><span style="font-size: 25px; font-weight: 400; line-height: 1;">0</span></span><span style="height: 46px; display: flex; align-items: center; justify-content: center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 5H9l-6 7 6 7h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z" stroke-linejoin="round"></path><path d="m12.5 9.5 5 5M17.5 9.5l-5 5"></path></svg></span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"brand":{"editor":"color","default":"#B6ACE4","options":["#B6ACE4","#FFC1C6","#ABCF82","#FED170"]},"reticle":{"editor":"color","default":"#FED170","options":["#FED170","#FFFAF1","#B6ACE4","#ABCF82"]},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { brand: this.props.brand ?? '#B6ACE4', reticle: this.props.reticle ?? '#FED170' };
+  }
+}
+</script>
+</body>
+</html>
