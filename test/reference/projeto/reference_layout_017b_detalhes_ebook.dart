@@ -144,7 +144,7 @@ const LeitorRefPrancha kRef17b = LeitorRefPrancha(
   textDependentY: <String>{'d17b.highlights', 'd17b.highlights.club', 'd17b.highlights.club.date', 'd17b.highlights.club.date.day', 'd17b.highlights.club.date.monthTime', 'd17b.highlights.club.date.weekday', 'd17b.highlights.club.kicker', 'd17b.highlights.club.meta', 'd17b.highlights.club.textBlock', 'd17b.highlights.club.title', 'd17b.highlights.header', 'd17b.highlights.quote', 'd17b.highlights.quote.caption', 'd17b.highlights.quote.text', 'd17b.highlights.quote.text.mark', 'd17b.highlights.seeAll', 'd17b.highlights.title', 'd17b.synopsis', 'd17b.synopsis.fact1', 'd17b.synopsis.fact1.label', 'd17b.synopsis.fact1.value', 'd17b.synopsis.fact2', 'd17b.synopsis.fact2.label', 'd17b.synopsis.fact2.value', 'd17b.synopsis.fact3', 'd17b.synopsis.fact3.label', 'd17b.synopsis.fact3.value', 'd17b.synopsis.fact4', 'd17b.synopsis.fact4.label', 'd17b.synopsis.fact4.value', 'd17b.synopsis.facts', 'd17b.synopsis.text', 'd17b.synopsis.text.more'},
   ellipsized: <String>{},
   knifeEdges: <LeitorKnifeEdge>[
-    LeitorKnifeEdge('d17b.highlights.quote.text', 1, '“…olhos de cigana oblíqua e dissimulada.”', 0.252, null),
+    LeitorKnifeEdge('d17b.highlights.quote.text', 1, '“…olhos de cigana oblíqua e dissimulada.”', 0.253, null),
     LeitorKnifeEdge('d17b.meta', 1, 'Machado de Assis | d17b.meta.dot | 1899', 170.108, 0.467),
   ],
 );

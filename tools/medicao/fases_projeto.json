@@ -640,6 +640,253 @@
      "nav"
     ]
    }
+  },
+  {
+   "fase": "L05_1_capa",
+   "prancha": "005_perfil",
+   "secoes": [
+    "top",
+    "hero",
+    "card",
+    "actions",
+    "tabs"
+   ],
+   "titulo": "Perfil — o @ e os ajustes, a capa do perfil (avatar com a sequência, nome, bio e números), a carteirinha, Editar/Compartilhar e as abas"
+  },
+  {
+   "fase": "L05_2_lendo_e_ano",
+   "prancha": "005_perfil",
+   "secoes": [
+    "reading",
+    "year"
+   ],
+   "titulo": "Perfil — Lendo agora (3 capas com o marcador) e 2026 em leitura (a meta, a estante de 24 lombadas e 6 vagas, os números)"
+  },
+  {
+   "fase": "L05_3_favoritos_e_conquistas",
+   "prancha": "005_perfil",
+   "secoes": [
+    "favorites",
+    "achievements"
+   ],
+   "titulo": "Perfil — os 4 livros que me definem na prateleira e as conquistas (4 medalhas e a próxima, com a barra)"
+  },
+  {
+   "fase": "L05_4_atividade",
+   "prancha": "005_perfil",
+   "secoes": [
+    "activity",
+    "bottomFade",
+    "nav"
+   ],
+   "titulo": "Perfil — a atividade recente (desenho, grifo e resenha com estrelas), o degradê e a navegação (aba Perfil)"
+  },
+  {
+   "fase": "L64_1_previa_e_cor",
+   "prancha": "064_editar_perfil",
+   "secoes": [
+    "top",
+    "preview",
+    "colorLabel",
+    "colors",
+    "avatarType"
+   ],
+   "titulo": "Editar perfil — o topo, a prévia ao vivo da capa, as cores da capa e o tipo de avatar"
+  },
+  {
+   "fase": "L64_2_campos",
+   "prancha": "064_editar_perfil",
+   "secoes": [
+    "fields",
+    "pronounsHeader",
+    "pronouns",
+    "genresHeader",
+    "genres"
+   ],
+   "titulo": "Editar perfil — nome, @ e bio, pronomes e gêneros favoritos"
+  },
+  {
+   "fase": "L64_3_quatro_e_salvar",
+   "prancha": "064_editar_perfil",
+   "secoes": [
+    "favoritesHeader",
+    "favorites",
+    "bottom"
+   ],
+   "titulo": "Editar perfil — os 4 que me definem (o número, trocar e a alça de arrastar) e o Salvar preso embaixo"
+  },
+  {
+   "fase": "L65_trocar_livro",
+   "prancha": "065_editar_perfil_trocar",
+   "secoes": [
+    "scrim",
+    "sheet"
+   ],
+   "titulo": "Editar perfil, trocar um dos 4 — o escurecido e a folha (o livro de hoje, a busca, as 4 opções com estrelas e o botão)",
+   "reusa": {
+    "base": "064_editar_perfil",
+    "secoes": [
+     "top",
+     "preview"
+    ]
+   }
+  },
+  {
+   "fase": "L06_1_conta",
+   "prancha": "006_ajustes",
+   "secoes": [
+    "top",
+    "headline",
+    "search",
+    "account",
+    "plan"
+   ],
+   "titulo": "Ajustes — o voltar, o título, a busca, a conta (capa de livro) e a assinatura"
+  },
+  {
+   "fase": "L06_2_leitura",
+   "prancha": "006_ajustes",
+   "secoes": [
+    "reading"
+   ],
+   "titulo": "Ajustes — Leitura: o tema das páginas, a fonte, o tamanho do texto, virar páginas e a tela acesa"
+  },
+  {
+   "fase": "L06_3_metas",
+   "prancha": "006_ajustes",
+   "secoes": [
+    "goals"
+   ],
+   "titulo": "Ajustes — Metas e lembretes: as duas metas com menos e mais, o lembrete com o horário e a proteção da sequência"
+  },
+  {
+   "fase": "L06_4_mais_e_ajuda",
+   "prancha": "006_ajustes",
+   "secoes": [
+    "more",
+    "help",
+    "footer"
+   ],
+   "titulo": "Ajustes — Mais ajustes, Ajuda e o rodapé (sair, excluir, versão)",
+   "reusa": {
+    "base": "005_perfil",
+    "secoes": [
+     "bottomFade",
+     "nav"
+    ],
+    "relativoASecao": true
+   }
+  },
+  {
+   "fase": "L58_conta",
+   "prancha": "058_conta",
+   "secoes": [
+    "top",
+    "headline",
+    "account",
+    "signIn",
+    "sync",
+    "data",
+    "signOut",
+    "delete"
+   ],
+   "titulo": "Conta — a capa da conta, Entrar, Sincronização (aparelhos, ler sem internet), Seus dados, sair e excluir"
+  },
+  {
+   "fase": "L59_excluir_conta",
+   "prancha": "059_excluir_conta",
+   "secoes": [
+    "headline",
+    "lead",
+    "losses",
+    "clubsNote",
+    "alternatives",
+    "confirm",
+    "bottom"
+   ],
+   "titulo": "Excluir conta — o que vai embora, as alternativas, digitar EXCLUIR e o botão preso embaixo",
+   "reusa": {
+    "base": "058_conta",
+    "secoes": [
+     "top"
+    ]
+   }
+  },
+  {
+   "fase": "L56_privacidade",
+   "prancha": "056_privacidade",
+   "secoes": [
+    "headline",
+    "lead",
+    "profileType",
+    "visibility",
+    "people",
+    "blockNote"
+   ],
+   "titulo": "Privacidade — o tipo de perfil, quem vê o quê, pessoas (pedidos, achar pelo e-mail, bloqueadas) e o aviso de bloqueio",
+   "reusa": {
+    "base": "058_conta",
+    "secoes": [
+     "top"
+    ]
+   }
+  },
+  {
+   "fase": "L30_1_topo_e_hoje",
+   "prancha": "030_notificacoes",
+   "secoes": [
+    "top",
+    "sparkle",
+    "headline",
+    "summary",
+    "today"
+   ],
+   "titulo": "Notificações — o topo, o título, o resumo e os avisos de hoje (dois em cartão, não lidos)"
+  },
+  {
+   "fase": "L30_2_semana",
+   "prancha": "030_notificacoes",
+   "secoes": [
+    "week",
+    "footnote"
+   ],
+   "titulo": "Notificações — os avisos da semana e a nota do fim"
+  },
+  {
+   "fase": "L30b_1_lembrete",
+   "prancha": "030b_notificacoes_ajustes",
+   "secoes": [
+    "top",
+    "headline",
+    "reading"
+   ],
+   "titulo": "Lembretes e avisos — o lembrete de leitura (horário, dias, só se não leu, a prévia do aviso)"
+  },
+  {
+   "fase": "L30b_2_avisos_e_silencio",
+   "prancha": "030b_notificacoes_ajustes",
+   "secoes": [
+    "topics",
+    "quiet"
+   ],
+   "titulo": "Lembretes e avisos — avisar sobre (5 chaves) e não incomodar (das → até)"
+  },
+  {
+   "fase": "L30c_tudo_em_dia",
+   "prancha": "030c_notificacoes_vazia",
+   "secoes": [
+    "top",
+    "illustration",
+    "empty",
+    "reminder"
+   ],
+   "titulo": "Notificações, tudo em dia — o topo (marcar como lido apagado), o desenho, o texto, Ajustar lembretes e o lembrete marcado",
+   "reusa": {
+    "base": "030_notificacoes",
+    "secoes": [
+     "headline"
+    ]
+   }
   }
  ]
 }

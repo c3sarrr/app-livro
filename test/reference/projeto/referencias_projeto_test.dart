@@ -52,6 +52,7 @@ const _porEtapa = <String, List<String>>{
     '16',
     '36a',
   ],
+  'T17': ['05', '64', '65', '06', '58', '59', '56', '30', '30b', '30c'],
 };
 
 /// Os elementos de uma tela sem o prefixo ('sc03.sheet' → 'sheet').
@@ -147,12 +148,15 @@ void main() {
         d.entries.where((e) => marca(e, 'y', 'h')).map((e) => e.key).toSet(),
         reason: ref.slug,
       );
-      // cada fio de navalha = um risco do JSON, campo a campo e na ordem
+      // cada fio de navalha = um risco do JSON, campo a campo e na ordem (D-280: sobra null = a linha não quebra ao
+      // crescer, double.infinity no Dart)
       final k = kni[ref.slug] as Map<String, dynamic>;
       final riscos = [
         for (final e in k.entries)
           for (final r in (e.value as Map<String, dynamic>)['riscos'] as List)
-            '${e.key}|${r['linha']}|${r['texto']}|${r['sobra']}|${r['estouroComProxima']}',
+            '${e.key}|${r['linha']}|${r['texto']}|'
+                '${(r['sobra'] as num?)?.toDouble() ?? double.infinity}|'
+                '${(r['estouroComProxima'] as num?)?.toDouble()}',
       ];
       expect(
         ref.knifeEdges
@@ -313,7 +317,8 @@ void main() {
       'd17b.meta',
     ]);
     expect(facas.first.line, 1);
-    expect(facas.first.slack, closeTo(0.252, 1e-9));
+    // D-280: o limiar de quebra medido no navegador (0,252 pela diferença das larguras na G01)
+    expect(facas.first.slack, closeTo(0.253, 1e-9));
     expect(facas.first.joinOverflow, isNull);
     expect(facas.last.line, 1);
     expect(facas.last.joinOverflow, closeTo(0.467, 1e-9));
@@ -423,6 +428,14 @@ void main() {
           'confetti.dashGreen',
           'confetti.dashLavender',
         ],
+      },
+      // T17: as duas listas da 30 (o título com o traço e a lista) e o texto de "tudo em dia" da 30c, soltos no <main>
+      '30': {
+        'today': ['today.label', 'today.list'],
+        'week': ['week.label', 'week.list'],
+      },
+      '30c': {
+        'empty': ['empty.title', 'empty.body', 'empty.cta'],
       },
     };
     for (final tela in telas) {
@@ -688,13 +701,15 @@ void main() {
       'sc40.sheet.lead.body:2',
       'sc42.sheet.goal.text:2',
       'bu28.mood.chips:2',
+      'bu28c.tips.tip3:1',
     ]);
-    const sobras = [1.201, 0.286, 1.023, 0.978, 104.244];
+    const sobras = [1.201, 0.286, 1.023, 0.978, 104.244, 42.57];
     for (var i = 0; i < facas.length; i++) {
       expect(facas[i].slack, closeTo(sobras[i], 1e-9), reason: facas[i].id);
     }
     expect(facas[3].joinOverflow, isNull);
-    expect(facas.last.joinOverflow, closeTo(0.397, 1e-9));
+    expect(facas[4].joinOverflow, closeTo(0.397, 1e-9));
+    expect(facas[5].joinOverflow, closeTo(0.453, 1e-9));
     for (final t in ['69', '69b']) {
       expect(kRefProjeto[t]!.knifeEdges, isEmpty, reason: t);
     }
@@ -706,7 +721,9 @@ void main() {
     final linha = (quadrinhos['linhas'] as List).single as Map;
     expect(linha['texto'], 'Quadrinhos');
     expect(linha['disponivel'], 92);
-    expect(linha['sobra'], closeTo(-3.103, 1e-9));
+    // D-280: uma palavra só não quebra ao crescer (sobra null); passa da caixa por largura − disponível
+    expect(linha['sobra'], isNull);
+    expect(linha['largura'] - linha['disponivel'], closeTo(3.103, 1e-9));
     final label = kRefProjeto['28']!.elements['bu28.genres.tile8.label']!;
     expect(label.rect.width, 92);
     expect(_texts(label.lines), ['Quadrinhos']);
@@ -987,5 +1004,332 @@ void main() {
       }
       expect(b[k]!.rect, a[k]!.rect, reason: k);
     }
+  });
+
+  // Os fios de navalha da T17 (medidos no navegador, D-280): três de sobra (a linha cabe com menos de 1,5 px de
+  // folga) — o "da Estrela" da capinha de 21 px da troca de livro (2ª linha, depois da quebra imposta do <br>, 0,64) e
+  // duas descrições da Privacidade (0,42 e 0,50). As outras oito telas não têm nenhum, nem fileira de flex-wrap
+  // (D-278). A estimativa da G01 marcava mais dois no Perfil, que não existem (ver o teste da D-280).
+  test('fios de navalha da T17', () {
+    final facas = [
+      for (final t in _porEtapa['T17']!) ...kRefProjeto[t]!.knifeEdges,
+    ];
+    expect(
+      facas
+          .map(
+            (k) => '${k.id}:${k.line}:${k.text}:${k.slack}:${k.joinOverflow}',
+          )
+          .toList(),
+      [
+        'p65.sheet.options.option2.thumb.cover.title:2:da Estrela:0.638:null',
+        'aj56.visibility.list.highlights.body:1:Padrão: só você. Dá para abrir:'
+            '0.424:29.255',
+        'aj56.people.list.findByEmail.body:1:Quem tem seu e-mail encontra você:'
+            '0.503:16.01',
+      ],
+    );
+    for (final t in ['05', '64', '06', '58', '59', '30', '30b', '30c']) {
+      expect(kRefProjeto[t]!.knifeEdges, isEmpty, reason: t);
+    }
+
+    final kni = _json('$_layout/knife_edges.json');
+    Map<String, dynamic> entrada(String slug, String id) =>
+        (kni[slug] as Map<String, dynamic>)[id] as Map<String, dynamic>;
+    final capa = entrada(
+      '065_editar_perfil_trocar',
+      'p65.sheet.options.option2.thumb.cover.title',
+    );
+    expect(capa['quebrasImpostas'], [1]);
+    expect((capa['linhas'] as List).first['texto'], 'A Hora');
+    expect((capa['linhas'] as List).first['disponivel'], 21);
+    for (final slug in [
+      for (final t in _porEtapa['T17']!) kRefProjeto[t]!.slug,
+    ]) {
+      final porTela = (kni[slug] as Map<String, dynamic>?) ?? {};
+      expect(
+        porTela.values.where((v) => (v as Map)['fileiras'] == true),
+        isEmpty,
+        reason: slug,
+      );
+    }
+  });
+
+  // D-280: o fio de navalha medido no navegador. Os casos em que a estimativa da G01 errava, amarrados às caixas
+  // medidas: (a) a 3ª dica da 28c é um <li> flex com a seta como outro item — a linha vai da seta (33,5) ao fim do "de"
+  // (313,93): 280,43 dos 323 do <li>, e o "barras" passaria 0,45; (b) a meta da 42 tem um <strong> em 700 no texto em
+  // 600 — a linha 1 tem 258,75 dos 260,4 da caixa (sobra 1,65, fora do limite; a estimativa dava 3,44); (c) a linha
+  // de números do Perfil dá a largura da própria caixa (o <span> cresce com ela) e "Mrs.<br>Dalloway" tem a quebra
+  // imposta: nenhum dos dois é fio. Em toda entrada de texto, disponível = largura + sobra.
+  test('D-280: o fio de navalha medido no navegador', () {
+    final kni = _json('$_layout/knife_edges.json');
+    Map<String, dynamic> entrada(String slug, String id) =>
+        (kni[slug] as Map<String, dynamic>)[id] as Map<String, dynamic>;
+
+    final dica = kRefProjeto['28c']!.elements['bu28c.tips.tip3']!;
+    final seta = kRefProjeto['28c']!.elements['bu28c.tips.tip3.arrow']!;
+    final l1 =
+        (entrada('028c_busca_nada_encontrado', 'bu28c.tips.tip3')['linhas']
+                    as List)
+                .first
+            as Map;
+    expect(
+      l1['largura'],
+      closeTo(dica.lines.first.right - seta.rect.left, 0.006),
+    );
+    expect(l1['disponivel'], closeTo(dica.rect.width, 0.006));
+    expect(l1['estouroComProxima'], closeTo(0.453, 1e-9));
+
+    final meta = kRefProjeto['42']!.elements['sc42.sheet.goal.text']!;
+    final m = entrada('042_scanner_na_estante', 'sc42.sheet.goal.text');
+    expect(m['composto'], isTrue);
+    final m1 = (m['linhas'] as List).first as Map;
+    expect(
+      m1['largura'],
+      closeTo(meta.linesAll.first.right - meta.rect.left, 0.006),
+    );
+    expect(m1['sobra'], closeTo(meta.rect.width - m1['largura'], 0.006));
+    expect(m1['sobra'], greaterThan(1.5));
+    expect((m['riscos'] as List).map((r) => (r as Map)['linha']).toList(), [2]);
+
+    final perfil = (kni['005_perfil'] as Map<String, dynamic>?) ?? {};
+    expect(perfil, isEmpty);
+    final stats = kRefProjeto['05']!.elements['p05.hero.stats.text']!;
+    final linha1 = stats.linesAll.first;
+    expect(linha1.right - linha1.left, closeTo(stats.rect.width, 0.006));
+    expect(
+      _texts(
+        kRefProjeto['05']!
+            .elements['p05.reading.grid.book2.cover.title']!
+            .lines,
+      ),
+      ['Mrs.', 'Dalloway'],
+    );
+
+    for (final s in kni.entries) {
+      for (final e in (s.value as Map<String, dynamic>).entries) {
+        final v = e.value as Map<String, dynamic>;
+        if (v['fileiras'] == true) continue;
+        for (final l in (v['linhas'] as List).cast<Map>()) {
+          if (l['sobra'] == null) continue;
+          expect(
+            l['disponivel'],
+            closeTo(l['largura'] + l['sobra'], 0.0015),
+            reason: '${e.key}:${l['linha']}',
+          );
+        }
+      }
+    }
+  });
+
+  // R4 (telas irmãs) — as Notificações: a 30c tem o topo e o título da 30 no mesmo lugar ("marcar tudo como lido" só
+  // fica apagado: opacidade 0,35, que a referência não guarda); os Lembretes e avisos (30b) têm só o voltar.
+  test('Notificações: o topo e o título da 30 na 30c e o voltar na 30b', () {
+    final a = _de('30'), c = _de('30c'), b = _de('30b');
+    final topo = a.keys.where((k) => _em(k, ['top'])).toList();
+    expect(topo.length, 8);
+    for (final k in [...topo, 'headline', 'headline.serif']) {
+      expect(c[k]!.rect, a[k]!.rect, reason: k);
+    }
+    expect(_texts(c['headline.serif']!.lines), ['por aqui.']);
+    expect(b.keys.where((k) => _em(k, ['top'])).toList(), [
+      'top',
+      'top.back',
+      'top.back.icon',
+    ]);
+    for (final k in ['top', 'top.back', 'top.back.icon']) {
+      expect(b[k]!.rect, a[k]!.rect, reason: k);
+    }
+  });
+
+  // A Conta, a Excluir conta e a Privacidade têm o mesmo voltar (num <header>); o da 06 (num <div> dentro do <main>)
+  // fica no mesmo lugar. Nas Notificações o voltar fica 4 mais à esquerda e 4 mais acima (16, 54).
+  test('Ajustes: o voltar da 58, 59 e 56', () {
+    final a = _de('58');
+    for (final t in ['59', '56']) {
+      for (final k in ['top', 'top.back', 'top.back.icon']) {
+        expect(_de(t)[k]!.rect, a[k]!.rect, reason: '$t $k');
+      }
+    }
+    expect(_de('06')['top.back']!.rect, a['top.back']!.rect);
+    expect(
+      _de('30')['top.back']!.rect,
+      a['top.back']!.rect.shift(const Offset(-4, -4)),
+    );
+  });
+
+  // 06 × 05: a navegação e o degradê com a aba Perfil marcada são os mesmos, presos ao fundo (2400 × 2510: −110).
+  test('06 × 05: a mesma navegação, presa ao fundo', () {
+    final a = _de('05'), b = _de('06');
+    final ks = a.keys.where((k) => _em(k, ['nav', 'bottomFade'])).toList();
+    expect(ks.length, 18);
+    for (final k in ks) {
+      expect(b[k]!.rect, a[k]!.rect.shift(const Offset(0, -110)), reason: k);
+      expect(_texts(b[k]!.lines), _texts(a[k]!.lines), reason: k);
+    }
+  });
+
+  // 65 × 64: a troca de um dos 4 livros abre por cima da edição — o topo e a prévia ao vivo ficam iguais; o
+  // escurecido cobre o quadro inteiro e a folha começa 150 abaixo do topo.
+  test('65 × 64: o topo e a prévia iguais embaixo da folha', () {
+    final a = _de('64'), b = _de('65');
+    final ks = a.keys.where((k) => _em(k, ['top', 'preview'])).toList();
+    expect(ks.length, 19);
+    for (final k in ks) {
+      expect(b[k]!.rect, a[k]!.rect, reason: k);
+      expect(_texts(b[k]!.lines), _texts(a[k]!.lines), reason: k);
+    }
+    expect(b['scrim']!.rect, const Rect.fromLTWH(0, 0, 390, 844));
+    expect(b['sheet']!.rect.top, 150);
+    expect(b['sheet']!.rect.left, 10);
+    expect(b['sheet']!.rect.right, 380);
+  });
+
+  // As chaves liga/desliga têm dois desenhos no projeto: nos Lembretes (30b) e nos Ajustes (06), 54 × 32 com a
+  // bolinha de 24 (ligada à direita, com o visto); na Conta (58) e na Privacidade (56), 52 × 32 com a bolinha de 23
+  // (ligada à direita, sem visto: o trilho fica preto e a bolinha na cor da marca) — armadilha para a T17.
+  test('as chaves: dois desenhos', () {
+    const chaves = <String, Map<String, bool>>{
+      '30b': {
+        'reading.head': true,
+        'reading.smart': true,
+        'topics.club': true,
+        'topics.polls': true,
+        'topics.achievements': true,
+        'topics.streak': false,
+        'topics.social': false,
+        'quiet.head': true,
+      },
+      '06': {
+        'reading.screenOn': true,
+        'goals.reminder': true,
+        'goals.streak': true,
+      },
+      '58': {'sync.list.offline': true},
+      '56': {'people.list.findByEmail': false},
+    };
+    for (final t in chaves.keys) {
+      final m = _de(t);
+      final todas = m.keys.where((k) => k.endsWith('.switch')).toSet();
+      expect(todas, {for (final k in chaves[t]!.keys) '$k.switch'}, reason: t);
+      final grande = t == '30b' || t == '06';
+      for (final e in chaves[t]!.entries) {
+        final sw = m['${e.key}.switch']!.rect;
+        final th = m['${e.key}.switch.thumb']!.rect;
+        final r = '$t ${e.key}';
+        expect(sw.width, closeTo(grande ? 54 : 52, 1e-6), reason: r);
+        expect(sw.height, closeTo(32, 1e-6), reason: r);
+        expect(th.width, closeTo(grande ? 24 : 23, 1e-6), reason: r);
+        expect(th.height, closeTo(grande ? 24 : 23, 1e-6), reason: r);
+        final dx = e.value ? (grande ? 26.0 : 24.5) : (grande ? 4.0 : 4.5);
+        expect(th.left - sw.left, closeTo(dx, 1e-9), reason: r);
+        expect(th.top - sw.top, closeTo(grande ? 4 : 4.5, 1e-9), reason: r);
+        expect(
+          m.containsKey('${e.key}.switch.thumb.icon'),
+          grande && e.value,
+          reason: r,
+        );
+      }
+    }
+  });
+
+  // Os avisos da 30: os dois de hoje que pedem ação vêm em cartão (borda de 1,5 e margem de 10 acima), os outros em
+  // lista; o ícone é sempre 44 × 44 e o texto começa 12 depois dele. A margem do cartão atravessa o <li> (colapsa):
+  // o cartão começa junto com o item, os 10 ficam entre um item e outro, e no 1º se juntam aos 10 de baixo do
+  // rótulo "Hoje" (10, não 20).
+  test('30: os avisos em cartão e em lista', () {
+    final m = _de('30');
+    final itens = [
+      for (var i = 1; i <= 4; i++) 'today.list.item$i',
+      for (var i = 1; i <= 3; i++) 'week.list.item$i',
+    ];
+    for (final it in itens) {
+      final card = m['$it.card']!.rect, icon = m['$it.icon']!.rect;
+      final cartao = it == 'today.list.item1' || it == 'today.list.item2';
+      expect(icon.size, const Size(44, 44), reason: it);
+      expect(icon.left - card.left, cartao ? 13.5 : 12, reason: it);
+      expect(icon.top - card.top, cartao ? 13.5 : 12, reason: it);
+      expect(m['$it.textBlock']!.rect.left, icon.right + 12, reason: it);
+      expect(card.top, m[it]!.rect.top, reason: it);
+    }
+    for (var i = 1; i < itens.length; i++) {
+      if (itens[i].startsWith('week') != itens[i - 1].startsWith('week')) {
+        continue;
+      }
+      expect(
+        m[itens[i]]!.rect.top - m[itens[i - 1]]!.rect.bottom,
+        closeTo(itens[i] == 'today.list.item2' ? 10 : 0, 1e-6),
+        reason: itens[i],
+      );
+    }
+    for (final sec in ['today', 'week']) {
+      expect(
+        m['$sec.list']!.rect.top - m['$sec.label']!.rect.bottom,
+        closeTo(10, 1e-6),
+        reason: sec,
+      );
+      expect(m['$sec.list']!.rect.top, m['$sec.list.item1']!.rect.top);
+    }
+    expect(m.containsKey('today.list.item1.time.unread'), isTrue);
+    expect(m.containsKey('today.list.item2.time.unread'), isTrue);
+    expect(m.keys.where((k) => k.endsWith('.time.unread')).length, 2);
+  });
+
+  // 05 · a estante do ano: 24 lombadas e 6 vagas tracejadas, todas da mesma largura (flex 1 1 0: os 311 menos 4 + 4
+  // de recuo e 29 vãos de 2, divididos por 30 = 8,1667) e apoiadas na tábua; as alturas são as da prancha. O JSON
+  // guarda duas casas, então cada borda tem até 0,005 de arredondamento.
+  test('05: a estante de 2026', () {
+    final m = _de('05');
+    const alturas = [
+      44,
+      39,
+      47,
+      41,
+      45,
+      38,
+      46,
+      42,
+      40,
+      47,
+      43,
+      39,
+      45,
+      41,
+      46,
+      38,
+      44,
+      42,
+      47,
+      40,
+      43,
+      45,
+      39,
+      46,
+    ];
+    final livros = [
+      for (var i = 1; i <= 24; i++) m['year.shelf.books.book$i']!.rect,
+    ];
+    final vagas = [
+      for (var i = 1; i <= 6; i++) m['year.shelf.books.slot$i']!.rect,
+    ];
+    final todos = [...livros, ...vagas];
+    final fileira = m['year.shelf.books']!.rect;
+    final largura = (fileira.width - 8 - 29 * 2) / 30;
+    for (var i = 0; i < todos.length; i++) {
+      expect(todos[i].width, closeTo(largura, 0.0051), reason: '$i');
+      expect(
+        todos[i].left,
+        closeTo(fileira.left + 4 + i * (largura + 2), 0.0051),
+        reason: '$i',
+      );
+      expect(todos[i].bottom, closeTo(todos.first.bottom, 1e-6), reason: '$i');
+    }
+    expect([for (final r in livros) r.height], alturas);
+    expect(vagas.every((r) => r.height == 44), isTrue);
+    // as lombadas apoiadas no fundo da fileira (align-items: flex-end) e a tábua subindo 1,2 por cima delas
+    expect(todos.first.bottom, closeTo(fileira.bottom, 1e-6));
+    expect(
+      m['year.shelf.plank']!.rect.top,
+      closeTo(fileira.bottom - 1.2, 1e-6),
+    );
   });
 }

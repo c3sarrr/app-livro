@@ -15,6 +15,9 @@ const Z = 100;
 const LIMIAR = 1.5;
 // D-275: o fio de navalha de uma linha só (conjuntos.json → facaLinhaUnica; o projeto)
 const UNICA = !!require('./conjunto').C.facaLinhaUnica;
+// D-280: o fio de navalha de texto medido no navegador (conjuntos.json → facaNavegador; o projeto e a Início)
+const NAV = !!require('./conjunto').C.facaNavegador;
+const TETO = 4096; // até onde a sobra é procurada (px); além disso a linha não quebra ao crescer
 
 (async () => {
   const sel = pranchas(process.argv[2]);
@@ -32,12 +35,14 @@ const UNICA = !!require('./conjunto').C.facaLinhaUnica;
     const alvos = Object.entries(layout.elements)
       .filter(([, e]) => (e.lines && e.lines.length) || (e.linesAll && e.linesAll.length))
       .map(([k, e]) => ({ k, tpl: e.tpl, lines: (e.linesAll || e.lines).map(l => l.text), composto: !!e.linesAll }));
-    const facas = await page.evaluate(async ({ Z, alvos, LIMIAR, UNICA, ids, frameSel }) => {
+    let facas = await page.evaluate(async ({ Z, alvos, LIMIAR, UNICA, NAV, ids, frameSel }) => {
       const frame = document.querySelector(frameSel);
       frame.querySelectorAll('*').forEach(e => { if (e.style && e.style.transform) e.style.transform = 'none'; });
       await new Promise(r => setTimeout(r, 200));
       const res = {};
-      for (const a of alvos) {
+      // D-280: com facaNavegador o fio de navalha de texto é medido no navegador (facasNavegador, abaixo); aqui só a
+      // estimativa da G01 (o leitor) e as fileiras da D-278
+      for (const a of NAV ? [] : alvos) {
         const el = frame.querySelector(`[data-dc-tpl="${a.tpl}"]`) || (frame.getAttribute('data-dc-tpl') == a.tpl ? frame : null);
         if (!el) continue;
         const cs = getComputedStyle(el);
@@ -150,8 +155,16 @@ const UNICA = !!require('./conjunto').C.facaLinhaUnica;
         }
       }
       return res;
-    }, { Z, alvos, LIMIAR, UNICA, ids, frameSel: CFG.frame });
+    }, { Z, alvos, LIMIAR, UNICA, NAV, ids, frameSel: CFG.frame });
     await page.close();
+    if (NAV) {
+      ({ page } = await abrir(browser, p, { zoom: Z, viewportH: 1000 }));
+      const nav = await facasNavegador(page, { Z, alvos, LIMIAR, UNICA, TETO, frameSel: CFG.frame });
+      await page.close();
+      // a ordem de antes: os fios de texto (na ordem dos alvos) e depois as fileiras
+      for (const k of Object.keys(nav)) if (facas[k]) throw new Error(`${k}: fio de navalha de texto e de fileira no mesmo id`);
+      facas = { ...nav, ...facas };
+    }
     // ── dependência de texto ──
     ({ page } = await abrir(browser, p, { zoom: Z, viewportH: 1000 }));
     const flags = await page.evaluate(async ({ Z, ids, frameSel }) => {
@@ -179,3 +192,161 @@ const UNICA = !!require('./conjunto').C.facaLinhaUnica;
   fs.writeFileSync(depF, JSON.stringify(ord(dep), null, 1) + '\n');
   fs.writeFileSync(kniF, JSON.stringify(ord(kni), null, 1) + '\n');
 })();
+
+// D-280 — o fio de navalha de texto medido no navegador (conjuntos com facaNavegador: o projeto e a Início). A G01
+// estimava cada linha como texto simples na fonte da caixa contra a largura da caixa, e errava com trecho em outro
+// peso na linha, texto ao lado de outro item numa caixa flex, <br> cuja junção não caberia, próxima palavra dentro de
+// trecho nowrap e text-wrap: pretty/balance. Aqui, para cada linha, +δ ou −δ (px) num <span> em volta do último espaço
+// entre palavras da linha (ou do último caractere, se ela tem uma palavra só) alarga ou estreita só aquela linha, e o
+// navegador quebra de novo: a sobra é o menor δ que muda as quebras do texto; o estouro, o menor encolhimento que faz a
+// próxima palavra subir. O δ vai como margem à direita do <span> (encolhe sem limite); no texto com text-wrap: pretty ou
+// balance vai como word-spacing (letter-spacing no caractere), porque com margem diferente de zero o Chromium deixa de
+// aplicar o pretty e quebra do jeito simples — e aí o estouro maior do que os espaços da linha conseguem encolher (uns
+// 3–4 px) fica null sem virar quebra imposta. Trava: com δ = 0 as quebras têm de ser as da prancha. Sem mudança até o teto: a linha não quebra ao crescer (sobra null; ex.:
+// uma palavra só, ou caixa do tamanho do texto com espaço de sobra — a D-276) ou a quebra é imposta (estouro null:
+// <br>, nowrap). A largura da linha é a real (caracteres visíveis, cada um na sua fonte); disponível = largura + sobra.
+async function facasNavegador(page, { Z, alvos, LIMIAR, UNICA, TETO, frameSel }) {
+  return page.evaluate(async ({ Z, alvos, LIMIAR, UNICA, TETO, frameSel }) => {
+    const frame = document.querySelector(frameSel);
+    frame.querySelectorAll('*').forEach(e => { if (e.style && e.style.transform) e.style.transform = 'none'; });
+    await new Promise(r => setTimeout(r, 200));
+    // o texto solto dentro de uma caixa flex/grid é um item anônimo, e o <span> do teste viraria outro item: cada trecho
+    // contíguo de texto filho direto vai num <span> (o mesmo item, agora com elemento) — nenhuma caixa pode se mover
+    const caixas = () => [...frame.querySelectorAll('[data-dc-tpl]')].map(e => { const r = e.getBoundingClientRect();
+      return [r.x, r.y, r.width, r.height].map(v => v.toFixed(3)).join(','); }).join(';');
+    const antes = caixas();
+    for (const c of [frame, ...frame.querySelectorAll('*')]) {
+      if (!/flex|grid/.test(getComputedStyle(c).display)) continue;
+      let run = [];
+      const fecha = () => {
+        if (run.some(n => n.textContent.trim())) { const sp = document.createElement('span'); run[0].before(sp); run.forEach(n => sp.appendChild(n)); }
+        run = [];
+      };
+      for (const n of [...c.childNodes]) { if (n.nodeType === 3) run.push(n); else fecha(); }
+      fecha();
+    }
+    await new Promise(r => setTimeout(r, 50));
+    if (caixas() !== antes) throw new Error('D-280: embrulhar o texto solto de flex/grid moveu caixas');
+    const fora = (n, el) => {
+      for (let anc = n.parentElement; anc && anc !== el; anc = anc.parentElement) {
+        const q = getComputedStyle(anc);
+        if (q.position === 'absolute' || q.position === 'fixed' || anc.tagName.toLowerCase() === 'svg') return true;
+      }
+      return false;
+    };
+    // os caracteres desenhados, em ordem, agrupados em linhas (nova linha quando o caractere volta para a esquerda e desce)
+    const linhasDe = (el) => {
+      const chars = [];
+      const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let n = tw.nextNode(); n; n = tw.nextNode()) {
+        if (fora(n, el)) continue;
+        const t = n.textContent;
+        for (let i = 0; i < t.length; i++) {
+          const rg = document.createRange(); rg.setStart(n, i); rg.setEnd(n, i + 1);
+          const rc = [...rg.getClientRects()].find(x => x.width > 0 || x.height > 0);
+          if (rc) chars.push({ c: t[i], n, o: i, l: rc.left / Z, r: rc.right / Z, top: rc.top / Z });
+        }
+      }
+      const linhas = [];
+      let cur = null;
+      for (const ch of chars) {
+        if (!cur || (ch.l < cur.ult.r - 1 && ch.top > cur.ult.top + 1)) { cur = { cs: [] }; linhas.push(cur); }
+        cur.cs.push(ch); cur.ult = ch;
+      }
+      return linhas.map(l => l.cs).filter(cs => cs.some(x => x.c.trim()));
+    };
+    // as quebras: a altura de cada caractere desenhado em relação à caixa do texto (o espaçamento do teste só move os
+    // caracteres na horizontal; mudar de linha muda a altura). Reagrupar em linhas falharia com a linha encolhida a
+    // quase nada (o 1º caractere da linha de baixo começa onde ela termina).
+    const assinatura = (el) => {
+      const t0 = el.getBoundingClientRect().top;
+      const out = [];
+      const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let n = tw.nextNode(); n; n = tw.nextNode()) {
+        if (fora(n, el)) continue;
+        const t = n.textContent;
+        for (let i = 0; i < t.length; i++) {
+          if (!t[i].trim()) continue;
+          const rg = document.createRange(); rg.setStart(n, i); rg.setEnd(n, i + 1);
+          const rc = [...rg.getClientRects()].find(x => x.width > 0 || x.height > 0);
+          if (rc) out.push(((rc.top - t0) / Z).toFixed(2));
+        }
+      }
+      return out.join(',');
+    };
+    // +delta (px) num <span> em volta do caractere (n, o) — margem à direita ou, com espacamento, word-spacing (espaço)
+    // ou letter-spacing (outro caractere) somado ao do pai; devolve a assinatura das linhas e desfaz
+    const testa = (el, n, o, delta, espacamento) => {
+      const pai = n.parentNode;
+      const q = getComputedStyle(n.parentElement);
+      const prop = !espacamento ? 'marginRight' : n.textContent[o].trim() ? 'letterSpacing' : 'wordSpacing';
+      const v0 = !espacamento || q[prop] === 'normal' ? 0 : parseFloat(q[prop]);
+      const meio = o === 0 ? n : n.splitText(o); // o === 0: o próprio nó (vazio, o normalize() o tiraria do DOM)
+      meio.splitText(1);
+      const sp = document.createElement('span');
+      sp.style[prop] = (v0 + delta) + 'px';
+      meio.replaceWith(sp); sp.appendChild(meio);
+      const a = assinatura(el);
+      sp.replaceWith(meio); pai.normalize();
+      return a;
+    };
+    // o menor |δ| (sinal +1 alarga, −1 encolhe) que muda as quebras, até o teto; null = não muda
+    const limiar = (el, alvo, sinal, base, teto, esp) => {
+      let lo = 0, hi = Math.min(LIMIAR, teto);
+      if (testa(el, alvo.n, alvo.o, sinal * hi, esp) === base) {
+        if (hi >= teto) return null;
+        for (;;) {
+          lo = hi; hi = Math.min(hi * 2, teto);
+          if (testa(el, alvo.n, alvo.o, sinal * hi, esp) !== base) break;
+          if (hi >= teto) return null;
+        }
+      }
+      while (hi - lo > 0.0002) { const m = (lo + hi) / 2; if (testa(el, alvo.n, alvo.o, sinal * m, esp) === base) lo = m; else hi = m; }
+      return +((lo + hi) / 2).toFixed(3); // o meio do intervalo: erro de no máximo 0,0001
+    };
+    const px = v => parseFloat(v) || 0;
+    const res = {};
+    for (const a of alvos) {
+      const el = frame.querySelector(`[data-dc-tpl="${a.tpl}"]`) || (frame.getAttribute('data-dc-tpl') == a.tpl ? frame : null);
+      if (!el) continue;
+      const cs = getComputedStyle(el);
+      if (cs.whiteSpace === 'nowrap' || cs.whiteSpace === 'pre' || cs.display === 'inline') continue; // inline: coberto pelo texto composto do pai
+      if (el.closest('svg')) continue; // texto de SVG não quebra linha
+      const linhas = linhasDe(el);
+      if (!linhas.length) continue;
+      if (linhas.length !== a.lines.length) throw new Error(`${a.k}: ${linhas.length} linha(s) no navegador × ${a.lines.length} no layout`);
+      const base = assinatura(el);
+      const r = el.getBoundingClientRect();
+      const contentW = r.width / Z - px(cs.paddingLeft) - px(cs.paddingRight) - px(cs.borderLeftWidth) - px(cs.borderRightWidth);
+      const indent = px(cs.textIndent);
+      const med = linhas.map((l, i) => {
+        const vis = l.filter(x => x.c.trim());
+        const ini = l.indexOf(vis[0]), fim = l.indexOf(vis[vis.length - 1]);
+        const esp = l.slice(ini, fim).reverse().find(x => x.c === ' ' || x.c === String.fromCharCode(160));
+        return { alvo: esp || vis[vis.length - 1], largura: Math.max(...vis.map(x => x.r)) - Math.min(...vis.map(x => x.l)),
+          caixa: contentW - (i === 0 ? indent : 0) };
+      });
+      const esp = /pretty|balance/.test(cs.textWrapStyle || '');
+      med.forEach((m, i) => { if (testa(el, m.alvo.n, m.alvo.o, 0, esp) !== base) throw new Error(`${a.k}: com δ = 0 as quebras já mudam (linha ${i + 1})`); });
+      // 1º passo, só até o limiar: há risco (ou alguma linha estoura a caixa)?
+      const curta = med.map((m, i) => ({ sobra: limiar(el, m.alvo, +1, base, LIMIAR, esp),
+        estouro: i + 1 < med.length ? limiar(el, m.alvo, -1, base, LIMIAR, esp) : null }));
+      const risco = x => (x.sobra !== null && (med.length > 1 || UNICA)) || x.estouro !== null;
+      const estoura = med.some(m => m.largura > m.caixa + 0.01);
+      if (!curta.some(risco) && !estoura) continue;
+      // 2º passo: os valores exatos de todas as linhas (a sobra até o teto; o estouro até a largura da própria linha)
+      const info = med.map((m, i) => {
+        const sobra = curta[i].sobra !== null ? curta[i].sobra : limiar(el, m.alvo, +1, base, TETO, esp);
+        const estouro = i + 1 >= med.length ? null : curta[i].estouro !== null ? curta[i].estouro : limiar(el, m.alvo, -1, base, m.largura, esp);
+        return { linha: i + 1, texto: a.lines[i], largura: +m.largura.toFixed(3),
+          disponivel: +(sobra !== null ? m.largura + sobra : m.caixa).toFixed(3), sobra, estouroComProxima: estouro };
+      });
+      const riscos = info.filter((x, i) => risco(curta[i]));
+      // quebra imposta: a próxima palavra não sobe nem com a linha encolhida a nada (no pretty/balance não dá para saber)
+      const impostas = esp ? [] : info.filter(x => x.linha < info.length && x.estouroComProxima === null).map(x => x.linha);
+      res[a.k] = { composto: a.composto, quebraPadrao: cs.textWrapStyle || 'auto', ...(info.length === 1 ? { linhaUnica: true } : {}),
+        riscos, quebrasImpostas: impostas, linhas: info };
+    }
+    return res;
+  }, { Z, alvos, LIMIAR, UNICA, TETO, frameSel });
+}

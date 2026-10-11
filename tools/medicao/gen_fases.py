@@ -202,10 +202,12 @@ def main():
             if any(k == s or k.startswith(s + '.') for s in secoes):
                 for r in info['riscos']:
                     est = fmt(r['estouroComProxima']) if r['estouroComProxima'] is not None else '—'
+                    # D-280: sobra null = a linha não quebra ao crescer
+                    sob = f"{fmt(r['sobra'])} px" if r['sobra'] is not None else 'sem limite (não quebra ao crescer)'
                     if info.get('fileiras'):  # D-278: a fileira de um flex-wrap (projeto)
                         arm.append(f"Fio de navalha na fileira {r['linha']} de `{k}` (flex-wrap) «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com o 1º item da fileira seguinte {est} px — no Flutter (`Wrap`), as fileiras mudam com uma diferença mínima de largura.")
                     else:
-                        arm.append(f"Fio de navalha em `{k}` linha {r['linha']} «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com a próxima palavra {est} px.")
+                        arm.append(f"Fio de navalha em `{k}` linha {r['linha']} «{r['texto']}»: sobra {sob} · estouro com a próxima palavra {est} px.")
         for k in ids_fase:
             e = L['elements'][k]
             if e.get('fallback'):

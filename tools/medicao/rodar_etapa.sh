@@ -26,6 +26,15 @@ for p in json.load(open('$INDICE', encoding='utf-8'))['pranchas']:
     if p.get('convergenciaFaixa') and (p['tela'] in telas or p['slug'] in telas):
         print(p['tela'], p['convergenciaFaixa']['zoom'])" |
   while read -r TELA ZOOM; do node tools/medicao/supershot.js "$TELA" "$ZOOM"; done
+# D-279: a prancha com zoomBase/zoomConvergencia fora de 10/20 (a 30b: 20 e 40) ganha o supershot nesses zooms
+python3 -c "
+import json
+telas = '$TELAS'.split(',')
+for p in json.load(open('$INDICE', encoding='utf-8'))['pranchas']:
+    if p['tela'] in telas or p['slug'] in telas:
+        for z in sorted({p.get('zoomBase', 10), p.get('zoomConvergencia', 20)} - {10, 20}):
+            print(p['tela'], z)" |
+  while read -r TELA ZOOM; do node tools/medicao/supershot.js "$TELA" "$ZOOM"; done
 python3 tools/medicao/reduzir.py "$TELAS"
 python3 tools/medicao/recortar.py
 node tools/medicao/perturbar.js "$TELAS"

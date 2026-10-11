@@ -1,5 +1,5 @@
 {
- "_doc": "T02 — os conjuntos de pranchas medidos e onde fica cada saída. O script escolhe pela variável CONJUNTO (padrão: leitor, os caminhos da G01). inicio2 segue a D-242: medições em docs/design/medicao/inicio2/, fases em docs/design/fases/, referências Dart em test/reference/inicio2/, extração e temporários fora do git. leitor_conferencia = as entradas do leitor com todas as saídas em tools/medicao/tmp/conferencia_g01/ (refazer a G01 e comparar com o que está commitado, sem tocar no handoff_v2).",
+ "_doc": "T02 — os conjuntos de pranchas medidos e onde fica cada saída. O script escolhe pela variável CONJUNTO (padrão: leitor, os caminhos da G01). inicio2 segue a D-242: medições em docs/design/medicao/inicio2/, fases em docs/design/fases/, referências Dart em test/reference/inicio2/, extração e temporários fora do git. leitor_conferencia = as entradas do leitor com todas as saídas em tools/medicao/tmp/conferencia_g01/ (refazer a G01 e comparar com o que está commitado, sem tocar no handoff_v2). facaNavegador (D-280): o fio de navalha de texto medido no navegador (o projeto e a Início; o leitor segue com a estimativa da G01, porque o handoff_v2 é só leitura).",
  "leitor": {
   "indice": "tools/medicao/pranchas.json",
   "extracao": "tools/medicao/pranchas",
@@ -97,6 +97,7 @@
    "referencias_inicio2.dart",
    "kRefInicio2"
   ],
+  "facaNavegador": true,
   "fasesTrilha": "trilha T do PLANO_FIDELIDADE_TELAS.md",
   "fasesLeiaMe": [
    "LEIA-ME_inicio2.md",
@@ -126,6 +127,7 @@
    "referencias_inicio2_larguras.dart",
    "kRefInicio2Larguras"
   ],
+  "facaNavegador": true,
   "hashes": [
    "docs/design/medicao/inicio2_larguras",
    "test/reference/inicio2_larguras"
@@ -151,7 +153,8 @@
   ],
   "fasesTrilha": "etapas 7–11 do docs/ROTEIRO.md",
   "validacaoTrechos": true,
-  "facaLinhaUnica": true
+  "facaLinhaUnica": true,
+  "facaNavegador": true
  },
  "projeto_conferencia_inicio2": {
   "_doc": "T13 (R3) — a prova da ferramenta: as telas do conjunto inicio2 extraídas do projeto (.dc.html) por extrair_dc.py e medidas com os ids e as fases de antes; tudo em tools/medicao/tmp/conferencia_projeto/inicio2/, para comparar com o commitado (tools/medicao/comparar_conferencia.py).",
@@ -171,6 +174,7 @@
    "referencias_inicio2.dart",
    "kRefInicio2"
   ],
+  "facaNavegador": true,
   "compararCom": {
    "layout": "docs/design/medicao/inicio2/layout",
    "png": "docs/design/medicao/inicio2/png",

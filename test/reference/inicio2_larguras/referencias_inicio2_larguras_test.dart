@@ -79,4 +79,39 @@ void main() {
       );
     });
   }
+
+  // D-280 (T13.7): os fios de navalha, medidos no navegador, batem com o JSON. A frase da meta tem text-wrap: pretty
+  // (o navegador escolhe as quebras olhando o parágrafo) e a 360 px fica quase num empate: estreitar a 1ª linha
+  // 0,08 px (ou a 2ª 0,33) já leva o "para" para a 1ª linha, e alargar a 2ª 0,08 px muda a escolha. A estimativa da
+  // G01 (cada linha contra a largura da caixa, com 57 e 23 px de folga) não via nada. A 430 px, nenhum fio.
+  test('D-280: os fios de navalha das duas larguras', () {
+    final kni = _json('$_layout/knife_edges.json');
+    for (final ref in kRefInicio2Larguras.values) {
+      final facas = [
+        for (final e in (kni[ref.slug] as Map<String, dynamic>).entries)
+          for (final r in ((e.value as Map)['riscos'] as List).cast<Map>())
+            '${e.key}|${r['linha']}|${r['texto']}|'
+                '${(r['sobra'] as num?)?.toDouble() ?? double.infinity}|'
+                '${(r['estouroComProxima'] as num?)?.toDouble()}',
+      ];
+      expect(
+        ref.knifeEdges
+            .map(
+              (k) => '${k.id}|${k.line}|${k.text}|${k.slack}|${k.joinOverflow}',
+            )
+            .toList(),
+        facas,
+        reason: ref.slug,
+      );
+    }
+    expect(kRefInicio2Larguras['01w430']!.knifeEdges, isEmpty);
+    final meta =
+        (kni['001_inicio_w360'] as Map)['i01.today.goalText.sentence'] as Map;
+    expect(meta['quebraPadrao'], 'pretty');
+    expect((meta['linhas'] as List).map((l) => (l as Map)['texto']).toList(), [
+      'Faltam 12 min',
+      'para fechar a meta',
+      'de hoje.',
+    ]);
+  });
 }

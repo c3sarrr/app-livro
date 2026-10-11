@@ -1,0 +1,40 @@
+{
+ "prancha": "030c_notificacoes_vazia",
+ "prefixo": "n30c",
+ "secoes": [
+  "n30c.top",
+  "n30c.headline",
+  "n30c.illustration",
+  "n30c.empty",
+  "n30c.reminder"
+ ],
+ "especiais": [
+  "n30c.frame",
+  "n30c.main"
+ ],
+ "ids": {
+  "4": "n30c.frame",
+  "5": "n30c.top",
+  "6": "n30c.top.back",
+  "7": "n30c.top.back.icon",
+  "10": "n30c.top.actions",
+  "11": "n30c.top.markRead",
+  "12": "n30c.top.markRead.icon",
+  "15": "n30c.top.settings",
+  "16": "n30c.top.settings.icon",
+  "19": "n30c.main",
+  "20": "n30c.headline",
+  "22": "n30c.headline.serif",
+  "23": "n30c.illustration",
+  "39": "n30c.empty.title",
+  "40": "n30c.empty.title.dot",
+  "41": "n30c.empty.body",
+  "42": "n30c.empty.cta",
+  "43": "n30c.empty.cta.icon",
+  "46": "n30c.reminder",
+  "47": "n30c.reminder.icon",
+  "48": "n30c.reminder.icon.art",
+  "52": "n30c.reminder.text",
+  "53": "n30c.reminder.text.time"
+ }
+}

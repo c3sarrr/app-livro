@@ -185,7 +185,9 @@ def prancha(p, dep, kni):
     for k, info in kni.get(p['slug'], {}).items():
         for r in info['riscos']:
             jo = 'null' if r['estouroComProxima'] is None else num(r['estouroComProxima'])
-            out.append(f"    LeitorKnifeEdge({dstr(k)}, {r['linha']}, {dstr(r['texto'])}, {num(r['sobra'])}, {jo}),")
+            # D-280: sobra null = a linha não quebra ao crescer (uma palavra só; caixa do tamanho do texto com espaço)
+            sl = 'double.infinity' if r['sobra'] is None else num(r['sobra'])
+            out.append(f"    LeitorKnifeEdge({dstr(k)}, {r['linha']}, {dstr(r['texto'])}, {sl}, {jo}),")
     out += ['  ],', ');']
     # R8 (T13): o texto que o app não desenha (o teclado do sistema, o botão da Apple) foi medido como o Chromium o
     # desenha, mas é só informativo; o motivo vem do índice (reserva), copiado no layout pelo build_layout.py.

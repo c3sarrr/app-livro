@@ -12206,5 +12206,7519 @@
    "w": false,
    "h": false
   }
+ },
+ "005_perfil": {
+  "p05.achievements": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge1.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge1.medal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge1.medal.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge1.medal.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge1.medal.center.number": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge1.medal.center.unit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge2.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge2.medal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge2.medal.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge2.medal.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge2.medal.center.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge3.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge3.medal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge3.medal.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge3.medal.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge3.medal.center.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge4.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge4.medal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge4.medal.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge4.medal.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.grid.badge4.medal.center.number": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.grid.badge4.medal.center.unit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.header.all": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.header.all.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.header.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.header.titleGroup": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.next": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.next.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.next.bar.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.next.bar.fill.edge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.next.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.achievements.next.remaining": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.next.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.achievements.next.title.goal": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.actions.edit": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.actions.edit.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.actions.share": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.actions.share.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.activity": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item1.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item1.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item1.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item1.text.book": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.activity.item1.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item1.time": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2.quote": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2.quote.highlight": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "p05.activity.item2.text": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2.text.book": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "p05.activity.item2.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item2.time": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item3.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.rating": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.rating.star1": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.rating.star2": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.rating.star3": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.rating.star4": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.rating.star5": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.review": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item3.text": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.item3.text.book": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "p05.activity.item3.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "p05.activity.item3.time": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "p05.activity.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.bottomFade": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.code": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.code.bars": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.code.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.divider": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.goals": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.goals.daily": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.goals.yearly": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.card.header.number": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.card.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.card.stamp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.header.edit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.favorites.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.favorites.header.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.favorites.shelf": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1.lines": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1.lines.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1.lines.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1.lines.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book1.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book2.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book2.door": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book2.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book2.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book3.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book3.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book3.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book4.oval": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book4.seam": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book4.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.books.book4.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.favorites.shelf.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.avatar.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.avatar.streak": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.hero.avatar.streak.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.bio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.edition": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.name.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.hero.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.spineLine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.stats": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.stats.arrow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.stats.arrow.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.hero.stats.books": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.hero.stats.clubs": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.hero.stats.followers": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.hero.stats.following": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.hero.stats.text": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "p05.nav": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.clubs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.clubs.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.nav.home": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.home.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.home.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.nav.library": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.library.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.library.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.nav.profile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.profile.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.profile.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.nav.scanner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.scanner.fab": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.scanner.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.nav.scanner.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.caption": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.cover.bookmark": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.cover.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book1.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.caption": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.cover.bookmark": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book2.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.caption": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover.bookmark": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover.dot": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.grid.book3.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.header.all": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.reading.header.all.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.reading.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.tabs.highlights": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs.highlights.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs.lists": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs.lists.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs.reviews": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs.reviews.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.tabs.summary": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.top.handle": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.top.settings": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.top.settings.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.goal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.goal.ahead": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.year.goal.ahead.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.goal.count": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.year.goal.count.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.year.goal.count.number": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p05.year.more": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.more.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book1.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book10": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book10.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book11": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book11.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book12": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book12.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book13": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book13.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book14": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book14.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book15": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book15.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book16": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book16.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book17": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book17.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book18": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book18.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book19": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book19.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book2.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book20": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book20.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book21": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book21.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book22": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book22.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book23": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book23.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book24": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book24.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book3.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book4.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book5.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book6.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book7": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book7.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book8": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book8.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book9": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.book9.line": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.slot1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.slot2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.slot3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.slot4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.slot5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.books.slot6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.shelf.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.genre": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.genre.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.genre.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.hours": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.hours.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.hours.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.pages": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.pages.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.pages.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.streak": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.streak.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.stats.streak.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p05.year.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "064_editar_perfil": {
+  "p64.avatarType": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.avatarType.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.avatarType.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.avatarType.toggle.initial": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.avatarType.toggle.photo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.avatarType.toggle.photo.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.bottom": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.bottom.note": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.bottom.save": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.bottom.save.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.bottom.save.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.colorLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.blue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.coral": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.cream": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.custom": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.custom.dot": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.custom.dot.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.gold": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.green": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.ink": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.lavender": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.lightGreen": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.pink": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.purple": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.colors.yellow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover.lines": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover.lines.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover.lines.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover.lines.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.rank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.swap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.book.swap.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot1.handle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.cover.door": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.rank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.swap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.book.swap.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot2.handle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.cover.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.rank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.swap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.book.swap.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot3.handle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.cover.oval": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.cover.seam": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.rank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.swap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.book.swap.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favorites.grid.slot4.handle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favoritesHeader": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.favoritesHeader.hint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.favoritesHeader.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.favoritesHeader.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio.field.spacer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio.field.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio.field.value.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.bio.head.counter": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.bio.head.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.handle.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.handle.field.spacer": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.handle.field.status": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.handle.field.status.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.handle.field.value": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.handle.field.value.at": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.handle.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.handle.head.hint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.handle.head.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.name.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.name.field.spacer": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.name.field.value": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.name.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.fields.name.head.counter": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.fields.name.head.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.genres": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.genres.classics": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.classics.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.genres.fantasy": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.mystery": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.nonfiction": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.poetry": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.romance": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.romance.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.genres.scifi": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.stories": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genres.stories.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.genresHeader": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.genresHeader.hint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.genresHeader.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.avatar.change": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.avatar.change.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.avatar.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.bio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.preview.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.name.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.preview.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.spineLine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.tags": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.preview.tags.genres": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.preview.tags.pronouns": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronouns": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.pronouns.custom": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronouns.he": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronouns.none": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronouns.she": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronouns.she.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.pronouns.they": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronounsHeader": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.pronounsHeader.hint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.pronounsHeader.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p64.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.top.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.top.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.top.spacer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p64.top.title": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "065_editar_perfil_trocar": {
+  "p65.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.avatar.change": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.avatar.change.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.avatar.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.bio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.preview.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.name.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.preview.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.spineLine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.tags": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.preview.tags.genres": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.preview.tags.pronouns": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.scrim": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.confirm": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.confirm.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.confirm.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.head.current": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.current.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.current.cover.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.current.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.current.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.current.rank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.head.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.head.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.head.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.options": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.radio.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.rating": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.rating.star1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.rating.star2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.rating.star3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.rating.star4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.rating.star5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.thumb.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.thumb.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.thumb.cover.square": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.thumb.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option1.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.rating": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.rating.star1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.rating.star2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.rating.star3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.rating.star4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.rating.star5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.thumb.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.thumb.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.thumb.cover.star": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option2.thumb.cover.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "p65.sheet.options.option2.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.options.option3.rating": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.options.option3.rating.star1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.rating.star2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.rating.star3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.rating.star4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.rating.star5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.tag": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.options.option3.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.options.option3.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.thumb.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.thumb.cover.oval": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.thumb.cover.seam": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.thumb.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.thumb.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option3.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.options.option4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.rating": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.rating.star1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.rating.star2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.rating.star3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.rating.star4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.rating.star5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover.lines": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover.lines.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover.lines.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover.lines.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.thumb.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.options.option4.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.optionsLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.search.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.sheet.search.placeholder": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "p65.sheet.spacer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.top.close": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.top.close.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.top.spacer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "p65.top.title": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "006_ajustes": {
+  "aj06.account": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.badge": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.account.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.email": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.spineLine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.account.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.bottomFade": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.footer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.footer.delete": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.footer.signOut": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.footer.signOut.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.footer.version": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.footer.version.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.stepper": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.stepper.minus": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.stepper.minus.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.stepper.plus": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.stepper.plus.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.daily.value.number": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.daily.value.unit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.reminder": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.reminder.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.reminder.controls": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.reminder.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.reminder.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.reminder.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.reminder.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.reminder.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.reminder.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.streak": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.streak.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.streak.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.streak.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.streak.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.streak.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.streak.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.streak.title.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.yearly": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.stepper": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.stepper.minus": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.stepper.minus.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.stepper.plus": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.stepper.plus.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.goals.yearly.value.number": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.goals.yearly.value.unit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.headline.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.help": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.center.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.center.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.center.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.contact": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.contact.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.contact.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.contact.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.terms": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.terms.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.terms.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.list.terms.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.help.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.appearance.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.language.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.library.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.notifications.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.privacy.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.list.scanner.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.more.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.clubs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.clubs.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.nav.home": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.home.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.home.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.nav.library": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.library.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.library.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.nav.profile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.profile.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.profile.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.nav.scanner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.scanner.fab": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.scanner.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.nav.scanner.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.plan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.tag": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.plan.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.plan.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.font": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.font.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.font.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.font.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.font.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.font.value": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.header.reset": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.paging": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.paging.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.paging.toggle": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.paging.toggle.paged": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.paging.toggle.scroll": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.screenOn": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.screenOn.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.screenOn.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.screenOn.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.screenOn.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.screenOn.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.screenOn.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.size.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.size.large": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size.row": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.size.slider": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size.slider.fill": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size.slider.thumb": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.size.slider.track": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size.small": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.size.value": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj06.reading.theme": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark.preview.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark.preview.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark.preview.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.dark.preview.sample": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light.preview.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light.preview.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light.preview.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.light.preview.sample": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview.check": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview.check.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.theme.sepia.preview.sample": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.reading.themeLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.search.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.search.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj06.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "058_conta": {
+  "aj58.account": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.account.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.account.edit": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.account.handle": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.account.name": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.account.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.account.spineLine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.account.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.data": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.header.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.data.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.data.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.export.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.data.list.import.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.delete": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.delete.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.delete.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.headline.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.header.note": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.signIn.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.connected.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.email.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signIn.list.password.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signOut": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.signOut.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.header.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.sync.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj58.sync.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.trail": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.trail.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.devices.trail.count": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.sync.list.offline.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj58.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "059_excluir_conta": {
+  "aj59.alternatives": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.download.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.alternatives.pause.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.bottom": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.bottom.delete": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.bottom.delete.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.bottom.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.clubsNote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.confirm": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.confirm.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.confirm.field.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.confirm.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj59.confirm.label.word": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj59.confirm.note": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.confirm.note.deadline": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": true
+  },
+  "aj59.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.headline.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj59.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.books": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.books.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.books.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.clubs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.clubs.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.clubs.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.highlights": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.highlights.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.highlights.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.lists": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.lists.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.lists.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.reviews": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.reviews.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.reviews.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.streak": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.streak.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.losses.streak.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj59.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "056_privacidade": {
+  "aj56.blockNote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.blockNote.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.blockNote.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.blockNote.text.lead": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.headline.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.header.note": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.people.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.trail": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.trail.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.blocked.trail.count": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.findByEmail.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.trail": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.trail.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.people.list.requests.trail.count": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed.radio.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.closed.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.profileType.open": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.open.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.open.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.open.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.open.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.profileType.open.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.header.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.highlights": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.audience": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.audience.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.audience.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.highlights.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.lists": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.lists.audience": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.lists.audience.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.lists.audience.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.lists.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.lists.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.lists.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.lists.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.lists.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.page": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.page.audience": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.page.audience.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.page.audience.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.page.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.page.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.page.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.page.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.page.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.reviews": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.audience": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.audience.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.audience.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.reviews.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.shelf": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.audience": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.audience.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.audience.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.body": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.shelf.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.stats": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.stats.audience": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "aj56.visibility.list.stats.audience.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.stats.audience.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.stats.body": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": true
+  },
+  "aj56.visibility.list.stats.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.stats.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "aj56.visibility.list.stats.textBlock": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": true
+  },
+  "aj56.visibility.list.stats.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  }
+ },
+ "030_notificacoes": {
+  "n30.footnote": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.headline.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.summary": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.summary.count": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.today.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.label.rule": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.body.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item1.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item1.time.unread": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item1.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item2.action": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item2.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item2.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item2.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item2.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item2.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item2.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item2.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item2.time.unread": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item2.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": true
+  },
+  "n30.today.list.item3": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.card": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.head": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item3.time": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item3.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item4": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item4.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.body.avatars": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.body.avatars.avatar1": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.body.avatars.avatar2": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.body.avatars.avatar3": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.card": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item4.head": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item4.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.today.list.item4.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30.today.list.item4.time": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.today.list.item4.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": true
+  },
+  "n30.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.markRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.markRead.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.settings": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.top.settings.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30.week.label": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.label.rule": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.action": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item1.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.card": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.head": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item1.time": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item1.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item2": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.action": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item2.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.card": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.head": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item2.time": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item2.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item3": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.card": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.head": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30.week.list.item3.time": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30.week.list.item3.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  }
+ },
+ "030b_notificacoes_ajustes": {
+  "n30b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.headline.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30b.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30b.quiet": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.switch": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.switch.thumb": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.switch.thumb.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.head.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.note": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.range": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.quiet.range.arrow": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.quiet.range.from": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.quiet.range.from.label": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.quiet.range.from.value": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.quiet.range.to": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.quiet.range.to.label": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.quiet.range.to.value": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30b.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.fri": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.mon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.sat": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.sun": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.thu": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.tue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.days.wed": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.daysLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.head.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.preview": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.preview.appIcon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.preview.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.preview.meta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.preview.meta.app": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30b.reading.preview.meta.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30b.reading.preview.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.preview.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.previewLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.smart.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.time": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.reading.time.hint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30b.reading.time.value": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30b.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.achievements": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.switch": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.switch.thumb": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.switch.thumb.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.achievements.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.club.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.polls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.polls.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.polls.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.polls.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.polls.switch": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.polls.switch.thumb": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.polls.switch.thumb.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.polls.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.polls.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.switch": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.switch.thumb": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.social.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.streak": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.streak.body": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.streak.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.streak.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.streak.switch": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.streak.switch.thumb": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30b.topics.streak.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "n30b.topics.streak.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  }
+ },
+ "030c_notificacoes_vazia": {
+  "n30c.empty.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "n30c.empty.cta": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30c.empty.cta.icon": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30c.empty.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.empty.title.dot": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30c.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.headline.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "n30c.illustration": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.reminder": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30c.reminder.icon": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30c.reminder.icon.art": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30c.reminder.text": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "n30c.reminder.text.time": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "n30c.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.markRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.markRead.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.settings": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "n30c.top.settings.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
  }
 }

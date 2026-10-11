@@ -32,6 +32,16 @@ import 'reference_layout_014_onboarding_primeiros_livros.dart';
 import 'reference_layout_015_onboarding_foto.dart';
 import 'reference_layout_016_onboarding_carteirinha.dart';
 import 'reference_layout_036a_inicio_primeiro_acesso.dart';
+import 'reference_layout_005_perfil.dart';
+import 'reference_layout_064_editar_perfil.dart';
+import 'reference_layout_065_editar_perfil_trocar.dart';
+import 'reference_layout_006_ajustes.dart';
+import 'reference_layout_058_conta.dart';
+import 'reference_layout_059_excluir_conta.dart';
+import 'reference_layout_056_privacidade.dart';
+import 'reference_layout_030_notificacoes.dart';
+import 'reference_layout_030b_notificacoes_ajustes.dart';
+import 'reference_layout_030c_notificacoes_vazia.dart';
 
 export '../leitor/ref_tipos.dart';
 export 'reference_layout_002_biblioteca.dart';
@@ -63,6 +73,16 @@ export 'reference_layout_014_onboarding_primeiros_livros.dart';
 export 'reference_layout_015_onboarding_foto.dart';
 export 'reference_layout_016_onboarding_carteirinha.dart';
 export 'reference_layout_036a_inicio_primeiro_acesso.dart';
+export 'reference_layout_005_perfil.dart';
+export 'reference_layout_064_editar_perfil.dart';
+export 'reference_layout_065_editar_perfil_trocar.dart';
+export 'reference_layout_006_ajustes.dart';
+export 'reference_layout_058_conta.dart';
+export 'reference_layout_059_excluir_conta.dart';
+export 'reference_layout_056_privacidade.dart';
+export 'reference_layout_030_notificacoes.dart';
+export 'reference_layout_030b_notificacoes_ajustes.dart';
+export 'reference_layout_030c_notificacoes_vazia.dart';
 
 const Map<String, LeitorRefPrancha> kRefProjeto = <String, LeitorRefPrancha>{
   '02': kRef02,
@@ -94,6 +114,16 @@ const Map<String, LeitorRefPrancha> kRefProjeto = <String, LeitorRefPrancha>{
   '15': kRef15,
   '16': kRef16,
   '36a': kRef36a,
+  '05': kRef05,
+  '64': kRef64,
+  '65': kRef65,
+  '06': kRef06,
+  '58': kRef58,
+  '59': kRef59,
+  '56': kRef56,
+  '30': kRef30,
+  '30b': kRef30b,
+  '30c': kRef30c,
 };
 
 /// R8 (T13): tela → (id → motivo) do texto desenhado pelo sistema, não pelo app (só informativo).

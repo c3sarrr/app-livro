@@ -35,6 +35,9 @@ node tools/medicao/supershot.js todas && node tools/medicao/supershot.js todas 2
 # T02 (R3): a faixa com defeito de raster no zoom 20 é conferida noutro zoom (convergenciaFaixa do índice)
 python3 -c "import json; [print(p['tela'], p['convergenciaFaixa']['zoom']) for p in json.load(open('$INDICE', encoding='utf-8'))['pranchas'] if p.get('convergenciaFaixa')]" |
   while read -r TELA ZOOM; do node tools/medicao/supershot.js "$TELA" "$ZOOM"; done
+# D-279: a prancha com zoomBase/zoomConvergencia fora de 10/20 (a 30b: 20 e 40) ganha o supershot nesses zooms
+python3 -c "import json; [print(p['tela'], z) for p in json.load(open('$INDICE', encoding='utf-8'))['pranchas'] for z in sorted({p.get('zoomBase', 10), p.get('zoomConvergencia', 20)} - {10, 20})]" |
+  while read -r TELA ZOOM; do node tools/medicao/supershot.js "$TELA" "$ZOOM"; done
 if [ "$CONJUNTO" = leitor ] || [ "$CONJUNTO" = leitor_conferencia ] || [ "$CONJUNTO" = projeto_conferencia_leitor ]; then
   CSS_EXTRA='article[aria-label^="Dom Casmurro"]{clip-path: inset(-400px -40px 0 -40px)}' SUFIXO=corrigida node tools/medicao/supershot.js 21
 fi

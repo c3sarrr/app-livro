@@ -55,5 +55,6 @@ const LeitorRefPrancha kRef28c = LeitorRefPrancha(
   textDependentY: <String>{},
   ellipsized: <String>{},
   knifeEdges: <LeitorKnifeEdge>[
+    LeitorKnifeEdge('bu28c.tips.tip3', 1, 'O ISBN fica no verso, perto do código de', 42.57, 0.453),
   ],
 );

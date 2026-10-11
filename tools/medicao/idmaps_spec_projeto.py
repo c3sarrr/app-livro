@@ -12,8 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import idmaps_spec_projeto_t14 as t14  # noqa: E402
 import idmaps_spec_projeto_t15 as t15  # noqa: E402
 import idmaps_spec_projeto_t16 as t16  # noqa: E402
+import idmaps_spec_projeto_t17 as t17  # noqa: E402
 
-ETAPAS = [t14, t15, t16]
+ETAPAS = [t14, t15, t16, t17]
 
 SPEC, SECOES, ESPECIAIS = {}, {}, set()
 for _m in ETAPAS:

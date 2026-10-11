@@ -772,7 +772,20 @@
         390,
         1330
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "quiet.range": {
+          "motivo": "o pai da seta entre \"das\" e \"até\" (o CDP atribui a ele a fonte da seta de dentro, como ao progressRow da 20 e às dicas da 28c): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "quiet.range.arrow": {
+          "motivo": "a seta entre \"das\" e \"até\" do não incomodar: o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800), como a das dicas da 28c; no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        }
+      },
+      "zoomBase": 20,
+      "zoomConvergencia": 40,
+      "_zoom": "D-279: no zoom 10 o Chromium arredonda a altura dos rótulos com line-height normal (11 px) e o erro soma até 0,59 px na metade de baixo; o zoom 20 fica a 0,06 px do JSON e o 40 a 0,015 — a referência sai do 20 e é conferida com o 40"
     },
     {
       "tela": "30c",

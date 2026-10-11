@@ -1,4 +1,54 @@
 {
- "001_inicio_w360": {},
+ "001_inicio_w360": {
+  "i01.today.goalText.sentence": {
+   "composto": true,
+   "quebraPadrao": "pretty",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Faltam 12 min",
+     "largura": 93.891,
+     "disponivel": 151,
+     "sobra": 57.109,
+     "estouroComProxima": 0.082
+    },
+    {
+     "linha": 2,
+     "texto": "para fechar a meta",
+     "largura": 127.544,
+     "disponivel": 127.626,
+     "sobra": 0.082,
+     "estouroComProxima": 0.334
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Faltam 12 min",
+     "largura": 93.891,
+     "disponivel": 151,
+     "sobra": 57.109,
+     "estouroComProxima": 0.082
+    },
+    {
+     "linha": 2,
+     "texto": "para fechar a meta",
+     "largura": 127.544,
+     "disponivel": 127.626,
+     "sobra": 0.082,
+     "estouroComProxima": 0.334
+    },
+    {
+     "linha": 3,
+     "texto": "de hoje.",
+     "largura": 53.91,
+     "disponivel": 151,
+     "sobra": 97.09,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
  "001_inicio_w430": {}
 }

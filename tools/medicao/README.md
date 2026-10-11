@@ -116,3 +116,23 @@ seguinte faltando < 1,5 px (estouro) é marcada: no Flutter (`Wrap`) uma diferen
 fileiras e desloca todos os itens seguintes. A entrada fica no id do contêiner, com `fileiras: true`; cada "linha" é
 uma fileira e o texto são os textos dos itens separados por " | " (um item sem texto entra pelo id). Vai para a
 referência Dart com o mesmo `LeitorKnifeEdge` (id do contêiner, número da fileira) e para as fases L com a frase própria.
+
+Zoom da referência por prancha (D-279): o supersample é no zoom 10 e a convergência é conferida com o 20. Na 30b,
+no zoom 10, o Chromium arredonda a altura dos rótulos com `line-height: normal` (a métrica da fonte vira pixel inteiro
+no espaço com zoom) e o erro soma até 0,59 px na metade de baixo; o índice diz `zoomBase: 20` e `zoomConvergencia: 40`
+para ela (o 20 fica a 0,06 px do JSON e o 40 a 0,015). `rodar_etapa.sh`/`rodar_tudo.sh` fotografam a prancha nesses
+zooms e o `reduzir.py` reduz do zoomBase e confere com o zoomConvergencia, reduzindo a conferência faixa a faixa (as
+faixas de 2000 px caem em bordas de pixel: os mesmos bytes que a imagem inteira, e o zoom 40 cabe na memória).
+
+Fio de navalha medido no navegador (D-280; `facaNavegador` em `conjuntos.json`: o projeto, a Início e as larguras da
+Início). Para cada linha de cada texto, o `perturbar.js` põe +δ ou −δ num `<span>` em volta do último espaço entre
+palavras da linha (ou do último caractere, se ela tem uma palavra só) e deixa o navegador quebrar de novo (com δ = 0 as
+quebras têm de ser as da prancha). O δ é uma margem à direita do `<span>`; no texto com `text-wrap: pretty` ou
+`balance` é `word-spacing` (`letter-spacing` no caractere), porque com margem o Chromium deixa de aplicar o pretty — e
+lá o estouro maior do que os espaços da linha conseguem encolher (uns 3–4 px) fica `null`, sem virar quebra imposta: a sobra é o menor δ que muda as quebras do texto e o estouro, o menor encolhimento que faz a próxima palavra
+subir (busca binária, 0,0002 px; a sobra até 4096 px, o estouro até a largura da linha). `null` = não muda: a linha
+não quebra ao crescer (uma palavra só; caixa do tamanho do texto com espaço — a D-276) ou a quebra é imposta (`<br>`,
+`nowrap`). Antes de medir, o texto solto de uma caixa flex/grid vai num `<span>` (é o mesmo item anônimo; a ferramenta
+confere que nenhuma caixa se move). A estimativa da G01 (cada linha como texto simples, na fonte da caixa, contra a
+largura da caixa) continua no leitor, porque o `handoff_v2` é só leitura; lá ela marca 5 fios que não existem (a linha
+7 das 22–24b: quem subiria é o trecho marcado com `nowrap`, não a palavra).
