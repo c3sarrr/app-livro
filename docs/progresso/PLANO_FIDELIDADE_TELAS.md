@@ -12,7 +12,9 @@
 > recomendadas). As D-267 e D-268 vieram da R00 (o modo demonstração e as 9 telas que o Mapa marca como faltando),
 > respondidas em 11/10/2026 (as recomendadas); as D-269 e D-270, dos achados da prova no celular (o "Para você" do
 > modo demonstração e o título curto), também (as recomendadas); detalhe em `docs/progresso/R00.md` e
-> `R00_celular.md`. Desde 10/10/2026 a ordem das
+> `R00_celular.md`. As D-271…D-273 vieram do começo da T13 (o escopo da medição do projeto, as larguras e as fontes
+> de fora do arquivo), respondidas em 11/10/2026 (as recomendadas); detalhe em `docs/progresso/T13.md`. Desde
+> 10/10/2026 a ordem das
 > etapas é a do `docs/ROTEIRO.md`; esta tabela continua sendo o registro das decisões.
 > Formato do roteiro: `handoff_v2/00_PROMPT_MESTRE_V2.md` §6 (trilha T: G01-bis → uma fase por tela → integração),
 > §7 (verificação), §8 (roteiro de cada fase), §9 (relatório). O prompt mestre e o mapa (§11) **não foram editados**:
@@ -49,8 +51,8 @@
 
 ## 3. Decisões novas (D-239 em diante) — aprovadas em 10/10/2026
 
-A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-270 (R00) e a próxima livre é a
-D-271.
+A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-273 (T13) e a próxima livre é a
+D-274.
 
 | ID | Proposta | Alternativa |
 |---|---|---|
@@ -86,6 +88,9 @@ D-271.
 | **D-268** | **As 9 telas que o Mapa (00) marca como faltando entram na etapa da tela que as abre**, pela §5 do ROTEIRO (perguntar, referências, prancha em HTML no estilo do projeto, "sim", Flutter): Revisão · escrever nota → T05; Coleções · ver todas e Trocar a capa → T14; Busca dentro do livro → T15; Exportar meus dados, Importar CSV, Aparência e acessibilidade e Carteirinha aberta → T17; Enquete · deu empate → T11. "Livros do ano" (o design marca como futuro) fica fora da v1.0 (§9 do ROTEIRO). | Uma etapa nova só para as 9, antes da R01 · fora da v1.0 |
 | **D-269** | **O "Para você" no modo demonstração vem de um catálogo só do demo:** um `catalog.db` no formato 1 do pipeline, na pasta do demo (`test/fixtures/demonstracao/catalogo_demonstracao.dart`), com edições de Machado de Assis da Penguin-Companhia (ISBNs reais), e um atualizador cuja rede é sempre "nenhuma"; o app calcula a seção pela regra da G08 (D-81: um autor só, a edição mais nova primeiro), então a Casa de Pensão da prancha dá lugar ao Quincas Borba. O alvo (2) segue igual à prancha. | O alvo (1) sem a seção, registrado |
 | **D-270** | **Título curto do livro, na T14:** o livro ganha o campo opcional "título curto", editável no Livro e preenchido pelo catálogo quando houver; "Também lendo", a mini-barra, a folha da sessão e o "Para você" usam o curto quando existe. Até a T14, com dados reais, o título inteiro com reticências (a prancha mostra "Brás Cubas", que só a fixture tem). | Regra automática (o que vem depois do último " de ") · o título inteiro sempre |
+| **D-271** | **A T13 mede as 41 telas das etapas 7–11 por completo**, como a T02 fez com a Início: ids semânticos de todos os elementos, layout, texto, estilos, PNG @1x/@2x/@3x, recortes, redlines, referências Dart, fontes, SVGs, tokens, mapa id → widget e fases L; as etapas T14–T18 começam com tudo medido. | Ferramenta + medição bruta (ids automáticos), o resto em cada etapa · ferramenta + só as 4 da T14 |
+| **D-272** | **As 41 telas também a 360 e 430 px** (o quadro com a largura trocada, CSS fluido, como a T03 fez com a 01), com a lista das telas que não se adaptam a 360. | Cada etapa mede as larguras das suas telas |
+| **D-273** | **Fontes de fora do arquivo:** as respostas do `css2` das consultas novas e os `.woff2` da Roboto 500 (o botão do Google na 07) baixados do Google Fonts, com URL e sha256 no manifesto, conferindo que as outras fontes são as mesmas versões que já temos; o texto em fonte do sistema (o botão da Apple na 07, o teclado do sistema na 69/69b) medido e marcado informativo. | Não baixar: a 07 medida com a reserva do Linux e o botão do Google informativo, a fonte decidida na T16 |
 
 ## 4. As fases
 
