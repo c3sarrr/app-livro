@@ -240,16 +240,26 @@ class Notificacoes(unittest.TestCase):
         self.pasta = Path(tempfile.mkdtemp(prefix="booknest_barra_"))
         self.addCleanup(shutil.rmtree, self.pasta, True)
 
-    def _captura(self, fundo: tuple[int, int, int], icone: bool) -> Path:
+    def _captura(
+        self,
+        fundo: tuple[int, int, int],
+        icone: bool,
+        relogio: tuple[int, int] = (76, 178),
+        icones: tuple[int, int] = (201, 364),
+        barra: bool = True,
+    ) -> Path:
         from PIL import Image, ImageDraw
 
         im = Image.new("RGB", capturar_r00.TAMANHO_DA_CAPTURA, fundo)
         d = ImageDraw.Draw(im)
-        d.rectangle((76, 27, 178, 68), fill=(60, 60, 60))  # o relógio
-        d.rectangle((806, 27, 1020, 68), fill=(60, 60, 60))  # a rede e a bateria
+        if barra:
+            # o relógio em dois pedaços com um vão de 9 px ("11" e ":44"), a rede e a bateria
+            d.rectangle((relogio[0], 27, relogio[0] + 29, 68), fill=(60, 60, 60))
+            d.rectangle((relogio[0] + 39, 27, relogio[1], 68), fill=(60, 60, 60))
+            d.rectangle((806, 27, 1009, 68), fill=(60, 60, 60))
         d.rectangle((0, 300, 1079, 2339), fill=(20, 120, 200))  # o app
         if icone:
-            d.rectangle((201, 27, 364, 68), fill=(250, 30, 80))
+            d.rectangle((icones[0], 27, icones[1], 68), fill=(250, 30, 80))
         caminho = self.pasta / "x_celular.png"
         im.save(caminho)
         return caminho
@@ -270,6 +280,85 @@ class Notificacoes(unittest.TestCase):
         capturar_r00.cobrir_notificacoes(caminho)
         capturar_r00.cobrir_notificacoes(caminho)
         self.assertEqual(Image.open(caminho).convert("RGB").tobytes(), antes)
+
+    def test_o_relogio_estreito_nao_deixa_lasca(self) -> None:
+        # "11:44" acaba em x 158 e o 1º ícone começa em x 176, antes da faixa fixa
+        from PIL import Image, ImageChops
+
+        estreito = {"relogio": (66, 158), "icones": (176, 364)}
+        limpa = Image.open(self._captura((247, 239, 226), icone=False, **estreito)).convert("RGB")
+        caminho = self._captura((247, 239, 226), icone=True, **estreito)
+        self.assertEqual(capturar_r00.faixa_das_notificacoes(Image.open(caminho).convert("RGB")), (165, 373))
+        capturar_r00.cobrir_notificacoes(caminho)
+        self.assertIsNone(ImageChops.difference(Image.open(caminho).convert("RGB"), limpa).getbbox())
+
+    def test_sem_a_barra_o_conteudo_no_alto_fica(self) -> None:
+        # sem a barra (sem relógio e bateria), um desenho do app no alto não é tomado por ícone
+        from PIL import Image
+
+        from PIL import ImageDraw
+
+        im = Image.open(self._captura((247, 239, 226), icone=True, barra=False)).convert("RGB")
+        ImageDraw.Draw(im).rectangle((50, 30, 100, 65), fill=(60, 60, 60))  # um "voltar" do app no lugar do relógio
+        self.assertIsNone(capturar_r00.faixa_das_notificacoes(im))
+
+    def test_a_barra_sobre_o_conteudo_usa_o_relogio_da_captura_lisa(self) -> None:
+        # a 60: a barra sobre o mostrador rolado; o relógio estreito ("11:49") da 01, do mesmo minuto, dá o começo
+        from PIL import Image, ImageDraw
+
+        estreito = {"relogio": (66, 158), "icones": (176, 364)}
+        lisa = self._captura((247, 239, 226), icone=True, **estreito)
+        x0 = capturar_r00.cobrir_notificacoes(lisa)
+        self.assertEqual(x0, 165)
+        im = Image.open(self._captura((247, 239, 226), icone=True, **estreito)).convert("RGB")
+        ImageDraw.Draw(im).ellipse((120, 0, 420, 300), outline=(10, 10, 10), width=20)  # o mostrador rolado
+        self.assertEqual(capturar_r00.faixa_das_notificacoes(im, x0), (165, capturar_r00.FAIXA_FIXA[1]))
+        self.assertEqual(capturar_r00.faixa_das_notificacoes(im), capturar_r00.FAIXA_FIXA)
+        self.assertIsNone(capturar_r00.inicio_depois_do_relogio(im))
+
+    def test_o_roteiro_passa_o_relogio_da_01_para_a_60(self) -> None:
+        # o `flutter drive` e o `screencap` simulados: a 01 com a barra lisa, a 60 com a barra sobre o mostrador
+        from PIL import Image, ImageDraw
+
+        estreito = {"relogio": (66, 158), "icones": (176, 364)}
+        pngs = []
+        for nome in ("01", "60", "01b"):
+            im = Image.open(self._captura((247, 239, 226), icone=True, **estreito)).convert("RGB")
+            if nome == "60":
+                ImageDraw.Draw(im).ellipse((120, 0, 420, 300), outline=(10, 10, 10), width=20)
+            caminho = self.pasta / f"fonte_{nome}.png"
+            im.save(caminho)
+            pngs.append(caminho.read_bytes())
+
+        class Drive:
+            def __init__(self, *a, **k) -> None:
+                self.stdout = iter([f"R00CAP {n}\n" for n in ("01", "60", "01b")])
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a) -> None:
+                return None
+
+            def wait(self) -> int:
+                return 0
+
+        def adb(aparelho, *args, saida=None, conferir=True):
+            assert args == ("exec-out", "screencap", "-p"), args
+            saida.write_bytes(pngs.pop(0))
+            return _resultado()
+
+        saida = self.pasta / "capturas"
+        with mock.patch.object(capturar_r00.subprocess, "Popen", Drive), mock.patch.object(ap, "adb", adb):
+            self.assertEqual(self.quieto(capturar_r00.capturar, "X", 2, saida), ["01", "60", "01b"])
+        sessenta = Image.open(saida / "60_prancha_celular.png").convert("RGB")
+        # a lasca do 1º ícone (x 176) coberta: a faixa começou no fim do relógio da 01 (x 165), não na fixa (x 188)
+        self.assertEqual(sessenta.getpixel((180, 47)), (247, 239, 226))
+        self.assertEqual(sessenta.getpixel((150, 47)), (60, 60, 60))  # o relógio fica
+
+    def quieto(self, f, *args):
+        with redirect_stdout(io.StringIO()):
+            return f(*args)
 
     def test_outro_aparelho_para(self) -> None:
         from PIL import Image

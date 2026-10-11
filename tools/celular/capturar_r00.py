@@ -62,10 +62,16 @@ TELAS: list[tuple[str, str, Path]] = [
 TELAS_DA_INICIO = ("01", "60", "01b")
 MARCA = re.compile(r"R00CAP (\w+)")
 ALTURA = 1400  # altura de cada lado da imagem lado a lado (px)
-# a captura do S22+ e, nela, a faixa dos ícones de notificação da barra do Android: depois do relógio (até x 186) e
-# antes do meio; os ícones ficam em x 201–364, y 27–68 (medido nas capturas de 11/10/2026)
+# a captura do S22+ e, nela, a barra do Android (medido nas capturas de 11/10/2026): o relógio começa em x 66–76 e
+# acaba entre x 158 ("11:44") e x 178 ("03:48"); os ícones de notificação vêm depois de um vão de 18 px ou mais, antes do
+# meio (a câmera, x 540); a bateria fica em x 942–1009; os desenhos ocupam y 27–68
 TAMANHO_DA_CAPTURA = (1080, 2340)
-FAIXA_DAS_NOTIFICACOES = (188, 18, 400, 82)  # x0, y0, x1, y1 (o x1 e o y1 fora)
+LINHAS_DA_BARRA = (18, 82)  # a faixa pintada (o y1 fora)
+VAO_DEPOIS_DO_RELOGIO = 14  # dentro do relógio os vãos são de até 10 px
+# quando a barra está sobre o conteúdo rolado (a 60) não dá para separar os ícones do fundo: a faixa vai do fim do
+# relógio medido na captura anterior com a barra lisa (a 01, do mesmo minuto) — ou, sem ela, do fim do relógio mais
+# largo — até depois de três ícones
+FAIXA_FIXA = (188, 400)
 
 
 def preparar(aparelho: str) -> Path | None:
@@ -75,14 +81,77 @@ def preparar(aparelho: str) -> Path | None:
     return demo.guardar_app_normal(aparelho)
 
 
-def cobrir_notificacoes(png: Path) -> None:
+def _diferenca(a: tuple[int, ...], b: tuple[int, ...]) -> int:
+    return max(abs(x - y) for x, y in zip(a, b))
+
+
+def _fundo_liso(im: Image.Image) -> tuple[int, ...] | None:
+    """A cor do fundo da barra, se ele é liso (as linhas logo acima e logo abaixo dos desenhos, de ponta a ponta)."""
+    px = im.load()
+    y0, y1 = LINHAS_DA_BARRA
+    fundo = px[30, (y0 + y1) // 2]
+    if all(_diferenca(px[x, y], fundo) <= 12 for x in range(0, im.size[0], 4) for y in (y0 - 6, y1 + 4)):
+        return fundo
+    return None
+
+
+def _colunas_com_tinta(im: Image.Image, fundo: tuple[int, ...]):
+    px = im.load()
+    y0, y1 = LINHAS_DA_BARRA
+    return lambda x: any(_diferenca(px[x, y], fundo) > 48 for y in range(y0 + 6, y1 - 10))
+
+
+def inicio_depois_do_relogio(im: Image.Image) -> int | None:
+    """A 1ª coluna depois do relógio (o fim dele + 7), numa barra sobre fundo liso; `None` sem barra (sem relógio ou
+    sem bateria) ou com o fundo desigual."""
+    fundo = _fundo_liso(im)
+    if fundo is None:
+        return None
+    tinta = _colunas_com_tinta(im, fundo)
+    inicio = next((x for x in range(40, 120) if tinta(x)), None)
+    if inicio is None or not any(tinta(x) for x in range(930, 1020)):
+        return None  # sem relógio ou sem bateria: a barra não está na tela
+    fim, vao = inicio, 0
+    for x in range(inicio, im.size[0] // 2):
+        if tinta(x):
+            fim, vao = x, 0
+        else:
+            vao += 1
+            if vao >= VAO_DEPOIS_DO_RELOGIO:
+                break
+    return fim + 7
+
+
+def faixa_das_notificacoes(im: Image.Image, x0_de_referencia: int | None = None) -> tuple[int, int] | None:
+    """As colunas (x0, x1 fora) dos ícones de notificação na captura [im], ou `None` sem barra ou sem ícone. Com a
+    barra sobre um fundo liso: do fim do relógio ao último desenho antes do meio. Com o fundo da barra desigual (a barra
+    sobre o conteúdo rolado): do [x0_de_referencia] (o fim do relógio numa captura lisa do mesmo minuto) ou da
+    [FAIXA_FIXA] até o fim dela."""
+    fundo = _fundo_liso(im)
+    if fundo is None:
+        return (x0_de_referencia or FAIXA_FIXA[0], FAIXA_FIXA[1])
+    x0 = inicio_depois_do_relogio(im)
+    if x0 is None:
+        return None
+    tinta = _colunas_com_tinta(im, fundo)
+    icones = [x for x in range(x0, im.size[0] // 2) if tinta(x)]
+    return (x0, icones[-1] + 9) if icones else None
+
+
+def cobrir_notificacoes(png: Path, x0_de_referencia: int | None = None) -> int | None:
     """Pinta a faixa dos ícones de notificação, coluna a coluna, com o degradê entre a cor logo acima e a logo abaixo
-    dela: com a barra sobre um fundo liso some só o ícone; sem a barra (o leitor limpo) nada muda; com a barra sobre o
-    conteúdo rolado (a 60), a faixa vira um degradê."""
+    dela: com a barra sobre um fundo liso some só o ícone; sem a barra (o leitor limpo) ou sem notificação nada muda;
+    com a barra sobre o conteúdo rolado (a 60), a faixa vira um degradê. Devolve o fim do relógio desta captura (+ 7),
+    quando a barra dela é lisa, para servir de [x0_de_referencia] à seguinte."""
     im = Image.open(png).convert("RGB")
     if im.size != TAMANHO_DA_CAPTURA:
         sys.exit(f"{png.name}: {im.size[0]} × {im.size[1]}; a faixa das notificações é medida no S22+ (1080 × 2340)")
-    x0, y0, x1, y1 = FAIXA_DAS_NOTIFICACOES
+    medido = inicio_depois_do_relogio(im)
+    colunas = faixa_das_notificacoes(im, x0_de_referencia)
+    if colunas is None:
+        return medido
+    x0, x1 = colunas
+    y0, y1 = LINHAS_DA_BARRA
     px = im.load()
     for x in range(x0, x1):
         acima, abaixo = px[x, y0 - 1], px[x, y1]
@@ -90,6 +159,7 @@ def cobrir_notificacoes(png: Path) -> None:
             t = (y - y0 + 1) / (y1 - y0 + 1)
             px[x, y] = tuple(round(a + (b - a) * t) for a, b in zip(acima, abaixo))
     im.save(png, optimize=True)
+    return medido
 
 
 def capturar(aparelho: str, alvo: int, pasta: Path) -> list[str]:
@@ -110,6 +180,7 @@ def capturar(aparelho: str, alvo: int, pasta: Path) -> list[str]:
     ]
     print(" ".join(comando))
     feitas: list[str] = []
+    relogio: int | None = None  # o fim do relógio na última captura com a barra lisa
     with subprocess.Popen(
         comando,
         cwd=RAIZ,
@@ -126,7 +197,7 @@ def capturar(aparelho: str, alvo: int, pasta: Path) -> list[str]:
             if m and m.group(1) in esperadas:
                 captura = pasta / f"{m.group(1)}{sufixo}"
                 ap.adb(aparelho, "exec-out", "screencap", "-p", saida=captura)
-                cobrir_notificacoes(captura)
+                relogio = cobrir_notificacoes(captura, relogio) or relogio
                 feitas.append(m.group(1))
                 print(f"  → captura {m.group(1)}")
         codigo = p.wait()
@@ -185,6 +256,7 @@ def main() -> None:
     p.add_argument("--so-montar", action="store_true", help="não roda o aparelho: só monta o lado a lado")
     args = p.parse_args()
     sufixo = "_prancha_celular.png" if args.alvo == 2 else "_celular.png"
+    relogio: int | None = None
     if not args.so_montar:
         guardado = preparar(args.aparelho)
         capturar(args.aparelho, args.alvo, args.saida)
@@ -194,7 +266,8 @@ def main() -> None:
         if args.alvo == 2 and numero not in TELAS_DA_INICIO:
             continue
         if args.so_montar:
-            cobrir_notificacoes(args.saida / f"{numero}{sufixo}")  # de novo não muda nada
+            # de novo não muda nada; na ordem das capturas, a 60 usa o relógio da 01
+            relogio = cobrir_notificacoes(args.saida / f"{numero}{sufixo}", relogio) or relogio
         print(lado_a_lado(args.saida, numero, titulo, prancha, sufixo).relative_to(RAIZ))
 
 
