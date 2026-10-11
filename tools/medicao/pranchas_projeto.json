@@ -1,5 +1,5 @@
 {
-  "_doc": "T13 — as 41 telas do projeto (docs/design/projeto/telas/*.dc.html) das etapas 7–11 (ROTEIRO §3: T14 a T18). slug = pasta de saída; prefixo = prefixo dos ids semânticos (R4); etapa = a etapa que faz a tela; titulo, canvas = os do CATALOGO.md (conferidos na extração com o sha256 e o $preview). O quadro é o das exportações antigas: a extração mantém os 3 filhos do <helmet>. Extrair: python3 tools/medicao/extrair_dc.py tools/medicao/pranchas_projeto.json tools/medicao/pranchas_projeto",
+  "_doc": "T13 — as 41 telas do projeto (docs/design/projeto/telas/*.dc.html) das etapas 7–11 (ROTEIRO §3: T14 a T18). slug = pasta de saída; prefixo = prefixo dos ids semânticos (R4); etapa = a etapa que faz a tela; titulo, canvas = os do CATALOGO.md (conferidos na extração com o sha256 e o $preview). O quadro é o das exportações antigas: a extração mantém os 3 filhos do <helmet>. Extrair: python3 tools/medicao/extrair_dc.py tools/medicao/pranchas_projeto.json tools/medicao/pranchas_projeto reserva (R8) = os ids cujo texto o Chromium desenha com fonte de reserva, com o motivo e se é informativo (texto do sistema, não do app); o build_layout.py falha com qualquer outra.",
   "formato": "dc",
   "projeto": "docs/design/projeto",
   "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
@@ -54,7 +54,17 @@
         390,
         1790
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "progress": {
+          "motivo": "o pai do \"≈ 2 h 10 min…\" (o CDP atribui a ele a fonte do texto, como ao progressRow da 20); o \"≈\" não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter SemiBold do sistema (o texto é 600), como o \"≈\" do leitor (20, 26b; D-54); no app ele vem da família de reserva da D-54 (o peso, na T13.10)",
+          "informativo": false
+        },
+        "progress.timeLeft": {
+          "motivo": "o \"≈\" não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter SemiBold do sistema (o texto é 600), como o \"≈\" do leitor (20, 26b; D-54); no app ele vem da família de reserva da D-54 (o peso, na T13.10)",
+          "informativo": false
+        }
+      }
     },
     {
       "tela": "03",

@@ -1,0 +1,9463 @@
+{
+ "meta": {
+  "source": "telas/Biblioteca.dc.html",
+  "prancha": "002_biblioteca",
+  "titulo": "02 · Biblioteca",
+  "canvas": [
+   390,
+   1640
+  ],
+  "prefixo": "b02",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4",
+   "shelf": "#FED170"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "b02.header": [
+   20,
+   62,
+   350,
+   52
+  ],
+  "b02.search": [
+   20,
+   134,
+   350,
+   52
+  ],
+  "b02.collections": [
+   20,
+   208,
+   350,
+   140
+  ],
+  "b02.statusTabs": [
+   0,
+   366,
+   390,
+   48
+  ],
+  "b02.sortView": [
+   20,
+   424,
+   350,
+   44
+  ],
+  "b02.shelf": [
+   20,
+   490,
+   350,
+   1011.25
+  ],
+  "b02.bottomFade": [
+   0,
+   1470,
+   390,
+   170
+  ],
+  "b02.nav": [
+   16,
+   1540,
+   358,
+   70
+  ]
+ },
+ "elements": {
+  "b02.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    390,
+    1640
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "overflow": "hidden"
+   }
+  },
+  "b02.main": {
+   "tpl": 5,
+   "type": "box",
+   "tag": "main",
+   "abs": [
+    0,
+    0,
+    390,
+    1641.25
+   ],
+   "style": {
+    "padding": "62px 20px 140px 20px"
+   }
+  },
+  "b02.header": {
+   "tpl": 6,
+   "section": "b02.header",
+   "type": "box",
+   "tag": "header",
+   "abs": [
+    20,
+    62,
+    350,
+    52
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    52
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "b02.header.title": {
+   "tpl": 7,
+   "section": "b02.header",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    20,
+    65,
+    234.9,
+    46
+   ],
+   "rel": [
+    0,
+    3,
+    234.9,
+    46
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 36.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "36px",
+     "letterSpacing": "-1.2px",
+     "color": "#1A1714",
+     "opsz": 36.0,
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; letter-spacing: -1.2px; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Sua",
+     "left": 20,
+     "right": 82.39,
+     "top": 70.16,
+     "bottom": 113.36,
+     "baseline": 103.64,
+     "baselineRel": 41.64
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Sua biblioteca.",
+     "left": 20,
+     "right": 254.9,
+     "top": 58.1,
+     "bottom": 117.9,
+     "baseline": 103.64,
+     "baselineRel": 41.64
+    }
+   ],
+   "naturalWidth": 234.9,
+   "minContentWidth": 165.9,
+   "text": "Sua",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "b02.header.title.serif": {
+   "tpl": 8,
+   "section": "b02.header",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    89,
+    58.1,
+    165.9,
+    59.8
+   ],
+   "rel": [
+    69,
+    -3.9,
+    165.9,
+    59.8
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 46.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "46px",
+     "letterSpacing": "-0.6px",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 46px; letter-spacing: -0.6px",
+   "lines": [
+    {
+     "text": "biblioteca.",
+     "left": 89,
+     "right": 254.9,
+     "top": 58.1,
+     "bottom": 117.9,
+     "baseline": 103.64,
+     "baselineRel": 41.64
+    }
+   ],
+   "naturalWidth": 165.9,
+   "minContentWidth": 165.9,
+   "text": "biblioteca.",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.header.add": {
+   "tpl": 9,
+   "section": "b02.header",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    322,
+    64,
+    48,
+    48
+   ],
+   "rel": [
+    302,
+    2,
+    48,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; padding: 0",
+   "aria": "Adicionar livros"
+  },
+  "b02.header.add.icon": {
+   "tpl": 10,
+   "section": "b02.header",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    335,
+    77,
+    22,
+    22
+   ],
+   "rel": [
+    315,
+    15,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.search": {
+   "tpl": 12,
+   "section": "b02.search",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    134,
+    350,
+    52
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    52
+   ],
+   "style": {},
+   "css": "margin-top: 20px; display: flex; gap: 10px"
+  },
+  "b02.search.field": {
+   "tpl": 13,
+   "section": "b02.search",
+   "type": "box",
+   "tag": "label",
+   "abs": [
+    20,
+    134,
+    288,
+    52
+   ],
+   "rel": [
+    0,
+    0,
+    288,
+    52
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 18px 0px 16px"
+   },
+   "css": "flex-grow: 1; min-width: 0; height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 18px 0 16px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "b02.search.field.icon": {
+   "tpl": 14,
+   "section": "b02.search",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    37.5,
+    150,
+    20,
+    20
+   ],
+   "rel": [
+    17.5,
+    16,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.search.field.input": {
+   "tpl": 17,
+   "section": "b02.search",
+   "type": "box",
+   "tag": "input",
+   "abs": [
+    67.5,
+    135.5,
+    221,
+    49
+   ],
+   "rel": [
+    47.5,
+    1.5,
+    221,
+    49
+   ],
+   "style": {
+    "overflow": "clip"
+   },
+   "css": "flex-grow: 1; min-width: 0; height: 100%; border: none; background: transparent; outline: none; padding: 0; font-size: 15px; font-weight: 500; color: #1A1714",
+   "aria": "Buscar na biblioteca",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 21
+    }
+   ]
+  },
+  "b02.search.filters": {
+   "tpl": 18,
+   "section": "b02.search",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    318,
+    134,
+    52,
+    52
+   ],
+   "rel": [
+    298,
+    0,
+    52,
+    52
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 52px; height: 52px; flex-shrink: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; padding: 0",
+   "aria": "Filtros"
+  },
+  "b02.search.filters.icon": {
+   "tpl": 19,
+   "section": "b02.search",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    333,
+    149,
+    22,
+    22
+   ],
+   "rel": [
+    313,
+    15,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.collections": {
+   "tpl": 23,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    20,
+    208,
+    350,
+    140
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    140
+   ],
+   "style": {},
+   "css": "margin-top: 22px; display: flex; flex-direction: column; gap: 8px",
+   "aria": "Coleções"
+  },
+  "b02.collections.header": {
+   "tpl": 24,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    208,
+    350,
+    44
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    44
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; justify-content: space-between",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "b02.collections.title": {
+   "tpl": 25,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "h2",
+   "abs": [
+    20,
+    218,
+    86.2,
+    24
+   ],
+   "rel": [
+    0,
+    10,
+    86.2,
+    24
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 20.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.4px",
+     "color": "#1A1714",
+     "opsz": 20.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.4px",
+   "lines": [
+    {
+     "text": "Coleções",
+     "left": 20,
+     "right": 106.2,
+     "top": 218,
+     "bottom": 242,
+     "baseline": 236.6,
+     "baselineRel": 28.6
+    }
+   ],
+   "naturalWidth": 86.199,
+   "minContentWidth": 86.199,
+   "text": "Coleções",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "b02.collections.seeAll": {
+   "tpl": 26,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "a",
+   "abs": [
+    286.11,
+    208,
+    83.89,
+    44
+   ],
+   "rel": [
+    266.11,
+    0,
+    83.89,
+    44
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "height: 44px; display: flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 700",
+   "lines": [
+    {
+     "text": "Ver todas",
+     "left": 286.11,
+     "right": 348,
+     "top": 221.6,
+     "bottom": 238.4,
+     "baseline": 234.9,
+     "baselineRel": 26.9
+    }
+   ],
+   "naturalWidth": 83.894,
+   "minContentWidth": 57.952,
+   "text": "Ver todas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.collections.seeAll.icon": {
+   "tpl": 27,
+   "section": "b02.collections",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    352,
+    221,
+    18,
+    18
+   ],
+   "rel": [
+    332,
+    13,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.collections.carousel": {
+   "tpl": 30,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    260,
+    390,
+    88
+   ],
+   "rel": [
+    -20,
+    52,
+    390,
+    88
+   ],
+   "style": {
+    "padding": "0px 20px 4px 20px",
+    "overflow": "hidden"
+   },
+   "css": "margin: 0 -20px; padding: 0 20px 4px; display: flex; gap: 12px; overflow: hidden"
+  },
+  "b02.collections.card1": {
+   "tpl": 31,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    260,
+    200,
+    84
+   ],
+   "rel": [
+    0,
+    52,
+    200,
+    84
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "padding": "0px 14px 0px 12px"
+   },
+   "css": "flex-shrink: 0; width: 200px; height: 84px; display: flex; align-items: center; gap: 12px; padding: 0 14px 0 12px; box-sizing: border-box; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714"
+  },
+  "b02.collections.card1.pile": {
+   "tpl": 32,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    33.5,
+    273,
+    58,
+    58
+   ],
+   "rel": [
+    13.5,
+    65,
+    58,
+    58
+   ],
+   "style": {},
+   "css": "width: 58px; height: 58px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: flex-end",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.collections.card1.pile.spine1": {
+   "tpl": 33,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    40.5,
+    280.4,
+    46.4,
+    13
+   ],
+   "rel": [
+    20.5,
+    72.4,
+    46.4,
+    13
+   ],
+   "vis": [
+    39.95,
+    278.01,
+    47.51,
+    17.78
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px",
+    "transformMatrix": "matrix(0.994522, -0.104528, 0.104528, 0.994522, 0, 0)",
+    "transform": "rotate(-6deg)"
+   },
+   "css": "position: relative; height: 13px; width: 80%; margin-left: 7px; background: #552CB7; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box; transform: rotate(-6deg)"
+  },
+  "b02.collections.card1.pile.spine1.band": {
+   "tpl": 34,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    55.78,
+    286.1,
+    15.84,
+    2
+   ],
+   "rel": [
+    35.78,
+    78.1,
+    15.84,
+    2
+   ],
+   "vis": [
+    55.74,
+    285.28,
+    15.96,
+    3.65
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": "2px",
+    "position": {
+     "top": "4.5px",
+     "right": "14.08px",
+     "bottom": "4.1px",
+     "left": "14.08px"
+    }
+   },
+   "css": "position: absolute; left: 32%; top: 4.5px; width: 36%; height: 2px; border-radius: 2px; background: #FED170"
+  },
+  "b02.collections.card1.pile.spine2": {
+   "tpl": 35,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    33.5,
+    294.4,
+    58,
+    13
+   ],
+   "rel": [
+    13.5,
+    86.4,
+    58,
+    13
+   ],
+   "style": {
+    "bg": "#058CD7",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 100%; margin-top: 1px; background: #058CD7; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card1.pile.spine2.band": {
+   "tpl": 36,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    49.16,
+    300.1,
+    22.24,
+    2
+   ],
+   "rel": [
+    29.16,
+    92.1,
+    22.24,
+    2
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "radius": "2px",
+    "position": {
+     "top": "4.5px",
+     "right": "18.9041px",
+     "bottom": "4.1px",
+     "left": "14.4559px"
+    }
+   },
+   "css": "position: absolute; left: 26%; top: 4.5px; width: 40%; height: 2px; border-radius: 2px; background: #FFFAF1"
+  },
+  "b02.collections.card1.pile.spine3": {
+   "tpl": 37,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    37.5,
+    306.2,
+    51.04,
+    13
+   ],
+   "rel": [
+    17.5,
+    98.2,
+    51.04,
+    13
+   ],
+   "style": {
+    "bg": "#00995E",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 88%; margin: -1.2px 0 0 4px; background: #00995E; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card1.pile.spine3.band": {
+   "tpl": 38,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    53.29,
+    311.9,
+    16.54,
+    2
+   ],
+   "rel": [
+    33.29,
+    103.9,
+    16.54,
+    2
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": "2px",
+    "position": {
+     "top": "4.5px",
+     "right": "17.5106px",
+     "bottom": "4.1px",
+     "left": "14.5919px"
+    }
+   },
+   "css": "position: absolute; left: 30%; top: 4.5px; width: 34%; height: 2px; border-radius: 2px; background: #FED170"
+  },
+  "b02.collections.card1.pile.spine4": {
+   "tpl": 39,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    34.5,
+    318,
+    55.68,
+    13
+   ],
+   "rel": [
+    14.5,
+    110,
+    55.68,
+    13
+   ],
+   "style": {
+    "bg": "#F2A815",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 96%; margin: -1.2px 0 0 1px; background: #F2A815; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card1.pile.spine4.band": {
+   "tpl": 40,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    50.62,
+    323.7,
+    20.25,
+    2
+   ],
+   "rel": [
+    30.62,
+    115.7,
+    20.25,
+    2
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "2px",
+    "opacity": "0.55",
+    "position": {
+     "top": "4.5px",
+     "right": "18.1155px",
+     "bottom": "4.1px",
+     "left": "14.9183px"
+    }
+   },
+   "css": "position: absolute; left: 28%; top: 4.5px; width: 38%; height: 2px; border-radius: 2px; background: #1A1714; opacity: 0.55"
+  },
+  "b02.collections.card1.textBlock": {
+   "tpl": 41,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    103.5,
+    276.19,
+    101,
+    51.61
+   ],
+   "rel": [
+    83.5,
+    68.19,
+    101,
+    51.61
+   ],
+   "style": {},
+   "css": "min-width: 0; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 29
+    }
+   ]
+  },
+  "b02.collections.card1.title": {
+   "tpl": 42,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    103.5,
+    276.19,
+    101,
+    33.6
+   ],
+   "rel": [
+    83.5,
+    68.19,
+    101,
+    33.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Clássicos",
+     "left": 103.5,
+     "right": 163.49,
+     "top": 276.19,
+     "bottom": 293.0,
+     "baseline": 289.5,
+     "baselineRel": 81.5
+    },
+    {
+     "text": "brasileiros",
+     "left": 103.5,
+     "right": 169.64,
+     "top": 293.0,
+     "bottom": 309.8,
+     "baseline": 306.3,
+     "baselineRel": 98.3
+    }
+   ],
+   "naturalWidth": 129.455,
+   "minContentWidth": 66.136,
+   "text": "Clássicos brasileiros",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "b02.collections.card1.count": {
+   "tpl": 43,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    103.5,
+    312.8,
+    101,
+    15.01
+   ],
+   "rel": [
+    83.5,
+    104.8,
+    101,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B",
+   "lines": [
+    {
+     "text": "14 livros",
+     "left": 103.5,
+     "right": 149.45,
+     "top": 312.8,
+     "bottom": 327.81,
+     "baseline": 324.68,
+     "baselineRel": 116.68
+    }
+   ],
+   "naturalWidth": 45.95,
+   "minContentWidth": 29.9,
+   "text": "14 livros",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.collections.card2": {
+   "tpl": 44,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    232,
+    260,
+    200,
+    84
+   ],
+   "rel": [
+    212,
+    52,
+    200,
+    84
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "padding": "0px 14px 0px 12px"
+   },
+   "css": "flex-shrink: 0; width: 200px; height: 84px; display: flex; align-items: center; gap: 12px; padding: 0 14px 0 12px; box-sizing: border-box; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714"
+  },
+  "b02.collections.card2.pile": {
+   "tpl": 45,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    245.5,
+    273,
+    58,
+    58
+   ],
+   "rel": [
+    225.5,
+    65,
+    58,
+    58
+   ],
+   "style": {},
+   "css": "width: 58px; height: 58px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: flex-end",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.collections.card2.pile.spine1": {
+   "tpl": 46,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    249.5,
+    280.4,
+    48.72,
+    13
+   ],
+   "rel": [
+    229.5,
+    72.4,
+    48.72,
+    13
+   ],
+   "vis": [
+    249.03,
+    278.3,
+    49.67,
+    17.2
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px",
+    "transformMatrix": "matrix(0.996195, 0.0871557, -0.0871557, 0.996195, 0, 0)",
+    "transform": "rotate(5deg)"
+   },
+   "css": "position: relative; height: 13px; width: 84%; margin-left: 4px; background: #FF552E; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box; transform: rotate(5deg)"
+  },
+  "b02.collections.card2.pile.spine1.band": {
+   "tpl": 47,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    264.6,
+    286.1,
+    16.68,
+    2
+   ],
+   "rel": [
+    244.6,
+    78.1,
+    16.68,
+    2
+   ],
+   "vis": [
+    264.53,
+    285.3,
+    16.79,
+    3.45
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "2px",
+    "opacity": "0.55",
+    "position": {
+     "top": "4.5px",
+     "right": "15.7489px",
+     "bottom": "4.1px",
+     "left": "13.8959px"
+    }
+   },
+   "css": "position: absolute; left: 30%; top: 4.5px; width: 36%; height: 2px; border-radius: 2px; background: #1A1714; opacity: 0.55"
+  },
+  "b02.collections.card2.pile.spine2": {
+   "tpl": 48,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    247.5,
+    294.4,
+    54.52,
+    13
+   ],
+   "rel": [
+    227.5,
+    86.4,
+    54.52,
+    13
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 94%; margin: 1px 0 0 2px; background: #FFC1C6; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card2.pile.spine2.band": {
+   "tpl": 49,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    263.29,
+    300.1,
+    20.85,
+    2
+   ],
+   "rel": [
+    243.29,
+    92.1,
+    20.85,
+    2
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "2px",
+    "opacity": "0.55",
+    "position": {
+     "top": "4.5px",
+     "right": "16.6784px",
+     "bottom": "4.1px",
+     "left": "14.5936px"
+    }
+   },
+   "css": "position: absolute; left: 28%; top: 4.5px; width: 40%; height: 2px; border-radius: 2px; background: #1A1714; opacity: 0.55"
+  },
+  "b02.collections.card2.pile.spine3": {
+   "tpl": 50,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    245.5,
+    306.2,
+    58,
+    13
+   ],
+   "rel": [
+    225.5,
+    98.2,
+    58,
+    13
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 100%; margin-top: -1.2px; background: #552CB7; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card2.pile.spine3.band": {
+   "tpl": 51,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    263.38,
+    311.9,
+    18.9,
+    2
+   ],
+   "rel": [
+    243.38,
+    103.9,
+    18.9,
+    2
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": "2px",
+    "position": {
+     "top": "4.5px",
+     "right": "20.0161px",
+     "bottom": "4.1px",
+     "left": "16.68px"
+    }
+   },
+   "css": "position: absolute; left: 30%; top: 4.5px; width: 34%; height: 2px; border-radius: 2px; background: #FED170"
+  },
+  "b02.collections.card2.pile.spine4": {
+   "tpl": 52,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    250.5,
+    318,
+    52.2,
+    13
+   ],
+   "rel": [
+    230.5,
+    110,
+    52.2,
+    13
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 90%; margin: -1.2px 0 0 5px; background: #FED170; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card2.pile.spine4.band": {
+   "tpl": 53,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    264.65,
+    323.7,
+    19.92,
+    2
+   ],
+   "rel": [
+    244.65,
+    115.7,
+    19.92,
+    2
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "2px",
+    "opacity": "0.55",
+    "position": {
+     "top": "4.5px",
+     "right": "16.932px",
+     "bottom": "4.1px",
+     "left": "12.948px"
+    }
+   },
+   "css": "position: absolute; left: 26%; top: 4.5px; width: 40%; height: 2px; border-radius: 2px; background: #1A1714; opacity: 0.55"
+  },
+  "b02.collections.card2.textBlock": {
+   "tpl": 54,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    315.5,
+    284.6,
+    84.25,
+    34.81
+   ],
+   "rel": [
+    295.5,
+    76.6,
+    84.25,
+    34.81
+   ],
+   "style": {},
+   "css": "min-width: 0; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "b02.collections.card2.title": {
+   "tpl": 55,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    315.5,
+    284.6,
+    84.25,
+    16.8
+   ],
+   "rel": [
+    295.5,
+    76.6,
+    84.25,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Clube Capitu",
+     "left": 315.5,
+     "right": 399.75,
+     "top": 284.6,
+     "bottom": 301.39,
+     "baseline": 297.89,
+     "baselineRel": 89.89
+    }
+   ],
+   "naturalWidth": 84.252,
+   "minContentWidth": 43.274,
+   "text": "Clube Capitu",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.collections.card2.count": {
+   "tpl": 56,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    315.5,
+    304.39,
+    84.25,
+    15.01
+   ],
+   "rel": [
+    295.5,
+    96.39,
+    84.25,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B",
+   "lines": [
+    {
+     "text": "6 livros",
+     "left": 315.5,
+     "right": 355.56,
+     "top": 304.39,
+     "bottom": 319.4,
+     "baseline": 316.27,
+     "baselineRel": 108.27
+    }
+   ],
+   "naturalWidth": 40.063,
+   "minContentWidth": 29.9,
+   "text": "6 livros",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "b02.collections.card3": {
+   "tpl": 57,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    444,
+    260,
+    200,
+    84
+   ],
+   "rel": [
+    424,
+    52,
+    200,
+    84
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "padding": "0px 14px 0px 12px"
+   },
+   "css": "flex-shrink: 0; width: 200px; height: 84px; display: flex; align-items: center; gap: 12px; padding: 0 14px 0 12px; box-sizing: border-box; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714"
+  },
+  "b02.collections.card3.pile": {
+   "tpl": 58,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    457.5,
+    273,
+    58,
+    58
+   ],
+   "rel": [
+    437.5,
+    65,
+    58,
+    58
+   ],
+   "style": {},
+   "css": "width: 58px; height: 58px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: flex-end",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.collections.card3.pile.spine1": {
+   "tpl": 59,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    462.5,
+    292.2,
+    49.88,
+    13
+   ],
+   "rel": [
+    442.5,
+    84.2,
+    49.88,
+    13
+   ],
+   "vis": [
+    462.11,
+    290.48,
+    50.66,
+    16.45
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px",
+    "transformMatrix": "matrix(0.997564, -0.0697565, 0.0697565, 0.997564, 0, 0)",
+    "transform": "rotate(-4deg)"
+   },
+   "css": "position: relative; height: 13px; width: 86%; margin-left: 5px; background: #FFFAF1; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box; transform: rotate(-4deg)"
+  },
+  "b02.collections.card3.pile.spine2": {
+   "tpl": 60,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    457.5,
+    306.2,
+    58,
+    13
+   ],
+   "rel": [
+    437.5,
+    98.2,
+    58,
+    13
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 100%; margin-top: 1px; background: #B6ACE4; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card3.pile.spine3": {
+   "tpl": 61,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    460.5,
+    318,
+    53.36,
+    13
+   ],
+   "rel": [
+    440.5,
+    110,
+    53.36,
+    13
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.2px solid #1A1714",
+    "radius": "3px"
+   },
+   "css": "position: relative; height: 13px; width: 92%; margin: -1.2px 0 0 3px; background: #FFFAF1; border: 1.2px solid #1A1714; border-radius: 3px; box-sizing: border-box"
+  },
+  "b02.collections.card3.textBlock": {
+   "tpl": 62,
+   "section": "b02.collections",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    527.5,
+    284.6,
+    66.02,
+    34.81
+   ],
+   "rel": [
+    507.5,
+    76.6,
+    66.02,
+    34.81
+   ],
+   "style": {},
+   "css": "min-width: 0; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.collections.card3.title": {
+   "tpl": 63,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    527.5,
+    284.6,
+    66.02,
+    16.8
+   ],
+   "rel": [
+    507.5,
+    76.6,
+    66.02,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Faculdade",
+     "left": 527.5,
+     "right": 593.52,
+     "top": 284.6,
+     "bottom": 301.39,
+     "baseline": 297.89,
+     "baselineRel": 89.89,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 66.024,
+   "minContentWidth": 66.024,
+   "text": "Faculdade",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.collections.card3.count": {
+   "tpl": 64,
+   "section": "b02.collections",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    527.5,
+    304.39,
+    66.02,
+    15.01
+   ],
+   "rel": [
+    507.5,
+    96.39,
+    66.02,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B",
+   "lines": [
+    {
+     "text": "9 PDFs",
+     "left": 527.5,
+     "right": 566.15,
+     "top": 304.39,
+     "bottom": 319.4,
+     "baseline": 316.27,
+     "baselineRel": 108.27,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 38.65,
+   "minContentWidth": 28.488,
+   "text": "9 PDFs",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.statusTabs": {
+   "tpl": 65,
+   "section": "b02.statusTabs",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    366,
+    390,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    48
+   ],
+   "style": {
+    "padding": "2px 20px 4px 20px",
+    "overflow": "hidden"
+   },
+   "css": "margin: 18px -20px 0; padding: 2px 20px 4px; display: flex; gap: 8px; overflow: hidden",
+   "aria": "Status de leitura",
+   "role": "tablist"
+  },
+  "b02.statusTabs.all": {
+   "tpl": 66,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    20,
+    368,
+    104.6,
+    42
+   ],
+   "rel": [
+    20,
+    2,
+    104.6,
+    42
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "padding": "0px 8px 0px 16px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex-shrink: 0; height: 42px; padding: 0 8px 0 16px; display: flex; align-items: center; gap: 8px; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; box-sizing: border-box; font-size: 14px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Todos",
+     "left": 37.5,
+     "right": 76.34,
+     "top": 380.6,
+     "bottom": 397.4,
+     "baseline": 393.9,
+     "baselineRel": 27.9
+    }
+   ],
+   "naturalWidth": 104.6,
+   "minContentWidth": 104.6,
+   "role": "tab",
+   "text": "Todos",
+   "ariaAttrs": {
+    "aria-selected": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "b02.statusTabs.all.count": {
+   "tpl": 67,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    84.34,
+    376,
+    30.76,
+    26
+   ],
+   "rel": [
+    84.34,
+    10,
+    30.76,
+    26
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.2px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 7px 0px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "min-width: 28px; height: 26px; padding: 0 7px; box-sizing: border-box; border-radius: 999px; background: #FFFAF1; border: 1.2px solid #1A1714; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center",
+   "lines": [
+    {
+     "text": "86",
+     "left": 92.54,
+     "right": 106.9,
+     "top": 381.8,
+     "bottom": 396.2,
+     "baseline": 393.2,
+     "baselineRel": 27.2
+    }
+   ],
+   "naturalWidth": 30.764,
+   "minContentWidth": 30.764,
+   "text": "86",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "b02.statusTabs.reading": {
+   "tpl": 68,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    132.6,
+    368,
+    87.03,
+    42
+   ],
+   "rel": [
+    132.6,
+    2,
+    87.03,
+    42
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #E2D7C4",
+    "radius": "999px",
+    "padding": "0px 14px 0px 16px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex-shrink: 0; height: 42px; padding: 0 14px 0 16px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #E2D7C4; box-sizing: border-box; font-size: 14px; font-weight: 600",
+   "lines": [
+    {
+     "text": "Lendo",
+     "left": 150.1,
+     "right": 189.54,
+     "top": 380.6,
+     "bottom": 397.4,
+     "baseline": 393.9,
+     "baselineRel": 27.9
+    }
+   ],
+   "naturalWidth": 87.034,
+   "minContentWidth": 87.034,
+   "role": "tab",
+   "text": "Lendo",
+   "ariaAttrs": {
+    "aria-selected": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.statusTabs.reading.count": {
+   "tpl": 69,
+   "section": "b02.statusTabs",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    196.54,
+    381.8,
+    7.6,
+    14.4
+   ],
+   "rel": [
+    196.54,
+    15.8,
+    7.6,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700; color: #6F665B",
+   "lines": [
+    {
+     "text": "4",
+     "left": 196.54,
+     "right": 204.13,
+     "top": 381.8,
+     "bottom": 396.2,
+     "baseline": 393.2,
+     "baselineRel": 27.2
+    }
+   ],
+   "naturalWidth": 7.596,
+   "minContentWidth": 7.596,
+   "text": "4",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "b02.statusTabs.wantToRead": {
+   "tpl": 70,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    227.63,
+    368,
+    113.2,
+    42
+   ],
+   "rel": [
+    227.63,
+    2,
+    113.2,
+    42
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #E2D7C4",
+    "radius": "999px",
+    "padding": "0px 14px 0px 16px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex-shrink: 0; height: 42px; padding: 0 14px 0 16px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #E2D7C4; box-sizing: border-box; font-size: 14px; font-weight: 600",
+   "lines": [
+    {
+     "text": "Quero ler",
+     "left": 245.13,
+     "right": 304.42,
+     "top": 380.6,
+     "bottom": 397.4,
+     "baseline": 393.9,
+     "baselineRel": 27.9
+    }
+   ],
+   "naturalWidth": 113.198,
+   "minContentWidth": 93.724,
+   "role": "tab",
+   "text": "Quero ler",
+   "ariaAttrs": {
+    "aria-selected": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.statusTabs.wantToRead.count": {
+   "tpl": 71,
+   "section": "b02.statusTabs",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    311.42,
+    381.8,
+    13.91,
+    14.4
+   ],
+   "rel": [
+    311.42,
+    15.8,
+    13.91,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700; color: #6F665B",
+   "lines": [
+    {
+     "text": "26",
+     "left": 311.42,
+     "right": 325.33,
+     "top": 381.8,
+     "bottom": 396.2,
+     "baseline": 393.2,
+     "baselineRel": 27.2
+    }
+   ],
+   "naturalWidth": 13.908,
+   "minContentWidth": 13.908,
+   "text": "26",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "b02.statusTabs.read": {
+   "tpl": 72,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    348.83,
+    368,
+    87.77,
+    42
+   ],
+   "rel": [
+    348.83,
+    2,
+    87.77,
+    42
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #E2D7C4",
+    "radius": "999px",
+    "padding": "0px 14px 0px 16px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex-shrink: 0; height: 42px; padding: 0 14px 0 16px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #E2D7C4; box-sizing: border-box; font-size: 14px; font-weight: 600",
+   "lines": [
+    {
+     "text": "Lidos",
+     "left": 366.33,
+     "right": 400.18,
+     "top": 380.6,
+     "bottom": 397.4,
+     "baseline": 393.9,
+     "baselineRel": 27.9
+    }
+   ],
+   "naturalWidth": 87.772,
+   "minContentWidth": 87.772,
+   "role": "tab",
+   "text": "Lidos",
+   "ariaAttrs": {
+    "aria-selected": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.statusTabs.read.count": {
+   "tpl": 73,
+   "section": "b02.statusTabs",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    407.18,
+    381.8,
+    13.92,
+    14.4
+   ],
+   "rel": [
+    407.18,
+    15.8,
+    13.92,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700; color: #6F665B",
+   "lines": [
+    {
+     "text": "52",
+     "left": 407.18,
+     "right": 421.1,
+     "top": 381.8,
+     "bottom": 396.2,
+     "baseline": 393.2,
+     "baselineRel": 27.2,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 13.92,
+   "minContentWidth": 13.92,
+   "text": "52",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "b02.statusTabs.favorites": {
+   "tpl": 74,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    444.6,
+    368,
+    110.96,
+    42
+   ],
+   "rel": [
+    444.6,
+    2,
+    110.96,
+    42
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #E2D7C4",
+    "radius": "999px",
+    "padding": "0px 14px 0px 16px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex-shrink: 0; height: 42px; padding: 0 14px 0 16px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #E2D7C4; box-sizing: border-box; font-size: 14px; font-weight: 600",
+   "lines": [
+    {
+     "text": "Favoritos",
+     "left": 462.1,
+     "right": 521.05,
+     "top": 380.6,
+     "bottom": 397.4,
+     "baseline": 393.9,
+     "baselineRel": 27.9,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 110.961,
+   "minContentWidth": 110.961,
+   "role": "tab",
+   "text": "Favoritos",
+   "ariaAttrs": {
+    "aria-selected": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.statusTabs.favorites.count": {
+   "tpl": 75,
+   "section": "b02.statusTabs",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    528.05,
+    381.8,
+    12.01,
+    14.4
+   ],
+   "rel": [
+    528.05,
+    15.8,
+    12.01,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700; color: #6F665B",
+   "lines": [
+    {
+     "text": "12",
+     "left": 528.05,
+     "right": 540.07,
+     "top": 381.8,
+     "bottom": 396.2,
+     "baseline": 393.2,
+     "baselineRel": 27.2,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 12.012,
+   "minContentWidth": 12.012,
+   "text": "12",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "b02.statusTabs.abandoned": {
+   "tpl": 76,
+   "section": "b02.statusTabs",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    563.57,
+    368,
+    135.47,
+    42
+   ],
+   "rel": [
+    563.57,
+    2,
+    135.47,
+    42
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #E2D7C4",
+    "radius": "999px",
+    "padding": "0px 14px 0px 16px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex-shrink: 0; height: 42px; padding: 0 14px 0 16px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #E2D7C4; box-sizing: border-box; font-size: 14px; font-weight: 600",
+   "lines": [
+    {
+     "text": "Abandonados",
+     "left": 581.07,
+     "right": 668.94,
+     "top": 380.6,
+     "bottom": 397.4,
+     "baseline": 393.9,
+     "baselineRel": 27.9,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 135.474,
+   "minContentWidth": 135.474,
+   "role": "tab",
+   "text": "Abandonados",
+   "ariaAttrs": {
+    "aria-selected": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.statusTabs.abandoned.count": {
+   "tpl": 77,
+   "section": "b02.statusTabs",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    675.94,
+    381.8,
+    7.6,
+    14.4
+   ],
+   "rel": [
+    675.94,
+    15.8,
+    7.6,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700; color: #6F665B",
+   "lines": [
+    {
+     "text": "4",
+     "left": 675.94,
+     "right": 683.54,
+     "top": 381.8,
+     "bottom": 396.2,
+     "baseline": 393.2,
+     "baselineRel": 27.2,
+     "oculta": true
+    }
+   ],
+   "naturalWidth": 7.596,
+   "minContentWidth": 7.596,
+   "text": "4",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "b02.sortView": {
+   "tpl": 78,
+   "section": "b02.sortView",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    424,
+    350,
+    44
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    44
+   ],
+   "style": {},
+   "css": "margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px"
+  },
+  "b02.sortView.sort": {
+   "tpl": 79,
+   "section": "b02.sortView",
+   "type": "text",
+   "tag": "button",
+   "abs": [
+    10,
+    424,
+    187.3,
+    44
+   ],
+   "rel": [
+    -10,
+    0,
+    187.3,
+    44
+   ],
+   "style": {
+    "radius": "999px",
+    "padding": "0px 10px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "height: 44px; margin-left: -10px; padding: 0 10px; display: flex; align-items: center; gap: 6px; border-radius: 999px; background: transparent; border: none; font-size: 14px; font-weight: 700",
+   "lines": [
+    {
+     "text": "Recentes",
+     "left": 105.38,
+     "right": 165.3,
+     "top": 437.6,
+     "bottom": 454.4,
+     "baseline": 450.9,
+     "baselineRel": 26.9
+    }
+   ],
+   "naturalWidth": 187.304,
+   "minContentWidth": 187.304,
+   "aria": "Ordenar por: Recentes",
+   "text": "Recentes",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.sortView.sort.icon": {
+   "tpl": 80,
+   "section": "b02.sortView",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    20,
+    437,
+    18,
+    18
+   ],
+   "rel": [
+    0,
+    13,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.sortView.sort.prefix": {
+   "tpl": 82,
+   "section": "b02.sortView",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    44,
+    437.6,
+    55.38,
+    16.8
+   ],
+   "rel": [
+    24,
+    13.6,
+    55.38,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "textAlign": "center"
+    }
+   },
+   "css": "font-weight: 500; color: #5B544B",
+   "lines": [
+    {
+     "text": "Ordenar:",
+     "left": 44,
+     "right": 99.38,
+     "top": 437.6,
+     "bottom": 454.4,
+     "baseline": 450.9,
+     "baselineRel": 26.9
+    }
+   ],
+   "naturalWidth": 55.384,
+   "minContentWidth": 55.384,
+   "text": "Ordenar:",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "b02.sortView.sort.chevron": {
+   "tpl": 83,
+   "section": "b02.sortView",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    171.3,
+    438,
+    16,
+    16
+   ],
+   "rel": [
+    151.3,
+    14,
+    16,
+    16
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.sortView.toggle": {
+   "tpl": 85,
+   "section": "b02.sortView",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    271,
+    424,
+    99,
+    44
+   ],
+   "rel": [
+    251,
+    0,
+    99,
+    44
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "3px 3px 3px 3px"
+   },
+   "css": "height: 44px; padding: 3px; box-sizing: border-box; display: flex; gap: 2px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714",
+   "aria": "Visualização",
+   "role": "radiogroup"
+  },
+  "b02.sortView.toggle.grid": {
+   "tpl": 86,
+   "section": "b02.sortView",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    275.5,
+    428.5,
+    44,
+    35
+   ],
+   "rel": [
+    255.5,
+    4.5,
+    44,
+    35
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px"
+   },
+   "css": "width: 44px; height: 100%; padding: 0; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Grade",
+   "role": "radio",
+   "ariaAttrs": {
+    "aria-checked": "true"
+   }
+  },
+  "b02.sortView.toggle.grid.icon": {
+   "tpl": 87,
+   "section": "b02.sortView",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    288.5,
+    437,
+    18,
+    18
+   ],
+   "rel": [
+    268.5,
+    13,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.sortView.toggle.list": {
+   "tpl": 92,
+   "section": "b02.sortView",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    321.5,
+    428.5,
+    44,
+    35
+   ],
+   "rel": [
+    301.5,
+    4.5,
+    44,
+    35
+   ],
+   "style": {
+    "radius": "999px"
+   },
+   "css": "width: 44px; height: 100%; padding: 0; border-radius: 999px; background: transparent; border: none; display: flex; align-items: center; justify-content: center",
+   "aria": "Lista",
+   "role": "radio",
+   "ariaAttrs": {
+    "aria-checked": "false"
+   }
+  },
+  "b02.sortView.toggle.list.icon": {
+   "tpl": 93,
+   "section": "b02.sortView",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    334.5,
+    437,
+    18,
+    18
+   ],
+   "rel": [
+    314.5,
+    13,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.shelf": {
+   "tpl": 98,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    490,
+    350,
+    1011.25
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    1011.25
+   ],
+   "style": {},
+   "css": "margin-top: 22px; display: flex; flex-direction: column; gap: 30px",
+   "aria": "Livros"
+  },
+  "b02.shelf.row1": {
+   "tpl": 99,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    490,
+    350,
+    260.01
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    260.01
+   ],
+   "style": {},
+   "css": "position: relative"
+  },
+  "b02.shelf.row1.plank": {
+   "tpl": 100,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    15,
+    648.5,
+    360,
+    11
+   ],
+   "rel": [
+    -5,
+    158.5,
+    360,
+    11
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "6px",
+    "shadow": "#1A1714 0px 3px 0px 0px",
+    "position": {
+     "top": "158.5px",
+     "right": "-5px",
+     "bottom": "90.51px",
+     "left": "-5px"
+    }
+   },
+   "css": "position: absolute; left: -5px; right: -5px; top: 158.5px; height: 11px; border-radius: 6px; background: {{shelf}}; border: 1.5px solid #1A1714; box-sizing: border-box; box-shadow: 0 3px 0 #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.row1.grid": {
+   "tpl": 101,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    490,
+    350,
+    260.01
+   ],
+   "rel": [
+    0,
+    0,
+    350,
+    260.01
+   ],
+   "style": {},
+   "css": "display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px"
+  },
+  "b02.shelf.book1": {
+   "tpl": 102,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    490,
+    107.33,
+    260.01
+   ],
+   "rel": [
+    0,
+    0,
+    107.33,
+    260.01
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Dom Casmurro, Machado de Assis, 62% lido"
+  },
+  "b02.shelf.book1.coverWrap": {
+   "tpl": 103,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    490,
+    107.33,
+    160
+   ],
+   "rel": [
+    0,
+    0,
+    107.33,
+    160
+   ],
+   "style": {},
+   "css": "position: relative; height: 160px"
+  },
+  "b02.shelf.book1.cover": {
+   "tpl": 104,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    490,
+    107.33,
+    160
+   ],
+   "rel": [
+    0,
+    0,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #552CB7; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book1.cover.spine": {
+   "tpl": 105,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    21.5,
+    491.5,
+    7,
+    157
+   ],
+   "rel": [
+    1.5,
+    1.5,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.22",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.22)"
+  },
+  "b02.shelf.book1.cover.circle": {
+   "tpl": 106,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    77.83,
+    471.5,
+    68,
+    68
+   ],
+   "rel": [
+    57.83,
+    -18.5,
+    68,
+    68
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": "50%",
+    "position": {
+     "top": "-20px",
+     "right": "-20px",
+     "bottom": "109px",
+     "left": "56.3331px"
+    }
+   },
+   "css": "position: absolute; right: -20px; top: -20px; width: 68px; height: 68px; border-radius: 50%; background: #FED170"
+  },
+  "b02.shelf.book1.cover.ring": {
+   "tpl": 107,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    90.83,
+    531.5,
+    19,
+    19
+   ],
+   "rel": [
+    70.83,
+    41.5,
+    19,
+    19
+   ],
+   "style": {
+    "border": "1.5px solid #FED170",
+    "radius": "50%",
+    "position": {
+     "top": "40px",
+     "right": "16px",
+     "bottom": "98px",
+     "left": "69.3331px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: absolute; right: 16px; top: 40px; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #FED170"
+  },
+  "b02.shelf.book1.cover.textBlock": {
+   "tpl": 108,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    36.5,
+    582.21,
+    81.33,
+    54.29
+   ],
+   "rel": [
+    16.5,
+    92.21,
+    81.33,
+    54.29
+   ],
+   "style": {
+    "position": {
+     "top": "90.71px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book1.cover.title": {
+   "tpl": 109,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    36.5,
+    582.21,
+    81.33,
+    40.48
+   ],
+   "rel": [
+    16.5,
+    92.21,
+    81.33,
+    40.48
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 22.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20.24px",
+     "letterSpacing": "normal",
+     "color": "#FED170"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 0.92; color: #FED170",
+   "lines": [
+    {
+     "text": "Dom",
+     "left": 36.5,
+     "right": 72.62,
+     "top": 578.03,
+     "bottom": 606.63,
+     "baseline": 599.81,
+     "baselineRel": 109.81
+    },
+    {
+     "text": "Casmurro",
+     "left": 36.5,
+     "right": 111.06,
+     "top": 598.27,
+     "bottom": 626.87,
+     "baseline": 620.05,
+     "baselineRel": 130.05
+    }
+   ],
+   "naturalWidth": 74.558,
+   "minContentWidth": 74.558,
+   "text": "DomCasmurro",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.shelf.book1.cover.author": {
+   "tpl": 111,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    36.5,
+    628.69,
+    81.33,
+    7.81
+   ],
+   "rel": [
+    16.5,
+    138.69,
+    81.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#F7F0E3"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #F7F0E3",
+   "lines": [
+    {
+     "text": "MACHADO DE ASSIS",
+     "left": 36.5,
+     "right": 114.83,
+     "top": 628.69,
+     "bottom": 636.5,
+     "baseline": 634.87,
+     "baselineRel": 144.87
+    }
+   ],
+   "naturalWidth": 78.325,
+   "minContentWidth": 40.307,
+   "text": "MACHADO DE ASSIS",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book1.ribbon": {
+   "tpl": 112,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    99.33,
+    482,
+    16,
+    30
+   ],
+   "rel": [
+    79.33,
+    -8,
+    16,
+    30
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "-8px",
+     "right": "12px",
+     "bottom": "138px",
+     "left": "79.3333px"
+    }
+   },
+   "css": "position: absolute; top: -8px; right: 12px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.book1.info": {
+   "tpl": 114,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    676,
+    107.33,
+    57.21
+   ],
+   "rel": [
+    0,
+    186,
+    107.33,
+    57.21
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 28
+    }
+   ]
+  },
+  "b02.shelf.book1.info.title": {
+   "tpl": 115,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    676,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    0,
+    186,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Dom Casmurro",
+     "left": 20,
+     "right": 116.52,
+     "top": 676,
+     "bottom": 692.8,
+     "baseline": 689.3,
+     "baselineRel": 199.3
+    }
+   ],
+   "naturalWidth": 96.516,
+   "minContentWidth": 63.042,
+   "text": "Dom Casmurro",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book1.info.author": {
+   "tpl": 116,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    695.8,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    0,
+    205.8,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Machado de Assis",
+     "left": 20,
+     "right": 121.25,
+     "top": 695.8,
+     "bottom": 710.81,
+     "baseline": 707.68,
+     "baselineRel": 217.68
+    }
+   ],
+   "naturalWidth": 101.255,
+   "minContentWidth": 51.9,
+   "text": "Machado de Assis",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book1.info.progress": {
+   "tpl": 117,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    718.81,
+    107.33,
+    14.4
+   ],
+   "rel": [
+    0,
+    228.81,
+    107.33,
+    14.4
+   ],
+   "style": {},
+   "css": "margin-top: 5px; display: flex; align-items: center; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book1.info.progress.bar": {
+   "tpl": 118,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    722.51,
+    40,
+    7
+   ],
+   "rel": [
+    0,
+    232.51,
+    40,
+    7
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(135deg, #E4DACA 0px, #E4DACA 2px, #FFFAF1 2px, #FFFAF1 4px)",
+    "border": "1.2px solid #1A1714",
+    "radius": "999px",
+    "overflow": "hidden"
+   },
+   "css": "width: 40px; height: 7px; border-radius: 999px; border: 1.2px solid #1A1714; box-sizing: border-box; background: repeating-linear-gradient(135deg, #E4DACA 0 2px, #FFFAF1 2px 4px); overflow: hidden"
+  },
+  "b02.shelf.book1.info.progress.fill": {
+   "tpl": 119,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    21.2,
+    723.71,
+    23.31,
+    4.6
+   ],
+   "rel": [
+    1.2,
+    233.71,
+    23.31,
+    4.6
+   ],
+   "style": {
+    "bg": "#FF552E"
+   },
+   "css": "width: 62%; height: 100%; background: #FF552E"
+  },
+  "b02.shelf.book1.info.progress.percent": {
+   "tpl": 120,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    66,
+    718.81,
+    23.99,
+    14.4
+   ],
+   "rel": [
+    46,
+    228.81,
+    23.99,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 800",
+   "lines": [
+    {
+     "text": "62%",
+     "left": 66,
+     "right": 89.99,
+     "top": 718.81,
+     "bottom": 733.21,
+     "baseline": 730.21,
+     "baselineRel": 240.21
+    }
+   ],
+   "naturalWidth": 23.988,
+   "minContentWidth": 23.988,
+   "text": "62%",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book2": {
+   "tpl": 121,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    141.33,
+    490,
+    107.33,
+    260.01
+   ],
+   "rel": [
+    121.33,
+    0,
+    107.33,
+    260.01
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Mrs. Dalloway, Virginia Woolf, 34% lido"
+  },
+  "b02.shelf.book2.coverWrap": {
+   "tpl": 122,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    490,
+    107.33,
+    160
+   ],
+   "rel": [
+    121.33,
+    0,
+    107.33,
+    160
+   ],
+   "style": {},
+   "css": "position: relative; height: 160px"
+  },
+  "b02.shelf.book2.cover": {
+   "tpl": 123,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    490,
+    107.33,
+    160
+   ],
+   "rel": [
+    121.33,
+    0,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #ABCF82; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book2.cover.spine": {
+   "tpl": 124,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    142.83,
+    491.5,
+    7,
+    157
+   ],
+   "rel": [
+    122.83,
+    1.5,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.14",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.14)"
+  },
+  "b02.shelf.book2.cover.arch": {
+   "tpl": 125,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    168.83,
+    517.5,
+    58.33,
+    40
+   ],
+   "rel": [
+    148.83,
+    27.5,
+    58.33,
+    40
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": [
+     "40px",
+     "40px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "26px",
+     "right": "20px",
+     "bottom": "91px",
+     "left": "26px"
+    }
+   },
+   "css": "position: absolute; left: 26px; right: 20px; top: 26px; height: 40px; border-radius: 40px 40px 0 0; background: #1A1714"
+  },
+  "b02.shelf.book2.cover.textBlock": {
+   "tpl": 126,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    157.83,
+    582.21,
+    81.33,
+    54.29
+   ],
+   "rel": [
+    137.83,
+    92.21,
+    81.33,
+    54.29
+   ],
+   "style": {
+    "position": {
+     "top": "90.71px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.shelf.book2.cover.title": {
+   "tpl": 127,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    157.83,
+    582.21,
+    81.33,
+    40.48
+   ],
+   "rel": [
+    137.83,
+    92.21,
+    81.33,
+    40.48
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 22.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20.24px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 0.92; color: #1A1714",
+   "lines": [
+    {
+     "text": "Mrs.",
+     "left": 157.83,
+     "right": 190.92,
+     "top": 578.03,
+     "bottom": 606.63,
+     "baseline": 599.81,
+     "baselineRel": 109.81
+    },
+    {
+     "text": "Dalloway",
+     "left": 157.83,
+     "right": 226.87,
+     "top": 598.27,
+     "bottom": 626.87,
+     "baseline": 620.05,
+     "baselineRel": 130.05
+    }
+   ],
+   "naturalWidth": 69.036,
+   "minContentWidth": 69.036,
+   "text": "Mrs.Dalloway",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book2.cover.author": {
+   "tpl": 129,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    157.83,
+    628.69,
+    81.33,
+    7.81
+   ],
+   "rel": [
+    137.83,
+    138.69,
+    81.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #1A1714",
+   "lines": [
+    {
+     "text": "VIRGINIA WOOLF",
+     "left": 157.83,
+     "right": 224.81,
+     "top": 628.69,
+     "bottom": 636.5,
+     "baseline": 634.87,
+     "baselineRel": 144.87
+    }
+   ],
+   "naturalWidth": 66.976,
+   "minContentWidth": 36.244,
+   "text": "VIRGINIA WOOLF",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.shelf.book2.ribbon": {
+   "tpl": 130,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    220.67,
+    482,
+    16,
+    30
+   ],
+   "rel": [
+    200.67,
+    -8,
+    16,
+    30
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "-8px",
+     "right": "12px",
+     "bottom": "138px",
+     "left": "79.3333px"
+    }
+   },
+   "css": "position: absolute; top: -8px; right: 12px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.book2.info": {
+   "tpl": 132,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    676,
+    107.33,
+    57.21
+   ],
+   "rel": [
+    121.33,
+    186,
+    107.33,
+    57.21
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 27
+    }
+   ]
+  },
+  "b02.shelf.book2.info.title": {
+   "tpl": 133,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    676,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    121.33,
+    186,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Mrs. Dalloway",
+     "left": 141.33,
+     "right": 230.74,
+     "top": 676,
+     "bottom": 692.8,
+     "baseline": 689.3,
+     "baselineRel": 199.3
+    }
+   ],
+   "naturalWidth": 89.404,
+   "minContentWidth": 58.772,
+   "text": "Mrs. Dalloway",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "b02.shelf.book2.info.author": {
+   "tpl": 134,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    695.8,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    121.33,
+    205.8,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Virginia Woolf",
+     "left": 141.33,
+     "right": 220.97,
+     "top": 695.8,
+     "bottom": 710.81,
+     "baseline": 707.68,
+     "baselineRel": 217.68
+    }
+   ],
+   "naturalWidth": 79.636,
+   "minContentWidth": 42.975,
+   "text": "Virginia Woolf",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.shelf.book2.info.progress": {
+   "tpl": 135,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    718.81,
+    107.33,
+    14.4
+   ],
+   "rel": [
+    121.33,
+    228.81,
+    107.33,
+    14.4
+   ],
+   "style": {},
+   "css": "margin-top: 5px; display: flex; align-items: center; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book2.info.progress.bar": {
+   "tpl": 136,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    722.51,
+    40,
+    7
+   ],
+   "rel": [
+    121.33,
+    232.51,
+    40,
+    7
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(135deg, #E4DACA 0px, #E4DACA 2px, #FFFAF1 2px, #FFFAF1 4px)",
+    "border": "1.2px solid #1A1714",
+    "radius": "999px",
+    "overflow": "hidden"
+   },
+   "css": "width: 40px; height: 7px; border-radius: 999px; border: 1.2px solid #1A1714; box-sizing: border-box; background: repeating-linear-gradient(135deg, #E4DACA 0 2px, #FFFAF1 2px 4px); overflow: hidden"
+  },
+  "b02.shelf.book2.info.progress.fill": {
+   "tpl": 137,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    142.53,
+    723.71,
+    12.78,
+    4.6
+   ],
+   "rel": [
+    122.53,
+    233.71,
+    12.78,
+    4.6
+   ],
+   "style": {
+    "bg": "#FF552E"
+   },
+   "css": "width: 34%; height: 100%; background: #FF552E"
+  },
+  "b02.shelf.book2.info.progress.percent": {
+   "tpl": 138,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    187.33,
+    718.81,
+    24.3,
+    14.4
+   ],
+   "rel": [
+    167.33,
+    228.81,
+    24.3,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 800",
+   "lines": [
+    {
+     "text": "34%",
+     "left": 187.33,
+     "right": 211.63,
+     "top": 718.81,
+     "bottom": 733.21,
+     "baseline": 730.21,
+     "baselineRel": 240.21
+    }
+   ],
+   "naturalWidth": 24.3,
+   "minContentWidth": 24.3,
+   "text": "34%",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book3": {
+   "tpl": 139,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    262.67,
+    490,
+    107.33,
+    260.01
+   ],
+   "rel": [
+    242.67,
+    0,
+    107.33,
+    260.01
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Orgulho e Preconceito, Jane Austen, 81% lido"
+  },
+  "b02.shelf.book3.coverWrap": {
+   "tpl": 140,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    490,
+    107.33,
+    160
+   ],
+   "rel": [
+    242.67,
+    0,
+    107.33,
+    160
+   ],
+   "style": {},
+   "css": "position: relative; height: 160px"
+  },
+  "b02.shelf.book3.cover": {
+   "tpl": 141,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    490,
+    107.33,
+    160
+   ],
+   "rel": [
+    242.67,
+    0,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #FFC1C6; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book3.cover.spine": {
+   "tpl": 142,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    264.17,
+    491.5,
+    7,
+    157
+   ],
+   "rel": [
+    244.17,
+    1.5,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.1",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.1)"
+  },
+  "b02.shelf.book3.cover.ring": {
+   "tpl": 143,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    288.17,
+    515.5,
+    40,
+    40
+   ],
+   "rel": [
+    268.17,
+    25.5,
+    40,
+    40
+   ],
+   "style": {
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "24px",
+     "right": "40.3331px",
+     "bottom": "93px",
+     "left": "24px"
+    }
+   },
+   "css": "position: absolute; left: 24px; top: 24px; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "b02.shelf.book3.cover.dot": {
+   "tpl": 144,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    314.17,
+    541.5,
+    22,
+    22
+   ],
+   "rel": [
+    294.17,
+    51.5,
+    22,
+    22
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "50px",
+     "right": "32.3331px",
+     "bottom": "85px",
+     "left": "50px"
+    }
+   },
+   "css": "position: absolute; left: 50px; top: 50px; width: 22px; height: 22px; border-radius: 50%; background: #1A1714"
+  },
+  "b02.shelf.book3.cover.textBlock": {
+   "tpl": 145,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    279.17,
+    586.59,
+    83.33,
+    49.91
+   ],
+   "rel": [
+    259.17,
+    96.59,
+    83.33,
+    49.91
+   ],
+   "style": {
+    "position": {
+     "top": "95.09px",
+     "right": "6px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 6px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 20
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.shelf.book3.cover.title": {
+   "tpl": 146,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    586.59,
+    83.33,
+    36.1
+   ],
+   "rel": [
+    259.17,
+    96.59,
+    83.33,
+    36.1
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "18.05px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.95; color: #1A1714",
+   "lines": [
+    {
+     "text": "Orgulho e",
+     "left": 279.17,
+     "right": 342,
+     "top": 583.26,
+     "bottom": 607.96,
+     "baseline": 602.07,
+     "baselineRel": 112.07
+    },
+    {
+     "text": "Preconceito",
+     "left": 279.17,
+     "right": 354.03,
+     "top": 601.31,
+     "bottom": 626.01,
+     "baseline": 620.12,
+     "baselineRel": 130.12
+    }
+   ],
+   "naturalWidth": 74.86,
+   "minContentWidth": 74.86,
+   "text": "Orgulho ePreconceito",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "b02.shelf.book3.cover.author": {
+   "tpl": 148,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    628.69,
+    83.33,
+    7.81
+   ],
+   "rel": [
+    259.17,
+    138.69,
+    83.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #1A1714",
+   "lines": [
+    {
+     "text": "JANE AUSTEN",
+     "left": 279.17,
+     "right": 333.62,
+     "top": 628.69,
+     "bottom": 636.5,
+     "baseline": 634.87,
+     "baselineRel": 144.87
+    }
+   ],
+   "naturalWidth": 54.45,
+   "minContentWidth": 31.271,
+   "text": "JANE AUSTEN",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.shelf.book3.ribbon": {
+   "tpl": 149,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    342,
+    482,
+    16,
+    30
+   ],
+   "rel": [
+    322,
+    -8,
+    16,
+    30
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "-8px",
+     "right": "12px",
+     "bottom": "138px",
+     "left": "79.3333px"
+    }
+   },
+   "css": "position: absolute; top: -8px; right: 12px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.book3.info": {
+   "tpl": 151,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    676,
+    107.33,
+    74.01
+   ],
+   "rel": [
+    242.67,
+    186,
+    107.33,
+    74.01
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 31
+    }
+   ]
+  },
+  "b02.shelf.book3.info.title": {
+   "tpl": 152,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    676,
+    107.33,
+    33.6
+   ],
+   "rel": [
+    242.67,
+    186,
+    107.33,
+    33.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Orgulho e",
+     "left": 262.67,
+     "right": 326.0,
+     "top": 676,
+     "bottom": 692.8,
+     "baseline": 689.3,
+     "baselineRel": 199.3
+    },
+    {
+     "text": "Preconceito",
+     "left": 262.67,
+     "right": 340.58,
+     "top": 692.8,
+     "bottom": 709.6,
+     "baseline": 706.1,
+     "baselineRel": 216.1
+    }
+   ],
+   "naturalWidth": 144.578,
+   "minContentWidth": 77.91,
+   "text": "Orgulho e Preconceito",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "b02.shelf.book3.info.author": {
+   "tpl": 153,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    712.6,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    242.67,
+    222.6,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Jane Austen",
+     "left": 262.67,
+     "right": 332.62,
+     "top": 712.6,
+     "bottom": 727.61,
+     "baseline": 724.48,
+     "baselineRel": 234.48
+    }
+   ],
+   "naturalWidth": 69.959,
+   "minContentWidth": 40.034,
+   "text": "Jane Austen",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.shelf.book3.info.progress": {
+   "tpl": 154,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    735.61,
+    107.33,
+    14.4
+   ],
+   "rel": [
+    242.67,
+    245.61,
+    107.33,
+    14.4
+   ],
+   "style": {},
+   "css": "margin-top: 5px; display: flex; align-items: center; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book3.info.progress.bar": {
+   "tpl": 155,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    739.31,
+    40,
+    7
+   ],
+   "rel": [
+    242.67,
+    249.31,
+    40,
+    7
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(135deg, #E4DACA 0px, #E4DACA 2px, #FFFAF1 2px, #FFFAF1 4px)",
+    "border": "1.2px solid #1A1714",
+    "radius": "999px",
+    "overflow": "hidden"
+   },
+   "css": "width: 40px; height: 7px; border-radius: 999px; border: 1.2px solid #1A1714; box-sizing: border-box; background: repeating-linear-gradient(135deg, #E4DACA 0 2px, #FFFAF1 2px 4px); overflow: hidden"
+  },
+  "b02.shelf.book3.info.progress.fill": {
+   "tpl": 156,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    263.87,
+    740.51,
+    30.46,
+    4.6
+   ],
+   "rel": [
+    243.87,
+    250.51,
+    30.46,
+    4.6
+   ],
+   "style": {
+    "bg": "#FF552E"
+   },
+   "css": "width: 81%; height: 100%; background: #FF552E"
+  },
+  "b02.shelf.book3.info.progress.percent": {
+   "tpl": 157,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    308.67,
+    735.61,
+    22.34,
+    14.4
+   ],
+   "rel": [
+    288.67,
+    245.61,
+    22.34,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 800",
+   "lines": [
+    {
+     "text": "81%",
+     "left": 308.67,
+     "right": 331.01,
+     "top": 735.61,
+     "bottom": 750.01,
+     "baseline": 747.01,
+     "baselineRel": 257.01
+    }
+   ],
+   "naturalWidth": 22.344,
+   "minContentWidth": 22.344,
+   "text": "81%",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.row2": {
+   "tpl": 158,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    780.01,
+    350,
+    250.62
+   ],
+   "rel": [
+    0,
+    290.01,
+    350,
+    250.62
+   ],
+   "style": {},
+   "css": "position: relative"
+  },
+  "b02.shelf.row2.plank": {
+   "tpl": 159,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    15,
+    938.51,
+    360,
+    11
+   ],
+   "rel": [
+    -5,
+    448.51,
+    360,
+    11
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "6px",
+    "shadow": "#1A1714 0px 3px 0px 0px",
+    "position": {
+     "top": "158.5px",
+     "right": "-5px",
+     "bottom": "81.12px",
+     "left": "-5px"
+    }
+   },
+   "css": "position: absolute; left: -5px; right: -5px; top: 158.5px; height: 11px; border-radius: 6px; background: {{shelf}}; border: 1.5px solid #1A1714; box-sizing: border-box; box-shadow: 0 3px 0 #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.row2.grid": {
+   "tpl": 160,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    780.01,
+    350,
+    250.62
+   ],
+   "rel": [
+    0,
+    290.01,
+    350,
+    250.62
+   ],
+   "style": {},
+   "css": "display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px"
+  },
+  "b02.shelf.book4": {
+   "tpl": 161,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    780.01,
+    107.33,
+    250.62
+   ],
+   "rel": [
+    0,
+    290.01,
+    107.33,
+    250.62
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Senhora, José de Alencar, novo"
+  },
+  "b02.shelf.book4.cover": {
+   "tpl": 162,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    780.01,
+    107.33,
+    160
+   ],
+   "rel": [
+    0,
+    290.01,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#F2A815",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #F2A815; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book4.cover.spine": {
+   "tpl": 163,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    21.5,
+    781.51,
+    7,
+    157
+   ],
+   "rel": [
+    1.5,
+    291.51,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.12",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.12)"
+  },
+  "b02.shelf.book4.cover.archOutline": {
+   "tpl": 164,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    43.5,
+    803.51,
+    64.33,
+    58
+   ],
+   "rel": [
+    23.5,
+    313.51,
+    64.33,
+    58
+   ],
+   "style": {
+    "border": {
+     "top": "1.5px solid #1A1714",
+     "right": "1.5px solid #1A1714",
+     "bottom": "0",
+     "left": "1.5px solid #1A1714"
+    },
+    "radius": [
+     "34px",
+     "34px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "22px",
+     "right": "18px",
+     "bottom": "77px",
+     "left": "22px"
+    }
+   },
+   "css": "position: absolute; left: 22px; right: 18px; top: 22px; height: 58px; border-radius: 34px 34px 0 0; border: 1.5px solid #1A1714; border-bottom: none; box-sizing: border-box"
+  },
+  "b02.shelf.book4.cover.arch": {
+   "tpl": 165,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    59.5,
+    823.51,
+    32.33,
+    38
+   ],
+   "rel": [
+    39.5,
+    333.51,
+    32.33,
+    38
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": [
+     "20px",
+     "20px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "42px",
+     "right": "34px",
+     "bottom": "77px",
+     "left": "38px"
+    }
+   },
+   "css": "position: absolute; left: 38px; right: 34px; top: 42px; height: 38px; border-radius: 20px 20px 0 0; background: #1A1714"
+  },
+  "b02.shelf.book4.cover.textBlock": {
+   "tpl": 166,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    36.5,
+    890.62,
+    81.33,
+    35.89
+   ],
+   "rel": [
+    16.5,
+    400.62,
+    81.33,
+    35.89
+   ],
+   "style": {
+    "position": {
+     "top": "109.11px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 7
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book4.cover.title": {
+   "tpl": 167,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    36.5,
+    890.62,
+    81.33,
+    22.08
+   ],
+   "rel": [
+    16.5,
+    400.62,
+    81.33,
+    22.08
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 24.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "22.08px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; line-height: 0.92; color: #1A1714",
+   "lines": [
+    {
+     "text": "Senhora",
+     "left": 36.5,
+     "right": 103.77,
+     "top": 886.06,
+     "bottom": 917.26,
+     "baseline": 909.82,
+     "baselineRel": 419.82
+    }
+   ],
+   "naturalWidth": 67.272,
+   "minContentWidth": 67.272,
+   "text": "Senhora",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.shelf.book4.cover.author": {
+   "tpl": 168,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    36.5,
+    918.7,
+    81.33,
+    7.81
+   ],
+   "rel": [
+    16.5,
+    428.7,
+    81.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #1A1714",
+   "lines": [
+    {
+     "text": "JOSÉ DE ALENCAR",
+     "left": 36.5,
+     "right": 108.63,
+     "top": 918.7,
+     "bottom": 926.51,
+     "baseline": 924.88,
+     "baselineRel": 434.88
+    }
+   ],
+   "naturalWidth": 72.13,
+   "minContentWidth": 36.9,
+   "text": "JOSÉ DE ALENCAR",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book4.info": {
+   "tpl": 169,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    966.01,
+    107.33,
+    64.62
+   ],
+   "rel": [
+    0,
+    476.01,
+    107.33,
+    64.62
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 26
+    }
+   ]
+  },
+  "b02.shelf.book4.info.title": {
+   "tpl": 170,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    966.01,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    0,
+    476.01,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Senhora",
+     "left": 20,
+     "right": 73.09,
+     "top": 966.01,
+     "bottom": 982.81,
+     "baseline": 979.31,
+     "baselineRel": 489.31
+    }
+   ],
+   "naturalWidth": 53.088,
+   "minContentWidth": 53.088,
+   "text": "Senhora",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.shelf.book4.info.author": {
+   "tpl": 171,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    985.81,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    0,
+    495.81,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "José de Alencar",
+     "left": 20,
+     "right": 109.69,
+     "top": 985.81,
+     "bottom": 1000.82,
+     "baseline": 997.69,
+     "baselineRel": 507.69
+    }
+   ],
+   "naturalWidth": 89.687,
+   "minContentWidth": 42.875,
+   "text": "José de Alencar",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book4.info.tag": {
+   "tpl": 172,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    20,
+    1008.82,
+    46.21,
+    21.81
+   ],
+   "rel": [
+    0,
+    518.82,
+    46.21,
+    21.81
+   ],
+   "style": {
+    "bg": "#EFE7D7",
+    "radius": "999px",
+    "padding": "4px 9px 4px 9px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#4A4238"
+    }
+   },
+   "css": "margin-top: 5px; align-self: flex-start; font-size: 11.5px; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: #EFE7D7; color: #4A4238",
+   "lines": [
+    {
+     "text": "Novo",
+     "left": 29,
+     "right": 57.21,
+     "top": 1012.82,
+     "bottom": 1026.63,
+     "baseline": 1023.75,
+     "baselineRel": 533.75
+    }
+   ],
+   "naturalWidth": 46.21,
+   "minContentWidth": 46.21,
+   "text": "Novo",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "b02.shelf.book5": {
+   "tpl": 173,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    141.33,
+    780.01,
+    107.33,
+    250.62
+   ],
+   "rel": [
+    121.33,
+    290.01,
+    107.33,
+    250.62
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "O Alienista, Machado de Assis, PDF, lido"
+  },
+  "b02.shelf.book5.cover": {
+   "tpl": 174,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    780.01,
+    107.33,
+    160
+   ],
+   "rel": [
+    121.33,
+    290.01,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #B6ACE4; overflow: hidden; box-sizing: border-box",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 10
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book5.cover.spine": {
+   "tpl": 175,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    142.83,
+    781.51,
+    7,
+    157
+   ],
+   "rel": [
+    122.83,
+    291.51,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.12",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.12)"
+  },
+  "b02.shelf.book5.cover.ringOuter": {
+   "tpl": 176,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    172.83,
+    803.51,
+    46,
+    46
+   ],
+   "rel": [
+    152.83,
+    313.51,
+    46,
+    46
+   ],
+   "style": {
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "22px",
+     "right": "28.3331px",
+     "bottom": "89px",
+     "left": "30px"
+    }
+   },
+   "css": "position: absolute; left: 30px; top: 22px; width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "b02.shelf.book5.cover.ringInner": {
+   "tpl": 177,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    182.83,
+    813.51,
+    26,
+    26
+   ],
+   "rel": [
+    162.83,
+    323.51,
+    26,
+    26
+   ],
+   "style": {
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "32px",
+     "right": "38.3331px",
+     "bottom": "99px",
+     "left": "40px"
+    }
+   },
+   "css": "position: absolute; left: 40px; top: 32px; width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "b02.shelf.book5.cover.dot": {
+   "tpl": 178,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    190.83,
+    821.51,
+    10,
+    10
+   ],
+   "rel": [
+    170.83,
+    331.51,
+    10,
+    10
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "40px",
+     "right": "46.3331px",
+     "bottom": "107px",
+     "left": "48px"
+    }
+   },
+   "css": "position: absolute; left: 48px; top: 40px; width: 10px; height: 10px; border-radius: 50%; background: #1A1714"
+  },
+  "b02.shelf.book5.cover.title": {
+   "tpl": 179,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    157.83,
+    869.87,
+    81.33,
+    38.64
+   ],
+   "rel": [
+    137.83,
+    379.87,
+    81.33,
+    38.64
+   ],
+   "style": {
+    "position": {
+     "top": "88.36px",
+     "right": "8px",
+     "bottom": "30px",
+     "left": "15px"
+    },
+    "font": {
+     "family": "Instrument Serif",
+     "size": 21.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "19.32px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 30px; font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 0.92; color: #1A1714",
+   "lines": [
+    {
+     "text": "O",
+     "left": 157.83,
+     "right": 169.17,
+     "top": 865.88,
+     "bottom": 893.18,
+     "baseline": 886.67,
+     "baselineRel": 396.67
+    },
+    {
+     "text": "Alienista",
+     "left": 157.83,
+     "right": 219.03,
+     "top": 885.2,
+     "bottom": 912.5,
+     "baseline": 905.99,
+     "baselineRel": 415.99
+    }
+   ],
+   "naturalWidth": 61.194,
+   "minContentWidth": 61.194,
+   "text": "OAlienista",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "b02.shelf.book5.cover.formatBadge": {
+   "tpl": 181,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    154.83,
+    912.31,
+    32.38,
+    17.2
+   ],
+   "rel": [
+    134.83,
+    422.31,
+    32.38,
+    17.2
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.2px solid #1A1714",
+    "radius": "6px",
+    "padding": "2px 6px 2px 6px",
+    "position": {
+     "top": "130.8px",
+     "right": "59.9511px",
+     "bottom": "9px",
+     "left": "12px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "font": {
+     "family": "Figtree",
+     "size": 9.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.36px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "position: absolute; left: 12px; bottom: 9px; font-size: 9px; font-weight: 800; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 6px; background: #FFFAF1; border: 1.2px solid #1A1714",
+   "lines": [
+    {
+     "text": "PDF",
+     "left": 162.03,
+     "right": 180.01,
+     "top": 915.51,
+     "bottom": 926.31,
+     "baseline": 924.06,
+     "baselineRel": 434.06
+    }
+   ],
+   "naturalWidth": 32.382,
+   "minContentWidth": 32.382,
+   "text": "PDF",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book5.info": {
+   "tpl": 182,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    966.01,
+    107.33,
+    64.62
+   ],
+   "rel": [
+    121.33,
+    476.01,
+    107.33,
+    64.62
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 27
+    }
+   ]
+  },
+  "b02.shelf.book5.info.title": {
+   "tpl": 183,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    966.01,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    121.33,
+    476.01,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "O Alienista",
+     "left": 141.33,
+     "right": 211.66,
+     "top": 966.01,
+     "bottom": 982.81,
+     "baseline": 979.31,
+     "baselineRel": 489.31
+    }
+   ],
+   "naturalWidth": 70.322,
+   "minContentWidth": 55.972,
+   "text": "O Alienista",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "b02.shelf.book5.info.author": {
+   "tpl": 184,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    985.81,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    121.33,
+    495.81,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Machado de Assis",
+     "left": 141.33,
+     "right": 242.59,
+     "top": 985.81,
+     "bottom": 1000.82,
+     "baseline": 997.69,
+     "baselineRel": 507.69
+    }
+   ],
+   "naturalWidth": 101.255,
+   "minContentWidth": 51.9,
+   "text": "Machado de Assis",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book5.info.tag": {
+   "tpl": 185,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    1008.82,
+    54.71,
+    21.81
+   ],
+   "rel": [
+    121.33,
+    518.82,
+    54.71,
+    21.81
+   ],
+   "style": {
+    "bg": "#E1EDD0",
+    "radius": "999px",
+    "padding": "4px 9px 4px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#2E5314"
+    }
+   },
+   "css": "margin-top: 5px; align-self: flex-start; display: flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; padding: 4px 9px 4px 7px; border-radius: 999px; background: #E1EDD0; color: #2E5314",
+   "lines": [
+    {
+     "text": "Lido",
+     "left": 164.33,
+     "right": 187.05,
+     "top": 1012.82,
+     "bottom": 1026.63,
+     "baseline": 1023.75,
+     "baselineRel": 533.75
+    }
+   ],
+   "naturalWidth": 54.712,
+   "minContentWidth": 54.712,
+   "text": "Lido",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "b02.shelf.book5.info.tag.icon": {
+   "tpl": 186,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    148.33,
+    1013.73,
+    12,
+    12
+   ],
+   "rel": [
+    128.33,
+    523.73,
+    12,
+    12
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.book6": {
+   "tpl": 188,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    262.67,
+    780.01,
+    107.33,
+    250.62
+   ],
+   "rel": [
+    242.67,
+    290.01,
+    107.33,
+    250.62
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Frankenstein, Mary Shelley, quero ler"
+  },
+  "b02.shelf.book6.cover": {
+   "tpl": 189,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    780.01,
+    107.33,
+    160
+   ],
+   "rel": [
+    242.67,
+    290.01,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #1A1714; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book6.cover.circle": {
+   "tpl": 190,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    286.17,
+    803.51,
+    44,
+    44
+   ],
+   "rel": [
+    266.17,
+    313.51,
+    44,
+    44
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "radius": "50%",
+    "position": {
+     "top": "22px",
+     "right": "38.3331px",
+     "bottom": "91px",
+     "left": "22px"
+    }
+   },
+   "css": "position: absolute; left: 22px; top: 22px; width: 44px; height: 44px; border-radius: 50%; background: #B6ACE4"
+  },
+  "b02.shelf.book6.cover.ring": {
+   "tpl": 191,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    322.17,
+    831.51,
+    28,
+    28
+   ],
+   "rel": [
+    302.17,
+    341.51,
+    28,
+    28
+   ],
+   "style": {
+    "border": "1.5px solid #B6ACE4",
+    "radius": "50%",
+    "position": {
+     "top": "50px",
+     "right": "18.3331px",
+     "bottom": "79px",
+     "left": "58px"
+    }
+   },
+   "css": "position: absolute; left: 58px; top: 50px; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #B6ACE4; box-sizing: border-box"
+  },
+  "b02.shelf.book6.cover.textBlock": {
+   "tpl": 192,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    279.17,
+    874.06,
+    81.33,
+    52.45
+   ],
+   "rel": [
+    259.17,
+    384.06,
+    81.33,
+    52.45
+   ],
+   "style": {
+    "position": {
+     "top": "92.55px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 13
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book6.cover.title": {
+   "tpl": 193,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    874.06,
+    81.33,
+    38.64
+   ],
+   "rel": [
+    259.17,
+    384.06,
+    81.33,
+    38.64
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 21.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "19.32px",
+     "letterSpacing": "normal",
+     "color": "#B6ACE4"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 21px; line-height: 0.92; color: #B6ACE4",
+   "lines": [
+    {
+     "text": "Franken-",
+     "left": 279.17,
+     "right": 346.64,
+     "top": 870.07,
+     "bottom": 897.37,
+     "baseline": 890.86,
+     "baselineRel": 400.86
+    },
+    {
+     "text": "stein",
+     "left": 279.17,
+     "right": 313.08,
+     "top": 889.39,
+     "bottom": 916.69,
+     "baseline": 910.18,
+     "baselineRel": 420.18
+    }
+   ],
+   "naturalWidth": 67.473,
+   "minContentWidth": 67.473,
+   "text": "Franken-stein",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "b02.shelf.book6.cover.author": {
+   "tpl": 195,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    918.7,
+    81.33,
+    7.81
+   ],
+   "rel": [
+    259.17,
+    428.7,
+    81.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#F7F0E3"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #F7F0E3",
+   "lines": [
+    {
+     "text": "MARY SHELLEY",
+     "left": 279.17,
+     "right": 337.91,
+     "top": 918.7,
+     "bottom": 926.51,
+     "baseline": 924.88,
+     "baselineRel": 434.88
+    }
+   ],
+   "naturalWidth": 58.74,
+   "minContentWidth": 34.034,
+   "text": "MARY SHELLEY",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book6.info": {
+   "tpl": 196,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    966.01,
+    107.33,
+    64.62
+   ],
+   "rel": [
+    242.67,
+    476.01,
+    107.33,
+    64.62
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 33
+    }
+   ]
+  },
+  "b02.shelf.book6.info.title": {
+   "tpl": 197,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    966.01,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    242.67,
+    476.01,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Frankenstein",
+     "left": 262.67,
+     "right": 345.28,
+     "top": 966.01,
+     "bottom": 982.81,
+     "baseline": 979.31,
+     "baselineRel": 489.31
+    }
+   ],
+   "naturalWidth": 82.614,
+   "minContentWidth": 82.614,
+   "text": "Frankenstein",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book6.info.author": {
+   "tpl": 198,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    985.81,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    242.67,
+    495.81,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Mary Shelley",
+     "left": 262.67,
+     "right": 334.48,
+     "top": 985.81,
+     "bottom": 1000.82,
+     "baseline": 997.69,
+     "baselineRel": 507.69
+    }
+   ],
+   "naturalWidth": 71.816,
+   "minContentWidth": 40.591,
+   "text": "Mary Shelley",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book6.info.tag": {
+   "tpl": 199,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    1008.82,
+    67.31,
+    21.81
+   ],
+   "rel": [
+    242.67,
+    518.82,
+    67.31,
+    21.81
+   ],
+   "style": {
+    "bg": "#ECE7FA",
+    "radius": "999px",
+    "padding": "4px 9px 4px 9px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#3B2D86"
+    }
+   },
+   "css": "margin-top: 5px; align-self: flex-start; font-size: 11.5px; font-weight: 700; padding: 4px 9px; border-radius: 999px; background: #ECE7FA; color: #3B2D86",
+   "lines": [
+    {
+     "text": "Quero ler",
+     "left": 271.67,
+     "right": 320.98,
+     "top": 1012.82,
+     "bottom": 1026.63,
+     "baseline": 1023.75,
+     "baselineRel": 533.75
+    }
+   ],
+   "naturalWidth": 67.312,
+   "minContentWidth": 51.017,
+   "text": "Quero ler",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.shelf.row3": {
+   "tpl": 200,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1060.63,
+    350,
+    250.62
+   ],
+   "rel": [
+    0,
+    570.63,
+    350,
+    250.62
+   ],
+   "style": {},
+   "css": "position: relative"
+  },
+  "b02.shelf.row3.plank": {
+   "tpl": 201,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    15,
+    1219.13,
+    360,
+    11
+   ],
+   "rel": [
+    -5,
+    729.13,
+    360,
+    11
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "6px",
+    "shadow": "#1A1714 0px 3px 0px 0px",
+    "position": {
+     "top": "158.5px",
+     "right": "-5px",
+     "bottom": "81.12px",
+     "left": "-5px"
+    }
+   },
+   "css": "position: absolute; left: -5px; right: -5px; top: 158.5px; height: 11px; border-radius: 6px; background: {{shelf}}; border: 1.5px solid #1A1714; box-sizing: border-box; box-shadow: 0 3px 0 #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.row3.grid": {
+   "tpl": 202,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1060.63,
+    350,
+    250.62
+   ],
+   "rel": [
+    0,
+    570.63,
+    350,
+    250.62
+   ],
+   "style": {},
+   "css": "display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px"
+  },
+  "b02.shelf.book7": {
+   "tpl": 203,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    1060.63,
+    107.33,
+    250.62
+   ],
+   "rel": [
+    0,
+    570.63,
+    107.33,
+    250.62
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Teoria Literária, apostila em PDF, 18 notas"
+  },
+  "b02.shelf.book7.cover": {
+   "tpl": 204,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1060.63,
+    107.33,
+    160
+   ],
+   "rel": [
+    0,
+    570.63,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#FFFDF8",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "padding": "14px 12px 0px 14px",
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #FFFDF8; overflow: hidden; box-sizing: border-box; padding: 14px 12px 0 14px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 27
+    }
+   ]
+  },
+  "b02.shelf.book7.cover.kicker": {
+   "tpl": 205,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1076.13,
+    78.33,
+    7.81
+   ],
+   "rel": [
+    15.5,
+    586.13,
+    78.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 6.5px; font-weight: 800; letter-spacing: 0.14em; color: #6F665B",
+   "lines": [
+    {
+     "text": "UNIDADE 2",
+     "left": 35.5,
+     "right": 78.29,
+     "top": 1076.13,
+     "bottom": 1083.94,
+     "baseline": 1082.31,
+     "baselineRel": 592.31
+    }
+   ],
+   "naturalWidth": 42.79,
+   "minContentWidth": 35.627,
+   "text": "UNIDADE 2",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.shelf.book7.cover.title": {
+   "tpl": 206,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1088.94,
+    78.33,
+    27.3
+   ],
+   "rel": [
+    15.5,
+    598.94,
+    78.33,
+    27.3
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "13.65px",
+     "letterSpacing": "-0.2px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 13px; font-weight: 800; line-height: 1.05; letter-spacing: -0.2px",
+   "lines": [
+    {
+     "text": "Teoria",
+     "left": 35.5,
+     "right": 71.83,
+     "top": 1087.96,
+     "bottom": 1103.56,
+     "baseline": 1100.31,
+     "baselineRel": 610.31
+    },
+    {
+     "text": "Literária",
+     "left": 35.5,
+     "right": 84.82,
+     "top": 1101.61,
+     "bottom": 1117.21,
+     "baseline": 1113.96,
+     "baselineRel": 623.96
+    }
+   ],
+   "naturalWidth": 49.316,
+   "minContentWidth": 49.316,
+   "text": "TeoriaLiterária",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book7.cover.lines": {
+   "tpl": 208,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    1127.24,
+    78.33,
+    43
+   ],
+   "rel": [
+    15.5,
+    637.24,
+    78.33,
+    43
+   ],
+   "style": {},
+   "css": "margin-top: 6px; display: flex; flex-direction: column; gap: 5px"
+  },
+  "b02.shelf.book7.cover.lines.line1": {
+   "tpl": 209,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1127.24,
+    78.33,
+    3
+   ],
+   "rel": [
+    15.5,
+    637.24,
+    78.33,
+    3
+   ],
+   "style": {
+    "bg": "#DCD2C1",
+    "radius": "2px"
+   },
+   "css": "height: 3px; width: 100%; border-radius: 2px; background: #DCD2C1"
+  },
+  "b02.shelf.book7.cover.lines.line2": {
+   "tpl": 210,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1135.24,
+    68.93,
+    3
+   ],
+   "rel": [
+    15.5,
+    645.24,
+    68.93,
+    3
+   ],
+   "style": {
+    "bg": "#DCD2C1",
+    "radius": "2px"
+   },
+   "css": "height: 3px; width: 88%; border-radius: 2px; background: #DCD2C1"
+  },
+  "b02.shelf.book7.cover.lines.highlight": {
+   "tpl": 211,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1141.24,
+    73.63,
+    7
+   ],
+   "rel": [
+    15.5,
+    651.24,
+    73.63,
+    7
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": "2px"
+   },
+   "css": "height: 7px; width: 94%; margin: -2px 0; border-radius: 2px; background: #FED170"
+  },
+  "b02.shelf.book7.cover.lines.line3": {
+   "tpl": 212,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1151.24,
+    59.53,
+    3
+   ],
+   "rel": [
+    15.5,
+    661.24,
+    59.53,
+    3
+   ],
+   "style": {
+    "bg": "#DCD2C1",
+    "radius": "2px"
+   },
+   "css": "height: 3px; width: 76%; border-radius: 2px; background: #DCD2C1"
+  },
+  "b02.shelf.book7.cover.lines.line4": {
+   "tpl": 213,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1159.24,
+    72.07,
+    3
+   ],
+   "rel": [
+    15.5,
+    669.24,
+    72.07,
+    3
+   ],
+   "style": {
+    "bg": "#DCD2C1",
+    "radius": "2px"
+   },
+   "css": "height: 3px; width: 92%; border-radius: 2px; background: #DCD2C1"
+  },
+  "b02.shelf.book7.cover.lines.line5": {
+   "tpl": 214,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1167.24,
+    47,
+    3
+   ],
+   "rel": [
+    15.5,
+    677.24,
+    47,
+    3
+   ],
+   "style": {
+    "bg": "#DCD2C1",
+    "radius": "2px"
+   },
+   "css": "height: 3px; width: 60%; border-radius: 2px; background: #DCD2C1"
+  },
+  "b02.shelf.book7.cover.formatBadge": {
+   "tpl": 215,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    1192.93,
+    32.38,
+    17.2
+   ],
+   "rel": [
+    13.5,
+    702.93,
+    32.38,
+    17.2
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.2px solid #1A1714",
+    "radius": "6px",
+    "padding": "2px 6px 2px 6px",
+    "position": {
+     "top": "130.8px",
+     "right": "59.9511px",
+     "bottom": "9px",
+     "left": "12px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "font": {
+     "family": "Figtree",
+     "size": 9.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.36px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "position: absolute; left: 12px; bottom: 9px; font-size: 9px; font-weight: 800; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 6px; background: #FFFAF1; border: 1.2px solid #1A1714",
+   "lines": [
+    {
+     "text": "PDF",
+     "left": 40.7,
+     "right": 58.68,
+     "top": 1196.13,
+     "bottom": 1206.93,
+     "baseline": 1204.68,
+     "baselineRel": 714.68
+    }
+   ],
+   "naturalWidth": 32.382,
+   "minContentWidth": 32.382,
+   "text": "PDF",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "b02.shelf.book7.info": {
+   "tpl": 216,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1246.63,
+    107.33,
+    57.21
+   ],
+   "rel": [
+    0,
+    756.63,
+    107.33,
+    57.21
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 34
+    }
+   ]
+  },
+  "b02.shelf.book7.info.title": {
+   "tpl": 217,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    1246.63,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    0,
+    756.63,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Teoria Literária",
+     "left": 20,
+     "right": 116.49,
+     "top": 1246.63,
+     "bottom": 1263.43,
+     "baseline": 1259.93,
+     "baselineRel": 769.93
+    }
+   ],
+   "naturalWidth": 96.488,
+   "minContentWidth": 53.578,
+   "text": "Teoria Literária",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book7.info.source": {
+   "tpl": 218,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    1266.43,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    0,
+    776.43,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Apostila importada",
+     "left": 20,
+     "right": 126.97,
+     "top": 1266.43,
+     "bottom": 1281.44,
+     "baseline": 1278.31,
+     "baselineRel": 788.31
+    }
+   ],
+   "naturalWidth": 106.971,
+   "minContentWidth": 57.746,
+   "text": "Apostila importada",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "b02.shelf.book7.info.notes": {
+   "tpl": 219,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    20,
+    1289.44,
+    107.33,
+    14.4
+   ],
+   "rel": [
+    0,
+    799.44,
+    107.33,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "margin-top: 5px; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800",
+   "lines": [
+    {
+     "text": "18 notas",
+     "left": 39,
+     "right": 85.16,
+     "top": 1289.44,
+     "bottom": 1303.84,
+     "baseline": 1300.84,
+     "baselineRel": 810.84
+    }
+   ],
+   "naturalWidth": 65.164,
+   "minContentWidth": 49.912,
+   "text": "18 notas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "b02.shelf.book7.info.notes.icon": {
+   "tpl": 220,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    20,
+    1289.64,
+    14,
+    14
+   ],
+   "rel": [
+    0,
+    799.64,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.book8": {
+   "tpl": 223,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    141.33,
+    1060.63,
+    107.33,
+    250.62
+   ],
+   "rel": [
+    121.33,
+    570.63,
+    107.33,
+    250.62
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "Quincas Borba, Machado de Assis, lido"
+  },
+  "b02.shelf.book8.cover": {
+   "tpl": 224,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    1060.63,
+    107.33,
+    160
+   ],
+   "rel": [
+    121.33,
+    570.63,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#058CD7",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #058CD7; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book8.cover.spine": {
+   "tpl": 225,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    142.83,
+    1062.13,
+    7,
+    157
+   ],
+   "rel": [
+    122.83,
+    572.13,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "b02.shelf.book8.cover.bars": {
+   "tpl": 226,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    158.83,
+    1080.13,
+    72.33,
+    30
+   ],
+   "rel": [
+    138.83,
+    590.13,
+    72.33,
+    30
+   ],
+   "style": {
+    "position": {
+     "top": "18px",
+     "right": "16px",
+     "bottom": "109px",
+     "left": "16px"
+    }
+   },
+   "css": "position: absolute; left: 16px; right: 16px; top: 18px; display: flex; flex-direction: column; gap: 6px"
+  },
+  "b02.shelf.book8.cover.bars.bar1": {
+   "tpl": 227,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    158.83,
+    1080.13,
+    72.33,
+    6
+   ],
+   "rel": [
+    138.83,
+    590.13,
+    72.33,
+    6
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "radius": "6px"
+   },
+   "css": "height: 6px; border-radius: 6px; background: #F7F0E3"
+  },
+  "b02.shelf.book8.cover.bars.bar2": {
+   "tpl": 228,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    158.83,
+    1092.13,
+    50.63,
+    6
+   ],
+   "rel": [
+    138.83,
+    602.13,
+    50.63,
+    6
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "radius": "6px"
+   },
+   "css": "height: 6px; width: 70%; border-radius: 6px; background: #F7F0E3"
+  },
+  "b02.shelf.book8.cover.bars.bar3": {
+   "tpl": 229,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    158.83,
+    1104.13,
+    28.93,
+    6
+   ],
+   "rel": [
+    138.83,
+    614.13,
+    28.93,
+    6
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "radius": "6px"
+   },
+   "css": "height: 6px; width: 40%; border-radius: 6px; background: #F7F0E3"
+  },
+  "b02.shelf.book8.cover.textBlock": {
+   "tpl": 230,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    157.83,
+    1151.92,
+    81.33,
+    55.21
+   ],
+   "rel": [
+    137.83,
+    661.92,
+    81.33,
+    55.21
+   ],
+   "style": {
+    "position": {
+     "top": "89.79px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book8.cover.title": {
+   "tpl": 231,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    157.83,
+    1151.92,
+    81.33,
+    41.4
+   ],
+   "rel": [
+    137.83,
+    661.92,
+    81.33,
+    41.4
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 23.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20.7px",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 23px; line-height: 0.9; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "Quincas",
+     "left": 157.83,
+     "right": 220.51,
+     "top": 1147.32,
+     "bottom": 1177.22,
+     "baseline": 1170.09,
+     "baselineRel": 680.09
+    },
+    {
+     "text": "Borba",
+     "left": 157.83,
+     "right": 205.07,
+     "top": 1168.02,
+     "bottom": 1197.92,
+     "baseline": 1190.79,
+     "baselineRel": 700.79
+    }
+   ],
+   "naturalWidth": 62.675,
+   "minContentWidth": 62.675,
+   "text": "QuincasBorba",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "b02.shelf.book8.cover.author": {
+   "tpl": 233,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    157.83,
+    1199.32,
+    81.33,
+    7.81
+   ],
+   "rel": [
+    137.83,
+    709.32,
+    81.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "MACHADO DE ASSIS",
+     "left": 157.83,
+     "right": 236.16,
+     "top": 1199.32,
+     "bottom": 1207.13,
+     "baseline": 1205.5,
+     "baselineRel": 715.5
+    }
+   ],
+   "naturalWidth": 78.325,
+   "minContentWidth": 40.307,
+   "text": "MACHADO DE ASSIS",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book8.info": {
+   "tpl": 234,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    1246.63,
+    107.33,
+    64.62
+   ],
+   "rel": [
+    121.33,
+    756.63,
+    107.33,
+    64.62
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 29
+    }
+   ]
+  },
+  "b02.shelf.book8.info.title": {
+   "tpl": 235,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    1246.63,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    121.33,
+    756.63,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Quincas Borba",
+     "left": 141.33,
+     "right": 234.73,
+     "top": 1246.63,
+     "bottom": 1263.43,
+     "baseline": 1259.93,
+     "baselineRel": 769.93
+    }
+   ],
+   "naturalWidth": 93.394,
+   "minContentWidth": 52.248,
+   "text": "Quincas Borba",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "b02.shelf.book8.info.author": {
+   "tpl": 236,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    1266.43,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    121.33,
+    776.43,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Machado de Assis",
+     "left": 141.33,
+     "right": 242.59,
+     "top": 1266.43,
+     "bottom": 1281.44,
+     "baseline": 1278.31,
+     "baselineRel": 788.31
+    }
+   ],
+   "naturalWidth": 101.255,
+   "minContentWidth": 51.9,
+   "text": "Machado de Assis",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "b02.shelf.book8.info.tag": {
+   "tpl": 237,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    141.33,
+    1289.44,
+    54.71,
+    21.81
+   ],
+   "rel": [
+    121.33,
+    799.44,
+    54.71,
+    21.81
+   ],
+   "style": {
+    "bg": "#E1EDD0",
+    "radius": "999px",
+    "padding": "4px 9px 4px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#2E5314"
+    }
+   },
+   "css": "margin-top: 5px; align-self: flex-start; display: flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; padding: 4px 9px 4px 7px; border-radius: 999px; background: #E1EDD0; color: #2E5314",
+   "lines": [
+    {
+     "text": "Lido",
+     "left": 164.33,
+     "right": 187.05,
+     "top": 1293.44,
+     "bottom": 1307.25,
+     "baseline": 1304.37,
+     "baselineRel": 814.37
+    }
+   ],
+   "naturalWidth": 54.712,
+   "minContentWidth": 54.712,
+   "text": "Lido",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "b02.shelf.book8.info.tag.icon": {
+   "tpl": 238,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    148.33,
+    1294.35,
+    12,
+    12
+   ],
+   "rel": [
+    128.33,
+    804.35,
+    12,
+    12
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.book9": {
+   "tpl": 240,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    262.67,
+    1060.63,
+    107.33,
+    250.62
+   ],
+   "rel": [
+    242.67,
+    570.63,
+    107.33,
+    250.62
+   ],
+   "style": {},
+   "css": "display: flex; flex-direction: column; min-width: 0",
+   "aria": "O Cortiço, Aluísio Azevedo, lido"
+  },
+  "b02.shelf.book9.cover": {
+   "tpl": 241,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    1060.63,
+    107.33,
+    160
+   ],
+   "rel": [
+    242.67,
+    570.63,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#00995E",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #00995E; overflow: hidden; box-sizing: border-box"
+  },
+  "b02.shelf.book9.cover.spine": {
+   "tpl": 242,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    264.17,
+    1062.13,
+    7,
+    157
+   ],
+   "rel": [
+    244.17,
+    572.13,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "b02.shelf.book9.cover.arch": {
+   "tpl": 243,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    286.17,
+    1082.13,
+    62,
+    72
+   ],
+   "rel": [
+    266.17,
+    592.13,
+    62,
+    72
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": [
+     "31px",
+     "31px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "20px",
+     "right": "20.3331px",
+     "bottom": "65px",
+     "left": "22px"
+    }
+   },
+   "css": "position: absolute; left: 22px; top: 20px; width: 62px; height: 72px; border-radius: 31px 31px 0 0; background: #FED170"
+  },
+  "b02.shelf.book9.cover.door": {
+   "tpl": 244,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    304.17,
+    1112.13,
+    26,
+    42
+   ],
+   "rel": [
+    284.17,
+    622.13,
+    26,
+    42
+   ],
+   "style": {
+    "bg": "#00995E",
+    "radius": [
+     "13px",
+     "13px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "50px",
+     "right": "38.3331px",
+     "bottom": "65px",
+     "left": "40px"
+    }
+   },
+   "css": "position: absolute; left: 40px; top: 50px; width: 26px; height: 42px; border-radius: 13px 13px 0 0; background: #00995E"
+  },
+  "b02.shelf.book9.cover.textBlock": {
+   "tpl": 245,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    279.17,
+    1172.62,
+    81.33,
+    34.51
+   ],
+   "rel": [
+    259.17,
+    682.62,
+    81.33,
+    34.51
+   ],
+   "style": {
+    "position": {
+     "top": "110.49px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; display: flex; flex-direction: column; gap: 6px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 9
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book9.cover.title": {
+   "tpl": 246,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    1172.62,
+    81.33,
+    20.7
+   ],
+   "rel": [
+    259.17,
+    682.62,
+    81.33,
+    20.7
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 23.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "20.7px",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 23px; line-height: 0.9; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "O Cortiço",
+     "left": 279.17,
+     "right": 351.5,
+     "top": 1168.02,
+     "bottom": 1197.92,
+     "baseline": 1190.79,
+     "baselineRel": 700.79
+    }
+   ],
+   "naturalWidth": 72.335,
+   "minContentWidth": 56.005,
+   "text": "O Cortiço",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.shelf.book9.cover.author": {
+   "tpl": 247,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    1199.32,
+    81.33,
+    7.81
+   ],
+   "rel": [
+    259.17,
+    709.32,
+    81.33,
+    7.81
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 6.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.91px",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-size: 6.5px; letter-spacing: 0.14em; font-weight: 700; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "ALUÍSIO AZEVEDO",
+     "left": 279.17,
+     "right": 350.65,
+     "top": 1199.32,
+     "bottom": 1207.13,
+     "baseline": 1205.5,
+     "baselineRel": 715.5
+    }
+   ],
+   "naturalWidth": 71.487,
+   "minContentWidth": 37.135,
+   "text": "ALUÍSIO AZEVEDO",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book9.info": {
+   "tpl": 248,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    1246.63,
+    107.33,
+    64.62
+   ],
+   "rel": [
+    242.67,
+    756.63,
+    107.33,
+    64.62
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 3px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "b02.shelf.book9.info.title": {
+   "tpl": 249,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    1246.63,
+    107.33,
+    16.8
+   ],
+   "rel": [
+    242.67,
+    756.63,
+    107.33,
+    16.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "16.8px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "O Cortiço",
+     "left": 262.67,
+     "right": 325.68,
+     "top": 1246.63,
+     "bottom": 1263.43,
+     "baseline": 1259.93,
+     "baselineRel": 769.93
+    }
+   ],
+   "naturalWidth": 63.014,
+   "minContentWidth": 48.664,
+   "text": "O Cortiço",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "b02.shelf.book9.info.author": {
+   "tpl": 250,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    1266.43,
+    107.33,
+    15.01
+   ],
+   "rel": [
+    242.67,
+    776.43,
+    107.33,
+    15.01
+   ],
+   "style": {
+    "overflow": "hidden",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap",
+     "textOverflow": "ellipsis"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis",
+   "lines": [
+    {
+     "text": "Aluísio Azevedo",
+     "left": 262.67,
+     "right": 352.48,
+     "top": 1266.43,
+     "bottom": 1281.44,
+     "baseline": 1278.31,
+     "baselineRel": 788.31
+    }
+   ],
+   "naturalWidth": 89.817,
+   "minContentWidth": 49.255,
+   "text": "Aluísio Azevedo",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "b02.shelf.book9.info.tag": {
+   "tpl": 251,
+   "section": "b02.shelf",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    262.67,
+    1289.44,
+    54.71,
+    21.81
+   ],
+   "rel": [
+    242.67,
+    799.44,
+    54.71,
+    21.81
+   ],
+   "style": {
+    "bg": "#E1EDD0",
+    "radius": "999px",
+    "padding": "4px 9px 4px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#2E5314"
+    }
+   },
+   "css": "margin-top: 5px; align-self: flex-start; display: flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; padding: 4px 9px 4px 7px; border-radius: 999px; background: #E1EDD0; color: #2E5314",
+   "lines": [
+    {
+     "text": "Lido",
+     "left": 285.67,
+     "right": 308.38,
+     "top": 1293.44,
+     "bottom": 1307.25,
+     "baseline": 1304.37,
+     "baselineRel": 814.37
+    }
+   ],
+   "naturalWidth": 54.712,
+   "minContentWidth": 54.712,
+   "text": "Lido",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "b02.shelf.book9.info.tag.icon": {
+   "tpl": 252,
+   "section": "b02.shelf",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    269.67,
+    1294.35,
+    12,
+    12
+   ],
+   "rel": [
+    249.67,
+    804.35,
+    12,
+    12
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.row4": {
+   "tpl": 254,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1341.25,
+    350,
+    160
+   ],
+   "rel": [
+    0,
+    851.25,
+    350,
+    160
+   ],
+   "style": {},
+   "css": "position: relative"
+  },
+  "b02.shelf.row4.plank": {
+   "tpl": 255,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    15,
+    1499.75,
+    360,
+    11
+   ],
+   "rel": [
+    -5,
+    1009.75,
+    360,
+    11
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "6px",
+    "shadow": "#1A1714 0px 3px 0px 0px",
+    "position": {
+     "top": "158.5px",
+     "right": "-5px",
+     "bottom": "-9.5px",
+     "left": "-5px"
+    }
+   },
+   "css": "position: absolute; left: -5px; right: -5px; top: 158.5px; height: 11px; border-radius: 6px; background: {{shelf}}; border: 1.5px solid #1A1714; box-sizing: border-box; box-shadow: 0 3px 0 #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.shelf.row4.grid": {
+   "tpl": 256,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1341.25,
+    350,
+    160
+   ],
+   "rel": [
+    0,
+    851.25,
+    350,
+    160
+   ],
+   "style": {},
+   "css": "display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px"
+  },
+  "b02.shelf.book10": {
+   "tpl": 257,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    1341.25,
+    107.33,
+    160
+   ],
+   "rel": [
+    0,
+    851.25,
+    107.33,
+    160
+   ],
+   "style": {},
+   "css": "display: block; min-width: 0",
+   "aria": "Iracema, José de Alencar"
+  },
+  "b02.shelf.book10.cover": {
+   "tpl": 258,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1341.25,
+    107.33,
+    160
+   ],
+   "rel": [
+    0,
+    851.25,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #FF552E; overflow: hidden; box-sizing: border-box",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.shelf.book10.cover.spine": {
+   "tpl": 259,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    21.5,
+    1342.75,
+    7,
+    157
+   ],
+   "rel": [
+    1.5,
+    852.75,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.14",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.14)"
+  },
+  "b02.shelf.book10.cover.capsule": {
+   "tpl": 260,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    39.5,
+    1368.75,
+    96.33,
+    44
+   ],
+   "rel": [
+    19.5,
+    878.75,
+    96.33,
+    44
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": [
+     "44px",
+     "0px",
+     "0px",
+     "44px"
+    ],
+    "position": {
+     "top": "26px",
+     "right": "-10px",
+     "bottom": "87px",
+     "left": "18px"
+    }
+   },
+   "css": "position: absolute; left: 18px; right: -10px; top: 26px; height: 44px; border-radius: 44px 0 0 44px; background: #1A1714"
+  },
+  "b02.shelf.book10.cover.title": {
+   "tpl": 261,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    36.5,
+    1466.15,
+    81.33,
+    21.6
+   ],
+   "rel": [
+    16.5,
+    976.15,
+    81.33,
+    21.6
+   ],
+   "style": {
+    "position": {
+     "top": "123.4px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    },
+    "font": {
+     "family": "Instrument Serif",
+     "size": 24.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "21.6px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; line-height: 0.9; color: #1A1714",
+   "lines": [
+    {
+     "text": "Iracema",
+     "left": 36.5,
+     "right": 102.38,
+     "top": 1461.35,
+     "bottom": 1492.55,
+     "baseline": 1485.11,
+     "baselineRel": 995.11
+    }
+   ],
+   "naturalWidth": 65.88,
+   "minContentWidth": 65.88,
+   "text": "Iracema",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.shelf.book11": {
+   "tpl": 262,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    141.33,
+    1341.25,
+    107.33,
+    160
+   ],
+   "rel": [
+    121.33,
+    851.25,
+    107.33,
+    160
+   ],
+   "style": {},
+   "css": "display: block; min-width: 0",
+   "aria": "Crime e Castigo, Fiódor Dostoiévski"
+  },
+  "b02.shelf.book11.cover": {
+   "tpl": 263,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    141.33,
+    1341.25,
+    107.33,
+    160
+   ],
+   "rel": [
+    121.33,
+    851.25,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #FED170; overflow: hidden; box-sizing: border-box",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.shelf.book11.cover.spine": {
+   "tpl": 264,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    142.83,
+    1342.75,
+    7,
+    157
+   ],
+   "rel": [
+    122.83,
+    852.75,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.12",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.12)"
+  },
+  "b02.shelf.book11.cover.slash": {
+   "tpl": 265,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    162.83,
+    1362.75,
+    12,
+    70
+   ],
+   "rel": [
+    142.83,
+    872.75,
+    12,
+    70
+   ],
+   "vis": [
+    134.36,
+    1362.75,
+    39.43,
+    68.83
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "position": {
+     "top": "20px",
+     "right": "72.3331px",
+     "bottom": "67px",
+     "left": "20px"
+    },
+    "transformMatrix": "matrix(0.913545, 0.406737, -0.406737, 0.913545, 0, 0)",
+    "transform": "rotate(24deg)"
+   },
+   "css": "position: absolute; left: 20px; top: 20px; width: 12px; height: 70px; background: #1A1714; transform: rotate(24deg); transform-origin: top left"
+  },
+  "b02.shelf.book11.cover.circle": {
+   "tpl": 266,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    192.83,
+    1364.75,
+    34,
+    34
+   ],
+   "rel": [
+    172.83,
+    874.75,
+    34,
+    34
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "22px",
+     "right": "20.3331px",
+     "bottom": "101px",
+     "left": "50px"
+    }
+   },
+   "css": "position: absolute; left: 50px; top: 22px; width: 34px; height: 34px; border-radius: 50%; background: #FF552E; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "b02.shelf.book11.cover.title": {
+   "tpl": 267,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    157.83,
+    1450.95,
+    81.33,
+    36.8
+   ],
+   "rel": [
+    137.83,
+    960.95,
+    81.33,
+    36.8
+   ],
+   "style": {
+    "position": {
+     "top": "108.2px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    },
+    "font": {
+     "family": "Instrument Serif",
+     "size": 20.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "18.4px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; line-height: 0.92; color: #1A1714",
+   "lines": [
+    {
+     "text": "Crime e",
+     "left": 157.83,
+     "right": 209.93,
+     "top": 1447.15,
+     "bottom": 1473.15,
+     "baseline": 1466.95,
+     "baselineRel": 976.95
+    },
+    {
+     "text": "Castigo",
+     "left": 157.83,
+     "right": 207.41,
+     "top": 1465.55,
+     "bottom": 1491.55,
+     "baseline": 1485.35,
+     "baselineRel": 995.35
+    }
+   ],
+   "naturalWidth": 52.1,
+   "minContentWidth": 49.58,
+   "text": "Crime eCastigo",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.shelf.book12": {
+   "tpl": 269,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    262.67,
+    1341.25,
+    107.33,
+    160
+   ],
+   "rel": [
+    242.67,
+    851.25,
+    107.33,
+    160
+   ],
+   "style": {},
+   "css": "display: block; min-width: 0",
+   "aria": "A Metamorfose, Franz Kafka"
+  },
+  "b02.shelf.book12.cover": {
+   "tpl": 270,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.67,
+    1341.25,
+    107.33,
+    160
+   ],
+   "rel": [
+    242.67,
+    851.25,
+    107.33,
+    160
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; width: 100%; height: 160px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #B6ACE4; overflow: hidden; box-sizing: border-box",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.shelf.book12.cover.spine": {
+   "tpl": 271,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    264.17,
+    1342.75,
+    7,
+    157
+   ],
+   "rel": [
+    244.17,
+    852.75,
+    7,
+    157
+   ],
+   "style": {
+    "bg": "#000000@0.12",
+    "position": {
+     "top": "0px",
+     "right": "97.3331px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.12)"
+  },
+  "b02.shelf.book12.cover.oval": {
+   "tpl": 272,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    294.17,
+    1366.75,
+    44,
+    58
+   ],
+   "rel": [
+    274.17,
+    876.75,
+    44,
+    58
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "24px",
+     "right": "30.3331px",
+     "bottom": "75px",
+     "left": "30px"
+    }
+   },
+   "css": "position: absolute; left: 30px; top: 24px; width: 44px; height: 58px; border-radius: 50%; background: #1A1714"
+  },
+  "b02.shelf.book12.cover.seam": {
+   "tpl": 273,
+   "section": "b02.shelf",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    315.17,
+    1366.75,
+    1.5,
+    58
+   ],
+   "rel": [
+    295.17,
+    876.75,
+    1.5,
+    58
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "position": {
+     "top": "24px",
+     "right": "51.8331px",
+     "bottom": "75px",
+     "left": "51px"
+    }
+   },
+   "css": "position: absolute; left: 51px; top: 24px; width: 1.5px; height: 58px; background: #B6ACE4"
+  },
+  "b02.shelf.book12.cover.title": {
+   "tpl": 274,
+   "section": "b02.shelf",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    279.17,
+    1450.95,
+    81.33,
+    36.8
+   ],
+   "rel": [
+    259.17,
+    960.95,
+    81.33,
+    36.8
+   ],
+   "style": {
+    "position": {
+     "top": "108.2px",
+     "right": "8px",
+     "bottom": "12px",
+     "left": "15px"
+    },
+    "font": {
+     "family": "Instrument Serif",
+     "size": 20.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "18.4px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 8px; bottom: 12px; font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; line-height: 0.92; color: #1A1714",
+   "lines": [
+    {
+     "text": "A Meta-",
+     "left": 279.17,
+     "right": 333.43,
+     "top": 1447.15,
+     "bottom": 1473.15,
+     "baseline": 1466.95,
+     "baselineRel": 976.95
+    },
+    {
+     "text": "morfose",
+     "left": 279.17,
+     "right": 334.35,
+     "top": 1465.55,
+     "bottom": 1491.55,
+     "baseline": 1485.35,
+     "baselineRel": 995.35
+    }
+   ],
+   "naturalWidth": 55.18,
+   "minContentWidth": 55.18,
+   "text": "A Meta-morfose",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 14
+    }
+   ]
+  },
+  "b02.bottomFade": {
+   "tpl": 276,
+   "section": "b02.bottomFade",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    1470,
+    390,
+    170
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    170
+   ],
+   "style": {
+    "bgImage": "linear-gradient(#F7F0E3@0, #F7F0E3 60%)",
+    "position": {
+     "top": "1470px",
+     "right": "0px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; right: 0; bottom: 0; height: 170px; background: linear-gradient(to bottom, rgba(247,240,227,0), #F7F0E3 60%); pointer-events: none",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.nav": {
+   "tpl": 277,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "nav",
+   "abs": [
+    16,
+    1540,
+    358,
+    70
+   ],
+   "rel": [
+    0,
+    0,
+    358,
+    70
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "28px",
+    "shadow": "#1A1714 0px 4px 0px 0px",
+    "padding": "8px 8px 8px 8px",
+    "position": {
+     "top": "1540px",
+     "right": "16px",
+     "bottom": "30px",
+     "left": "16px"
+    }
+   },
+   "css": "position: absolute; left: 16px; right: 16px; bottom: 30px; height: 70px; padding: 8px; box-sizing: border-box; border-radius: 28px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 0 4px 0 #1A1714; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px",
+   "aria": "Navegação principal"
+  },
+  "b02.nav.home": {
+   "tpl": 278,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    25.5,
+    1549.5,
+    64.6,
+    51
+   ],
+   "rel": [
+    9.5,
+    9.5,
+    64.6,
+    51
+   ],
+   "style": {
+    "radius": "20px"
+   },
+   "css": "display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 20px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.nav.home.icon": {
+   "tpl": 279,
+   "section": "b02.nav",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    46.8,
+    1555.9,
+    22,
+    22
+   ],
+   "rel": [
+    30.8,
+    15.9,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.nav.home.label": {
+   "tpl": 281,
+   "section": "b02.nav",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    44.21,
+    1580.9,
+    27.18,
+    13.2
+   ],
+   "rel": [
+    28.21,
+    40.9,
+    27.18,
+    13.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "Início",
+     "left": 44.21,
+     "right": 71.39,
+     "top": 1580.9,
+     "bottom": 1594.1,
+     "baseline": 1591.35,
+     "baselineRel": 51.35
+    }
+   ],
+   "naturalWidth": 27.181,
+   "minContentWidth": 27.181,
+   "text": "Início",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.nav.library": {
+   "tpl": 282,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    94.1,
+    1549.5,
+    64.6,
+    51
+   ],
+   "rel": [
+    78.1,
+    9.5,
+    64.6,
+    51
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "20px"
+   },
+   "css": "display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 20px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box",
+   "ariaAttrs": {
+    "aria-current": "page"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "b02.nav.library.icon": {
+   "tpl": 283,
+   "section": "b02.nav",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    115.4,
+    1555.9,
+    22,
+    22
+   ],
+   "rel": [
+    99.4,
+    15.9,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.nav.library.label": {
+   "tpl": 287,
+   "section": "b02.nav",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    101.8,
+    1580.9,
+    49.2,
+    13.2
+   ],
+   "rel": [
+    85.8,
+    40.9,
+    49.2,
+    13.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.2px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 800; letter-spacing: -0.2px",
+   "lines": [
+    {
+     "text": "Biblioteca",
+     "left": 101.8,
+     "right": 151.0,
+     "top": 1580.9,
+     "bottom": 1594.1,
+     "baseline": 1591.35,
+     "baselineRel": 51.35
+    }
+   ],
+   "naturalWidth": 49.205,
+   "minContentWidth": 49.205,
+   "text": "Biblioteca",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "b02.nav.scanner": {
+   "tpl": 288,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    162.7,
+    1549.5,
+    64.6,
+    51
+   ],
+   "rel": [
+    146.7,
+    9.5,
+    64.6,
+    51
+   ],
+   "style": {
+    "radius": "20px"
+   },
+   "css": "position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; border-radius: 20px",
+   "aria": "Scanner: escanear livro ou página",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.nav.scanner.fab": {
+   "tpl": 289,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    165,
+    1519.5,
+    60,
+    60
+   ],
+   "rel": [
+    149,
+    -20.5,
+    60,
+    60
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "shadow": "#1A1714 0px 4px 0px 0px",
+    "position": {
+     "top": "-30px",
+     "right": "2.3px",
+     "bottom": "21px",
+     "left": "32.3px"
+    }
+   },
+   "css": "position: absolute; top: -30px; left: 50%; margin-left: -30px; width: 60px; height: 60px; border-radius: 50%; background: #FED170; border: 1.5px solid #1A1714; box-shadow: 0 4px 0 #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "b02.nav.scanner.icon": {
+   "tpl": 290,
+   "section": "b02.nav",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    181,
+    1535.5,
+    28,
+    28
+   ],
+   "rel": [
+    165,
+    -4.5,
+    28,
+    28
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "b02.nav.scanner.label": {
+   "tpl": 299,
+   "section": "b02.nav",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    174.35,
+    1585.3,
+    41.3,
+    15.2
+   ],
+   "rel": [
+    158.35,
+    45.3,
+    41.3,
+    15.2
+   ],
+   "style": {
+    "padding": "0px 0px 2px 0px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 700; color: #1A1714; padding-bottom: 2px",
+   "lines": [
+    {
+     "text": "Scanner",
+     "left": 174.35,
+     "right": 215.65,
+     "top": 1585.3,
+     "bottom": 1598.5,
+     "baseline": 1595.75,
+     "baselineRel": 55.75
+    }
+   ],
+   "naturalWidth": 41.305,
+   "minContentWidth": 41.305,
+   "text": "Scanner",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "b02.nav.clubs": {
+   "tpl": 300,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    231.3,
+    1549.5,
+    64.6,
+    51
+   ],
+   "rel": [
+    215.3,
+    9.5,
+    64.6,
+    51
+   ],
+   "style": {
+    "radius": "20px"
+   },
+   "css": "display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 20px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.nav.clubs.icon": {
+   "tpl": 301,
+   "section": "b02.nav",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    252.6,
+    1555.9,
+    22,
+    22
+   ],
+   "rel": [
+    236.6,
+    15.9,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.nav.clubs.label": {
+   "tpl": 306,
+   "section": "b02.nav",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    246.37,
+    1580.9,
+    34.45,
+    13.2
+   ],
+   "rel": [
+    230.37,
+    40.9,
+    34.45,
+    13.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "Clubes",
+     "left": 246.37,
+     "right": 280.83,
+     "top": 1580.9,
+     "bottom": 1594.1,
+     "baseline": 1591.35,
+     "baselineRel": 51.35
+    }
+   ],
+   "naturalWidth": 34.452,
+   "minContentWidth": 34.452,
+   "text": "Clubes",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.nav.profile": {
+   "tpl": 307,
+   "section": "b02.nav",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    299.9,
+    1549.5,
+    64.6,
+    51
+   ],
+   "rel": [
+    283.9,
+    9.5,
+    64.6,
+    51
+   ],
+   "style": {
+    "radius": "20px"
+   },
+   "css": "display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; border-radius: 20px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "b02.nav.profile.icon": {
+   "tpl": 308,
+   "section": "b02.nav",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    321.2,
+    1555.9,
+    22,
+    22
+   ],
+   "rel": [
+    305.2,
+    15.9,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "b02.nav.profile.label": {
+   "tpl": 311,
+   "section": "b02.nav",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    319.18,
+    1580.9,
+    26.05,
+    13.2
+   ],
+   "rel": [
+    303.18,
+    40.9,
+    26.05,
+    13.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "Perfil",
+     "left": 319.18,
+     "right": 345.22,
+     "top": 1580.9,
+     "bottom": 1594.1,
+     "baseline": 1591.35,
+     "baselineRel": 51.35
+    }
+   ],
+   "naturalWidth": 26.048,
+   "minContentWidth": 26.048,
+   "text": "Perfil",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  }
+ },
+ "fontMetrics": {
+  "Bricolage Grotesque|800|normal|36px": {
+   "ascent": 33.48,
+   "descent": 9.72
+  },
+  "Instrument Serif|400|italic|46px": {
+   "ascent": 45.54,
+   "descent": 14.26
+  },
+  "Bricolage Grotesque|800|normal|20px": {
+   "ascent": 18.6,
+   "descent": 5.4
+  },
+  "Figtree|700|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|500|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|800|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|800|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Figtree|600|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|700|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Figtree|500|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Instrument Serif|400|normal|22px": {
+   "ascent": 21.78,
+   "descent": 6.82
+  },
+  "Figtree|700|normal|6.5px": {
+   "ascent": 6.18,
+   "descent": 1.63
+  },
+  "Instrument Serif|400|normal|19px": {
+   "ascent": 18.81,
+   "descent": 5.89
+  },
+  "Instrument Serif|400|normal|24px": {
+   "ascent": 23.76,
+   "descent": 7.44
+  },
+  "Figtree|700|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  },
+  "Instrument Serif|400|normal|21px": {
+   "ascent": 20.79,
+   "descent": 6.51
+  },
+  "Figtree|800|normal|9px": {
+   "ascent": 8.55,
+   "descent": 2.25
+  },
+  "Figtree|800|normal|6.5px": {
+   "ascent": 6.18,
+   "descent": 1.63
+  },
+  "Figtree|800|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Instrument Serif|400|normal|23px": {
+   "ascent": 22.77,
+   "descent": 7.13
+  },
+  "Instrument Serif|400|normal|20px": {
+   "ascent": 19.8,
+   "descent": 6.2
+  },
+  "Figtree|600|normal|11px": {
+   "ascent": 10.45,
+   "descent": 2.75
+  },
+  "Figtree|800|normal|11px": {
+   "ascent": 10.45,
+   "descent": 2.75
+  },
+  "Figtree|700|normal|11px": {
+   "ascent": 10.45,
+   "descent": 2.75
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  }
+ ]
+}

@@ -1,0 +1,144 @@
+{
+ "_doc": "T13 (R5) — fases de tela L das 41 telas do projeto (etapas 7–11) e o que cada uma cobre: seções da prancha (sem o prefixo). Usado por recortar.py e gen_fases.py com CONJUNTO=projeto. Uma fase por tela nas curtas (L36_biblioteca_vazia) e uma por seção nas longas, com o número da tela antes do da seção (L02_1_cabecalho, L17_1_capa, L17b_1_progresso) — sem a colisão 17 × 17b que a T02 resolveu com L01a1. As telas irmãs citam a principal (reusa = as seções iguais, com as diferenças em relação a ela) e têm fase só para o que muda. Cada etapa entra aqui junto dos ids dela (T13.4 a T13.8).",
+ "fases": [
+  {
+   "fase": "L02_1_cabecalho",
+   "prancha": "002_biblioteca",
+   "secoes": [
+    "header",
+    "search"
+   ],
+   "titulo": "Biblioteca — título, adicionar, busca e filtros"
+  },
+  {
+   "fase": "L02_2_colecoes",
+   "prancha": "002_biblioteca",
+   "secoes": [
+    "collections"
+   ],
+   "titulo": "Biblioteca — Coleções (cartões com a pilha de lombadas)"
+  },
+  {
+   "fase": "L02_3_status_e_ordem",
+   "prancha": "002_biblioteca",
+   "secoes": [
+    "statusTabs",
+    "sortView"
+   ],
+   "titulo": "Biblioteca — abas de status, ordenar e grade/lista"
+  },
+  {
+   "fase": "L02_4_estante",
+   "prancha": "002_biblioteca",
+   "secoes": [
+    "shelf"
+   ],
+   "titulo": "Biblioteca — a estante (4 prateleiras de 3 livros)"
+  },
+  {
+   "fase": "L02_5_barra",
+   "prancha": "002_biblioteca",
+   "secoes": [
+    "bottomFade",
+    "nav"
+   ],
+   "titulo": "Biblioteca — degradê inferior e barra de navegação"
+  },
+  {
+   "fase": "L36_biblioteca_vazia",
+   "prancha": "036_biblioteca_vazia",
+   "secoes": [
+    "title",
+    "illustration",
+    "heading",
+    "body",
+    "actions",
+    "bottomFade",
+    "nav"
+   ],
+   "titulo": "Biblioteca vazia — a prateleira esperando o primeiro livro"
+  },
+  {
+   "fase": "L17_1_capa",
+   "prancha": "017_detalhes_fisico",
+   "secoes": [
+    "halo",
+    "header",
+    "cover"
+   ],
+   "titulo": "Detalhes (livro físico) — barra do topo, sol retrô e a capa na prateleira"
+  },
+  {
+   "fase": "L17_2_titulo_e_status",
+   "prancha": "017_detalhes_fisico",
+   "secoes": [
+    "title",
+    "meta",
+    "status"
+   ],
+   "titulo": "Detalhes (livro físico) — título, autor, ano, formato e status"
+  },
+  {
+   "fase": "L17_3_sessao",
+   "prancha": "017_detalhes_fisico",
+   "secoes": [
+    "session"
+   ],
+   "titulo": "Detalhes (livro físico) — cartão da sessão de leitura (cronômetro e página opcional)"
+  },
+  {
+   "fase": "L17_4_clima",
+   "prancha": "017_detalhes_fisico",
+   "secoes": [
+    "mood"
+   ],
+   "titulo": "Detalhes — Clima do livro (humor, ritmo, personagens × trama)"
+  },
+  {
+   "fase": "L17_5_sinopse",
+   "prancha": "017_detalhes_fisico",
+   "secoes": [
+    "synopsis"
+   ],
+   "titulo": "Detalhes — Sinopse e ficha (páginas, ano, formato, ISBN)"
+  },
+  {
+   "fase": "L17_6_grifos_e_clube",
+   "prancha": "017_detalhes_fisico",
+   "secoes": [
+    "highlights"
+   ],
+   "titulo": "Detalhes (livro físico) — Seus grifos, fotografar um trecho e a enquete do clube"
+  },
+  {
+   "fase": "L17b_1_progresso",
+   "prancha": "017b_detalhes_ebook",
+   "secoes": [
+    "progress"
+   ],
+   "titulo": "Detalhes (e-book) — cartão do progresso (onde parou, barra, Continuar lendo, grifos)",
+   "reusa": {
+    "base": "017_detalhes_fisico",
+    "secoes": [
+     "halo",
+     "header",
+     "cover",
+     "title",
+     "meta",
+     "status",
+     "mood",
+     "synopsis"
+    ],
+    "relativoASecao": true
+   }
+  },
+  {
+   "fase": "L17b_2_grifos_e_clube",
+   "prancha": "017b_detalhes_ebook",
+   "secoes": [
+    "highlights"
+   ],
+   "titulo": "Detalhes (e-book) — Seus grifos (Ver os 12) e o próximo encontro do clube"
+  }
+ ]
+}

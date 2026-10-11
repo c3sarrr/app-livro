@@ -1,0 +1,3178 @@
+{
+ "002_biblioteca": {
+  "b02.bottomFade": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.count": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine1.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine2.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine3.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.pile.spine4.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card1.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.count": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.card2.pile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine1.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine2.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine3.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.pile.spine4.band": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card2.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.card2.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.card3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card3.count": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.card3.pile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card3.pile.spine1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card3.pile.spine2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card3.pile.spine3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.card3.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.card3.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.carousel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.seeAll": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.collections.seeAll.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.collections.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.header.add": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.header.add.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.header.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.header.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.clubs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.clubs.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.nav.home": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.home.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.home.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.nav.library": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.library.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.library.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.nav.profile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.profile.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.profile.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.nav.scanner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.scanner.fab": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.scanner.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.nav.scanner.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.search.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.search.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.search.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.search.filters": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.search.filters.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.coverWrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.info.progress": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.info.progress.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.info.progress.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.info.progress.percent": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book1.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book1.ribbon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book10": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book10.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book10.cover.capsule": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book10.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book10.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book11": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book11.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book11.cover.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book11.cover.slash": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book11.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book11.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book12": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book12.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book12.cover.oval": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book12.cover.seam": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book12.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book12.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.coverWrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.info.progress": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.info.progress.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.info.progress.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.info.progress.percent": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book2.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book2.ribbon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover.dot": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.coverWrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.info.progress": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.info.progress.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.info.progress.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.info.progress.percent": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book3.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book3.ribbon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover.archOutline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book4.info.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book4.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.cover.dot": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.cover.formatBadge": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book5.cover.ringInner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.cover.ringOuter": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.info.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book5.info.tag.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book5.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.cover.circle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.cover.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book6.info.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book6.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.formatBadge": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book7.cover.kicker": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines.highlight": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines.line4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.lines.line5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.info.notes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.info.notes.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.info.source": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book7.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.bars": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.bars.bar1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.bars.bar2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.bars.bar3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.info.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book8.info.tag.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book8.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover.door": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.info": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.info.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.info.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.shelf.book9.info.tag.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.book9.info.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row1.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row1.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row2.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row2.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row3.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row3.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row4.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.shelf.row4.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.sort": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.sortView.sort.chevron": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.sort.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.sort.prefix": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.sortView.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.toggle.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.toggle.grid.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.toggle.list": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.sortView.toggle.list.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.statusTabs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b02.statusTabs.abandoned": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.abandoned.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.all": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.all.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.favorites": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.favorites.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.read": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.read.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.reading": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.reading.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.wantToRead": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b02.statusTabs.wantToRead.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "036_biblioteca_vazia": {
+  "b36.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.ebook": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.ebook.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.row": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.scan.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.scan.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.actions.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.actions.search.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.bottomFade": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.heading.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.illustration": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.book.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.slot1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.slot2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.slot3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.slot4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.illustration.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.clubs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.clubs.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.nav.home": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.home.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.home.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.nav.library": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.library.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.library.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.nav.profile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.profile.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.profile.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.nav.scanner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.scanner.fab": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.scanner.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.nav.scanner.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "b36.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "b36.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "017_detalhes_fisico": {
+  "d17.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.book.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.change": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.change.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.formatTag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.cover.formatTag.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.cover.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.halo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.halo.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.more": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.more.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.share": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.header.share.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.club": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.club.chevron": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.club.kicker": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.club.meta": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.club.rank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.club.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.club.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.photograph": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.photograph.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.quote": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.quote.caption": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.quote.caption.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.quote.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.highlights.quote.text.mark": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.highlights.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.meta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.meta.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.meta.dot": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.meta.format": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.meta.format.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.meta.year": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.pace": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.pace.fast": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.pace.medium": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.pace.medium.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.pace.slow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.paceLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.split": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.split.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.split.fill.edge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.split.track": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.splitLabels": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.splitLabels.characters": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.splitLabels.plot": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag1.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag2.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag3": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag3.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag4": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tag4.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.tags": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.mood.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.mood.voters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.page": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.page.text": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session.page.text.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session.page.text.strong": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session.page.update": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session.page.update.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.start": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.start.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.start.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.today": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.today.goal": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.session.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.session.total": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.status.read": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.status.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.status.wantToRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact1.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact1.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact2.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact2.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact3.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact3.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact4.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.fact4.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.facts": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.synopsis.text.more": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.synopsis.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "017b_detalhes_ebook": {
+  "d17b.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.book.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.book.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.change": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.change.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.formatTag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.cover.formatTag.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.cover.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.halo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.halo.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.more": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.more.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.share": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.header.share.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "d17b.highlights.club": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.club.date": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.club.date.day": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "d17b.highlights.club.date.monthTime": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "d17b.highlights.club.date.weekday": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "d17b.highlights.club.kicker": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.club.meta": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.club.textBlock": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.club.title": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.header": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.quote": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "d17b.highlights.quote.caption": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.highlights.quote.text": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": true
+  },
+  "d17b.highlights.quote.text.mark": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": true
+  },
+  "d17b.highlights.seeAll": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "d17b.highlights.title": {
+   "x": false,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "d17b.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "d17b.meta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.meta.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.meta.dot": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.meta.format": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.meta.format.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.meta.year": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.pace": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.pace.fast": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.pace.medium": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.pace.medium.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.pace.slow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.paceLabel": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.split": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.split.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.split.fill.edge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.split.track": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.splitLabels": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.splitLabels.characters": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.splitLabels.plot": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag1.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag2.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag3": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag3.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag4": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tag4.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.tags": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.mood.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.mood.voters": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.bar.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.bar.fill.edge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.bar.track": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.continue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.continue.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.continue.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.highlights": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.highlights.badge": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.highlights.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.kicker": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.page": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.page.total": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.percent": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.progress.timeLeft": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.progress.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.status.read": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.status.reading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.status.wantToRead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "d17b.synopsis.fact1": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact1.label": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact1.value": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact2": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact2.label": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact2.value": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact3": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact3.label": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact3.value": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact4": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact4.label": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.fact4.value": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.facts": {
+   "x": false,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.synopsis.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": true
+  },
+  "d17b.synopsis.text.more": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": true
+  },
+  "d17b.synopsis.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "d17b.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "d17b.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ }
+}

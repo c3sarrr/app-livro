@@ -200,14 +200,23 @@ def main():
         titulo = f"de {os.path.basename(CFG['fonte'])}"
     idx = CAB + [f'// Índice das referências {titulo}: tela → prancha medida.', '// ignore_for_file: lines_longer_than_80_chars',
                  f"import '{TIPOS_DART}';"]
-    imps, mapa = [], []
-    for p in CFG['pranchas']:
+    # T13: com telas no argumento (tela ou slug, por vírgula), gera só essas; o índice lista as telas que já têm a
+    # referência na pasta (as etapas medidas antes), na ordem do índice. Sem argumento, todas.
+    arg = sys.argv[1] if len(sys.argv) > 1 else 'todas'
+    sel = CFG['pranchas'] if arg == 'todas' else [p for p in CFG['pranchas'] if p['tela'] in arg.split(',') or p['slug'] in arg.split(',')]
+    if not sel:
+        sys.exit(f'prancha desconhecida: {arg}')
+    for p in sel:
         src, n = prancha(p, dep, kni)
         with open(os.path.join(OUT, f"reference_layout_{p['slug']}.dart"), 'w', encoding='utf-8', newline='\n') as f:
             f.write(src)
+        print(f"{p['slug']:24s} {n:>4d} elementos → reference_layout_{p['slug']}.dart")
+    imps, mapa = [], []
+    for p in CFG['pranchas']:
+        if not os.path.exists(os.path.join(OUT, f"reference_layout_{p['slug']}.dart")):
+            continue
         imps.append(f"import 'reference_layout_{p['slug']}.dart';")
         mapa.append(f"  {dstr(p['tela'])}: {const_name(p['tela'])},")
-        print(f"{p['slug']:24s} {n:>4d} elementos → reference_layout_{p['slug']}.dart")
     idx += imps + ['', f"export '{TIPOS_DART}';"] + [i.replace('import', 'export') for i in imps] + [
         '', f'const Map<String, LeitorRefPrancha> {MAPA_DART} = <String, LeitorRefPrancha>{{'] + mapa + ['};']
     with open(os.path.join(OUT, INDICE_DART), 'w', encoding='utf-8', newline='\n') as f:

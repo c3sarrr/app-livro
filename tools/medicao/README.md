@@ -79,3 +79,20 @@ prévias (que o projeto não tem). Conjuntos: `projeto` (as 41 das etapas 7–11
 commitado: `ATE=referencias` para no fim das referências Dart). Testes: `python3 -m unittest
 tools/medicao/test_extrair_dc.py` (as faces contra os 35 helmets antigos e as respostas reais do `css2`, as versões,
 a numeração, o catálogo, o texto fora do latin e a pasta gerada).
+
+A prova (R3): `comparar_conferencia.py` (no WSL) compara a conferência com o commitado e escreve
+`docs/design/medicao/projeto/conferencia_medicao.md` — layouts campo a campo sem a origem, a frase do método e a lista
+`fontFaces` (que muda pelo método e vai descrita), PNGs byte a byte (num redline diferente, todo pixel diferente tem de
+estar dentro de um rótulo numerado), idmaps e referências Dart.
+
+As 41 telas são medidas uma etapa por vez (T13.4 a T13.8): `bash tools/medicao/rodar_etapa.sh 02,36,17,17b` (no WSL)
+roda a extração e, só para as telas do argumento, os ids (`idmaps_spec.py <telas>`, com os módulos
+`idmaps_spec_projeto_t14.py` … `_t18.py` juntos em `idmaps_spec_projeto.py`), a medição, o supersample, as reduções e a
+dependência de texto (juntada à das etapas de antes); os recortes por fase (`fases_projeto.json`, que ganha as fases de
+cada etapa) e as referências Dart (`gen_reference_dart.py <telas>`: o índice `referencias_projeto.dart` lista as telas
+que já têm referência). O fechamento roda as 41 de uma vez com `rodar_tudo.sh` e tem de dar os mesmos bytes.
+
+Fonte de reserva (R8): no índice do projeto, `reserva` diz, por tela, os ids cujo texto o Chromium desenha com uma
+fonte de fora das `@font-face` (o motivo e se é `informativo`: texto que o sistema desenha, não o app — o botão da
+Apple, o teclado). O `build_layout.py` falha com qualquer outra e com a declarada que não aparece; o `informativo` vai
+para o layout. O CDP atribui a fonte do texto também ao pai em alguns casos (como o `progressRow` da 20): os dois entram.

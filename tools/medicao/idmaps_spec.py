@@ -16,6 +16,7 @@ Uso: python3 tools/medicao/idmaps_spec.py            → gera tools/medicao/idma
      python3 tools/medicao/idmaps_spec.py --mostrar 22 → lista tpl, tag, id e texto para revisão
 T02: com CONJUNTO=inicio2 a especificação vem do módulo do conjunto (conjuntos.json → idmapsSpec, com SPEC, SECOES
 e ESPECIAIS) e a saída vai para a pasta idmaps dele; o gerador é este.
+T13: `idmaps_spec.py 02,36` gera só essas telas (tela ou slug), para medir o projeto uma etapa por vez.
 """
 import importlib
 import json
@@ -454,7 +455,12 @@ def main():
     os.makedirs(caminho('idmaps'), exist_ok=True)
     todos = []
     total = 0
-    for p in cfg['pranchas']:
+    # T13: as telas do argumento (tela ou slug, separadas por vírgula; padrão: todas), como medir.js e build_layout.py
+    arg = sys.argv[1] if len(sys.argv) > 1 else 'todas'
+    sel = cfg['pranchas'] if arg == 'todas' else [p for p in cfg['pranchas'] if p['tela'] in arg.split(',') or p['slug'] in arg.split(',')]
+    if not sel:
+        sys.exit(f'prancha desconhecida: {arg}')
+    for p in sel:
         idmap, erros = gerar(p['slug'], p['prefixo'], SPEC, SECOES, ESPECIAIS)
         todos += erros
         total += len(idmap)
@@ -469,7 +475,7 @@ def main():
     if todos:
         print('\n'.join(todos))
         sys.exit(1)
-    print(f'OK: {total} ids em {len(cfg["pranchas"])} pranchas')
+    print(f'OK: {total} ids em {len(sel)} pranchas')
 
 
 if __name__ == '__main__':

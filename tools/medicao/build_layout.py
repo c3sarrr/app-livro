@@ -245,6 +245,21 @@ def build(p):
             if any(not f['custom'] for f in PF[k]):
                 rec['fallback'] = [f'{f["family"]} ({f["glyphs"]} glifo(s))' for f in PF[k] if not f['custom']]
         out['elements'][k] = rec
+    # T13 (R8): no projeto, nenhum texto cai em fonte de reserva além do que o índice declara (`reserva`: id sem o
+    # prefixo → motivo e se é informativo); o informativo (texto que o sistema desenha, não o app) fica marcado
+    if dc:
+        reserva = p.get('reserva', {})
+        for k, rec in out['elements'].items():
+            curto = k[len(pre) + 1:]
+            if 'fallback' not in rec:
+                continue
+            if curto not in reserva:
+                erros.append(f'{k}: fonte de reserva fora do R8 ({", ".join(rec["fallback"])})')
+            elif reserva[curto].get('informativo'):
+                rec['informativo'] = reserva[curto]['motivo']
+        for curto in reserva:
+            if 'fallback' not in out['elements'].get(f'{pre}.{curto}', {}):
+                erros.append(f'{pre}.{curto}: a reserva declarada no índice não apareceu na medição')
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, f'layout_{slug}.json'), 'w', encoding='utf-8', newline='\n') as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
