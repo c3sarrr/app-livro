@@ -4,7 +4,8 @@
 // computador (`tools/celular/capturar_r00.py`) tira a captura pelo `adb` nesse intervalo.
 //   --dart-define=R00_ALVO=1 (padrão): o alvo (1), as 16 telas;
 //   --dart-define=R00_ALVO=2: o alvo (2) (a Início igual à prancha), as 3 telas da Início.
-// Rodar só pelo script (ele confere a assinatura do app instalado e usa o `--keep-app-running`).
+// Rodar só pelo script: ele confere a assinatura do app instalado e o espaço, guarda o APK do app normal e usa o
+// `--keep-app-running` (sem as conferências o `flutter drive` pode desinstalar o app, e os dados vão junto).
 import 'dart:io';
 
 import 'package:app_leitura/features/home/presentation/home_screen.dart';
@@ -93,6 +94,10 @@ void main() {
     tester,
   ) async {
     final suporte = Directory.systemTemp.createTempSync('booknest_r00_cap_');
+    // também quando o roteiro falha: a pasta temporária do demo não fica no aparelho
+    addTearDown(
+      () => suporte.existsSync() ? suporte.delete(recursive: true) : null,
+    );
     final relogio = _Relogio();
     final tique = ManualTicker();
     await montarDemonstracao(

@@ -2,14 +2,18 @@
 
 Roda o roteiro do aparelho (`integration_test/capturas_r00_test.dart`) com o `flutter drive` em perfil e, a cada linha
 `R00CAP <nn>` que ele imprime (o app parado no estado da prancha), tira a captura da tela pelo `adb`. No fim monta, para
-cada tela, a captura e o PNG da prancha na mesma altura, com o título embaixo.
+cada tela, a captura e o PNG da prancha na mesma altura, com o título embaixo. A faixa dos ícones de notificação da
+barra do Android é coberta em cada captura (o repositório é público e os ícones são os do celular do Cesar); o
+relógio, a rede e a bateria ficam.
 
 Os dados do Cesar moram no app instalado (`booknest.db`); o roteiro só abre o banco do demo (`booknest_demo.db`, D-267).
-Antes de instalar, confere que o APK instalado foi assinado com a chave de debug deste computador (senão o
-`adb install -r` falha e o `flutter` desinstala o app para tentar de novo — e os dados vão junto) e roda o `flutter drive`
-com `--keep-app-running` (sem ele o `flutter drive` desinstala o app no fim).
+Antes de instalar (`tools/celular/aparelho.py`), confere que o APK instalado foi assinado com a chave de debug deste
+computador — a que assina o build do `flutter drive` (senão o `adb install -r` falha e o `flutter` desinstala o app
+para tentar de novo, e os dados vão junto) — e que há espaço; guarda o APK do app normal (como o `demo.py`) e roda o
+`flutter drive` com `--keep-app-running` (sem ele o `flutter drive` desinstala o app no fim). No fim o ícone abre o
+build do roteiro: `python3 tools/celular/demo.py --voltar` devolve o app normal.
 
-    PYTHONIOENCODING=utf-8 python3 tools/celular/capturar_r00.py [--alvo 1|2] [--aparelho RXCT200CA6F]
+    python3 tools/celular/capturar_r00.py [--alvo 1|2] [--aparelho RXCT200CA6F] [--so-montar]
 
 `--alvo 2` = o `main_mundo_referencia.dart` (a Início igual à prancha): só as 3 telas da Início (`<nn>_prancha_*`).
 """
@@ -17,23 +21,21 @@ com `--keep-app-running` (sem ele o `flutter drive` desinstala o app no fim).
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import aparelho as ap  # noqa: E402
+import demo  # noqa: E402
+
 RAIZ = Path(__file__).resolve().parents[2]
-PACOTE = "com.example.app_leitura"
-ADB = Path(os.environ.get("LOCALAPPDATA", "")) / "Android" / "sdk" / "platform-tools" / "adb.exe"
-SDK = ADB.parent.parent
-# o SHA-256 do certificado da chave de debug deste computador (o `apksigner` sobre o APK instalado — R00, 11/10/2026)
-ASSINANTE_ESPERADO = "14faa78b4f3acda7700523c7eff8a5e9bd1be7a0c75ea379ab8258b34ae65143"
-JDK = Path(r"C:\Program Files\Eclipse Adoptium\jdk-17.0.20.101-hotspot")
+# o tamanho de um build de perfil do roteiro (≈ 70 MB em 11/10/2026), com folga: a conferência pede 3× livres
+TAMANHO_DO_BUILD_MB = 120
 
 INICIO2 = RAIZ / "docs" / "design" / "medicao" / "inicio2" / "png"
 LEITOR = RAIZ / "handoff_v2" / "referencia" / "png"
@@ -60,41 +62,34 @@ TELAS: list[tuple[str, str, Path]] = [
 TELAS_DA_INICIO = ("01", "60", "01b")
 MARCA = re.compile(r"R00CAP (\w+)")
 ALTURA = 1400  # altura de cada lado da imagem lado a lado (px)
+# a captura do S22+ e, nela, a faixa dos ícones de notificação da barra do Android: depois do relógio (até x 186) e
+# antes do meio; os ícones ficam em x 201–364, y 27–68 (medido nas capturas de 11/10/2026)
+TAMANHO_DA_CAPTURA = (1080, 2340)
+FAIXA_DAS_NOTIFICACOES = (188, 18, 400, 82)  # x0, y0, x1, y1 (o x1 e o y1 fora)
 
 
-def adb(aparelho: str, *args: str, saida: Path | None = None) -> bytes:
-    r = subprocess.run([str(ADB), "-s", aparelho, *args], capture_output=True, check=True)
-    if saida is not None:
-        saida.write_bytes(r.stdout)
-    return r.stdout
+def preparar(aparelho: str) -> Path | None:
+    """Antes do `flutter drive` instalar o build dele: a assinatura (a chave de debug deste computador), o espaço e o
+    APK do app normal guardado. Devolve o guardado (para a volta)."""
+    ap.conferir_antes_de_instalar(aparelho, ap.assinante_do_keystore_de_debug(), TAMANHO_DO_BUILD_MB)
+    return demo.guardar_app_normal(aparelho)
 
 
-def conferir_assinatura(aparelho: str) -> None:
-    """O APK instalado tem o assinante esperado (sem app instalado não há dado a perder)."""
-    caminho = adb(aparelho, "shell", "pm", "path", PACOTE).decode().strip()
-    if not caminho:
-        print("nenhum app instalado: nada a preservar")
-        return
-    apk = caminho.splitlines()[0].removeprefix("package:")
-    with tempfile.TemporaryDirectory() as pasta:
-        local = Path(pasta) / "instalado.apk"
-        subprocess.run([str(ADB), "-s", aparelho, "pull", apk, str(local)], capture_output=True, check=True)
-        build_tools = sorted((SDK / "build-tools").iterdir())[-1]
-        env = {**os.environ, "JAVA_HOME": str(JDK), "PATH": f"{JDK / 'bin'}{os.pathsep}{os.environ['PATH']}"}
-        r = subprocess.run(
-            [str(build_tools / "apksigner.bat"), "verify", "--print-certs", str(local)],
-            capture_output=True,
-            text=True,
-            env=env,
-            check=True,
-        )
-    achado = re.search(r"SHA-256 digest: ([0-9a-f]{64})", r.stdout)
-    if achado is None or achado.group(1) != ASSINANTE_ESPERADO:
-        sys.exit(
-            "PARADO: o app instalado não foi assinado com a chave de debug deste computador; instalar por cima "
-            "falharia e o flutter desinstalaria o app (apagando os dados). Nada foi instalado."
-        )
-    print("assinatura do app instalado: a chave de debug deste computador (ok)")
+def cobrir_notificacoes(png: Path) -> None:
+    """Pinta a faixa dos ícones de notificação, coluna a coluna, com o degradê entre a cor logo acima e a logo abaixo
+    dela: com a barra sobre um fundo liso some só o ícone; sem a barra (o leitor limpo) nada muda; com a barra sobre o
+    conteúdo rolado (a 60), a faixa vira um degradê."""
+    im = Image.open(png).convert("RGB")
+    if im.size != TAMANHO_DA_CAPTURA:
+        sys.exit(f"{png.name}: {im.size[0]} × {im.size[1]}; a faixa das notificações é medida no S22+ (1080 × 2340)")
+    x0, y0, x1, y1 = FAIXA_DAS_NOTIFICACOES
+    px = im.load()
+    for x in range(x0, x1):
+        acima, abaixo = px[x, y0 - 1], px[x, y1]
+        for y in range(y0, y1):
+            t = (y - y0 + 1) / (y1 - y0 + 1)
+            px[x, y] = tuple(round(a + (b - a) * t) for a, b in zip(acima, abaixo))
+    im.save(png, optimize=True)
 
 
 def capturar(aparelho: str, alvo: int, pasta: Path) -> list[str]:
@@ -129,7 +124,9 @@ def capturar(aparelho: str, alvo: int, pasta: Path) -> list[str]:
             print(linha, end="")
             m = MARCA.search(linha)
             if m and m.group(1) in esperadas:
-                adb(aparelho, "exec-out", "screencap", "-p", saida=pasta / f"{m.group(1)}{sufixo}")
+                captura = pasta / f"{m.group(1)}{sufixo}"
+                ap.adb(aparelho, "exec-out", "screencap", "-p", saida=captura)
+                cobrir_notificacoes(captura)
                 feitas.append(m.group(1))
                 print(f"  → captura {m.group(1)}")
         codigo = p.wait()
@@ -179,19 +176,25 @@ def lado_a_lado(pasta: Path, numero: str, titulo: str, prancha: Path, sufixo: st
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--alvo", type=int, choices=(1, 2), default=1)
-    ap.add_argument("--aparelho", default="RXCT200CA6F")
-    ap.add_argument("--saida", type=Path, default=RAIZ / "docs" / "progresso" / "R00_celular")
-    ap.add_argument("--so-montar", action="store_true", help="não roda o aparelho: só monta o lado a lado")
-    args = ap.parse_args()
+    for fluxo in (sys.stdout, sys.stderr):
+        fluxo.reconfigure(encoding="utf-8", errors="replace")
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--alvo", type=int, choices=(1, 2), default=1)
+    p.add_argument("--aparelho", default="RXCT200CA6F")
+    p.add_argument("--saida", type=Path, default=RAIZ / "docs" / "progresso" / "R00_celular")
+    p.add_argument("--so-montar", action="store_true", help="não roda o aparelho: só monta o lado a lado")
+    args = p.parse_args()
     sufixo = "_prancha_celular.png" if args.alvo == 2 else "_celular.png"
     if not args.so_montar:
-        conferir_assinatura(args.aparelho)
+        guardado = preparar(args.aparelho)
         capturar(args.aparelho, args.alvo, args.saida)
+        if guardado is not None:
+            print(f"para voltar ao app normal: python3 tools/celular/demo.py --voltar   ({guardado.name})")
     for numero, titulo, prancha in TELAS:
         if args.alvo == 2 and numero not in TELAS_DA_INICIO:
             continue
+        if args.so_montar:
+            cobrir_notificacoes(args.saida / f"{numero}{sufixo}")  # de novo não muda nada
         print(lado_a_lado(args.saida, numero, titulo, prancha, sufixo).relative_to(RAIZ))
 
 

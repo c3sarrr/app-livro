@@ -1,6 +1,9 @@
 // G20 (R9) — os orçamentos do Anexo 03 §12 no aparelho, em `--profile` (roda na G26, com o celular):
-//   flutter drive --profile --driver=test_driver/orcamentos_driver.dart \
+//   flutter drive --profile --keep-app-running --driver=test_driver/orcamentos_driver.dart \
 //     --target=integration_test/leitor_orcamentos_test.dart -d <celular>
+// Antes, a conferência de `tools/celular/aparelho.py` (a assinatura do app instalado = a chave de debug deste
+// computador, e espaço): sem `--keep-app-running`, ou se a instalação por cima falhar, o `flutter` desinstala o app — e
+// os dados do app normal vão junto (R00).
 // Mede: abrir um livro já indexado até a 1ª página (< 600 ms); virar 30 páginas sem quadro perdido (o tempo de build e
 // de raster de cada quadro); paginar um capítulo de ~40 páginas (< 120 ms, fatias ≤ 4 ms); importar um EPUB de 2 MB
 // até poder ler (< 2 s); a memória com o livro aberto e depois das 30 viradas (< 180 MB). A latência do traço é a do
