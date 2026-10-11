@@ -35,7 +35,17 @@ na Bricolage, vietnamita), os mesmos 32 arquivos e nomes de família — com os 
 ("Continuar lendo"). Origem = os binários do arquivo (iguais aos da v1 salvo a data do head); contornos e kerning saem
 idênticos, só os avanços mudam (≤ 5/10000 em). A Instrument Serif da v1 já é estática e fica como está. Manifesto:
 tools/fonts/fontes_v1.json. design_handoff/assets/fonts/ (o pacote da v1) não muda.
-Uso: [CONJUNTO=inicio2] python3 tools/fonts/build_fonts.py [v1]   (requer fonttools, brotli e uharfbuzz)
+T13 (CONJUNTO=projeto, R6): só as instâncias que as 41 telas das etapas 7–11 pedem e o app ainda não tem (a lista
+exata saiu da medição: o estilo computado de cada linha de texto) — a Bricolage 800 em 15, 19, 21, 25, 27, 28, 30,
+36, 38, 40, 46, 58 e 74, a Bricolage 700 a 15 (na mesma família da 800, como a Literata com dois pesos), a Literata
+24 em 400 e 600, 18 em 500 e 14 e 16 em 600 — dos MESMOS binários (os subconjuntos fora do latin da Literata
+`400_500` têm o eixo wght inteiro, 400–900, como o latin do arquivo); e a Roboto 500 da 07 (D-273, baixada em
+latin/latin-ext/vietnamita do Google Fonts), estática: só a conversão WOFF2 → TTF, como a Atkinson. A Figtree vai
+até 800 nas 41 (D-246; o 900 renderiza 800) e já existe; a Instrument Serif é estática. As instâncias novas saem nas
+coordenadas normalizadas do HarfBuzz (F2Dot14 antes e depois do avar, coordenadas_do_harfbuzz): com as do fontTools,
+o kerning de 2 instâncias da Literata errava 0,52 unidade (UPM 10000) contra o navegador. Manifesto:
+tools/fonts/fontes_projeto.json.
+Uso: [CONJUNTO=inicio2|projeto] python3 tools/fonts/build_fonts.py [v1]   (requer fonttools, brotli e uharfbuzz)
 """
 import io
 import json
@@ -49,11 +59,11 @@ from fontTools.varLib import instancer
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
 sys.path.insert(0, os.path.join(RAIZ, 'tools', 'medicao'))
-from conjunto import NOME, caminho  # noqa: E402
+from conjunto import C, NOME, caminho  # noqa: E402
 
 ARQ = os.path.join(RAIZ, 'handoff_v2', 'referencia', 'fontes_do_arquivo')
 EXT = os.path.join(AQUI, 'originais_v2')
-OUT = caminho('fontesSaida')
+OUT = caminho('fontesSaida') if 'fontesSaida' in C else None   # T13: importado pelo validar_fontes nas larguras
 HI_UPEM = 10000
 
 # sufixo de família por subconjunto (v1: '', Ext, Vi)
@@ -70,6 +80,10 @@ LITERATA_INICIO2 = {400: [15, 22]}
 # T02 · D-249 — as estáticas da Início v1, refeitas com os avanços do HVAR (mesmos arquivos e famílias da v1)
 BRICOLAGE_OPSZ_V1 = [12, 18, 20, 22, 24, 26, 34, 42]
 FIGTREE_V1 = [400, 500, 600, 700]
+# T13 — as 41 telas das etapas 7–11 (só o que falta no app; a lista saiu da medição)
+BRICOLAGE_OPSZ_PROJETO = [15, 19, 21, 25, 27, 28, 30, 36, 38, 40, 46, 58, 74]
+BRICOLAGE_700_PROJETO = [15]
+LITERATA_PROJETO = {400: [24], 500: [18], 600: [14, 16, 24]}
 LABEL = {400: 'Regular', 500: 'Medium', 600: 'SemiBold', 700: 'Bold', 800: 'ExtraBold'}
 
 
@@ -83,7 +97,7 @@ def src(familia, subset, estilo='normal'):
     nome = {'Figtree': 'Figtree-normal-400_800', 'Bricolage': 'BricolageGrotesque-normal-500-800',
             'Literata': f'Literata-{estilo}-' + ('400_500' if estilo == 'normal' else '400'),
             'Lora': 'Lora-normal-400_500', 'Atkinson400': 'AtkinsonHyperlegible-normal-400',
-            'Atkinson700': 'AtkinsonHyperlegible-normal-700'}[familia]
+            'Atkinson700': 'AtkinsonHyperlegible-normal-700', 'Roboto500': 'Roboto-normal-500'}[familia]
     return os.path.join(EXT, f'{nome}-{subset}.woff2')
 
 
@@ -130,12 +144,37 @@ def save(font, nome, log):
     print(f'ok {nome:44s} {len(data):>7d} B')
 
 
-def instance(path, coords):
+def instance(path, coords, exato=False):
     f = TTFont(path)
     scale_upem(f, HI_UPEM)
-    g = instancer.instantiateVariableFont(f, coords)
+    g = instancer.instantiateVariableFont(f, coordenadas_do_harfbuzz(path, coords) if exato else coords)
     avancos_do_hvar(g, path, coords)
     return g
+
+
+def coordenadas_do_harfbuzz(path, coords):
+    """T13: as coordenadas de usuário que o instanciador do fontTools normaliza para as MESMAS do HarfBuzz (e do
+    Chromium): o HarfBuzz normaliza em ponto fixo (F2Dot14) antes e depois do avar; o fontTools, em ponto flutuante.
+    Na Literata 18/500 a diferença (opsz 0,08394873 × 0,08398438) leva o kerning do par "24" a −32,495 no fontTools
+    (arredonda para −32) contra −32,520 no HarfBuzz — 0,52 unidade de 10000, acima do 0,5 de um valor arredondado.
+    Com estas coordenadas o GPOS, os contornos e os avanços saem da mesma instância que o navegador desenha."""
+    import uharfbuzz as hb
+    from fontTools.varLib.models import piecewiseLinearMap
+    tt = TTFont(path)
+    tt.flavor = None
+    buf = io.BytesIO()
+    tt.save(buf)
+    font = hb.Font(hb.Face(hb.Blob(buf.getvalue())))
+    font.set_variations({k: float(v) for k, v in coords.items()})
+    out = {}
+    for eixo, n in zip(tt['fvar'].axes, font.get_var_coords_normalized()):
+        if eixo.axisTag not in coords:
+            continue
+        if 'avar' in tt and eixo.axisTag in tt['avar'].segments:     # o avar é monótono: a volta é o mapa invertido
+            n = piecewiseLinearMap(n, {v: k for k, v in tt['avar'].segments[eixo.axisTag].items()})
+        lado = (eixo.maxValue - eixo.defaultValue) if n >= 0 else (eixo.defaultValue - eixo.minValue)
+        out[eixo.axisTag] = eixo.defaultValue + n * lado
+    return out
 
 
 def avancos_do_hvar(estatica, path, coords):
@@ -162,22 +201,22 @@ def avancos_do_hvar(estatica, path, coords):
     estatica['hhea'].advanceWidthMax = max(a for a, _ in hmtx.metrics.values())
 
 
-def bricolage(tamanhos, log):
-    """Bricolage — wght 800, 1 família por opsz e por subconjunto."""
+def bricolage(tamanhos, log, peso=800, exato=False):
+    """Bricolage — wght 800 (ou o peso dado: a 700 da T13), 1 família por opsz e por subconjunto."""
     for opsz in tamanhos:
         for sub in UI_SUBSETS:
-            g = instance(src('Bricolage', sub), {'wght': 800, 'opsz': opsz})
+            g = instance(src('Bricolage', sub), {'wght': peso, 'opsz': opsz}, exato)
             fam = f'Bricolage{num(opsz)}{SFX[sub]}'
-            finalize(g, fam, 'ExtraBold', 800)
-            save(g, f'{fam}-ExtraBold.ttf', log)
+            finalize(g, fam, LABEL[peso], peso)
+            save(g, f'{fam}-{LABEL[peso]}.ttf', log)
 
 
-def literata(pesos, log):
+def literata(pesos, log, exato=False):
     """Literata estática — 1 família por tamanho (opsz = tamanho), pesos dentro dela."""
     for w, tamanhos in pesos.items():
         for t in tamanhos:
             for sub in UI_SUBSETS:
-                g = instance(src('Literata', sub), {'wght': w, 'opsz': t})
+                g = instance(src('Literata', sub), {'wght': w, 'opsz': t}, exato)
                 fam = f'Literata{num(t)}{SFX[sub]}'
                 finalize(g, fam, LABEL[w], w)
                 save(g, f'{fam}-{LABEL[w]}.ttf', log)
@@ -186,7 +225,7 @@ def literata(pesos, log):
 def manifesto(log, arquivo=None, gerado_por=None):
     with open(arquivo or caminho('fontesManifesto'), 'w', encoding='utf-8', newline='\n') as f:
         json.dump({'gerado_por': gerado_por or
-                   'tools/fonts/build_fonts.py' + (f' (CONJUNTO={NOME})' if NOME == 'inicio2' else ''),
+                   'tools/fonts/build_fonts.py' + (f' (CONJUNTO={NOME})' if NOME in ('inicio2', 'projeto') else ''),
                    'arquivos': log}, f, ensure_ascii=False, indent=1)
         f.write('\n')
     print(f'{len(log)} arquivos')
@@ -213,11 +252,27 @@ def main_inicio2():
     manifesto(log)
 
 
+def main_projeto():
+    """T13 (R6): as estáticas das 41 telas das etapas 7–11 que o app ainda não tem e a Roboto 500 da 07."""
+    os.makedirs(OUT, exist_ok=True)
+    log = []
+    # nas coordenadas normalizadas do HarfBuzz (coordenadas_do_harfbuzz): as instâncias antigas ficam como estão
+    bricolage(BRICOLAGE_OPSZ_PROJETO, log, exato=True)
+    bricolage(BRICOLAGE_700_PROJETO, log, peso=700, exato=True)
+    literata(LITERATA_PROJETO, log, exato=True)
+    # Roboto 500 — estática no Google Fonts: só conversão (os nomes internos ficam os do arquivo)
+    for sub in UI_SUBSETS:
+        save(TTFont(src('Roboto500', sub)), f'Roboto{SFX[sub]}-Medium.ttf', log)
+    manifesto(log)
+
+
 def main():
     if sys.argv[1:] == ['v1']:
         return main_v1()
     if NOME == 'inicio2':
         return main_inicio2()
+    if NOME == 'projeto':
+        return main_projeto()
     os.makedirs(OUT, exist_ok=True)
     log = []
     # Figtree 800 (latin + latin-ext)

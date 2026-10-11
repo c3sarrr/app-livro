@@ -51,8 +51,8 @@
 
 ## 3. Decisões novas (D-239 em diante) — aprovadas em 10/10/2026
 
-A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-280 (T13) e a próxima livre é a
-D-281.
+A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-282 (T13) e a próxima livre é a
+D-283.
 
 | ID | Proposta | Alternativa |
 |---|---|---|
@@ -98,6 +98,8 @@ D-281.
 | **D-278** | **A fileira de um flex-wrap também é fio de navalha (projeto):** nos conjuntos com `facaLinhaUnica`, o `perturbar.js` mede cada fileira de flex-wrap pelo tamanho hipotético dos itens (sem crescer nem encolher) e marca a fileira cheia por < 1,5 px ou o 1º item da fileira seguinte que caberia faltando < 1,5 px — no Flutter (`Wrap`) uma diferença mínima de largura de texto muda as fileiras e desloca os itens seguintes. Entra no `knife_edges.json` (no contêiner, `fileiras: true`) e na referência Dart (o mesmo `LeitorKnifeEdge`). Na T14–T16: a fileira do autor da 17b (0,47), os humores da 28 (0,40) e os gêneros da 13 (0,97); o leitor e a Início não têm caso. | Só anotar como armadilha; detectar em todos os conjuntos |
 | **D-279** | **A referência da 30b sai do zoom 20 (projeto):** no zoom 10 o Chromium arredonda a altura dos rótulos com `line-height: normal` e o erro soma até 0,59 px na 30b (o gate z20×z10 falhava, 0,58 %); com `zoomBase: 20` e `zoomConvergencia: 40` no índice, o PNG fica a 0,06 px do JSON e é conferido com o zoom 40 (0,015), reduzido faixa a faixa. Só a 30b; as outras 40 seguem no zoom 10 (o gate delas passa). | Manter o zoom 10 e anotar o desvio; zoom 40 como base |
 | **D-280** | **O fio de navalha de texto medido no navegador (projeto e Início):** para cada linha, ±δ no último espaço dela (margem; `word-spacing` no texto com `text-wrap: pretty`) alarga ou estreita só aquela linha e o navegador quebra de novo — a sobra e o estouro são os menores δ que mudam as quebras. A estimativa da G01 errava com trecho em outro peso, texto ao lado de outro item flex, `<br>`, próxima palavra em trecho `nowrap` e `text-wrap: pretty`; no projeto saem 2 fios falsos do Perfil e entra a dica da 28c, na Início a 360 px entram 2. O leitor segue com a estimativa (o `handoff_v2` é só leitura), com os 5 fios falsos das 22–24b anotados. | Só no projeto; corrigir a estimativa; manter e anotar |
+| **D-281** | **A reserva do glifo que a Figtree não tem no peso do texto (projeto):** o "≈" da 17b (600) e a "→" da 28c e da 30b (800) vêm da Inter no peso que o texto pede, como o Chromium (que cai na Inter do sistema): a família `BookNestApprox` ganha a SemiBold e a ExtraBold, com o "≈" e a "→" da Inter 4.0 (a mesma build da Bold da D-54, que não muda). | Uma só Bold para todos os pesos (o "≈" da 17b sai 0,08 px mais largo que no Chromium) |
+| **D-282** | **O `AppFonts` desliga as ligaduras comuns com espaçamento, como o Chromium (todos os conjuntos):** todo estilo com letter-spacing ≠ 0 leva `liga` e `clig` desligadas (as que o Blink desliga; o SkParagraph não desliga nenhuma) — sem isso o "fi" da Instrument Serif itálica espaçada vira um glifo e três linhas das telas do projeto ficam 0,92 a 2,26 px mais curtas. O `validar_fontes.py` desliga o mesmo par (antes também `dlig` e `calt`, sem diferença em nenhuma linha). | Desligar só no estilo de cada tela que tiver o par; ou deixar como o Flutter faz |
 
 ## 4. As fases
 

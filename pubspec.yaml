@@ -341,11 +341,16 @@ flutter:
         - asset: assets/fonts/Literata19Vi-Medium.ttf
           weight: 500
     # G12 (D-54): só o glifo "≈" da Inter Bold 4.0 (tools/fontes/gerar_aprox_inter.py), fallback da Figtree do
-    # leitor ("≈ 2 h 10 min" das telas 20/26b, em 700).
+    # leitor ("≈ 2 h 10 min" das telas 20/26b, em 700). T13.10 (D-281): a SemiBold e a ExtraBold, com o "≈" e a "→"
+    # (o "≈" da 17b em 600; a "→" da 28c e da 30b em 800), da Inter 4.0 que o Chromium usou na medição.
     - family: BookNestApprox
       fonts:
+        - asset: assets/fonts/BookNestApprox-SemiBold.otf
+          weight: 600
         - asset: assets/fonts/BookNestApprox-Bold.ttf
           weight: 700
+        - asset: assets/fonts/BookNestApprox-ExtraBold.otf
+          weight: 800
     # G14 (L26): instâncias da G01 para a folha de ajustes — a Bricolage 23 do título e a Literata estática dos "A"
     # (15 e 25/500) e do "Aa" dos cartões (18 e 26), D-104.
     - family: Bricolage23
@@ -383,14 +388,20 @@ flutter:
       fonts:
         - asset: assets/fonts/Literata16-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Literata16-SemiBold.ttf
+          weight: 600
     - family: Literata16Ext
       fonts:
         - asset: assets/fonts/Literata16Ext-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Literata16Ext-SemiBold.ttf
+          weight: 600
     - family: Literata16Vi
       fonts:
         - asset: assets/fonts/Literata16Vi-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Literata16Vi-SemiBold.ttf
+          weight: 600
     # G19: a citação dos cartões da tela 25 (Literata 16,5 — D-104)
     - family: Literata16_5
       fonts:
@@ -420,14 +431,20 @@ flutter:
       fonts:
         - asset: assets/fonts/Literata18-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Literata18-Medium.ttf
+          weight: 500
     - family: Literata18Ext
       fonts:
         - asset: assets/fonts/Literata18Ext-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Literata18Ext-Medium.ttf
+          weight: 500
     - family: Literata18Vi
       fonts:
         - asset: assets/fonts/Literata18Vi-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Literata18Vi-Medium.ttf
+          weight: 500
     - family: Literata25
       fonts:
         - asset: assets/fonts/Literata25-Medium.ttf
@@ -490,6 +507,213 @@ flutter:
       fonts:
         - asset: assets/fonts/Literata22Vi-Regular.ttf
           weight: 400
+    # T13.10 (R6): as estáticas das 41 telas das etapas 7–11 que faltavam (tools/fonts/fontes_projeto.json) —
+    # Bricolage 800 em 13 tamanhos novos e 700 a 15 (na família da 15), Literata 14/600 e 24/400 e 600 (a 16/600 e a
+    # 18/500 entram nas famílias de cima) e a Roboto 500 do botão do Google da 07 (só convertida, D-273).
+    - family: Bricolage15
+      fonts:
+        - asset: assets/fonts/Bricolage15-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Bricolage15-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage15Ext
+      fonts:
+        - asset: assets/fonts/Bricolage15Ext-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Bricolage15Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage15Vi
+      fonts:
+        - asset: assets/fonts/Bricolage15Vi-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Bricolage15Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage19
+      fonts:
+        - asset: assets/fonts/Bricolage19-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage19Ext
+      fonts:
+        - asset: assets/fonts/Bricolage19Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage19Vi
+      fonts:
+        - asset: assets/fonts/Bricolage19Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage21
+      fonts:
+        - asset: assets/fonts/Bricolage21-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage21Ext
+      fonts:
+        - asset: assets/fonts/Bricolage21Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage21Vi
+      fonts:
+        - asset: assets/fonts/Bricolage21Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage25
+      fonts:
+        - asset: assets/fonts/Bricolage25-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage25Ext
+      fonts:
+        - asset: assets/fonts/Bricolage25Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage25Vi
+      fonts:
+        - asset: assets/fonts/Bricolage25Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage27
+      fonts:
+        - asset: assets/fonts/Bricolage27-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage27Ext
+      fonts:
+        - asset: assets/fonts/Bricolage27Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage27Vi
+      fonts:
+        - asset: assets/fonts/Bricolage27Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage28
+      fonts:
+        - asset: assets/fonts/Bricolage28-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage28Ext
+      fonts:
+        - asset: assets/fonts/Bricolage28Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage28Vi
+      fonts:
+        - asset: assets/fonts/Bricolage28Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage30
+      fonts:
+        - asset: assets/fonts/Bricolage30-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage30Ext
+      fonts:
+        - asset: assets/fonts/Bricolage30Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage30Vi
+      fonts:
+        - asset: assets/fonts/Bricolage30Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage36
+      fonts:
+        - asset: assets/fonts/Bricolage36-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage36Ext
+      fonts:
+        - asset: assets/fonts/Bricolage36Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage36Vi
+      fonts:
+        - asset: assets/fonts/Bricolage36Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage38
+      fonts:
+        - asset: assets/fonts/Bricolage38-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage38Ext
+      fonts:
+        - asset: assets/fonts/Bricolage38Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage38Vi
+      fonts:
+        - asset: assets/fonts/Bricolage38Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage40
+      fonts:
+        - asset: assets/fonts/Bricolage40-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage40Ext
+      fonts:
+        - asset: assets/fonts/Bricolage40Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage40Vi
+      fonts:
+        - asset: assets/fonts/Bricolage40Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage46
+      fonts:
+        - asset: assets/fonts/Bricolage46-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage46Ext
+      fonts:
+        - asset: assets/fonts/Bricolage46Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage46Vi
+      fonts:
+        - asset: assets/fonts/Bricolage46Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage58
+      fonts:
+        - asset: assets/fonts/Bricolage58-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage58Ext
+      fonts:
+        - asset: assets/fonts/Bricolage58Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage58Vi
+      fonts:
+        - asset: assets/fonts/Bricolage58Vi-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage74
+      fonts:
+        - asset: assets/fonts/Bricolage74-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage74Ext
+      fonts:
+        - asset: assets/fonts/Bricolage74Ext-ExtraBold.ttf
+          weight: 800
+    - family: Bricolage74Vi
+      fonts:
+        - asset: assets/fonts/Bricolage74Vi-ExtraBold.ttf
+          weight: 800
+    - family: Literata14
+      fonts:
+        - asset: assets/fonts/Literata14-SemiBold.ttf
+          weight: 600
+    - family: Literata14Ext
+      fonts:
+        - asset: assets/fonts/Literata14Ext-SemiBold.ttf
+          weight: 600
+    - family: Literata14Vi
+      fonts:
+        - asset: assets/fonts/Literata14Vi-SemiBold.ttf
+          weight: 600
+    - family: Literata24
+      fonts:
+        - asset: assets/fonts/Literata24-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata24-SemiBold.ttf
+          weight: 600
+    - family: Literata24Ext
+      fonts:
+        - asset: assets/fonts/Literata24Ext-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata24Ext-SemiBold.ttf
+          weight: 600
+    - family: Literata24Vi
+      fonts:
+        - asset: assets/fonts/Literata24Vi-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Literata24Vi-SemiBold.ttf
+          weight: 600
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+    - family: RobotoExt
+      fonts:
+        - asset: assets/fonts/RobotoExt-Medium.ttf
+          weight: 500
+    - family: RobotoVi
+      fonts:
+        - asset: assets/fonts/RobotoVi-Medium.ttf
+          weight: 500
     # G14 (D-18): o texto do livro nas 4 fontes da tela 26 — arquivos completos do google/fonts, SEM modificação
     # (a Lora tem Reserved Font Name). Lora e Figtree variáveis (eixo wght) com itálico; Atkinson em 4 estáticas.
     - family: LoraBook

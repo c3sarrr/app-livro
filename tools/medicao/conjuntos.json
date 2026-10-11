@@ -152,7 +152,11 @@
    "kRefProjeto"
   ],
   "fasesTrilha": "etapas 7–11 do docs/ROTEIRO.md",
+  "fontesSaida": "assets/fonts",
+  "fontesManifesto": "tools/fonts/fontes_projeto.json",
+  "validacaoFontes": "docs/design/medicao/projeto/validacao_fontes.json",
   "validacaoTrechos": true,
+  "validacaoPorTrecho": true,
   "facaLinhaUnica": true,
   "facaNavegador": true
  },
@@ -176,7 +180,10 @@
    "docs/design/medicao/projeto_larguras",
    "test/reference/projeto_larguras"
   ],
-  "conjuntoBase": "projeto"
+  "conjuntoBase": "projeto",
+  "validacaoFontes": "docs/design/medicao/projeto_larguras/validacao_fontes.json",
+  "validacaoTrechos": true,
+  "validacaoPorTrecho": true
  },
  "projeto_conferencia_inicio2": {
   "_doc": "T13 (R3) — a prova da ferramenta: as telas do conjunto inicio2 extraídas do projeto (.dc.html) por extrair_dc.py e medidas com os ids e as fases de antes; tudo em tools/medicao/tmp/conferencia_projeto/inicio2/, para comparar com o commitado (tools/medicao/comparar_conferencia.py).",

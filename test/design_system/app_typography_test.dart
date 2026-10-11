@@ -216,8 +216,9 @@ void main() {
         () => AppFonts.bricolage(16, height: 1),
         throwsA(isA<AssertionError>()),
       );
+      // T13.10: a 30 passou a existir (telas das etapas 7–11); a 29 continua sem instância
       expect(
-        () => AppFonts.bricolage(30, height: 1),
+        () => AppFonts.bricolage(29, height: 1),
         throwsA(isA<AssertionError>()),
       );
       expect(AppFonts.bricolage(11, height: 1.2).fontFamily, 'Bricolage12');

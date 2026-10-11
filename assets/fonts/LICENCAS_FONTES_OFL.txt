@@ -3,13 +3,15 @@ servidos pelo Google Fonts e embutidos/referenciados nos arquivos "Redesign mobi
 e "Redesign mobile — App de leitura (1).html"):
 
 - Bricolage Grotesque — Copyright 2022 The Bricolage Grotesque Project Authors (https://github.com/ateliertriay/bricolage)
-  Arquivos: Bricolage{12,15_5,17,18,20,22,23,24,26,34,42}{,Ext,Vi}-ExtraBold.ttf
+  Arquivos: Bricolage{12,14,15,15_5,17,18,19,20,21,22,23,24,25,26,27,28,30,32,34,36,38,40,42,46,58,74}{,Ext,Vi}-ExtraBold.ttf
+            e Bricolage15{,Ext,Vi}-Bold.ttf
 - Figtree — Copyright 2022 The Figtree Project Authors (https://github.com/erikdkennedy/figtree)
   Arquivos: Figtree{,Ext}-{Regular,Medium,SemiBold,Bold,ExtraBold}.ttf
 - Instrument Serif — Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)
   Arquivos: InstrumentSerif{,Ext}-{Regular,Italic}.ttf
 - Literata — Copyright 2017 The Literata Project Authors (https://github.com/googlefonts/literata)
-  Arquivos: Literata{15_5,16,16_5,17,18,20_5,26}{,Ext,Vi}-Regular.ttf e Literata{15,17,19,25}{,Ext,Vi}-Medium.ttf
+  Arquivos: Literata{15,15_5,16,16_5,17,18,20_5,22,24,26}{,Ext,Vi}-Regular.ttf,
+            Literata{15,17,18,19,25}{,Ext,Vi}-Medium.ttf e Literata{14,16,24}{,Ext,Vi}-SemiBold.ttf
             (instâncias estáticas)
             Literata{,Italic}-VF{,Ext,Vi,Cyr,CyrExt,Gr,GrExt}.ttf (fonte variável, só convertida de WOFF2)
 - Lora — Copyright 2011 The Lora Project Authors (https://github.com/cyrealtype/Lora-Cyrillic),
@@ -20,18 +22,23 @@ e "Redesign mobile — App de leitura (1).html"):
 - Atkinson Hyperlegible — Copyright 2020 Braille Institute of America, Inc.
   Arquivos: AtkinsonHyperlegible{,Ext}-{Regular,Bold}.ttf (só convertidas de WOFF2)
 - Inter — Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)
-  Arquivo: BookNestApprox-Bold.ttf — só o glifo "≈" (U+2248) da Inter Bold 4.0 (D-54), com a família renomeada
-  para "BookNestApprox" (tools/fontes/gerar_aprox_inter.py). A Inter não declara Reserved Font Name.
+  Arquivos: BookNestApprox-Bold.ttf — só o glifo "≈" (U+2248) da Inter Bold 4.0 (D-54) — e
+  BookNestApprox-{SemiBold,ExtraBold}.otf — o "≈" e a "→" (U+2192) da Inter SemiBold e ExtraBold 4.0 (D-281) —, com a
+  família renomeada para "BookNestApprox" (tools/fontes/gerar_aprox_inter.py). A Inter não declara Reserved Font Name.
+- Roboto — Copyright 2011 The Roboto Project Authors (https://github.com/googlefonts/roboto-classic)
+  Arquivos: Roboto{,Ext,Vi}-Medium.ttf (só convertidas de WOFF2, D-273: o texto do botão do Google da tela 07)
 - Texto do livro (G14, D-18) — arquivos completos do google/fonts (https://github.com/google/fonts), SEM
   modificação (só os nomes dos arquivos, sem colchetes):
   livro/Lora{,-Italic}-Wght.ttf (Lora, Reserved Font Name "Lora"),
   livro/Figtree{,-Italic}-Wght.ttf (Figtree) e
   livro/AtkinsonHyperlegible-{Regular,Italic,Bold,BoldItalic}.ttf (Atkinson Hyperlegible).
 
-Modificações (versões modificadas conforme a licença) — só em Bricolage Grotesque, Figtree, Instrument Serif e
+Modificações (versões modificadas conforme a licença) — em Bricolage Grotesque, Figtree, Instrument Serif e
 Literata: conversão WOFF2 -> TTF, instanciação de eixos variáveis (opsz/wght) com UPM 10000 (nas instâncias geradas na G01, avanços
-recalculados pelo HVAR) e renomeação interna das famílias. Esses projetos não declaram Reserved Font Name. As fontes continuam sob a SIL Open Font License 1.1, reproduzida abaixo, e não podem ser
-vendidas separadamente.
+recalculados pelo HVAR) e renomeação interna das famílias; na Inter: subconjunto de glifos e renomeação da família;
+na Roboto, na Atkinson Hyperlegible e na Lora: só a conversão WOFF2 -> TTF. Os projetos modificados não declaram
+Reserved Font Name (a Lora declara e não é instanciada nem renomeada). As fontes continuam sob a SIL Open Font
+License 1.1, reproduzida abaixo, e não podem ser vendidas separadamente.
 
 SIL OPEN FONT LICENSE
 

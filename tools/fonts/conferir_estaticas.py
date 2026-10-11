@@ -5,8 +5,9 @@ HarfBuzz com as variações da instância (é o que o Chromium faz com a variáv
 soma até três âncoras arredondadas: a da base, a do acento e a do acento de baixo, no empilhamento das letras
 vietnamitas decompostas) — mais a quantização do HarfBuzz (1/1024 de unidade de cada fonte). Na UPM 10000, 1,5 unidade
 a 42 px = 0,006 px. As convertidas sem instanciar (Literata e Lora variáveis, Atkinson) têm de sair idênticas.
-Arquivos: os três manifestos (fontes_v1.json, fontes_leitor.json, fontes_inicio2.json). Textos: todas as linhas medidas
-nas pranchas (leitor e Início) e um corpus com latin-ext, vietnamita, cirílico, grego e símbolos; cada texto com e sem
+Arquivos: os quatro manifestos (fontes_v1.json, fontes_leitor.json, fontes_inicio2.json e, na T13, fontes_projeto.json:
+a Bricolage 700 é instanciada como a 800; a Roboto 500, convertida, tem de sair idêntica). Textos: todas as linhas
+medidas nas pranchas (leitor, Início e as 41 do projeto, nas três larguras) e um corpus com latin-ext, vietnamita, cirílico, grego e símbolos; cada texto com e sem
 ligaduras e com 'tnum'.
 Uso: python3 tools/fonts/conferir_estaticas.py   (requer fonttools, brotli e uharfbuzz; código 1 se algo passar)
 """
@@ -26,7 +27,7 @@ sys.path.insert(0, AQUI)
 sys.path.insert(0, os.path.join(RAIZ, 'tools', 'medicao'))
 import build_fonts as bf  # noqa: E402
 
-MANIFESTOS = ['fontes_v1.json', 'fontes_leitor.json', 'fontes_inicio2.json']
+MANIFESTOS = ['fontes_v1.json', 'fontes_leitor.json', 'fontes_inicio2.json', 'fontes_projeto.json']
 SUB = {v: k for k, v in bf.SFX.items()}
 PESO = {v: k for k, v in bf.LABEL.items()}
 LIM_AVANCO, LIM_OFFSET = 0.5, 1.5     # + quantização (ver o topo)
@@ -43,9 +44,10 @@ def origem(nome):
     m = re.fullmatch(r'Figtree(\w*)-(\w+)\.ttf', nome)
     if m:
         return bf.src('Figtree', SUB[m.group(1)]), {'wght': PESO[m.group(2)]}
-    m = re.fullmatch(r'Bricolage(\d+(?:_5)?)(\w*)-ExtraBold\.ttf', nome)
+    m = re.fullmatch(r'Bricolage(\d+(?:_5)?)(\w*)-(ExtraBold|Bold)\.ttf', nome)
     if m:
-        return bf.src('Bricolage', SUB[m.group(2)]), {'wght': 800, 'opsz': float(m.group(1).replace('_', '.'))}
+        return (bf.src('Bricolage', SUB[m.group(2)]),
+                {'wght': PESO[m.group(3)], 'opsz': float(m.group(1).replace('_', '.'))})
     m = re.fullmatch(r'Literata(\d+(?:_5)?)(\w*)-(\w+)\.ttf', nome)
     if m:
         return (bf.src('Literata', SUB[m.group(2)]),
@@ -56,6 +58,9 @@ def origem(nome):
     m = re.fullmatch(r'Lora-VF(\w*)\.ttf', nome)
     if m:
         return bf.src('Lora', SUB[m.group(1)]), None
+    m = re.fullmatch(r'Roboto(\w*)-Medium\.ttf', nome)
+    if m:
+        return bf.src('Roboto500', SUB[m.group(1)]), None
     m = re.fullmatch(r'AtkinsonHyperlegible(\w*)-(\w+)\.ttf', nome)
     if m:
         return bf.src(f'Atkinson{PESO[m.group(2)]}', SUB[m.group(1)]), None

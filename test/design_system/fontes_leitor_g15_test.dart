@@ -42,7 +42,8 @@ void main() {
       ]) {
         expect(familias, contains(f));
       }
-      expect(AppFonts.literataStatic[16], {400});
+      // T13.10 somou a 600 (telas das etapas 7–11; o conjunto exato fica no t13_recursos_projeto_test)
+      expect(AppFonts.literataStatic[16], contains(400));
       expect(AppFonts.literataStatic[15.5], {400});
       expect(AppTextStyles.readerTocChapter.fontFamily, 'Literata16');
       expect(AppTextStyles.readerTocChapterCurrent.fontFamily, 'Literata17');

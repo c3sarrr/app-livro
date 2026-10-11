@@ -5,21 +5,51 @@ import 'app_colors.dart';
 import 'reader_fonts.dart';
 
 abstract final class AppFonts {
+  /// D-282: com letter-spacing ≠ 0 o navegador (Blink) desliga as ligaduras comuns, `liga` e `clig` (a `dlig` já
+  /// vem desligada e a `calt` continua); o SkParagraph não desliga nada. Todo estilo daqui com espaçamento ≠ 0 leva
+  /// estas duas features — sem elas o "fi" da Instrument Serif itálica espaçada vira um glifo só e o "definem" das
+  /// 05/64 e o "Seu perfil." da 15 ficam 0,9–2,3 px mais curtos que no projeto. Com espaçamento 0, nada muda.
+  static const List<FontFeature> commonLigaturesOff = [
+    FontFeature.disable('liga'),
+    FontFeature.disable('clig'),
+  ];
+
+  static List<FontFeature>? _ligatures(double letterSpacing) =>
+      letterSpacing == 0 ? null : commonLigaturesOff;
+
   /// Instâncias estáticas existentes da Bricolage (optical size = tamanho em px; 11 px usa 12). T02: 14 (63) e 32 (62).
+  /// T13.10: as das 41 telas das etapas 7–11 (15, 19, 21, 25, 27, 28, 30, 36, 38, 40, 46, 58 e 74).
   static const Set<int> bricolageOpsz = {
     12,
     14,
+    15,
     17,
     18,
+    19,
     20,
+    21,
     22,
     23,
     24,
+    25,
     26,
+    27,
+    28,
+    30,
     32,
     34,
+    36,
+    38,
+    40,
     42,
+    46,
+    58,
+    74,
   };
+
+  /// Os tamanhos em que a Bricolage também tem o peso 700, na mesma família da 800 (T13.10: o "de 30 min hoje" e o
+  /// "de 256" dos Detalhes, a 15).
+  static const Set<int> bricolageBold = {15};
 
   /// Instâncias fracionárias (G16: o 15,5 do título da pílula do modo anotação — família `Bricolage15_5`).
   static final Set<double> bricolageFractional = {15.5};
@@ -29,6 +59,7 @@ abstract final class AppFonts {
     required double height,
     double letterSpacing = 0,
     Color color = AppColors.ink,
+    FontWeight weight = FontWeight.w800,
   }) {
     final String name;
     if (bricolageFractional.contains(size)) {
@@ -41,13 +72,20 @@ abstract final class AppFonts {
       );
       name = '$opsz';
     }
+    assert(
+      weight == FontWeight.w800 ||
+          (weight == FontWeight.w700 &&
+              bricolageBold.contains(int.tryParse(name))),
+      'Sem Bricolage $name/${weight.value} registrada no pubspec',
+    );
     return TextStyle(
       fontFamily: 'Bricolage$name',
       fontFamilyFallback: ['Bricolage${name}Ext', 'Bricolage${name}Vi'],
       fontSize: size,
-      fontWeight: FontWeight.w800,
+      fontWeight: weight,
       height: height,
       letterSpacing: letterSpacing,
+      fontFeatures: _ligatures(letterSpacing),
       color: color,
       leadingDistribution: TextLeadingDistribution.even,
     );
@@ -72,13 +110,16 @@ abstract final class AppFonts {
       fontWeight: weight,
       height: height,
       letterSpacing: letterSpacing,
+      fontFeatures: _ligatures(letterSpacing),
       color: color,
       leadingDistribution: TextLeadingDistribution.even,
     );
   }
 
   /// Figtree das telas do leitor (19–27b): ali o 800 é real (D-16, L00 — `Figtree-ExtraBold`). A Início continua
-  /// com [figtree], até 700 (D-14). O "≈" (que a Figtree não tem) vem da Inter Bold (D-54, `BookNestApprox`).
+  /// com [figtree], até 700 (D-14). O "≈" (que a Figtree não tem) vem da Inter Bold (D-54, `BookNestApprox`); na T13
+  /// (D-281) a família ganhou a SemiBold e a ExtraBold, com o "≈" e a "→" — o peso que o texto pede, como o Chromium.
+  /// As telas do projeto (etapas 7–11) usam esta: todas declaram a Figtree até 800 (D-246).
   static TextStyle figtreeReader(
     double size,
     FontWeight weight, {
@@ -97,6 +138,7 @@ abstract final class AppFonts {
       fontWeight: weight,
       height: height,
       letterSpacing: letterSpacing,
+      fontFeatures: _ligatures(letterSpacing),
       color: color,
       leadingDistribution: TextLeadingDistribution.even,
     );
@@ -105,14 +147,16 @@ abstract final class AppFonts {
   /// Literata ESTÁTICA da interface do leitor (D-104: a variável fica só no texto do livro). Uma família por
   /// tamanho (opsz), registrada só com os pesos que existem.
   static final Map<double, Set<int>> literataStatic = {
+    14: {600},
     15: {400, 500},
     15.5: {400},
-    16: {400},
+    16: {400, 600},
     16.5: {400},
     17: {400, 500},
-    18: {400},
+    18: {400, 500},
     19: {500},
     22: {400},
+    24: {400, 600},
     25: {500},
     26: {400},
   };
@@ -160,6 +204,34 @@ abstract final class AppFonts {
     height: 1,
   );
 
+  /// Roboto (T13.10, D-273): só o texto do botão do Google da 07 ("Continuar com o Google", 500), como pede o guia
+  /// do botão; estática, registrada só no peso que existe.
+  static const Set<int> robotoWeights = {500};
+
+  static TextStyle roboto(
+    double size,
+    FontWeight weight, {
+    double? height,
+    double letterSpacing = 0,
+    Color color = AppColors.ink,
+  }) {
+    assert(
+      robotoWeights.contains(weight.value),
+      'Sem Roboto ${weight.value} registrada no pubspec',
+    );
+    return TextStyle(
+      fontFamily: 'Roboto',
+      fontFamilyFallback: const ['RobotoExt', 'RobotoVi'],
+      fontSize: size,
+      fontWeight: weight,
+      height: height,
+      letterSpacing: letterSpacing,
+      fontFeatures: _ligatures(letterSpacing),
+      color: color,
+      leadingDistribution: TextLeadingDistribution.even,
+    );
+  }
+
   static TextStyle serif(
     double size, {
     required double height,
@@ -175,6 +247,7 @@ abstract final class AppFonts {
       fontStyle: italic ? FontStyle.italic : FontStyle.normal,
       height: height,
       letterSpacing: letterSpacing,
+      fontFeatures: _ligatures(letterSpacing),
       color: color,
       leadingDistribution: TextLeadingDistribution.even,
     );
@@ -479,7 +552,7 @@ abstract final class AppTextStyles {
     11.5,
     FontWeight.w600,
     color: AppColors.readerFooter,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   // Leitor — controles (telas 20/26b, G12). Cores da Creme; as telas trocam pela paleta do papel.
 
@@ -515,7 +588,7 @@ abstract final class AppTextStyles {
     12.5,
     FontWeight.w700,
     color: AppColors.inkMuted,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   /// r20.bottomIsland.progressRow.position.percent (`strong`)
   static final TextStyle readerProgressStrong = readerProgress.copyWith(
@@ -563,7 +636,7 @@ abstract final class AppTextStyles {
     12,
     FontWeight.w700,
     color: AppColors.readerFooter,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   /// r21.toolbar.colors.label "GRIFAR" e o título da folha da nota: Figtree 11/800, ls 1,2, `line-height: 1`.
   static final TextStyle readerToolbarLabel = AppFonts.figtreeReader(
@@ -774,11 +847,11 @@ abstract final class AppTextStyles {
     13,
     FontWeight.w700,
     color: AppColors.labelReader,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
   static final TextStyle readerTocPageCurrent = AppFonts.figtreeReader(
     13,
     FontWeight.w800,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   /// O número das marcas: 11,5/800 `#6F665B`.
   static final TextStyle readerTocMarks = AppFonts.figtreeReader(
@@ -812,7 +885,7 @@ abstract final class AppTextStyles {
   static final TextStyle readerBmPage = AppFonts.figtreeReader(
     12.5,
     FontWeight.w800,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
   static final TextStyle readerBmChapter = AppFonts.figtreeReader(
     12,
     FontWeight.w700,
@@ -905,7 +978,7 @@ abstract final class AppTextStyles {
   static final TextStyle annPanelValue = AppFonts.figtreeReader(
     13,
     FontWeight.w800,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   /// ann.markerPanel.preview: a frase da página em Literata 17, `line-height: 1.5`, `#2A2520` (D-171).
   static final TextStyle annMarkerPreview = AppFonts.literata(
@@ -999,7 +1072,7 @@ abstract final class AppTextStyles {
     15,
     FontWeight.w800,
     letterSpacing: 0.6,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   // Grifos e notas (tela 25, G19).
 
@@ -1068,7 +1141,7 @@ abstract final class AppTextStyles {
   static final TextStyle hlSep = AppFonts.figtreeReader(
     12.5,
     FontWeight.w800,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   /// hl.list.sepHere ("pág. 159 · você parou aqui", pílula coral): Figtree
   /// 12,5/800 sem algarismos tabulares — a pílula não usa `tnum` no arquivo.
@@ -1231,7 +1304,7 @@ abstract final class AppTextStyles {
     height: 1.2,
     letterSpacing: -0.6,
     color: AppColors.paper,
-  ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
+  ).withTabularFigures();
 
   /// Os `<text>` da capa com asas da mini-barra (`il_capa_bras_cubas_asas.svg`, viewBox 96×144 em 29,6×45,6 com
   /// `slice`: escala 45,6 ÷ 144): "MEMÓRIAS PÓSTUMAS DE" Figtree 4,6/800 → 700, ls 0,8, `#F7F0E3`.
@@ -1264,4 +1337,12 @@ abstract final class AppTextStyles {
 
   /// max(29,6 ÷ 96, 45,6 ÷ 144): o `slice` da capa com asas da mini-barra.
   static const double _coverWingsScale = 45.6 / 144;
+}
+
+/// `tabular-nums`: os algarismos de largura fixa SOMADOS às features do estilo — as ligaduras que a D-282 desliga
+/// nos estilos com espaçamento continuam desligadas (um `copyWith(fontFeatures: …)` as trocaria).
+extension TabularFigures on TextStyle {
+  TextStyle withTabularFigures() => copyWith(
+    fontFeatures: [...?fontFeatures, const FontFeature.tabularFigures()],
+  );
 }

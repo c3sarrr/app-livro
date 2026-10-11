@@ -105,7 +105,11 @@ void main() {
         (s.fontFamily, s.fontSize, s.fontWeight, s.letterSpacing, s.color),
         ('Bricolage24', 24.0, FontWeight.w800, -0.6, AppColors.paper),
       );
-      expect(s.fontFeatures, const [FontFeature.tabularFigures()]);
+      // D-282 (T13.10): o tnum soma às ligaduras desligadas pelo espaçamento −0,6
+      expect(s.fontFeatures, [
+        ...AppFonts.commonLigaturesOff,
+        const FontFeature.tabularFigures(),
+      ]);
       final botao = _w<CircleIconButton>(tester, 'i01b.miniBar.pause');
       expect(
         (botao.size, botao.color, botao.border),

@@ -1,0 +1,245 @@
+{
+ "gerado_por": "tools/fonts/build_fonts.py (CONJUNTO=projeto)",
+ "arquivos": [
+  {
+   "arquivo": "Bricolage15-ExtraBold.ttf",
+   "bytes": 54304
+  },
+  {
+   "arquivo": "Bricolage15Ext-ExtraBold.ttf",
+   "bytes": 27848
+  },
+  {
+   "arquivo": "Bricolage15Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage19-ExtraBold.ttf",
+   "bytes": 54300
+  },
+  {
+   "arquivo": "Bricolage19Ext-ExtraBold.ttf",
+   "bytes": 27832
+  },
+  {
+   "arquivo": "Bricolage19Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage21-ExtraBold.ttf",
+   "bytes": 54288
+  },
+  {
+   "arquivo": "Bricolage21Ext-ExtraBold.ttf",
+   "bytes": 27824
+  },
+  {
+   "arquivo": "Bricolage21Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage25-ExtraBold.ttf",
+   "bytes": 54276
+  },
+  {
+   "arquivo": "Bricolage25Ext-ExtraBold.ttf",
+   "bytes": 27832
+  },
+  {
+   "arquivo": "Bricolage25Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage27-ExtraBold.ttf",
+   "bytes": 54260
+  },
+  {
+   "arquivo": "Bricolage27Ext-ExtraBold.ttf",
+   "bytes": 27816
+  },
+  {
+   "arquivo": "Bricolage27Vi-ExtraBold.ttf",
+   "bytes": 14724
+  },
+  {
+   "arquivo": "Bricolage28-ExtraBold.ttf",
+   "bytes": 54280
+  },
+  {
+   "arquivo": "Bricolage28Ext-ExtraBold.ttf",
+   "bytes": 27828
+  },
+  {
+   "arquivo": "Bricolage28Vi-ExtraBold.ttf",
+   "bytes": 14740
+  },
+  {
+   "arquivo": "Bricolage30-ExtraBold.ttf",
+   "bytes": 54268
+  },
+  {
+   "arquivo": "Bricolage30Ext-ExtraBold.ttf",
+   "bytes": 27836
+  },
+  {
+   "arquivo": "Bricolage30Vi-ExtraBold.ttf",
+   "bytes": 14732
+  },
+  {
+   "arquivo": "Bricolage36-ExtraBold.ttf",
+   "bytes": 54248
+  },
+  {
+   "arquivo": "Bricolage36Ext-ExtraBold.ttf",
+   "bytes": 27828
+  },
+  {
+   "arquivo": "Bricolage36Vi-ExtraBold.ttf",
+   "bytes": 14736
+  },
+  {
+   "arquivo": "Bricolage38-ExtraBold.ttf",
+   "bytes": 54252
+  },
+  {
+   "arquivo": "Bricolage38Ext-ExtraBold.ttf",
+   "bytes": 27832
+  },
+  {
+   "arquivo": "Bricolage38Vi-ExtraBold.ttf",
+   "bytes": 14736
+  },
+  {
+   "arquivo": "Bricolage40-ExtraBold.ttf",
+   "bytes": 54228
+  },
+  {
+   "arquivo": "Bricolage40Ext-ExtraBold.ttf",
+   "bytes": 27816
+  },
+  {
+   "arquivo": "Bricolage40Vi-ExtraBold.ttf",
+   "bytes": 14736
+  },
+  {
+   "arquivo": "Bricolage46-ExtraBold.ttf",
+   "bytes": 54240
+  },
+  {
+   "arquivo": "Bricolage46Ext-ExtraBold.ttf",
+   "bytes": 27820
+  },
+  {
+   "arquivo": "Bricolage46Vi-ExtraBold.ttf",
+   "bytes": 14732
+  },
+  {
+   "arquivo": "Bricolage58-ExtraBold.ttf",
+   "bytes": 54224
+  },
+  {
+   "arquivo": "Bricolage58Ext-ExtraBold.ttf",
+   "bytes": 27808
+  },
+  {
+   "arquivo": "Bricolage58Vi-ExtraBold.ttf",
+   "bytes": 14720
+  },
+  {
+   "arquivo": "Bricolage74-ExtraBold.ttf",
+   "bytes": 54176
+  },
+  {
+   "arquivo": "Bricolage74Ext-ExtraBold.ttf",
+   "bytes": 27772
+  },
+  {
+   "arquivo": "Bricolage74Vi-ExtraBold.ttf",
+   "bytes": 14712
+  },
+  {
+   "arquivo": "Bricolage15-Bold.ttf",
+   "bytes": 54408
+  },
+  {
+   "arquivo": "Bricolage15Ext-Bold.ttf",
+   "bytes": 27848
+  },
+  {
+   "arquivo": "Bricolage15Vi-Bold.ttf",
+   "bytes": 14708
+  },
+  {
+   "arquivo": "Literata24-Regular.ttf",
+   "bytes": 57140
+  },
+  {
+   "arquivo": "Literata24Ext-Regular.ttf",
+   "bytes": 54492
+  },
+  {
+   "arquivo": "Literata24Vi-Regular.ttf",
+   "bytes": 14780
+  },
+  {
+   "arquivo": "Literata18-Medium.ttf",
+   "bytes": 57252
+  },
+  {
+   "arquivo": "Literata18Ext-Medium.ttf",
+   "bytes": 54768
+  },
+  {
+   "arquivo": "Literata18Vi-Medium.ttf",
+   "bytes": 14804
+  },
+  {
+   "arquivo": "Literata14-SemiBold.ttf",
+   "bytes": 57212
+  },
+  {
+   "arquivo": "Literata14Ext-SemiBold.ttf",
+   "bytes": 54788
+  },
+  {
+   "arquivo": "Literata14Vi-SemiBold.ttf",
+   "bytes": 14824
+  },
+  {
+   "arquivo": "Literata16-SemiBold.ttf",
+   "bytes": 57224
+  },
+  {
+   "arquivo": "Literata16Ext-SemiBold.ttf",
+   "bytes": 54800
+  },
+  {
+   "arquivo": "Literata16Vi-SemiBold.ttf",
+   "bytes": 14820
+  },
+  {
+   "arquivo": "Literata24-SemiBold.ttf",
+   "bytes": 57300
+  },
+  {
+   "arquivo": "Literata24Ext-SemiBold.ttf",
+   "bytes": 54836
+  },
+  {
+   "arquivo": "Literata24Vi-SemiBold.ttf",
+   "bytes": 14824
+  },
+  {
+   "arquivo": "Roboto-Medium.ttf",
+   "bytes": 44788
+  },
+  {
+   "arquivo": "RobotoExt-Medium.ttf",
+   "bytes": 32672
+  },
+  {
+   "arquivo": "RobotoVi-Medium.ttf",
+   "bytes": 17996
+  }
+ ]
+}
