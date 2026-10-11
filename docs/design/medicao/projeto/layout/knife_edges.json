@@ -2,5 +2,32 @@
  "002_biblioteca": {},
  "036_biblioteca_vazia": {},
  "017_detalhes_fisico": {},
- "017b_detalhes_ebook": {}
+ "017b_detalhes_ebook": {
+  "d17b.highlights.quote.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "“…olhos de cigana oblíqua e dissimulada.”",
+     "largura": 314.748,
+     "disponivel": 315,
+     "sobra": 0.252,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "“…olhos de cigana oblíqua e dissimulada.”",
+     "largura": 314.748,
+     "disponivel": 315,
+     "sobra": 0.252,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ }
 }

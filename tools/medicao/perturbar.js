@@ -13,6 +13,8 @@ const { CFG, RAIZ, pranchas, lancar, abrir, idmap, caminho } = require('./comum'
 
 const Z = 100;
 const LIMIAR = 1.5;
+// D-275: o fio de navalha de uma linha só (conjuntos.json → facaLinhaUnica; o projeto)
+const UNICA = !!require('./conjunto').C.facaLinhaUnica;
 
 (async () => {
   const sel = pranchas(process.argv[2]);
@@ -30,7 +32,7 @@ const LIMIAR = 1.5;
     const alvos = Object.entries(layout.elements)
       .filter(([, e]) => (e.lines && e.lines.length) || (e.linesAll && e.linesAll.length))
       .map(([k, e]) => ({ k, tpl: e.tpl, lines: (e.linesAll || e.lines).map(l => l.text), composto: !!e.linesAll }));
-    const facas = await page.evaluate(async ({ Z, alvos, LIMIAR, frameSel }) => {
+    const facas = await page.evaluate(async ({ Z, alvos, LIMIAR, UNICA, frameSel }) => {
       const frame = document.querySelector(frameSel);
       frame.querySelectorAll('*').forEach(e => { if (e.style && e.style.transform) e.style.transform = 'none'; });
       await new Promise(r => setTimeout(r, 200));
@@ -41,6 +43,35 @@ const LIMIAR = 1.5;
         const cs = getComputedStyle(el);
         if (cs.whiteSpace === 'nowrap' || cs.whiteSpace === 'pre' || cs.display === 'inline') continue; // inline: coberto pelo texto composto do pai
         if (a.lines.length < 2 && !(el.scrollWidth > 0)) continue;
+        // D-275 (conjuntos com facaLinhaUnica: o projeto): a linha ÚNICA que pode quebrar (tem espaço; caixa que não é
+        // flex/grid) numa caixa de largura imposta, com sobra < 1,5 px, também é fio de navalha. A largura é a real da
+        // linha (Range sobre os nós de texto: pesos e filhos inline como estão). Sobra 0 = caixa do tamanho do texto
+        // (cresce com ele e não quebra).
+        if (UNICA && a.lines.length === 1 && /\s/.test(a.lines[0].trim()) && !/flex|grid/.test(cs.display)) {
+          const r = el.getBoundingClientRect();
+          const disp = r.width / Z - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - parseFloat(cs.borderLeftWidth)
+            - parseFloat(cs.borderRightWidth) - (parseFloat(cs.textIndent) || 0);
+          let esq = Infinity, dir = -Infinity;
+          const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+          for (let n = tw.nextNode(); n; n = tw.nextNode()) {
+            if (!n.textContent.trim()) continue;
+            let anc = n.parentElement, fora = false;
+            for (; anc && anc !== el; anc = anc.parentElement) {
+              const q = getComputedStyle(anc);
+              if (q.position === 'absolute' || q.position === 'fixed' || anc.tagName.toLowerCase() === 'svg') { fora = true; break; }
+            }
+            if (fora) continue;
+            const rg = document.createRange(); rg.selectNodeContents(n);
+            for (const rc of rg.getClientRects()) { esq = Math.min(esq, rc.left); dir = Math.max(dir, rc.right); }
+          }
+          const w = (dir - esq) / Z, sobra = disp - w;
+          const linha = { linha: 1, texto: a.lines[0], largura: +w.toFixed(3), disponivel: +disp.toFixed(3), sobra: +sobra.toFixed(3),
+            estouroComProxima: null };
+          const risco = sobra > 0.001 && sobra < LIMIAR;
+          if (risco || sobra < -0.01) res[a.k] = { composto: a.composto, quebraPadrao: cs.textWrapStyle || 'auto', linhaUnica: true,
+            riscos: risco ? [linha] : [], quebrasImpostas: [], linhas: [linha] };
+          continue;
+        }
         // texto composto com outra família/tamanho num filho (ex.: "Ajustes *de leitura*") não dá para medir com uma fonte só
         const fontesFilhos = (n) => [...n.children].flatMap(c => { const q = getComputedStyle(c);
           if (q.position === 'absolute' || q.position === 'fixed' || c.tagName.toLowerCase() === 'svg' || q.display !== 'inline') return [];
@@ -70,7 +101,7 @@ const LIMIAR = 1.5;
         if (riscos.length || info.some(x => x.sobra < -0.01)) res[a.k] = { composto: a.composto, quebraPadrao: cs.textWrapStyle || 'auto', riscos, quebrasImpostas: impostas, linhas: info };
       }
       return res;
-    }, { Z, alvos, LIMIAR, frameSel: CFG.frame });
+    }, { Z, alvos, LIMIAR, UNICA, frameSel: CFG.frame });
     await page.close();
     // ── dependência de texto ──
     ({ page } = await abrir(browser, p, { zoom: Z, viewportH: 1000 }));

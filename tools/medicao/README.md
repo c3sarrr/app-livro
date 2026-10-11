@@ -96,3 +96,8 @@ Fonte de reserva (R8): no índice do projeto, `reserva` diz, por tela, os ids cu
 fonte de fora das `@font-face` (o motivo e se é `informativo`: texto que o sistema desenha, não o app — o botão da
 Apple, o teclado). O `build_layout.py` falha com qualquer outra e com a declarada que não aparece; o `informativo` vai
 para o layout. O CDP atribui a fonte do texto também ao pai em alguns casos (como o `progressRow` da 20): os dois entram.
+
+Fio de navalha de uma linha (D-275): nos conjuntos com `"facaLinhaUnica": true` (o projeto), o `perturbar.js`
+também marca a linha única que pode quebrar (tem espaço; caixa que não é flex/grid) numa caixa de largura imposta
+com sobra entre 0 e 1,5 px, medida pela largura real da linha (um Range sobre os nós de texto). O leitor e a Início
+seguem a regra da G01 (só texto de 2+ linhas).

@@ -262,6 +262,23 @@ void main() {
     expect(iguais, 90 - difere.length);
   });
 
+  // D-275: no projeto, a linha única quase cheia numa caixa de largura imposta também é fio de navalha. Na T14 só a
+  // citação da 17b (0,25 px de sobra: um fio mais larga, ela quebra e desce 34 ids); as outras linhas únicas cheias
+  // são caixas do tamanho do texto (sobra 0), que crescem com ele.
+  test('fios de navalha da T14: só a citação da 17b, de uma linha', () {
+    final facas = [
+      for (final t in _porEtapa['T14']!) ...kRefProjeto[t]!.knifeEdges,
+    ];
+    expect(facas.map((k) => k.id).toList(), ['d17b.highlights.quote.text']);
+    expect(facas.single.line, 1);
+    expect(facas.single.slack, closeTo(0.252, 1e-9));
+    expect(facas.single.joinOverflow, isNull);
+    expect(
+      kRefProjeto['17b']!.textDependentY,
+      contains('d17b.highlights.quote.text'),
+    );
+  });
+
   // A 36 (Biblioteca vazia) tem a mesma barra de navegação da 02, presa ao fundo do quadro (844 × 1640: −796); o
   // degradê de baixo é outro (130 de altura com o branco a 55 %, × 170 a 60 % na 02).
   test('36 × 02: a mesma navegação, presa ao fundo', () {

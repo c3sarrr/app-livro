@@ -150,7 +150,8 @@
    "kRefProjeto"
   ],
   "fasesTrilha": "etapas 7–11 do docs/ROTEIRO.md",
-  "validacaoTrechos": true
+  "validacaoTrechos": true,
+  "facaLinhaUnica": true
  },
  "projeto_conferencia_inicio2": {
   "_doc": "T13 (R3) — a prova da ferramenta: as telas do conjunto inicio2 extraídas do projeto (.dc.html) por extrair_dc.py e medidas com os ids e as fases de antes; tudo em tools/medicao/tmp/conferencia_projeto/inicio2/, para comparar com o commitado (tools/medicao/comparar_conferencia.py).",
