@@ -26,10 +26,20 @@
 - O script [`tools/celular/capturar_r00.py`](../../tools/celular/capturar_r00.py) roda o roteiro em perfil, tira a
   captura pelo `adb exec-out screencap -p` a cada marca e monta o lado a lado (a captura e o PNG da prancha @3x na mesma
   altura, o título embaixo). Falha se faltar alguma captura.
+- **A barra do Android** aparece nas telas que a mostram (o leitor limpo e o modo anotação a escondem). A faixa dos
+  ícones de notificação dela (os apps do celular do Cesar; o repositório é público) é coberta em cada captura — do fim
+  do relógio ao último ícone antes do meio, coluna a coluna, com a cor de cima e a de baixo; o relógio, a rede e a
+  bateria ficam. Na 60 a barra está sobre o conteúdo rolado e os ícones não se separam do fundo: a faixa vai do fim do
+  relógio medido na 01 (a captura anterior, do mesmo minuto) até x 400 e aparece como um degradê no alto do mostrador.
+- O celular está no fuso de São Paulo (`persist.sys.timezone` = `America/Sao_Paulo`), o mesmo do mundo de referência
+  (D-09): as horas das sessões gravadas e o "agora" do relógio do demo batem.
 
+```bash
+python3 tools/celular/capturar_r00.py --alvo 1
 ```
-PYTHONIOENCODING=utf-8 python3 tools/celular/capturar_r00.py --alvo 1
-PYTHONIOENCODING=utf-8 python3 tools/celular/capturar_r00.py --alvo 2
+
+```bash
+python3 tools/celular/capturar_r00.py --alvo 2
 ```
 
 Por dentro, cada rodada é
@@ -44,16 +54,32 @@ com teste), e o build não pode desinstalar o app:
 - **nunca** `flutter install` (desinstala antes de instalar) nem `flutter drive` sem `--keep-app-running` ou
   `flutter test integration_test` sem `--no-uninstall` (os dois desinstalam no fim) — conferido no código do
   `flutter_tools` 3.47.2;
-- antes de cada instalação, o script confere que o APK instalado foi assinado com a chave de debug deste computador
-  (SHA-256 `14faa78b…`, pelo `apksigner`): com outro assinante o `adb install -r` falha e o `flutter` desinstala para
-  tentar de novo;
+- antes de cada instalação, os scripts ([`aparelho.py`](../../tools/celular/aparelho.py)) conferem que o celular está
+  conectado, que o APK instalado tem a assinatura do build novo (o do `flutter drive`: a chave de debug deste
+  computador, SHA-256 `14faa78b…`, pelo `keytool` e pelo `apksigner`) e que há espaço — com outro assinante o
+  `adb install -r` falha e o `flutter` desinstala para tentar de novo — e guardam o APK do app normal em
+  `%LOCALAPPDATA%\booknest\celular\`; depois de instalar, conferem que a data da primeira instalação não mudou;
 - antes da primeira instalação, o APK que estava no aparelho (o app de 09/10, compilado em AOT, sem depuração) foi
-  guardado fora do repositório, e depois uma cópia dos dados; depois de cada rodada, o `booknest.db` (339 968 bytes,
+  guardado fora do repositório; uma cópia dos dados, logo depois da primeira instalação por cima (sem depuração, a pasta
+  do app de antes não se deixa ler); depois de cada rodada, o `booknest.db` (339 968 bytes,
   09/10 23:16), o `-wal` (10/10 23:28), o livro em `livros/` e a capa em `capas_arquivo/` foram conferidos — iguais;
 - o roteiro apaga no fim a pasta temporária do demo (conferido no aparelho: nada sobra no `code_cache`);
 - **devolução:** o mesmo APK de antes, reinstalado por cima com `adb install -r` (mesma assinatura, mesma versão — os
   dados ficam): o app voltou a ser o de 09/10 (sem depuração), com a data da primeira instalação (09/10 21:31)
-  preservada, o que prova que ele não foi desinstalado em nenhum momento.
+  preservada, o que prova que ele não foi desinstalado em nenhum momento. Na segunda rodada (11/10, a partir das 11:43) a
+  volta foi pelo `python3 tools/celular/demo.py --voltar`, com o APK guardado pelo próprio script (igual byte a byte
+  ao de antes da R00).
+
+### A entrada de verdade do alvo (1)
+
+O roteiro das capturas monta o alvo sobre uma pasta temporária; a entrada que o Cesar usa é o
+`main_demonstracao.dart` → `runBookNest`. Ela rodou no S22+ pelo `demo.py` (11/10, 11:43): o app abriu na Início do
+demo ([demo_entrada_celular](R00_celular/demo_entrada_celular.png): "Boa noite, Marina", o Dom Casmurro na pág. 159 de
+256, 62 %), e a pasta do app ganhou só o `booknest_demo.db` e as pastas `*_demo` (todos das 11:43). O `booknest.db`
+continua **igual byte a byte** à cópia de segurança (SHA-256 `aab7258a…`, 339 968 bytes, 09/10 23:16), assim como o
+livro em `livros/` e a capa em `capas_arquivo/`; o `-wal` e o `-shm` têm a data de 04:31 — a primeira abertura do app
+normal depois da devolução da primeira rodada (o `profileinstaller` é da mesma hora) —, antes da instalação do demo, e
+continuaram iguais depois das capturas.
 
 ## As 16 telas no alvo (1)
 
@@ -62,9 +88,9 @@ prancha de 390, e a página leva menos texto.
 
 | Tela | Captura | Lado a lado | O que difere da prancha | Por quê |
 |---|---|---|---|---|
-| 01 Início | [01_celular](R00_celular/01_celular.png) | [01](R00_celular/01_lado_a_lado.png) | As capas são as geradas (não a arte desenhada); "~1h 20min" em vez de "~2h 10min"; o Brás Cubas com o título inteiro ("Memórias Póstum…"); a barra de status do Android em cima | Capas: D-79. Tempo: a velocidade pessoal (D-97) pesa as 2 sessões curtas de hoje do mundo (10 + 8 min). Título: **achado**, abaixo. Barra: o app é de ponta a ponta e a prancha não desenha o sistema |
-| 60 Início, revisão | [60_celular](R00_celular/60_celular.png) | [60](R00_celular/60_lado_a_lado.png) | Rolada até o mesmo ponto (o pé do "Seu dia" em 289,7): sem o cartão "Seus grifos de hoje", então o "Para você" sobe; nele, Memorial de Aires, Quincas Borba e Esaú e Jacó com as capas geradas (a prancha: Esaú e Jacó, Memorial de Aires, Casa de Pensão); "1 destaque" em vez de "2 destaques" | Revisão: D-247 (chega com a T05). Para você: o catálogo só do demo (achado 2) pela regra da G08 — um autor só, a edição mais nova primeiro (D-81); capas: D-79. Destaques: D-60 (`t01_divergencias_test`) |
-| 01b Lendo agora | [01b_celular](R00_celular/01b_celular.png) | [01b](R00_celular/01b_lado_a_lado.png) | Igual, com o "08:42"; a mini-barra com o título inteiro e a capa gerada | D-79 e o achado do título |
+| 01 Início | [01_celular](R00_celular/01_celular.png) | [01](R00_celular/01_lado_a_lado.png) | As capas são as geradas (não a arte desenhada); "~1h 20min" em vez de "~2h 10min"; o Brás Cubas com o título inteiro ("Memórias Póstum…"); a barra de status do Android em cima | Capas: D-79. Tempo: a velocidade pessoal (D-97) pesa as 2 sessões curtas de hoje do mundo (10 + 8 min). Título: D-270 (achado 1). Barra: o app é de ponta a ponta e a prancha não desenha o sistema |
+| 60 Início, revisão | [60_celular](R00_celular/60_celular.png) | [60](R00_celular/60_lado_a_lado.png) | Rolada até o mesmo ponto (o pé do "Seu dia" em 289,7): sem o cartão "Seus grifos de hoje", então o "Para você" sobe; nele, Memorial de Aires, Quincas Borba e Esaú e Jacó com as capas geradas (a prancha: Esaú e Jacó, Memorial de Aires, Casa de Pensão); "1 destaque" em vez de "2 destaques" | Revisão: D-247 (chega com a T05). Para você: o catálogo só do demo (D-269) pela regra da G08 — um autor só, a edição mais nova primeiro (D-81); capas: D-79. Destaques: D-60 (`t01_divergencias_test`) |
+| 01b Lendo agora | [01b_celular](R00_celular/01b_celular.png) | [01b](R00_celular/01b_lado_a_lado.png) | Igual, com o "08:42"; a mini-barra com o título inteiro e a capa gerada | D-79 e D-270 |
 | 19 Leitor limpo | [19_celular](R00_celular/19_celular.png) | [19](R00_celular/19_lado_a_lado.png) | A pág. 159 com a tinta de hoje (o grifo, a elipse, as ondas, a nota à mão); a onda de "fluido" e o sublinhado de "a vaga" passam da margem direita | Tinta: D-169 (as pranchas mostram a página limpa e contam a tinta). Margem: largura de 384 — o trecho passou a quebrar entre linhas e o desenho fica no começo do 1º pedaço (G16, a limitação do Anexo 03 §9.5) |
 | 20 Controles | [20_celular](R00_celular/20_celular.png) | [20](R00_celular/20_lado_a_lado.png) | "18 min hoje" igual; "≈ 1 h 20 min" em vez de "≈ 2 h 10 min"; a tinta de hoje; a barra de status | D-97, D-169; a barra volta com os controles (D-105) |
 | 21 Seleção | [21_celular](R00_celular/21_celular.png) | [21](R00_celular/21_lado_a_lado.png) | Seleciona "capaz" (a prancha estende a seleção até "como a vaga… ressaca.", que no celular cai na página seguinte) e o menu abre acima, no terço de cima | Largura de 384 + a nota à mão do mundo ocupando a página (D-169) |
@@ -76,7 +102,7 @@ prancha de 390, e a página leva menos texto.
 | 25 Grifos e notas | [25_celular](R00_celular/25_celular.png) | [25](R00_celular/25_lado_a_lado.png) | Igual (o topo da prancha de 2170) | — |
 | 26 Ajustes (Aa) | [26_celular](R00_celular/26_celular.png) | [26](R00_celular/26_lado_a_lado.png) | Igual; a tinta de hoje atrás do painel | D-169 (a D-147 da 26 vale igual) |
 | 26b Noite | [26b_celular](R00_celular/26b_celular.png) | [26b](R00_celular/26b_lado_a_lado.png) | Igual, "18 min hoje" | D-169 |
-| 27 Sumário | [27_celular](R00_celular/27_celular.png) | [27](R00_celular/27_lado_a_lado.png) | Igual; os números de página dos capítulos são os da paginação de 384 | Largura de 384 |
+| 27 Sumário | [27_celular](R00_celular/27_celular.png) | [27](R00_celular/27_lado_a_lado.png) | Igual, com as páginas da prancha (121, 126… 157 do XXXII, 163); o XXXIII fica sob a barra de navegação do Android | Páginas: o índice do demo põe cada capítulo na página do sumário do mundo (achado 4). O pé: a tela tem 832 de altura e a barra de 3 botões fica sobre o app |
 | 27b Marcadas | [27b_celular](R00_celular/27b_celular.png) | [27b](R00_celular/27b_lado_a_lado.png) | Igual | — |
 
 ## A Início no alvo (2)
@@ -89,9 +115,11 @@ prancha de 390, e a página leva menos texto.
 
 ## O percurso no aparelho (R5)
 
-`flutter test integration_test/navegacao_test.dart -d RXCT200CA6F --no-uninstall` — as 74 ligações da tabela (b) da
+`flutter test integration_test/navegacao_test.dart -d RXCT200CA6F --no-uninstall` (depois da conferência do
+`aparelho.py`: a assinatura do app instalado é a chave de debug deste computador) — as 74 ligações da tabela (b) da
 NAVEGACAO.md, no Galaxy S22+, em 6 min 14 s: todas passam; os 18 🟡 (placeholders de etapas futuras) saem na lista do
-console e batem com a tabela.
+console e batem com a tabela. Depois disso a prova ficou mais forte (a página de chegada e o acerto dos ⏸, R00.md
+Desvio 12); a versão nova roda na suíte (`test/app/navegacao_test.dart`), e a do aparelho é o mesmo código.
 
 ## Como chegar
 
@@ -102,13 +130,19 @@ alvo (1). São os mesmos que o roteiro das capturas faz.
 
 1. **O título curto do Brás Cubas.** A prancha mostra "Brás Cubas" em "Também lendo" e na mini-barra; o app mostra
    `shortTitle ?? title`, e o livro do banco não tem título curto (só a fixture da Início tem). Com dados reais aparece
-   "Memórias Póstumas de Brás Cubas", cortado com reticências. Resposta de 11/10: a T14 (Livro · editar) ganha o
+   "Memórias Póstumas de Brás Cubas", cortado com reticências. Resposta de 11/10 (**D-270**): a T14 (Livro · editar) ganha o
    campo opcional "título curto", preenchido pelo catálogo quando houver; até lá, o título inteiro com reticências.
 2. **O "Para você" sumia no alvo (1).** Ele vem do catálogo baixado (G08, D-81), e o demo não usa o servidor (D-267).
-   Resposta de 11/10: um catálogo só do demo (`test/fixtures/demonstracao/catalogo_demonstracao.dart`, formato 1 do
+   Resposta de 11/10 (**D-269**): um catálogo só do demo (`test/fixtures/demonstracao/catalogo_demonstracao.dart`, formato 1 do
    pipeline, as edições de Machado de Assis da Penguin-Companhia com os ISBNs reais) e um atualizador sem rede. A regra
    da G08 escolhe de um autor só, então a Casa de Pensão (Aluísio Azevedo) da prancha dá lugar ao Quincas Borba, e a
    edição mais nova vem primeiro (Memorial de Aires, 2022).
 3. **A tinta de hoje na largura de 384.** A onda de "fluido misterioso" e o sublinhado de "a vaga que se retira" passam
    da margem: a regra da G16 para trecho que passou a quebrar entre linhas. Já registrada (G16); aparece no celular por
    causa da largura.
+4. **As páginas do sumário e dos marcadores.** Na primeira rodada o sumário mostrava outras páginas que a prancha, e
+   foi atribuído à largura de 384; a prova de navegação mais forte mostrou a causa de verdade: o EPUB curto do mundo
+   espalhava os capítulos por igual nas 256 páginas, e o marcador da pág. 3 levava à pág. 5. O índice do demo
+   (`test/fixtures/demonstracao/indice_demonstracao.dart`) põe cada capítulo na página do sumário do mundo; a 27 foi
+   capturada de novo (11/10, 11:51) e as outras 15 telas saíram iguais às da primeira rodada (fora da barra do
+   Android).

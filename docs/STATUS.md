@@ -2,18 +2,16 @@
 
 > Atualizado no fim de cada etapa (ROTEIRO §4, item 6). A ordem das etapas está em `docs/ROTEIRO.md`.
 
-**Atualizado em:** 10/10/2026, quando o roteiro único foi criado e o projeto completo do design (128 telas) entrou em
-`docs/design/projeto/`.
+**Atualizado em:** 11/10/2026, no fim da etapa 5 · R00 (Arrumação).
 
 | | |
 |---|---|
-| **Última etapa concluída** | 4 · T04, cronômetro do livro de papel (commit `7754c53`, 10/10 22:56) |
-| **Próxima etapa** | ▶ **5 · R00, Arrumação** (ROTEIRO §7) |
-| **Depois** | 6 · T13, medição do projeto · 7 · T14, Biblioteca e Detalhes do livro |
-| **Telas do design** | 128 no projeto · 16 já no app (Início 01, 01b, 60 e as 13 do leitor 19–27b) · as outras 112 têm etapa |
-| **Branch atual** | `feat/t04-cronometro-papel` (limpa, igual ao remoto) |
-| **main** | 478 commits atrás, sem nada próprio: avança com `--ff-only` (vai na R00) |
-| **Sem commit ainda** | `CLAUDE.md`, `docs/ROTEIRO.md`, `docs/STATUS.md`, `docs/design/projeto/` (vão na R00) |
+| **Última etapa concluída** | 5 · R00, Arrumação (branch `feat/r00-arrumacao`, aguardando aprovação para ir à `main`) |
+| **Próxima etapa** | ▶ **6 · T13, medição do projeto** (ROTEIRO §3 e §6b) |
+| **Depois** | 7 · T14, Biblioteca e Detalhes do livro (+ Coleções, Trocar a capa e o título curto da D-270) · 8 · T15, Scanner e Busca |
+| **Telas do design** | 128 no projeto · 16 no app e iguais (Início 01, 01b, 60 e as 13 do leitor 19–27b, provadas no celular) · as outras 112 com etapa (`docs/design/projeto/COBERTURA.md`) · 9 faltando no projeto, cada uma na etapa de quem a abre (D-268) |
+| **Branch atual** | `feat/r00-arrumacao` (com push); a `main` está igual ao `origin/main` (com a T04) |
+| **Próxima decisão livre** | D-271 |
 
 ## O que o app mostra hoje no celular
 
@@ -29,7 +27,32 @@
 | Aba **Clubes** | Só o título | ainda não feita | 14 · T07 |
 | Livro, Notificações, Discussão | Placeholder | ainda não feitas | 7 · T14 · 10 · T17 · 15 · T08 |
 
-Celular sem livros importados mostra os estados vazios. O modo demonstração da R00 resolve isso (se aprovado).
+Os toques de cada tela pronta e onde cada um leva (✅ tela certa · ⏸ sem ação por decisão · 🟡 placeholder, com a etapa
+que troca) estão em `docs/NAVEGACAO.md`; o teste `test/app/navegacao_test.dart` percorre as 74 ligações (18 🟡).
+
+### O modo demonstração (D-267)
+
+Para ver as telas prontas com os dados do design, sem mexer nos seus dados, pelo computador com o celular no USB:
+
+```bash
+python3 tools/celular/demo.py
+```
+
+O script compila o alvo (1) em perfil, confere que o build tem a assinatura do app instalado e que o celular tem
+espaço, guarda o APK do seu app normal (em `%LOCALAPPDATA%\booknest\celular\`, fora do repositório), instala por
+cima com `adb install -r` e abre o app. Os seus dados ficam onde estão, mas o ícone passa a abrir o demo; para voltar:
+
+```bash
+python3 tools/celular/demo.py --voltar
+```
+
+É o app de verdade sobre um banco só do demo (`booknest_demo.db` e pastas `*_demo`), com o mundo de referência (dom
+20/09/2026 20:00, o relógio anda) e o catálogo do demo (D-269); sem servidor. `--recomecar` instala um build que
+recomeça o mundo a cada abertura (rode de novo sem ele depois). A Início igual à prancha: `--alvo 2` (o mesmo banco do
+demo). **Nunca `flutter install`** (desinstala o app antes, e com ele os seus dados). O `flutter run` e o
+`flutter drive` também desinstalam quando a instalação por cima falha (outra assinatura, pouco espaço): só depois da
+conferência do script, o `flutter drive` só com `--keep-app-running` e o `flutter test integration_test` só com
+`--no-uninstall`. A prova das 16 telas lado a lado com as pranchas está em `docs/progresso/R00_celular.md`.
 
 ## Histórico
 
@@ -41,3 +64,4 @@ Celular sem livros importados mostra os estados vazios. O modo demonstração da
 | 10/10/2026 | 3 · T03 | `6b14a57` | Início nova |
 | 10/10/2026 | 4 · T04 | `7754c53` | cronômetro do livro de papel |
 | 10/10/2026 | — | — | roteiro único criado; projeto completo do design baixado; decisões: abas primeiro, 128 telas na v1.0 |
+| 11/10/2026 | 5 · R00 | branch `feat/r00-arrumacao` | `main` em dia; 35/35 pranchas iguais no projeto; cobertura das 128; mapa e `NAVEGACAO.md`; percurso das 74 ligações; modo demonstração (D-267, D-269); as 16 telas no Galaxy S22+; D-268, D-270 |

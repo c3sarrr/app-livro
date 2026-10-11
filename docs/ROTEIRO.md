@@ -14,7 +14,7 @@
 1. Ler `CLAUDE.md`, `docs/STATUS.md` e este arquivo.
 2. Fazer **só a etapa que o STATUS marca como próxima** (▶). Nunca pular, juntar ou inventar etapa.
 3. Antes de escrever código: spec e plano em `docs/progresso/<ID>.md` e `<ID>_plano.md` (como na T03/T04), com as
-   perguntas (§2b). A próxima decisão livre é a **D-269**.
+   perguntas (§2b). A próxima decisão livre é a **D-271**.
 4. **Subfases:** cada etapa é dividida em subfases numeradas (`T14.1`, `T14.2`…), uma por tela ou por seção grande de
    tela, cada uma com teste, commit próprio e o checklist dela. Antes de começar cada tela, perguntar o que for dessa
    tela (§2b).
@@ -71,9 +71,9 @@ Se o projeto, um HTML antigo e qualquer outro texto discordarem: **parar e pergu
 | 2 | T02 | Medição da Início e da revisão (sem tela nova) | plano de fidelidade §5 | ✅ |
 | 3 | T03 | Início nova (01, 60) | plano de fidelidade §5 | ✅ |
 | 4 | T04 | Cronômetro do livro de papel na Início (01b): mini-barra e folha mínima | plano de fidelidade §5 | ✅ |
-| 5 | R00 | **Arrumação:** main em dia, cobertura das 128 telas, mapa de navegação, prova no celular, modo demonstração | este arquivo §7 | ▶ |
-| 6 | T13 | **Medição do projeto:** a ferramenta de medição passa a ler os `.dc.html`; mede as telas das etapas 7–11 | modelo da T02 + §6b | ⏳ |
-| 7 | T14 | **Biblioteca** (02), Biblioteca vazia (36), **Detalhes do livro** físico e e-book (17, 17b); + as que faltam (D-268): Coleções · ver todas, Trocar a capa | modelo da T03 | ⏳ |
+| 5 | R00 | **Arrumação:** main em dia, cobertura das 128 telas, mapa de navegação, prova no celular, modo demonstração | este arquivo §7 | ✅ |
+| 6 | T13 | **Medição do projeto:** a ferramenta de medição passa a ler os `.dc.html`; mede as telas das etapas 7–11 | modelo da T02 + §6b | ▶ |
+| 7 | T14 | **Biblioteca** (02), Biblioteca vazia (36), **Detalhes do livro** físico e e-book (17, 17b); + as que faltam (D-268): Coleções · ver todas, Trocar a capa; + o "título curto" do livro, editável e preenchido pelo catálogo (D-270) | modelo da T03 | ⏳ |
 | 8 | T15 | **Scanner** (03, 39, 40, 41, 42, 69, 69b), **Busca** (28, 28b, 28c), Adicionar à mão (28d); + a que falta (D-268): Busca dentro do livro | modelo da T03 | ⏳ |
 | 9 | T16 | **Entrada:** Abertura (35), Login (07), Cadastro (08), Entrar (09, 09b), Código (10), Nova senha (11), Onboarding (12, 13, 13b, 14, 15, 16), Início primeiro acesso (36a) | modelo da T03 | ⏳ |
 | 10 | T17 | **Perfil** (05), Editar perfil (64, 65), **Ajustes** (06), Conta (58), Excluir conta (59), Privacidade (56), **Notificações** (30, 30b, 30c); + as que faltam (D-268): Exportar meus dados, Importar CSV de outro app, Aparência e acessibilidade, Carteirinha aberta | modelo da T03 | ⏳ |
@@ -122,9 +122,13 @@ Uma etapa só termina quando:
    só em teste não conta como pronta.
 5. **Vista no celular:** build instalado no Galaxy S22+ por USB, com capturas (`adb exec-out screencap -p`) de cada
    tela da etapa lado a lado com o PNG da prancha e o caminho "como chegar" em `docs/progresso/<ID>_celular.md`.
-   Etapa sem tela nova escreve só "nada muda no celular" e o motivo.
+   Etapa sem tela nova escreve só "nada muda no celular" e o motivo. **O app do celular guarda os dados do Cesar:**
+   instalar só pelos scripts de `tools/celular/` (`demo.py`, `capturar_r00.py` — conferem a assinatura e o espaço,
+   guardam o APK do app normal e instalam com `adb install -r`); nunca `flutter install`; `flutter run`/`flutter drive`
+   só depois dessa conferência (os dois desinstalam o app quando a instalação por cima falha), o `flutter drive` com
+   `--keep-app-running` e o `flutter test integration_test` com `--no-uninstall`. No fim, `demo.py --voltar`.
 6. **STATUS e cobertura atualizados:** última etapa, próxima, o que mudou no celular, commit; e as telas da etapa
-   marcadas como feitas em `docs/design/projeto/COBERTURA.md`.
+   marcadas como feitas em `docs/design/projeto/COBERTURA.md` (o único arquivo dessa pasta que as etapas editam).
 7. **Relatório** (modelo do prompt mestre §9) terminando com:
    `✅ ETAPA <n> · <ID> concluída — aguardando sua aprovação para a ETAPA <n+1> · <ID>.` E **PARAR**.
 8. **Depois da aprovação:** merge `--ff-only` da branch da etapa na `main` (§6).
@@ -172,27 +176,28 @@ da T02 (zoom 10 e redução), nunca com uma foto direta no zoom 1.
 
 Objetivo: tudo num lugar só, a `main` em dia, o que está pronto provado no celular, e um mapa claro do que falta.
 
-- [ ] Ler este arquivo, o STATUS, o `docs/design/projeto/CATALOGO.md` e `NOTAS.md`, o plano de fidelidade (§2, §3)
+- [x] Ler este arquivo, o STATUS, o `docs/design/projeto/CATALOGO.md` e `NOTAS.md`, o plano de fidelidade (§2, §3)
       e a auditoria de telas (§5).
-- [ ] **Git (com autorização):** `git checkout main && git merge --ff-only feat/t04-cronometro-papel` e push. Commitar
+- [x] **Git (com autorização):** `git checkout main && git merge --ff-only feat/t04-cronometro-papel` e push. Commitar
       este ROTEIRO, o STATUS, o `CLAUDE.md` e a pasta `docs/design/projeto/` na branch da R00. A partir daqui vale a §6.
-- [ ] **`docs/design/projeto/COBERTURA.md`:** as 128 telas, cada uma com: rota no app, situação (✅ feita e igual ·
+      (A `main` já tinha a T04 no GitHub: avançou com `git fetch . origin/main:main`, sem push — R00, Desvio 1.)
+- [x] **`docs/design/projeto/COBERTURA.md`:** as 128 telas, cada uma com: rota no app, situação (✅ feita e igual ·
       🟠 feita, mas diferente do projeto · ⬜ não feita) e a etapa que faz.
-- [ ] **As telas já feitas mudaram no projeto?** Renderizar a versão do projeto das telas da Início (01, 01b, 60) e
+- [x] **As telas já feitas mudaram no projeto?** Renderizar a versão do projeto das telas da Início (01, 01b, 60) e
       do leitor (19–27b) e comparar com as referências medidas que os testes usam. Diferença → listar e perguntar
       (atualizar ou manter).
-- [ ] **`docs/NAVEGACAO.md`**, a partir do Mapa de navegação (00) e do código (`lib/app/router.dart`, `routes.dart`, os
+- [x] **`docs/NAVEGACAO.md`**, a partir do Mapa de navegação (00) e do código (`lib/app/router.dart`, `routes.dart`, os
       `onTap`): (a) todas as rotas, com o que mostram hoje e a etapa que troca; (b) para cada tela pronta, cada
       elemento tocável → destino → estado: ✅ leva à tela certa · ⏸ sem ação por decisão (D-243 b) · 🟡 leva a
       placeholder; (c) "como chegar no celular", em passos.
-- [ ] **Teste de integração** `integration_test/navegacao_test.dart`: percorre as 4 abas, o botão do scanner e cada
+- [x] **Teste de integração** `integration_test/navegacao_test.dart`: percorre as 4 abas, o botão do scanner e cada
       ligação ✅, conferindo a tela de destino pela chave; lista os 🟡 (só falha por eles na R01).
-- [ ] **Modo demonstração** (decisão nova **D-267**, perguntar antes): só em debug/profile, nunca no build de loja,
+- [x] **Modo demonstração** (decisão nova **D-267**, perguntar antes): só em debug/profile, nunca no build de loja,
       uma opção que carrega o mundo de referência (as fixtures da Início, do leitor e do clube) no banco local do
       aparelho, para ver no celular as telas com os mesmos dados do design.
-- [ ] **Prova no celular:** instalar no Galaxy S22+ e capturar cada tela pronta lado a lado com o PNG da prancha →
+- [x] **Prova no celular:** instalar no Galaxy S22+ e capturar cada tela pronta lado a lado com o PNG da prancha →
       `docs/progresso/R00_celular.md`.
-- [ ] Atualizar `docs/design/LEIA-ME.md` (a pasta do projeto como fonte principal), STATUS, relatório, frase de parada.
+- [x] Atualizar `docs/design/LEIA-ME.md` (a pasta do projeto como fonte principal), STATUS, relatório, frase de parada.
 
 ## 8. R01 · Integração final (M)
 

@@ -418,17 +418,17 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
 
 ## Tarefa 10 — Documentos, verificação e relatório (R00.9)
 
-- [ ] `docs/design/LEIA-ME.md`: o `support.js` = `dc-runtime.js`; a conferência (35/35) e o comando; a `COBERTURA.md` e
+- [x] `docs/design/LEIA-ME.md`: o `support.js` = `dc-runtime.js`; a conferência (35/35) e o comando; a `COBERTURA.md` e
       o `mapa_navegacao.json`.
-- [ ] ROTEIRO: §3 (as 9 telas da D-268 nas linhas das etapas, entre parênteses, "+ as faltando: …"); §7 com os itens
+- [x] ROTEIRO: §3 (as 9 telas da D-268 nas linhas das etapas, entre parênteses, "+ as faltando: …"); §7 com os itens
       marcados; §6b (Tarefa 3).
-- [ ] `COBERTURA.md`: conferir as 16 ✅ e o resumo.
-- [ ] Memória: a pendência de ambiente da F12 (sem JDK, sem aparelho) encerrada — o JDK 17 e o S22+ por USB.
-- [ ] **§7:** `dart format .` (sem mudanças) · `flutter analyze` (0) · `flutter test` inteira · os scripts da R00 de
+- [x] `COBERTURA.md`: conferir as 16 ✅ e o resumo.
+- [x] Memória: a pendência de ambiente da F12 (sem JDK, sem aparelho) encerrada — o JDK 17 e o S22+ por USB.
+- [x] **§7:** `dart format .` (sem mudanças) · `flutter analyze` (0) · `flutter test` inteira · os scripts da R00 de
       novo (35/35, o mapa, a cobertura) · gitleaks nos commits da etapa (`main..HEAD`) · `git status` limpo.
-- [ ] **Revisão independente** (só leitura, do diff da etapa) e mutação nas regras com código (R2, R3, R5, R6).
-- [ ] `STATUS.md`: última etapa 5 · R00 (commit), próxima ▶ 6 · T13, o que mudou no celular (o modo demonstração), a
+- [x] **Revisão independente** (só leitura, do diff da etapa) e mutação nas regras com código (R2, R3, R5, R6).
+- [x] `STATUS.md`: última etapa 5 · R00 (commit), próxima ▶ 6 · T13, o que mudou no celular (o modo demonstração), a
       branch, o histórico.
-- [ ] `R00.md`: Resultados, Desvios, Pendências, Commits, checklist marcado. Relatório (modelo do prompt mestre §9)
+- [x] `R00.md`: Resultados, Desvios, Pendências, Commits, checklist marcado. Relatório (modelo do prompt mestre §9)
       terminando com `✅ ETAPA 5 · R00 concluída — aguardando sua aprovação para a ETAPA 6 · T13.` **PARAR.**
 - [ ] Depois da aprovação: `git checkout main && git merge --ff-only feat/r00-arrumacao && git push origin main`.

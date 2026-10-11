@@ -41,8 +41,8 @@ mostra hoje uma versão provisória ou mínima daquela tela ou estado · ⬜ nã
 
 | Nº | Título | Arquivo | Rota no app | Situação | Etapa | Observação |
 |---|---|---|---|---|---|---|
-| 01 | Início (Home) | `telas/Main.dc.html` | `/inicio` | ✅ | 3 · T03 | a Início nova (D-240); com dados reais o cartão "Seus grifos de hoje" some até a T05 (D-247) |
-| 01b | Início — lendo agora (cronômetro ativo) | `telas/MainLendo.dc.html` | `/inicio` | ✅ | 4 · T04 | a mini-barra do cronômetro nas 4 abas (D-259) e a folha mínima da sessão (D-256) |
+| 01 | Início (Home) | `telas/Main.dc.html` | `/inicio` | ✅ | 3 · T03 | a Início nova (D-240); com dados reais o cartão "Seus grifos de hoje" some até a T05 (D-247) e o título curto ("Brás Cubas") só vem com o campo da T14 (D-270) |
+| 01b | Início — lendo agora (cronômetro ativo) | `telas/MainLendo.dc.html` | `/inicio` | ✅ | 4 · T04 | a mini-barra do cronômetro nas 4 abas (D-259) e a folha mínima da sessão (D-256); com dados reais o título curto só vem com o campo da T14 (D-270) |
 | 60 | Início — grifos de hoje (revisão) | `telas/MainRevisao.dc.html` | `/inicio` | ✅ | 3 · T03 | a 01 rolada até o cartão da revisão (D-241); o cartão só com a fixture até a T05 (D-247) |
 | 61 | Revisão — grifo 2 de 5 | `telas/RevisaoGrifo.dc.html` | — | ⬜ | 12 · T05 |  |
 | 62 | Revisão — fim | `telas/RevisaoFim.dc.html` | — | ⬜ | 12 · T05 |  |
