@@ -13,7 +13,8 @@ fontes, SVGs, tokens, mapa id → widget e fases L —, provada contra as 19 tel
 
 **Arquitetura:** uma extração nova (`extrair_dc.py`) transforma cada `.dc.html` na pasta que o pipeline da T02 já sabe
 medir (`original.html` com as fontes embutidas e o `dc-runtime.js` como `support.js`, `template.html`, `props.json`,
-`assets/`). O índice do conjunto passa a dizer o seletor do quadro e o tpl dele; o resto do pipeline roda como na T02,
+`assets/`). Ela troca só o `<link>` do `css2` por um `<style>` com as faces, então o helmet continua com 3 filhos e o
+quadro e a numeração (`data-dc-tpl`) são os da exportação antiga; o resto do pipeline roda como na T02,
 com `CONJUNTO=projeto` (as 41), `projeto_conferencia` (as 19 já medidas) e `projeto_larguras` (360/430).
 
 **Pilha:** WSL (Ubuntu 24.04) com o ambiente `/opt/booknest-medicao` (Node 22, Playwright 1.56 / Chromium 141, Python
@@ -31,11 +32,11 @@ tarefa, `git status` limpo e nenhuma outra sessão no checkout. Rodadas longas e
 |---|---|---|
 | `docs/progresso/T13.md`, `T13_plano.md` | spec e plano com as respostas | 1 |
 | `docs/progresso/PLANO_FIDELIDADE_TELAS.md` §3 | D-271…D-273 | 1 |
-| `tools/medicao/pranchas_projeto.json` (novo) | as 41 + as 19 da conferência: tela, slug, arquivo, prefixo, etapa, canvas, frame, tplQuadro | 2 |
+| `tools/medicao/pranchas_projeto.json`, `pranchas_projeto_conferencia.json` (novos) | as 41 e as 19 da conferência: tela, slug, arquivo, prefixo, etapa, canvas, frame | 2 |
 | `tools/medicao/extrair_dc.py` (novo) | `.dc.html` → pasta da tela; `@font-face` pela consulta (R2); `extracao.json` | 2 |
 | `tools/medicao/fontes_css2.py` (novo) | a consulta `css2` → as `@font-face` (estilo, pesos, subconjuntos, `unicode-range`) e os binários locais | 2 |
-| `tools/medicao/test_extrair_dc.py` (novo) | R2 contra os 35 helmets antigos (e o `css2` real, se D-273); `$preview` × `CATALOGO`; quadro | 2, 3 |
-| `tools/medicao/conjuntos.json`, `comum.js`, `medir.js`, `idmaps_spec.py`, `esboco.py` e os outros com o tpl 4 fixo | `frame` e `tplQuadro` do índice | 2 |
+| `tools/medicao/test_extrair_dc.py` (novo) | R2 contra os 35 helmets antigos e o `css2` real; `$preview` × `CATALOGO`; numeração igual à antiga | 2, 3 |
+| `tools/medicao/conjuntos.json` | os conjuntos novos | 2 |
 | `tools/medicao/rodar_tudo.sh` | a extração do formato `dc` | 2 |
 | `tools/fonts/originais_v2/manifesto.json`, `tools/fonts/css2_projeto/` (novos itens) | Roboto 500 e as respostas do `css2` (se D-273) | 3 |
 | `tools/medicao/comparar_conferencia.py` (novo) | as 19 telas: layouts sem o `tpl`, PNGs byte a byte (R3) | 4 |
@@ -63,31 +64,32 @@ tarefa, `git status` limpo e nenhuma outra sessão no checkout. Rodadas longas e
 - [ ] **Teste primeiro** (`tools/medicao/test_extrair_dc.py`, `unittest`, roda no WSL):
       `test_faces_iguais_aos_helmets_antigos` — para cada uma das 35 telas antigas (`conferencia_projeto.md`), as
       `@font-face` montadas pela consulta do `.dc.html` são iguais às do `<helmet>` da extração antiga, comparadas
-      normalizadas (família, estilo, peso, `font-stretch`, `unicode-range`, ordem) e com a `url` trocada pelo binário
-      local que tem o mesmo sha256 do antigo; `test_preview_igual_ao_catalogo` — o `$preview` das 41 = o tamanho do
-      `CATALOGO.md`; `test_consultas_conhecidas` — as 5 consultas das 41 têm todos os binários (falha listando o que
-      falta: hoje, a Roboto 500).
+      normalizadas (família, estilo, peso, `font-stretch`, `unicode-range`, ordem), com a `url` antiga levada ao
+      binário local de mesmo conteúdo; `test_numeracao_igual_a_antiga` — nas 35, o `template.html` novo numerado pelo
+      `esboco.py` dá as mesmas tags nos mesmos tpl que o antigo, com o quadro no 4; `test_preview_igual_ao_catalogo`
+      — o `$preview` das 41 = o tamanho do `CATALOGO.md`; `test_consultas_conhecidas` — as consultas das 41 têm todos
+      os binários (falha listando o que falta: hoje, a Roboto 500).
 - [ ] `fontes_css2.py`: parser da consulta (`family=Nome:eixos@tuplas`, `ital`, faixas `a..b`, pesos discretos), a
-      tabela de subconjuntos com os `unicode-range` copiados dos helmets antigos (latin, latin-ext, vietnamese,
-      cyrillic, cyrillic-ext, greek, greek-ext, math, symbols) e o mapa (família, estilo, subconjunto) → binário local.
-      Uma face por peso discreto (como o `css2` faz) e uma por faixa; a ordem de saída a do `css2`.
-- [ ] `extrair_dc.py <índice> <saída>`: para cada tela, `original.html` (o `.dc.html` com o `<link>` trocado pelas
-      faces e o `<script src="./support.js">` intacto), `support.js` (= `dc-runtime.js`), `assets/` (os `.woff2`
-      usados), `template.html` (o HTML entre `<x-dc>` e `</x-dc>`), `props.json` (`data-props`), e o
-      `extracao.json` (sha256 do `.dc.html`, do runtime e de cada saída; o tamanho do `CATALOGO.md`).
+      tabela por família (a ordem dos subconjuntos, os `unicode-range`, o `font-stretch` da Bricolage) tirada dos
+      helmets antigos, e o mapa (família, estilo, subconjunto) → binário local (o latin de
+      `handoff_v2/referencia/fontes_do_arquivo/`, os outros de `tools/fonts/originais_v2/` pelo manifesto). Uma face
+      por peso discreto e uma por faixa; famílias em ordem alfabética, itálico antes do normal, peso crescente — a
+      ordem do `css2`.
+- [ ] `extrair_dc.py <índice> <saída>`: para cada tela, `original.html` (o `.dc.html` com o `<link>` do `css2`
+      trocado por `<style>` + as faces; o `preconnect` e o `<style>` da tela intactos — o helmet continua com 3
+      filhos), `support.js` (= `dc-runtime.js`), `assets/` (os `.woff2` usados), `template.html` (o HTML de `<x-dc>` a
+      `</x-dc>`, como o da extração antiga), `props.json` (`data-props`) e o `extracao.json` (sha256 do `.dc.html`, do
+      runtime e de cada saída; o tamanho do `CATALOGO.md`).
 - [ ] `pranchas_projeto.json` com as 41 (R4: prefixos; etapa) e `pranchas_projeto_conferencia.json` com as 19 (os
-      slugs e prefixos antigos, o arquivo do projeto e `tplDeslocamento: -1` para reaproveitar os idmaps antigos).
-- [ ] `frame`/`tplQuadro` do índice: `comum.js` (`abrir` espera o quadro; seletor do índice), `medir.js`,
-      `idmaps_spec.py` (`nos_medidos` corta em `tplQuadro`), `esboco.py` e cada script com `4` fixo (procurar
-      `data-dc-tpl` e `tpl'] >= 4`); sem índice novo, tudo como antes.
+      slugs e prefixos antigos e o arquivo do projeto), os dois com o `frame` dos índices antigos.
 - [ ] `conjuntos.json`: `projeto`, `projeto_conferencia` (saídas em `tools/medicao/tmp/conferencia_projeto/`) e,
       se D-272, `projeto_larguras`; `.gitignore` com `tools/medicao/pranchas_projeto/*` e a exceção do
       `extracao.json`; `.gitattributes` com as saídas novas `-text` (como as da T02).
 - [ ] `rodar_tudo.sh`: com o índice de formato `dc`, chama `extrair_dc.py` no lugar do `extrair_bundle.py` e pula o
       `conferir_render.js`/`render_raiz.js`/`comparar_previa.py` (não há raiz nem prévias).
-- [ ] Rodar os testes (verdes, menos `test_consultas_conhecidas` se a Roboto ainda faltar) e o conjunto `leitor` e o
-      `inicio2` só na extração e nos ids (`idmaps_spec.py`): iguais ao commitado.
-- [ ] Commit: `feat(medicao): extração dos .dc.html do projeto e o quadro pelo índice (T13.1)`.
+- [ ] Rodar os testes (verdes, menos `test_consultas_conhecidas` enquanto a Roboto falta) e conferir que o `leitor` e
+      o `inicio2` continuam gerando os mesmos idmaps (`idmaps_spec.py`): iguais ao commitado.
+- [ ] Commit: `feat(medicao): extração dos .dc.html do projeto com as fontes embutidas (T13.1)`.
 
 ## Tarefa 3 — Fontes de fora do arquivo (T13.2, D-273)
 
