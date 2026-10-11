@@ -12,8 +12,10 @@ import 'package:app_leitura/core/data/database/daos/library_daos.dart';
 import 'package:app_leitura/core/data/model/nullable.dart';
 import 'package:app_leitura/features/account/data/local_library.dart';
 import 'package:app_leitura/features/catalog/data/catalog_cache_dao.dart';
+import 'package:app_leitura/features/catalog/data/local_catalog.dart';
 import 'package:app_leitura/features/clubs/data/clubs_cache.dart';
 import 'package:app_leitura/features/home/data/cached_club_ticket_source.dart';
+import 'package:app_leitura/features/home/data/catalog_for_you_source.dart';
 import 'package:app_leitura/features/home/data/local_home_repository.dart';
 import 'package:app_leitura/features/home/domain/models.dart';
 import 'package:drift/drift.dart' show Variable;
@@ -23,6 +25,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../mundo_2026_09_20.dart';
 import '../telas/inicio01.dart';
 import 'camada_inicio01.dart';
+import 'catalogo_demonstracao.dart';
 import 'semear_mundo.dart';
 
 typedef _Cartao = (
@@ -180,10 +183,17 @@ void main() {
 
   test('a Início do banco semeado × a prancha 01: o que bate e as diferenças, uma a uma', () async {
     await semearMundo(db, livros: livros);
+    final pasta = Directory('${livros.path}${Platform.pathSeparator}catalogo');
+    await semearCatalogoSeFaltar(pasta);
+    final catalogo = await SqliteLocalCatalog.open(
+      arquivoDoCatalogo(pasta).path,
+    );
+    addTearDown(catalogo.close);
     final s = await LocalHomeRepository(
       database: () async => db,
       owner: () async => LocalLibrary(db).activeOwnerId(),
       utcOffsetAt: (_) => m.fuso,
+      forYou: CatalogForYouSource(() async => catalogo, language: 'por'),
       club: CachedClubTicketSource(() async => db, utcOffsetAt: (_) => m.fuso),
     ).read(m.agora);
     final p = TelaInicio01.snapshot(TelaInicio01.agora);
@@ -261,6 +271,11 @@ void main() {
     );
     expect(c.shownParticipants, pc.shownParticipants);
     expect(s.now, p.now);
+    expect(
+      s.forYou?.reasonAuthor,
+      p.forYou!.reasonAuthor,
+      reason: '"Porque você lê Machado de Assis" — do catálogo do demo',
+    );
 
     // ---- as diferenças que ficam (as regras do app; a lista do R00.md) ----
     final diferencas = <String, Object?>{
@@ -292,10 +307,11 @@ void main() {
           s.dailyReview,
           p.dailyReview,
         ),
-      if (s.forYou != p.forYou)
-        'Para você (vem do catálogo do aparelho; o demo roda sem serviço)': (
-          s.forYou,
-          p.forYou != null,
+      if (s.forYou?.items.map((b) => b.title).join() !=
+          p.forYou!.items.map((b) => b.title).join())
+        'Para você (D-81: um autor só, a edição mais nova primeiro)': (
+          [for (final b in s.forYou?.items ?? const <Book>[]) b.title],
+          [for (final b in p.forYou!.items) b.title],
         ),
       if (s.user.firstName != p.user.firstName)
         'usuário (a conta — no demo, homeAccountUserProvider)': (
@@ -311,7 +327,7 @@ void main() {
       'recém-chegados: o Frankenstein é "Novo" (D-88), não "Quero ler"',
       'capa do clube (a foto do catálogo × a desenhada — D-79)',
       'revisão do dia (D-247: só a fixture até a T05)',
-      'Para você (vem do catálogo do aparelho; o demo roda sem serviço)',
+      'Para você (D-81: um autor só, a edição mais nova primeiro)',
       'usuário (a conta — no demo, homeAccountUserProvider)',
     ]);
     expect(diferencas['grifos hoje (D-60: o mundo tem 1 grifo hoje)'], (1, 2));
@@ -328,10 +344,17 @@ void main() {
       RecentStatus.read,
       RecentStatus.isNew,
     ]);
-    expect(
-      diferencas['Para você (vem do catálogo do aparelho; o demo roda sem serviço)'],
-      (null, true),
-    );
+    // o catálogo do demo (Penguin-Companhia): Memorial de Aires (2022), depois as duas de 2012 pelo ISBN; a Casa de
+    // Pensão da prancha é de outro autor
+    final (sugestoes, sugestoesDaPrancha) =
+        diferencas['Para você (D-81: um autor só, a edição mais nova primeiro)']!
+            as (List<String>, List<String>);
+    expect(sugestoes, ['Memorial de Aires', 'Quincas Borba', 'Esaú e Jacó']);
+    expect(sugestoesDaPrancha, [
+      'Esaú e Jacó',
+      'Memorial de Aires',
+      'Casa de Pensão',
+    ]);
     // a média móvel da D-97 (α = 0,2) pesa as duas sessões de hoje mais que a de 18 min do mundo (70 min no T03)
     expect(
       diferencas['tempo restante (a regra é a velocidade pessoal — D-97)'],

@@ -115,9 +115,21 @@ void main() {
           'Senhora José de Alencar · Papel Novo',
         ),
       );
-      // as diferenças que as regras mantêm (semear_mundo_test.dart): sem revisão (D-247) e sem "Para você" (sem catálogo)
+      // o "Para você" do catálogo do demo, pela regra da G08 (D-81: um autor só, a edição mais nova primeiro)
+      expect(
+        textosEm(tester, 'forYou.reasonChip'),
+        'Porque você lê Machado de Assis',
+      );
+      // (o carrossel junta os textos das capas geradas e os das legendas: a ordem pelas legendas)
+      final carrossel = textosEm(tester, 'forYou.carousel');
+      final legendas = [
+        for (final t in ['Memorial de Aires', 'Quincas Borba', 'Esaú e Jacó'])
+          carrossel.indexOf('$t Machado de Assis'),
+      ];
+      expect(legendas.every((i) => i >= 0), isTrue, reason: carrossel);
+      expect(legendas, [...legendas]..sort(), reason: carrossel);
+      // as diferenças que as regras mantêm (semear_mundo_test.dart): sem revisão (D-247)
       expect(find.byKey(const ValueKey('review')), findsNothing);
-      expect(find.byKey(const ValueKey('forYou')), findsNothing);
 
       await _continuarLendoEVoltar(tester);
       _soCapasPublicas(pedidos);

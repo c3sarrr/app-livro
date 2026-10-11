@@ -1,9 +1,10 @@
 // R00 (D-267, R6) — o que o modo demonstração troca no app: o banco (`booknest_demo.db`, semeado com o mundo de
-// referência na primeira abertura), as pastas dos livros, das capas e do catálogo (`*_demo`), a conta guardada no
-// aparelho (a do demo), o relógio (o "agora" de referência que anda), a cor `brand` na memória e o cabeçalho da
-// Início (a Marina, com 2 notificações — o mundo; sem servidor não há conta, D-64). O banco e as pastas do app normal
-// (`booknest.db`, `livros/`, `capas/`, `capas_arquivo/`, `catalogo/`) nunca são abertos, e nenhum serviço é ligado
-// (`recusarServicos`, `semServicos`). Sem flutter_test.
+// referência na primeira abertura), as pastas dos livros, das capas e do catálogo (`*_demo`; o catálogo semeado e
+// sem rede — `catalogo_demonstracao.dart`), a conta guardada no aparelho (a do demo), o relógio (o "agora" de
+// referência que anda), a cor `brand` na memória e o cabeçalho da Início (a Marina, com 2 notificações — o mundo; sem
+// servidor não há conta, D-64). O banco e as pastas do app normal (`booknest.db`, `livros/`, `capas/`,
+// `capas_arquivo/`, `catalogo/`) nunca são abertos, e nenhum serviço é ligado (`recusarServicos`, `semServicos`).
+// Sem flutter_test.
 import 'dart:io';
 
 import 'package:app_leitura/core/config/app_env.dart';
@@ -28,6 +29,7 @@ import 'package:powersync/powersync.dart' show PowerSyncDatabase;
 
 import '../mundo_2026_09_20.dart';
 import '../telas/inicio01.dart';
+import 'catalogo_demonstracao.dart';
 import 'relogio_demonstracao.dart';
 import 'semear_mundo.dart';
 
@@ -167,10 +169,11 @@ List<Override> bancoDaDemonstracao({
         fileCovers: capasDoArquivo,
       ),
     ),
-    // sem serviço o catálogo não baixa (`catalogUpdaterProvider` é nulo); a pasta é do demo mesmo assim
+    // o catálogo do aparelho é o do demo (semeado na pasta do demo, o "Para você" do mundo), e nunca baixa
     catalogDirProvider.overrideWith(
       (ref) => pastaDemonstracao(catalogoDemonstracao, suporte: suporte)(),
     ),
+    catalogoDaDemonstracao,
     brandStoreProvider.overrideWith((ref) => MemoryBrandStore()),
     // o dono do cache do social (o clube semeado: o chip da 25, o sininho, a faixa do sumário) é o convidado do mundo;
     // sem o cliente do Supabase os provedores que vão à rede são nulos — é só a leitura do cache

@@ -10,6 +10,7 @@ import 'package:app_leitura/core/data/database/local_database.dart';
 import 'package:app_leitura/core/preferences/brand_preference.dart';
 import 'package:app_leitura/features/account/application/account_providers.dart';
 import 'package:app_leitura/features/catalog/application/catalog_providers.dart';
+import 'package:app_leitura/features/catalog/application/catalog_updater.dart';
 import 'package:app_leitura/features/home/application/home_providers.dart';
 import 'package:app_leitura/features/library/application/library_import.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../support/app_normal_ao_lado.dart';
 import '../mundo_2026_09_20.dart';
+import 'catalogo_demonstracao.dart';
 import 'overrides_demonstracao.dart';
 import 'relogio_demonstracao.dart';
 import 'semear_mundo.dart';
@@ -215,7 +217,8 @@ void main() {
     }
   });
 
-  test('nenhum serviço: sem servidor, sem Supabase, sem catálogo nem loja; a Marina no cabeçalho', () async {
+  test('nenhum serviço: sem servidor, sem Supabase, sem loja e o catálogo só do demo, sem rede; a Marina no '
+      'cabeçalho', () async {
     // o demo troca a configuração e o cliente do Supabase (trocar de novo no mesmo container é proibido)
     for (final outro in [
       appEnvProvider.overrideWithValue(const AppEnv()),
@@ -239,7 +242,14 @@ void main() {
     expect((env.hasServer, env.hasSync, env.hasCatalog), (false, false, false));
     expect(servicosNosDefines(env), isEmpty);
     expect(c.read(supabaseClientProvider), isNull);
-    expect(await c.read(catalogUpdaterProvider.future), isNull);
+    // o catálogo do aparelho é o do demo, na pasta do demo, e não baixa: a rede é sempre "nenhuma"
+    final catalogo = (await c.read(catalogUpdaterProvider.future))!;
+    expect(catalogo.dir.path, caminhoEm(suporte, catalogoDemonstracao));
+    expect(
+      await catalogo.update(force: true),
+      isA<CatalogUpdateSkipped>().having((u) => u.reason, 'reason', 'sem_rede'),
+    );
+    expect(await (await catalogo.catalog())!.version(), versaoDoCatalogoDoDemo);
     expect(c.read(homeAccountUserProvider), usuarioDoMundo);
     expect(
       (usuarioDoMundo.firstName, usuarioDoMundo.unreadNotifications),
