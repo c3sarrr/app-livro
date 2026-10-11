@@ -192,7 +192,12 @@ def main():
     kni = json.load(open(os.path.join(LAY, 'knife_edges.json'), encoding='utf-8'))
     with open(os.path.join(OUT, 'ref_tipos.dart') if TIPOS_DART == 'ref_tipos.dart' else os.devnull, 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(TIPOS))
-    titulo = 'do leitor' if MAPA_DART == 'kRefLeitor' else f"de {os.path.basename(CFG['fonte'])}"
+    if MAPA_DART == 'kRefLeitor':
+        titulo = 'do leitor'
+    elif CFG.get('formato') == 'dc':  # T13: as telas do projeto (um .dc.html cada)
+        titulo = f"do projeto ({CFG['projeto']})"
+    else:
+        titulo = f"de {os.path.basename(CFG['fonte'])}"
     idx = CAB + [f'// Índice das referências {titulo}: tela → prancha medida.', '// ignore_for_file: lines_longer_than_80_chars',
                  f"import '{TIPOS_DART}';"]
     imps, mapa = [], []

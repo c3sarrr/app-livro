@@ -154,11 +154,14 @@ def build(p):
                     best = s
         return best
     props = json.load(open(caminho('extracao', base, 'props.json'), encoding='utf-8'))
+    # T13: as telas do projeto (formato dc) vêm de um .dc.html cada, com as fontes do css2 embutidas (extrair_dc.py)
+    dc = CFG.get('formato') == 'dc'
     out = {'meta': {
-        'source': os.path.basename(CFG['fonte']), 'prancha': slug, 'titulo': p['titulo'],
+        'source': p['arquivo'] if dc else os.path.basename(CFG['fonte']), 'prancha': slug, 'titulo': p['titulo'],
         'canvas': p['canvas'], 'prefixo': pre, 'units': 'CSS px = dp lógico',
         'measuredWith': 'Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), '
-                        'prancha isolada do bundle aninhado, rede bloqueada; bordas exatas (1.5/1.2)',
+                        + ('tela isolada do projeto (.dc.html com as fontes do css2 embutidas)' if dc
+                           else 'prancha isolada do bundle aninhado') + ', rede bloqueada; bordas exatas (1.5/1.2)',
         'props': {k: v['default'] for k, v in props.items() if not k.startswith('$')},
         'note': 'abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior '
                 'esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + '
