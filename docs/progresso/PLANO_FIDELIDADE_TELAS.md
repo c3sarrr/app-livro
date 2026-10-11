@@ -13,7 +13,7 @@
 > respondidas em 11/10/2026 (as recomendadas); as D-269 e D-270, dos achados da prova no celular (o "Para você" do
 > modo demonstração e o título curto), também (as recomendadas); detalhe em `docs/progresso/R00.md` e
 > `R00_celular.md`. As D-271…D-273 vieram do começo da T13 (o escopo da medição do projeto, as larguras e as fontes
-> de fora do arquivo), respondidas em 11/10/2026 (as recomendadas); detalhe em `docs/progresso/T13.md`. Desde
+> de fora do arquivo), respondidas em 11/10/2026 (as recomendadas), e as D-274 e D-275 dos achados da T13 (os redlines da Início sem números e o fio de navalha de uma linha), também (as recomendadas); detalhe em `docs/progresso/T13.md`. Desde
 > 10/10/2026 a ordem das
 > etapas é a do `docs/ROTEIRO.md`; esta tabela continua sendo o registro das decisões.
 > Formato do roteiro: `handoff_v2/00_PROMPT_MESTRE_V2.md` §6 (trilha T: G01-bis → uma fase por tela → integração),
@@ -51,8 +51,8 @@
 
 ## 3. Decisões novas (D-239 em diante) — aprovadas em 10/10/2026
 
-A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-273 (T13) e a próxima livre é a
-D-274.
+A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-275 (T13) e a próxima livre é a
+D-276.
 
 | ID | Proposta | Alternativa |
 |---|---|---|
@@ -91,6 +91,8 @@ D-274.
 | **D-271** | **A T13 mede as 41 telas das etapas 7–11 por completo**, como a T02 fez com a Início: ids semânticos de todos os elementos, layout, texto, estilos, PNG @1x/@2x/@3x, recortes, redlines, referências Dart, fontes, SVGs, tokens, mapa id → widget e fases L; as etapas T14–T18 começam com tudo medido. | Ferramenta + medição bruta (ids automáticos), o resto em cada etapa · ferramenta + só as 4 da T14 |
 | **D-272** | **As 41 telas também a 360 e 430 px** (o quadro com a largura trocada, CSS fluido, como a T03 fez com a 01), com a lista das telas que não se adaptam a 360. | Cada etapa mede as larguras das suas telas |
 | **D-273** | **Fontes de fora do arquivo:** as respostas do `css2` das consultas novas e os `.woff2` da Roboto 500 (o botão do Google na 07) baixados do Google Fonts, com URL e sha256 no manifesto, conferindo que as outras fontes são as mesmas versões que já temos; o texto em fonte do sistema (o botão da Apple na 07, o teclado do sistema na 69/69b) medido e marcado informativo. | Não baixar: a 07 medida com a reserva do Linux e o botão do Google informativo, a fonte decidida na T16 |
+| **D-274** | **Os redlines da Início (T02) refeitos com números:** o `recortar.py` desenha os rótulos com a 1ª face da Figtree que tem os dígitos (e falha se nenhuma tiver); os 14 redlines da `inicio2` saem de novo e o manifesto da T02 muda só nesses 14 arquivos. | Deixar os 14 redlines com quadradinhos (a `legenda.json` tem os números); corrigir numa etapa própria |
+| **D-275** | **Fio de navalha de uma linha, no projeto (T13 em diante):** a linha única que pode quebrar, numa caixa de largura imposta, com sobra entre 0 e 1,5 px entra nos fios de navalha (medida pela largura real da linha); o leitor e a Início ficam como estão. | Incluir também no leitor e na Início (G01/T02 mudam); manter a regra da G01 e só anotar nas fases L |
 
 ## 4. As fases
 

@@ -33,17 +33,22 @@ MARGEM = 8
 
 def fonte_rotulo(px):
     """Figtree (woff2 embutido no arquivo) → TTF em memória → Pillow com wght 700. A da 20 no leitor (como na G01);
-    nos outros conjuntos, a da 1ª prancha que a declara."""
+    nos outros conjuntos, a da 1ª prancha que a declara. D-274: a 1ª face da Figtree que tem os dígitos — na T02 a 1ª
+    face da Início era o latin-ext, sem eles, e os números dos redlines saíram como quadradinhos."""
     slugs = ['20_leitor_controles'] if '20_leitor_controles' in PR else list(PR)
-    asset = slug = None
+    tt = None
     for slug in slugs:
         for f in json.load(open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8'))['fontFaces']:
-            if f['family'] == 'Figtree':
-                asset = f['asset']
+            if f['family'] != 'Figtree':
+                continue
+            cand = TTFont(caminho('extracao', slug, 'assets', f"{f['asset']}.woff2"))
+            if all(c in cand.getBestCmap() for c in range(0x30, 0x3A)):
+                tt = cand
                 break
-        if asset:
+        if tt:
             break
-    tt = TTFont(caminho('extracao', slug, 'assets', f'{asset}.woff2'))
+    if tt is None:
+        raise SystemExit('recortar.py: nenhuma face da Figtree com os dígitos para os rótulos dos redlines')
     tt.flavor = None
     buf = io.BytesIO()
     tt.save(buf)
