@@ -1,6 +1,6 @@
 // R00.6 (R4, R5) — a documentação e a prova andam juntas: a tabela (b) da `docs/NAVEGACAO.md` tem exatamente as
 // ligações que o percurso toca (`test/support/navegacao.dart`), na mesma ordem e com a mesma classe; a etapa de cada 🟡
-// e a decisão de cada ⏸ batem; e a tabela (a) tem todas as rotas do roteador.
+// e a decisão de cada ligação (obrigatória nos ⏸) batem; e a tabela (a) tem todas as rotas do roteador.
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -44,26 +44,26 @@ void main() {
     expect({for (final l in ligacoes) l.origem}, origens.toSet());
   });
 
-  test(
-    'cada 🟡 tem a etapa que troca, e cada ⏸ a decisão (as do percurso)',
-    () {
-      for (var i = 0; i < ligacoes.length; i++) {
-        final l = ligacoes[i];
-        final celula = linhas[i][4];
-        switch (l.classe) {
-          case Classe.placeholder:
-            expect(l.etapa, matches(RegExp(r'^T\d{2}$')), reason: '$l');
-            expect(celula, startsWith(l.etapa!), reason: '$l');
-            expect(l.titulo, isNotNull, reason: '$l');
-          case Classe.semAcao:
-            expect(l.decisao, isNotNull, reason: '$l');
-            expect(celula, contains(l.decisao!), reason: '$l');
-          case Classe.leva:
-            expect(l.destino ?? l.some ?? l.confere, isNotNull, reason: '$l');
-        }
+  test('cada 🟡 tem a etapa que troca, cada ⏸ a decisão, e as decisões são as do percurso', () {
+    for (var i = 0; i < ligacoes.length; i++) {
+      final l = ligacoes[i];
+      final celula = linhas[i][4];
+      switch (l.classe) {
+        case Classe.placeholder:
+          expect(l.etapa, matches(RegExp(r'^T\d{2}$')), reason: '$l');
+          expect(celula, startsWith(l.etapa!), reason: '$l');
+          expect(l.titulo, isNotNull, reason: '$l');
+        case Classe.semAcao:
+          expect(l.decisao, isNotNull, reason: '$l');
+          expect(celula, contains(l.decisao!), reason: '$l');
+        case Classe.leva:
+          expect(l.destino ?? l.some ?? l.confere, isNotNull, reason: '$l');
       }
-    },
-  );
+      if (l.decisao case final d?) {
+        expect(celula, contains(d), reason: '$l: a decisão da tabela');
+      }
+    }
+  });
 
   test('a tabela (a) tem todas as rotas do roteador', () {
     final routes = File('lib/app/routes.dart').readAsStringSync();

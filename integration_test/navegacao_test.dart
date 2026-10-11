@@ -18,30 +18,35 @@ void main() {
 
   testWidgets('as ligações das telas prontas no aparelho', (tester) async {
     final suporte = Directory.systemTemp.createTempSync('booknest_r00_nav_');
-    await montarDemonstracao(
-      tester,
-      overridesDaPranchaNoAparelho(
-        suporte: () async => suporte,
-        tique: ManualTicker(),
-      ),
-      tela: null,
-    );
+    try {
+      await montarDemonstracao(
+        tester,
+        overridesDaPranchaNoAparelho(
+          suporte: () async => suporte,
+          tique: ManualTicker(),
+        ),
+        tela: null,
+      );
 
-    final amarelas = await percorrer(tester, ligacoes);
-    // ignore: avoid_print — a saída da R5 no console do aparelho
-    print('R00NAV placeholders (${amarelas.length}):\n${amarelas.join('\n')}');
-    binding.reportData = {
-      'placeholders': amarelas,
-      'ligacoes': ligacoes.length,
-    };
-    expect(
-      amarelas,
-      hasLength(ligacoes.where((l) => l.classe == Classe.placeholder).length),
-    );
-
-    await desmontarDemonstracao(tester);
-    await tester.runAsync(() async {
-      if (suporte.existsSync()) suporte.deleteSync(recursive: true);
-    });
+      final amarelas = await percorrer(tester, ligacoes);
+      // ignore: avoid_print — a saída da R5 no console do aparelho
+      print(
+        'R00NAV placeholders (${amarelas.length}):\n${amarelas.join('\n')}',
+      );
+      binding.reportData = {
+        'placeholders': amarelas,
+        'ligacoes': ligacoes.length,
+      };
+      expect(
+        amarelas,
+        hasLength(ligacoes.where((l) => l.classe == Classe.placeholder).length),
+      );
+    } finally {
+      // também quando o percurso falha: a pasta temporária do demo não fica no aparelho
+      await desmontarDemonstracao(tester);
+      await tester.runAsync(() async {
+        if (suporte.existsSync()) suporte.deleteSync(recursive: true);
+      });
+    }
   }, timeout: const Timeout(Duration(minutes: 20)));
 }

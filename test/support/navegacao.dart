@@ -429,14 +429,15 @@ const List<String> origens = [
 Finder _leitor() => _k('r19.footer.pageLabel');
 Finder _inicio() => _k('hero.title');
 
-Ligacao _livro(String origem, String chave) => Ligacao(
-  origem,
-  chave,
-  Classe.placeholder,
-  titulo: 'Livro',
-  etapa: 'T14',
-  decisao: 'D-79',
-);
+Ligacao _livro(String origem, String chave, {String decisao = 'D-79'}) =>
+    Ligacao(
+      origem,
+      chave,
+      Classe.placeholder,
+      titulo: 'Livro',
+      etapa: 'T14',
+      decisao: decisao,
+    );
 
 /// As ligações, uma por linha da tabela (b) da NAVEGACAO.md.
 final List<Ligacao> ligacoes = List.unmodifiable([
@@ -513,7 +514,8 @@ final List<Ligacao> ligacoes = List.unmodifiable([
     destino: () => _k('hl.topBar.back'),
     decisao: 'D-195',
   ),
-  _livro('inicio', 'alsoReading.card1.cover'),
+  // o papel sem página: só a capa é link (D-253)
+  _livro('inicio', 'alsoReading.card1.cover', decisao: 'D-253'),
   _livro('inicio', 'alsoReading.card2'),
   Ligacao(
     'inicio',

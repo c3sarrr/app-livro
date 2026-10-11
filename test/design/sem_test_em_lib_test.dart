@@ -1,6 +1,7 @@
 // R00.7 (D-267) — o build de loja é o `lib/`: nenhum arquivo dele importa algo de fora do `lib/` (os alvos do modo
-// demonstração, as fixtures e o mundo de referência moram em `test/`), nem os pacotes de teste, e nenhum código dele
-// fala do banco ou das pastas do demo. Assim o demo nunca entra no app da loja.
+// demonstração, as fixtures e o mundo de referência moram em `test/`), nem os pacotes de teste, nenhum código dele
+// fala do banco ou das pastas do demo, e os assets do `pubspec.yaml` não vêm de `test/`. Assim o demo nunca entra no
+// app da loja.
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -39,11 +40,31 @@ List<File> _dartEm(String pasta) => [
 String _normal(String caminho) =>
     File(caminho).absolute.uri.normalizePath().toFilePath();
 
+/// Onde começa o comentário de linha de [l]: o primeiro `//` fora de uma string ('https://…' não é comentário).
+int _inicioDoComentario(String l) {
+  String? aspa;
+  for (var i = 0; i < l.length; i++) {
+    final c = l[i];
+    if (aspa != null) {
+      if (c == r'\') {
+        i++;
+      } else if (c == aspa) {
+        aspa = null;
+      }
+    } else if (c == "'" || c == '"') {
+      aspa = c;
+    } else if (l.startsWith('//', i)) {
+      return i;
+    }
+  }
+  return -1;
+}
+
 /// O código sem os comentários de linha (o `lib/main.dart` cita o alvo do mundo num comentário).
 String _semComentarios(String fonte) => fonte
     .split('\n')
     .map((l) {
-      final i = l.indexOf('//');
+      final i = _inicioDoComentario(l);
       return i < 0 ? l : l.substring(0, i);
     })
     .join('\n');
@@ -92,6 +113,16 @@ void main() {
     },
   );
 
+  test('os assets do app não vêm de test/ (nem das fixtures do demo)', () {
+    final pubspec = File('pubspec.yaml').readAsStringSync();
+    final assets = RegExp(r'^\s+-\s+(\S+)\s*$', multiLine: true)
+        .allMatches(pubspec.substring(pubspec.indexOf('\n  assets:')))
+        .map((m) => m.group(1)!)
+        .toList();
+    expect(assets, isNotEmpty);
+    expect(assets.where((a) => !a.startsWith('assets/')), isEmpty);
+  });
+
   test('os alvos do demo moram em test/fixtures e recusam o release', () {
     for (final alvo in [
       'test/fixtures/main_demonstracao.dart',
@@ -120,6 +151,17 @@ void main() {
     expect(
       _semComentarios('// test/fixtures/main_demonstracao.dart')
           .contains('demonstracao'),
+      isFalse,
+    );
+    // um `//` dentro de uma string não é comentário: o nome depois dele conta
+    expect(
+      _semComentarios("final u = 'https://x/booknest_demo.db'; // y")
+          .contains('booknest_demo'),
+      isTrue,
+    );
+    expect(
+      _semComentarios(r"final u = 'it\'s //'; // booknest_demo")
+          .contains('booknest_demo'),
       isFalse,
     );
   });
