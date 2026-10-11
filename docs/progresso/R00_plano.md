@@ -274,26 +274,26 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
 **Arquivos:** `test/fixtures/demonstracao/{semear_mundo,relogio_demonstracao,overrides_demonstracao}.dart`,
 `test/fixtures/main_demonstracao.dart`, `test/fixtures/{main_mundo_referencia,overrides_do_mundo}.dart`, os testes.
 
-- [ ] **Teste da semeadura primeiro** (`test/fixtures/demonstracao/semear_mundo_test.dart`): num `AppDatabase` em
+- [x] **Teste da semeadura primeiro** (`test/fixtures/demonstracao/semear_mundo_test.dart`): num `AppDatabase` em
       memória e num diretório temporário, `semearMundo(db, livros: dir)`; depois: os livros, posições, sessões,
       marcadores, anotações, camadas de tinta, rótulos, ajustes, caneta e metas do `mundoReferencia` relidos pelos DAOs
       (contagens e ids); o arquivo do Dom Casmurro existe em `livros/` e o `LocalFilesDao.byBook` aponta para ele com
       o sha certo; o índice gravado tem `refPagesTotal = 256`; o dono ativo do `LocalLibrary` é o `usuarioId` do mundo;
       rodar duas vezes não duplica nada (a R6: só grava com o banco vazio, ou com `recomecar: true`, que apaga antes).
-- [ ] **Escrever `semearMundo`:** `mundoReferencia.gravarEm(db)`; o EPUB `mundoEpub(Slugs.domCasmurro, completo: true)`
+- [x] **Escrever `semearMundo`:** `mundoReferencia.gravarEm(db)`; o EPUB `mundoEpub(Slugs.domCasmurro, completo: true)`
       gravado como `<id do livro>.epub` em `livros`; `LocalFilesDao(db).upsert(userBookId, path, bytes, sha256, now)`;
       o índice injetado das telas do leitor (`test/fixtures/telas/indice_t19.dart`) por `BookContentIndexDao(db).upsert`;
       o catálogo do aparelho com as páginas do Brás Cubas (`CatalogCacheDao.putBook`, como o `cronometro_papel_test`);
       `LocalLibrary(db).setActiveOwner(mundoReferencia.usuarioId)`. Sem `flutter_test` no arquivo (ele entra num app).
-- [ ] **O relógio** (`relogio_demonstracao.dart`): `DateTime Function() relogioDemonstracao(DateTime inicio,
+- [x] **O relógio** (`relogio_demonstracao.dart`): `DateTime Function() relogioDemonstracao(DateTime inicio,
       {Stopwatch? cronometro})` = `inicio + cronometro.elapsed` (o `Stopwatch` começa na abertura). Teste: logo após
       criar devolve `inicio`; depois de `elapsed` X devolve `inicio + X` (com um `Stopwatch` falso).
-- [ ] **Os overrides** (`overrides_demonstracao.dart`): `powerSyncDatabaseProvider` com o caminho
+- [x] **Os overrides** (`overrides_demonstracao.dart`): `powerSyncDatabaseProvider` com o caminho
       `<suporte>/booknest_demo.db` (o mesmo corpo do provedor de produção, outro arquivo); `booksDirProvider` →
       `<suporte>/livros_demo`; `fileCoversDirProvider` → `<suporte>/capas_arquivo_demo`; `coverImagesProvider` com a
       pasta `<suporte>/capas_demo`; `clockProvider` → `relogioDemonstracao(HomeMockRepository.referenceNow)`;
       `secondTickerProvider` → `PeriodicSecondTicker()`; `brandStoreProvider` → `MemoryBrandStore()`.
-- [ ] **O alvo (1)** (`main_demonstracao.dart`):
+- [x] **O alvo (1)** (`main_demonstracao.dart`):
   ```dart
   // R00 (D-267) — o app de verdade sobre um banco só da demonstração, com o mundo de referência gravado; nunca na loja:
   //   flutter run --profile -t test/fixtures/main_demonstracao.dart [--dart-define=BOOKNEST_DEMO_RECOMECAR=true]
@@ -310,12 +310,12 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
   ```
       `prepararBancoDemonstracao` abre o `booknest_demo.db`, chama `semearMundo` se ele estiver vazio (ou com
       `recomecar`) e fecha; nunca abre o `booknest.db`. Sem `--dart-define` de servidor: convidado (D-64).
-- [ ] **O alvo (2)** (`main_mundo_referencia.dart`): o leitor e os grifos saem dos overrides que os deixam no "abrindo"
+- [x] **O alvo (2)** (`main_mundo_referencia.dart`): o leitor e os grifos saem dos overrides que os deixam no "abrindo"
       (`leitorDoMundo`, `destaquesDoMundo`) e passam a abrir do banco da demonstração semeado; os ids que a Início da
       fixture usa (os slugs) chegam ao leitor pela tabela `mundoReferencia.slugs` (um `homeRepositoryProvider` que
       embrulha o `HomeMockRepository` e troca o id dos livros pelo da estante). Teste: na Início do alvo (2), o
       "Continuar lendo" abre o leitor no Dom Casmurro, pág. 159 de 256.
-- [ ] **Testes de isolamento e privacidade:**
+- [x] **Testes de isolamento e privacidade:**
   - `sem_test_em_lib_test.dart`: nenhum arquivo de `lib/` importa `test/`, `integration_test/` ou `fixtures`
     (varre os `import`);
   - o demo com o interceptador do Supabase da T04 (`paper_timer_privacy_free_test` como modelo): abrir, ler,
@@ -325,8 +325,26 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
   - a Início do alvo (1) sobre o banco semeado: os números do mundo (Dom Casmurro pág. 159 de 256 no herói, "18 de 30
     min", a sequência de 12 dias) e as diferenças conhecidas para a prancha listadas (D-247: sem o cartão da revisão;
     D-79: capa gerada; D-60/`t01_divergencias`).
-- [ ] Rodar os testes da tarefa → verdes; `flutter analyze` 0.
-- [ ] Commit `feat(demonstracao): o mundo de referência num banco só do demo, fora da loja (R00.7 · D-267)`.
+- [x] Rodar os testes da tarefa → verdes; `flutter analyze` 0.
+- [x] Commit `feat(demonstracao): o mundo de referência num banco só do demo, fora da loja (R00.7 · D-267)`.
+
+> **Como ficou (feito em 11/10/2026; os desvios entram no R00.md):**
+> - A semeadura acontece dentro do `localDatabaseProvider` do demo (`semearSeFaltar`, a marca `demonstracao.semeado`
+>   no `kv`), não num `prepararBancoDemonstracao` antes do `runBookNest`: o banco abre uma vez só, pelo mesmo provedor
+>   do app. O recomeço é o `apagarDemonstracao()` (só os nomes `booknest_demo.db*` e `*_demo`); um banco com a marca
+>   de outra versão da semeadura recomeça sozinho (o mundo não se regrava por cima: a guarda de versão da ADR-003).
+> - Além do mundo, a **camada da prancha 01** (`camada_inicio01.dart`: o Brás Cubas de papel com 3h 40min, o Orgulho em
+>   papel, o Alienista lido, a Senhora em papel e as 2 sessões de hoje) e o **clube no cache** (`clube_demonstracao.dart`,
+>   pelo `ClubsCache.saveClubs`), para a Início do alvo (1) chegar aos números da prancha pelas regras do app.
+> - Nenhum serviço: os dois `main` recusam os `--dart-define` de servidor, sincronização, catálogo e loja
+>   (`recusarServicos` — o `runBookNest` ligaria o Supabase com a sessão guardada no aparelho antes dos overrides) e o
+>   demo troca o `appEnvProvider` e o `supabaseClientProvider` (`semServicos`); a pasta do catálogo também é do demo.
+>   Na rede, só capas de hosts públicos (`coverHostAllowed`), como no app normal.
+> - O alvo (2) virou função (`overridesDaPranchaNoAparelho({suporte, tique})`) para os testes passarem a pasta.
+> - Testes: `semear_mundo_test` (3), `overrides_demonstracao_test` (9, com o PowerSync de verdade num arquivo e um app
+>   normal ao lado que fica byte a byte), `sem_test_em_lib_test` (5), `test/app/modo_demonstracao_test` (os 2 alvos no
+>   app inteiro: Início, "Continuar lendo" → leitor na pág. 159 de 256 → voltar). Mutação: 11/11 mortas.
+> - O tempo restante do alvo (1) é ~1h 20min (a média móvel da D-97 pesa as 2 sessões de hoje); a prancha diz 2h 10min.
 
 ## Tarefa 9 — Prova no celular (R00.8, R7)
 

@@ -58,8 +58,4 @@ final List<Override> overridesDoMundo = List.unmodifiable([
   ...cronometroDoMundo(),
 ]);
 
-/// O mundo no aparelho (`main_mundo_referencia.dart`): o cronômetro anda de verdade.
-final List<Override> overridesDoMundoNoAparelho = List.unmodifiable([
-  ..._mundoSemCronometro,
-  ...cronometroDoMundo(tique: const PeriodicSecondTicker()),
-]);
+// O mundo no aparelho (`main_mundo_referencia.dart`) mora em `demonstracao/prancha_no_aparelho.dart` (R00, D-267).
