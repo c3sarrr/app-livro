@@ -161,6 +161,32 @@ void main() {
     conferirAppNormal(suporte);
   });
 
+  test('semeadura interrompida (o mundo gravado, sem a marca): o demo recomeça do zero em vez de travar', () async {
+    var c = await abrir();
+    var db = await c.read(localDatabaseProvider.future);
+    await db.customStatement(
+      "INSERT INTO kv (key, value) VALUES ('r00.teste', 'pela metade')",
+    );
+    // o processo morreu depois da camada da 01 e antes da marca (a marca é o último passo da semeadura)
+    await db.customStatement("DELETE FROM kv WHERE key = '$chaveSemeado'");
+    expect(await semeado(db), isFalse);
+    await fechar(c);
+
+    // sem o recomeço, regravar o mundo por cima da camada pararia na guarda de versão (ADR-003) a cada abertura
+    c = await abrir();
+    db = await c.read(localDatabaseProvider.future);
+    expect(await semeado(db), isTrue);
+    expect(
+      await db
+          .customSelect("SELECT value FROM kv WHERE key = 'r00.teste'")
+          .getSingleOrNull(),
+      isNull,
+      reason: 'o banco pela metade saiu inteiro',
+    );
+    await fechar(c);
+    conferirAppNormal(suporte);
+  });
+
   test(
     'o recomeço (BOOKNEST_DEMO_RECOMECAR) apaga só o banco e as pastas do demo',
     () async {

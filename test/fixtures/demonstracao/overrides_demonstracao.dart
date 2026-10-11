@@ -109,8 +109,11 @@ Future<PowerSyncDatabase> _abrir(String caminho) async {
   return ps;
 }
 
-/// O banco [ps] tem a marca de uma semeadura de outra versão (num banco novo nem a tabela `kv` existe ainda).
-Future<bool> _semeadoPorOutraVersao(PowerSyncDatabase ps) async {
+/// O banco [ps] precisa recomeçar: tem a marca de uma semeadura de outra versão, ou tem o mundo sem a marca — a
+/// semeadura parou no meio (a marca é o último passo, e regravar o mundo por cima da camada da 01 pararia na guarda
+/// de versão da ADR-003 a cada abertura). Num banco novo nem a tabela `kv` existe, e num banco que só criou as
+/// tabelas não há livro: semeia normalmente.
+Future<bool> _precisaRecomecar(PowerSyncDatabase ps) async {
   final kv = await ps.getOptional(
     "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'kv'",
   );
@@ -119,7 +122,8 @@ Future<bool> _semeadoPorOutraVersao(PowerSyncDatabase ps) async {
     chaveSemeado,
   ]);
   final versao = marca?['value'] as String?;
-  return versao != null && versao != versaoDaSemeadura;
+  if (versao != null) return versao != versaoDaSemeadura;
+  return await ps.getOptional('SELECT 1 FROM user_books LIMIT 1') != null;
 }
 
 /// O banco e as pastas do demo (os dois alvos da D-267 usam).
@@ -136,8 +140,9 @@ List<Override> bancoDaDemonstracao({
       final dir = await suporte();
       final caminho = '${dir.path}${Platform.pathSeparator}$bancoDemonstracao';
       var ps = await _abrir(caminho);
-      // semeado por outra versão da semeadura: o demo recomeça (os ids e as versões do mundo não se regravam por cima)
-      if (await _semeadoPorOutraVersao(ps)) {
+      // semeado por outra versão da semeadura, ou pela metade: o demo recomeça (os ids e as versões do mundo não se
+      // regravam por cima)
+      if (await _precisaRecomecar(ps)) {
         await ps.close();
         await apagarDemonstracao(suporte: suporte);
         ps = await _abrir(caminho);
