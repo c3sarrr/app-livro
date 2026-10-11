@@ -1,0 +1,3999 @@
+{
+ "meta": {
+  "source": "telas/ScannerDigitarErro.dc.html",
+  "prancha": "069b_scanner_isbn_nao_confere_w430",
+  "titulo": "69b · Scanner — ISBN não confere — largura 430",
+  "canvas": [
+   430,
+   844
+  ],
+  "prefixo": "sc69b",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4",
+   "reticle": "#FED170"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "sc69b.backdrop": [
+   0,
+   0,
+   430,
+   844
+  ],
+  "sc69b.controls": [
+   20,
+   58,
+   390,
+   48
+  ],
+  "sc69b.heading": [
+   24,
+   128,
+   382,
+   76.35
+  ],
+  "sc69b.sticker": [
+   22,
+   226,
+   386,
+   303.54
+  ],
+  "sc69b.toolbar": [
+   0,
+   538,
+   430,
+   56
+  ],
+  "sc69b.keypad": [
+   0,
+   594,
+   430,
+   250
+  ]
+ },
+ "elements": {
+  "sc69b.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    430,
+    844
+   ],
+   "style": {
+    "bg": "#1E1A17",
+    "overflow": "hidden"
+   }
+  },
+  "sc69b.backdrop": {
+   "tpl": 5,
+   "section": "sc69b.backdrop",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    430,
+    844
+   ],
+   "rel": [
+    0,
+    0,
+    430,
+    844
+   ],
+   "style": {
+    "bgImage": "radial-gradient(#FFFAF1@0.09 1px, #000000@0 1.4px)",
+    "position": {
+     "top": "0px",
+     "right": "0px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; inset: 0; background-image: radial-gradient(rgba(255,250,241,0.09) 1px, transparent 1.4px); background-size: 18px 18px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.controls": {
+   "tpl": 6,
+   "section": "sc69b.controls",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    58,
+    390,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    48
+   ],
+   "style": {
+    "position": {
+     "top": "58px",
+     "right": "20px",
+     "bottom": "738px",
+     "left": "20px"
+    }
+   },
+   "css": "position: absolute; left: 20px; right: 20px; top: 58px; height: 48px; display: flex; align-items: center; justify-content: space-between"
+  },
+  "sc69b.controls.close": {
+   "tpl": 7,
+   "section": "sc69b.controls",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    58,
+    48,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    48,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 48px; height: 48px; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Fechar scanner"
+  },
+  "sc69b.controls.close.icon": {
+   "tpl": 8,
+   "section": "sc69b.controls",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    34,
+    72,
+    20,
+    20
+   ],
+   "rel": [
+    14,
+    14,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "sc69b.controls.mode": {
+   "tpl": 10,
+   "section": "sc69b.controls",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    111.31,
+    58,
+    207.38,
+    48
+   ],
+   "rel": [
+    91.31,
+    0,
+    207.38,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "3px 3px 3px 3px"
+   },
+   "css": "height: 48px; padding: 3px; box-sizing: border-box; display: flex; gap: 2px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714",
+   "aria": "Como adicionar",
+   "role": "radiogroup"
+  },
+  "sc69b.controls.mode.code": {
+   "tpl": 11,
+   "section": "sc69b.controls",
+   "type": "text",
+   "tag": "button",
+   "abs": [
+    115.81,
+    62.5,
+    97.51,
+    39
+   ],
+   "rel": [
+    95.81,
+    4.5,
+    97.51,
+    39
+   ],
+   "style": {
+    "radius": "999px",
+    "padding": "0px 14px 0px 12px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "height: 100%; padding: 0 14px 0 12px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: transparent; border: none; font-size: 14px; font-weight: 600",
+   "lines": [
+    {
+     "text": "Código",
+     "left": 152.81,
+     "right": 199.32,
+     "top": 73.6,
+     "bottom": 90.4,
+     "baseline": 86.9,
+     "baselineRel": 28.9
+    }
+   ],
+   "naturalWidth": 97.508,
+   "minContentWidth": 97.508,
+   "role": "radio",
+   "text": "Código",
+   "ariaAttrs": {
+    "aria-checked": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "sc69b.controls.mode.code.icon": {
+   "tpl": 12,
+   "section": "sc69b.controls",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    127.81,
+    73,
+    18,
+    18
+   ],
+   "rel": [
+    107.81,
+    15,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.controls.mode.type": {
+   "tpl": 16,
+   "section": "sc69b.controls",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    215.32,
+    62.5,
+    98.87,
+    39
+   ],
+   "rel": [
+    195.32,
+    4.5,
+    98.87,
+    39
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 14px 0px 12px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "height: 100%; padding: 0 14px 0 12px; display: flex; align-items: center; gap: 7px; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; font-size: 14px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Digitar",
+     "left": 253.82,
+     "right": 298.69,
+     "top": 73.6,
+     "bottom": 90.4,
+     "baseline": 86.9,
+     "baselineRel": 28.9
+    }
+   ],
+   "naturalWidth": 98.87,
+   "minContentWidth": 98.87,
+   "role": "radio",
+   "text": "Digitar",
+   "ariaAttrs": {
+    "aria-checked": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "sc69b.controls.mode.type.icon": {
+   "tpl": 17,
+   "section": "sc69b.controls",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    228.82,
+    73,
+    18,
+    18
+   ],
+   "rel": [
+    208.82,
+    15,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.controls.help": {
+   "tpl": 20,
+   "section": "sc69b.controls",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    362,
+    58,
+    48,
+    48
+   ],
+   "rel": [
+    342,
+    0,
+    48,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 48px; height: 48px; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Onde encontrar o ISBN"
+  },
+  "sc69b.controls.help.icon": {
+   "tpl": 21,
+   "section": "sc69b.controls",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    375.5,
+    71.5,
+    21,
+    21
+   ],
+   "rel": [
+    355.5,
+    13.5,
+    21,
+    21
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.heading": {
+   "tpl": 25,
+   "section": "sc69b.heading",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    24,
+    128,
+    382,
+    76.35
+   ],
+   "rel": [
+    0,
+    0,
+    382,
+    76.35
+   ],
+   "style": {
+    "position": {
+     "top": "128px",
+     "right": "24px",
+     "bottom": "639.65px",
+     "left": "24px"
+    }
+   },
+   "css": "position: absolute; left: 24px; right: 24px; top: 128px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 81
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "sc69b.heading.title": {
+   "tpl": 26,
+   "section": "sc69b.heading",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    24,
+    128,
+    382,
+    32.55
+   ],
+   "rel": [
+    0,
+    0,
+    382,
+    32.55
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 27.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "28.35px",
+     "letterSpacing": "-0.6px",
+     "color": "#FFFAF1",
+     "opsz": 27.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 27px; line-height: 1.05; letter-spacing: -0.6px; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "Digite o ISBN",
+     "left": 24,
+     "right": 185.1,
+     "top": 129.7,
+     "bottom": 162.1,
+     "baseline": 154.81,
+     "baselineRel": 26.81
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Digite o ISBN do verso.",
+     "left": 24,
+     "right": 280.19,
+     "top": 124.12,
+     "bottom": 164.42,
+     "baseline": 154.81,
+     "baselineRel": 26.81
+    }
+   ],
+   "naturalWidth": 256.194,
+   "minContentWidth": 72.531,
+   "text": "Digite o ISBN",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 10
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "sc69b.heading.title.serif": {
+   "tpl": 27,
+   "section": "sc69b.heading",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    185.1,
+    124.12,
+    95.09,
+    40.3
+   ],
+   "rel": [
+    161.1,
+    -3.88,
+    95.09,
+    40.3
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 31.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "32.55px",
+     "letterSpacing": "-0.6px",
+     "color": "#FED170"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 31px; color: #FED170",
+   "lines": [
+    {
+     "text": "do verso.",
+     "left": 189.77,
+     "right": 280.19,
+     "top": 124.12,
+     "bottom": 164.42,
+     "baseline": 154.81,
+     "baselineRel": 26.81
+    }
+   ],
+   "naturalWidth": 90.421,
+   "minContentWidth": 59.423,
+   "text": "do verso.",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "sc69b.heading.body": {
+   "tpl": 28,
+   "section": "sc69b.heading",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    24,
+    166.55,
+    382,
+    37.8
+   ],
+   "rel": [
+    0,
+    38.55,
+    382,
+    37.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "18.9px",
+     "letterSpacing": "normal",
+     "color": "#CFC6B8"
+    }
+   },
+   "css": "margin: 6px 0 0; font-size: 13.5px; font-weight: 600; line-height: 1.4; color: #CFC6B8",
+   "lines": [
+    {
+     "text": "Fica embaixo do código de barras ou na ficha catalográfica,",
+     "left": 24,
+     "right": 387.27,
+     "top": 167.89,
+     "bottom": 184.1,
+     "baseline": 180.72,
+     "baselineRel": 52.72
+    },
+    {
+     "text": "nas primeiras páginas.",
+     "left": 24,
+     "right": 159.18,
+     "top": 186.79,
+     "bottom": 203,
+     "baseline": 199.62,
+     "baselineRel": 71.62
+    }
+   ],
+   "naturalWidth": 501.695,
+   "minContentWidth": 83.991,
+   "text": "Fica embaixo do código de barras ou na ficha catalográfica, nas primeiras páginas.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 81
+    }
+   ]
+  },
+  "sc69b.sticker": {
+   "tpl": 29,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    22,
+    226,
+    386,
+    303.54
+   ],
+   "rel": [
+    0,
+    0,
+    386,
+    303.54
+   ],
+   "style": {
+    "position": {
+     "top": "226px",
+     "right": "22px",
+     "bottom": "314.465px",
+     "left": "22px"
+    }
+   },
+   "css": "position: absolute; left: 22px; right: 22px; top: 226px; display: flex; flex-direction: column"
+  },
+  "sc69b.sticker.tilt": {
+   "tpl": 30,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    22,
+    226,
+    386,
+    257.12
+   ],
+   "rel": [
+    0,
+    0,
+    386,
+    257.12
+   ],
+   "vis": [
+    15.54,
+    216.07,
+    398.93,
+    276.97
+   ],
+   "style": {
+    "transformMatrix": "matrix(0.99863, -0.052336, 0.052336, 0.99863, 0, 0)",
+    "transform": "rotate(-3deg)"
+   },
+   "css": "position: relative; transform: rotate(-3deg)"
+  },
+  "sc69b.sticker.shakeLeft": {
+   "tpl": 31,
+   "section": "sc69b.sticker",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    4,
+    322,
+    14,
+    60
+   ],
+   "rel": [
+    -18,
+    96,
+    14,
+    60
+   ],
+   "vis": [
+    2.58,
+    332.36,
+    17.12,
+    60.65
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "96px",
+     "right": "390px",
+     "bottom": "101.125px",
+     "left": "-18px"
+    }
+   },
+   "css": "position: absolute; left: -18px; top: 96px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.sticker.shakeRight": {
+   "tpl": 33,
+   "section": "sc69b.sticker",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    412,
+    346,
+    14,
+    60
+   ],
+   "rel": [
+    390,
+    120,
+    14,
+    60
+   ],
+   "vis": [
+    411.28,
+    334.97,
+    17.12,
+    60.65
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "120px",
+     "right": "-18px",
+     "bottom": "77.125px",
+     "left": "390px"
+    }
+   },
+   "css": "position: absolute; right: -18px; top: 120px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.sticker.tapeLeft": {
+   "tpl": 35,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    8,
+    220,
+    77,
+    22
+   ],
+   "rel": [
+    -14,
+    -6,
+    77,
+    22
+   ],
+   "vis": [
+    0.97,
+    212.71,
+    78.59,
+    54.56
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(90deg, #FED170 0px, #FED170 7px, #F6C24A 7px, #F6C24A 10px)",
+    "border": {
+     "top": "0",
+     "right": "1.5px dashed #1A1714@0.25",
+     "bottom": "0",
+     "left": "1.5px dashed #1A1714@0.25"
+    },
+    "opacity": "0.92",
+    "zIndex": "2",
+    "position": {
+     "top": "-6px",
+     "right": "323px",
+     "bottom": "241.125px",
+     "left": "-14px"
+    },
+    "transformMatrix": "matrix(0.913545, -0.406737, 0.406737, 0.913545, 0, 0)",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "transform": "rotate(-24deg)"
+   },
+   "css": "position: absolute; left: -14px; top: -6px; width: 74px; height: 22px; transform: rotate(-24deg); background: repeating-linear-gradient(90deg, #FED170 0 7px, #F6C24A 7px 10px); opacity: 0.92; border-left: 1.5px dashed rgba(26,23,20,0.25); border-right: 1.5px dashed rgba(26,23,20,0.25); z-index: 2",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.sticker.tapeRight": {
+   "tpl": 36,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    290,
+    221,
+    77,
+    22
+   ],
+   "rel": [
+    268,
+    -5,
+    77,
+    22
+   ],
+   "vis": [
+    281.92,
+    203.87,
+    80.03,
+    44.72
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(90deg, #FFC1C6 0px, #FFC1C6 7px, #F8AEB5 7px, #F8AEB5 10px)",
+    "border": {
+     "top": "0",
+     "right": "1.5px dashed #1A1714@0.25",
+     "bottom": "0",
+     "left": "1.5px dashed #1A1714@0.25"
+    },
+    "opacity": "0.92",
+    "zIndex": "2",
+    "position": {
+     "top": "-5px",
+     "right": "41px",
+     "bottom": "240.125px",
+     "left": "268px"
+    },
+    "transformMatrix": "matrix(0.93358, 0.358368, -0.358368, 0.93358, 0, 0)",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "transform": "rotate(21deg)"
+   },
+   "css": "position: absolute; left: 268px; top: -5px; width: 74px; height: 22px; transform: rotate(21deg); background: repeating-linear-gradient(90deg, #FFC1C6 0 7px, #F8AEB5 7px 10px); opacity: 0.92; border-left: 1.5px dashed rgba(26,23,20,0.25); border-right: 1.5px dashed rgba(26,23,20,0.25); z-index: 2",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.sticker.card": {
+   "tpl": 37,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    22,
+    226,
+    386,
+    257.12
+   ],
+   "rel": [
+    0,
+    0,
+    386,
+    257.12
+   ],
+   "vis": [
+    15.54,
+    216.07,
+    398.93,
+    276.97
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "shadow": "#1A1714 5px 5px 0px 0px",
+    "padding": "16px 16px 14px 16px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: relative; padding: 16px 16px 14px; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 5px 5px 0 #1A1714; display: flex; flex-direction: column",
+   "aria": "ISBN digitado: 85-08-06924-X. Esse número não confere.",
+   "role": "group"
+  },
+  "sc69b.sticker.card.top": {
+   "tpl": 38,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    39.5,
+    243.5,
+    351,
+    26
+   ],
+   "rel": [
+    17.5,
+    17.5,
+    351,
+    26
+   ],
+   "vis": [
+    33.93,
+    234.47,
+    351.88,
+    44.33
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; justify-content: space-between; gap: 8px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "sc69b.sticker.card.kind": {
+   "tpl": 39,
+   "section": "sc69b.sticker",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    39.5,
+    243.5,
+    169.84,
+    26
+   ],
+   "rel": [
+    17.5,
+    17.5,
+    169.84,
+    26
+   ],
+   "vis": [
+    33.93,
+    243.95,
+    170.97,
+    34.85
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "border": "1.2px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 10px 0px 8px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 26px; padding: 0 10px 0 8px; box-sizing: border-box; display: flex; align-items: center; gap: 6px; border-radius: 999px; background: #F7F0E3; border: 1.2px solid #1A1714; font-size: 12px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "ISBN-10 · edição antiga",
+     "left": 68.7,
+     "right": 198.14,
+     "top": 249.3,
+     "bottom": 263.7,
+     "baseline": 260.7,
+     "baselineRel": 34.7
+    }
+   ],
+   "naturalWidth": 169.844,
+   "minContentWidth": 77.636,
+   "text": "ISBN-10 · edição antiga",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 23
+    }
+   ]
+  },
+  "sc69b.sticker.card.kind.icon": {
+   "tpl": 40,
+   "section": "sc69b.sticker",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    48.7,
+    249.5,
+    14,
+    14
+   ],
+   "rel": [
+    26.7,
+    23.5,
+    14,
+    14
+   ],
+   "vis": [
+    43.43,
+    257.62,
+    14.71,
+    14.71
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.sticker.card.count": {
+   "tpl": 43,
+   "section": "sc69b.sticker",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    336.59,
+    248.7,
+    53.91,
+    15.6
+   ],
+   "rel": [
+    314.59,
+    22.7,
+    53.91,
+    15.6
+   ],
+   "vis": [
+    330.88,
+    239.66,
+    54.65,
+    18.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap",
+   "lines": [
+    {
+     "text": "10",
+     "left": 336.59,
+     "right": 353.12,
+     "top": 248.7,
+     "bottom": 264.3,
+     "baseline": 261.05,
+     "baselineRel": 35.05
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "10 de 10",
+     "left": 336.59,
+     "right": 390.5,
+     "top": 248.7,
+     "bottom": 264.3,
+     "baseline": 261.05,
+     "baselineRel": 35.05
+    }
+   ],
+   "naturalWidth": 53.911,
+   "minContentWidth": 16.536,
+   "text": "10",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "sc69b.sticker.card.count.total": {
+   "tpl": 44,
+   "section": "sc69b.sticker",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    356.17,
+    248.7,
+    34.33,
+    15.6
+   ],
+   "rel": [
+    334.17,
+    22.7,
+    34.33,
+    15.6
+   ],
+   "vis": [
+    350.43,
+    239.66,
+    35.1,
+    17.38
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "de 10",
+     "left": 356.17,
+     "right": 390.5,
+     "top": 248.7,
+     "bottom": 264.3,
+     "baseline": 261.05,
+     "baselineRel": 35.05
+    }
+   ],
+   "naturalWidth": 34.333,
+   "minContentWidth": 34.333,
+   "text": "de 10",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "sc69b.sticker.card.digits": {
+   "tpl": 45,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    39.5,
+    283.5,
+    351,
+    40
+   ],
+   "rel": [
+    17.5,
+    57.5,
+    351,
+    40
+   ],
+   "vis": [
+    36.02,
+    274.41,
+    352.61,
+    58.31
+   ],
+   "style": {},
+   "css": "margin-top: 14px; display: flex; align-items: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 1; letter-spacing: 0.5px; font-variant-numeric: tabular-nums; white-space: nowrap",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "sc69b.sticker.card.digits.number": {
+   "tpl": 46,
+   "section": "sc69b.sticker",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    39.5,
+    287.5,
+    205.82,
+    32
+   ],
+   "rel": [
+    17.5,
+    61.5,
+    205.82,
+    32
+   ],
+   "vis": [
+    36.23,
+    286.0,
+    207.21,
+    42.73
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 32.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "32px",
+     "letterSpacing": "0.5px",
+     "color": "#1A1714",
+     "opsz": 32.0,
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "color: #1A1714",
+   "lines": [
+    {
+     "text": "850806924",
+     "left": 39.5,
+     "right": 245.32,
+     "top": 284.3,
+     "bottom": 322.7,
+     "baseline": 314.06,
+     "baselineRel": 88.06
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "85-08-06924",
+     "left": 39.5,
+     "right": 245.32,
+     "top": 284.3,
+     "bottom": 322.7,
+     "baseline": 314.06,
+     "baselineRel": 88.06
+    }
+   ],
+   "naturalWidth": 205.82,
+   "minContentWidth": 205.82,
+   "text": "850806924",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "sc69b.sticker.card.digits.number.dash1": {
+   "tpl": 47,
+   "section": "sc69b.sticker",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    80.05,
+    284.3,
+    11.67,
+    38.4
+   ],
+   "rel": [
+    58.05,
+    58.3,
+    11.67,
+    38.4
+   ],
+   "vis": [
+    76.56,
+    290.85,
+    13.66,
+    38.96
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 32.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "32px",
+     "letterSpacing": "0.5px",
+     "color": "#A79C8B",
+     "opsz": 32.0,
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "color: #A79C8B",
+   "lines": [
+    {
+     "text": "-",
+     "left": 80.05,
+     "right": 91.72,
+     "top": 284.3,
+     "bottom": 322.7,
+     "baseline": 314.06,
+     "baselineRel": 88.06
+    }
+   ],
+   "naturalWidth": 11.668,
+   "minContentWidth": 11.668,
+   "text": "-",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "sc69b.sticker.card.digits.number.dash2": {
+   "tpl": 48,
+   "section": "sc69b.sticker",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    132.27,
+    284.3,
+    11.67,
+    38.4
+   ],
+   "rel": [
+    110.27,
+    58.3,
+    11.67,
+    38.4
+   ],
+   "vis": [
+    128.71,
+    288.12,
+    13.66,
+    38.96
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 32.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "32px",
+     "letterSpacing": "0.5px",
+     "color": "#A79C8B",
+     "opsz": 32.0,
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "color: #A79C8B",
+   "lines": [
+    {
+     "text": "-",
+     "left": 132.27,
+     "right": 143.94,
+     "top": 284.3,
+     "bottom": 322.7,
+     "baseline": 314.06,
+     "baselineRel": 88.06
+    }
+   ],
+   "naturalWidth": 11.668,
+   "minContentWidth": 11.668,
+   "text": "-",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "sc69b.sticker.card.digits.dash3": {
+   "tpl": 49,
+   "section": "sc69b.sticker",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    245.32,
+    287.5,
+    11.67,
+    32
+   ],
+   "rel": [
+    223.32,
+    61.5,
+    11.67,
+    32
+   ],
+   "vis": [
+    241.77,
+    285.39,
+    13.33,
+    32.57
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 32.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "32px",
+     "letterSpacing": "0.5px",
+     "color": "#A79C8B",
+     "opsz": 32.0,
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "color: #A79C8B",
+   "lines": [
+    {
+     "text": "-",
+     "left": 245.32,
+     "right": 256.99,
+     "top": 284.3,
+     "bottom": 322.7,
+     "baseline": 314.06,
+     "baselineRel": 88.06
+    }
+   ],
+   "naturalWidth": 11.668,
+   "minContentWidth": 11.668,
+   "text": "-",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "sc69b.sticker.card.digits.check": {
+   "tpl": 50,
+   "section": "sc69b.sticker",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    258.99,
+    283.5,
+    32,
+    40
+   ],
+   "rel": [
+    236.99,
+    57.5,
+    32,
+    40
+   ],
+   "vis": [
+    255.21,
+    279.62,
+    34.05,
+    41.62
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.6px solid #1A1714",
+    "radius": "9px",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 32.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "32px",
+     "letterSpacing": "0.5px",
+     "color": "#1A1714",
+     "opsz": 32.0,
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap",
+     "verticalAlign": "middle"
+    }
+   },
+   "css": "position: relative; display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 40px; margin-left: 2px; border-radius: 9px; border: 1.6px solid #1A1714; background: #FFC1C6; box-shadow: 2px 2px 0 #1A1714; box-sizing: border-box; vertical-align: middle",
+   "lines": [
+    {
+     "text": "X",
+     "left": 263.57,
+     "right": 286.41,
+     "top": 284.3,
+     "bottom": 322.7,
+     "baseline": 314.06,
+     "baselineRel": 88.06
+    }
+   ],
+   "naturalWidth": 26.036,
+   "minContentWidth": 26.036,
+   "text": "X",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "sc69b.sticker.card.alert": {
+   "tpl": 51,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "p",
+   "abs": [
+    39.5,
+    333.5,
+    351,
+    32.62
+   ],
+   "rel": [
+    17.5,
+    107.5,
+    351,
+    32.62
+   ],
+   "vis": [
+    38.64,
+    324.34,
+    352.23,
+    50.95
+   ],
+   "style": {
+    "bg": "#FFE9E4",
+    "border": "1.2px solid #1A1714",
+    "radius": "12px",
+    "padding": "6px 10px 6px 10px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin: 10px 0 0; padding: 6px 10px; border-radius: 12px; background: #FFE9E4; border: 1.2px solid #1A1714; display: flex; gap: 8px; align-items: center; font-size: 13.5px; font-weight: 800; line-height: 1.35; color: #1A1714",
+   "role": "alert",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "sc69b.sticker.card.alert.icon": {
+   "tpl": 52,
+   "section": "sc69b.sticker",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    50.7,
+    341.31,
+    17,
+    17
+   ],
+   "rel": [
+    28.7,
+    115.31,
+    17,
+    17
+   ],
+   "vis": [
+    50.23,
+    349.04,
+    17.87,
+    17.87
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.sticker.card.alert.text": {
+   "tpl": 55,
+   "section": "sc69b.sticker",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    75.7,
+    340.7,
+    161.19,
+    18.23
+   ],
+   "rel": [
+    53.7,
+    114.7,
+    161.19,
+    18.23
+   ],
+   "vis": [
+    75.17,
+    339.57,
+    161.93,
+    26.64
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "18.225px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "white-space: nowrap",
+   "lines": [
+    {
+     "text": "Esse número não confere.",
+     "left": 75.7,
+     "right": 236.9,
+     "top": 341.7,
+     "bottom": 357.91,
+     "baseline": 354.53,
+     "baselineRel": 128.53
+    }
+   ],
+   "naturalWidth": 161.195,
+   "minContentWidth": 52.326,
+   "text": "Esse número não confere.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "sc69b.sticker.card.barcode": {
+   "tpl": 56,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    39.5,
+    380.12,
+    351,
+    87.5
+   ],
+   "rel": [
+    17.5,
+    154.12,
+    351,
+    87.5
+   ],
+   "vis": [
+    41.08,
+    370.9,
+    355.1,
+    105.75
+   ],
+   "style": {
+    "border": {
+     "top": "1.5px dashed #CFC3AE",
+     "right": "0",
+     "bottom": "0",
+     "left": "0"
+    },
+    "padding": "12px 0px 0px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin-top: 14px; padding-top: 12px; border-top: 1.5px dashed #CFC3AE; display: flex; flex-direction: column; align-items: center"
+  },
+  "sc69b.sticker.card.barcode.bars": {
+   "tpl": 57,
+   "section": "sc69b.sticker",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    81.5,
+    393.62,
+    267,
+    74
+   ],
+   "rel": [
+    59.5,
+    167.62,
+    267,
+    74
+   ],
+   "vis": [
+    83.73,
+    386.58,
+    270.51,
+    87.87
+   ],
+   "style": {},
+   "css": "display: block; overflow: visible",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "sc69b.sticker.notes": {
+   "tpl": 105,
+   "section": "sc69b.sticker",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    22,
+    491.12,
+    386,
+    38.41
+   ],
+   "rel": [
+    0,
+    265.12,
+    386,
+    38.41
+   ],
+   "style": {},
+   "css": "margin-top: 8px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 58
+    }
+   ]
+  },
+  "sc69b.sticker.notes.line": {
+   "tpl": 106,
+   "section": "sc69b.sticker",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    86.6,
+    491.12,
+    256.8,
+    18.2
+   ],
+   "rel": [
+    64.6,
+    265.12,
+    256.8,
+    18.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "18.2px",
+     "letterSpacing": "normal",
+     "color": "#CFC6B8",
+     "textAlign": "center"
+    }
+   },
+   "css": "margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #CFC6B8",
+   "lines": [
+    {
+     "text": "O erro mais comum: dois vizinhos trocados.",
+     "left": 86.6,
+     "right": 343.4,
+     "top": 492.43,
+     "bottom": 508.02,
+     "baseline": 504.77,
+     "baselineRel": 278.77
+    }
+   ],
+   "naturalWidth": 256.802,
+   "minContentWidth": 55.575,
+   "text": "O erro mais comum: dois vizinhos trocados.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 42
+    }
+   ]
+  },
+  "sc69b.sticker.notes.noIsbn": {
+   "tpl": 107,
+   "section": "sc69b.sticker",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    108.72,
+    513.33,
+    212.57,
+    16.21
+   ],
+   "rel": [
+    86.72,
+    287.33,
+    212.57,
+    16.21
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#CFC6B8",
+     "textAlign": "center"
+    }
+   },
+   "css": "margin: 0; font-size: 13.5px; font-weight: 500; color: #CFC6B8",
+   "lines": [
+    {
+     "text": "Livro sem ISBN?",
+     "left": 108.72,
+     "right": 208.09,
+     "top": 513.33,
+     "bottom": 529.53,
+     "baseline": 526.15,
+     "baselineRel": 300.15
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Livro sem ISBN? Buscar pelo título",
+     "left": 108.72,
+     "right": 321.29,
+     "top": 513.33,
+     "bottom": 529.53,
+     "baseline": 526.15,
+     "baselineRel": 300.15
+    }
+   ],
+   "naturalWidth": 212.571,
+   "minContentWidth": 42.538,
+   "text": "Livro sem ISBN?",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 34
+    }
+   ]
+  },
+  "sc69b.sticker.notes.noIsbn.link": {
+   "tpl": 108,
+   "section": "sc69b.sticker",
+   "type": "inline",
+   "tag": "a",
+   "abs": [
+    211.38,
+    513.33,
+    109.9,
+    16.21
+   ],
+   "rel": [
+    189.38,
+    287.33,
+    109.9,
+    16.21
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1",
+     "textAlign": "center",
+     "textDecorationLine": "underline"
+    }
+   },
+   "css": "font-weight: 800; color: #FFFAF1; text-decoration: underline; text-underline-offset: 3px",
+   "lines": [
+    {
+     "text": "Buscar pelo título",
+     "left": 211.38,
+     "right": 321.29,
+     "top": 513.33,
+     "bottom": 529.53,
+     "baseline": 526.15,
+     "baselineRel": 300.15
+    }
+   ],
+   "naturalWidth": 109.903,
+   "minContentWidth": 42.538,
+   "text": "Buscar pelo título",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "sc69b.toolbar": {
+   "tpl": 109,
+   "section": "sc69b.toolbar",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    538,
+    430,
+    56
+   ],
+   "rel": [
+    0,
+    0,
+    430,
+    56
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": {
+     "top": "1.5px solid #1A1714",
+     "right": "0",
+     "bottom": "0",
+     "left": "0"
+    },
+    "radius": [
+     "20px",
+     "20px",
+     "0px",
+     "0px"
+    ],
+    "padding": "0px 12px 0px 12px",
+    "position": {
+     "top": "538px",
+     "right": "0px",
+     "bottom": "250px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; right: 0; top: 538px; height: 56px; padding: 0 12px; box-sizing: border-box; display: flex; align-items: center; gap: 8px; background: #FFFAF1; border-top: 1.5px solid #1A1714; border-radius: 20px 20px 0 0",
+   "aria": "Teclas extras",
+   "role": "toolbar"
+  },
+  "sc69b.toolbar.x": {
+   "tpl": 110,
+   "section": "sc69b.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    12,
+    545.75,
+    83.58,
+    42
+   ],
+   "rel": [
+    12,
+    7.75,
+    83.58,
+    42
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "border": "1.5px solid #1A1714",
+    "radius": "13px",
+    "opacity": "0.4",
+    "padding": "0px 14px 0px 12px"
+   },
+   "css": "height: 42px; padding: 0 14px 0 12px; border-radius: 13px; background: #F7F0E3; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 8px; opacity: 0.4",
+   "aria": "Tecla X, só para o 10º caractere do ISBN-10",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "sc69b.toolbar.x.key": {
+   "tpl": 111,
+   "section": "sc69b.toolbar",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    25.5,
+    555.75,
+    15.6,
+    22
+   ],
+   "rel": [
+    25.5,
+    17.75,
+    15.6,
+    22
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "22px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0,
+     "textAlign": "center"
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1",
+   "lines": [
+    {
+     "text": "X",
+     "left": 25.5,
+     "right": 41.1,
+     "top": 553.55,
+     "bottom": 579.95,
+     "baseline": 574.01,
+     "baselineRel": 36.01
+    }
+   ],
+   "naturalWidth": 15.598,
+   "minContentWidth": 15.598,
+   "text": "X",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "sc69b.toolbar.x.caption": {
+   "tpl": 112,
+   "section": "sc69b.toolbar",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    49.1,
+    554.1,
+    30.98,
+    25.3
+   ],
+   "rel": [
+    49.1,
+    16.1,
+    30.98,
+    25.3
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "12.65px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 11.5px; font-weight: 700; line-height: 1.1; text-align: left; color: #1A1714",
+   "lines": [
+    {
+     "text": "dígito",
+     "left": 49.1,
+     "right": 80.08,
+     "top": 553.52,
+     "bottom": 567.33,
+     "baseline": 564.45,
+     "baselineRel": 26.45
+    },
+    {
+     "text": "final",
+     "left": 49.1,
+     "right": 72.12,
+     "top": 566.17,
+     "bottom": 579.98,
+     "baseline": 577.1,
+     "baselineRel": 39.1
+    }
+   ],
+   "naturalWidth": 30.981,
+   "minContentWidth": 30.981,
+   "text": "dígitofinal",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "sc69b.toolbar.clearAll": {
+   "tpl": 114,
+   "section": "sc69b.toolbar",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    103.58,
+    545.75,
+    134.56,
+    42
+   ],
+   "rel": [
+    103.58,
+    7.75,
+    134.56,
+    42
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 14px 0px 11px",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "height: 42px; padding: 0 14px 0 11px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Apagar tudo",
+     "left": 141.08,
+     "right": 222.64,
+     "top": 558.35,
+     "bottom": 575.15,
+     "baseline": 571.65,
+     "baselineRel": 33.65
+    }
+   ],
+   "naturalWidth": 134.564,
+   "minContentWidth": 100.922,
+   "aria": "Apagar o número inteiro",
+   "text": "Apagar tudo",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "sc69b.toolbar.clearAll.icon": {
+   "tpl": 115,
+   "section": "sc69b.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    116.08,
+    557.75,
+    18,
+    18
+   ],
+   "rel": [
+    116.08,
+    19.75,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.toolbar.spacer": {
+   "tpl": 118,
+   "section": "sc69b.toolbar",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    246.14,
+    566.75,
+    119.86,
+    0
+   ],
+   "rel": [
+    246.14,
+    28.75,
+    119.86,
+    0
+   ],
+   "style": {},
+   "css": "flex-grow: 1"
+  },
+  "sc69b.toolbar.hide": {
+   "tpl": 119,
+   "section": "sc69b.toolbar",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    374,
+    544.75,
+    44,
+    44
+   ],
+   "rel": [
+    374,
+    6.75,
+    44,
+    44
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 44px; height: 44px; padding: 0; border-radius: 50%; background: #F7F0E3; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Esconder teclado"
+  },
+  "sc69b.toolbar.hide.icon": {
+   "tpl": 120,
+   "section": "sc69b.toolbar",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    385.5,
+    556.25,
+    21,
+    21
+   ],
+   "rel": [
+    385.5,
+    18.25,
+    21,
+    21
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.keypad": {
+   "tpl": 124,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    594,
+    430,
+    250
+   ],
+   "rel": [
+    0,
+    0,
+    430,
+    250
+   ],
+   "style": {
+    "bg": "#D1D4DA",
+    "padding": "6px 6px 0px 6px",
+    "position": {
+     "top": "594px",
+     "right": "0px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; right: 0; top: 594px; bottom: 0; padding: 6px 6px 0; box-sizing: border-box; background: #D1D4DA; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 46px; gap: 7px 6px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "sc69b.keypad.key1": {
+   "tpl": 125,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    6,
+    600,
+    135.33,
+    46
+   ],
+   "rel": [
+    6,
+    6,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key1.digit": {
+   "tpl": 126,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    68.58,
+    610.5,
+    10.17,
+    25
+   ],
+   "rel": [
+    68.58,
+    16.5,
+    10.17,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "1",
+     "left": 68.58,
+     "right": 78.75,
+     "top": 607.87,
+     "bottom": 638.12,
+     "baseline": 630.15,
+     "baselineRel": 36.15
+    }
+   ],
+   "naturalWidth": 10.169,
+   "minContentWidth": 10.169,
+   "text": "1",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key2": {
+   "tpl": 127,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    147.33,
+    600,
+    135.33,
+    46
+   ],
+   "rel": [
+    147.33,
+    6,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key2.digit": {
+   "tpl": 128,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    207.38,
+    605.25,
+    15.25,
+    25
+   ],
+   "rel": [
+    207.38,
+    11.25,
+    15.25,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "2",
+     "left": 207.38,
+     "right": 222.62,
+     "top": 602.62,
+     "bottom": 632.87,
+     "baseline": 624.9,
+     "baselineRel": 30.9
+    }
+   ],
+   "naturalWidth": 15.247,
+   "minContentWidth": 15.247,
+   "text": "2",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key2.letters": {
+   "tpl": 129,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    201.8,
+    631.25,
+    26.41,
+    9.5
+   ],
+   "rel": [
+    201.8,
+    37.25,
+    26.41,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "ABC",
+     "left": 201.8,
+     "right": 228.2,
+     "top": 630.25,
+     "bottom": 641.74,
+     "baseline": 638.72,
+     "baselineRel": 44.72
+    }
+   ],
+   "naturalWidth": 26.406,
+   "minContentWidth": 26.406,
+   "text": "ABC",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key3": {
+   "tpl": 130,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    288.67,
+    600,
+    135.33,
+    46
+   ],
+   "rel": [
+    288.67,
+    6,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key3.digit": {
+   "tpl": 131,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    348.61,
+    605.25,
+    15.44,
+    25
+   ],
+   "rel": [
+    348.61,
+    11.25,
+    15.44,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "3",
+     "left": 348.61,
+     "right": 364.05,
+     "top": 602.62,
+     "bottom": 632.87,
+     "baseline": 624.9,
+     "baselineRel": 30.9
+    }
+   ],
+   "naturalWidth": 15.442,
+   "minContentWidth": 15.442,
+   "text": "3",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key3.letters": {
+   "tpl": 132,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    344.23,
+    631.25,
+    24.21,
+    9.5
+   ],
+   "rel": [
+    344.23,
+    37.25,
+    24.21,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "DEF",
+     "left": 344.23,
+     "right": 368.44,
+     "top": 630.25,
+     "bottom": 641.74,
+     "baseline": 638.72,
+     "baselineRel": 44.72
+    }
+   ],
+   "naturalWidth": 24.207,
+   "minContentWidth": 24.207,
+   "text": "DEF",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key4": {
+   "tpl": 133,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    6,
+    653,
+    135.33,
+    46
+   ],
+   "rel": [
+    6,
+    59,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key4.digit": {
+   "tpl": 134,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    65.59,
+    658.25,
+    16.15,
+    25
+   ],
+   "rel": [
+    65.59,
+    64.25,
+    16.15,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "4",
+     "left": 65.59,
+     "right": 81.74,
+     "top": 655.62,
+     "bottom": 685.87,
+     "baseline": 677.9,
+     "baselineRel": 83.9
+    }
+   ],
+   "naturalWidth": 16.15,
+   "minContentWidth": 16.15,
+   "text": "4",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key4.letters": {
+   "tpl": 135,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    62.22,
+    684.25,
+    22.89,
+    9.5
+   ],
+   "rel": [
+    62.22,
+    90.25,
+    22.89,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "GHI",
+     "left": 62.22,
+     "right": 85.11,
+     "top": 683.25,
+     "bottom": 694.74,
+     "baseline": 691.72,
+     "baselineRel": 97.72
+    }
+   ],
+   "naturalWidth": 22.894,
+   "minContentWidth": 22.894,
+   "text": "GHI",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key5": {
+   "tpl": 136,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    147.33,
+    653,
+    135.33,
+    46
+   ],
+   "rel": [
+    147.33,
+    59,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key5.digit": {
+   "tpl": 137,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    207.4,
+    658.25,
+    15.2,
+    25
+   ],
+   "rel": [
+    207.4,
+    64.25,
+    15.2,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "5",
+     "left": 207.4,
+     "right": 222.6,
+     "top": 655.62,
+     "bottom": 685.87,
+     "baseline": 677.9,
+     "baselineRel": 83.9
+    }
+   ],
+   "naturalWidth": 15.198,
+   "minContentWidth": 15.198,
+   "text": "5",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key5.letters": {
+   "tpl": 138,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    203.12,
+    684.25,
+    23.76,
+    9.5
+   ],
+   "rel": [
+    203.12,
+    90.25,
+    23.76,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "JKL",
+     "left": 203.12,
+     "right": 226.88,
+     "top": 683.25,
+     "bottom": 694.74,
+     "baseline": 691.72,
+     "baselineRel": 97.72
+    }
+   ],
+   "naturalWidth": 23.757,
+   "minContentWidth": 23.757,
+   "text": "JKL",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key6": {
+   "tpl": 139,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    288.67,
+    653,
+    135.33,
+    46
+   ],
+   "rel": [
+    288.67,
+    59,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key6.digit": {
+   "tpl": 140,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    348.58,
+    658.25,
+    15.5,
+    25
+   ],
+   "rel": [
+    348.58,
+    64.25,
+    15.5,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "6",
+     "left": 348.58,
+     "right": 364.08,
+     "top": 655.62,
+     "bottom": 685.87,
+     "baseline": 677.9,
+     "baselineRel": 83.9
+    }
+   ],
+   "naturalWidth": 15.503,
+   "minContentWidth": 15.503,
+   "text": "6",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key6.letters": {
+   "tpl": 141,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    341.63,
+    684.25,
+    29.41,
+    9.5
+   ],
+   "rel": [
+    341.63,
+    90.25,
+    29.41,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "MNO",
+     "left": 341.63,
+     "right": 371.04,
+     "top": 683.25,
+     "bottom": 694.74,
+     "baseline": 691.72,
+     "baselineRel": 97.72
+    }
+   ],
+   "naturalWidth": 29.411,
+   "minContentWidth": 29.411,
+   "text": "MNO",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key7": {
+   "tpl": 142,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    6,
+    706,
+    135.33,
+    46
+   ],
+   "rel": [
+    6,
+    112,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 4
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (4 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key7.digit": {
+   "tpl": 143,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    66.59,
+    711.25,
+    14.15,
+    25
+   ],
+   "rel": [
+    66.59,
+    117.25,
+    14.15,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "7",
+     "left": 66.59,
+     "right": 80.74,
+     "top": 708.62,
+     "bottom": 738.87,
+     "baseline": 730.9,
+     "baselineRel": 136.9
+    }
+   ],
+   "naturalWidth": 14.148,
+   "minContentWidth": 14.148,
+   "text": "7",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key7.letters": {
+   "tpl": 144,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    56.67,
+    737.25,
+    33.99,
+    9.5
+   ],
+   "rel": [
+    56.67,
+    143.25,
+    33.99,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "PQRS",
+     "left": 56.67,
+     "right": 90.66,
+     "top": 736.25,
+     "bottom": 747.74,
+     "baseline": 744.72,
+     "baselineRel": 150.72
+    }
+   ],
+   "naturalWidth": 33.995,
+   "minContentWidth": 33.995,
+   "text": "PQRS",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 4
+    }
+   ],
+   "fallback": [
+    "Inter (4 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key8": {
+   "tpl": 145,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    147.33,
+    706,
+    135.33,
+    46
+   ],
+   "rel": [
+    147.33,
+    112,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key8.digit": {
+   "tpl": 146,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    207.27,
+    711.25,
+    15.47,
+    25
+   ],
+   "rel": [
+    207.27,
+    117.25,
+    15.47,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "8",
+     "left": 207.27,
+     "right": 222.73,
+     "top": 708.62,
+     "bottom": 738.87,
+     "baseline": 730.9,
+     "baselineRel": 136.9
+    }
+   ],
+   "naturalWidth": 15.466,
+   "minContentWidth": 15.466,
+   "text": "8",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key8.letters": {
+   "tpl": 147,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    201.81,
+    737.25,
+    26.39,
+    9.5
+   ],
+   "rel": [
+    201.81,
+    143.25,
+    26.39,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "TUV",
+     "left": 201.81,
+     "right": 228.19,
+     "top": 736.25,
+     "bottom": 747.74,
+     "baseline": 744.72,
+     "baselineRel": 150.72
+    }
+   ],
+   "naturalWidth": 26.387,
+   "minContentWidth": 26.387,
+   "text": "TUV",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 3
+    }
+   ],
+   "fallback": [
+    "Inter (3 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key9": {
+   "tpl": 148,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    288.67,
+    706,
+    135.33,
+    46
+   ],
+   "rel": [
+    288.67,
+    112,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    },
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 4
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))",
+    "Inter (4 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key9.digit": {
+   "tpl": 149,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    348.58,
+    711.25,
+    15.5,
+    25
+   ],
+   "rel": [
+    348.58,
+    117.25,
+    15.5,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "9",
+     "left": 348.58,
+     "right": 364.08,
+     "top": 708.62,
+     "bottom": 738.87,
+     "baseline": 730.9,
+     "baselineRel": 136.9
+    }
+   ],
+   "naturalWidth": 15.503,
+   "minContentWidth": 15.503,
+   "text": "9",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key9.letters": {
+   "tpl": 150,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    337.27,
+    737.25,
+    38.12,
+    9.5
+   ],
+   "rel": [
+    337.27,
+    143.25,
+    38.12,
+    9.5
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 9.5,
+     "weightCss": 700,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "9.5px",
+     "letterSpacing": "2px",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "margin-top: 1px; font-size: 9.5px; font-weight: 700; letter-spacing: 2px; line-height: 1",
+   "lines": [
+    {
+     "text": "WXYZ",
+     "left": 337.27,
+     "right": 375.39,
+     "top": 736.25,
+     "bottom": 747.74,
+     "baseline": 744.72,
+     "baselineRel": 150.72
+    }
+   ],
+   "naturalWidth": 38.124,
+   "minContentWidth": 38.124,
+   "text": "WXYZ",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Bold",
+     "custom": false,
+     "glyphs": 4
+    }
+   ],
+   "fallback": [
+    "Inter (4 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.blank": {
+   "tpl": 151,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    6,
+    759,
+    135.33,
+    46
+   ],
+   "rel": [
+    6,
+    165,
+    135.33,
+    46
+   ],
+   "style": {}
+  },
+  "sc69b.keypad.key0": {
+   "tpl": 152,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    147.33,
+    759,
+    135.33,
+    46
+   ],
+   "rel": [
+    147.33,
+    165,
+    135.33,
+    46
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "radius": "6px",
+    "shadow": "#898A8D 0px 1px 0px 0px"
+   },
+   "css": "height: 46px; border-radius: 6px; background: #FFFFFF; box-shadow: 0 1px 0 #898A8D; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: ui-sans-serif, system-ui, sans-serif; color: #000",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.key0.digit": {
+   "tpl": 153,
+   "section": "sc69b.keypad",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    207.11,
+    769.5,
+    15.77,
+    25
+   ],
+   "rel": [
+    207.11,
+    175.5,
+    15.77,
+    25
+   ],
+   "style": {
+    "font": {
+     "family": "ui-sans-serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#000000",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "font-size: 25px; font-weight: 400; line-height: 1",
+   "lines": [
+    {
+     "text": "0",
+     "left": 207.11,
+     "right": 222.89,
+     "top": 766.87,
+     "bottom": 797.12,
+     "baseline": 789.15,
+     "baselineRel": 195.15
+    }
+   ],
+   "naturalWidth": 15.772,
+   "minContentWidth": 15.772,
+   "text": "0",
+   "platformFonts": [
+    {
+     "family": "Inter",
+     "postScript": "Inter-Regular",
+     "custom": false,
+     "glyphs": 1
+    }
+   ],
+   "fallback": [
+    "Inter (1 glifo(s))"
+   ],
+   "informativo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema"
+  },
+  "sc69b.keypad.delete": {
+   "tpl": 154,
+   "section": "sc69b.keypad",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    288.67,
+    759,
+    135.33,
+    46
+   ],
+   "rel": [
+    288.67,
+    165,
+    135.33,
+    46
+   ],
+   "style": {},
+   "css": "height: 46px; display: flex; align-items: center; justify-content: center"
+  },
+  "sc69b.keypad.delete.icon": {
+   "tpl": 155,
+   "section": "sc69b.keypad",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    343.33,
+    769,
+    26,
+    26
+   ],
+   "rel": [
+    343.33,
+    175,
+    26,
+    26
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "fontMetrics": {
+  "Figtree|600|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|800|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Bricolage Grotesque|800|normal|27px": {
+   "ascent": 25.11,
+   "descent": 7.29
+  },
+  "Instrument Serif|400|italic|31px": {
+   "ascent": 30.69,
+   "descent": 9.61
+  },
+  "Figtree|600|normal|13.5px": {
+   "ascent": 12.83,
+   "descent": 3.38
+  },
+  "Figtree|800|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Figtree|800|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Figtree|600|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Bricolage Grotesque|800|normal|32px": {
+   "ascent": 29.76,
+   "descent": 8.64
+  },
+  "Figtree|800|normal|13.5px": {
+   "ascent": 12.83,
+   "descent": 3.38
+  },
+  "Figtree|500|normal|13.5px": {
+   "ascent": 12.83,
+   "descent": 3.38
+  },
+  "Bricolage Grotesque|800|normal|22px": {
+   "ascent": 20.46,
+   "descent": 5.94
+  },
+  "Figtree|700|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  },
+  "ui-sans-serif|400|normal|25px": {
+   "ascent": 22.28,
+   "descent": 5.41
+  },
+  "ui-sans-serif|700|normal|9.5px": {
+   "ascent": 8.47,
+   "descent": 2.05
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  }
+ ]
+}

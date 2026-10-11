@@ -238,7 +238,9 @@ def main():
         '', f'const Map<String, LeitorRefPrancha> {MAPA_DART} = <String, LeitorRefPrancha>{{'] + mapa + ['};']
     if CFG.get('formato') == 'dc':  # R8 (T13): as telas com texto só informativo → o mapa id → motivo de cada uma
         idx += ['', '/// R8 (T13): tela → (id → motivo) do texto desenhado pelo sistema, não pelo app (só informativo).',
-                'const Map<String, Map<String, String>> kInformativoProjeto = <String, Map<String, String>>{'
+                # T13.9: o nome segue o do índice (kRefProjeto → kInformativoProjeto; as larguras têm o seu)
+                f"const Map<String, Map<String, String>> kInformativo{MAPA_DART[len('kRef'):]} = "
+                '<String, Map<String, String>>{'
                 ] + infos + ['};']
     with open(os.path.join(OUT, INDICE_DART), 'w', encoding='utf-8', newline='\n') as f:
         f.write('\n'.join(idx) + '\n')

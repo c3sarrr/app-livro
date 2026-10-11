@@ -1,0 +1,1351 @@
+{
+ "002_biblioteca_w360": {
+  "b02.shelf.book1.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [],
+   "quebrasImpostas": [
+    1
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Dom",
+     "largura": 36.124,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "Casmurro",
+     "largura": 74.558,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "b02.shelf.book1.info.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Dom Casmurro",
+     "largura": 96.516,
+     "disponivel": 97.333,
+     "sobra": 0.817,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Dom Casmurro",
+     "largura": 96.516,
+     "disponivel": 97.333,
+     "sobra": 0.817,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "b02.shelf.book3.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [],
+   "quebrasImpostas": [
+    1
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Orgulho e",
+     "largura": 62.833,
+     "disponivel": 73.334,
+     "sobra": 10.501,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "Preconceito",
+     "largura": 74.86,
+     "disponivel": 73.333,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "b02.shelf.book4.cover.author": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "JOSÉ DE",
+     "largura": 32.773,
+     "disponivel": 71.333,
+     "sobra": 38.56,
+     "estouroComProxima": 0.797
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "JOSÉ DE",
+     "largura": 32.773,
+     "disponivel": 71.333,
+     "sobra": 38.56,
+     "estouroComProxima": 0.797
+    },
+    {
+     "linha": 2,
+     "texto": "ALENCAR",
+     "largura": 36.9,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "b02.shelf.book7.info.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Teoria Literária",
+     "largura": 96.488,
+     "disponivel": 97.334,
+     "sobra": 0.846,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Teoria Literária",
+     "largura": 96.488,
+     "disponivel": 97.334,
+     "sobra": 0.846,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "b02.shelf.book9.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "O",
+     "largura": 12.42,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": 1.001
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "O",
+     "largura": 12.42,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": 1.001
+    },
+    {
+     "linha": 2,
+     "texto": "Cortiço",
+     "largura": 56.005,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "b02.shelf.book9.cover.author": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "ALUÍSIO",
+     "largura": 31.895,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": 0.154
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "ALUÍSIO",
+     "largura": 31.895,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": 0.154
+    },
+    {
+     "linha": 2,
+     "texto": "AZEVEDO",
+     "largura": 37.135,
+     "disponivel": 71.333,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "002_biblioteca_w430": {},
+ "036_biblioteca_vazia_w360": {},
+ "036_biblioteca_vazia_w430": {},
+ "017_detalhes_fisico_w360": {
+  "d17.title": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Memórias Póstumas",
+     "largura": 319.274,
+     "disponivel": 320,
+     "sobra": 0.726,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [
+    1
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Memórias Póstumas",
+     "largura": 319.274,
+     "disponivel": 320,
+     "sobra": 0.726,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "de Brás Cubas",
+     "largura": 210.552,
+     "disponivel": 320.001,
+     "sobra": 109.449,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "017_detalhes_fisico_w430": {},
+ "017b_detalhes_ebook_w360": {},
+ "017b_detalhes_ebook_w430": {
+  "d17b.synopsis.text": {
+   "composto": true,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Já velho, Bento Santiago tenta “atar as duas pontas",
+     "largura": 369.213,
+     "disponivel": 390.001,
+     "sobra": 20.788,
+     "estouroComProxima": 0.149
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Já velho, Bento Santiago tenta “atar as duas pontas",
+     "largura": 369.213,
+     "disponivel": 390.001,
+     "sobra": 20.788,
+     "estouroComProxima": 0.149
+    },
+    {
+     "linha": 2,
+     "texto": "da vida” contando seu amor por Capitu, desde a",
+     "largura": 345.522,
+     "disponivel": 390,
+     "sobra": 44.478,
+     "estouroComProxima": 24.644
+    },
+    {
+     "linha": 3,
+     "texto": "infância. Mas até que ponto dá para confiar em quem",
+     "largura": 385.352,
+     "disponivel": 390,
+     "sobra": 4.648,
+     "estouroComProxima": 39.915
+    },
+    {
+     "linha": 4,
+     "texto": "narra a história? Ler mais",
+     "largura": 179.964,
+     "disponivel": 390,
+     "sobra": 210.036,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "003_scanner_encontrado_w360": {
+  "sc03.sheet.book.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "Póstumas de",
+     "largura": 61.799,
+     "disponivel": 63,
+     "sobra": 1.201,
+     "estouroComProxima": 22.796
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Memórias",
+     "largura": 48.865,
+     "disponivel": 63,
+     "sobra": null,
+     "estouroComProxima": 35.89
+    },
+    {
+     "linha": 2,
+     "texto": "Póstumas de",
+     "largura": 61.799,
+     "disponivel": 63,
+     "sobra": 1.201,
+     "estouroComProxima": 22.796
+    },
+    {
+     "linha": 3,
+     "texto": "Brás Cubas",
+     "largura": 54.041,
+     "disponivel": 63,
+     "sobra": 8.959,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "003_scanner_encontrado_w430": {
+  "sc03.sheet.book.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "Póstumas de",
+     "largura": 61.799,
+     "disponivel": 63,
+     "sobra": 1.201,
+     "estouroComProxima": 22.796
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Memórias",
+     "largura": 48.865,
+     "disponivel": 63,
+     "sobra": null,
+     "estouroComProxima": 35.89
+    },
+    {
+     "linha": 2,
+     "texto": "Póstumas de",
+     "largura": 61.799,
+     "disponivel": 63,
+     "sobra": 1.201,
+     "estouroComProxima": 22.796
+    },
+    {
+     "linha": 3,
+     "texto": "Brás Cubas",
+     "largura": 54.041,
+     "disponivel": 63,
+     "sobra": 8.959,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "039_scanner_mirando_w360": {
+  "sc39.sheet.lead.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "O código de barras fica no",
+     "largura": 161.352,
+     "disponivel": 201,
+     "sobra": 39.648,
+     "estouroComProxima": 0.51
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "O código de barras fica no",
+     "largura": 161.352,
+     "disponivel": 201,
+     "sobra": 39.648,
+     "estouroComProxima": 0.51
+    },
+    {
+     "linha": 2,
+     "texto": "verso, quase sempre perto do",
+     "largura": 181.322,
+     "disponivel": 201,
+     "sobra": 19.678,
+     "estouroComProxima": 22.293
+    },
+    {
+     "linha": 3,
+     "texto": "preço. Encaixe ele na moldura.",
+     "largura": 185.424,
+     "disponivel": 201.001,
+     "sobra": 15.577,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "039_scanner_mirando_w430": {},
+ "040_scanner_nao_encontrado_w360": {
+  "sc40.sheet.lead.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "muito nova? Adicione à mão — o",
+     "largura": 202.032,
+     "disponivel": 203,
+     "sobra": 0.968,
+     "estouroComProxima": 33.038
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Edição independente, antiga ou",
+     "largura": 193.746,
+     "disponivel": 203.001,
+     "sobra": 9.255,
+     "estouroComProxima": 29.714
+    },
+    {
+     "linha": 2,
+     "texto": "muito nova? Adicione à mão — o",
+     "largura": 202.032,
+     "disponivel": 203,
+     "sobra": 0.968,
+     "estouroComProxima": 33.038
+    },
+    {
+     "linha": 3,
+     "texto": "ISBN já vai preenchido.",
+     "largura": 141.665,
+     "disponivel": 203,
+     "sobra": 61.335,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "040_scanner_nao_encontrado_w430": {
+  "sc40.sheet.lead.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Edição independente, antiga ou muito nova?",
+     "largura": 272.243,
+     "disponivel": 273,
+     "sobra": 0.757,
+     "estouroComProxima": 56.776
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Edição independente, antiga ou muito nova?",
+     "largura": 272.243,
+     "disponivel": 273,
+     "sobra": 0.757,
+     "estouroComProxima": 56.776
+    },
+    {
+     "linha": 2,
+     "texto": "Adicione à mão — o ISBN já vai preenchido.",
+     "largura": 268.452,
+     "disponivel": 273,
+     "sobra": 4.548,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "041_scanner_sem_permissao_w360": {},
+ "041_scanner_sem_permissao_w430": {
+  "sc41.sheet.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Ela só serve para ler o código de barras — nenhuma foto",
+     "largura": 358.157,
+     "disponivel": 359.001,
+     "sobra": 0.844,
+     "estouroComProxima": 10.272
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Ela só serve para ler o código de barras — nenhuma foto",
+     "largura": 358.157,
+     "disponivel": 359.001,
+     "sobra": 0.844,
+     "estouroComProxima": 10.272
+    },
+    {
+     "linha": 2,
+     "texto": "é guardada ou enviada.",
+     "largura": 146.504,
+     "disponivel": 359.001,
+     "sobra": 212.497,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "042_scanner_na_estante_w360": {},
+ "042_scanner_na_estante_w430": {},
+ "069_scanner_digitar_isbn_w360": {},
+ "069_scanner_digitar_isbn_w430": {},
+ "069b_scanner_isbn_nao_confere_w360": {},
+ "069b_scanner_isbn_nao_confere_w430": {},
+ "028_busca_explorar_w360": {
+  "bu28.genres.tile8.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Quadrinhos",
+     "largura": 95.103,
+     "disponivel": 92,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "028_busca_explorar_w430": {
+  "bu28.genres.tile8.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Quadrinhos",
+     "largura": 95.103,
+     "disponivel": 92,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "028b_busca_resultados_w360": {
+  "bu28b.scanCard.subtitle": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Escaneie o código de barras e",
+     "largura": 168.675,
+     "disponivel": 211.943,
+     "sobra": 43.268,
+     "estouroComProxima": 1.094
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Escaneie o código de barras e",
+     "largura": 168.675,
+     "disponivel": 211.943,
+     "sobra": 43.268,
+     "estouroComProxima": 1.094
+    },
+    {
+     "linha": 2,
+     "texto": "pronto",
+     "largura": 38.407,
+     "disponivel": 209.086,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "028b_busca_resultados_w430": {},
+ "028c_busca_nada_encontrado_w360": {},
+ "028c_busca_nada_encontrado_w430": {},
+ "028d_adicionar_a_mao_w360": {},
+ "028d_adicionar_a_mao_w430": {},
+ "035_abertura_w360": {},
+ "035_abertura_w430": {},
+ "007_login_w360": {},
+ "007_login_w430": {},
+ "008_cadastro_w360": {
+  "e08.sheet.legal": {
+   "composto": true,
+   "quebraPadrao": "pretty",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Ao criar a conta, você concorda com os",
+     "largura": 213.179,
+     "disponivel": 297,
+     "sobra": 83.821,
+     "estouroComProxima": 0.059
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Ao criar a conta, você concorda com os",
+     "largura": 213.179,
+     "disponivel": 297,
+     "sobra": 83.821,
+     "estouroComProxima": 0.059
+    },
+    {
+     "linha": 2,
+     "texto": "Termos de Uso e a Política de Privacidade.",
+     "largura": 230.532,
+     "disponivel": 297,
+     "sobra": 66.468,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "008_cadastro_w430": {},
+ "009_entrar_w360": {},
+ "009_entrar_w430": {},
+ "009b_entrar_senha_incorreta_w360": {},
+ "009b_entrar_senha_incorreta_w430": {},
+ "010_codigo_w360": {
+  "e10.sheet.code.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [],
+   "quebrasImpostas": [
+    1,
+    2,
+    3
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Código",
+     "largura": 52.576,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "de",
+     "largura": 18.112,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 3,
+     "texto": "6",
+     "largura": 9.056,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 4,
+     "texto": "dígitos",
+     "largura": 48.936,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "010_codigo_w430": {
+  "e10.sheet.code.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [],
+   "quebrasImpostas": [
+    1,
+    2,
+    3
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Código",
+     "largura": 52.576,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "de",
+     "largura": 18.112,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 3,
+     "texto": "6",
+     "largura": 9.056,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 4,
+     "texto": "dígitos",
+     "largura": 48.936,
+     "disponivel": 1,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "011_nova_senha_w360": {},
+ "011_nova_senha_w430": {},
+ "012_onboarding_meta_w360": {},
+ "012_onboarding_meta_w430": {},
+ "013_onboarding_generos_w360": {},
+ "013_onboarding_generos_w430": {},
+ "013b_onboarding_dica_scanner_w360": {
+  "e13b.coach.card.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "barras e ele entra na sua estante",
+     "largura": 202.949,
+     "disponivel": 221,
+     "sobra": 18.051,
+     "estouroComProxima": 0.443
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Aponte a câmera para o código de",
+     "largura": 216.548,
+     "disponivel": 221.001,
+     "sobra": 4.453,
+     "estouroComProxima": 37.953
+    },
+    {
+     "linha": 2,
+     "texto": "barras e ele entra na sua estante",
+     "largura": 202.949,
+     "disponivel": 221,
+     "sobra": 18.051,
+     "estouroComProxima": 0.443
+    },
+    {
+     "linha": 3,
+     "texto": "na hora.",
+     "largura": 49.644,
+     "disponivel": 221,
+     "sobra": 171.356,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "013b_onboarding_dica_scanner_w430": {
+  "e13b.coach.card.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Aponte a câmera para o código de barras e",
+     "largura": 270.041,
+     "disponivel": 291,
+     "sobra": 20.959,
+     "estouroComProxima": 0.979
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Aponte a câmera para o código de barras e",
+     "largura": 270.041,
+     "disponivel": 291,
+     "sobra": 20.959,
+     "estouroComProxima": 0.979
+    },
+    {
+     "linha": 2,
+     "texto": "ele entra na sua estante na hora.",
+     "largura": 202.515,
+     "disponivel": 291,
+     "sobra": 88.485,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "014_onboarding_primeiros_livros_w360": {},
+ "014_onboarding_primeiros_livros_w430": {},
+ "015_onboarding_foto_w360": {},
+ "015_onboarding_foto_w430": {},
+ "016_onboarding_carteirinha_w360": {},
+ "016_onboarding_carteirinha_w430": {},
+ "036a_inicio_primeiro_acesso_w360": {
+  "e36a.firstBook.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "primeiro livro",
+     "largura": 156.747,
+     "disponivel": 190,
+     "sobra": 33.253,
+     "estouroComProxima": 0.951
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Coloque seu",
+     "largura": 143.069,
+     "disponivel": 190,
+     "sobra": 46.931,
+     "estouroComProxima": 58.413
+    },
+    {
+     "linha": 2,
+     "texto": "primeiro livro",
+     "largura": 156.747,
+     "disponivel": 190,
+     "sobra": 33.253,
+     "estouroComProxima": 0.951
+    },
+    {
+     "linha": 3,
+     "texto": "na estante",
+     "largura": 123.123,
+     "disponivel": 190,
+     "sobra": 66.878,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "036a_inicio_primeiro_acesso_w430": {
+  "e36a.firstBook.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "primeiro livro",
+     "largura": 156.747,
+     "disponivel": 190,
+     "sobra": 33.253,
+     "estouroComProxima": 0.951
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Coloque seu",
+     "largura": 143.069,
+     "disponivel": 190,
+     "sobra": 46.931,
+     "estouroComProxima": 58.413
+    },
+    {
+     "linha": 2,
+     "texto": "primeiro livro",
+     "largura": 156.747,
+     "disponivel": 190,
+     "sobra": 33.253,
+     "estouroComProxima": 0.951
+    },
+    {
+     "linha": 3,
+     "texto": "na estante",
+     "largura": 123.123,
+     "disponivel": 190,
+     "sobra": 66.878,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "005_perfil_w360": {
+  "p05.favorites.shelf.books.book2.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "O Cortiço",
+     "largura": 53.465,
+     "disponivel": 53.5,
+     "sobra": 0.035,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "O Cortiço",
+     "largura": 53.465,
+     "disponivel": 53.5,
+     "sobra": 0.035,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "005_perfil_w430": {},
+ "064_editar_perfil_w360": {},
+ "064_editar_perfil_w430": {},
+ "065_editar_perfil_trocar_w360": {
+  "p65.sheet.options.option2.thumb.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "da Estrela",
+     "largura": 20.362,
+     "disponivel": 21,
+     "sobra": 0.638,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [
+    1
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "A Hora",
+     "largura": 13.798,
+     "disponivel": 21,
+     "sobra": 7.202,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "da Estrela",
+     "largura": 20.362,
+     "disponivel": 21,
+     "sobra": 0.638,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "p65.sheet.options.option4.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Memórias de um Sargento",
+     "largura": 176.334,
+     "disponivel": 196,
+     "sobra": 19.666,
+     "estouroComProxima": 0.547
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Memórias de um Sargento",
+     "largura": 176.334,
+     "disponivel": 196,
+     "sobra": 19.666,
+     "estouroComProxima": 0.547
+    },
+    {
+     "linha": 2,
+     "texto": "de Milícias",
+     "largura": 71.195,
+     "disponivel": 196,
+     "sobra": 124.805,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "065_editar_perfil_trocar_w430": {
+  "p65.sheet.options.option2.thumb.cover.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "da Estrela",
+     "largura": 20.362,
+     "disponivel": 21,
+     "sobra": 0.638,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [
+    1
+   ],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "A Hora",
+     "largura": 13.798,
+     "disponivel": 21,
+     "sobra": 7.202,
+     "estouroComProxima": null
+    },
+    {
+     "linha": 2,
+     "texto": "da Estrela",
+     "largura": 20.362,
+     "disponivel": 21,
+     "sobra": 0.638,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "006_ajustes_w360": {},
+ "006_ajustes_w430": {},
+ "058_conta_w360": {
+  "aj58.signIn.list.connected.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Login social ativo · pode desconectar",
+     "largura": 208.873,
+     "disponivel": 209.001,
+     "sobra": 0.128,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Login social ativo · pode desconectar",
+     "largura": 208.873,
+     "disponivel": 209.001,
+     "sobra": 0.128,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "058_conta_w430": {
+  "aj58.data.list.export.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Livros e sessões em planilha, grifos e resenhas",
+     "largura": 259.071,
+     "disponivel": 279,
+     "sobra": 19.929,
+     "estouroComProxima": 0.683
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Livros e sessões em planilha, grifos e resenhas",
+     "largura": 259.071,
+     "disponivel": 279,
+     "sobra": 19.929,
+     "estouroComProxima": 0.683
+    },
+    {
+     "linha": 2,
+     "texto": "em texto",
+     "largura": 50.248,
+     "disponivel": 279,
+     "sobra": 228.753,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "059_excluir_conta_w360": {
+  "aj59.losses.streak.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "linhaUnica": true,
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "dias seguidos",
+     "largura": 74.244,
+     "disponivel": 74.333,
+     "sobra": 0.089,
+     "estouroComProxima": null
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "dias seguidos",
+     "largura": 74.244,
+     "disponivel": 74.333,
+     "sobra": 0.089,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "059_excluir_conta_w430": {},
+ "056_privacidade_w360": {
+  "aj56.lead": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Você escolhe quem vê cada parte da sua leitura. O",
+     "largura": 319.581,
+     "disponivel": 320,
+     "sobra": 0.419,
+     "estouroComProxima": 26.769
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Você escolhe quem vê cada parte da sua leitura. O",
+     "largura": 319.581,
+     "disponivel": 320,
+     "sobra": 0.419,
+     "estouroComProxima": 26.769
+    },
+    {
+     "linha": 2,
+     "texto": "que é seu fica seu.",
+     "largura": 116.396,
+     "disponivel": 320,
+     "sobra": 203.604,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "aj56.visibility.list.highlights.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Padrão: só você. Dá",
+     "largura": 109.752,
+     "disponivel": 136.501,
+     "sobra": 26.749,
+     "estouroComProxima": 0.989
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Padrão: só você. Dá",
+     "largura": 109.752,
+     "disponivel": 136.501,
+     "sobra": 26.749,
+     "estouroComProxima": 0.989
+    },
+    {
+     "linha": 2,
+     "texto": "para abrir grifo por grifo",
+     "largura": 134.719,
+     "disponivel": 136.5,
+     "sobra": 1.781,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "aj56.visibility.list.stats.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Metas e",
+     "largura": 53.925,
+     "disponivel": 136.5,
+     "sobra": 82.575,
+     "estouroComProxima": 0.27
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Metas e",
+     "largura": 53.925,
+     "disponivel": 136.5,
+     "sobra": 82.575,
+     "estouroComProxima": 0.27
+    },
+    {
+     "linha": 2,
+     "texto": "estatísticas",
+     "largura": 79.275,
+     "disponivel": 136.5,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  },
+  "aj56.people.list.findByEmail.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Quem tem seu e-mail encontra",
+     "largura": 174.084,
+     "disponivel": 175.001,
+     "sobra": 0.917,
+     "estouroComProxima": 29.497
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Quem tem seu e-mail encontra",
+     "largura": 174.084,
+     "disponivel": 175.001,
+     "sobra": 0.917,
+     "estouroComProxima": 29.497
+    },
+    {
+     "linha": 2,
+     "texto": "você na busca",
+     "largura": 80.352,
+     "disponivel": 175.001,
+     "sobra": 94.649,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "056_privacidade_w430": {},
+ "030_notificacoes_w360": {},
+ "030_notificacoes_w430": {},
+ "030b_notificacoes_ajustes_w360": {
+  "n30b.reading.smart.body": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Bateu a meta? O lembrete nem",
+     "largura": 175.72,
+     "disponivel": 227,
+     "sobra": 51.28,
+     "estouroComProxima": 0.308
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Bateu a meta? O lembrete nem",
+     "largura": 175.72,
+     "disponivel": 227,
+     "sobra": 51.28,
+     "estouroComProxima": 0.308
+    },
+    {
+     "linha": 2,
+     "texto": "aparece.",
+     "largura": 48.575,
+     "disponivel": 227,
+     "sobra": null,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "030b_notificacoes_ajustes_w430": {},
+ "030c_notificacoes_vazia_w360": {},
+ "030c_notificacoes_vazia_w430": {},
+ "018_cronometro_w360": {},
+ "018_cronometro_w430": {},
+ "018b_fim_da_sessao_w360": {},
+ "018b_fim_da_sessao_w430": {}
+}

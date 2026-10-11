@@ -156,6 +156,28 @@
   "facaLinhaUnica": true,
   "facaNavegador": true
  },
+ "projeto_larguras": {
+  "_doc": "T13.9 (D-272) — as 41 telas do projeto medidas a 360 e 430 px de largura (o quadro com a largura trocada, CSS fluido, como a T03 fez com a 01). Mesma extração e mesmos idmaps do projeto; as regras do fio de navalha do projeto (D-275, D-278, D-280); saídas próprias (o manifesto do projeto não muda). Índice gerado por indice_larguras.py; fluidez.py compara com o conjuntoBase (a 390) e lista onde a tela deixa de ser fluida (fluidez.json); rodar: CONJUNTO=projeto_larguras tools/medicao/rodar_larguras.sh.",
+  "indice": "tools/medicao/pranchas_projeto_larguras.json",
+  "extracao": "tools/medicao/pranchas_projeto",
+  "idmaps": "docs/design/medicao/projeto/idmaps",
+  "tmp": "tools/medicao/tmp/projeto_larguras",
+  "layout": "docs/design/medicao/projeto_larguras/layout",
+  "png": "docs/design/medicao/projeto_larguras/png",
+  "dart": "test/reference/projeto_larguras",
+  "dartTipos": "../leitor/ref_tipos.dart",
+  "dartIndice": [
+   "referencias_projeto_larguras.dart",
+   "kRefProjetoLarguras"
+  ],
+  "facaLinhaUnica": true,
+  "facaNavegador": true,
+  "hashes": [
+   "docs/design/medicao/projeto_larguras",
+   "test/reference/projeto_larguras"
+  ],
+  "conjuntoBase": "projeto"
+ },
  "projeto_conferencia_inicio2": {
   "_doc": "T13 (R3) — a prova da ferramenta: as telas do conjunto inicio2 extraídas do projeto (.dc.html) por extrair_dc.py e medidas com os ids e as fases de antes; tudo em tools/medicao/tmp/conferencia_projeto/inicio2/, para comparar com o commitado (tools/medicao/comparar_conferencia.py).",
   "indice": "tools/medicao/pranchas_projeto_conferencia_inicio2.json",

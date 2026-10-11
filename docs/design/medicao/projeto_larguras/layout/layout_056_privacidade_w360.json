@@ -1,0 +1,4545 @@
+{
+ "meta": {
+  "source": "telas/Privacidade.dc.html",
+  "prancha": "056_privacidade_w360",
+  "titulo": "56 · Privacidade — largura 360",
+  "canvas": [
+   360,
+   1420
+  ],
+  "prefixo": "aj56",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4",
+   "club": "#FFC1C6"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "aj56.top": [
+   20,
+   58,
+   320,
+   48
+  ],
+  "aj56.headline": [
+   20,
+   122,
+   320,
+   41.16
+  ],
+  "aj56.lead": [
+   20,
+   171.16,
+   320,
+   39.2
+  ],
+  "aj56.profileType": [
+   20,
+   228.36,
+   320,
+   146.2
+  ],
+  "aj56.visibility": [
+   20,
+   400.56,
+   320,
+   561.75
+  ],
+  "aj56.people": [
+   20,
+   988.31,
+   320,
+   283
+  ],
+  "aj56.blockNote": [
+   20,
+   1285.31,
+   320,
+   96.6
+  ]
+ },
+ "elements": {
+  "aj56.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    360,
+    1420
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "overflow": "hidden"
+   }
+  },
+  "aj56.top": {
+   "tpl": 5,
+   "section": "aj56.top",
+   "type": "box",
+   "tag": "header",
+   "abs": [
+    20,
+    58,
+    320,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    320,
+    48
+   ],
+   "style": {
+    "position": {
+     "top": "58px",
+     "right": "20px",
+     "bottom": "1314px",
+     "left": "20px"
+    }
+   },
+   "css": "position: absolute; left: 20px; right: 20px; top: 58px; height: 48px; display: flex; align-items: center; justify-content: space-between"
+  },
+  "aj56.top.back": {
+   "tpl": 6,
+   "section": "aj56.top",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    58,
+    48,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    48,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 48px; height: 48px; flex-shrink: 0; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Voltar aos ajustes"
+  },
+  "aj56.top.back.icon": {
+   "tpl": 7,
+   "section": "aj56.top",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    34,
+    72,
+    20,
+    20
+   ],
+   "rel": [
+    14,
+    14,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.main": {
+   "tpl": 9,
+   "type": "box",
+   "tag": "main",
+   "abs": [
+    0,
+    122,
+    360,
+    1259.91
+   ],
+   "style": {
+    "padding": "0px 20px 0px 20px",
+    "position": {
+     "top": "122px",
+     "right": "0px",
+     "bottom": "38.09px",
+     "left": "0px"
+    }
+   }
+  },
+  "aj56.headline": {
+   "tpl": 10,
+   "section": "aj56.headline",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    20,
+    122,
+    320,
+    41.16
+   ],
+   "rel": [
+    0,
+    0,
+    320,
+    41.16
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 34.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "33.32px",
+     "letterSpacing": "-1.1px",
+     "color": "#1A1714",
+     "opsz": 34.0
+    }
+   },
+   "css": "margin: 0px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 0.98; letter-spacing: -1.1px",
+   "lines": [
+    {
+     "text": "Sua",
+     "left": 20,
+     "right": 79.16,
+     "top": 125.24,
+     "bottom": 166.04,
+     "baseline": 156.86,
+     "baselineRel": 34.86
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Sua privacidade.",
+     "left": 20,
+     "right": 273.51,
+     "top": 115.28,
+     "bottom": 169.88,
+     "baseline": 156.86,
+     "baselineRel": 34.86
+    }
+   ],
+   "naturalWidth": 253.51,
+   "minContentWidth": 188.04,
+   "text": "Sua",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "aj56.headline.serif": {
+   "tpl": 11,
+   "section": "aj56.headline",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    85.47,
+    115.28,
+    188.04,
+    54.6
+   ],
+   "rel": [
+    65.47,
+    -6.72,
+    188.04,
+    54.6
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 42.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "41.16px",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 42px; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "privacidade.",
+     "left": 85.47,
+     "right": 273.51,
+     "top": 115.28,
+     "bottom": 169.88,
+     "baseline": 156.86,
+     "baselineRel": 34.86
+    }
+   ],
+   "naturalWidth": 188.04,
+   "minContentWidth": 188.04,
+   "text": "privacidade.",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "aj56.lead": {
+   "tpl": 12,
+   "section": "aj56.lead",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    20,
+    171.16,
+    320,
+    39.2
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    39.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "19.6px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin: 8px 0 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: #5B544B",
+   "lines": [
+    {
+     "text": "Você escolhe quem vê cada parte da sua leitura. O",
+     "left": 20,
+     "right": 339.58,
+     "top": 172.56,
+     "bottom": 189.36,
+     "baseline": 185.86,
+     "baselineRel": 14.7
+    },
+    {
+     "text": "que é seu fica seu.",
+     "left": 20,
+     "right": 136.4,
+     "top": 192.16,
+     "bottom": 208.96,
+     "baseline": 205.46,
+     "baselineRel": 34.3
+    }
+   ],
+   "naturalWidth": 439.351,
+   "minContentWidth": 48.916,
+   "text": "Você escolhe quem vê cada parte da sua leitura. O que é seu fica seu.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 68
+    }
+   ]
+  },
+  "aj56.profileType": {
+   "tpl": 13,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    228.36,
+    320,
+    146.2
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    146.2
+   ],
+   "style": {},
+   "css": "margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px",
+   "aria": "Tipo de perfil",
+   "role": "radiogroup"
+  },
+  "aj56.profileType.open": {
+   "tpl": 14,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    228.36,
+    155,
+    146.2
+   ],
+   "rel": [
+    0,
+    0.0,
+    155,
+    146.2
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #E2D7C4",
+    "radius": "22px",
+    "padding": "14px 12px 12px 12px"
+   },
+   "css": "position: relative; min-height: 118px; padding: 14px 12px 12px; border-radius: 22px; background: #FFFAF1; border: 1.5px solid #E2D7C4; box-sizing: border-box; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left",
+   "role": "radio",
+   "ariaAttrs": {
+    "aria-checked": "false"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 51
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "aj56.profileType.open.radio": {
+   "tpl": 15,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    139.5,
+    239.86,
+    24,
+    24
+   ],
+   "rel": [
+    119.5,
+    11.5,
+    24,
+    24
+   ],
+   "style": {
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "10px",
+     "right": "10px",
+     "bottom": "109.2px",
+     "left": "118px"
+    }
+   },
+   "css": "position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "aj56.profileType.open.icon": {
+   "tpl": 16,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    33.5,
+    243.86,
+    38,
+    38
+   ],
+   "rel": [
+    13.5,
+    15.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "12px"
+   },
+   "css": "width: 38px; height: 38px; border-radius: 12px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "aj56.profileType.open.icon.art": {
+   "tpl": 17,
+   "section": "aj56.profileType",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    43,
+    253.36,
+    19,
+    19
+   ],
+   "rel": [
+    23,
+    25.0,
+    19,
+    19
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.profileType.open.title": {
+   "tpl": 20,
+   "section": "aj56.profileType",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    287.86,
+    56.18,
+    20.4
+   ],
+   "rel": [
+    13.5,
+    59.5,
+    56.18,
+    20.4
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 17.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.3px",
+     "color": "#1A1714",
+     "opsz": 17.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -0.3px",
+   "lines": [
+    {
+     "text": "Aberto",
+     "left": 33.5,
+     "right": 89.68,
+     "top": 287.86,
+     "bottom": 308.26,
+     "baseline": 303.67,
+     "baselineRel": 75.31
+    }
+   ],
+   "naturalWidth": 56.18,
+   "minContentWidth": 56.18,
+   "text": "Aberto",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "aj56.profileType.open.body": {
+   "tpl": 21,
+   "section": "aj56.profileType",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    314.26,
+    128,
+    46.8
+   ],
+   "rel": [
+    13.5,
+    85.9,
+    128,
+    46.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "15.6px",
+     "letterSpacing": "normal",
+     "color": "#3D3830"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 600; line-height: 1.3; color: #3D3830",
+   "lines": [
+    {
+     "text": "Qualquer pessoa pode",
+     "left": 33.5,
+     "right": 155.41,
+     "top": 314.86,
+     "bottom": 329.26,
+     "baseline": 326.26,
+     "baselineRel": 97.9
+    },
+    {
+     "text": "seguir e ver o que você",
+     "left": 33.5,
+     "right": 159.21,
+     "top": 330.46,
+     "bottom": 344.86,
+     "baseline": 341.86,
+     "baselineRel": 113.5
+    },
+    {
+     "text": "liberar.",
+     "left": 33.5,
+     "right": 70.83,
+     "top": 346.06,
+     "bottom": 360.46,
+     "baseline": 357.46,
+     "baselineRel": 129.1
+    }
+   ],
+   "naturalWidth": 290.73,
+   "minContentWidth": 50.076,
+   "text": "Qualquer pessoa pode seguir e ver o que você liberar.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 51
+    }
+   ]
+  },
+  "aj56.profileType.closed": {
+   "tpl": 22,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    185,
+    228.36,
+    155,
+    146.2
+   ],
+   "rel": [
+    165,
+    0.0,
+    155,
+    146.2
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "shadow": "#1A1714 3px 3px 0px 0px",
+    "padding": "14px 12px 12px 12px"
+   },
+   "css": "position: relative; min-height: 118px; padding: 14px 12px 12px; border-radius: 22px; background: {{brand}}; border: 1.5px solid #1A1714; box-shadow: 3px 3px 0 #1A1714; box-sizing: border-box; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left",
+   "role": "radio",
+   "ariaAttrs": {
+    "aria-checked": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 33
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "aj56.profileType.closed.radio": {
+   "tpl": 23,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    304.5,
+    239.86,
+    24,
+    24
+   ],
+   "rel": [
+    284.5,
+    11.5,
+    24,
+    24
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "10px",
+     "right": "10px",
+     "bottom": "109.2px",
+     "left": "118px"
+    }
+   },
+   "css": "position: absolute; top: 10px; right: 10px; width: 24px; height: 24px; border-radius: 50%; background: #1A1714; display: flex; align-items: center; justify-content: center"
+  },
+  "aj56.profileType.closed.radio.icon": {
+   "tpl": 24,
+   "section": "aj56.profileType",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    310,
+    245.36,
+    13,
+    13
+   ],
+   "rel": [
+    290,
+    17.0,
+    13,
+    13
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.profileType.closed.icon": {
+   "tpl": 26,
+   "section": "aj56.profileType",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    198.5,
+    243.86,
+    38,
+    38
+   ],
+   "rel": [
+    178.5,
+    15.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "12px"
+   },
+   "css": "width: 38px; height: 38px; border-radius: 12px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "aj56.profileType.closed.icon.art": {
+   "tpl": 27,
+   "section": "aj56.profileType",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    208,
+    253.36,
+    19,
+    19
+   ],
+   "rel": [
+    188,
+    25.0,
+    19,
+    19
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.profileType.closed.title": {
+   "tpl": 30,
+   "section": "aj56.profileType",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    198.5,
+    287.86,
+    69.93,
+    20.4
+   ],
+   "rel": [
+    178.5,
+    59.5,
+    69.93,
+    20.4
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 17.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.3px",
+     "color": "#1A1714",
+     "opsz": 17.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 17px; letter-spacing: -0.3px",
+   "lines": [
+    {
+     "text": "Fechado",
+     "left": 198.5,
+     "right": 268.43,
+     "top": 287.86,
+     "bottom": 308.26,
+     "baseline": 303.67,
+     "baselineRel": 75.31
+    }
+   ],
+   "naturalWidth": 69.931,
+   "minContentWidth": 69.931,
+   "text": "Fechado",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "aj56.profileType.closed.body": {
+   "tpl": 31,
+   "section": "aj56.profileType",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    198.5,
+    314.26,
+    128,
+    31.2
+   ],
+   "rel": [
+    178.5,
+    85.9,
+    128,
+    31.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "15.6px",
+     "letterSpacing": "normal",
+     "color": "#3D3830"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 600; line-height: 1.3; color: #3D3830",
+   "lines": [
+    {
+     "text": "Só quem você aprova",
+     "left": 198.5,
+     "right": 315.89,
+     "top": 314.86,
+     "bottom": 329.26,
+     "baseline": 326.26,
+     "baselineRel": 97.9
+    },
+    {
+     "text": "vê seu perfil.",
+     "left": 198.5,
+     "right": 267.58,
+     "top": 330.46,
+     "bottom": 344.86,
+     "baseline": 341.86,
+     "baselineRel": 113.5
+    }
+   ],
+   "naturalWidth": 189.366,
+   "minContentWidth": 37.177,
+   "text": "Só quem você aprova vê seu perfil.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 33
+    }
+   ]
+  },
+  "aj56.visibility": {
+   "tpl": 32,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    20,
+    400.56,
+    320,
+    561.75
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    561.75
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 10px",
+   "aria": "Quem vê o quê"
+  },
+  "aj56.visibility.header": {
+   "tpl": 33,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    400.56,
+    320,
+    24
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    24
+   ],
+   "style": {},
+   "css": "display: flex; align-items: baseline; justify-content: space-between; gap: 8px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 23
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "aj56.visibility.header.title": {
+   "tpl": 34,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "h2",
+   "abs": [
+    20,
+    400.56,
+    136.85,
+    24
+   ],
+   "rel": [
+    0,
+    0.0,
+    136.85,
+    24
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 20.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714",
+     "opsz": 20.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "Quem vê o quê",
+     "left": 20,
+     "right": 156.85,
+     "top": 400.56,
+     "bottom": 424.56,
+     "baseline": 419.16,
+     "baselineRel": 18.6
+    }
+   ],
+   "naturalWidth": 136.851,
+   "minContentWidth": 55.788,
+   "text": "Quem vê o quê",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "aj56.visibility.header.note": {
+   "tpl": 35,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    198.3,
+    407.28,
+    141.7,
+    15.01
+   ],
+   "rel": [
+    178.3,
+    6.72,
+    141.7,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#8A8073"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 700; color: #8A8073",
+   "lines": [
+    {
+     "text": "só seguidores aprovados",
+     "left": 198.3,
+     "right": 340,
+     "top": 407.28,
+     "bottom": 422.29,
+     "baseline": 419.16,
+     "baselineRel": 18.6
+    }
+   ],
+   "naturalWidth": 141.7,
+   "minContentWidth": 62.825,
+   "text": "só seguidores aprovados",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 23
+    }
+   ]
+  },
+  "aj56.visibility.list": {
+   "tpl": 36,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    434.56,
+    320,
+    527.75
+   ],
+   "rel": [
+    0,
+    34.0,
+    320,
+    527.75
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "24px",
+    "padding": "2px 14px 2px 14px"
+   },
+   "css": "padding: 2px 14px; border-radius: 24px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; flex-direction: column"
+  },
+  "aj56.visibility.list.shelf": {
+   "tpl": 37,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    438.06,
+    289,
+    87.5
+   ],
+   "rel": [
+    15.5,
+    37.5,
+    289,
+    87.5
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.visibility.list.shelf.icon": {
+   "tpl": 38,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    462.31,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    61.75,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FED170; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.shelf.icon.art": {
+   "tpl": 39,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    472.31,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    71.75,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.shelf.textBlock": {
+   "tpl": 43,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    446.06,
+    102.91,
+    70.5
+   ],
+   "rel": [
+    65.5,
+    45.5,
+    102.91,
+    70.5
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 41
+    }
+   ]
+  },
+  "aj56.visibility.list.shelf.title": {
+   "tpl": 44,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    446.06,
+    102.91,
+    36
+   ],
+   "rel": [
+    65.5,
+    45.5,
+    102.91,
+    36
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Estante e",
+     "left": 85.5,
+     "right": 149.82,
+     "top": 446.06,
+     "bottom": 464.06,
+     "baseline": 460.31,
+     "baselineRel": 59.75
+    },
+    {
+     "text": "lendo agora",
+     "left": 85.5,
+     "right": 166.63,
+     "top": 464.06,
+     "bottom": 482.06,
+     "baseline": 478.31,
+     "baselineRel": 77.75
+    }
+   ],
+   "naturalWidth": 149.025,
+   "minContentWidth": 52.44,
+   "text": "Estante e lendo agora",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "aj56.visibility.list.shelf.body": {
+   "tpl": 45,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    484.06,
+    102.91,
+    32.5
+   ],
+   "rel": [
+    65.5,
+    83.5,
+    102.91,
+    32.5
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Livros, status e",
+     "left": 85.5,
+     "right": 169.66,
+     "top": 484.68,
+     "bottom": 499.69,
+     "baseline": 496.56,
+     "baselineRel": 96.0
+    },
+    {
+     "text": "capas",
+     "left": 85.5,
+     "right": 118.42,
+     "top": 500.93,
+     "bottom": 515.94,
+     "baseline": 512.81,
+     "baselineRel": 112.25
+    }
+   ],
+   "naturalWidth": 120.134,
+   "minContentWidth": 36.55,
+   "text": "Livros, status e capas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 21
+    }
+   ]
+  },
+  "aj56.visibility.list.shelf.audience": {
+   "tpl": 46,
+   "section": "aj56.visibility",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    200.41,
+    463.31,
+    124.09,
+    36
+   ],
+   "rel": [
+    180.41,
+    62.75,
+    124.09,
+    36
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 8px 0 10px; flex-shrink: 0; border-radius: 999px; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Seguidores",
+     "left": 230.71,
+     "right": 296.2,
+     "top": 473.81,
+     "bottom": 488.81,
+     "baseline": 485.69,
+     "baselineRel": 85.12
+    }
+   ],
+   "naturalWidth": 124.088,
+   "minContentWidth": 124.088,
+   "aria": "Quem vê: Seguidores",
+   "text": "Seguidores",
+   "ariaAttrs": {
+    "aria-haspopup": "listbox"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "aj56.visibility.list.shelf.audience.icon": {
+   "tpl": 47,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    211.71,
+    474.31,
+    14,
+    14
+   ],
+   "rel": [
+    191.71,
+    73.75,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.shelf.audience.chevron": {
+   "tpl": 52,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    301.2,
+    474.31,
+    14,
+    14
+   ],
+   "rel": [
+    281.2,
+    73.75,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.reviews": {
+   "tpl": 54,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    525.56,
+    289,
+    81
+   ],
+   "rel": [
+    15.5,
+    125.0,
+    289,
+    81
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.visibility.list.reviews.icon": {
+   "tpl": 55,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    546.56,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    146.0,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FFC1C6; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.reviews.icon.art": {
+   "tpl": 56,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    556.56,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    156.0,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.reviews.textBlock": {
+   "tpl": 58,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    539.31,
+    102.91,
+    52.5
+   ],
+   "rel": [
+    65.5,
+    138.75,
+    102.91,
+    52.5
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 28
+    }
+   ]
+  },
+  "aj56.visibility.list.reviews.title": {
+   "tpl": 59,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    539.31,
+    102.91,
+    18
+   ],
+   "rel": [
+    65.5,
+    138.75,
+    102.91,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Resenhas",
+     "left": 85.5,
+     "right": 150.84,
+     "top": 539.31,
+     "bottom": 557.31,
+     "baseline": 553.56,
+     "baselineRel": 153.0
+    }
+   ],
+   "naturalWidth": 65.34,
+   "minContentWidth": 65.34,
+   "text": "Resenhas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "aj56.visibility.list.reviews.body": {
+   "tpl": 60,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    559.31,
+    102.91,
+    32.5
+   ],
+   "rel": [
+    65.5,
+    158.75,
+    102.91,
+    32.5
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Notas, climas e",
+     "left": 85.5,
+     "right": 170.93,
+     "top": 559.93,
+     "bottom": 574.94,
+     "baseline": 571.81,
+     "baselineRel": 171.25
+    },
+    {
+     "text": "texto",
+     "left": 85.5,
+     "right": 115.14,
+     "top": 576.18,
+     "bottom": 591.19,
+     "baseline": 588.06,
+     "baselineRel": 187.5
+    }
+   ],
+   "naturalWidth": 118.119,
+   "minContentWidth": 36.884,
+   "text": "Notas, climas e texto",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "aj56.visibility.list.reviews.audience": {
+   "tpl": 61,
+   "section": "aj56.visibility",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    200.41,
+    547.56,
+    124.09,
+    36
+   ],
+   "rel": [
+    180.41,
+    147.0,
+    124.09,
+    36
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 8px 0 10px; flex-shrink: 0; border-radius: 999px; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Seguidores",
+     "left": 230.71,
+     "right": 296.2,
+     "top": 558.05,
+     "bottom": 573.07,
+     "baseline": 569.93,
+     "baselineRel": 169.37
+    }
+   ],
+   "naturalWidth": 124.088,
+   "minContentWidth": 124.088,
+   "aria": "Quem vê: Seguidores",
+   "text": "Seguidores",
+   "ariaAttrs": {
+    "aria-haspopup": "listbox"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "aj56.visibility.list.reviews.audience.icon": {
+   "tpl": 62,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    211.71,
+    558.56,
+    14,
+    14
+   ],
+   "rel": [
+    191.71,
+    158.0,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.reviews.audience.chevron": {
+   "tpl": 67,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    301.2,
+    558.56,
+    14,
+    14
+   ],
+   "rel": [
+    281.2,
+    158.0,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.highlights": {
+   "tpl": 69,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    606.56,
+    289,
+    81
+   ],
+   "rel": [
+    15.5,
+    206.0,
+    289,
+    81
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.visibility.list.highlights.icon": {
+   "tpl": 70,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    627.56,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    227.0,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #B6ACE4; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.highlights.icon.art": {
+   "tpl": 71,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    637.56,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    237.0,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.highlights.textBlock": {
+   "tpl": 74,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    620.31,
+    136.5,
+    52.5
+   ],
+   "rel": [
+    65.5,
+    219.75,
+    136.5,
+    52.5
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 57
+    }
+   ]
+  },
+  "aj56.visibility.list.highlights.title": {
+   "tpl": 75,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    620.31,
+    136.5,
+    18
+   ],
+   "rel": [
+    65.5,
+    219.75,
+    136.5,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Grifos novos",
+     "left": 85.5,
+     "right": 171.96,
+     "top": 620.31,
+     "bottom": 638.31,
+     "baseline": 634.56,
+     "baselineRel": 234.0
+    }
+   ],
+   "naturalWidth": 86.46,
+   "minContentWidth": 42.18,
+   "text": "Grifos novos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "aj56.visibility.list.highlights.body": {
+   "tpl": 76,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    640.31,
+    136.5,
+    32.5
+   ],
+   "rel": [
+    65.5,
+    239.75,
+    136.5,
+    32.5
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Padrão: só você. Dá",
+     "left": 85.5,
+     "right": 195.25,
+     "top": 640.93,
+     "bottom": 655.94,
+     "baseline": 652.81,
+     "baselineRel": 252.25
+    },
+    {
+     "text": "para abrir grifo por grifo",
+     "left": 85.5,
+     "right": 220.22,
+     "top": 657.18,
+     "bottom": 672.19,
+     "baseline": 669.06,
+     "baselineRel": 268.5
+    }
+   ],
+   "naturalWidth": 247.52,
+   "minContentWidth": 42.362,
+   "text": "Padrão: só você. Dá para abrir grifo por grifo",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 45
+    }
+   ]
+  },
+  "aj56.visibility.list.highlights.audience": {
+   "tpl": 77,
+   "section": "aj56.visibility",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    234,
+    628.56,
+    90.5,
+    36
+   ],
+   "rel": [
+    214,
+    228.0,
+    90.5,
+    36
+   ],
+   "style": {
+    "bg": "#F1E7D5",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 8px 0 10px; flex-shrink: 0; border-radius: 999px; background: #F1E7D5; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Só eu",
+     "left": 264.3,
+     "right": 296.2,
+     "top": 639.05,
+     "bottom": 654.07,
+     "baseline": 650.93,
+     "baselineRel": 250.37
+    }
+   ],
+   "naturalWidth": 90.5,
+   "minContentWidth": 73.412,
+   "aria": "Quem vê: Só eu",
+   "text": "Só eu",
+   "ariaAttrs": {
+    "aria-haspopup": "listbox"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "aj56.visibility.list.highlights.audience.icon": {
+   "tpl": 78,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    245.3,
+    639.56,
+    14,
+    14
+   ],
+   "rel": [
+    225.3,
+    239.0,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.highlights.audience.chevron": {
+   "tpl": 81,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    301.2,
+    639.56,
+    14,
+    14
+   ],
+   "rel": [
+    281.2,
+    239.0,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.page": {
+   "tpl": 83,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    687.56,
+    289,
+    103.75
+   ],
+   "rel": [
+    15.5,
+    287.0,
+    289,
+    103.75
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.visibility.list.page.icon": {
+   "tpl": 84,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    719.93,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    319.37,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.page.icon.art": {
+   "tpl": 85,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    729.93,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    329.37,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.page.textBlock": {
+   "tpl": 89,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    695.56,
+    102.91,
+    86.75
+   ],
+   "rel": [
+    65.5,
+    295.0,
+    102.91,
+    86.75
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 54
+    }
+   ]
+  },
+  "aj56.visibility.list.page.title": {
+   "tpl": 90,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    695.56,
+    102.91,
+    36
+   ],
+   "rel": [
+    65.5,
+    295.0,
+    102.91,
+    36
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Página onde",
+     "left": 85.5,
+     "right": 169.81,
+     "top": 695.56,
+     "bottom": 713.56,
+     "baseline": 709.81,
+     "baselineRel": 309.25
+    },
+    {
+     "text": "você está",
+     "left": 85.5,
+     "right": 151.54,
+     "top": 713.56,
+     "bottom": 731.56,
+     "baseline": 727.81,
+     "baselineRel": 327.25
+    }
+   ],
+   "naturalWidth": 153.93,
+   "minContentWidth": 46.275,
+   "text": "Página onde você está",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "aj56.visibility.list.page.body": {
+   "tpl": 91,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    733.56,
+    102.91,
+    48.75
+   ],
+   "rel": [
+    65.5,
+    333.0,
+    102.91,
+    48.75
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Nos clubes, só a",
+     "left": 85.5,
+     "right": 176.53,
+     "top": 734.18,
+     "bottom": 749.19,
+     "baseline": 746.06,
+     "baselineRel": 345.5
+    },
+    {
+     "text": "porcentagem",
+     "left": 85.5,
+     "right": 161.32,
+     "top": 750.43,
+     "bottom": 765.44,
+     "baseline": 762.31,
+     "baselineRel": 361.75
+    },
+    {
+     "text": "aparece",
+     "left": 85.5,
+     "right": 130.66,
+     "top": 766.68,
+     "bottom": 781.69,
+     "baseline": 778.56,
+     "baselineRel": 378.0
+    }
+   ],
+   "naturalWidth": 218.108,
+   "minContentWidth": 75.821,
+   "text": "Nos clubes, só a porcentagem aparece",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 34
+    }
+   ]
+  },
+  "aj56.visibility.list.page.audience": {
+   "tpl": 92,
+   "section": "aj56.visibility",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    200.41,
+    720.93,
+    124.09,
+    36
+   ],
+   "rel": [
+    180.41,
+    320.37,
+    124.09,
+    36
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 8px 0 10px; flex-shrink: 0; border-radius: 999px; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Seguidores",
+     "left": 230.71,
+     "right": 296.2,
+     "top": 731.43,
+     "bottom": 746.44,
+     "baseline": 743.31,
+     "baselineRel": 342.75
+    }
+   ],
+   "naturalWidth": 124.088,
+   "minContentWidth": 124.088,
+   "aria": "Quem vê: Seguidores",
+   "text": "Seguidores",
+   "ariaAttrs": {
+    "aria-haspopup": "listbox"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "aj56.visibility.list.page.audience.icon": {
+   "tpl": 93,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    211.71,
+    731.93,
+    14,
+    14
+   ],
+   "rel": [
+    191.71,
+    331.37,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.page.audience.chevron": {
+   "tpl": 98,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    301.2,
+    731.93,
+    14,
+    14
+   ],
+   "rel": [
+    281.2,
+    331.37,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.lists": {
+   "tpl": 100,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    791.31,
+    289,
+    81
+   ],
+   "rel": [
+    15.5,
+    390.75,
+    289,
+    81
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.visibility.list.lists.icon": {
+   "tpl": 101,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    812.31,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    411.75,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#F1E7D5",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #F1E7D5; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.lists.icon.art": {
+   "tpl": 102,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    822.31,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    421.75,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.lists.textBlock": {
+   "tpl": 107,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    805.06,
+    102.91,
+    52.5
+   ],
+   "rel": [
+    65.5,
+    404.5,
+    102.91,
+    52.5
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 37
+    }
+   ]
+  },
+  "aj56.visibility.list.lists.title": {
+   "tpl": 108,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    805.06,
+    102.91,
+    18
+   ],
+   "rel": [
+    65.5,
+    404.5,
+    102.91,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Listas",
+     "left": 85.5,
+     "right": 125.36,
+     "top": 805.06,
+     "bottom": 823.06,
+     "baseline": 819.31,
+     "baselineRel": 418.75
+    }
+   ],
+   "naturalWidth": 39.855,
+   "minContentWidth": 39.855,
+   "text": "Listas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "aj56.visibility.list.lists.body": {
+   "tpl": 109,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    825.06,
+    102.91,
+    32.5
+   ],
+   "rel": [
+    65.5,
+    424.5,
+    102.91,
+    32.5
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Cada lista ainda",
+     "left": 85.5,
+     "right": 174.0,
+     "top": 825.68,
+     "bottom": 840.69,
+     "baseline": 837.56,
+     "baselineRel": 437.0
+    },
+    {
+     "text": "pode ser só sua",
+     "left": 85.5,
+     "right": 172.93,
+     "top": 841.93,
+     "bottom": 856.94,
+     "baseline": 853.81,
+     "baselineRel": 453.25
+    }
+   ],
+   "naturalWidth": 178.971,
+   "minContentWidth": 30.262,
+   "text": "Cada lista ainda pode ser só sua",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 31
+    }
+   ]
+  },
+  "aj56.visibility.list.lists.audience": {
+   "tpl": 110,
+   "section": "aj56.visibility",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    200.41,
+    813.31,
+    124.09,
+    36
+   ],
+   "rel": [
+    180.41,
+    412.75,
+    124.09,
+    36
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 8px 0 10px; flex-shrink: 0; border-radius: 999px; background: #FFFAF1; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Seguidores",
+     "left": 230.71,
+     "right": 296.2,
+     "top": 823.8,
+     "bottom": 838.82,
+     "baseline": 835.68,
+     "baselineRel": 435.12
+    }
+   ],
+   "naturalWidth": 124.088,
+   "minContentWidth": 124.088,
+   "aria": "Quem vê: Seguidores",
+   "text": "Seguidores",
+   "ariaAttrs": {
+    "aria-haspopup": "listbox"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "aj56.visibility.list.lists.audience.icon": {
+   "tpl": 111,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    211.71,
+    824.31,
+    14,
+    14
+   ],
+   "rel": [
+    191.71,
+    423.75,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.lists.audience.chevron": {
+   "tpl": 116,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    301.2,
+    824.31,
+    14,
+    14
+   ],
+   "rel": [
+    281.2,
+    423.75,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.stats": {
+   "tpl": 118,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    872.31,
+    289,
+    86.5
+   ],
+   "rel": [
+    15.5,
+    471.75,
+    289,
+    86.5
+   ],
+   "style": {
+    "padding": "8px 0px 8px 0px"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px"
+  },
+  "aj56.visibility.list.stats.icon": {
+   "tpl": 119,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    896.56,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    496.0,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FFB8A6",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FFB8A6; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.stats.icon.art": {
+   "tpl": 120,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    906.56,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    506.0,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.stats.textBlock": {
+   "tpl": 122,
+   "section": "aj56.visibility",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    880.31,
+    136.5,
+    70.5
+   ],
+   "rel": [
+    65.5,
+    479.75,
+    136.5,
+    70.5
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 44
+    }
+   ]
+  },
+  "aj56.visibility.list.stats.title": {
+   "tpl": 123,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    880.31,
+    136.5,
+    36
+   ],
+   "rel": [
+    65.5,
+    479.75,
+    136.5,
+    36
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Metas e",
+     "left": 85.5,
+     "right": 139.43,
+     "top": 880.31,
+     "bottom": 898.31,
+     "baseline": 894.56,
+     "baselineRel": 494.0
+    },
+    {
+     "text": "estatísticas",
+     "left": 85.5,
+     "right": 164.78,
+     "top": 898.31,
+     "bottom": 916.31,
+     "baseline": 912.56,
+     "baselineRel": 512.0
+    }
+   ],
+   "naturalWidth": 136.77,
+   "minContentWidth": 79.275,
+   "text": "Metas e estatísticas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 19
+    }
+   ]
+  },
+  "aj56.visibility.list.stats.body": {
+   "tpl": 124,
+   "section": "aj56.visibility",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    918.31,
+    136.5,
+    32.5
+   ],
+   "rel": [
+    65.5,
+    517.75,
+    136.5,
+    32.5
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Minutos, sequência e",
+     "left": 85.5,
+     "right": 203.91,
+     "top": 918.93,
+     "bottom": 933.94,
+     "baseline": 930.81,
+     "baselineRel": 530.25
+    },
+    {
+     "text": "metas",
+     "left": 85.5,
+     "right": 120.08,
+     "top": 935.18,
+     "bottom": 950.19,
+     "baseline": 947.06,
+     "baselineRel": 546.5
+    }
+   ],
+   "naturalWidth": 156.042,
+   "minContentWidth": 57.062,
+   "text": "Minutos, sequência e metas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 25
+    }
+   ]
+  },
+  "aj56.visibility.list.stats.audience": {
+   "tpl": 125,
+   "section": "aj56.visibility",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    234,
+    897.56,
+    90.5,
+    36
+   ],
+   "rel": [
+    214,
+    497.0,
+    90.5,
+    36
+   ],
+   "style": {
+    "bg": "#F1E7D5",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 10px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 8px 0 10px; flex-shrink: 0; border-radius: 999px; background: #F1E7D5; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Só eu",
+     "left": 264.3,
+     "right": 296.2,
+     "top": 908.05,
+     "bottom": 923.07,
+     "baseline": 919.93,
+     "baselineRel": 519.38
+    }
+   ],
+   "naturalWidth": 90.5,
+   "minContentWidth": 73.412,
+   "aria": "Quem vê: Só eu",
+   "text": "Só eu",
+   "ariaAttrs": {
+    "aria-haspopup": "listbox"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "aj56.visibility.list.stats.audience.icon": {
+   "tpl": 126,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    245.3,
+    908.56,
+    14,
+    14
+   ],
+   "rel": [
+    225.3,
+    508.0,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.visibility.list.stats.audience.chevron": {
+   "tpl": 129,
+   "section": "aj56.visibility",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    301.2,
+    908.56,
+    14,
+    14
+   ],
+   "rel": [
+    281.2,
+    508.0,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people": {
+   "tpl": 131,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    20,
+    988.31,
+    320,
+    283
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    283
+   ],
+   "style": {},
+   "css": "margin-top: 26px; display: flex; flex-direction: column; gap: 10px",
+   "aria": "Pessoas"
+  },
+  "aj56.people.header": {
+   "tpl": 132,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    988.31,
+    320,
+    24
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    24
+   ],
+   "style": {},
+   "css": "display: flex; align-items: baseline; justify-content: space-between; gap: 8px",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "aj56.people.header.title": {
+   "tpl": 133,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "h2",
+   "abs": [
+    20,
+    988.31,
+    78.3,
+    24
+   ],
+   "rel": [
+    0,
+    0.0,
+    78.3,
+    24
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 20.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714",
+     "opsz": 20.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "Pessoas",
+     "left": 20,
+     "right": 98.3,
+     "top": 988.31,
+     "bottom": 1012.31,
+     "baseline": 1006.91,
+     "baselineRel": 18.6
+    }
+   ],
+   "naturalWidth": 78.299,
+   "minContentWidth": 78.299,
+   "text": "Pessoas",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "aj56.people.header.note": {
+   "tpl": 134,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    340,
+    1006.91,
+    0,
+    0
+   ],
+   "rel": [
+    320,
+    18.6,
+    0,
+    0
+   ],
+   "style": {},
+   "css": "font-size: 12.5px; font-weight: 700; color: #8A8073"
+  },
+  "aj56.people.list": {
+   "tpl": 135,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1022.31,
+    320,
+    249
+   ],
+   "rel": [
+    0,
+    34.0,
+    320,
+    249
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "24px",
+    "padding": "2px 14px 2px 14px"
+   },
+   "css": "padding: 2px 14px; border-radius: 24px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; flex-direction: column"
+  },
+  "aj56.people.list.requests": {
+   "tpl": 136,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    35.5,
+    1025.81,
+    289,
+    81
+   ],
+   "rel": [
+    15.5,
+    37.5,
+    289,
+    81
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.people.list.requests.icon": {
+   "tpl": 137,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1046.81,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    58.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FED170; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.requests.icon.art": {
+   "tpl": 138,
+   "section": "aj56.people",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    1056.81,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    68.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.requests.textBlock": {
+   "tpl": 143,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1047.68,
+    179,
+    36.25
+   ],
+   "rel": [
+    65.5,
+    59.38,
+    179,
+    36.25
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 44
+    }
+   ]
+  },
+  "aj56.people.list.requests.title": {
+   "tpl": 144,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1047.68,
+    179,
+    18
+   ],
+   "rel": [
+    65.5,
+    59.38,
+    179,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Pedidos para seguir",
+     "left": 85.5,
+     "right": 220.47,
+     "top": 1047.68,
+     "bottom": 1065.68,
+     "baseline": 1061.93,
+     "baselineRel": 73.62
+    }
+   ],
+   "naturalWidth": 134.97,
+   "minContentWidth": 54.69,
+   "text": "Pedidos para seguir",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 19
+    }
+   ]
+  },
+  "aj56.people.list.requests.body": {
+   "tpl": 145,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1067.68,
+    179,
+    16.25
+   ],
+   "rel": [
+    65.5,
+    79.38,
+    179,
+    16.25
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Tomás, Nina e Bia esperam",
+     "left": 85.5,
+     "right": 235.63,
+     "top": 1068.31,
+     "bottom": 1083.32,
+     "baseline": 1080.18,
+     "baselineRel": 91.88
+    }
+   ],
+   "naturalWidth": 150.126,
+   "minContentWidth": 48.475,
+   "text": "Tomás, Nina e Bia esperam",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 25
+    }
+   ]
+  },
+  "aj56.people.list.requests.trail": {
+   "tpl": 146,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    276.5,
+    1053.81,
+    48,
+    24
+   ],
+   "rel": [
+    256.5,
+    65.5,
+    48,
+    24
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 6px"
+  },
+  "aj56.people.list.requests.trail.count": {
+   "tpl": 147,
+   "section": "aj56.people",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    276.5,
+    1053.81,
+    24,
+    24
+   ],
+   "rel": [
+    256.5,
+    65.5,
+    24,
+    24
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 7px 0px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #FF552E; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800",
+   "lines": [
+    {
+     "text": "3",
+     "left": 285.13,
+     "right": 291.87,
+     "top": 1058.61,
+     "bottom": 1073.01,
+     "baseline": 1070.01,
+     "baselineRel": 81.7
+    }
+   ],
+   "naturalWidth": 23.332,
+   "minContentWidth": 23.332,
+   "text": "3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj56.people.list.requests.trail.chevron": {
+   "tpl": 148,
+   "section": "aj56.people",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    306.5,
+    1056.81,
+    18,
+    18
+   ],
+   "rel": [
+    286.5,
+    68.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "css": "flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.findByEmail": {
+   "tpl": 150,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    35.5,
+    1106.81,
+    289,
+    81
+   ],
+   "rel": [
+    15.5,
+    118.5,
+    289,
+    81
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1px solid #EAE1D0",
+     "left": "0"
+    },
+    "padding": "8px 0px 8px 0px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #EAE1D0"
+  },
+  "aj56.people.list.findByEmail.icon": {
+   "tpl": 151,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1127.81,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    139.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#F1E7D5",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #F1E7D5; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.findByEmail.icon.art": {
+   "tpl": 152,
+   "section": "aj56.people",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    1137.81,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    149.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.findByEmail.textBlock": {
+   "tpl": 155,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1120.56,
+    175,
+    52.5
+   ],
+   "rel": [
+    65.5,
+    132.25,
+    175,
+    52.5
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 61
+    }
+   ]
+  },
+  "aj56.people.list.findByEmail.title": {
+   "tpl": 156,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1120.56,
+    175,
+    18
+   ],
+   "rel": [
+    65.5,
+    132.25,
+    175,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Me achar pelo e-mail",
+     "left": 85.5,
+     "right": 228.65,
+     "top": 1120.56,
+     "bottom": 1138.56,
+     "baseline": 1134.81,
+     "baselineRel": 146.5
+    }
+   ],
+   "naturalWidth": 143.145,
+   "minContentWidth": 38.415,
+   "text": "Me achar pelo e-mail",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "aj56.people.list.findByEmail.body": {
+   "tpl": 157,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1140.56,
+    175,
+    32.5
+   ],
+   "rel": [
+    65.5,
+    152.25,
+    175,
+    32.5
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Quem tem seu e-mail encontra",
+     "left": 85.5,
+     "right": 259.58,
+     "top": 1141.18,
+     "bottom": 1156.19,
+     "baseline": 1153.06,
+     "baselineRel": 164.75
+    },
+    {
+     "text": "você na busca",
+     "left": 85.5,
+     "right": 165.85,
+     "top": 1157.43,
+     "bottom": 1172.44,
+     "baseline": 1169.31,
+     "baselineRel": 181.0
+    }
+   ],
+   "naturalWidth": 257.485,
+   "minContentWidth": 50.513,
+   "text": "Quem tem seu e-mail encontra você na busca",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 41
+    }
+   ]
+  },
+  "aj56.people.list.findByEmail.switch": {
+   "tpl": 158,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    272.5,
+    1130.81,
+    52,
+    32
+   ],
+   "rel": [
+    252.5,
+    142.5,
+    52,
+    32
+   ],
+   "style": {
+    "bg": "#F1E7D5",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "3px 3px 3px 3px"
+   },
+   "css": "width: 52px; height: 32px; flex-shrink: 0; padding: 3px; border-radius: 999px; background: #F1E7D5; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center",
+   "aria": "Me achar pelo e-mail",
+   "role": "switch",
+   "ariaAttrs": {
+    "aria-checked": "false"
+   }
+  },
+  "aj56.people.list.findByEmail.switch.thumb": {
+   "tpl": 159,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    277,
+    1135.31,
+    23,
+    23
+   ],
+   "rel": [
+    257,
+    147.0,
+    23,
+    23
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 23px; height: 23px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "aj56.people.list.blocked": {
+   "tpl": 160,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    35.5,
+    1187.81,
+    289,
+    80
+   ],
+   "rel": [
+    15.5,
+    199.5,
+    289,
+    80
+   ],
+   "style": {
+    "padding": "8px 0px 8px 0px"
+   },
+   "css": "min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 12px"
+  },
+  "aj56.people.list.blocked.icon": {
+   "tpl": 161,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    1208.81,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    220.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FFC1C6; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.blocked.icon.art": {
+   "tpl": 162,
+   "section": "aj56.people",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    1218.81,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    230.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.people.list.blocked.textBlock": {
+   "tpl": 165,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1209.68,
+    179,
+    36.25
+   ],
+   "rel": [
+    65.5,
+    221.38,
+    179,
+    36.25
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 30
+    }
+   ]
+  },
+  "aj56.people.list.blocked.title": {
+   "tpl": 166,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1209.68,
+    179,
+    18
+   ],
+   "rel": [
+    65.5,
+    221.38,
+    179,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 700; line-height: 1.2",
+   "lines": [
+    {
+     "text": "Bloqueadas",
+     "left": 85.5,
+     "right": 164.7,
+     "top": 1209.68,
+     "bottom": 1227.68,
+     "baseline": 1223.93,
+     "baselineRel": 235.62
+    }
+   ],
+   "naturalWidth": 79.2,
+   "minContentWidth": 79.2,
+   "text": "Bloqueadas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "aj56.people.list.blocked.body": {
+   "tpl": 167,
+   "section": "aj56.people",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    1229.68,
+    179,
+    16.25
+   ],
+   "rel": [
+    65.5,
+    241.38,
+    179,
+    16.25
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.25px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 500; color: #5B544B; line-height: 1.3",
+   "lines": [
+    {
+     "text": "Somem dos dois lados",
+     "left": 85.5,
+     "right": 211.39,
+     "top": 1230.31,
+     "bottom": 1245.32,
+     "baseline": 1242.18,
+     "baselineRel": 253.88
+    }
+   ],
+   "naturalWidth": 125.887,
+   "minContentWidth": 43.175,
+   "text": "Somem dos dois lados",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "aj56.people.list.blocked.trail": {
+   "tpl": 168,
+   "section": "aj56.people",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    276.5,
+    1215.81,
+    48,
+    24
+   ],
+   "rel": [
+    256.5,
+    227.5,
+    48,
+    24
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 6px"
+  },
+  "aj56.people.list.blocked.trail.count": {
+   "tpl": 169,
+   "section": "aj56.people",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    276.5,
+    1215.81,
+    24,
+    24
+   ],
+   "rel": [
+    256.5,
+    227.5,
+    24,
+    24
+   ],
+   "style": {
+    "bg": "#F1E7D5",
+    "border": "1.3px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 7px 0px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: #F1E7D5; border: 1.3px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800",
+   "lines": [
+    {
+     "text": "1",
+     "left": 285.94,
+     "right": 291.06,
+     "top": 1220.61,
+     "bottom": 1235.01,
+     "baseline": 1232.01,
+     "baselineRel": 243.7
+    }
+   ],
+   "naturalWidth": 21.712,
+   "minContentWidth": 21.712,
+   "text": "1",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj56.people.list.blocked.trail.chevron": {
+   "tpl": 170,
+   "section": "aj56.people",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    306.5,
+    1218.81,
+    18,
+    18
+   ],
+   "rel": [
+    286.5,
+    230.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "css": "flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.blockNote": {
+   "tpl": 172,
+   "section": "aj56.blockNote",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    1285.31,
+    320,
+    96.6
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    96.6
+   ],
+   "style": {
+    "border": "1.3px dashed #8A7F63",
+    "radius": "18px",
+    "padding": "12px 14px 12px 14px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin-top: 14px; padding: 12px 14px; border-radius: 18px; border: 1.3px dashed #8A7F63; display: flex; gap: 10px; align-items: flex-start",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 118
+    }
+   ]
+  },
+  "aj56.blockNote.icon": {
+   "tpl": 173,
+   "section": "aj56.blockNote",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    35.3,
+    1298.61,
+    18,
+    18
+   ],
+   "rel": [
+    15.3,
+    13.3,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "css": "flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj56.blockNote.text": {
+   "tpl": 176,
+   "section": "aj56.blockNote",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    63.3,
+    1298.61,
+    261.4,
+    70
+   ],
+   "rel": [
+    43.3,
+    13.3,
+    261.4,
+    70
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "17.5px",
+     "letterSpacing": "normal",
+     "color": "#3D3830"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 600; line-height: 1.4; color: #3D3830",
+   "lines": [
+    {
+     "text": "nenhuma das",
+     "left": 240.57,
+     "right": 315.8,
+     "top": 1299.85,
+     "bottom": 1314.86,
+     "baseline": 1311.73,
+     "baselineRel": 26.42
+    },
+    {
+     "text": "duas vê o perfil, os grifos ou as resenhas da",
+     "left": 63.3,
+     "right": 308.05,
+     "top": 1317.35,
+     "bottom": 1332.36,
+     "baseline": 1329.23,
+     "baselineRel": 43.92
+    },
+    {
+     "text": "outra. No clube, as mensagens dela ficam",
+     "left": 63.3,
+     "right": 298.23,
+     "top": 1334.85,
+     "bottom": 1349.86,
+     "baseline": 1346.73,
+     "baselineRel": 61.42
+    },
+    {
+     "text": "recolhidas para você.",
+     "left": 63.3,
+     "right": 183.28,
+     "top": 1352.35,
+     "bottom": 1367.36,
+     "baseline": 1364.23,
+     "baselineRel": 78.92
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Bloquear some dos dois lados: nenhuma das",
+     "left": 63.3,
+     "right": 315.8,
+     "top": 1299.85,
+     "bottom": 1314.86,
+     "baseline": 1311.73,
+     "baselineRel": 26.42
+    },
+    {
+     "text": "duas vê o perfil, os grifos ou as resenhas da",
+     "left": 63.3,
+     "right": 308.05,
+     "top": 1317.35,
+     "bottom": 1332.36,
+     "baseline": 1329.23,
+     "baselineRel": 43.92
+    },
+    {
+     "text": "outra. No clube, as mensagens dela ficam",
+     "left": 63.3,
+     "right": 298.23,
+     "top": 1334.85,
+     "bottom": 1349.86,
+     "baseline": 1346.73,
+     "baselineRel": 61.42
+    },
+    {
+     "text": "recolhidas para você.",
+     "left": 63.3,
+     "right": 183.28,
+     "top": 1352.35,
+     "bottom": 1367.36,
+     "baseline": 1364.23,
+     "baselineRel": 78.92
+    }
+   ],
+   "naturalWidth": 861.196,
+   "minContentWidth": 64.325,
+   "text": "nenhuma das duas vê o perfil, os grifos ou as resenhas da outra. No clube, as mensagens dela ficam recolhidas para você.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 147
+    }
+   ]
+  },
+  "aj56.blockNote.text.lead": {
+   "tpl": 177,
+   "section": "aj56.blockNote",
+   "type": "inline",
+   "tag": "strong",
+   "abs": [
+    63.3,
+    1299.85,
+    174.26,
+    15.01
+   ],
+   "rel": [
+    43.3,
+    14.54,
+    174.26,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 900,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "17.5px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "color: #1A1714",
+   "lines": [
+    {
+     "text": "Bloquear some dos dois lados:",
+     "left": 63.3,
+     "right": 237.56,
+     "top": 1299.85,
+     "bottom": 1314.86,
+     "baseline": 1311.73,
+     "baselineRel": 26.42
+    }
+   ],
+   "naturalWidth": 174.262,
+   "minContentWidth": 51.525,
+   "text": "Bloquear some dos dois lados:",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 29
+    }
+   ]
+  }
+ },
+ "fontMetrics": {
+  "Bricolage Grotesque|800|normal|34px": {
+   "ascent": 31.62,
+   "descent": 9.18
+  },
+  "Instrument Serif|400|italic|42px": {
+   "ascent": 41.58,
+   "descent": 13.02
+  },
+  "Figtree|600|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Bricolage Grotesque|800|normal|17px": {
+   "ascent": 15.81,
+   "descent": 4.59
+  },
+  "Figtree|600|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Bricolage Grotesque|800|normal|20px": {
+   "ascent": 18.6,
+   "descent": 5.4
+  },
+  "Figtree|700|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|700|normal|15px": {
+   "ascent": 14.25,
+   "descent": 3.75
+  },
+  "Figtree|500|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|800|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|800|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Figtree|600|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|900|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "Literata-italic-400-latin"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Literata-latin-var-opsz-wght"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Literata-latin-var-opsz-wght"
+  }
+ ]
+}

@@ -1,0 +1,819 @@
+{
+ "_doc": "T13.9 (D-272) — onde a tela deixa de ser fluida nas outras larguras: cada id medido a 360 e a 430 contra o mesmo id a 390 (o conjunto base, `conjuntoBase` no conjuntos.json). É informação para a etapa da tela, não um gate.",
+ "TOL": 0.05,
+ "telas": {
+  "002_biblioteca_w360": [
+   {
+    "id": "b02.collections.card2",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 72.0,
+    "px390": 42.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "b02.collections.card2",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 72.0,
+    "px390": 42.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "b02.collections.carousel",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "b02.collections.card3",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 284.0,
+    "px390": 254.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "b02.collections.card3",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 284.0,
+    "px390": 254.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "b02.collections.carousel",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "b02.statusTabs.read",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 76.6,
+    "px390": 46.6,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "b02.statusTabs.read",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 76.6,
+    "px390": 46.6,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "b02.statusTabs",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "b02.statusTabs.favorites",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 195.56,
+    "px390": 165.56,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "b02.statusTabs.favorites",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 195.56,
+    "px390": 165.56,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "b02.statusTabs",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "b02.statusTabs.abandoned",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 339.04,
+    "px390": 309.04,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "b02.statusTabs.abandoned",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 339.04,
+    "px390": 309.04,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "b02.statusTabs",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book1.cover.title",
+    "tipo": "texto passa",
+    "eixo": "x",
+    "px": 3.23,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book1.info.author",
+    "tipo": "reticências",
+    "eixo": "x",
+    "px": 0.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book3.cover.title",
+    "tipo": "texto passa",
+    "eixo": "x",
+    "px": 1.53,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book5.info.author",
+    "tipo": "reticências",
+    "eixo": "x",
+    "px": 0.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book7.info.source",
+    "tipo": "reticências",
+    "eixo": "x",
+    "px": 0.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book8.info.author",
+    "tipo": "reticências",
+    "eixo": "x",
+    "px": 0.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": false
+   },
+   {
+    "id": "b02.nav.scanner.fab",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 0.7,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "b02.nav.scanner",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book9.cover.arch",
+    "tipo": "invade o vizinho",
+    "eixo": "x",
+    "px": 62.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "vizinho": "b02.shelf.book9.cover.textBlock",
+    "vizinhoLarguraFixa": false
+   },
+   {
+    "id": "b02.shelf.book9.cover.door",
+    "tipo": "invade o vizinho",
+    "eixo": "x",
+    "px": 26.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "vizinho": "b02.shelf.book9.cover.textBlock",
+    "vizinhoLarguraFixa": false
+   }
+  ],
+  "002_biblioteca_w430": [],
+  "036_biblioteca_vazia_w360": [
+   {
+    "id": "b36.nav.scanner.fab",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 0.7,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "b36.nav.scanner",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "036_biblioteca_vazia_w430": [],
+  "017_detalhes_fisico_w360": [],
+  "017_detalhes_fisico_w430": [],
+  "017b_detalhes_ebook_w360": [],
+  "017b_detalhes_ebook_w430": [],
+  "003_scanner_encontrado_w360": [
+   {
+    "id": "sc03.sheet.book.collection",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 11.59,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "sc03.sheet.book.textBlock",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "003_scanner_encontrado_w430": [],
+  "039_scanner_mirando_w360": [],
+  "039_scanner_mirando_w430": [],
+  "040_scanner_nao_encontrado_w360": [],
+  "040_scanner_nao_encontrado_w430": [],
+  "041_scanner_sem_permissao_w360": [],
+  "041_scanner_sem_permissao_w430": [],
+  "042_scanner_na_estante_w360": [],
+  "042_scanner_na_estante_w430": [],
+  "069_scanner_digitar_isbn_w360": [
+   {
+    "id": "sc69.sticker.tapeRight",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 7.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "sc69.sticker.tapeRight",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 29.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "sc69.sticker.tilt",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "069_scanner_digitar_isbn_w430": [],
+  "069b_scanner_isbn_nao_confere_w360": [
+   {
+    "id": "sc69b.sticker.tapeRight",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 7.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "sc69b.sticker.tapeRight",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 29.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "sc69b.sticker.tilt",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "069b_scanner_isbn_nao_confere_w430": [],
+  "028_busca_explorar_w360": [
+   {
+    "id": "bu28.trending.book3",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 68.0,
+    "px390": 38.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "bu28.trending.book3",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 68.0,
+    "px390": 38.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "bu28.trending.carousel",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "bu28.trending.book4",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 210.0,
+    "px390": 180.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "bu28.trending.book4",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 210.0,
+    "px390": 180.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "bu28.trending.carousel",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   }
+  ],
+  "028_busca_explorar_w430": [],
+  "028b_busca_resultados_w360": [
+   {
+    "id": "bu28b.tabs.highlights",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 39.82,
+    "px390": 9.82,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "bu28b.tabs.highlights",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 39.82,
+    "px390": 9.82,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "bu28b.tabs",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   }
+  ],
+  "028b_busca_resultados_w430": [],
+  "028c_busca_nada_encontrado_w360": [],
+  "028c_busca_nada_encontrado_w430": [],
+  "028d_adicionar_a_mao_w360": [],
+  "028d_adicionar_a_mao_w430": [],
+  "035_abertura_w360": [
+   {
+    "id": "e35.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "035_abertura_w430": [],
+  "007_login_w360": [
+   {
+    "id": "e07.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "007_login_w430": [],
+  "008_cadastro_w360": [
+   {
+    "id": "e08.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "008_cadastro_w430": [],
+  "009_entrar_w360": [
+   {
+    "id": "e09.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "009_entrar_w430": [],
+  "009b_entrar_senha_incorreta_w360": [
+   {
+    "id": "e09b.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "009b_entrar_senha_incorreta_w430": [],
+  "010_codigo_w360": [
+   {
+    "id": "e10.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e10.sheet.code.group1",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 4.5,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "e10.sheet.code",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "e10.sheet.code.group2",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 4.5,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "e10.sheet.code",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "010_codigo_w430": [],
+  "011_nova_senha_w360": [
+   {
+    "id": "e11.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e11.sparkleSmall",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 4.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "011_nova_senha_w430": [],
+  "012_onboarding_meta_w360": [
+   {
+    "id": "e12.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "012_onboarding_meta_w430": [],
+  "013_onboarding_generos_w360": [
+   {
+    "id": "e13.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "013_onboarding_generos_w430": [],
+  "013b_onboarding_dica_scanner_w360": [
+   {
+    "id": "e13b.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e13b.coach.spotlight",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 22.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e13b.coach.spotlight",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 42.0,
+    "px390": 12.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "e13b.search",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "e13b.coach.ring",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 29.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e13b.coach.ring",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 49.0,
+    "px390": 19.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "e13b.search",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "e13b.coach.arrow",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 10.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e13b.coach.arrow",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "e13b.search",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "013b_onboarding_dica_scanner_w430": [],
+  "014_onboarding_primeiros_livros_w360": [
+   {
+    "id": "e14.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "014_onboarding_primeiros_livros_w430": [],
+  "015_onboarding_foto_w360": [
+   {
+    "id": "e15.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "015_onboarding_foto_w430": [],
+  "016_onboarding_carteirinha_w360": [
+   {
+    "id": "e16.waves",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 30.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "e16.confetti.sparkle3",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 10.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   }
+  ],
+  "016_onboarding_carteirinha_w430": [],
+  "036a_inicio_primeiro_acesso_w360": [
+   {
+    "id": "e36a.nav.scanner.fab",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 0.7,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "e36a.nav.scanner",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "e36a.firstBook.illustration",
+    "tipo": "invade o vizinho",
+    "eixo": "x",
+    "px": 27.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "vizinho": "e36a.firstBook.title",
+    "vizinhoLarguraFixa": true
+   }
+  ],
+  "036a_inicio_primeiro_acesso_w430": [],
+  "005_perfil_w360": [
+   {
+    "id": "p05.tabs.lists",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 61.38,
+    "px390": 31.38,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "p05.tabs.lists",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 61.38,
+    "px390": 31.38,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "p05.tabs",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "p05.nav.scanner.fab",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 0.7,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "p05.nav.scanner",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "p05.hero.edition",
+    "tipo": "invade o vizinho",
+    "eixo": "x",
+    "px": 9.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "vizinho": "p05.hero.avatar",
+    "vizinhoLarguraFixa": true
+   }
+  ],
+  "005_perfil_w430": [],
+  "064_editar_perfil_w360": [
+   {
+    "id": "p64.colors.green",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 22.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true
+   },
+   {
+    "id": "p64.colors.green",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 22.0,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "p64.colors",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "p64.colors.purple",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 63.0,
+    "px390": 33.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "p64.colors.purple",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 63.0,
+    "px390": 33.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "p64.colors",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "p64.colors.cream",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 104.0,
+    "px390": 74.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "p64.colors.cream",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 104.0,
+    "px390": 74.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "p64.colors",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   },
+   {
+    "id": "p64.colors.ink",
+    "tipo": "sai do quadro",
+    "eixo": "x",
+    "px": 145.0,
+    "px390": 115.0,
+    "novo": false,
+    "larguraFixa": true
+   },
+   {
+    "id": "p64.colors.ink",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 145.0,
+    "px390": 115.0,
+    "novo": false,
+    "larguraFixa": true,
+    "pai": "p64.colors",
+    "corte": "cortado",
+    "paiLarguraFixa": false
+   }
+  ],
+  "064_editar_perfil_w430": [],
+  "065_editar_perfil_trocar_w360": [],
+  "065_editar_perfil_trocar_w430": [],
+  "006_ajustes_w360": [
+   {
+    "id": "aj06.nav.scanner.fab",
+    "tipo": "passa do pai",
+    "eixo": "x",
+    "px": 0.7,
+    "px390": 0.0,
+    "novo": true,
+    "larguraFixa": true,
+    "pai": "aj06.nav.scanner",
+    "corte": "vaza",
+    "paiLarguraFixa": false
+   }
+  ],
+  "006_ajustes_w430": [],
+  "058_conta_w360": [],
+  "058_conta_w430": [],
+  "059_excluir_conta_w360": [],
+  "059_excluir_conta_w430": [],
+  "056_privacidade_w360": [],
+  "056_privacidade_w430": [],
+  "030_notificacoes_w360": [],
+  "030_notificacoes_w430": [],
+  "030b_notificacoes_ajustes_w360": [],
+  "030b_notificacoes_ajustes_w430": [],
+  "030c_notificacoes_vazia_w360": [],
+  "030c_notificacoes_vazia_w430": [],
+  "018_cronometro_w360": [],
+  "018_cronometro_w430": [],
+  "018b_fim_da_sessao_w360": [],
+  "018b_fim_da_sessao_w430": []
+ }
+}

@@ -1,0 +1,1824 @@
+{
+  "_doc": "T13.9 (D-272) — as pranchas de tools/medicao/pranchas_projeto.json a 360, 430 px de largura: cada entrada abre a extração e o idmap de \"base\" e troca a largura do quadro para \"largura\" antes de medir e fotografar (CSS fluido, como a T03). Gerado por tools/medicao/indice_larguras.py (não editar à mão, salvo as faixas da R3, que ele mantém).",
+  "formato": "dc",
+  "projeto": "docs/design/projeto",
+  "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
+  "pranchas": [
+    {
+      "tela": "02w360",
+      "slug": "002_biblioteca_w360",
+      "base": "002_biblioteca",
+      "prefixo": "b02",
+      "etapa": "T14",
+      "arquivo": "telas/Biblioteca.dc.html",
+      "titulo": "02 · Biblioteca — largura 360",
+      "canvas": [
+        360,
+        1640
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "02w430",
+      "slug": "002_biblioteca_w430",
+      "base": "002_biblioteca",
+      "prefixo": "b02",
+      "etapa": "T14",
+      "arquivo": "telas/Biblioteca.dc.html",
+      "titulo": "02 · Biblioteca — largura 430",
+      "canvas": [
+        430,
+        1640
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "36w360",
+      "slug": "036_biblioteca_vazia_w360",
+      "base": "036_biblioteca_vazia",
+      "prefixo": "b36",
+      "etapa": "T14",
+      "arquivo": "telas/EstanteVazia.dc.html",
+      "titulo": "36 · Biblioteca vazia (primeiro livro) — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "36w430",
+      "slug": "036_biblioteca_vazia_w430",
+      "base": "036_biblioteca_vazia",
+      "prefixo": "b36",
+      "etapa": "T14",
+      "arquivo": "telas/EstanteVazia.dc.html",
+      "titulo": "36 · Biblioteca vazia (primeiro livro) — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "17w360",
+      "slug": "017_detalhes_fisico_w360",
+      "base": "017_detalhes_fisico",
+      "prefixo": "d17",
+      "etapa": "T14",
+      "arquivo": "telas/DetalhesFisico.dc.html",
+      "titulo": "17 · Detalhes do livro — físico (Brás Cubas) — largura 360",
+      "canvas": [
+        360,
+        1940
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "17w430",
+      "slug": "017_detalhes_fisico_w430",
+      "base": "017_detalhes_fisico",
+      "prefixo": "d17",
+      "etapa": "T14",
+      "arquivo": "telas/DetalhesFisico.dc.html",
+      "titulo": "17 · Detalhes do livro — físico (Brás Cubas) — largura 430",
+      "canvas": [
+        430,
+        1940
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "17bw360",
+      "slug": "017b_detalhes_ebook_w360",
+      "base": "017b_detalhes_ebook",
+      "prefixo": "d17b",
+      "etapa": "T14",
+      "arquivo": "telas/DetalhesDigital.dc.html",
+      "titulo": "17b · Detalhes do livro — e-book (Dom Casmurro) — largura 360",
+      "canvas": [
+        360,
+        1790
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "progress": {
+          "motivo": "o pai do \"≈ 2 h 10 min…\" (o CDP atribui a ele a fonte do texto, como ao progressRow da 20); o \"≈\" não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter SemiBold do sistema (o texto é 600), como o \"≈\" do leitor (20, 26b; D-54); no app ele vem da família de reserva da D-54 (o peso, na T13.10)",
+          "informativo": false
+        },
+        "progress.timeLeft": {
+          "motivo": "o \"≈\" não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter SemiBold do sistema (o texto é 600), como o \"≈\" do leitor (20, 26b; D-54); no app ele vem da família de reserva da D-54 (o peso, na T13.10)",
+          "informativo": false
+        }
+      }
+    },
+    {
+      "tela": "17bw430",
+      "slug": "017b_detalhes_ebook_w430",
+      "base": "017b_detalhes_ebook",
+      "prefixo": "d17b",
+      "etapa": "T14",
+      "arquivo": "telas/DetalhesDigital.dc.html",
+      "titulo": "17b · Detalhes do livro — e-book (Dom Casmurro) — largura 430",
+      "canvas": [
+        430,
+        1790
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "progress": {
+          "motivo": "o pai do \"≈ 2 h 10 min…\" (o CDP atribui a ele a fonte do texto, como ao progressRow da 20); o \"≈\" não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter SemiBold do sistema (o texto é 600), como o \"≈\" do leitor (20, 26b; D-54); no app ele vem da família de reserva da D-54 (o peso, na T13.10)",
+          "informativo": false
+        },
+        "progress.timeLeft": {
+          "motivo": "o \"≈\" não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter SemiBold do sistema (o texto é 600), como o \"≈\" do leitor (20, 26b; D-54); no app ele vem da família de reserva da D-54 (o peso, na T13.10)",
+          "informativo": false
+        }
+      }
+    },
+    {
+      "tela": "03w360",
+      "slug": "003_scanner_encontrado_w360",
+      "base": "003_scanner_encontrado",
+      "prefixo": "sc03",
+      "etapa": "T15",
+      "arquivo": "telas/Scanner.dc.html",
+      "titulo": "03 · Scanner — livro encontrado — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "03w430",
+      "slug": "003_scanner_encontrado_w430",
+      "base": "003_scanner_encontrado",
+      "prefixo": "sc03",
+      "etapa": "T15",
+      "arquivo": "telas/Scanner.dc.html",
+      "titulo": "03 · Scanner — livro encontrado — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "39w360",
+      "slug": "039_scanner_mirando_w360",
+      "base": "039_scanner_mirando",
+      "prefixo": "sc39",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerMirando.dc.html",
+      "titulo": "39 · Scanner — mirando — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "39w430",
+      "slug": "039_scanner_mirando_w430",
+      "base": "039_scanner_mirando",
+      "prefixo": "sc39",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerMirando.dc.html",
+      "titulo": "39 · Scanner — mirando — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "40w360",
+      "slug": "040_scanner_nao_encontrado_w360",
+      "base": "040_scanner_nao_encontrado",
+      "prefixo": "sc40",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerNaoEncontrado.dc.html",
+      "titulo": "40 · Scanner — livro não encontrado — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "40w430",
+      "slug": "040_scanner_nao_encontrado_w430",
+      "base": "040_scanner_nao_encontrado",
+      "prefixo": "sc40",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerNaoEncontrado.dc.html",
+      "titulo": "40 · Scanner — livro não encontrado — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "41w360",
+      "slug": "041_scanner_sem_permissao_w360",
+      "base": "041_scanner_sem_permissao",
+      "prefixo": "sc41",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerSemPermissao.dc.html",
+      "titulo": "41 · Scanner — sem permissão de câmera — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "41w430",
+      "slug": "041_scanner_sem_permissao_w430",
+      "base": "041_scanner_sem_permissao",
+      "prefixo": "sc41",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerSemPermissao.dc.html",
+      "titulo": "41 · Scanner — sem permissão de câmera — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "42w360",
+      "slug": "042_scanner_na_estante_w360",
+      "base": "042_scanner_na_estante",
+      "prefixo": "sc42",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerNaEstante.dc.html",
+      "titulo": "42 · Scanner — já está na estante — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "42w430",
+      "slug": "042_scanner_na_estante_w430",
+      "base": "042_scanner_na_estante",
+      "prefixo": "sc42",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerNaEstante.dc.html",
+      "titulo": "42 · Scanner — já está na estante — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "69w360",
+      "slug": "069_scanner_digitar_isbn_w360",
+      "base": "069_scanner_digitar_isbn",
+      "prefixo": "sc69",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerDigitar.dc.html",
+      "titulo": "69 · Scanner — digitar o ISBN — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "keypad.key0": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key0.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "69w430",
+      "slug": "069_scanner_digitar_isbn_w430",
+      "base": "069_scanner_digitar_isbn",
+      "prefixo": "sc69",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerDigitar.dc.html",
+      "titulo": "69 · Scanner — digitar o ISBN — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "keypad.key0": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key0.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "69bw360",
+      "slug": "069b_scanner_isbn_nao_confere_w360",
+      "base": "069b_scanner_isbn_nao_confere",
+      "prefixo": "sc69b",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerDigitarErro.dc.html",
+      "titulo": "69b · Scanner — ISBN não confere — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "keypad.key0": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key0.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "69bw430",
+      "slug": "069b_scanner_isbn_nao_confere_w430",
+      "base": "069b_scanner_isbn_nao_confere",
+      "prefixo": "sc69b",
+      "etapa": "T15",
+      "arquivo": "telas/ScannerDigitarErro.dc.html",
+      "titulo": "69b · Scanner — ISBN não confere — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "keypad.key0": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key0.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key1.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key2.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key3.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key4.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key5.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key6.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key7.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key8.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9": {
+          "motivo": "a tecla do teclado numérico do sistema (o CDP atribui a ela a fonte do número e das letras de dentro): o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.digit": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        },
+        "keypad.key9.letters": {
+          "motivo": "o número ou as letras de uma tecla do teclado numérico do sistema: o teclado é do Android/iOS, não do app (aria-hidden na prancha, só para contexto); a prancha pede `ui-sans-serif, system-ui` e o Chromium do WSL desenha com a Inter do sistema",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "28w360",
+      "slug": "028_busca_explorar_w360",
+      "base": "028_busca_explorar",
+      "prefixo": "bu28",
+      "etapa": "T15",
+      "arquivo": "telas/BuscaExplorar.dc.html",
+      "titulo": "28 · Busca — Explorar (antes de digitar) — largura 360",
+      "canvas": [
+        360,
+        1520
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "28w430",
+      "slug": "028_busca_explorar_w430",
+      "base": "028_busca_explorar",
+      "prefixo": "bu28",
+      "etapa": "T15",
+      "arquivo": "telas/BuscaExplorar.dc.html",
+      "titulo": "28 · Busca — Explorar (antes de digitar) — largura 430",
+      "canvas": [
+        430,
+        1520
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "28bw360",
+      "slug": "028b_busca_resultados_w360",
+      "base": "028b_busca_resultados",
+      "prefixo": "bu28b",
+      "etapa": "T15",
+      "arquivo": "telas/BuscaResultados.dc.html",
+      "titulo": "28b · Busca — resultados (“capitu”) — largura 360",
+      "canvas": [
+        360,
+        1040
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "28bw430",
+      "slug": "028b_busca_resultados_w430",
+      "base": "028b_busca_resultados",
+      "prefixo": "bu28b",
+      "etapa": "T15",
+      "arquivo": "telas/BuscaResultados.dc.html",
+      "titulo": "28b · Busca — resultados (“capitu”) — largura 430",
+      "canvas": [
+        430,
+        1040
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "28cw360",
+      "slug": "028c_busca_nada_encontrado_w360",
+      "base": "028c_busca_nada_encontrado",
+      "prefixo": "bu28c",
+      "etapa": "T15",
+      "arquivo": "telas/BuscaVazia.dc.html",
+      "titulo": "28c · Busca — nada encontrado — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "tips.tip1": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip2": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip3": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip1.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip2.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip3.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        }
+      }
+    },
+    {
+      "tela": "28cw430",
+      "slug": "028c_busca_nada_encontrado_w430",
+      "base": "028c_busca_nada_encontrado",
+      "prefixo": "bu28c",
+      "etapa": "T15",
+      "arquivo": "telas/BuscaVazia.dc.html",
+      "titulo": "28c · Busca — nada encontrado — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "tips.tip1": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip2": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip3": {
+          "motivo": "a dica com a seta (o CDP atribui ao item a fonte da seta de dentro): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip1.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip2.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "tips.tip3.arrow": {
+          "motivo": "o \"→\" (U+2192) não está em nenhum subconjunto da Figtree: o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        }
+      }
+    },
+    {
+      "tela": "28dw360",
+      "slug": "028d_adicionar_a_mao_w360",
+      "base": "028d_adicionar_a_mao",
+      "prefixo": "bu28d",
+      "etapa": "T15",
+      "arquivo": "telas/AdicionarMao.dc.html",
+      "titulo": "28d · Adicionar livro à mão — largura 360",
+      "canvas": [
+        360,
+        1150
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "28dw430",
+      "slug": "028d_adicionar_a_mao_w430",
+      "base": "028d_adicionar_a_mao",
+      "prefixo": "bu28d",
+      "etapa": "T15",
+      "arquivo": "telas/AdicionarMao.dc.html",
+      "titulo": "28d · Adicionar livro à mão — largura 430",
+      "canvas": [
+        430,
+        1150
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "35w360",
+      "slug": "035_abertura_w360",
+      "base": "035_abertura",
+      "prefixo": "e35",
+      "etapa": "T16",
+      "arquivo": "telas/Splash.dc.html",
+      "titulo": "35 · Abertura (splash) — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "35w430",
+      "slug": "035_abertura_w430",
+      "base": "035_abertura",
+      "prefixo": "e35",
+      "etapa": "T16",
+      "arquivo": "telas/Splash.dc.html",
+      "titulo": "35 · Abertura (splash) — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "07w360",
+      "slug": "007_login_w360",
+      "base": "007_login",
+      "prefixo": "e07",
+      "etapa": "T16",
+      "arquivo": "telas/Login.dc.html",
+      "titulo": "07 · Login — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "sheet.buttons.apple": {
+          "motivo": "o texto do botão \"Continuar com a Apple\": a prancha pede a fonte da Apple (`-apple-system, 'SF Pro Text'`), que só existe no iPhone, e o Chromium do WSL desenha com a Inter Medium do sistema; no app o botão é o oficial (SignInWithAppleButton), desenhado pelo sistema, não pelo app",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "07w430",
+      "slug": "007_login_w430",
+      "base": "007_login",
+      "prefixo": "e07",
+      "etapa": "T16",
+      "arquivo": "telas/Login.dc.html",
+      "titulo": "07 · Login — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "sheet.buttons.apple": {
+          "motivo": "o texto do botão \"Continuar com a Apple\": a prancha pede a fonte da Apple (`-apple-system, 'SF Pro Text'`), que só existe no iPhone, e o Chromium do WSL desenha com a Inter Medium do sistema; no app o botão é o oficial (SignInWithAppleButton), desenhado pelo sistema, não pelo app",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "08w360",
+      "slug": "008_cadastro_w360",
+      "base": "008_cadastro",
+      "prefixo": "e08",
+      "etapa": "T16",
+      "arquivo": "telas/Cadastro.dc.html",
+      "titulo": "08 · Cadastro por e-mail — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "08w430",
+      "slug": "008_cadastro_w430",
+      "base": "008_cadastro",
+      "prefixo": "e08",
+      "etapa": "T16",
+      "arquivo": "telas/Cadastro.dc.html",
+      "titulo": "08 · Cadastro por e-mail — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "09w360",
+      "slug": "009_entrar_w360",
+      "base": "009_entrar",
+      "prefixo": "e09",
+      "etapa": "T16",
+      "arquivo": "telas/Entrar.dc.html",
+      "titulo": "09 · Entrar com e-mail — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "09w430",
+      "slug": "009_entrar_w430",
+      "base": "009_entrar",
+      "prefixo": "e09",
+      "etapa": "T16",
+      "arquivo": "telas/Entrar.dc.html",
+      "titulo": "09 · Entrar com e-mail — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "09bw360",
+      "slug": "009b_entrar_senha_incorreta_w360",
+      "base": "009b_entrar_senha_incorreta",
+      "prefixo": "e09b",
+      "etapa": "T16",
+      "arquivo": "telas/EntrarErro.dc.html",
+      "titulo": "09b · Entrar — senha incorreta — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "09bw430",
+      "slug": "009b_entrar_senha_incorreta_w430",
+      "base": "009b_entrar_senha_incorreta",
+      "prefixo": "e09b",
+      "etapa": "T16",
+      "arquivo": "telas/EntrarErro.dc.html",
+      "titulo": "09b · Entrar — senha incorreta — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "10w360",
+      "slug": "010_codigo_w360",
+      "base": "010_codigo",
+      "prefixo": "e10",
+      "etapa": "T16",
+      "arquivo": "telas/Codigo.dc.html",
+      "titulo": "10 · Código de 6 dígitos — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "10w430",
+      "slug": "010_codigo_w430",
+      "base": "010_codigo",
+      "prefixo": "e10",
+      "etapa": "T16",
+      "arquivo": "telas/Codigo.dc.html",
+      "titulo": "10 · Código de 6 dígitos — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "11w360",
+      "slug": "011_nova_senha_w360",
+      "base": "011_nova_senha",
+      "prefixo": "e11",
+      "etapa": "T16",
+      "arquivo": "telas/NovaSenha.dc.html",
+      "titulo": "11 · Nova senha — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "11w430",
+      "slug": "011_nova_senha_w430",
+      "base": "011_nova_senha",
+      "prefixo": "e11",
+      "etapa": "T16",
+      "arquivo": "telas/NovaSenha.dc.html",
+      "titulo": "11 · Nova senha — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "12w360",
+      "slug": "012_onboarding_meta_w360",
+      "base": "012_onboarding_meta",
+      "prefixo": "e12",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding1.dc.html",
+      "titulo": "12 · Onboarding 1/4 — Meta de leitura — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "12w430",
+      "slug": "012_onboarding_meta_w430",
+      "base": "012_onboarding_meta",
+      "prefixo": "e12",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding1.dc.html",
+      "titulo": "12 · Onboarding 1/4 — Meta de leitura — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "13w360",
+      "slug": "013_onboarding_generos_w360",
+      "base": "013_onboarding_generos",
+      "prefixo": "e13",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding2.dc.html",
+      "titulo": "13 · Onboarding 2/4 — Gêneros — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "13w430",
+      "slug": "013_onboarding_generos_w430",
+      "base": "013_onboarding_generos",
+      "prefixo": "e13",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding2.dc.html",
+      "titulo": "13 · Onboarding 2/4 — Gêneros — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "13bw360",
+      "slug": "013b_onboarding_dica_scanner_w360",
+      "base": "013b_onboarding_dica_scanner",
+      "prefixo": "e13b",
+      "etapa": "T16",
+      "arquivo": "telas/OnboardingDica.dc.html",
+      "titulo": "13b · Onboarding — dica do scanner — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "13bw430",
+      "slug": "013b_onboarding_dica_scanner_w430",
+      "base": "013b_onboarding_dica_scanner",
+      "prefixo": "e13b",
+      "etapa": "T16",
+      "arquivo": "telas/OnboardingDica.dc.html",
+      "titulo": "13b · Onboarding — dica do scanner — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "14w360",
+      "slug": "014_onboarding_primeiros_livros_w360",
+      "base": "014_onboarding_primeiros_livros",
+      "prefixo": "e14",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding3.dc.html",
+      "titulo": "14 · Onboarding 3/4 — Primeiros livros — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "14w430",
+      "slug": "014_onboarding_primeiros_livros_w430",
+      "base": "014_onboarding_primeiros_livros",
+      "prefixo": "e14",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding3.dc.html",
+      "titulo": "14 · Onboarding 3/4 — Primeiros livros — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "15w360",
+      "slug": "015_onboarding_foto_w360",
+      "base": "015_onboarding_foto",
+      "prefixo": "e15",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding4.dc.html",
+      "titulo": "15 · Onboarding 4/4 — Foto e @ — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "username.field.input": {
+          "motivo": "o input de verdade do @, invisível (opacity 0, 1×1) atrás do texto desenhado \"marinacosta\": a folha da 15 não diz `input{font-family:inherit}`, e o Chromium mede o valor na fonte padrão do campo (a Liberation Sans do WSL); não aparece — no app é o TextField escondido (D-277)",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "15w430",
+      "slug": "015_onboarding_foto_w430",
+      "base": "015_onboarding_foto",
+      "prefixo": "e15",
+      "etapa": "T16",
+      "arquivo": "telas/Onboarding4.dc.html",
+      "titulo": "15 · Onboarding 4/4 — Foto e @ — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "username.field.input": {
+          "motivo": "o input de verdade do @, invisível (opacity 0, 1×1) atrás do texto desenhado \"marinacosta\": a folha da 15 não diz `input{font-family:inherit}`, e o Chromium mede o valor na fonte padrão do campo (a Liberation Sans do WSL); não aparece — no app é o TextField escondido (D-277)",
+          "informativo": true
+        }
+      }
+    },
+    {
+      "tela": "16w360",
+      "slug": "016_onboarding_carteirinha_w360",
+      "base": "016_onboarding_carteirinha",
+      "prefixo": "e16",
+      "etapa": "T16",
+      "arquivo": "telas/OnboardingFinal.dc.html",
+      "titulo": "16 · Onboarding — Carteirinha pronta — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "16w430",
+      "slug": "016_onboarding_carteirinha_w430",
+      "base": "016_onboarding_carteirinha",
+      "prefixo": "e16",
+      "etapa": "T16",
+      "arquivo": "telas/OnboardingFinal.dc.html",
+      "titulo": "16 · Onboarding — Carteirinha pronta — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "36aw360",
+      "slug": "036a_inicio_primeiro_acesso_w360",
+      "base": "036a_inicio_primeiro_acesso",
+      "prefixo": "e36a",
+      "etapa": "T16",
+      "arquivo": "telas/InicioVazia.dc.html",
+      "titulo": "36a · Início — primeiro acesso (estante vazia) — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "36aw430",
+      "slug": "036a_inicio_primeiro_acesso_w430",
+      "base": "036a_inicio_primeiro_acesso",
+      "prefixo": "e36a",
+      "etapa": "T16",
+      "arquivo": "telas/InicioVazia.dc.html",
+      "titulo": "36a · Início — primeiro acesso (estante vazia) — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "05w360",
+      "slug": "005_perfil_w360",
+      "base": "005_perfil",
+      "prefixo": "p05",
+      "etapa": "T17",
+      "arquivo": "telas/Perfil.dc.html",
+      "titulo": "05 · Perfil — largura 360",
+      "canvas": [
+        360,
+        2510
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "05w430",
+      "slug": "005_perfil_w430",
+      "base": "005_perfil",
+      "prefixo": "p05",
+      "etapa": "T17",
+      "arquivo": "telas/Perfil.dc.html",
+      "titulo": "05 · Perfil — largura 430",
+      "canvas": [
+        430,
+        2510
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "64w360",
+      "slug": "064_editar_perfil_w360",
+      "base": "064_editar_perfil",
+      "prefixo": "p64",
+      "etapa": "T17",
+      "arquivo": "telas/EditarPerfil.dc.html",
+      "titulo": "64 · Editar perfil — largura 360",
+      "canvas": [
+        360,
+        1400
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "64w430",
+      "slug": "064_editar_perfil_w430",
+      "base": "064_editar_perfil",
+      "prefixo": "p64",
+      "etapa": "T17",
+      "arquivo": "telas/EditarPerfil.dc.html",
+      "titulo": "64 · Editar perfil — largura 430",
+      "canvas": [
+        430,
+        1400
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "65w360",
+      "slug": "065_editar_perfil_trocar_w360",
+      "base": "065_editar_perfil_trocar",
+      "prefixo": "p65",
+      "etapa": "T17",
+      "arquivo": "telas/EditarTrocar.dc.html",
+      "titulo": "65 · Editar perfil — trocar um dos 4 — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "65w430",
+      "slug": "065_editar_perfil_trocar_w430",
+      "base": "065_editar_perfil_trocar",
+      "prefixo": "p65",
+      "etapa": "T17",
+      "arquivo": "telas/EditarTrocar.dc.html",
+      "titulo": "65 · Editar perfil — trocar um dos 4 — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "06w360",
+      "slug": "006_ajustes_w360",
+      "base": "006_ajustes",
+      "prefixo": "aj06",
+      "etapa": "T17",
+      "arquivo": "telas/Ajustes.dc.html",
+      "titulo": "06 · Ajustes (engrenagem) — largura 360",
+      "canvas": [
+        360,
+        2400
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "06w430",
+      "slug": "006_ajustes_w430",
+      "base": "006_ajustes",
+      "prefixo": "aj06",
+      "etapa": "T17",
+      "arquivo": "telas/Ajustes.dc.html",
+      "titulo": "06 · Ajustes (engrenagem) — largura 430",
+      "canvas": [
+        430,
+        2400
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "58w360",
+      "slug": "058_conta_w360",
+      "base": "058_conta",
+      "prefixo": "aj58",
+      "etapa": "T17",
+      "arquivo": "telas/Conta.dc.html",
+      "titulo": "58 · Conta — largura 360",
+      "canvas": [
+        360,
+        1200
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "58w430",
+      "slug": "058_conta_w430",
+      "base": "058_conta",
+      "prefixo": "aj58",
+      "etapa": "T17",
+      "arquivo": "telas/Conta.dc.html",
+      "titulo": "58 · Conta — largura 430",
+      "canvas": [
+        430,
+        1200
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "59w360",
+      "slug": "059_excluir_conta_w360",
+      "base": "059_excluir_conta",
+      "prefixo": "aj59",
+      "etapa": "T17",
+      "arquivo": "telas/ExcluirConta.dc.html",
+      "titulo": "59 · Excluir conta — largura 360",
+      "canvas": [
+        360,
+        960
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "59w430",
+      "slug": "059_excluir_conta_w430",
+      "base": "059_excluir_conta",
+      "prefixo": "aj59",
+      "etapa": "T17",
+      "arquivo": "telas/ExcluirConta.dc.html",
+      "titulo": "59 · Excluir conta — largura 430",
+      "canvas": [
+        430,
+        960
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "56w360",
+      "slug": "056_privacidade_w360",
+      "base": "056_privacidade",
+      "prefixo": "aj56",
+      "etapa": "T17",
+      "arquivo": "telas/Privacidade.dc.html",
+      "titulo": "56 · Privacidade — largura 360",
+      "canvas": [
+        360,
+        1420
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "56w430",
+      "slug": "056_privacidade_w430",
+      "base": "056_privacidade",
+      "prefixo": "aj56",
+      "etapa": "T17",
+      "arquivo": "telas/Privacidade.dc.html",
+      "titulo": "56 · Privacidade — largura 430",
+      "canvas": [
+        430,
+        1420
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "30w360",
+      "slug": "030_notificacoes_w360",
+      "base": "030_notificacoes",
+      "prefixo": "n30",
+      "etapa": "T17",
+      "arquivo": "telas/Notificacoes.dc.html",
+      "titulo": "30 · Notificações (sino da Início) — largura 360",
+      "canvas": [
+        360,
+        1180
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "30w430",
+      "slug": "030_notificacoes_w430",
+      "base": "030_notificacoes",
+      "prefixo": "n30",
+      "etapa": "T17",
+      "arquivo": "telas/Notificacoes.dc.html",
+      "titulo": "30 · Notificações (sino da Início) — largura 430",
+      "canvas": [
+        430,
+        1180
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "30bw360",
+      "slug": "030b_notificacoes_ajustes_w360",
+      "base": "030b_notificacoes_ajustes",
+      "prefixo": "n30b",
+      "etapa": "T17",
+      "arquivo": "telas/NotificacoesAjustes.dc.html",
+      "titulo": "30b · Lembretes e avisos (ajustes) — largura 360",
+      "canvas": [
+        360,
+        1330
+      ],
+      "largura": 360,
+      "previa": "",
+      "reserva": {
+        "quiet.range": {
+          "motivo": "o pai da seta entre \"das\" e \"até\" (o CDP atribui a ele a fonte da seta de dentro, como ao progressRow da 20 e às dicas da 28c): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "quiet.range.arrow": {
+          "motivo": "a seta entre \"das\" e \"até\" do não incomodar: o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800), como a das dicas da 28c; no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        }
+      },
+      "zoomBase": 20,
+      "zoomConvergencia": 40,
+      "_zoom": "D-279: no zoom 10 o Chromium arredonda a altura dos rótulos com line-height normal (11 px) e o erro soma até 0,59 px na metade de baixo; o zoom 20 fica a 0,06 px do JSON e o 40 a 0,015 — a referência sai do 20 e é conferida com o 40"
+    },
+    {
+      "tela": "30bw430",
+      "slug": "030b_notificacoes_ajustes_w430",
+      "base": "030b_notificacoes_ajustes",
+      "prefixo": "n30b",
+      "etapa": "T17",
+      "arquivo": "telas/NotificacoesAjustes.dc.html",
+      "titulo": "30b · Lembretes e avisos (ajustes) — largura 430",
+      "canvas": [
+        430,
+        1330
+      ],
+      "largura": 430,
+      "previa": "",
+      "reserva": {
+        "quiet.range": {
+          "motivo": "o pai da seta entre \"das\" e \"até\" (o CDP atribui a ele a fonte da seta de dentro, como ao progressRow da 20 e às dicas da 28c): o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800); no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        },
+        "quiet.range.arrow": {
+          "motivo": "a seta entre \"das\" e \"até\" do não incomodar: o \"→\" (U+2192) não está em nenhum subconjunto da Figtree, e o Chromium desenha com a Inter ExtraBold do sistema (o span é 800), como a das dicas da 28c; no app a seta vem da família de reserva (o peso, na T13.10)",
+          "informativo": false
+        }
+      },
+      "zoomBase": 20,
+      "zoomConvergencia": 40,
+      "_zoom": "D-279: no zoom 10 o Chromium arredonda a altura dos rótulos com line-height normal (11 px) e o erro soma até 0,59 px na metade de baixo; o zoom 20 fica a 0,06 px do JSON e o 40 a 0,015 — a referência sai do 20 e é conferida com o 40"
+    },
+    {
+      "tela": "30cw360",
+      "slug": "030c_notificacoes_vazia_w360",
+      "base": "030c_notificacoes_vazia",
+      "prefixo": "n30c",
+      "etapa": "T17",
+      "arquivo": "telas/NotificacoesVazia.dc.html",
+      "titulo": "30c · Notificações — tudo em dia — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "30cw430",
+      "slug": "030c_notificacoes_vazia_w430",
+      "base": "030c_notificacoes_vazia",
+      "prefixo": "n30c",
+      "etapa": "T17",
+      "arquivo": "telas/NotificacoesVazia.dc.html",
+      "titulo": "30c · Notificações — tudo em dia — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "18w360",
+      "slug": "018_cronometro_w360",
+      "base": "018_cronometro",
+      "prefixo": "cr18",
+      "etapa": "T18",
+      "arquivo": "telas/Cronometro.dc.html",
+      "titulo": "18 · Cronômetro de leitura (livro físico) — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "18w430",
+      "slug": "018_cronometro_w430",
+      "base": "018_cronometro",
+      "prefixo": "cr18",
+      "etapa": "T18",
+      "arquivo": "telas/Cronometro.dc.html",
+      "titulo": "18 · Cronômetro de leitura (livro físico) — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": ""
+    },
+    {
+      "tela": "18bw360",
+      "slug": "018b_fim_da_sessao_w360",
+      "base": "018b_fim_da_sessao",
+      "prefixo": "cr18b",
+      "etapa": "T18",
+      "arquivo": "telas/FimSessao.dc.html",
+      "titulo": "18b · Fim da sessão (página opcional) — largura 360",
+      "canvas": [
+        360,
+        844
+      ],
+      "largura": 360,
+      "previa": ""
+    },
+    {
+      "tela": "18bw430",
+      "slug": "018b_fim_da_sessao_w430",
+      "base": "018b_fim_da_sessao",
+      "prefixo": "cr18b",
+      "etapa": "T18",
+      "arquivo": "telas/FimSessao.dc.html",
+      "titulo": "18b · Fim da sessão (página opcional) — largura 430",
+      "canvas": [
+        430,
+        844
+      ],
+      "largura": 430,
+      "previa": "",
+      "convergenciaFaixa": {
+        "y": [
+          290,
+          335
+        ],
+        "zoom": 12
+      },
+      "_convergencia": "T02 (R3), como a 18b a 390: a folha ([role=dialog]) tem border-top de 1,5 px com border-radius só em cima, e nos zooms 14, 15, 16 e 20 o Skia desenha um bloco preto retangular no canto de cima à esquerda (css y ~300–330) — nos zooms 10, 11, 12 e 13 o canto sai certo e as quatro reduções batem na faixa (blur 0 %). Prova: com border-top-color transparente o bloco some (zooms 15 e 20). O gate confere a faixa y 290–335 com o zoom 12 × 10 e o resto com o 20 × 10 (fora da faixa, 0 % em todos os zooms medidos: 11 a 16 e 20); nenhum pixel fica sem conferência. A referência é o zoom 10, sem mudança. A 360 o canto sai certo no zoom 20 e não precisa de faixa."
+    }
+  ]
+}

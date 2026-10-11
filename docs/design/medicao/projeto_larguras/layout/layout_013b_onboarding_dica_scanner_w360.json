@@ -1,0 +1,4281 @@
+{
+ "meta": {
+  "source": "telas/OnboardingDica.dc.html",
+  "prancha": "013b_onboarding_dica_scanner_w360",
+  "titulo": "13b · Onboarding — dica do scanner — largura 360",
+  "canvas": [
+   360,
+   844
+  ],
+  "prefixo": "e13b",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4",
+   "progress": "#FF552E"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics).",
+  "secoesSemElemento": {
+   "e13b.coach": [
+    "e13b.coach.spotlight",
+    "e13b.coach.ring",
+    "e13b.coach.arrow",
+    "e13b.coach.tag",
+    "e13b.coach.card"
+   ],
+   "e13b.suggestions": [
+    "e13b.suggestions.header",
+    "e13b.suggestions.grid"
+   ]
+  }
+ },
+ "sections": {
+  "e13b.waves": [
+   0,
+   0,
+   390,
+   150
+  ],
+  "e13b.top": [
+   20,
+   58,
+   320,
+   48
+  ],
+  "e13b.heading": [
+   20,
+   142,
+   320,
+   78.4
+  ],
+  "e13b.lead": [
+   20,
+   230.4,
+   320,
+   21.02
+  ],
+  "e13b.search": [
+   20,
+   267.43,
+   320,
+   52
+  ],
+  "e13b.coach": [
+   20,
+   248.43,
+   369,
+   366.2
+  ],
+  "e13b.suggestions": [
+   20,
+   339.43,
+   328,
+   408.57
+  ],
+  "e13b.continue": [
+   20,
+   756,
+   320,
+   54
+  ]
+ },
+ "elements": {
+  "e13b.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    360,
+    844
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "overflow": "hidden"
+   }
+  },
+  "e13b.waves": {
+   "tpl": 5,
+   "section": "e13b.waves",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    0,
+    0,
+    390,
+    150
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    150
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "0px",
+     "right": "-30px",
+     "bottom": "694px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.main": {
+   "tpl": 96,
+   "type": "box",
+   "tag": "main",
+   "abs": [
+    0,
+    0,
+    360,
+    844
+   ],
+   "style": {
+    "padding": "58px 20px 34px 20px",
+    "position": {
+     "top": "0px",
+     "right": "0px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   }
+  },
+  "e13b.top": {
+   "tpl": 97,
+   "section": "e13b.top",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    58,
+    320,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    320,
+    48
+   ],
+   "style": {},
+   "css": "height: 48px; display: flex; align-items: center; gap: 10px"
+  },
+  "e13b.top.back": {
+   "tpl": 98,
+   "section": "e13b.top",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    62,
+    40,
+    40
+   ],
+   "rel": [
+    0,
+    4,
+    40,
+    40
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Voltar para os gêneros"
+  },
+  "e13b.top.back.icon": {
+   "tpl": 99,
+   "section": "e13b.top",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    31,
+    73,
+    18,
+    18
+   ],
+   "rel": [
+    11,
+    15,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.top.step": {
+   "tpl": 102,
+   "section": "e13b.top",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    70,
+    64,
+    64.7,
+    36
+   ],
+   "rel": [
+    50,
+    6,
+    64.7,
+    36
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 12px 0px 12px",
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 36px; padding: 0 12px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; font-size: 13px; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "3 de 4",
+     "left": 83.5,
+     "right": 121.2,
+     "top": 74.2,
+     "bottom": 89.8,
+     "baseline": 86.55,
+     "baselineRel": 28.55
+    }
+   ],
+   "naturalWidth": 64.7,
+   "minContentWidth": 42.08,
+   "text": "3 de 4",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "e13b.top.progress": {
+   "tpl": 103,
+   "section": "e13b.top",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    144.7,
+    74,
+    124.14,
+    16
+   ],
+   "rel": [
+    124.7,
+    16,
+    124.14,
+    16
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(135deg, #E9DFCC 0px, #E9DFCC 3px, #FFFAF1 3px, #FFFAF1 7px)",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "overflow": "hidden"
+   },
+   "css": "position: relative; flex-grow: 1; min-width: 0; height: 16px; border-radius: 999px; border: 1.5px solid #1A1714; background: repeating-linear-gradient(135deg,#E9DFCC 0 3px,#FFFAF1 3px 7px); box-sizing: border-box; overflow: hidden",
+   "aria": "Configuração da conta",
+   "role": "progressbar",
+   "ariaAttrs": {
+    "aria-valuemin": "1",
+    "aria-valuemax": "4",
+    "aria-valuenow": "3"
+   }
+  },
+  "e13b.top.progress.fill": {
+   "tpl": 104,
+   "section": "e13b.top",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    146.2,
+    75.5,
+    90.86,
+    13
+   ],
+   "rel": [
+    126.2,
+    17.5,
+    90.86,
+    13
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "position": {
+     "top": "0px",
+     "right": "30.2858px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 75%; background: {{progress}}"
+  },
+  "e13b.top.progress.fill.edge": {
+   "tpl": 105,
+   "section": "e13b.top",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    232.06,
+    75.5,
+    10,
+    13
+   ],
+   "rel": [
+    212.06,
+    17.5,
+    10,
+    13
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "0px",
+     "right": "-5px",
+     "bottom": "0px",
+     "left": "85.8572px"
+    }
+   },
+   "css": "position: absolute; top: 0; right: -5px; height: 100%"
+  },
+  "e13b.top.skip": {
+   "tpl": 108,
+   "section": "e13b.top",
+   "type": "box+text",
+   "tag": "a",
+   "abs": [
+    278.84,
+    64,
+    61.16,
+    36
+   ],
+   "rel": [
+    258.84,
+    6,
+    61.16,
+    36
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 13px 0px 13px",
+    "font": {
+     "family": "Figtree",
+     "size": 13.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "height: 36px; padding: 0 13px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; font-size: 13.5px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Pular",
+     "left": 293.34,
+     "right": 325.5,
+     "top": 73.89,
+     "bottom": 90.11,
+     "baseline": 86.72,
+     "baselineRel": 28.72
+    }
+   ],
+   "naturalWidth": 61.157,
+   "minContentWidth": 61.157,
+   "text": "Pular",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 5
+    }
+   ]
+  },
+  "e13b.heading": {
+   "tpl": 109,
+   "section": "e13b.heading",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    142,
+    320,
+    78.4
+   ],
+   "rel": [
+    0,
+    0,
+    320,
+    78.4
+   ],
+   "style": {},
+   "css": "position: relative; margin-top: 36px",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "e13b.heading.title": {
+   "tpl": 110,
+   "section": "e13b.heading",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    20,
+    142,
+    320,
+    78.4
+   ],
+   "rel": [
+    0,
+    0,
+    320,
+    78.4
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 34.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "33.32px",
+     "letterSpacing": "-1.1px",
+     "color": "#1A1714",
+     "opsz": 34.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 0.98; letter-spacing: -1.1px",
+   "lines": [
+    {
+     "text": "Comece sua",
+     "left": 20,
+     "right": 209.15,
+     "top": 138.26,
+     "bottom": 179.06,
+     "baseline": 169.88,
+     "baselineRel": 27.88
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Comece sua",
+     "left": 20,
+     "right": 209.15,
+     "top": 138.26,
+     "bottom": 179.06,
+     "baseline": 169.88,
+     "baselineRel": 27.88
+    },
+    {
+     "text": "estante.",
+     "left": 20,
+     "right": 142.5,
+     "top": 167.96,
+     "bottom": 227.76,
+     "baseline": 213.5,
+     "baselineRel": 71.5
+    }
+   ],
+   "naturalWidth": 189.146,
+   "minContentWidth": 126.966,
+   "text": "Comece sua",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 8
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "e13b.heading.title.serif": {
+   "tpl": 112,
+   "section": "e13b.heading",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    20,
+    167.96,
+    122.5,
+    59.8
+   ],
+   "rel": [
+    0,
+    25.96,
+    122.5,
+    59.8
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 46.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "45.08px",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 46px; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "estante.",
+     "left": 20,
+     "right": 142.5,
+     "top": 167.96,
+     "bottom": 227.76,
+     "baseline": 213.5,
+     "baselineRel": 71.5
+    }
+   ],
+   "naturalWidth": 122.5,
+   "minContentWidth": 122.5,
+   "text": "estante.",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "e13b.heading.sparkle": {
+   "tpl": 113,
+   "section": "e13b.heading",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    302,
+    172,
+    24,
+    24
+   ],
+   "rel": [
+    282,
+    30,
+    24,
+    24
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "30px",
+     "right": "14px",
+     "bottom": "24.4px",
+     "left": "282px"
+    }
+   },
+   "css": "position: absolute; right: 14px; top: 30px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.lead": {
+   "tpl": 115,
+   "section": "e13b.lead",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    20,
+    230.4,
+    320,
+    21.02
+   ],
+   "rel": [
+    0,
+    0.0,
+    320,
+    21.02
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "21.025px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin: 10px 0 0; font-size: 14.5px; font-weight: 500; line-height: 1.45; color: #5B544B",
+   "lines": [
+    {
+     "text": "Adicione os livros que você já tem ou quer ler.",
+     "left": 20,
+     "right": 318.52,
+     "top": 232.2,
+     "bottom": 249.61,
+     "baseline": 245.98,
+     "baselineRel": 15.58
+    }
+   ],
+   "naturalWidth": 298.525,
+   "minContentWidth": 57.683,
+   "text": "Adicione os livros que você já tem ou quer ler.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 47
+    }
+   ]
+  },
+  "e13b.search": {
+   "tpl": 116,
+   "section": "e13b.search",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    267.43,
+    320,
+    52
+   ],
+   "rel": [
+    0,
+    -0.0,
+    320,
+    52
+   ],
+   "style": {},
+   "css": "position: relative; margin-top: 16px; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e13b.search.field": {
+   "tpl": 117,
+   "section": "e13b.search",
+   "type": "box",
+   "tag": "label",
+   "abs": [
+    20,
+    267.43,
+    258,
+    52
+   ],
+   "rel": [
+    0,
+    -0.0,
+    258,
+    52
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 16px 0px 16px"
+   },
+   "css": "flex-grow: 1; min-width: 0; height: 52px; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box"
+  },
+  "e13b.search.field.icon": {
+   "tpl": 118,
+   "section": "e13b.search",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    37.5,
+    283.43,
+    20,
+    20
+   ],
+   "rel": [
+    17.5,
+    16.0,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.search.field.input": {
+   "tpl": 121,
+   "section": "e13b.search",
+   "type": "box",
+   "tag": "input",
+   "abs": [
+    67.5,
+    268.93,
+    193,
+    49
+   ],
+   "rel": [
+    47.5,
+    1.5,
+    193,
+    49
+   ],
+   "style": {
+    "overflow": "clip"
+   },
+   "css": "flex-grow: 1; min-width: 0; height: 100%; border: none; background: transparent; outline: none; padding: 0; font-family: inherit; font-size: 15px; font-weight: 500; color: #1A1714",
+   "aria": "Buscar livros",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 21
+    }
+   ]
+  },
+  "e13b.search.scan": {
+   "tpl": 122,
+   "section": "e13b.search",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    288,
+    267.43,
+    52,
+    52
+   ],
+   "rel": [
+    268,
+    -0.0,
+    52,
+    52
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "shadow": "#1A1714 2px 2px 0px 0px"
+   },
+   "css": "width: 52px; height: 52px; flex-shrink: 0; padding: 0; border-radius: 50%; background: #FED170; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Escanear código de barras"
+  },
+  "e13b.search.scan.icon": {
+   "tpl": 123,
+   "section": "e13b.search",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    302,
+    281.43,
+    24,
+    24
+   ],
+   "rel": [
+    282,
+    14.0,
+    24,
+    24
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.spotlight": {
+   "tpl": 125,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    306,
+    255.43,
+    76,
+    76
+   ],
+   "rel": [
+    286,
+    7.0,
+    76,
+    76
+   ],
+   "style": {
+    "radius": "50%",
+    "shadow": "#1A1714@0.82 0px 0px 0px 1400px",
+    "zIndex": "5",
+    "position": {
+     "top": "-12px",
+     "right": "-42px",
+     "bottom": "-12px",
+     "left": "286px"
+    }
+   },
+   "css": "position: absolute; left: 286px; top: -12px; width: 76px; height: 76px; border-radius: 50%; box-shadow: 0 0 0 1400px rgba(26,23,20,0.82); z-index: 5; pointer-events: none",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.ring": {
+   "tpl": 126,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    299,
+    248.43,
+    90,
+    90
+   ],
+   "rel": [
+    279,
+    -0.0,
+    90,
+    90
+   ],
+   "style": {
+    "border": "2px dashed #FFFAF1",
+    "radius": "50%",
+    "zIndex": "6",
+    "position": {
+     "top": "-19px",
+     "right": "-49px",
+     "bottom": "-19px",
+     "left": "279px"
+    }
+   },
+   "css": "position: absolute; left: 279px; top: -19px; width: 90px; height: 90px; border-radius: 50%; border: 2px dashed #FFFAF1; box-sizing: border-box; z-index: 6; pointer-events: none",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.arrow": {
+   "tpl": 127,
+   "section": "e13b.coach",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    20,
+    267.43,
+    350,
+    140
+   ],
+   "rel": [
+    0,
+    19.0,
+    350,
+    140
+   ],
+   "style": {
+    "zIndex": "6",
+    "position": {
+     "top": "0px",
+     "right": "-30px",
+     "bottom": "-88px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; z-index: 6; overflow: visible; pointer-events: none",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.tag": {
+   "tpl": 130,
+   "section": "e13b.coach",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    112,
+    329.43,
+    93.2,
+    38
+   ],
+   "rel": [
+    92,
+    81.0,
+    93.2,
+    38
+   ],
+   "vis": [
+    110.27,
+    324.66,
+    96.66,
+    47.53
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "zIndex": "6",
+    "padding": "3px 14px 7px 14px",
+    "position": {
+     "top": "62px",
+     "right": "134.8px",
+     "bottom": "-48px",
+     "left": "92px"
+    },
+    "transformMatrix": "matrix(0.994522, -0.104528, 0.104528, 0.994522, 0, 0)",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "transform": "rotate(-6deg)",
+    "font": {
+     "family": "Instrument Serif",
+     "size": 25.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "25px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "position: absolute; left: 92px; top: 62px; z-index: 6; padding: 3px 14px 7px; border-radius: 999px; background: #FED170; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 25px; line-height: 1; color: #1A1714; transform: rotate(-6deg); white-space: nowrap",
+   "lines": [
+    {
+     "text": "é aqui!",
+     "left": 127.5,
+     "right": 189.7,
+     "top": 330.18,
+     "bottom": 362.68,
+     "baseline": 354.93,
+     "baselineRel": 106.5
+    }
+   ],
+   "naturalWidth": 93.2,
+   "minContentWidth": 80.25,
+   "text": "é aqui!",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e13b.coach.card": {
+   "tpl": 131,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    20,
+    413.43,
+    320,
+    201.2
+   ],
+   "rel": [
+    0,
+    165.0,
+    320,
+    201.2
+   ],
+   "vis": [
+    17.42,
+    409.27,
+    325.16,
+    209.51
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "24px",
+    "shadow": "#1A1714 4px 4px 0px 0px",
+    "zIndex": "6",
+    "padding": "22px 18px 18px 18px",
+    "position": {
+     "top": "146px",
+     "right": "0px",
+     "bottom": "-295.2px",
+     "left": "0px"
+    },
+    "transformMatrix": "matrix(0.999657, -0.0261769, 0.0261769, 0.999657, 0, 0)",
+    "transform": "rotate(-1.5deg)"
+   },
+   "css": "position: absolute; left: 0; right: 0; top: 146px; z-index: 6; padding: 22px 18px 18px; border-radius: 24px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 4px 4px 0 #1A1714; transform: rotate(-1.5deg); box-sizing: border-box",
+   "role": "dialog",
+   "ariaAttrs": {
+    "aria-modal": "true",
+    "aria-labelledby": "tip-title",
+    "aria-describedby": "tip-body"
+   }
+  },
+  "e13b.coach.card.tape": {
+   "tpl": 132,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    141,
+    401.93,
+    78,
+    24
+   ],
+   "rel": [
+    121,
+    153.5,
+    78,
+    24
+   ],
+   "vis": [
+    138.08,
+    400.94,
+    78.6,
+    26.03
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714@0.35",
+    "opacity": "0.85",
+    "position": {
+     "top": "-13px",
+     "right": "119.5px",
+     "bottom": "187.2px",
+     "left": "158.5px"
+    },
+    "transformMatrix": "matrix(0.99863, 0.052336, -0.052336, 0.99863, 0, 0)",
+    "transform": "rotate(3deg)"
+   },
+   "css": "position: absolute; left: 50%; top: -13px; width: 78px; height: 24px; margin-left: -39px; background: {{brand}}; opacity: 0.85; border: 1.5px solid rgba(26,23,20,0.35); box-sizing: border-box; transform: rotate(3deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.card.row": {
+   "tpl": 133,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    39.5,
+    436.93,
+    281,
+    94.2
+   ],
+   "rel": [
+    19.5,
+    188.5,
+    281,
+    94.2
+   ],
+   "vis": [
+    37.53,
+    433.27,
+    283.37,
+    101.52
+   ],
+   "style": {},
+   "css": "display: flex; align-items: flex-start; gap: 14px"
+  },
+  "e13b.coach.card.art": {
+   "tpl": 134,
+   "section": "e13b.coach",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    39.5,
+    436.93,
+    46,
+    60
+   ],
+   "rel": [
+    19.5,
+    188.5,
+    46,
+    60
+   ],
+   "vis": [
+    34.59,
+    437.27,
+    53.44,
+    65.49
+   ],
+   "style": {
+    "transformMatrix": "matrix(0.994522, -0.104528, 0.104528, 0.994522, 0, 0)",
+    "transform": "rotate(-6deg)"
+   },
+   "css": "flex-shrink: 0; transform: rotate(-6deg); overflow: visible",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.card.textBlock": {
+   "tpl": 140,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    99.5,
+    436.93,
+    221,
+    94.2
+   ],
+   "rel": [
+    79.5,
+    188.5,
+    221,
+    94.2
+   ],
+   "vis": [
+    97.51,
+    433.27,
+    223.39,
+    99.95
+   ],
+   "style": {},
+   "css": "min-width: 0",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 73
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e13b.coach.card.title": {
+   "tpl": 141,
+   "section": "e13b.coach",
+   "type": "text",
+   "tag": "h2",
+   "abs": [
+    99.5,
+    436.93,
+    221,
+    27.3
+   ],
+   "rel": [
+    79.5,
+    188.5,
+    221,
+    27.3
+   ],
+   "vis": [
+    97.51,
+    433.27,
+    221.64,
+    33.08
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "Tem o livro",
+     "left": 99.5,
+     "right": 210.04,
+     "top": 438.95,
+     "bottom": 465.36,
+     "baseline": 459.42,
+     "baselineRel": 210.99
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Tem o livro na mão?",
+     "left": 99.5,
+     "right": 295.06,
+     "top": 433.68,
+     "bottom": 467.48,
+     "baseline": 459.42,
+     "baselineRel": 210.99
+    }
+   ],
+   "naturalWidth": 195.562,
+   "minContentWidth": 50.966,
+   "text": "Tem o livro",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 7
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e13b.coach.card.title.serif": {
+   "tpl": 142,
+   "section": "e13b.coach",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    214.41,
+    433.68,
+    80.66,
+    33.8
+   ],
+   "rel": [
+    194.41,
+    185.25,
+    80.66,
+    33.8
+   ],
+   "vis": [
+    212.29,
+    430.69,
+    81.51,
+    35.9
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 26.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "27.3px",
+     "letterSpacing": "-0.2px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 26px; letter-spacing: -0.2px",
+   "lines": [
+    {
+     "text": "na mão?",
+     "left": 214.41,
+     "right": 295.06,
+     "top": 433.68,
+     "bottom": 467.48,
+     "baseline": 459.42,
+     "baselineRel": 210.99
+    }
+   ],
+   "naturalWidth": 80.656,
+   "minContentWidth": 50.966,
+   "text": "na mão?",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e13b.coach.card.body": {
+   "tpl": 143,
+   "section": "e13b.coach",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    99.5,
+    470.23,
+    221,
+    60.9
+   ],
+   "rel": [
+    79.5,
+    221.8,
+    221,
+    60.9
+   ],
+   "vis": [
+    98.38,
+    466.56,
+    222.52,
+    66.66
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "20.3px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin: 6px 0 0; font-size: 14px; font-weight: 500; line-height: 1.45; color: #5B544B",
+   "lines": [
+    {
+     "text": "Aponte a câmera para o código de",
+     "left": 99.5,
+     "right": 316.05,
+     "top": 471.98,
+     "bottom": 488.77,
+     "baseline": 485.27,
+     "baselineRel": 236.84
+    },
+    {
+     "text": "barras e ele entra na sua estante",
+     "left": 99.5,
+     "right": 302.45,
+     "top": 492.27,
+     "bottom": 509.07,
+     "baseline": 505.57,
+     "baselineRel": 257.14
+    },
+    {
+     "text": "na hora.",
+     "left": 99.5,
+     "right": 149.14,
+     "top": 512.58,
+     "bottom": 529.38,
+     "baseline": 525.88,
+     "baselineRel": 277.44
+    }
+   ],
+   "naturalWidth": 475.973,
+   "minContentWidth": 47.578,
+   "text": "Aponte a câmera para o código de barras e ele entra na sua estante na hora.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 73
+    }
+   ]
+  },
+  "e13b.coach.card.actions": {
+   "tpl": 144,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    39.5,
+    547.12,
+    281,
+    48
+   ],
+   "rel": [
+    19.5,
+    298.69,
+    281,
+    48
+   ],
+   "vis": [
+    40.41,
+    543.44,
+    282.16,
+    55.34
+   ],
+   "style": {},
+   "css": "margin-top: 16px; display: flex; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e13b.coach.card.actions.dismiss": {
+   "tpl": 145,
+   "section": "e13b.coach",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    39.5,
+    547.12,
+    117.55,
+    48
+   ],
+   "rel": [
+    19.5,
+    298.69,
+    117.55,
+    48
+   ],
+   "vis": [
+    40.41,
+    547.71,
+    118.77,
+    51.06
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "1px 6px 1px 6px",
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "flex: 1 1 0; height: 48px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; font-size: 15px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "Entendi",
+     "left": 71.49,
+     "right": 125.06,
+     "top": 562.12,
+     "bottom": 580.12,
+     "baseline": 576.38,
+     "baselineRel": 327.94
+    }
+   ],
+   "naturalWidth": 68.565,
+   "minContentWidth": 68.565,
+   "text": "Entendi",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e13b.coach.card.actions.try": {
+   "tpl": 146,
+   "section": "e13b.coach",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    167.05,
+    547.12,
+    153.45,
+    48
+   ],
+   "rel": [
+    147.05,
+    298.69,
+    153.45,
+    48
+   ],
+   "vis": [
+    167.92,
+    543.44,
+    154.65,
+    52
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "1px 6px 1px 6px"
+   },
+   "css": "flex: 1.35 1 0; height: 48px; border-radius: 999px; background: #1A1714; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 800; color: #F7F0E3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e13b.coach.card.actions.try.icon": {
+   "tpl": 147,
+   "section": "e13b.coach",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    187.19,
+    562.12,
+    18,
+    18
+   ],
+   "rel": [
+    167.19,
+    313.69,
+    18,
+    18
+   ],
+   "vis": [
+    188.44,
+    561.45,
+    18.46,
+    18.46
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.coach.card.actions.try.label": {
+   "tpl": 149,
+   "section": "e13b.coach",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    213.19,
+    562.12,
+    87.18,
+    18
+   ],
+   "rel": [
+    193.19,
+    313.69,
+    87.18,
+    18
+   ],
+   "vis": [
+    214.43,
+    558.96,
+    87.62,
+    20.28
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#F7F0E3",
+     "textAlign": "center"
+    }
+   },
+   "css": "color: #F7F0E3",
+   "lines": [
+    {
+     "text": "Testar agora",
+     "left": 213.19,
+     "right": 300.37,
+     "top": 562.12,
+     "bottom": 580.12,
+     "baseline": 576.38,
+     "baselineRel": 327.94
+    }
+   ],
+   "naturalWidth": 87.18,
+   "minContentWidth": 43.65,
+   "text": "Testar agora",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e13b.suggestions.header": {
+   "tpl": 150,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    339.43,
+    320,
+    21.6
+   ],
+   "rel": [
+    0,
+    -0.0,
+    320,
+    21.6
+   ],
+   "style": {},
+   "css": "margin-top: 20px; display: flex; align-items: center; justify-content: space-between; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 19
+    }
+   ]
+  },
+  "e13b.suggestions.title": {
+   "tpl": 151,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "h2",
+   "abs": [
+    20,
+    339.43,
+    177.99,
+    21.6
+   ],
+   "rel": [
+    0,
+    -0.0,
+    177.99,
+    21.6
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 18.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "-0.3px",
+     "color": "#1A1714",
+     "opsz": 18.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.3px",
+   "lines": [
+    {
+     "text": "Sugestões para você",
+     "left": 20,
+     "right": 197.99,
+     "top": 339.43,
+     "bottom": 361.02,
+     "baseline": 356.17,
+     "baselineRel": 16.74
+    }
+   ],
+   "naturalWidth": 177.991,
+   "minContentWidth": 90.204,
+   "text": "Sugestões para você",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 19
+    }
+   ]
+  },
+  "e13b.suggestions.note": {
+   "tpl": 152,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    241.53,
+    342.72,
+    98.47,
+    15.01
+   ],
+   "rel": [
+    221.53,
+    3.29,
+    98.47,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 700; color: #5B544B; white-space: nowrap",
+   "lines": [
+    {
+     "text": "dos seus gêneros",
+     "left": 241.53,
+     "right": 340,
+     "top": 342.72,
+     "bottom": 357.73,
+     "baseline": 354.6,
+     "baselineRel": 15.17
+    }
+   ],
+   "naturalWidth": 98.475,
+   "minContentWidth": 46.325,
+   "text": "dos seus gêneros",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e13b.suggestions.grid": {
+   "tpl": 153,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    377.02,
+    328,
+    370.98
+   ],
+   "rel": [
+    0,
+    37.59,
+    328,
+    370.98
+   ],
+   "style": {
+    "padding": "8px 8px 0px 0px",
+    "overflow": "hidden",
+    "mask": "linear-gradient(#000000 calc(100% - 22px), #000000@0 100%)"
+   },
+   "css": "margin-top: 16px; flex: 1 1 0; min-height: 0; overflow: hidden; padding: 8px 8px 0 0; margin-right: -8px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: 20px 12px; -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent 100%); mask-image: linear-gradient(180deg, #000 calc(100% - 22px), transparent 100%)"
+  },
+  "e13b.suggestions.book1": {
+   "tpl": 154,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    0,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "padding: 0; border: none; background: transparent; display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: left",
+   "aria": "Remover Dom Casmurro da estante",
+   "ariaAttrs": {
+    "aria-pressed": "true"
+   }
+  },
+  "e13b.suggestions.book1.wrap": {
+   "tpl": 155,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    20,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    0,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "position: relative; display: block; width: 100%"
+  },
+  "e13b.suggestions.book1.toggle": {
+   "tpl": 156,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    96.67,
+    377.02,
+    30,
+    30
+   ],
+   "rel": [
+    76.67,
+    37.59,
+    30,
+    30
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "zIndex": "1",
+    "position": {
+     "top": "-8px",
+     "right": "-8px",
+     "bottom": "130px",
+     "left": "76.6666px"
+    }
+   },
+   "css": "position: absolute; right: -8px; top: -8px; width: 30px; height: 30px; border-radius: 50%; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 1",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.suggestions.book1.toggle.icon": {
+   "tpl": 157,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    104.67,
+    385.02,
+    14,
+    14
+   ],
+   "rel": [
+    84.67,
+    45.59,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.suggestions.book1.cover": {
+   "tpl": 159,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    20,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    0,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {
+    "bg": "#552CB7",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "shadow": "#1A1714 3px 3px 0px 0px",
+    "overflow": "hidden"
+   },
+   "css": "position: relative; display: block; width: 100%; height: 152px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #552CB7; box-shadow: 3px 3px 0 #1A1714; overflow: hidden; box-sizing: border-box"
+  },
+  "e13b.suggestions.book1.cover.spine": {
+   "tpl": 160,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    21.5,
+    386.52,
+    7,
+    149
+   ],
+   "rel": [
+    1.5,
+    47.09,
+    7,
+    149
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "88.6666px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "e13b.suggestions.book1.cover.sun": {
+   "tpl": 161,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    77.17,
+    372.52,
+    54,
+    54
+   ],
+   "rel": [
+    57.17,
+    33.09,
+    54,
+    54
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": "50%",
+    "position": {
+     "top": "-14px",
+     "right": "-14px",
+     "bottom": "109px",
+     "left": "55.6666px"
+    }
+   },
+   "css": "position: absolute; right: -14px; top: -14px; width: 54px; height: 54px; border-radius: 50%; background: #FED170"
+  },
+  "e13b.suggestions.book1.cover.ring": {
+   "tpl": 162,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    80.17,
+    420.52,
+    15,
+    15
+   ],
+   "rel": [
+    60.17,
+    81.09,
+    15,
+    15
+   ],
+   "style": {
+    "border": "1.5px solid #FED170",
+    "radius": "50%",
+    "position": {
+     "top": "34px",
+     "right": "22px",
+     "bottom": "100px",
+     "left": "58.6666px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: absolute; right: 22px; top: 34px; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid #FED170"
+  },
+  "e13b.suggestions.book1.cover.textBlock": {
+   "tpl": 163,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    478.95,
+    75.67,
+    46.57
+   ],
+   "rel": [
+    15.5,
+    139.52,
+    75.67,
+    46.57
+   ],
+   "style": {
+    "position": {
+     "top": "92.43px",
+     "right": "6px",
+     "bottom": "10px",
+     "left": "14px"
+    }
+   },
+   "css": "position: absolute; left: 14px; right: 6px; bottom: 10px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e13b.suggestions.book1.cover.title": {
+   "tpl": 164,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    478.95,
+    75.67,
+    34.96
+   ],
+   "rel": [
+    15.5,
+    139.52,
+    75.67,
+    34.96
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "17.48px",
+     "letterSpacing": "normal",
+     "color": "#FED170"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.92; color: #FED170",
+   "lines": [
+    {
+     "text": "Dom",
+     "left": 35.5,
+     "right": 66.7,
+     "top": 475.35,
+     "bottom": 500.05,
+     "baseline": 494.15,
+     "baselineRel": 154.72
+    },
+    {
+     "text": "Casmurro",
+     "left": 35.5,
+     "right": 99.89,
+     "top": 492.82,
+     "bottom": 517.52,
+     "baseline": 511.63,
+     "baselineRel": 172.2
+    }
+   ],
+   "naturalWidth": 64.391,
+   "minContentWidth": 64.391,
+   "text": "DomCasmurro",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e13b.suggestions.book1.cover.author": {
+   "tpl": 166,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    518.91,
+    75.67,
+    6.61
+   ],
+   "rel": [
+    15.5,
+    179.48,
+    75.67,
+    6.61
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 5.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.77px",
+     "color": "#FED170"
+    }
+   },
+   "css": "font-size: 5.5px; letter-spacing: 0.14em; font-weight: 700; color: #FED170",
+   "lines": [
+    {
+     "text": "MACHADO DE ASSIS",
+     "left": 35.5,
+     "right": 101.78,
+     "top": 518.91,
+     "bottom": 525.52,
+     "baseline": 524.14,
+     "baselineRel": 184.71
+    }
+   ],
+   "naturalWidth": 66.275,
+   "minContentWidth": 34.105,
+   "text": "MACHADO DE ASSIS",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e13b.suggestions.book2": {
+   "tpl": 167,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    130.67,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    110.67,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "padding: 0; border: none; background: transparent; display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: left",
+   "aria": "Remover Orgulho e Preconceito da estante",
+   "ariaAttrs": {
+    "aria-pressed": "true"
+   }
+  },
+  "e13b.suggestions.book2.wrap": {
+   "tpl": 168,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    130.67,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    110.67,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "position: relative; display: block; width: 100%"
+  },
+  "e13b.suggestions.book2.toggle": {
+   "tpl": 169,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    207.33,
+    377.02,
+    30,
+    30
+   ],
+   "rel": [
+    187.33,
+    37.59,
+    30,
+    30
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "zIndex": "1",
+    "position": {
+     "top": "-8px",
+     "right": "-8px",
+     "bottom": "130px",
+     "left": "76.6667px"
+    }
+   },
+   "css": "position: absolute; right: -8px; top: -8px; width: 30px; height: 30px; border-radius: 50%; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 1",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.suggestions.book2.toggle.icon": {
+   "tpl": 170,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    215.33,
+    385.02,
+    14,
+    14
+   ],
+   "rel": [
+    195.33,
+    45.59,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.suggestions.book2.cover": {
+   "tpl": 172,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    130.67,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    110.67,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {
+    "bg": "#F2A815",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "shadow": "#1A1714 3px 3px 0px 0px",
+    "overflow": "hidden"
+   },
+   "css": "position: relative; display: block; width: 100%; height: 152px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #F2A815; box-shadow: 3px 3px 0 #1A1714; overflow: hidden; box-sizing: border-box"
+  },
+  "e13b.suggestions.book2.cover.spine": {
+   "tpl": 173,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    132.17,
+    386.52,
+    7,
+    149
+   ],
+   "rel": [
+    112.17,
+    47.09,
+    7,
+    149
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "88.6667px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "e13b.suggestions.book2.cover.glow": {
+   "tpl": 174,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    139.17,
+    386.52,
+    88.67,
+    70
+   ],
+   "rel": [
+    119.17,
+    47.09,
+    88.67,
+    70
+   ],
+   "style": {
+    "bgImage": "radial-gradient(circle, #FFFAF1 2.2px, #000000@0 2.6px)",
+    "position": {
+     "top": "0px",
+     "right": "0px",
+     "bottom": "79px",
+     "left": "7px"
+    }
+   },
+   "css": "position: absolute; left: 7px; right: 0; top: 0; height: 70px; background: radial-gradient(circle, #FFFAF1 2.2px, transparent 2.6px) 0 0/14px 14px"
+  },
+  "e13b.suggestions.book2.cover.textBlock": {
+   "tpl": 175,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    146.17,
+    478.95,
+    75.67,
+    46.57
+   ],
+   "rel": [
+    126.17,
+    139.52,
+    75.67,
+    46.57
+   ],
+   "style": {
+    "position": {
+     "top": "92.43px",
+     "right": "6px",
+     "bottom": "10px",
+     "left": "14px"
+    }
+   },
+   "css": "position: absolute; left: 14px; right: 6px; bottom: 10px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 20
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e13b.suggestions.book2.cover.title": {
+   "tpl": 176,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    146.17,
+    478.95,
+    75.67,
+    34.96
+   ],
+   "rel": [
+    126.17,
+    139.52,
+    75.67,
+    34.96
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "17.48px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.92; color: #1A1714",
+   "lines": [
+    {
+     "text": "Orgulho e",
+     "left": 146.17,
+     "right": 209,
+     "top": 475.35,
+     "bottom": 500.05,
+     "baseline": 494.15,
+     "baselineRel": 154.72
+    },
+    {
+     "text": "Preconceito",
+     "left": 146.17,
+     "right": 221.03,
+     "top": 492.82,
+     "bottom": 517.52,
+     "baseline": 511.63,
+     "baselineRel": 172.2
+    }
+   ],
+   "naturalWidth": 74.86,
+   "minContentWidth": 74.86,
+   "text": "Orgulho ePreconceito",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "e13b.suggestions.book2.cover.author": {
+   "tpl": 178,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    146.17,
+    518.91,
+    75.67,
+    6.61
+   ],
+   "rel": [
+    126.17,
+    179.48,
+    75.67,
+    6.61
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 5.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.77px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 5.5px; letter-spacing: 0.14em; font-weight: 700; color: #1A1714",
+   "lines": [
+    {
+     "text": "JANE AUSTEN",
+     "left": 146.17,
+     "right": 192.24,
+     "top": 518.91,
+     "bottom": 525.52,
+     "baseline": 524.14,
+     "baselineRel": 184.71
+    }
+   ],
+   "naturalWidth": 46.073,
+   "minContentWidth": 26.46,
+   "text": "JANE AUSTEN",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e13b.suggestions.book3": {
+   "tpl": 179,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    241.33,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    221.33,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "padding: 0; border: none; background: transparent; display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: left",
+   "aria": "Remover Memórias Póstumas de Brás Cubas da estante",
+   "ariaAttrs": {
+    "aria-pressed": "true"
+   }
+  },
+  "e13b.suggestions.book3.wrap": {
+   "tpl": 180,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    241.33,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    221.33,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "position: relative; display: block; width: 100%"
+  },
+  "e13b.suggestions.book3.toggle": {
+   "tpl": 181,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    318,
+    377.02,
+    30,
+    30
+   ],
+   "rel": [
+    298,
+    37.59,
+    30,
+    30
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "zIndex": "1",
+    "position": {
+     "top": "-8px",
+     "right": "-8px",
+     "bottom": "130px",
+     "left": "76.6667px"
+    }
+   },
+   "css": "position: absolute; right: -8px; top: -8px; width: 30px; height: 30px; border-radius: 50%; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 1",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.suggestions.book3.toggle.icon": {
+   "tpl": 182,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    326,
+    385.02,
+    14,
+    14
+   ],
+   "rel": [
+    306,
+    45.59,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.suggestions.book3.cover": {
+   "tpl": 184,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    241.33,
+    385.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    221.33,
+    45.59,
+    98.67,
+    152
+   ],
+   "style": {
+    "bg": "#058CD7",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "shadow": "#1A1714 3px 3px 0px 0px",
+    "overflow": "hidden"
+   },
+   "css": "position: relative; display: block; width: 100%; height: 152px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #058CD7; box-shadow: 3px 3px 0 #1A1714; overflow: hidden; box-sizing: border-box"
+  },
+  "e13b.suggestions.book3.cover.spine": {
+   "tpl": 185,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    242.83,
+    386.52,
+    7,
+    149
+   ],
+   "rel": [
+    222.83,
+    47.09,
+    7,
+    149
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "88.6667px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "e13b.suggestions.book3.cover.lines": {
+   "tpl": 186,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    257.83,
+    402.52,
+    66.67,
+    25
+   ],
+   "rel": [
+    237.83,
+    63.09,
+    66.67,
+    25
+   ],
+   "style": {
+    "position": {
+     "top": "16px",
+     "right": "14px",
+     "bottom": "108px",
+     "left": "15px"
+    }
+   },
+   "css": "position: absolute; left: 15px; right: 14px; top: 16px; display: flex; flex-direction: column; gap: 5px"
+  },
+  "e13b.suggestions.book3.cover.lines.line1": {
+   "tpl": 187,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    257.83,
+    402.52,
+    66.67,
+    5
+   ],
+   "rel": [
+    237.83,
+    63.09,
+    66.67,
+    5
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "radius": "5px"
+   },
+   "css": "height: 5px; border-radius: 5px; background: #F7F0E3"
+  },
+  "e13b.suggestions.book3.cover.lines.line2": {
+   "tpl": 188,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    257.83,
+    412.52,
+    46.67,
+    5
+   ],
+   "rel": [
+    237.83,
+    73.09,
+    46.67,
+    5
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "radius": "5px"
+   },
+   "css": "height: 5px; width: 70%; border-radius: 5px; background: #F7F0E3"
+  },
+  "e13b.suggestions.book3.cover.lines.line3": {
+   "tpl": 189,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    257.83,
+    422.52,
+    26.67,
+    5
+   ],
+   "rel": [
+    237.83,
+    83.09,
+    26.67,
+    5
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "radius": "5px"
+   },
+   "css": "height: 5px; width: 40%; border-radius: 5px; background: #F7F0E3"
+  },
+  "e13b.suggestions.book3.cover.textBlock": {
+   "tpl": 190,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    256.83,
+    478.95,
+    75.67,
+    46.57
+   ],
+   "rel": [
+    236.83,
+    139.52,
+    75.67,
+    46.57
+   ],
+   "style": {
+    "position": {
+     "top": "92.43px",
+     "right": "6px",
+     "bottom": "10px",
+     "left": "14px"
+    }
+   },
+   "css": "position: absolute; left: 14px; right: 6px; bottom: 10px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 9
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e13b.suggestions.book3.cover.title": {
+   "tpl": 191,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    256.83,
+    478.95,
+    75.67,
+    34.96
+   ],
+   "rel": [
+    236.83,
+    139.52,
+    75.67,
+    34.96
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "17.48px",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.92; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "Brás",
+     "left": 256.83,
+     "right": 285.05,
+     "top": 475.35,
+     "bottom": 500.05,
+     "baseline": 494.15,
+     "baselineRel": 154.72
+    },
+    {
+     "text": "Cubas",
+     "left": 256.83,
+     "right": 296.2,
+     "top": 492.82,
+     "bottom": 517.52,
+     "baseline": 511.63,
+     "baselineRel": 172.2
+    }
+   ],
+   "naturalWidth": 39.368,
+   "minContentWidth": 39.368,
+   "text": "BrásCubas",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e13b.suggestions.book3.cover.author": {
+   "tpl": 193,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    256.83,
+    518.91,
+    75.67,
+    6.61
+   ],
+   "rel": [
+    236.83,
+    179.48,
+    75.67,
+    6.61
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 5.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.77px",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-size: 5.5px; letter-spacing: 0.14em; font-weight: 700; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "MACHADO DE ASSIS",
+     "left": 256.83,
+     "right": 323.11,
+     "top": 518.91,
+     "bottom": 525.52,
+     "baseline": 524.14,
+     "baselineRel": 184.71
+    }
+   ],
+   "naturalWidth": 66.275,
+   "minContentWidth": 34.105,
+   "text": "MACHADO DE ASSIS",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e13b.suggestions.book4": {
+   "tpl": 194,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    0,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "padding: 0; border: none; background: transparent; display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: left",
+   "aria": "Adicionar A Hora da Estrela à estante",
+   "ariaAttrs": {
+    "aria-pressed": "false"
+   }
+  },
+  "e13b.suggestions.book4.wrap": {
+   "tpl": 195,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    20,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    0,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "position: relative; display: block; width: 100%"
+  },
+  "e13b.suggestions.book4.toggle": {
+   "tpl": 196,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    96.67,
+    549.02,
+    30,
+    30
+   ],
+   "rel": [
+    76.67,
+    209.59,
+    30,
+    30
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "zIndex": "1",
+    "position": {
+     "top": "-8px",
+     "right": "-8px",
+     "bottom": "130px",
+     "left": "76.6666px"
+    }
+   },
+   "css": "position: absolute; right: -8px; top: -8px; width: 30px; height: 30px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 1",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.suggestions.book4.toggle.icon": {
+   "tpl": 197,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    104.67,
+    557.02,
+    14,
+    14
+   ],
+   "rel": [
+    84.67,
+    217.59,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.suggestions.book4.cover": {
+   "tpl": 199,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    20,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    0,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; display: block; width: 100%; height: 152px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #FF552E; overflow: hidden; box-sizing: border-box"
+  },
+  "e13b.suggestions.book4.cover.spine": {
+   "tpl": 200,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    21.5,
+    558.52,
+    7,
+    149
+   ],
+   "rel": [
+    1.5,
+    219.09,
+    7,
+    149
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "88.6666px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "e13b.suggestions.book4.cover.star": {
+   "tpl": 201,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    61.17,
+    570.52,
+    44,
+    44
+   ],
+   "rel": [
+    41.17,
+    231.09,
+    44,
+    44
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "12px",
+     "right": "12px",
+     "bottom": "93px",
+     "left": "39.6666px"
+    }
+   },
+   "css": "position: absolute; right: 12px; top: 12px"
+  },
+  "e13b.suggestions.book4.cover.textBlock": {
+   "tpl": 203,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    650.96,
+    75.67,
+    46.57
+   ],
+   "rel": [
+    15.5,
+    311.53,
+    75.67,
+    46.57
+   ],
+   "style": {
+    "position": {
+     "top": "92.43px",
+     "right": "6px",
+     "bottom": "10px",
+     "left": "14px"
+    }
+   },
+   "css": "position: absolute; left: 14px; right: 6px; bottom: 10px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 16
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 17
+    }
+   ]
+  },
+  "e13b.suggestions.book4.cover.title": {
+   "tpl": 204,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    650.96,
+    75.67,
+    34.96
+   ],
+   "rel": [
+    15.5,
+    311.53,
+    75.67,
+    34.96
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "17.48px",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.92; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "A Hora da",
+     "left": 35.5,
+     "right": 97.97,
+     "top": 647.35,
+     "bottom": 672.04,
+     "baseline": 666.15,
+     "baselineRel": 326.72
+    },
+    {
+     "text": "Estrela",
+     "left": 35.5,
+     "right": 79.43,
+     "top": 664.83,
+     "bottom": 689.52,
+     "baseline": 683.63,
+     "baselineRel": 344.2
+    }
+   ],
+   "naturalWidth": 62.472,
+   "minContentWidth": 43.928,
+   "text": "A Hora daEstrela",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e13b.suggestions.book4.cover.author": {
+   "tpl": 206,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    35.5,
+    690.91,
+    75.67,
+    6.61
+   ],
+   "rel": [
+    15.5,
+    351.48,
+    75.67,
+    6.61
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 5.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.77px",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-size: 5.5px; letter-spacing: 0.14em; font-weight: 700; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "CLARICE LISPECTOR",
+     "left": 35.5,
+     "right": 102.64,
+     "top": 690.91,
+     "bottom": 697.52,
+     "baseline": 696.14,
+     "baselineRel": 356.71
+    }
+   ],
+   "naturalWidth": 67.144,
+   "minContentWidth": 36.443,
+   "text": "CLARICE LISPECTOR",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 17
+    }
+   ]
+  },
+  "e13b.suggestions.book5": {
+   "tpl": 207,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    130.67,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    110.67,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "padding: 0; border: none; background: transparent; display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: left",
+   "aria": "Adicionar Assassinato no Expresso do Oriente à estante",
+   "ariaAttrs": {
+    "aria-pressed": "false"
+   }
+  },
+  "e13b.suggestions.book5.wrap": {
+   "tpl": 208,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    130.67,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    110.67,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "position: relative; display: block; width: 100%"
+  },
+  "e13b.suggestions.book5.toggle": {
+   "tpl": 209,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    207.33,
+    549.02,
+    30,
+    30
+   ],
+   "rel": [
+    187.33,
+    209.59,
+    30,
+    30
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "zIndex": "1",
+    "position": {
+     "top": "-8px",
+     "right": "-8px",
+     "bottom": "130px",
+     "left": "76.6667px"
+    }
+   },
+   "css": "position: absolute; right: -8px; top: -8px; width: 30px; height: 30px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 1",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.suggestions.book5.toggle.icon": {
+   "tpl": 210,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    215.33,
+    557.02,
+    14,
+    14
+   ],
+   "rel": [
+    195.33,
+    217.59,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.suggestions.book5.cover": {
+   "tpl": 212,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    130.67,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    110.67,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {
+    "bg": "#2B2420",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; display: block; width: 100%; height: 152px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #2B2420; overflow: hidden; box-sizing: border-box"
+  },
+  "e13b.suggestions.book5.cover.spine": {
+   "tpl": 213,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    132.17,
+    558.52,
+    7,
+    149
+   ],
+   "rel": [
+    112.17,
+    219.09,
+    7,
+    149
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "88.6667px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "e13b.suggestions.book5.cover.stripes": {
+   "tpl": 214,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    139.17,
+    558.52,
+    88.67,
+    74
+   ],
+   "rel": [
+    119.17,
+    219.09,
+    88.67,
+    74
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(135deg, #FED170 0px, #FED170 4px, #000000@0 4px, #000000@0 14px)",
+    "opacity": "0.85",
+    "position": {
+     "top": "0px",
+     "right": "0px",
+     "bottom": "75px",
+     "left": "7px"
+    }
+   },
+   "css": "position: absolute; left: 7px; right: 0; top: 0; height: 74px; background: repeating-linear-gradient(135deg, #FED170 0 4px, transparent 4px 14px); opacity: 0.85"
+  },
+  "e13b.suggestions.book5.cover.textBlock": {
+   "tpl": 215,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    146.17,
+    650.96,
+    75.67,
+    46.57
+   ],
+   "rel": [
+    126.17,
+    311.53,
+    75.67,
+    46.57
+   ],
+   "style": {
+    "position": {
+     "top": "92.43px",
+     "right": "6px",
+     "bottom": "10px",
+     "left": "14px"
+    }
+   },
+   "css": "position: absolute; left: 14px; right: 6px; bottom: 10px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 18
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e13b.suggestions.book5.cover.title": {
+   "tpl": 216,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    146.17,
+    650.96,
+    75.67,
+    34.96
+   ],
+   "rel": [
+    126.17,
+    311.53,
+    75.67,
+    34.96
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "17.48px",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.92; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "Expresso",
+     "left": 146.17,
+     "right": 202.77,
+     "top": 647.35,
+     "bottom": 672.04,
+     "baseline": 666.15,
+     "baselineRel": 326.72
+    },
+    {
+     "text": "do Oriente",
+     "left": 146.17,
+     "right": 213.71,
+     "top": 664.83,
+     "bottom": 689.52,
+     "baseline": 683.63,
+     "baselineRel": 344.2
+    }
+   ],
+   "naturalWidth": 67.545,
+   "minContentWidth": 56.601,
+   "text": "Expressodo Oriente",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "e13b.suggestions.book5.cover.author": {
+   "tpl": 218,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    146.17,
+    690.91,
+    75.67,
+    6.61
+   ],
+   "rel": [
+    126.17,
+    351.48,
+    75.67,
+    6.61
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 5.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.77px",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-size: 5.5px; letter-spacing: 0.14em; font-weight: 700; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "AGATHA CHRISTIE",
+     "left": 146.17,
+     "right": 206.25,
+     "top": 690.91,
+     "bottom": 697.52,
+     "baseline": 696.14,
+     "baselineRel": 356.71
+    }
+   ],
+   "naturalWidth": 60.087,
+   "minContentWidth": 30.789,
+   "text": "AGATHA CHRISTIE",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e13b.suggestions.book6": {
+   "tpl": 219,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    241.33,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    221.33,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "padding: 0; border: none; background: transparent; display: flex; flex-direction: column; gap: 7px; min-width: 0; text-align: left",
+   "aria": "Adicionar O Cortiço à estante",
+   "ariaAttrs": {
+    "aria-pressed": "false"
+   }
+  },
+  "e13b.suggestions.book6.wrap": {
+   "tpl": 220,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    241.33,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    221.33,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {},
+   "css": "position: relative; display: block; width: 100%"
+  },
+  "e13b.suggestions.book6.toggle": {
+   "tpl": 221,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    318,
+    549.02,
+    30,
+    30
+   ],
+   "rel": [
+    298,
+    209.59,
+    30,
+    30
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "zIndex": "1",
+    "position": {
+     "top": "-8px",
+     "right": "-8px",
+     "bottom": "130px",
+     "left": "76.6667px"
+    }
+   },
+   "css": "position: absolute; right: -8px; top: -8px; width: 30px; height: 30px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 1",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e13b.suggestions.book6.toggle.icon": {
+   "tpl": 222,
+   "section": "e13b.suggestions",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    326,
+    557.02,
+    14,
+    14
+   ],
+   "rel": [
+    306,
+    217.59,
+    14,
+    14
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e13b.suggestions.book6.cover": {
+   "tpl": 224,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    241.33,
+    557.02,
+    98.67,
+    152
+   ],
+   "rel": [
+    221.33,
+    217.59,
+    98.67,
+    152
+   ],
+   "style": {
+    "bg": "#00995E",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "4px",
+     "9px",
+     "9px",
+     "4px"
+    ],
+    "overflow": "hidden"
+   },
+   "css": "position: relative; display: block; width: 100%; height: 152px; border-radius: 4px 9px 9px 4px; border: 1.5px solid #1A1714; background: #00995E; overflow: hidden; box-sizing: border-box"
+  },
+  "e13b.suggestions.book6.cover.spine": {
+   "tpl": 225,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    242.83,
+    558.52,
+    7,
+    149
+   ],
+   "rel": [
+    222.83,
+    219.09,
+    7,
+    149
+   ],
+   "style": {
+    "bg": "#000000@0.18",
+    "position": {
+     "top": "0px",
+     "right": "88.6667px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: rgba(0,0,0,0.18)"
+  },
+  "e13b.suggestions.book6.cover.arch": {
+   "tpl": 226,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    262.83,
+    574.52,
+    54,
+    60
+   ],
+   "rel": [
+    242.83,
+    235.09,
+    54,
+    60
+   ],
+   "style": {
+    "bg": "#FED170",
+    "radius": [
+     "27px",
+     "27px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "16px",
+     "right": "21.6667px",
+     "bottom": "73px",
+     "left": "20px"
+    }
+   },
+   "css": "position: absolute; left: 20px; top: 16px; width: 54px; height: 60px; border-radius: 27px 27px 0 0; background: #FED170"
+  },
+  "e13b.suggestions.book6.cover.door": {
+   "tpl": 227,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    278.83,
+    600.52,
+    22,
+    34
+   ],
+   "rel": [
+    258.83,
+    261.09,
+    22,
+    34
+   ],
+   "style": {
+    "bg": "#00995E",
+    "radius": [
+     "11px",
+     "11px",
+     "0px",
+     "0px"
+    ],
+    "position": {
+     "top": "42px",
+     "right": "37.6667px",
+     "bottom": "73px",
+     "left": "36px"
+    }
+   },
+   "css": "position: absolute; left: 36px; top: 42px; width: 22px; height: 34px; border-radius: 11px 11px 0 0; background: #00995E"
+  },
+  "e13b.suggestions.book6.cover.textBlock": {
+   "tpl": 228,
+   "section": "e13b.suggestions",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    256.83,
+    668.43,
+    75.67,
+    29.09
+   ],
+   "rel": [
+    236.83,
+    329.0,
+    75.67,
+    29.09
+   ],
+   "style": {
+    "position": {
+     "top": "109.91px",
+     "right": "6px",
+     "bottom": "10px",
+     "left": "14px"
+    }
+   },
+   "css": "position: absolute; left: 14px; right: 6px; bottom: 10px; display: flex; flex-direction: column; gap: 5px",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 9
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e13b.suggestions.book6.cover.title": {
+   "tpl": 229,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    256.83,
+    668.43,
+    75.67,
+    17.48
+   ],
+   "rel": [
+    236.83,
+    329.0,
+    75.67,
+    17.48
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 19.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "17.48px",
+     "letterSpacing": "normal",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-size: 19px; line-height: 0.92; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "O Cortiço",
+     "left": 256.83,
+     "right": 316.59,
+     "top": 664.83,
+     "bottom": 689.52,
+     "baseline": 683.63,
+     "baselineRel": 344.2
+    }
+   ],
+   "naturalWidth": 59.755,
+   "minContentWidth": 46.265,
+   "text": "O Cortiço",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Regular",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e13b.suggestions.book6.cover.author": {
+   "tpl": 230,
+   "section": "e13b.suggestions",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    256.83,
+    690.91,
+    75.67,
+    6.61
+   ],
+   "rel": [
+    236.83,
+    351.48,
+    75.67,
+    6.61
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 5.5,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "0.77px",
+     "color": "#FFFAF1"
+    }
+   },
+   "css": "font-size: 5.5px; letter-spacing: 0.14em; font-weight: 700; color: #FFFAF1",
+   "lines": [
+    {
+     "text": "ALUÍSIO AZEVEDO",
+     "left": 256.83,
+     "right": 317.32,
+     "top": 690.91,
+     "bottom": 697.52,
+     "baseline": 696.14,
+     "baselineRel": 356.71
+    }
+   ],
+   "naturalWidth": 60.489,
+   "minContentWidth": 31.422,
+   "text": "ALUÍSIO AZEVEDO",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e13b.continue": {
+   "tpl": 231,
+   "section": "e13b.continue",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    756,
+    320,
+    54
+   ],
+   "rel": [
+    0,
+    0,
+    320,
+    54
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "1px 6px 1px 6px"
+   },
+   "css": "margin-top: 8px; flex-shrink: 0; width: 100%; height: 54px; border-radius: 999px; background: #1A1714; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 800; color: #F7F0E3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e13b.continue.label": {
+   "tpl": 232,
+   "section": "e13b.continue",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    110.75,
+    773.4,
+    74.5,
+    19.2
+   ],
+   "rel": [
+    90.75,
+    17.4,
+    74.5,
+    19.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 16.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#F7F0E3",
+     "textAlign": "center"
+    }
+   },
+   "css": "color: #F7F0E3",
+   "lines": [
+    {
+     "text": "Continuar",
+     "left": 110.75,
+     "right": 185.24,
+     "top": 773.4,
+     "bottom": 792.6,
+     "baseline": 788.6,
+     "baselineRel": 32.6
+    }
+   ],
+   "naturalWidth": 74.496,
+   "minContentWidth": 74.496,
+   "text": "Continuar",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e13b.continue.count": {
+   "tpl": 233,
+   "section": "e13b.continue",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    195.24,
+    771,
+    24.01,
+    24
+   ],
+   "rel": [
+    175.24,
+    15,
+    24.01,
+    24
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #F7F0E3",
+    "radius": "999px",
+    "padding": "0px 7px 0px 7px",
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "min-width: 24px; height: 24px; padding: 0 7px; border-radius: 999px; background: {{brand}}; border: 1.5px solid #F7F0E3; box-sizing: border-box; display: flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "3",
+     "left": 203.74,
+     "right": 210.75,
+     "top": 775.5,
+     "bottom": 790.5,
+     "baseline": 787.38,
+     "baselineRel": 31.38
+    }
+   ],
+   "naturalWidth": 24.012,
+   "minContentWidth": 24.012,
+   "text": "3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "e13b.continue.icon": {
+   "tpl": 234,
+   "section": "e13b.continue",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    229.25,
+    773,
+    20,
+    20
+   ],
+   "rel": [
+    209.25,
+    17,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "fontMetrics": {
+  "Figtree|800|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Figtree|800|normal|13.5px": {
+   "ascent": 12.83,
+   "descent": 3.38
+  },
+  "Bricolage Grotesque|800|normal|34px": {
+   "ascent": 31.62,
+   "descent": 9.18
+  },
+  "Instrument Serif|400|italic|46px": {
+   "ascent": 45.54,
+   "descent": 14.26
+  },
+  "Figtree|500|normal|14.5px": {
+   "ascent": 13.78,
+   "descent": 3.63
+  },
+  "Instrument Serif|400|italic|25px": {
+   "ascent": 24.75,
+   "descent": 7.75
+  },
+  "Bricolage Grotesque|800|normal|22px": {
+   "ascent": 20.46,
+   "descent": 5.94
+  },
+  "Instrument Serif|400|italic|26px": {
+   "ascent": 25.74,
+   "descent": 8.06
+  },
+  "Figtree|500|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|800|normal|15px": {
+   "ascent": 14.25,
+   "descent": 3.75
+  },
+  "Bricolage Grotesque|800|normal|18px": {
+   "ascent": 16.74,
+   "descent": 4.86
+  },
+  "Figtree|700|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Instrument Serif|400|normal|19px": {
+   "ascent": 18.81,
+   "descent": 5.89
+  },
+  "Figtree|700|normal|5.5px": {
+   "ascent": 5.23,
+   "descent": 1.38
+  },
+  "Figtree|800|normal|16px": {
+   "ascent": 15.2,
+   "descent": 4
+  },
+  "Figtree|800|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  }
+ ]
+}

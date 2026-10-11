@@ -1,0 +1,268 @@
+// dart format off
+// GERADO AUTOMATICAMENTE por tools/medicao/gen_reference_dart.py — NÃO EDITE À MÃO.
+// Índice das referências do projeto (docs/design/projeto): tela → prancha medida.
+// ignore_for_file: lines_longer_than_80_chars
+import '../leitor/ref_tipos.dart';
+import 'reference_layout_002_biblioteca_w360.dart';
+import 'reference_layout_002_biblioteca_w430.dart';
+import 'reference_layout_036_biblioteca_vazia_w360.dart';
+import 'reference_layout_036_biblioteca_vazia_w430.dart';
+import 'reference_layout_017_detalhes_fisico_w360.dart';
+import 'reference_layout_017_detalhes_fisico_w430.dart';
+import 'reference_layout_017b_detalhes_ebook_w360.dart';
+import 'reference_layout_017b_detalhes_ebook_w430.dart';
+import 'reference_layout_003_scanner_encontrado_w360.dart';
+import 'reference_layout_003_scanner_encontrado_w430.dart';
+import 'reference_layout_039_scanner_mirando_w360.dart';
+import 'reference_layout_039_scanner_mirando_w430.dart';
+import 'reference_layout_040_scanner_nao_encontrado_w360.dart';
+import 'reference_layout_040_scanner_nao_encontrado_w430.dart';
+import 'reference_layout_041_scanner_sem_permissao_w360.dart';
+import 'reference_layout_041_scanner_sem_permissao_w430.dart';
+import 'reference_layout_042_scanner_na_estante_w360.dart';
+import 'reference_layout_042_scanner_na_estante_w430.dart';
+import 'reference_layout_069_scanner_digitar_isbn_w360.dart';
+import 'reference_layout_069_scanner_digitar_isbn_w430.dart';
+import 'reference_layout_069b_scanner_isbn_nao_confere_w360.dart';
+import 'reference_layout_069b_scanner_isbn_nao_confere_w430.dart';
+import 'reference_layout_028_busca_explorar_w360.dart';
+import 'reference_layout_028_busca_explorar_w430.dart';
+import 'reference_layout_028b_busca_resultados_w360.dart';
+import 'reference_layout_028b_busca_resultados_w430.dart';
+import 'reference_layout_028c_busca_nada_encontrado_w360.dart';
+import 'reference_layout_028c_busca_nada_encontrado_w430.dart';
+import 'reference_layout_028d_adicionar_a_mao_w360.dart';
+import 'reference_layout_028d_adicionar_a_mao_w430.dart';
+import 'reference_layout_035_abertura_w360.dart';
+import 'reference_layout_035_abertura_w430.dart';
+import 'reference_layout_007_login_w360.dart';
+import 'reference_layout_007_login_w430.dart';
+import 'reference_layout_008_cadastro_w360.dart';
+import 'reference_layout_008_cadastro_w430.dart';
+import 'reference_layout_009_entrar_w360.dart';
+import 'reference_layout_009_entrar_w430.dart';
+import 'reference_layout_009b_entrar_senha_incorreta_w360.dart';
+import 'reference_layout_009b_entrar_senha_incorreta_w430.dart';
+import 'reference_layout_010_codigo_w360.dart';
+import 'reference_layout_010_codigo_w430.dart';
+import 'reference_layout_011_nova_senha_w360.dart';
+import 'reference_layout_011_nova_senha_w430.dart';
+import 'reference_layout_012_onboarding_meta_w360.dart';
+import 'reference_layout_012_onboarding_meta_w430.dart';
+import 'reference_layout_013_onboarding_generos_w360.dart';
+import 'reference_layout_013_onboarding_generos_w430.dart';
+import 'reference_layout_013b_onboarding_dica_scanner_w360.dart';
+import 'reference_layout_013b_onboarding_dica_scanner_w430.dart';
+import 'reference_layout_014_onboarding_primeiros_livros_w360.dart';
+import 'reference_layout_014_onboarding_primeiros_livros_w430.dart';
+import 'reference_layout_015_onboarding_foto_w360.dart';
+import 'reference_layout_015_onboarding_foto_w430.dart';
+import 'reference_layout_016_onboarding_carteirinha_w360.dart';
+import 'reference_layout_016_onboarding_carteirinha_w430.dart';
+import 'reference_layout_036a_inicio_primeiro_acesso_w360.dart';
+import 'reference_layout_036a_inicio_primeiro_acesso_w430.dart';
+import 'reference_layout_005_perfil_w360.dart';
+import 'reference_layout_005_perfil_w430.dart';
+import 'reference_layout_064_editar_perfil_w360.dart';
+import 'reference_layout_064_editar_perfil_w430.dart';
+import 'reference_layout_065_editar_perfil_trocar_w360.dart';
+import 'reference_layout_065_editar_perfil_trocar_w430.dart';
+import 'reference_layout_006_ajustes_w360.dart';
+import 'reference_layout_006_ajustes_w430.dart';
+import 'reference_layout_058_conta_w360.dart';
+import 'reference_layout_058_conta_w430.dart';
+import 'reference_layout_059_excluir_conta_w360.dart';
+import 'reference_layout_059_excluir_conta_w430.dart';
+import 'reference_layout_056_privacidade_w360.dart';
+import 'reference_layout_056_privacidade_w430.dart';
+import 'reference_layout_030_notificacoes_w360.dart';
+import 'reference_layout_030_notificacoes_w430.dart';
+import 'reference_layout_030b_notificacoes_ajustes_w360.dart';
+import 'reference_layout_030b_notificacoes_ajustes_w430.dart';
+import 'reference_layout_030c_notificacoes_vazia_w360.dart';
+import 'reference_layout_030c_notificacoes_vazia_w430.dart';
+import 'reference_layout_018_cronometro_w360.dart';
+import 'reference_layout_018_cronometro_w430.dart';
+import 'reference_layout_018b_fim_da_sessao_w360.dart';
+import 'reference_layout_018b_fim_da_sessao_w430.dart';
+
+export '../leitor/ref_tipos.dart';
+export 'reference_layout_002_biblioteca_w360.dart';
+export 'reference_layout_002_biblioteca_w430.dart';
+export 'reference_layout_036_biblioteca_vazia_w360.dart';
+export 'reference_layout_036_biblioteca_vazia_w430.dart';
+export 'reference_layout_017_detalhes_fisico_w360.dart';
+export 'reference_layout_017_detalhes_fisico_w430.dart';
+export 'reference_layout_017b_detalhes_ebook_w360.dart';
+export 'reference_layout_017b_detalhes_ebook_w430.dart';
+export 'reference_layout_003_scanner_encontrado_w360.dart';
+export 'reference_layout_003_scanner_encontrado_w430.dart';
+export 'reference_layout_039_scanner_mirando_w360.dart';
+export 'reference_layout_039_scanner_mirando_w430.dart';
+export 'reference_layout_040_scanner_nao_encontrado_w360.dart';
+export 'reference_layout_040_scanner_nao_encontrado_w430.dart';
+export 'reference_layout_041_scanner_sem_permissao_w360.dart';
+export 'reference_layout_041_scanner_sem_permissao_w430.dart';
+export 'reference_layout_042_scanner_na_estante_w360.dart';
+export 'reference_layout_042_scanner_na_estante_w430.dart';
+export 'reference_layout_069_scanner_digitar_isbn_w360.dart';
+export 'reference_layout_069_scanner_digitar_isbn_w430.dart';
+export 'reference_layout_069b_scanner_isbn_nao_confere_w360.dart';
+export 'reference_layout_069b_scanner_isbn_nao_confere_w430.dart';
+export 'reference_layout_028_busca_explorar_w360.dart';
+export 'reference_layout_028_busca_explorar_w430.dart';
+export 'reference_layout_028b_busca_resultados_w360.dart';
+export 'reference_layout_028b_busca_resultados_w430.dart';
+export 'reference_layout_028c_busca_nada_encontrado_w360.dart';
+export 'reference_layout_028c_busca_nada_encontrado_w430.dart';
+export 'reference_layout_028d_adicionar_a_mao_w360.dart';
+export 'reference_layout_028d_adicionar_a_mao_w430.dart';
+export 'reference_layout_035_abertura_w360.dart';
+export 'reference_layout_035_abertura_w430.dart';
+export 'reference_layout_007_login_w360.dart';
+export 'reference_layout_007_login_w430.dart';
+export 'reference_layout_008_cadastro_w360.dart';
+export 'reference_layout_008_cadastro_w430.dart';
+export 'reference_layout_009_entrar_w360.dart';
+export 'reference_layout_009_entrar_w430.dart';
+export 'reference_layout_009b_entrar_senha_incorreta_w360.dart';
+export 'reference_layout_009b_entrar_senha_incorreta_w430.dart';
+export 'reference_layout_010_codigo_w360.dart';
+export 'reference_layout_010_codigo_w430.dart';
+export 'reference_layout_011_nova_senha_w360.dart';
+export 'reference_layout_011_nova_senha_w430.dart';
+export 'reference_layout_012_onboarding_meta_w360.dart';
+export 'reference_layout_012_onboarding_meta_w430.dart';
+export 'reference_layout_013_onboarding_generos_w360.dart';
+export 'reference_layout_013_onboarding_generos_w430.dart';
+export 'reference_layout_013b_onboarding_dica_scanner_w360.dart';
+export 'reference_layout_013b_onboarding_dica_scanner_w430.dart';
+export 'reference_layout_014_onboarding_primeiros_livros_w360.dart';
+export 'reference_layout_014_onboarding_primeiros_livros_w430.dart';
+export 'reference_layout_015_onboarding_foto_w360.dart';
+export 'reference_layout_015_onboarding_foto_w430.dart';
+export 'reference_layout_016_onboarding_carteirinha_w360.dart';
+export 'reference_layout_016_onboarding_carteirinha_w430.dart';
+export 'reference_layout_036a_inicio_primeiro_acesso_w360.dart';
+export 'reference_layout_036a_inicio_primeiro_acesso_w430.dart';
+export 'reference_layout_005_perfil_w360.dart';
+export 'reference_layout_005_perfil_w430.dart';
+export 'reference_layout_064_editar_perfil_w360.dart';
+export 'reference_layout_064_editar_perfil_w430.dart';
+export 'reference_layout_065_editar_perfil_trocar_w360.dart';
+export 'reference_layout_065_editar_perfil_trocar_w430.dart';
+export 'reference_layout_006_ajustes_w360.dart';
+export 'reference_layout_006_ajustes_w430.dart';
+export 'reference_layout_058_conta_w360.dart';
+export 'reference_layout_058_conta_w430.dart';
+export 'reference_layout_059_excluir_conta_w360.dart';
+export 'reference_layout_059_excluir_conta_w430.dart';
+export 'reference_layout_056_privacidade_w360.dart';
+export 'reference_layout_056_privacidade_w430.dart';
+export 'reference_layout_030_notificacoes_w360.dart';
+export 'reference_layout_030_notificacoes_w430.dart';
+export 'reference_layout_030b_notificacoes_ajustes_w360.dart';
+export 'reference_layout_030b_notificacoes_ajustes_w430.dart';
+export 'reference_layout_030c_notificacoes_vazia_w360.dart';
+export 'reference_layout_030c_notificacoes_vazia_w430.dart';
+export 'reference_layout_018_cronometro_w360.dart';
+export 'reference_layout_018_cronometro_w430.dart';
+export 'reference_layout_018b_fim_da_sessao_w360.dart';
+export 'reference_layout_018b_fim_da_sessao_w430.dart';
+
+const Map<String, LeitorRefPrancha> kRefProjetoLarguras = <String, LeitorRefPrancha>{
+  '02w360': kRef02w360,
+  '02w430': kRef02w430,
+  '36w360': kRef36w360,
+  '36w430': kRef36w430,
+  '17w360': kRef17w360,
+  '17w430': kRef17w430,
+  '17bw360': kRef17bw360,
+  '17bw430': kRef17bw430,
+  '03w360': kRef03w360,
+  '03w430': kRef03w430,
+  '39w360': kRef39w360,
+  '39w430': kRef39w430,
+  '40w360': kRef40w360,
+  '40w430': kRef40w430,
+  '41w360': kRef41w360,
+  '41w430': kRef41w430,
+  '42w360': kRef42w360,
+  '42w430': kRef42w430,
+  '69w360': kRef69w360,
+  '69w430': kRef69w430,
+  '69bw360': kRef69bw360,
+  '69bw430': kRef69bw430,
+  '28w360': kRef28w360,
+  '28w430': kRef28w430,
+  '28bw360': kRef28bw360,
+  '28bw430': kRef28bw430,
+  '28cw360': kRef28cw360,
+  '28cw430': kRef28cw430,
+  '28dw360': kRef28dw360,
+  '28dw430': kRef28dw430,
+  '35w360': kRef35w360,
+  '35w430': kRef35w430,
+  '07w360': kRef07w360,
+  '07w430': kRef07w430,
+  '08w360': kRef08w360,
+  '08w430': kRef08w430,
+  '09w360': kRef09w360,
+  '09w430': kRef09w430,
+  '09bw360': kRef09bw360,
+  '09bw430': kRef09bw430,
+  '10w360': kRef10w360,
+  '10w430': kRef10w430,
+  '11w360': kRef11w360,
+  '11w430': kRef11w430,
+  '12w360': kRef12w360,
+  '12w430': kRef12w430,
+  '13w360': kRef13w360,
+  '13w430': kRef13w430,
+  '13bw360': kRef13bw360,
+  '13bw430': kRef13bw430,
+  '14w360': kRef14w360,
+  '14w430': kRef14w430,
+  '15w360': kRef15w360,
+  '15w430': kRef15w430,
+  '16w360': kRef16w360,
+  '16w430': kRef16w430,
+  '36aw360': kRef36aw360,
+  '36aw430': kRef36aw430,
+  '05w360': kRef05w360,
+  '05w430': kRef05w430,
+  '64w360': kRef64w360,
+  '64w430': kRef64w430,
+  '65w360': kRef65w360,
+  '65w430': kRef65w430,
+  '06w360': kRef06w360,
+  '06w430': kRef06w430,
+  '58w360': kRef58w360,
+  '58w430': kRef58w430,
+  '59w360': kRef59w360,
+  '59w430': kRef59w430,
+  '56w360': kRef56w360,
+  '56w430': kRef56w430,
+  '30w360': kRef30w360,
+  '30w430': kRef30w430,
+  '30bw360': kRef30bw360,
+  '30bw430': kRef30bw430,
+  '30cw360': kRef30cw360,
+  '30cw430': kRef30cw430,
+  '18w360': kRef18w360,
+  '18w430': kRef18w430,
+  '18bw360': kRef18bw360,
+  '18bw430': kRef18bw430,
+};
+
+/// R8 (T13): tela → (id → motivo) do texto desenhado pelo sistema, não pelo app (só informativo).
+const Map<String, Map<String, String>> kInformativoProjetoLarguras = <String, Map<String, String>>{
+  '69w360': kInformativo69w360,
+  '69w430': kInformativo69w430,
+  '69bw360': kInformativo69bw360,
+  '69bw430': kInformativo69bw430,
+  '07w360': kInformativo07w360,
+  '07w430': kInformativo07w430,
+  '15w360': kInformativo15w360,
+  '15w430': kInformativo15w430,
+};

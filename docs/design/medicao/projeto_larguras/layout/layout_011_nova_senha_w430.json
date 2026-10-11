@@ -1,0 +1,1957 @@
+{
+ "meta": {
+  "source": "telas/NovaSenha.dc.html",
+  "prancha": "011_nova_senha_w430",
+  "titulo": "11 · Nova senha — largura 430",
+  "canvas": [
+   430,
+   844
+  ],
+  "prefixo": "e11",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4",
+   "lock": "#FED170"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "e11.waves": [
+   0,
+   0,
+   390,
+   860
+  ],
+  "e11.back": [
+   16,
+   58,
+   48,
+   48
+  ],
+  "e11.padlock": [
+   184,
+   72,
+   140,
+   158
+  ],
+  "e11.sparkleLarge": [
+   112,
+   172,
+   30,
+   30
+  ],
+  "e11.sparkleSmall": [
+   346,
+   180,
+   18,
+   18
+  ],
+  "e11.sheet": [
+   10,
+   278,
+   410,
+   556
+  ]
+ },
+ "elements": {
+  "e11.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    430,
+    844
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "overflow": "hidden"
+   }
+  },
+  "e11.waves": {
+   "tpl": 5,
+   "section": "e11.waves",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    0,
+    0,
+    390,
+    860
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    860
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "0px",
+     "right": "40px",
+     "bottom": "-16px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.back": {
+   "tpl": 90,
+   "section": "e11.back",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    16,
+    58,
+    48,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    48,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "zIndex": "2",
+    "position": {
+     "top": "58px",
+     "right": "366px",
+     "bottom": "738px",
+     "left": "16px"
+    }
+   },
+   "css": "position: absolute; left: 16px; top: 58px; width: 48px; height: 48px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; z-index: 2",
+   "aria": "Voltar"
+  },
+  "e11.back.icon": {
+   "tpl": 91,
+   "section": "e11.back",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    30,
+    72,
+    20,
+    20
+   ],
+   "rel": [
+    14,
+    14,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e11.padlock": {
+   "tpl": 94,
+   "section": "e11.padlock",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    184,
+    72,
+    140,
+    158
+   ],
+   "rel": [
+    0,
+    0,
+    140,
+    158
+   ],
+   "vis": [
+    173.69,
+    63.03,
+    160.63,
+    175.95
+   ],
+   "style": {
+    "position": {
+     "top": "72px",
+     "right": "106px",
+     "bottom": "614px",
+     "left": "184px"
+    },
+    "transformMatrix": "matrix(0.990268, 0.139173, -0.139173, 0.990268, 0, 0)",
+    "transform": "rotate(8deg)"
+   },
+   "css": "position: absolute; left: 184px; top: 72px; transform: rotate(8deg); overflow: visible",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sparkleLarge": {
+   "tpl": 107,
+   "section": "e11.sparkleLarge",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    112,
+    172,
+    30,
+    30
+   ],
+   "rel": [
+    0,
+    0,
+    30,
+    30
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "172px",
+     "right": "288px",
+     "bottom": "642px",
+     "left": "112px"
+    }
+   },
+   "css": "position: absolute; left: 112px; top: 172px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sparkleSmall": {
+   "tpl": 109,
+   "section": "e11.sparkleSmall",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    346,
+    180,
+    18,
+    18
+   ],
+   "rel": [
+    0,
+    0,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "180px",
+     "right": "66px",
+     "bottom": "646px",
+     "left": "346px"
+    }
+   },
+   "css": "position: absolute; left: 346px; top: 180px",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet": {
+   "tpl": 111,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "main",
+   "abs": [
+    10,
+    278,
+    410,
+    556
+   ],
+   "rel": [
+    0,
+    0,
+    410,
+    556
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "32px",
+     "32px",
+     "44px",
+     "44px"
+    ],
+    "shadow": "#1A1714 0px 4px 0px 0px",
+    "padding": "26px 20px 20px 20px",
+    "position": {
+     "top": "278px",
+     "right": "10px",
+     "bottom": "10px",
+     "left": "10px"
+    }
+   },
+   "css": "position: absolute; left: 10px; right: 10px; top: 278px; bottom: 10px; box-sizing: border-box; padding: 26px 20px 20px; border-radius: 32px 32px 44px 44px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 0 4px 0 #1A1714; display: flex; flex-direction: column",
+   "aria": "Criar senha nova",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "e11.sheet.title": {
+   "tpl": 112,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    31.5,
+    305.5,
+    367,
+    72.52
+   ],
+   "rel": [
+    21.5,
+    27.5,
+    367,
+    72.52
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 32.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "31.36px",
+     "letterSpacing": "-1px",
+     "color": "#1A1714",
+     "opsz": 32.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 0.98; letter-spacing: -1px",
+   "lines": [
+    {
+     "text": "Crie uma",
+     "left": 31.5,
+     "right": 161.6,
+     "top": 301.98,
+     "bottom": 340.38,
+     "baseline": 331.74,
+     "baselineRel": 53.74
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Crie uma",
+     "left": 31.5,
+     "right": 161.6,
+     "top": 301.98,
+     "bottom": 340.38,
+     "baseline": 331.74,
+     "baselineRel": 53.74
+    },
+    {
+     "text": "senha nova.",
+     "left": 31.5,
+     "right": 209.0,
+     "top": 330.14,
+     "bottom": 384.74,
+     "baseline": 371.72,
+     "baselineRel": 93.72
+    }
+   ],
+   "naturalWidth": 177.502,
+   "minContentWidth": 87.082,
+   "text": "Crie uma",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "e11.sheet.title.serif": {
+   "tpl": 114,
+   "section": "e11.sheet",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    31.5,
+    330.14,
+    177.5,
+    54.6
+   ],
+   "rel": [
+    21.5,
+    52.14,
+    177.5,
+    54.6
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 42.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "41.16px",
+     "letterSpacing": "-0.4px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 42px; letter-spacing: -0.4px",
+   "lines": [
+    {
+     "text": "senha nova.",
+     "left": 31.5,
+     "right": 209.0,
+     "top": 330.14,
+     "bottom": 384.74,
+     "baseline": 371.72,
+     "baselineRel": 93.72
+    }
+   ],
+   "naturalWidth": 177.502,
+   "minContentWidth": 87.082,
+   "text": "senha nova.",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e11.sheet.lead": {
+   "tpl": 115,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    31.5,
+    386.02,
+    367,
+    21.02
+   ],
+   "rel": [
+    21.5,
+    108.02,
+    367,
+    21.02
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "21.025px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin: 8px 0 0; font-size: 14.5px; font-weight: 500; line-height: 1.45; color: #5B544B",
+   "lines": [
+    {
+     "text": "Para a conta",
+     "left": 31.5,
+     "right": 111.83,
+     "top": 387.82,
+     "bottom": 405.23,
+     "baseline": 401.6,
+     "baselineRel": 123.6
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Para a conta marina.costa@email.com",
+     "left": 31.5,
+     "right": 286.64,
+     "top": 387.82,
+     "bottom": 405.23,
+     "baseline": 401.6,
+     "baselineRel": 123.6
+    }
+   ],
+   "naturalWidth": 255.137,
+   "minContentWidth": 171.274,
+   "text": "Para a conta",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 35
+    }
+   ]
+  },
+  "e11.sheet.lead.email": {
+   "tpl": 116,
+   "section": "e11.sheet",
+   "type": "inline",
+   "tag": "strong",
+   "abs": [
+    115.36,
+    387.82,
+    171.27,
+    17.41
+   ],
+   "rel": [
+    105.36,
+    109.82,
+    171.27,
+    17.41
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "21.025px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-weight: 800; color: #1A1714; white-space: nowrap",
+   "lines": [
+    {
+     "text": "marina.costa@email.com",
+     "left": 115.36,
+     "right": 286.64,
+     "top": 387.82,
+     "bottom": 405.23,
+     "baseline": 401.6,
+     "baselineRel": 123.6
+    }
+   ],
+   "naturalWidth": 171.274,
+   "minContentWidth": 171.274,
+   "text": "marina.costa@email.com",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 22
+    }
+   ]
+  },
+  "e11.sheet.form": {
+   "tpl": 117,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "form",
+   "abs": [
+    31.5,
+    425.05,
+    367,
+    316.48
+   ],
+   "rel": [
+    21.5,
+    147.05,
+    367,
+    316.48
+   ],
+   "style": {},
+   "css": "margin: 18px 0 0; display: flex; flex-direction: column",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "e11.sheet.form.username": {
+   "tpl": 118,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "input",
+   "abs": [
+    31.5,
+    425.05,
+    9,
+    7
+   ],
+   "rel": [
+    21.5,
+    147.05,
+    9,
+    7
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "border": "2px inset #767676",
+    "opacity": "0",
+    "padding": "1px 2px 1px 2px",
+    "overflow": "clip",
+    "position": {
+     "top": "145.545px",
+     "right": "378px",
+     "bottom": "400.455px",
+     "left": "20px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 22
+    }
+   ]
+  },
+  "e11.sheet.form.password.label": {
+   "tpl": 119,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "label",
+   "abs": [
+    31.5,
+    425.05,
+    367,
+    18
+   ],
+   "rel": [
+    21.5,
+    147.05,
+    367,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 13.5px; font-weight: 800; line-height: 18px",
+   "lines": [
+    {
+     "text": "Nova senha",
+     "left": 31.5,
+     "right": 104.2,
+     "top": 425.94,
+     "bottom": 442.14,
+     "baseline": 438.76,
+     "baselineRel": 160.76
+    }
+   ],
+   "naturalWidth": 72.698,
+   "minContentWidth": 36.815,
+   "text": "Nova senha",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "e11.sheet.form.password.field": {
+   "tpl": 120,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    31.5,
+    449.05,
+    367,
+    52
+   ],
+   "rel": [
+    21.5,
+    171.05,
+    367,
+    52
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "shadow": "#B6ACE4 0px 0px 0px 4px",
+    "padding": "0px 4px 0px 16px"
+   },
+   "css": "margin-top: 6px; height: 52px; padding: 0 4px 0 16px; border-radius: 16px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 0 0 0 4px {{brand}}; box-sizing: border-box; display: flex; align-items: center"
+  },
+  "e11.sheet.form.password.field.value": {
+   "tpl": 121,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    49,
+    464.05,
+    300,
+    22
+   ],
+   "rel": [
+    39,
+    186.05,
+    300,
+    22
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; align-items: center; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e11.sheet.form.password.field.dots": {
+   "tpl": 122,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    49,
+    466.05,
+    118.38,
+    18
+   ],
+   "rel": [
+    39,
+    188.05,
+    118.38,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 18.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "18px",
+     "letterSpacing": "2.5px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 18px; font-weight: 800; letter-spacing: 2.5px; line-height: 1",
+   "lines": [
+    {
+     "text": "•••••••••••",
+     "left": 49,
+     "right": 167.38,
+     "top": 464.25,
+     "bottom": 485.85,
+     "baseline": 481.35,
+     "baselineRel": 203.35
+    }
+   ],
+   "naturalWidth": 118.382,
+   "minContentWidth": 118.382,
+   "text": "•••••••••••",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e11.sheet.form.password.field.caret": {
+   "tpl": 123,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    169.38,
+    464.05,
+    2,
+    22
+   ],
+   "rel": [
+    159.38,
+    186.05,
+    2,
+    22
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "radius": "1px"
+   },
+   "css": "width: 2px; height: 22px; border-radius: 1px; background: #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.form.password.field.input": {
+   "tpl": 124,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "input",
+   "abs": [
+    49,
+    471.55,
+    9,
+    7
+   ],
+   "rel": [
+    39,
+    193.55,
+    9,
+    7
+   ],
+   "style": {
+    "bg": "#FFFFFF",
+    "border": "2px inset #767676",
+    "opacity": "0",
+    "padding": "1px 2px 1px 2px",
+    "overflow": "clip",
+    "position": {
+     "top": "192.045px",
+     "right": "360.5px",
+     "bottom": "353.955px",
+     "left": "37.5px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none",
+   "ariaAttrs": {
+    "aria-describedby": "np-rules"
+   }
+  },
+  "e11.sheet.form.password.field.reveal": {
+   "tpl": 125,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    349,
+    453.05,
+    44,
+    44
+   ],
+   "rel": [
+    339,
+    175.05,
+    44,
+    44
+   ],
+   "style": {
+    "radius": "50%"
+   },
+   "css": "width: 44px; height: 44px; flex-shrink: 0; border: none; background: transparent; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0",
+   "aria": "Mostrar senha"
+  },
+  "e11.sheet.form.password.field.reveal.icon": {
+   "tpl": 126,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    360,
+    464.05,
+    22,
+    22
+   ],
+   "rel": [
+    350,
+    186.05,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.form.strength": {
+   "tpl": 129,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    31.5,
+    513.04,
+    367,
+    15.6
+   ],
+   "rel": [
+    21.5,
+    235.04,
+    367,
+    15.6
+   ],
+   "style": {},
+   "css": "margin-top: 12px; display: flex; align-items: center; gap: 10px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e11.sheet.form.strength.bar": {
+   "tpl": 130,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    31.5,
+    513.85,
+    288.62,
+    14
+   ],
+   "rel": [
+    21.5,
+    235.85,
+    288.62,
+    14
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(135deg, #E9DFCC 0px, #E9DFCC 3px, #FFFAF1 3px, #FFFAF1 7px)",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "overflow": "hidden"
+   },
+   "css": "position: relative; flex-grow: 1; height: 14px; border-radius: 999px; border: 1.5px solid #1A1714; background: repeating-linear-gradient(135deg,#E9DFCC 0 3px,#FFFAF1 3px 7px); box-sizing: border-box; overflow: hidden",
+   "aria": "Força da senha",
+   "role": "meter",
+   "ariaAttrs": {
+    "aria-valuemin": "0",
+    "aria-valuemax": "4",
+    "aria-valuenow": "4",
+    "aria-valuetext": "Muito forte"
+   }
+  },
+  "e11.sheet.form.strength.bar.fill": {
+   "tpl": 131,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    33,
+    515.35,
+    251.34,
+    11
+   ],
+   "rel": [
+    23,
+    237.35,
+    251.34,
+    11
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "position": {
+     "top": "0px",
+     "right": "34.2745px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0; bottom: 0; width: 88%; background: #ABCF82"
+  },
+  "e11.sheet.form.strength.bar.fill.edge": {
+   "tpl": 132,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    279.35,
+    515.35,
+    10,
+    11
+   ],
+   "rel": [
+    269.35,
+    237.35,
+    10,
+    11
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "0px",
+     "right": "-5px",
+     "bottom": "0px",
+     "left": "246.345px"
+    }
+   },
+   "css": "position: absolute; top: 0; right: -5px; height: 100%"
+  },
+  "e11.sheet.form.strength.label": {
+   "tpl": 135,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    330.12,
+    513.04,
+    68.38,
+    15.6
+   ],
+   "rel": [
+    320.12,
+    235.04,
+    68.38,
+    15.6
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 13.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "right",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-size: 13px; font-weight: 800; text-align: right; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Muito forte",
+     "left": 330.12,
+     "right": 398.5,
+     "top": 513.04,
+     "bottom": 528.64,
+     "baseline": 525.39,
+     "baselineRel": 247.39
+    }
+   ],
+   "naturalWidth": 68.38,
+   "minContentWidth": 35.048,
+   "text": "Muito forte",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e11.sheet.form.rules": {
+   "tpl": 136,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "ul",
+   "abs": [
+    31.5,
+    538.64,
+    367,
+    38
+   ],
+   "rel": [
+    21.5,
+    260.64,
+    367,
+    38
+   ],
+   "style": {},
+   "css": "margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 14px"
+  },
+  "e11.sheet.form.rules.rule1": {
+   "tpl": 137,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "li",
+   "abs": [
+    31.5,
+    538.64,
+    139.52,
+    16
+   ],
+   "rel": [
+    21.5,
+    260.64,
+    139.52,
+    16
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#3E3832",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: #3E3832; white-space: nowrap",
+   "lines": [
+    {
+     "text": "8 ou mais caracteres",
+     "left": 53.5,
+     "right": 171.02,
+     "top": 539.14,
+     "bottom": 554.15,
+     "baseline": 551.02,
+     "baselineRel": 273.02
+    }
+   ],
+   "naturalWidth": 139.519,
+   "minContentWidth": 82.207,
+   "text": "8 ou mais caracteres",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "e11.sheet.form.rules.rule1.check": {
+   "tpl": 138,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    31.5,
+    538.64,
+    16,
+    16
+   ],
+   "rel": [
+    21.5,
+    260.64,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 16px; height: 16px; border-radius: 50%; background: #ABCF82; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.form.rules.rule1.check.icon": {
+   "tpl": 139,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    35,
+    542.14,
+    9,
+    9
+   ],
+   "rel": [
+    25,
+    264.14,
+    9,
+    9
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e11.sheet.form.rules.rule2": {
+   "tpl": 141,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "li",
+   "abs": [
+    185.02,
+    538.64,
+    153.18,
+    16
+   ],
+   "rel": [
+    175.02,
+    260.64,
+    153.18,
+    16
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#3E3832",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: #3E3832; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Um número ou símbolo",
+     "left": 207.02,
+     "right": 338.19,
+     "top": 539.14,
+     "bottom": 554.15,
+     "baseline": 551.02,
+     "baselineRel": 273.02
+    }
+   ],
+   "naturalWidth": 153.175,
+   "minContentWidth": 66.625,
+   "text": "Um número ou símbolo",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 20
+    }
+   ]
+  },
+  "e11.sheet.form.rules.rule2.check": {
+   "tpl": 142,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    185.02,
+    538.64,
+    16,
+    16
+   ],
+   "rel": [
+    175.02,
+    260.64,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 16px; height: 16px; border-radius: 50%; background: #ABCF82; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.form.rules.rule2.check.icon": {
+   "tpl": 143,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    188.52,
+    542.14,
+    9,
+    9
+   ],
+   "rel": [
+    178.52,
+    264.14,
+    9,
+    9
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e11.sheet.form.rules.rule3": {
+   "tpl": 145,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "li",
+   "abs": [
+    31.5,
+    560.64,
+    167.57,
+    16
+   ],
+   "rel": [
+    21.5,
+    282.64,
+    167.57,
+    16
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#3E3832",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: #3E3832; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Diferente da senha antiga",
+     "left": 53.5,
+     "right": 199.07,
+     "top": 561.14,
+     "bottom": 576.15,
+     "baseline": 573.02,
+     "baselineRel": 295.02
+    }
+   ],
+   "naturalWidth": 167.574,
+   "minContentWidth": 75.587,
+   "text": "Diferente da senha antiga",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 25
+    }
+   ]
+  },
+  "e11.sheet.form.rules.rule3.check": {
+   "tpl": 146,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    31.5,
+    560.64,
+    16,
+    16
+   ],
+   "rel": [
+    21.5,
+    282.64,
+    16,
+    16
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 16px; height: 16px; border-radius: 50%; background: #ABCF82; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.form.rules.rule3.check.icon": {
+   "tpl": 147,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    35,
+    564.14,
+    9,
+    9
+   ],
+   "rel": [
+    25,
+    286.14,
+    9,
+    9
+   ],
+   "style": {
+    "overflow": "hidden"
+   }
+  },
+  "e11.sheet.form.devices": {
+   "tpl": 149,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    31.5,
+    590.64,
+    367,
+    80.88
+   ],
+   "rel": [
+    21.5,
+    312.64,
+    367,
+    80.88
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "border": "1.5px solid #1A1714",
+    "radius": "18px",
+    "padding": "12px 12px 12px 16px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin-top: 14px; padding: 12px 12px 12px 16px; border-radius: 18px; background: #F7F0E3; border: 1.5px solid #1A1714; display: flex; align-items: center; gap: 12px"
+  },
+  "e11.sheet.form.devices.textBlock": {
+   "tpl": 150,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    49,
+    604.14,
+    270,
+    53.88
+   ],
+   "rel": [
+    39,
+    326.14,
+    270,
+    53.88
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 89
+    }
+   ]
+  },
+  "e11.sheet.form.devices.title": {
+   "tpl": 151,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    49,
+    604.14,
+    270,
+    18.12
+   ],
+   "rel": [
+    39,
+    326.14,
+    270,
+    18.12
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "18.125px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "display: block; font-size: 14.5px; font-weight: 800; line-height: 1.25",
+   "lines": [
+    {
+     "text": "Sair dos outros aparelhos",
+     "left": 49,
+     "right": 219.3,
+     "top": 604.5,
+     "bottom": 621.9,
+     "baseline": 618.27,
+     "baselineRel": 340.27
+    }
+   ],
+   "naturalWidth": 170.302,
+   "minContentWidth": 65.786,
+   "text": "Sair dos outros aparelhos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 25
+    }
+   ]
+  },
+  "e11.sheet.form.devices.body": {
+   "tpl": 152,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    49,
+    624.27,
+    270,
+    33.75
+   ],
+   "rel": [
+    39,
+    346.27,
+    270,
+    33.75
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "16.875px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "display: block; margin-top: 2px; font-size: 12.5px; font-weight: 500; line-height: 1.35; color: #5B544B",
+   "lines": [
+    {
+     "text": "Fecha a conta no celular e no computador onde",
+     "left": 49,
+     "right": 316.21,
+     "top": 625.2,
+     "bottom": 640.21,
+     "baseline": 637.08,
+     "baselineRel": 359.08
+    },
+    {
+     "text": "ela estiver aberta.",
+     "left": 49,
+     "right": 148.35,
+     "top": 642.08,
+     "bottom": 657.09,
+     "baseline": 653.96,
+     "baselineRel": 375.96
+    }
+   ],
+   "naturalWidth": 369.609,
+   "minContentWidth": 69.334,
+   "text": "Fecha a conta no celular e no computador onde ela estiver aberta.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 64
+    }
+   ]
+  },
+  "e11.sheet.form.devices.switch": {
+   "tpl": 153,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    331,
+    615.08,
+    54,
+    32
+   ],
+   "rel": [
+    321,
+    337.08,
+    54,
+    32
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px"
+   },
+   "css": "position: relative; width: 54px; height: 32px; flex-shrink: 0; padding: 0; border-radius: 999px; background: {{brand}}; border: 1.5px solid #1A1714; box-sizing: border-box",
+   "role": "switch",
+   "ariaAttrs": {
+    "aria-checked": "true",
+    "aria-labelledby": "np-dev"
+   }
+  },
+  "e11.sheet.form.devices.switch.thumb": {
+   "tpl": 154,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    357,
+    619.08,
+    24,
+    24
+   ],
+   "rel": [
+    347,
+    341.08,
+    24,
+    24
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "2.5px",
+     "right": "2.5px",
+     "bottom": "2.5px",
+     "left": "24.5px"
+    }
+   },
+   "css": "position: absolute; top: 2.5px; right: 2.5px; width: 24px; height: 24px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center"
+  },
+  "e11.sheet.form.devices.switch.thumb.icon": {
+   "tpl": 155,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    363.5,
+    625.58,
+    11,
+    11
+   ],
+   "rel": [
+    353.5,
+    347.58,
+    11,
+    11
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.form.submit": {
+   "tpl": 157,
+   "section": "e11.sheet",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    31.5,
+    687.52,
+    367,
+    54
+   ],
+   "rel": [
+    21.5,
+    409.52,
+    367,
+    54
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "1px 6px 1px 6px"
+   },
+   "css": "margin-top: 16px; width: 100%; height: 54px; border-radius: 999px; background: #1A1714; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 800; color: #F7F0E3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e11.sheet.form.submit.label": {
+   "tpl": 158,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    145.56,
+    704.92,
+    108.88,
+    19.2
+   ],
+   "rel": [
+    135.56,
+    426.92,
+    108.88,
+    19.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 16.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#F7F0E3",
+     "textAlign": "center"
+    }
+   },
+   "css": "color: #F7F0E3",
+   "lines": [
+    {
+     "text": "Salvar e entrar",
+     "left": 145.56,
+     "right": 254.44,
+     "top": 704.92,
+     "bottom": 724.12,
+     "baseline": 720.12,
+     "baselineRel": 442.12
+    }
+   ],
+   "naturalWidth": 108.88,
+   "minContentWidth": 46.304,
+   "text": "Salvar e entrar",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e11.sheet.form.submit.icon": {
+   "tpl": 159,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    264.44,
+    704.52,
+    20,
+    20
+   ],
+   "rel": [
+    254.44,
+    426.52,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e11.sheet.notice": {
+   "tpl": 162,
+   "section": "e11.sheet",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    31.5,
+    753.52,
+    367,
+    15.01
+   ],
+   "rel": [
+    21.5,
+    475.52,
+    367,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B"
+    }
+   },
+   "css": "margin: 12px 0 0; display: flex; align-items: center; justify-content: center; gap: 7px; font-size: 12.5px; font-weight: 600; color: #6F665B",
+   "lines": [
+    {
+     "text": "Você vai receber um aviso por e-mail.",
+     "left": 119.75,
+     "right": 332.25,
+     "top": 753.52,
+     "bottom": 768.53,
+     "baseline": 765.4,
+     "baselineRel": 487.4
+    }
+   ],
+   "naturalWidth": 234.503,
+   "minContentWidth": 65.938,
+   "text": "Você vai receber um aviso por e-mail.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 37
+    }
+   ]
+  },
+  "e11.sheet.notice.icon": {
+   "tpl": 163,
+   "section": "e11.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    97.75,
+    753.52,
+    15,
+    15
+   ],
+   "rel": [
+    87.75,
+    475.52,
+    15,
+    15
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "fontMetrics": {
+  "Bricolage Grotesque|800|normal|32px": {
+   "ascent": 29.76,
+   "descent": 8.64
+  },
+  "Instrument Serif|400|italic|42px": {
+   "ascent": 41.58,
+   "descent": 13.02
+  },
+  "Figtree|500|normal|14.5px": {
+   "ascent": 13.78,
+   "descent": 3.63
+  },
+  "Figtree|800|normal|14.5px": {
+   "ascent": 13.78,
+   "descent": 3.63
+  },
+  "Figtree|800|normal|13.5px": {
+   "ascent": 12.83,
+   "descent": 3.38
+  },
+  "Figtree|800|normal|18px": {
+   "ascent": 17.1,
+   "descent": 4.5
+  },
+  "Figtree|800|normal|13px": {
+   "ascent": 12.35,
+   "descent": 3.25
+  },
+  "Figtree|600|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|500|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|800|normal|16px": {
+   "ascent": 15.2,
+   "descent": 4
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  }
+ ]
+}

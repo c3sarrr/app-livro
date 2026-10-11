@@ -43,6 +43,9 @@ diz onde fica cada entrada e saída (`conjunto.py` / `conjunto.js` resolvem os c
 | `leitor` | `pranchas.json` (19–27b) | `handoff_v2/referencia/…`, `handoff_v2/fases/`, `test/reference/leitor/`, `assets/*/leitor/` |
 | `inicio2` | `pranchas_inicio2.json` (01, 01b, 60–63) | `docs/design/medicao/inicio2/`, `docs/design/fases/` (L01a1…L63 + `LEIA-ME_inicio2.md`), `test/reference/inicio2/`, `assets/*/inicio2/` (D-242) |
 | `leitor_conferencia` | `pranchas.json` | tudo em `tools/medicao/tmp/conferencia_g01/` — refaz a G01 para comparar com o que está commitado |
+| `inicio2_larguras` | `pranchas_inicio2_larguras.json` (a 01 a 360 e 430, T03) | `docs/design/medicao/inicio2_larguras/`, `test/reference/inicio2_larguras/` |
+| `projeto` | `pranchas_projeto.json` (as 41 das etapas 7–11, T13) | `docs/design/medicao/projeto/`, `docs/design/fases/` (`fases_projeto.json`), `test/reference/projeto/` |
+| `projeto_larguras` | `pranchas_projeto_larguras.json` (as 41 a 360 e 430, T13.9) | `docs/design/medicao/projeto_larguras/` (com o `fluidez.json`), `test/reference/projeto_larguras/` |
 
 Por conjunto também: o módulo dos ids (`idmaps_spec_inicio2.py`), as notas das fases (`fases_notas_inicio2.py`), os nomes
 dos SVGs (`svgs_nomes_inicio2.py`: reuso de asset existente por C14N, ids normalizados, altura em %, tamanho do layout),
@@ -93,6 +96,16 @@ roda a extração e, só para as telas do argumento, os ids (`idmaps_spec.py <te
 dependência de texto (juntada à das etapas de antes); os recortes por fase (`fases_projeto.json`, que ganha as fases de
 cada etapa) e as referências Dart (`gen_reference_dart.py <telas>`: o índice `referencias_projeto.dart` lista as telas
 que já têm referência). O fechamento roda as 41 de uma vez com `rodar_tudo.sh` e tem de dar os mesmos bytes.
+
+As larguras (T13.9, D-272): o conjunto `projeto_larguras` mede as 41 a 360 e 430 px, como a T03 fez com a 01
+(`inicio2_larguras`): cada entrada abre a extração e o idmap da tela base e troca a largura do quadro (CSS fluido; a
+altura do quadro é a da tela a 390). O índice `pranchas_projeto_larguras.json` sai do `indice_larguras.py` (as
+fontes de reserva e o zoom da D-279 vêm da tela base; a faixa da R3 é de cada largura, gravada à mão e mantida
+quando o índice é refeito). Rodar: `CONJUNTO=projeto_larguras bash tools/medicao/rodar_larguras.sh` (no WSL; sem
+`CONJUNTO`, a `inicio2_larguras`). O `fluidez.py` compara cada id a 360 e 430 com o mesmo id a 390 (o
+`conjuntoBase`) e escreve `docs/design/medicao/projeto_larguras/fluidez.json`: onde a tela deixa de ser fluida — a
+caixa que sai do quadro, que passa do pai (cortada, rola ou vaza, pelo `overflow` do pai), o texto que passa da
+caixa, o vizinho invadido, as reticências novas —, com `novo` (não acontecia a 390) e se o elemento tem largura fixa.
 
 Fonte de reserva (R8): no índice do projeto, `reserva` diz, por tela, os ids cujo texto o Chromium desenha com uma
 fonte de fora das `@font-face` (o motivo e se é `informativo`: texto que o sistema desenha, não o app — o botão da

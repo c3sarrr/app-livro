@@ -1,0 +1,76 @@
+// dart format off
+// GERADO AUTOMATICAMENTE por tools/medicao/gen_reference_dart.py — NÃO EDITE À MÃO.
+// Prancha 16 · Onboarding — Carteirinha pronta — largura 360 — canvas 360×844, dp lógico = px CSS.
+// Medido no Chromium 141 com zoom 100 (bordas exatas de 1,5/1,3/1,2 px, métricas sem arredondamento).
+// ignore_for_file: lines_longer_than_80_chars
+import 'dart:ui';
+
+import '../leitor/ref_tipos.dart';
+
+const LeitorRefPrancha kRef16w360 = LeitorRefPrancha(
+  tela: '16w360',
+  slug: '016_onboarding_carteirinha_w360',
+  prefix: 'e16',
+  canvas: Size(360.0, 844.0),
+  sections: <String, Rect>{
+    'e16.waves': Rect.fromLTWH(0.0, 0.0, 390.0, 860.0),
+    'e16.confetti': Rect.fromLTWH(20.0, 58.0, 350.0, 465.0),
+    'e16.card': Rect.fromLTWH(30.0, 116.0, 330.0, 312.32),
+    'e16.stamp': Rect.fromLTWH(250.0, 336.0, 98.0, 98.0),
+    'e16.sheet': Rect.fromLTWH(10.0, 536.35, 340.0, 297.65),
+  },
+  elements: <String, LeitorRefElement>{
+    'e16.waves': LeitorRefElement('e16.waves', Rect.fromLTWH(0.0, 0.0, 390.0, 860.0), LeitorRefKind.icon),
+    'e16.confetti.sparkle1': LeitorRefElement('e16.confetti', Rect.fromLTWH(26.0, 76.0, 26.0, 26.0), LeitorRefKind.icon, visual: Rect.fromLTWH(24.32, 74.32, 29.36, 29.36)),
+    'e16.confetti.sparkle2': LeitorRefElement('e16.confetti', Rect.fromLTWH(170.0, 58.0, 18.0, 18.0), LeitorRefKind.icon, visual: Rect.fromLTWH(168.57, 56.57, 20.85, 20.85)),
+    'e16.confetti.sparkle3': LeitorRefElement('e16.confetti', Rect.fromLTWH(348.0, 236.0, 22.0, 22.0), LeitorRefKind.icon),
+    'e16.confetti.sparkle4': LeitorRefElement('e16.confetti', Rect.fromLTWH(20.0, 420.0, 24.0, 24.0), LeitorRefKind.icon, visual: Rect.fromLTWH(17.77, 417.77, 28.46, 28.46)),
+    'e16.confetti.sparkle5': LeitorRefElement('e16.confetti', Rect.fromLTWH(338.0, 452.0, 18.0, 18.0), LeitorRefKind.icon, visual: Rect.fromLTWH(336.09, 450.09, 21.82, 21.82)),
+    'e16.confetti.sparkle6': LeitorRefElement('e16.confetti', Rect.fromLTWH(92.0, 486.0, 16.0, 16.0), LeitorRefKind.icon, visual: Rect.fromLTWH(91.21, 485.21, 17.59, 17.59)),
+    'e16.confetti.dotCoral': LeitorRefElement('e16.confetti', Rect.fromLTWH(300.0, 500.0, 17.0, 17.0), LeitorRefKind.box),
+    'e16.confetti.dotCream': LeitorRefElement('e16.confetti', Rect.fromLTWH(60.0, 64.0, 13.0, 13.0), LeitorRefKind.box),
+    'e16.confetti.dashGreen': LeitorRefElement('e16.confetti', Rect.fromLTWH(230.0, 512.0, 33.0, 11.0), LeitorRefKind.box, visual: Rect.fromLTWH(229.19, 505.76, 34.62, 23.47)),
+    'e16.confetti.dashLavender': LeitorRefElement('e16.confetti', Rect.fromLTWH(150.0, 470.0, 29.0, 11.0), LeitorRefKind.box, visual: Rect.fromLTWH(149.01, 465.79, 30.98, 19.42)),
+    'e16.card': LeitorRefElement('e16.card', Rect.fromLTWH(30.0, 116.0, 330.0, 312.32), LeitorRefKind.box, visual: Rect.fromLTWH(22.05, 107.58, 345.89, 329.16)),
+    'e16.card.header': LeitorRefElement('e16.card', Rect.fromLTWH(31.5, 117.5, 327.0, 37.5), LeitorRefKind.box, visual: Rect.fromLTWH(23.63, 109.16, 328.51, 54.56)),
+    'e16.card.header.label': LeitorRefElement('e16.card', Rect.fromLTWH(45.5, 128.9, 171.15, 13.2), LeitorRefKind.text, visual: Rect.fromLTWH(38.21, 127.96, 171.6, 22.14), lines: <LeitorRefLine>[LeitorRefLine('CARTEIRINHA DE LEITORA', 45.5, 216.65, 139.35)]),
+    'e16.card.header.number': LeitorRefElement('e16.card', Rect.fromLTWH(294.48, 128.9, 50.02, 13.2), LeitorRefKind.text, visual: Rect.fromLTWH(286.85, 121.27, 50.64, 15.8), lines: <LeitorRefLine>[LeitorRefLine('Nº 0052', 294.48, 344.5, 139.35)]),
+    'e16.card.body': LeitorRefElement('e16.card', Rect.fromLTWH(31.5, 155.0, 327.0, 271.82), LeitorRefKind.box, visual: Rect.fromLTWH(25.59, 146.6, 340.78, 288.56)),
+    'e16.card.identity': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 171.0, 295.0, 70.0), LeitorRefKind.box, visual: Rect.fromLTWH(42.41, 163.42, 298.26, 85.34)),
+    'e16.card.avatar': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 171.0, 70.0, 70.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(39.66, 172.45, 79.06, 79.06), lines: <LeitorRefLine>[LeitorRefLine('M', 68.53, 96.47, 218.28)]),
+    'e16.card.nameBlock': LeitorRefElement('e16.card', Rect.fromLTWH(131.5, 179.6, 151.9, 52.8), LeitorRefKind.box, visual: Rect.fromLTWH(126.74, 175.1, 154.46, 60.68)),
+    'e16.card.name': LeitorRefElement('e16.card', Rect.fromLTWH(131.5, 179.6, 151.9, 32.0), LeitorRefKind.text, visual: Rect.fromLTWH(126.74, 175.1, 153.37, 39.91), lines: <LeitorRefLine>[LeitorRefLine('Marina Costa', 131.5, 283.4, 206.48)]),
+    'e16.card.handle': LeitorRefElement('e16.card', Rect.fromLTWH(131.5, 215.6, 151.9, 16.8), LeitorRefKind.text, visual: Rect.fromLTWH(128.63, 211.05, 152.57, 24.73), lines: <LeitorRefLine>[LeitorRefLine('@marinacosta', 131.5, 224.71, 228.9)]),
+    'e16.card.goals': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 255.0, 295.0, 59.41), LeitorRefKind.box, visual: Rect.fromLTWH(46.8, 247.3, 297.7, 74.77)),
+    'e16.card.goals.daily': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 256.5, 140.75, 56.41), LeitorRefKind.box, visual: Rect.fromLTWH(46.88, 256.88, 143.51, 63.7)),
+    'e16.card.goals.daily.label': LeitorRefElement('e16.card', Rect.fromLTWH(49.5, 266.5, 138.75, 11.41), LeitorRefKind.text, visual: Rect.fromLTWH(49.4, 266.86, 139.16, 18.66), lines: <LeitorRefLine>[LeitorRefLine('META DIÁRIA', 49.5, 122.11, 275.53)]),
+    'e16.card.goals.daily.value': LeitorRefElement('e16.card', Rect.fromLTWH(49.5, 280.91, 138.75, 22.0), LeitorRefKind.text, visual: Rect.fromLTWH(50.16, 281.25, 139.71, 29.23), lines: <LeitorRefLine>[LeitorRefLine('30 min', 49.5, 120.39, 299.17)]),
+    'e16.card.goals.yearly': LeitorRefElement('e16.card', Rect.fromLTWH(188.25, 256.5, 154.25, 56.41), LeitorRefKind.box, visual: Rect.fromLTWH(187.44, 248.8, 156.99, 64.41)),
+    'e16.card.goals.yearly.label': LeitorRefElement('e16.card', Rect.fromLTWH(203.75, 266.5, 138.75, 11.41), LeitorRefKind.text, visual: Rect.fromLTWH(203.44, 258.79, 139.16, 18.66), lines: <LeitorRefLine>[LeitorRefLine('META EM 2026', 203.75, 283.94, 275.53)]),
+    'e16.card.goals.yearly.value': LeitorRefElement('e16.card', Rect.fromLTWH(203.75, 280.91, 138.75, 22.0), LeitorRefKind.text, visual: Rect.fromLTWH(204.2, 273.18, 139.71, 29.23), lines: <LeitorRefLine>[LeitorRefLine('24 livros', 203.75, 291.65, 299.17)]),
+    'e16.card.genres': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 326.41, 295.0, 24.0), LeitorRefKind.box, visual: Rect.fromLTWH(50.54, 318.62, 295.85, 39.41)),
+    'e16.card.genres.genre1': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 326.41, 69.18, 24.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(50.54, 330.44, 70.34, 27.59), lines: <LeitorRefLine>[LeitorRefLine('Clássicos', 57.0, 107.18, 342.44)]),
+    'e16.card.genres.genre2': LeitorRefElement('e16.card', Rect.fromLTWH(121.68, 326.41, 68.89, 24.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(124.62, 326.57, 70.05, 27.57), lines: <LeitorRefLine>[LeitorRefLine('Romance', 131.18, 181.07, 342.44)]),
+    'e16.card.genres.genre3': LeitorRefElement('e16.card', Rect.fromLTWH(195.57, 326.41, 63.12, 24.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(198.41, 323.0, 64.3, 27.27), lines: <LeitorRefLine>[LeitorRefLine('Mistério', 205.07, 249.19, 342.44)]),
+    'e16.card.genres.more': LeitorRefElement('e16.card', Rect.fromLTWH(263.69, 326.41, 31.21, 24.0), LeitorRefKind.boxText, visual: Rect.fromLTWH(266.44, 321.11, 32.43, 25.6), lines: <LeitorRefLine>[LeitorRefLine('+1', 273.19, 285.4, 342.44)]),
+    'e16.card.footer': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 364.41, 295.0, 48.41), LeitorRefKind.box, visual: Rect.fromLTWH(52.53, 356.56, 297.13, 63.78)),
+    'e16.card.footer.code': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 364.41, 150.0, 48.41), LeitorRefKind.box, visual: Rect.fromLTWH(52.53, 364.15, 152.33, 56.19)),
+    'e16.card.footer.code.bars': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 364.41, 150.0, 30.0), LeitorRefKind.icon, visual: Rect.fromLTWH(52.53, 364.15, 151.37, 37.81)),
+    'e16.card.footer.code.text': LeitorRefElement('e16.card', Rect.fromLTWH(47.5, 401.41, 150.0, 11.41), LeitorRefKind.text, visual: Rect.fromLTWH(54.47, 401.1, 150.39, 19.25), lines: <LeitorRefLine>[LeitorRefLine('0052 · 2026 · BN', 47.5, 148.49, 410.44)]),
+    'e16.stamp': LeitorRefElement('e16.stamp', Rect.fromLTWH(250.0, 336.0, 98.0, 98.0), LeitorRefKind.icon, visual: Rect.fromLTWH(240.88, 326.88, 116.23, 116.23)),
+    'e16.sheet': LeitorRefElement('e16.sheet', Rect.fromLTWH(10.0, 536.35, 340.0, 297.65), LeitorRefKind.box),
+    'e16.sheet.title': LeitorRefElement('e16.sheet', Rect.fromLTWH(31.5, 561.85, 297.0, 68.6), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Sua carteirinha', 31.5, 240.57, 586.45)], linesAll: <LeitorRefLine>[LeitorRefLine('Sua carteirinha', 31.5, 240.57, 586.45), LeitorRefLine('está pronta!', 31.5, 199.58, 624.45)]),
+    'e16.sheet.title.serif': LeitorRefElement('e16.sheet', Rect.fromLTWH(31.5, 584.85, 168.08, 52.0), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('está pronta!', 31.5, 199.58, 624.45)]),
+    'e16.sheet.lead': LeitorRefElement('e16.sheet', Rect.fromLTWH(31.5, 638.45, 297.0, 42.05), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Boas-vindas ao BookNest, Marina. Sua', 31.5, 280.57, 654.03), LeitorRefLine('estante já tem 3 livros.', 31.5, 178.04, 675.05)]),
+    'e16.sheet.start': LeitorRefElement('e16.sheet', Rect.fromLTWH(31.5, 698.5, 297.0, 54.0), LeitorRefKind.box),
+    'e16.sheet.start.icon': LeitorRefElement('e16.sheet', Rect.fromLTWH(113.32, 715.5, 20.0, 20.0), LeitorRefKind.icon),
+    'e16.sheet.start.label': LeitorRefElement('e16.sheet', Rect.fromLTWH(143.32, 715.9, 103.36, 19.2), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Começar a ler', 143.32, 246.68, 731.1)]),
+    'e16.sheet.share': LeitorRefElement('e16.sheet', Rect.fromLTWH(31.5, 762.5, 297.0, 50.0), LeitorRefKind.boxText, lines: <LeitorRefLine>[LeitorRefLine('Compartilhar carteirinha', 107.64, 280.36, 792.75)]),
+    'e16.sheet.share.icon': LeitorRefElement('e16.sheet', Rect.fromLTWH(79.64, 778.0, 19.0, 19.0), LeitorRefKind.icon),
+  },
+  textDependentX: <String>{'e16.card.genres.genre1', 'e16.card.genres.genre2', 'e16.card.genres.genre3', 'e16.card.genres.more', 'e16.card.handle', 'e16.card.header.label', 'e16.card.header.number', 'e16.card.name', 'e16.card.nameBlock', 'e16.sheet.share.icon', 'e16.sheet.start.icon', 'e16.sheet.start.label', 'e16.sheet.title.serif'},
+  textDependentY: <String>{},
+  ellipsized: <String>{},
+  knifeEdges: <LeitorKnifeEdge>[
+  ],
+);

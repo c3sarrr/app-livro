@@ -1,0 +1,2567 @@
+{
+ "meta": {
+  "source": "telas/ExcluirConta.dc.html",
+  "prancha": "059_excluir_conta_w430",
+  "titulo": "59 · Excluir conta — largura 430",
+  "canvas": [
+   430,
+   960
+  ],
+  "prefixo": "aj59",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "brand": "#B6ACE4",
+   "club": "#FFC1C6"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics)."
+ },
+ "sections": {
+  "aj59.top": [
+   20,
+   58,
+   390,
+   48
+  ],
+  "aj59.headline": [
+   20,
+   122,
+   390,
+   41.16
+  ],
+  "aj59.lead": [
+   20,
+   171.16,
+   390,
+   20.3
+  ],
+  "aj59.losses": [
+   20,
+   207.46,
+   390,
+   131
+  ],
+  "aj59.clubsNote": [
+   24,
+   348.46,
+   382,
+   35
+  ],
+  "aj59.alternatives": [
+   20,
+   401.46,
+   390,
+   140
+  ],
+  "aj59.confirm": [
+   20,
+   563.46,
+   390,
+   155.2
+  ],
+  "aj59.bottom": [
+   0,
+   824.99,
+   430,
+   135.01
+  ]
+ },
+ "elements": {
+  "aj59.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    430,
+    960
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "overflow": "hidden"
+   }
+  },
+  "aj59.top": {
+   "tpl": 5,
+   "section": "aj59.top",
+   "type": "box",
+   "tag": "header",
+   "abs": [
+    20,
+    58,
+    390,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    48
+   ],
+   "style": {
+    "position": {
+     "top": "58px",
+     "right": "20px",
+     "bottom": "854px",
+     "left": "20px"
+    }
+   },
+   "css": "position: absolute; left: 20px; right: 20px; top: 58px; height: 48px; display: flex; align-items: center; justify-content: space-between"
+  },
+  "aj59.top.back": {
+   "tpl": 6,
+   "section": "aj59.top",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    20,
+    58,
+    48,
+    48
+   ],
+   "rel": [
+    0,
+    0,
+    48,
+    48
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 48px; height: 48px; flex-shrink: 0; padding: 0; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "aria": "Voltar à conta"
+  },
+  "aj59.top.back.icon": {
+   "tpl": 7,
+   "section": "aj59.top",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    34,
+    72,
+    20,
+    20
+   ],
+   "rel": [
+    14,
+    14,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.main": {
+   "tpl": 9,
+   "type": "box",
+   "tag": "main",
+   "abs": [
+    0,
+    122,
+    430,
+    596.66
+   ],
+   "style": {
+    "padding": "0px 20px 0px 20px",
+    "position": {
+     "top": "122px",
+     "right": "0px",
+     "bottom": "241.34px",
+     "left": "0px"
+    }
+   }
+  },
+  "aj59.headline": {
+   "tpl": 10,
+   "section": "aj59.headline",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    20,
+    122,
+    390,
+    41.16
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    41.16
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 34.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "33.32px",
+     "letterSpacing": "-1.1px",
+     "color": "#1A1714",
+     "opsz": 34.0
+    }
+   },
+   "css": "margin: 0px 0 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 34px; line-height: 0.98; letter-spacing: -1.1px",
+   "lines": [
+    {
+     "text": "Excluir",
+     "left": 20,
+     "right": 124.88,
+     "top": 125.24,
+     "bottom": 166.04,
+     "baseline": 156.86,
+     "baselineRel": 34.86
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Excluir sua conta?",
+     "left": 20,
+     "right": 287.64,
+     "top": 115.28,
+     "bottom": 169.88,
+     "baseline": 156.86,
+     "baselineRel": 34.86
+    }
+   ],
+   "naturalWidth": 267.639,
+   "minContentWidth": 104.879,
+   "text": "Excluir",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 10
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "aj59.headline.serif": {
+   "tpl": 11,
+   "section": "aj59.headline",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    131.19,
+    115.28,
+    156.45,
+    54.6
+   ],
+   "rel": [
+    111.19,
+    -6.72,
+    156.45,
+    54.6
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 42.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "41.16px",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 42px; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "sua conta?",
+     "left": 131.19,
+     "right": 287.64,
+     "top": 115.28,
+     "bottom": 169.88,
+     "baseline": 156.86,
+     "baselineRel": 34.86
+    }
+   ],
+   "naturalWidth": 156.448,
+   "minContentWidth": 97.38,
+   "text": "sua conta?",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 10
+    }
+   ]
+  },
+  "aj59.lead": {
+   "tpl": 12,
+   "section": "aj59.lead",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    20,
+    171.16,
+    390,
+    20.3
+   ],
+   "rel": [
+    0,
+    0.0,
+    390,
+    20.3
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "20.3px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin: 8px 0 0; font-size: 14px; font-weight: 600; line-height: 1.45; color: #5B544B",
+   "lines": [
+    {
+     "text": "Sem pressa. Antes, veja o que vai embora junto com ela.",
+     "left": 20,
+     "right": 375.57,
+     "top": 172.91,
+     "bottom": 189.71,
+     "baseline": 186.21,
+     "baselineRel": 15.05
+    }
+   ],
+   "naturalWidth": 355.566,
+   "minContentWidth": 48.65,
+   "text": "Sem pressa. Antes, veja o que vai embora junto com ela.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 55
+    }
+   ]
+  },
+  "aj59.losses": {
+   "tpl": 13,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    207.46,
+    390,
+    131
+   ],
+   "rel": [
+    0,
+    0.0,
+    390,
+    131
+   ],
+   "style": {},
+   "css": "margin-top: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px",
+   "aria": "O que será apagado"
+  },
+  "aj59.losses.books": {
+   "tpl": 14,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    20,
+    207.46,
+    124.67,
+    61.5
+   ],
+   "rel": [
+    0,
+    0.0,
+    124.67,
+    61.5
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "padding": "10px 12px 10px 12px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 10px 12px; border-radius: 16px; background: #FFFAF1; border: 1.5px solid #1A1714; display: flex; flex-direction: column; gap: 1px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "aj59.losses.books.value": {
+   "tpl": 15,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    218.96,
+    97.67,
+    23.1
+   ],
+   "rel": [
+    13.5,
+    11.5,
+    97.67,
+    23.1
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05",
+   "lines": [
+    {
+     "text": "52",
+     "left": 33.5,
+     "right": 60.27,
+     "top": 217.31,
+     "bottom": 243.71,
+     "baseline": 237.77,
+     "baselineRel": 30.31
+    }
+   ],
+   "naturalWidth": 26.766,
+   "minContentWidth": 26.766,
+   "text": "52",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "aj59.losses.books.label": {
+   "tpl": 16,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    243.06,
+    97.67,
+    14.4
+   ],
+   "rel": [
+    13.5,
+    35.6,
+    97.67,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700",
+   "lines": [
+    {
+     "text": "livros lidos",
+     "left": 33.5,
+     "right": 92.04,
+     "top": 243.06,
+     "bottom": 257.46,
+     "baseline": 254.46,
+     "baselineRel": 47.0
+    }
+   ],
+   "naturalWidth": 58.536,
+   "minContentWidth": 29.88,
+   "text": "livros lidos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "aj59.losses.highlights": {
+   "tpl": 17,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    152.67,
+    207.46,
+    124.67,
+    61.5
+   ],
+   "rel": [
+    132.67,
+    0.0,
+    124.67,
+    61.5
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "padding": "10px 12px 10px 12px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 10px 12px; border-radius: 16px; background: #FED170; border: 1.5px solid #1A1714; display: flex; flex-direction: column; gap: 1px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "aj59.losses.highlights.value": {
+   "tpl": 18,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    166.17,
+    218.96,
+    97.67,
+    23.1
+   ],
+   "rel": [
+    146.17,
+    11.5,
+    97.67,
+    23.1
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05",
+   "lines": [
+    {
+     "text": "214",
+     "left": 166.17,
+     "right": 201.3,
+     "top": 217.31,
+     "bottom": 243.71,
+     "baseline": 237.77,
+     "baselineRel": 30.31
+    }
+   ],
+   "naturalWidth": 35.134,
+   "minContentWidth": 35.134,
+   "text": "214",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 3
+    }
+   ]
+  },
+  "aj59.losses.highlights.label": {
+   "tpl": 19,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    166.17,
+    243.06,
+    97.67,
+    14.4
+   ],
+   "rel": [
+    146.17,
+    35.6,
+    97.67,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700",
+   "lines": [
+    {
+     "text": "grifos",
+     "left": 166.17,
+     "right": 198.21,
+     "top": 243.06,
+     "bottom": 257.46,
+     "baseline": 254.46,
+     "baselineRel": 47.0
+    }
+   ],
+   "naturalWidth": 32.04,
+   "minContentWidth": 32.04,
+   "text": "grifos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "aj59.losses.reviews": {
+   "tpl": 20,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    285.33,
+    207.46,
+    124.67,
+    61.5
+   ],
+   "rel": [
+    265.33,
+    0.0,
+    124.67,
+    61.5
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "padding": "10px 12px 10px 12px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 10px 12px; border-radius: 16px; background: #FFC1C6; border: 1.5px solid #1A1714; display: flex; flex-direction: column; gap: 1px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj59.losses.reviews.value": {
+   "tpl": 21,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    298.83,
+    218.96,
+    97.67,
+    23.1
+   ],
+   "rel": [
+    278.83,
+    11.5,
+    97.67,
+    23.1
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05",
+   "lines": [
+    {
+     "text": "8",
+     "left": 298.83,
+     "right": 313.26,
+     "top": 217.31,
+     "bottom": 243.71,
+     "baseline": 237.77,
+     "baselineRel": 30.31
+    }
+   ],
+   "naturalWidth": 14.432,
+   "minContentWidth": 14.432,
+   "text": "8",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj59.losses.reviews.label": {
+   "tpl": 22,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    298.83,
+    243.06,
+    97.67,
+    14.4
+   ],
+   "rel": [
+    278.83,
+    35.6,
+    97.67,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700",
+   "lines": [
+    {
+     "text": "resenhas",
+     "left": 298.83,
+     "right": 347.91,
+     "top": 243.06,
+     "bottom": 257.46,
+     "baseline": 254.46,
+     "baselineRel": 47.0
+    }
+   ],
+   "naturalWidth": 49.08,
+   "minContentWidth": 49.08,
+   "text": "resenhas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "aj59.losses.lists": {
+   "tpl": 23,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    20,
+    276.96,
+    124.67,
+    61.5
+   ],
+   "rel": [
+    0,
+    69.5,
+    124.67,
+    61.5
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "padding": "10px 12px 10px 12px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 10px 12px; border-radius: 16px; background: #ABCF82; border: 1.5px solid #1A1714; display: flex; flex-direction: column; gap: 1px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj59.losses.lists.value": {
+   "tpl": 24,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    288.46,
+    97.67,
+    23.1
+   ],
+   "rel": [
+    13.5,
+    81.0,
+    97.67,
+    23.1
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05",
+   "lines": [
+    {
+     "text": "5",
+     "left": 33.5,
+     "right": 46.92,
+     "top": 286.81,
+     "bottom": 313.21,
+     "baseline": 307.27,
+     "baselineRel": 99.81
+    }
+   ],
+   "naturalWidth": 13.42,
+   "minContentWidth": 13.42,
+   "text": "5",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj59.losses.lists.label": {
+   "tpl": 25,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    33.5,
+    312.56,
+    97.67,
+    14.4
+   ],
+   "rel": [
+    13.5,
+    105.1,
+    97.67,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700",
+   "lines": [
+    {
+     "text": "listas",
+     "left": 33.5,
+     "right": 61.89,
+     "top": 312.56,
+     "bottom": 326.96,
+     "baseline": 323.96,
+     "baselineRel": 116.5
+    }
+   ],
+   "naturalWidth": 28.392,
+   "minContentWidth": 28.392,
+   "text": "listas",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "aj59.losses.streak": {
+   "tpl": 26,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    152.67,
+    276.96,
+    124.67,
+    61.5
+   ],
+   "rel": [
+    132.67,
+    69.5,
+    124.67,
+    61.5
+   ],
+   "style": {
+    "bg": "#FFB8A6",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "padding": "10px 12px 10px 12px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 10px 12px; border-radius: 16px; background: #FFB8A6; border: 1.5px solid #1A1714; display: flex; flex-direction: column; gap: 1px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "aj59.losses.streak.value": {
+   "tpl": 27,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    166.17,
+    288.46,
+    97.67,
+    23.1
+   ],
+   "rel": [
+    146.17,
+    81.0,
+    97.67,
+    23.1
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05",
+   "lines": [
+    {
+     "text": "12",
+     "left": 166.17,
+     "right": 187.33,
+     "top": 286.81,
+     "bottom": 313.21,
+     "baseline": 307.27,
+     "baselineRel": 99.81
+    }
+   ],
+   "naturalWidth": 21.164,
+   "minContentWidth": 21.164,
+   "text": "12",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "aj59.losses.streak.label": {
+   "tpl": 28,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    166.17,
+    312.56,
+    97.67,
+    14.4
+   ],
+   "rel": [
+    146.17,
+    105.1,
+    97.67,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700",
+   "lines": [
+    {
+     "text": "dias seguidos",
+     "left": 166.17,
+     "right": 240.41,
+     "top": 312.56,
+     "bottom": 326.96,
+     "baseline": 323.96,
+     "baselineRel": 116.5
+    }
+   ],
+   "naturalWidth": 74.244,
+   "minContentWidth": 49.116,
+   "text": "dias seguidos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "aj59.losses.clubs": {
+   "tpl": 29,
+   "section": "aj59.losses",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    285.33,
+    276.96,
+    124.67,
+    61.5
+   ],
+   "rel": [
+    265.33,
+    69.5,
+    124.67,
+    61.5
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "16px",
+    "padding": "10px 12px 10px 12px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 10px 12px; border-radius: 16px; background: #B6ACE4; border: 1.5px solid #1A1714; display: flex; flex-direction: column; gap: 1px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj59.losses.clubs.value": {
+   "tpl": 30,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    298.83,
+    288.46,
+    97.67,
+    23.1
+   ],
+   "rel": [
+    278.83,
+    81.0,
+    97.67,
+    23.1
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "23.1px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1.05",
+   "lines": [
+    {
+     "text": "3",
+     "left": 298.83,
+     "right": 312.17,
+     "top": 286.81,
+     "bottom": 313.21,
+     "baseline": 307.27,
+     "baselineRel": 99.81
+    }
+   ],
+   "naturalWidth": 13.332,
+   "minContentWidth": 13.332,
+   "text": "3",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "aj59.losses.clubs.label": {
+   "tpl": 31,
+   "section": "aj59.losses",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    298.83,
+    312.56,
+    97.67,
+    14.4
+   ],
+   "rel": [
+    278.83,
+    105.1,
+    97.67,
+    14.4
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 12px; font-weight: 700",
+   "lines": [
+    {
+     "text": "clubes",
+     "left": 298.83,
+     "right": 334.55,
+     "top": 312.56,
+     "bottom": 326.96,
+     "baseline": 323.96,
+     "baselineRel": 116.5
+    }
+   ],
+   "naturalWidth": 35.712,
+   "minContentWidth": 35.712,
+   "text": "clubes",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "aj59.clubsNote": {
+   "tpl": 32,
+   "section": "aj59.clubsNote",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    24,
+    348.46,
+    382,
+    35
+   ],
+   "rel": [
+    0,
+    0.0,
+    382,
+    35
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "17.5px",
+     "letterSpacing": "normal",
+     "color": "#3D3830"
+    }
+   },
+   "css": "margin: 10px 4px 0; font-size: 12.5px; font-weight: 600; line-height: 1.4; color: #3D3830",
+   "lines": [
+    {
+     "text": "Nos clubes, suas mensagens viram “leitora que saiu”. Leitoras de",
+     "left": 24,
+     "right": 387.51,
+     "top": 349.7,
+     "bottom": 364.71,
+     "baseline": 361.58,
+     "baselineRel": 13.12
+    },
+    {
+     "text": "Capitu continua com a Ana.",
+     "left": 24,
+     "right": 180.64,
+     "top": 367.2,
+     "bottom": 382.21,
+     "baseline": 379.08,
+     "baselineRel": 30.62
+    }
+   ],
+   "naturalWidth": 523.163,
+   "minContentWidth": 64.325,
+   "text": "Nos clubes, suas mensagens viram “leitora que saiu”. Leitoras de Capitu continua com a Ana.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 90
+    }
+   ]
+  },
+  "aj59.alternatives": {
+   "tpl": 33,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    20,
+    401.46,
+    390,
+    140
+   ],
+   "rel": [
+    0,
+    0.0,
+    390,
+    140
+   ],
+   "style": {},
+   "css": "margin-top: 18px; display: flex; flex-direction: column; gap: 10px"
+  },
+  "aj59.alternatives.download": {
+   "tpl": 34,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    401.46,
+    390,
+    65
+   ],
+   "rel": [
+    0,
+    0.0,
+    390,
+    65
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "20px",
+    "shadow": "#1A1714 3px 3px 0px 0px",
+    "padding": "12px 14px 12px 14px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 12px 14px; border-radius: 20px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 3px 3px 0 #1A1714; display: flex; align-items: center; gap: 12px"
+  },
+  "aj59.alternatives.download.icon": {
+   "tpl": 35,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    414.96,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    13.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #FED170; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.alternatives.download.icon.art": {
+   "tpl": 36,
+   "section": "aj59.alternatives",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    424.96,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    23.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.alternatives.download.textBlock": {
+   "tpl": 39,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    416.45,
+    279,
+    35.01
+   ],
+   "rel": [
+    65.5,
+    15.0,
+    279,
+    35.01
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 57
+    }
+   ]
+  },
+  "aj59.alternatives.download.title": {
+   "tpl": 40,
+   "section": "aj59.alternatives",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    416.45,
+    279,
+    18
+   ],
+   "rel": [
+    65.5,
+    15.0,
+    279,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Baixar meus dados antes",
+     "left": 85.5,
+     "right": 257.36,
+     "top": 416.45,
+     "bottom": 434.45,
+     "baseline": 430.7,
+     "baselineRel": 29.25
+    }
+   ],
+   "naturalWidth": 171.855,
+   "minContentWidth": 43.605,
+   "text": "Baixar meus dados antes",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 23
+    }
+   ]
+  },
+  "aj59.alternatives.download.body": {
+   "tpl": 41,
+   "section": "aj59.alternatives",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    436.45,
+    279,
+    15.01
+   ],
+   "rel": [
+    65.5,
+    35.0,
+    279,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "Chega por e-mail em alguns minutos",
+     "left": 85.5,
+     "right": 292.77,
+     "top": 436.45,
+     "bottom": 451.46,
+     "baseline": 448.33,
+     "baselineRel": 46.88
+    }
+   ],
+   "naturalWidth": 207.269,
+   "minContentWidth": 45.944,
+   "text": "Chega por e-mail em alguns minutos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 34
+    }
+   ]
+  },
+  "aj59.alternatives.download.chevron": {
+   "tpl": 42,
+   "section": "aj59.alternatives",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    376.5,
+    424.96,
+    18,
+    18
+   ],
+   "rel": [
+    356.5,
+    23.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "css": "flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.alternatives.pause": {
+   "tpl": 44,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "a",
+   "abs": [
+    20,
+    476.46,
+    390,
+    65
+   ],
+   "rel": [
+    0,
+    75.0,
+    390,
+    65
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "20px",
+    "padding": "12px 14px 12px 14px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "padding: 12px 14px; border-radius: 20px; background: #FFFAF1; border: 1.5px solid #1A1714; display: flex; align-items: center; gap: 12px"
+  },
+  "aj59.alternatives.pause.icon": {
+   "tpl": 45,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    35.5,
+    489.96,
+    38,
+    38
+   ],
+   "rel": [
+    15.5,
+    88.5,
+    38,
+    38
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%"
+   },
+   "css": "width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #ABCF82; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.alternatives.pause.icon.art": {
+   "tpl": 46,
+   "section": "aj59.alternatives",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    45.5,
+    499.96,
+    18,
+    18
+   ],
+   "rel": [
+    25.5,
+    98.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.alternatives.pause.textBlock": {
+   "tpl": 49,
+   "section": "aj59.alternatives",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    85.5,
+    491.45,
+    279,
+    35.01
+   ],
+   "rel": [
+    65.5,
+    90.0,
+    279,
+    35.01
+   ],
+   "style": {},
+   "css": "flex-grow: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 64
+    }
+   ]
+  },
+  "aj59.alternatives.pause.title": {
+   "tpl": 50,
+   "section": "aj59.alternatives",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    491.45,
+    279,
+    18
+   ],
+   "rel": [
+    65.5,
+    90.0,
+    279,
+    18
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 15px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Prefere uma pausa?",
+     "left": 85.5,
+     "right": 223.41,
+     "top": 491.45,
+     "bottom": 509.45,
+     "baseline": 505.7,
+     "baselineRel": 104.25
+    }
+   ],
+   "naturalWidth": 137.91,
+   "minContentWidth": 52.155,
+   "text": "Prefere uma pausa?",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 18
+    }
+   ]
+  },
+  "aj59.alternatives.pause.body": {
+   "tpl": 51,
+   "section": "aj59.alternatives",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    85.5,
+    511.45,
+    279,
+    15.01
+   ],
+   "rel": [
+    65.5,
+    110.0,
+    279,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "font-size: 12.5px; font-weight: 600; color: #5B544B",
+   "lines": [
+    {
+     "text": "Esconda o perfil e pare os avisos por um tempo",
+     "left": 85.5,
+     "right": 352.88,
+     "top": 511.45,
+     "bottom": 526.47,
+     "baseline": 523.34,
+     "baselineRel": 121.88
+    }
+   ],
+   "naturalWidth": 267.376,
+   "minContentWidth": 48.25,
+   "text": "Esconda o perfil e pare os avisos por um tempo",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 46
+    }
+   ]
+  },
+  "aj59.alternatives.pause.chevron": {
+   "tpl": 52,
+   "section": "aj59.alternatives",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    376.5,
+    499.96,
+    18,
+    18
+   ],
+   "rel": [
+    356.5,
+    98.5,
+    18,
+    18
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "css": "flex-shrink: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.confirm": {
+   "tpl": 54,
+   "section": "aj59.confirm",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    20,
+    563.46,
+    390,
+    155.2
+   ],
+   "rel": [
+    0,
+    0.0,
+    390,
+    155.2
+   ],
+   "style": {
+    "bg": "#FFE9E4",
+    "border": "1.5px solid #1A1714",
+    "radius": "22px",
+    "padding": "14px 14px 14px 14px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "font": {
+     "family": "Figtree",
+     "size": 16.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "margin-top: 22px; padding: 14px; border-radius: 22px; background: #FFE9E4; border: 1.5px solid #1A1714",
+   "linesAll": [
+    {
+     "text": "Para confirmar, digite EXCLUIR",
+     "left": 35.5,
+     "right": 254.09,
+     "top": 580.86,
+     "bottom": 597.66,
+     "baseline": 594.16,
+     "baselineRel": 30.7
+    },
+    {
+     "text": "EXCL",
+     "left": 51,
+     "right": 98.09,
+     "top": 623.56,
+     "bottom": 642.76,
+     "baseline": 638.76,
+     "baselineRel": 75.3
+    },
+    {
+     "text": "A conta some na hora para os outros. Você tem 30 dias para",
+     "left": 35.5,
+     "right": 376.35,
+     "top": 669.4,
+     "bottom": 684.41,
+     "baseline": 681.28,
+     "baselineRel": 117.82
+    },
+    {
+     "text": "voltar atrás entrando de novo; depois, tudo é apagado de vez.",
+     "left": 35.5,
+     "right": 384.56,
+     "top": 686.9,
+     "bottom": 701.91,
+     "baseline": 698.78,
+     "baselineRel": 135.32
+    }
+   ],
+   "naturalWidth": 723.926,
+   "minContentWidth": 112.088,
+   "aria": "Confirmar exclusão",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 135
+    }
+   ]
+  },
+  "aj59.confirm.label": {
+   "tpl": 55,
+   "section": "aj59.confirm",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    35.5,
+    578.66,
+    225.79,
+    21.2
+   ],
+   "rel": [
+    15.5,
+    15.2,
+    225.79,
+    21.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-size: 14px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Para confirmar, digite",
+     "left": 35.5,
+     "right": 177.52,
+     "top": 580.86,
+     "bottom": 597.66,
+     "baseline": 594.16,
+     "baselineRel": 30.7
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Para confirmar, digite EXCLUIR",
+     "left": 35.5,
+     "right": 254.09,
+     "top": 580.86,
+     "bottom": 597.66,
+     "baseline": 594.16,
+     "baselineRel": 30.7
+    }
+   ],
+   "naturalWidth": 225.786,
+   "minContentWidth": 80.494,
+   "text": "Para confirmar, digite",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 30
+    }
+   ]
+  },
+  "aj59.confirm.label.word": {
+   "tpl": 56,
+   "section": "aj59.confirm",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    180.79,
+    578.66,
+    80.49,
+    21.2
+   ],
+   "rel": [
+    160.79,
+    15.2,
+    80.49,
+    21.2
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.2px solid #1A1714",
+    "radius": "6px",
+    "padding": "1px 6px 1px 6px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "padding: 1px 6px; border-radius: 6px; background: #FFFAF1; border: 1.2px solid #1A1714; letter-spacing: 1px",
+   "lines": [
+    {
+     "text": "EXCLUIR",
+     "left": 187.99,
+     "right": 254.09,
+     "top": 580.86,
+     "bottom": 597.66,
+     "baseline": 594.16,
+     "baselineRel": 30.7
+    }
+   ],
+   "naturalWidth": 80.494,
+   "minContentWidth": 80.494,
+   "text": "EXCLUIR",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "aj59.confirm.field": {
+   "tpl": 57,
+   "section": "aj59.confirm",
+   "type": "box+text",
+   "tag": "div",
+   "abs": [
+    35.5,
+    608.16,
+    359,
+    50
+   ],
+   "rel": [
+    15.5,
+    44.7,
+    359,
+    50
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "14px",
+    "padding": "0px 14px 0px 14px",
+    "font": {
+     "family": "Figtree",
+     "size": 16.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1.5px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "margin-top: 10px; height: 50px; padding: 0 14px; border-radius: 14px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; font-size: 16px; font-weight: 800; letter-spacing: 1.5px",
+   "lines": [
+    {
+     "text": "EXCL",
+     "left": 51,
+     "right": 98.09,
+     "top": 623.56,
+     "bottom": 642.76,
+     "baseline": 638.76,
+     "baselineRel": 75.3
+    }
+   ],
+   "naturalWidth": 81.088,
+   "minContentWidth": 81.088,
+   "text": "EXCL",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "aj59.confirm.field.caret": {
+   "tpl": 58,
+   "section": "aj59.confirm",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    99.09,
+    623.16,
+    2,
+    20
+   ],
+   "rel": [
+    79.09,
+    59.7,
+    2,
+    20
+   ],
+   "style": {
+    "bg": "#FF552E"
+   },
+   "css": "display: inline-block; width: 2px; height: 20px; margin-left: 1px; background: #FF552E",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.confirm.note": {
+   "tpl": 59,
+   "section": "aj59.confirm",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    35.5,
+    668.16,
+    359,
+    35
+   ],
+   "rel": [
+    15.5,
+    104.7,
+    359,
+    35
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "17.5px",
+     "letterSpacing": "normal",
+     "color": "#3D3830"
+    }
+   },
+   "css": "margin: 10px 0 0; font-size: 12.5px; font-weight: 600; line-height: 1.4; color: #3D3830",
+   "lines": [
+    {
+     "text": "A conta some na hora para os outros. Você tem para",
+     "left": 35.5,
+     "right": 376.35,
+     "top": 669.4,
+     "bottom": 684.41,
+     "baseline": 681.28,
+     "baselineRel": 117.82
+    },
+    {
+     "text": "voltar atrás entrando de novo; depois, tudo é apagado de vez.",
+     "left": 35.5,
+     "right": 384.56,
+     "top": 686.9,
+     "bottom": 701.91,
+     "baseline": 698.78,
+     "baselineRel": 135.32
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "A conta some na hora para os outros. Você tem 30 dias para",
+     "left": 35.5,
+     "right": 376.35,
+     "top": 669.4,
+     "bottom": 684.41,
+     "baseline": 681.28,
+     "baselineRel": 117.82
+    },
+    {
+     "text": "voltar atrás entrando de novo; depois, tudo é apagado de vez.",
+     "left": 35.5,
+     "right": 384.56,
+     "top": 686.9,
+     "bottom": 701.91,
+     "baseline": 698.78,
+     "baselineRel": 135.32
+    }
+   ],
+   "naturalWidth": 692.926,
+   "minContentWidth": 51.637,
+   "text": "A conta some na hora para os outros. Você tem para voltar atrás entrando de novo; depois, tudo é apagado de vez.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 119
+    }
+   ]
+  },
+  "aj59.confirm.note.deadline": {
+   "tpl": 60,
+   "section": "aj59.confirm",
+   "type": "inline",
+   "tag": "strong",
+   "abs": [
+    306.46,
+    669.4,
+    41.77,
+    15.01
+   ],
+   "rel": [
+    286.46,
+    105.94,
+    41.77,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 900,
+     "weightRendered": null,
+     "style": "normal",
+     "lineHeight": "17.5px",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "nota": "peso/estilo sem @font-face correspondente → o navegador sintetiza ou usa o mais próximo"
+    }
+   },
+   "css": "color: #1A1714",
+   "lines": [
+    {
+     "text": "30 dias",
+     "left": 306.46,
+     "right": 348.24,
+     "top": 669.4,
+     "bottom": 684.41,
+     "baseline": 681.28,
+     "baselineRel": 117.82
+    }
+   ],
+   "naturalWidth": 41.775,
+   "minContentWidth": 23.688,
+   "text": "30 dias",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "aj59.bottom": {
+   "tpl": 61,
+   "section": "aj59.bottom",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    824.99,
+    430,
+    135.01
+   ],
+   "rel": [
+    0,
+    0.0,
+    430,
+    135.01
+   ],
+   "style": {
+    "bgImage": "linear-gradient(#F7F0E3@0, #F7F0E3 30%)",
+    "zIndex": "5",
+    "padding": "26px 20px 28px 20px",
+    "position": {
+     "top": "824.99px",
+     "right": "0px",
+     "bottom": "0px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; padding: 26px 20px 28px; background: linear-gradient(to bottom, rgba(247,240,227,0), #F7F0E3 30%)",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 47
+    }
+   ]
+  },
+  "aj59.bottom.delete": {
+   "tpl": 62,
+   "section": "aj59.bottom",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    20,
+    850.99,
+    390,
+    56
+   ],
+   "rel": [
+    20,
+    26.0,
+    390,
+    56
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "opacity": "0.45",
+    "padding": "1px 6px 1px 6px",
+    "font": {
+     "family": "Figtree",
+     "size": 16.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "width: 100%; height: 56px; border-radius: 999px; background: #FF552E; border: 1.5px solid #1A1714; box-sizing: border-box; opacity: 0.45; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 16px; font-weight: 800",
+   "lines": [
+    {
+     "text": "Excluir minha conta",
+     "left": 155.9,
+     "right": 302.1,
+     "top": 869.39,
+     "bottom": 888.59,
+     "baseline": 884.59,
+     "baselineRel": 59.6
+    }
+   ],
+   "naturalWidth": 189.208,
+   "minContentWidth": 93.88,
+   "text": "Excluir minha conta",
+   "ariaAttrs": {
+    "aria-disabled": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 19
+    }
+   ]
+  },
+  "aj59.bottom.delete.icon": {
+   "tpl": 63,
+   "section": "aj59.bottom",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    127.9,
+    869.49,
+    19,
+    19
+   ],
+   "rel": [
+    127.9,
+    44.5,
+    19,
+    19
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "aj59.bottom.hint": {
+   "tpl": 66,
+   "section": "aj59.bottom",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    20,
+    916.99,
+    390,
+    15.01
+   ],
+   "rel": [
+    20,
+    92.0,
+    390,
+    15.01
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 12.5,
+     "weightCss": 600,
+     "weightRendered": 600,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#6F665B",
+     "textAlign": "center"
+    }
+   },
+   "css": "margin: 10px 0 0; text-align: center; font-size: 12.5px; font-weight: 600; color: #6F665B",
+   "lines": [
+    {
+     "text": "O botão libera quando você terminar de digitar.",
+     "left": 80.86,
+     "right": 349.14,
+     "top": 916.99,
+     "bottom": 932,
+     "baseline": 928.87,
+     "baselineRel": 103.88
+    }
+   ],
+   "naturalWidth": 268.279,
+   "minContentWidth": 48.319,
+   "text": "O botão libera quando você terminar de digitar.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 47
+    }
+   ]
+  }
+ },
+ "fontMetrics": {
+  "Bricolage Grotesque|800|normal|34px": {
+   "ascent": 31.62,
+   "descent": 9.18
+  },
+  "Instrument Serif|400|italic|42px": {
+   "ascent": 41.58,
+   "descent": 13.02
+  },
+  "Figtree|600|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Bricolage Grotesque|800|normal|22px": {
+   "ascent": 20.46,
+   "descent": 5.94
+  },
+  "Figtree|700|normal|12px": {
+   "ascent": 11.4,
+   "descent": 3
+  },
+  "Figtree|600|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  },
+  "Figtree|800|normal|15px": {
+   "ascent": 14.25,
+   "descent": 3.75
+  },
+  "Figtree|400|normal|16px": {
+   "ascent": 15.2,
+   "descent": 4
+  },
+  "Figtree|800|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|800|normal|16px": {
+   "ascent": 15.2,
+   "descent": 4
+  },
+  "Figtree|900|normal|12.5px": {
+   "ascent": 11.88,
+   "descent": 3.13
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "Literata-italic-400-latin"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Literata-latin-var-opsz-wght"
+  },
+  {
+   "family": "Literata",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Literata-latin-var-opsz-wght"
+  }
+ ]
+}
