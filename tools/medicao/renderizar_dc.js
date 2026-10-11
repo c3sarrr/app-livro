@@ -79,43 +79,48 @@ async function quadro(page, w, h) {
   const { nome, dir } = montar(arquivo);
 
   const browser = await lancar();
-  const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: dsf });
-  const bloqueadas = [];
-  await page.route('**/*', r => {
-    const u = r.request().url();
-    if (u.startsWith('http')) { bloqueadas.push(u); return r.abort(); }
-    return r.continue();
-  });
-  const erros = [];
-  page.on('pageerror', e => erros.push(String(e)));
-  await page.goto('file://' + path.join(dir, 'index.html'));
-  await page.evaluate(async () => { await document.fonts.ready; document.body.style.margin = '0'; });
-  await page.waitForTimeout(600);
-  const el = await quadro(page, w, h);
-  const png = path.join(SAIDA, `${nome}_${w}x${h}@${dsf}x.png`);
-  await fotografar(page, el, png);
-  const fontes = await page.evaluate(() => [...document.fonts].filter(f => f.status === 'loaded').length);
-  console.log(`${nome}: ${w}×${h} @${dsf}x → ${path.relative(RAIZ, png)} · fontes carregadas: ${fontes} · erros: ${
-    erros.length ? erros.join(' | ') : 'nenhum'} · rede bloqueada: ${bloqueadas.length}`);
-  if (erros.length) process.exitCode = 1;
+  // o navegador fecha (e a cópia da antiga sai do disco) também quando algo falha no meio
+  let tmp = null;
+  try {
+    const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: dsf });
+    const bloqueadas = [];
+    await page.route('**/*', r => {
+      const u = r.request().url();
+      if (u.startsWith('http')) { bloqueadas.push(u); return r.abort(); }
+      return r.continue();
+    });
+    const erros = [];
+    page.on('pageerror', e => erros.push(String(e)));
+    await page.goto('file://' + path.join(dir, 'index.html'));
+    await page.evaluate(async () => { await document.fonts.ready; document.body.style.margin = '0'; });
+    await page.waitForTimeout(600);
+    const el = await quadro(page, w, h);
+    const png = path.join(SAIDA, `${nome}_${w}x${h}@${dsf}x.png`);
+    await fotografar(page, el, png);
+    const fontes = await page.evaluate(() => [...document.fonts].filter(f => f.status === 'loaded').length);
+    console.log(`${nome}: ${w}×${h} @${dsf}x → ${path.relative(RAIZ, png)} · fontes carregadas: ${fontes} · erros: ${
+      erros.length ? erros.join(' | ') : 'nenhum'} · rede bloqueada: ${bloqueadas.length}`);
+    if (erros.length) process.exitCode = 1;
 
-  const antiga = argumento('--antiga');
-  if (antiga) {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'r00_antiga_'));
-    fs.cpSync(path.join(RAIZ, antiga), tmp, { recursive: true });
-    const p2 = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: dsf });
-    await p2.route('**/*', r => (r.request().url().startsWith('http') ? r.abort() : r.continue()));
-    const erros2 = [];
-    p2.on('pageerror', e => erros2.push(String(e)));
-    await p2.goto('file://' + path.join(tmp, 'original.html'), { timeout: 180000 });
-    await p2.waitForFunction(() => !!document.querySelector('#dc-root'), null, { timeout: 120000 });
-    await p2.evaluate(async () => { await document.fonts.ready; document.body.style.margin = '0'; });
-    await p2.waitForTimeout(600);
-    const el2 = await quadro(p2, w, h);
-    const png2 = path.join(SAIDA, `${nome}_${w}x${h}@${dsf}x_antiga.png`);
-    await fotografar(p2, el2, png2);
-    console.log(`antiga ${antiga} @${dsf}x → ${path.relative(RAIZ, png2)} · erros: ${erros2.length ? erros2.join(' | ') : 'nenhum'}`);
-    fs.rmSync(tmp, { recursive: true, force: true });
+    const antiga = argumento('--antiga');
+    if (antiga) {
+      tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'r00_antiga_'));
+      fs.cpSync(path.join(RAIZ, antiga), tmp, { recursive: true });
+      const p2 = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: dsf });
+      await p2.route('**/*', r => (r.request().url().startsWith('http') ? r.abort() : r.continue()));
+      const erros2 = [];
+      p2.on('pageerror', e => erros2.push(String(e)));
+      await p2.goto('file://' + path.join(tmp, 'original.html'), { timeout: 180000 });
+      await p2.waitForFunction(() => !!document.querySelector('#dc-root'), null, { timeout: 120000 });
+      await p2.evaluate(async () => { await document.fonts.ready; document.body.style.margin = '0'; });
+      await p2.waitForTimeout(600);
+      const el2 = await quadro(p2, w, h);
+      const png2 = path.join(SAIDA, `${nome}_${w}x${h}@${dsf}x_antiga.png`);
+      await fotografar(p2, el2, png2);
+      console.log(`antiga ${antiga} @${dsf}x → ${path.relative(RAIZ, png2)} · erros: ${erros2.length ? erros2.join(' | ') : 'nenhum'}`);
+    }
+  } finally {
+    if (tmp) fs.rmSync(tmp, { recursive: true, force: true });
+    await browser.close();
   }
-  await browser.close();
 })().catch(e => { console.error(e); process.exit(2); });
