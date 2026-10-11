@@ -7,7 +7,9 @@
 > são as 4 regras da Início que a prancha 01 mostra e não define, respondidas em 10/10/2026 no começo da T03 (as 4
 > propostas recomendadas); detalhe em `docs/progresso/T03.md`. As D-256…D-263 são as 8 regras do cronômetro do livro
 > de papel que a prancha 01b mostra e não define, respondidas em 10/10/2026 no começo da T04 (as 8 propostas
-> recomendadas); detalhe em `docs/progresso/T04.md`.
+> recomendadas); detalhe em `docs/progresso/T04.md`. As D-264…D-266 vieram da revisão independente do fim da T04
+> (a sessão ao sair da conta, a que perde na adoção e o aviso de falha na folha), respondidas em 10/10/2026 (as 3
+> recomendadas).
 > Formato do roteiro: `handoff_v2/00_PROMPT_MESTRE_V2.md` §6 (trilha T: G01-bis → uma fase por tela → integração),
 > §7 (verificação), §8 (roteiro de cada fase), §9 (relatório). O prompt mestre e o mapa (§11) **não foram editados**:
 > a inserção é a decisão D-239, para você aprovar.
@@ -72,6 +74,9 @@ A última decisão usada é a D-238 (G22).
 | **D-261** | **Encerrar conta como abrir:** o fim da sessão grava `last_opened_at` e o livro vira o herói na próxima leitura da Início; durante a sessão nada muda de lugar. | Só com página · nunca |
 | **D-262** | **Uma sessão por vez:** o play de outro livro com sessão aberta abre a folha da atual; ao encerrar ou descartar, a do outro livro começa. | Troca direto (sem página) · play sem ação |
 | **D-263** | **O leitor pausa o papel:** abrir qualquer livro no leitor pausa a sessão do papel que estiver rodando. | O cronômetro continua (tempo em dobro) |
+| **D-264** | **Sair da conta pausa a sessão do papel:** a do dono que sai pausa no instante da troca; quando ele volta, ela está em pausa com o tempo até ali. | Grava ao sair · continua contando |
+| **D-265** | **Na adoção, a sessão que perde é gravada:** fica aberta a que começou por último e a outra é gravada sem página até a troca (menos de 10 s não grava). | A que perde some · fica a mais longa |
+| **D-266** | **Falha na folha da sessão avisa:** "Não deu para encerrar a sessão. Tente de novo." (descartar, pausar, retomar) no aviso de erro da folha, e os botões voltam; fora da folha, só o relatório. | Folha e aviso passageiro · só o relatório |
 
 ## 4. As fases
 
