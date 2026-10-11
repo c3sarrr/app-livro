@@ -272,11 +272,12 @@ final class OpenPaperSession {
     }
   }
 
+  /// [seenAt] sempre dito: toda transição limpa a marca, menos a própria [observe].
   OpenPaperSession _copy({
     int? activeSeconds,
     Object? runningSince = _keep,
     Object? pausedAt = _keep,
-    Object? seenAt = _keep,
+    required DateTime? seenAt,
   }) => OpenPaperSession(
     id: id,
     userBookId: userBookId,
@@ -288,7 +289,7 @@ final class OpenPaperSession {
     pausedAt: identical(pausedAt, _keep)
         ? this.pausedAt
         : pausedAt as DateTime?,
-    seenAt: identical(seenAt, _keep) ? this.seenAt : seenAt as DateTime?,
+    seenAt: seenAt,
   );
 
   @override

@@ -387,6 +387,43 @@ void main() {
     });
   });
 
+  test('D-264 o kv fora do ar ao pausar a de quem sai: a falha vai ao relatório e a troca segue (o dono novo carrega)', () async {
+    const conta = '0199a7c4-2f00-7a10-8b20-0000000000aa';
+    final relatos = <FlutterErrorDetails>[];
+    final antes = FlutterError.onError;
+    FlutterError.onError = relatos.add;
+    addTearDown(() => FlutterError.onError = antes);
+    final banco = LojaQueFalha(store);
+    final c = ProviderContainer.test(
+      overrides: [
+        clockProvider.overrideWithValue(() => agora),
+        ...overridesDaSessao(
+          store: banco,
+          writer: writer,
+          livros: FixedPaperBookSource({_bras: _livroBras}),
+          donos: donos.stream,
+        ),
+      ],
+    );
+    final sub = c.listen(paperTimerProvider, (_, _) {});
+    addTearDown(sub.close);
+    donos.add(donoDaSessao);
+    await estado(c);
+    await ctl(c).start(_bras);
+    banco.falharAoGravar = true;
+    agora = _t0.add(const Duration(minutes: 5));
+    donos.add(conta);
+    await pumpEventQueue();
+    expect((await estado(c)).session, isNull);
+    expect(relatos.single.exception, isA<StateError>());
+    expect(relatos.single.library, 'cronômetro');
+    expect(
+      store.sessoes[donoDaSessao]!.isRunning,
+      isTrue,
+      reason: 'nada gravado',
+    );
+  });
+
   group('D-265 as que perderam na adoção', () {
     OpenPaperSession perdeu(int n, int segundos) => OpenPaperSession.start(
       id: '01925a00-0000-7000-8000-0000000000f$n',
