@@ -218,25 +218,25 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
 
 ## Tarefa 6 — `docs/NAVEGACAO.md` (R00.5, R4)
 
-- [ ] **(a) Rotas:** uma linha por rota do `router.dart` (as 4 abas, `/scanner`, `/notificacoes`, `/leitor/:bookId`,
+- [x] **(a) Rotas:** uma linha por rota do `router.dart` (as 4 abas, `/scanner`, `/notificacoes`, `/leitor/:bookId`,
       `/livro/:bookId`, `/livro/:bookId/destaques`, `/para-voce`, `/clube/:clubId/discussao`, `/entrar`,
       `/conta/cadastro`, `/_ds`, `/_pro`): o que mostra hoje, telas do projeto que vão para lá, a etapa que troca.
-- [ ] **(b) Toques das telas prontas:** para cada uma (Início 01/01b/60 com a mini-barra e a folha da sessão; leitor
+- [x] **(b) Toques das telas prontas:** para cada uma (Início 01/01b/60 com a mini-barra e a folha da sessão; leitor
       19–27b; grifos 25), cada elemento tocável da prancha: chave do widget → destino → classe (✅/⏸/🟡) e a decisão
       (D-243 b, D-256…D-263). Fonte: os testes de toque que existem (`touch_home_test`, `touch_nav_test`,
       `toques_test` da T04, os testes de toque do leitor e da 25) e o código dos `onTap`.
-- [ ] **(c) O mapa ao lado:** as ligações do `mapa_navegacao.json` que saem das telas prontas, cada uma com "no app:
+- [x] **(c) O mapa ao lado:** as ligações do `mapa_navegacao.json` que saem das telas prontas, cada uma com "no app:
       ✅ / ⏸ / 🟡 / ainda não (etapa)".
-- [ ] **(d) Como chegar no celular:** passos para cada uma das 16 telas, no alvo (1) da D-267 (ex.: "21 · abrir o Dom
+- [x] **(d) Como chegar no celular:** passos para cada uma das 16 telas, no alvo (1) da D-267 (ex.: "21 · abrir o Dom
       Casmurro pelo 'Continuar lendo', segurar 'ressaca' até selecionar").
-- [ ] Commit `docs: a NAVEGACAO.md — rotas, toques das telas prontas, o mapa e como chegar (R00.5)`.
+- [x] Commit `docs: a NAVEGACAO.md — rotas, toques das telas prontas, o mapa e como chegar (R00.5)`.
 
 ## Tarefa 7 — O teste de navegação (R00.6, R5)
 
 **Arquivos:** `test/support/navegacao.dart`, `test/app/navegacao_test.dart`, `integration_test/navegacao_test.dart`,
 `test/design/navegacao_doc_test.dart`.
 
-- [ ] **A lista** (`navegacao.dart`), uma entrada por toque documentado:
+- [x] **A lista** (`navegacao.dart`), uma entrada por toque documentado:
   ```dart
   enum Classe { leva, semAcao, placeholder }
 
@@ -255,16 +255,35 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
       à origem, rola até a chave, toca; ✅ → `expect(destino(), findsOneWidget)` e volta; ⏸ → a rota e a árvore não
       mudam; 🟡 → acha o `PlaceholderScreen` com o título, guarda `"🟡 <origem> · <chave> → <título> (<etapa>)"` e volta.
       Devolve as linhas 🟡.
-- [ ] **Na suíte** (`navegacao_test.dart`): o app inteiro (`abrirAppComLivro` com o mundo semeado em memória pela
+- [x] **Na suíte** (`navegacao_test.dart`): o app inteiro (`abrirAppComLivro` com o mundo semeado em memória pela
       `semearMundo` da Tarefa 8 — se a Tarefa 8 ainda não existe, com o `domCasmurroEmLeitura`), as 4 abas pela barra,
       o FAB do scanner, depois `percorrer`; imprime os 🟡. Rodar → verde.
-- [ ] **No celular** (`integration_test/navegacao_test.dart`): `IntegrationTestWidgetsFlutterBinding.ensureInitialized()`
+- [x] **No celular** (`integration_test/navegacao_test.dart`): `IntegrationTestWidgetsFlutterBinding.ensureInitialized()`
       e o mesmo percurso sobre o banco semeado num diretório temporário do aparelho.
-      `flutter test integration_test/navegacao_test.dart -d RXCT200CA6F` → verde; a lista dos 🟡 no relatório.
-- [ ] **Documentação × prova** (`navegacao_doc_test.dart`): lê a tabela (b) da `NAVEGACAO.md` (chave, classe) e compara
+      `flutter test integration_test/navegacao_test.dart -d RXCT200CA6F --no-uninstall` → verde; a lista dos 🟡 no
+      relatório (sem `--no-uninstall` o app é desinstalado no fim, com os dados do Cesar).
+- [x] **Documentação × prova** (`navegacao_doc_test.dart`): lê a tabela (b) da `NAVEGACAO.md` (chave, classe) e compara
       com a lista: toda linha documentada tem a entrada e vice-versa, com a mesma classe.
-- [ ] Mutação: trocar a classe de uma entrada (✅ → ⏸) e o destino de outra → cada teste cai.
-- [ ] Commit `test(navegacao): o percurso das telas prontas na suíte e no celular, e a NAVEGACAO.md conferida (R00.6)`.
+- [x] Mutação: trocar a classe de uma entrada (✅ → ⏸) e o destino de outra → cada teste cai.
+- [x] Commit `test(navegacao): o percurso das telas prontas na suíte e no celular, e a NAVEGACAO.md conferida (R00.6)`.
+
+> **Como ficou (feito em 11/10/2026, depois da Tarefa 8 — a ordem mudou para o percurso já rodar sobre o banco do
+> demo; os desvios entram no R00.md):**
+> - O percurso roda no **alvo (2)** da D-267 (a Início da prancha 01, com a revisão, Para você e o clube, e o leitor e os
+>   grifos do banco do demo num arquivo temporário), não no `abrirAppComLivro`: só assim todas as seções da Início e o
+>   leitor de verdade estão no mesmo app. A lista tem **74 ligações** em 17 origens (as 6 da barra, 21 da Início, 7 da
+>   01b e da folha, 40 do leitor e dos grifos); 18 são 🟡 (a saída do teste), 5 são ⏸ (D-243 b).
+> - Gestos sem chave têm nome com `@` (`r19.pagina@meio`, `r19.pagina@segurar`); as linhas que dependem do livro, `N`
+>   (`toc.sheet.chapters.chN` — o sumário abre no capítulo atual; `hl.list.cardN.body.club.chip`).
+> - Para o percurso alcançar a faixa do clube no sumário e o chip do clube na 25, o demo ganhou o dono do cache do social
+>   (`socialOwnerProvider` = o convidado do mundo; sem o cliente do Supabase nada vai à rede) e a camada da 01 ganhou o
+>   ISBN do Dom Casmurro, o da leitura do clube (o mundo não guarda ISBN).
+> - O mundo de referência não lê mais arquivo do repositório: a tinta da nota à mão (`nota_mao_ressaca.svg`) foi
+>   embutida em `test/fixtures/nota_mao_ressaca_svg.dart`, com um teste byte a byte — no aparelho o repositório não
+>   existe.
+> - `test/support/demonstracao_no_app.dart` reúne o montar/esperar/desmontar do app do demo (a suíte, o celular e o teste
+>   do modo demonstração usam). Mutação: 5/5 mortas (classe trocada, destino trocado, título do placeholder, classe no
+>   documento e a lupa da Início passando a navegar, no próprio app).
 
 ## Tarefa 8 — Modo demonstração (R00.7, D-267, R6)
 
@@ -361,7 +380,8 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
       botão Grifos · 26 "Fonte" · 26b o Tema Noite com os controles · 27 "Sumário" · 27b a aba Marcadas.
       `test_driver/integration_test.dart` = o `integrationDriver()` padrão.
 - [ ] **O script do computador** (`capturar_r00.py`): roda
-      `flutter drive --profile --driver=test_driver/integration_test.dart --target=integration_test/capturas_r00_test.dart -d RXCT200CA6F`,
+      `flutter drive --profile --keep-app-running --driver=test_driver/integration_test.dart --target=integration_test/capturas_r00_test.dart -d RXCT200CA6F`
+      (sem `--keep-app-running` o `flutter drive` **desinstala** o app no fim — e com ele os dados do Cesar),
       lê a saída linha a linha e, em cada `R00CAP nn`, roda `adb exec-out screencap -p` para
       `docs/progresso/R00_celular/<nn>_celular.png`; no fim monta `<nn>_lado_a_lado.png` (a captura e o PNG da prancha
       — `docs/design/medicao/inicio2/png/` para 01/01b/60 e o da G01 para o leitor — na mesma altura, com o título
@@ -371,8 +391,11 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
 - [ ] **`R00_celular.md`:** o aparelho (modelo, Android, 384 × 832 lógicos), o build (comando, perfil), a tabela das 16
       (captura, lado a lado, o que difere e a decisão que explica — a largura de 384, D-247, D-79, D-60), o "como
       chegar" e os comandos.
-- [ ] **Devolver o celular:** `flutter install` do app normal (`lib/main.dart`, perfil release ou o que estava) e
-      conferir que os dados do Cesar continuam (o `booknest.db` não foi aberto pelo demo).
+- [ ] **Devolver o celular:** o app normal (`lib/main.dart`) por `flutter build apk --profile` + `adb install -r`
+      (**nunca** `flutter install`, que desinstala antes) e conferir que os dados do Cesar continuam (o `booknest.db`
+      não foi aberto pelo demo). Antes de cada instalação: o assinante do APK instalado = a chave de debug deste PC
+      (SHA-256 14faa78b…, conferido com o `apksigner`) — senão o `adb install -r` falha e o `flutter` desinstala para
+      tentar de novo.
 - [ ] Commit `docs(progresso): R00 — as 16 telas prontas no Galaxy S22+, lado a lado com as pranchas (R00.8)`.
 
 ## Tarefa 10 — Documentos, verificação e relatório (R00.9)
