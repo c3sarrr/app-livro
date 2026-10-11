@@ -67,11 +67,14 @@ Future<void> ateSumir(
 }
 
 /// Monta o app com [demo] (os overrides de um alvo da D-267) e os dublês do aparelho, e anda até o herói da Início.
-/// [tela] = o tamanho lógico (na suíte); no celular, `null` (a tela de verdade). Devolve as URLs pedidas à rede.
+/// [tela] = o tamanho lógico (na suíte); no celular, `null` (a tela de verdade). [sistemaDeVerdade]: a barra do sistema
+/// e a tela acesa do aparelho (as capturas: o leitor esconde a barra — D-105), no lugar dos dublês. Devolve as URLs
+/// pedidas à rede.
 Future<List<Uri>> montarDemonstracao(
   WidgetTester tester,
   List<Override> demo, {
   Size? tela = const Size(390, 844),
+  bool sistemaDeVerdade = false,
 }) async {
   final pedidos = <Uri>[];
   if (tela != null) setCanvasView(tester, logical: tela);
@@ -87,8 +90,10 @@ Future<List<Uri>> montarDemonstracao(
           }),
         ),
         scannerCameraProvider.overrideWithValue(FakeScannerCamera.new),
-        screenAwakeProvider.overrideWithValue(RecordingScreenAwake()),
-        readerSystemUiProvider.overrideWithValue(RecordingSystemUi()),
+        if (!sistemaDeVerdade) ...[
+          screenAwakeProvider.overrideWithValue(RecordingScreenAwake()),
+          readerSystemUiProvider.overrideWithValue(RecordingSystemUi()),
+        ],
         // as fatias do layout com prioridade de animação: no tempo falso a ociosa nunca chega (G11)
         layoutSchedulerProvider.overrideWithValue(
           LayoutScheduler(priority: Priority.animation),

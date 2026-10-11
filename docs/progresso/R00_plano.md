@@ -94,19 +94,19 @@ Playwright 1.56 no WSL (`tools/medicao/wsl.sh`).
 
 ## Tarefa 2 — Spec e plano com as respostas (R00.1)
 
-- [ ] Preencher em `R00.md` a tabela "Decisões" com as respostas (data, opção escolhida) e mudar o título para
+- [x] Preencher em `R00.md` a tabela "Decisões" com as respostas (data, opção escolhida) e mudar o título para
       "Decisões em uso"; cortar deste plano o que as respostas tirarem.
-- [ ] `PLANO_FIDELIDADE_TELAS.md` §3: as linhas D-267 e D-268 (proposta escolhida e alternativas), e a nota do topo
+- [x] `PLANO_FIDELIDADE_TELAS.md` §3: as linhas D-267 e D-268 (proposta escolhida e alternativas), e a nota do topo
       ("as D-267 e D-268 vieram da R00").
-- [ ] ROTEIRO §1 item 3: "A próxima decisão livre é a **D-269**".
-- [ ] Commit `docs(progresso): R00 — spec, plano e as decisões D-267 e D-268`.
+- [x] ROTEIRO §1 item 3: "A próxima decisão livre é a **D-269**".
+- [x] Commit `docs(progresso): R00 — spec, plano e as decisões D-267 e D-268`.
 
 ## Tarefa 3 — As pranchas do projeto contra as medidas (R00.2, R8)
 
 **Arquivos:** `tools/medicao/conferir_projeto.py`, `tools/medicao/renderizar_dc.js`,
 `docs/design/medicao/projeto/conferencia_projeto.md`.
 
-- [ ] **Escrever `conferir_projeto.py`** (Python puro). Pares: as 6 de `tools/medicao/pranchas_inicio2/<slug>/template.html`,
+- [x] **Escrever `conferir_projeto.py`** (Python puro). Pares: as 6 de `tools/medicao/pranchas_inicio2/<slug>/template.html`,
       as 13 de `tools/medicao/pranchas/<slug>/template.html` e as 16 do clube extraídas para
       `tools/medicao/tmp/r00/pranchas_clube/` (`extrair_bundle.py … --aninhado tools/medicao/pranchas_clube.json`,
       fora do git), cada uma com o `.dc.html` do `CATALOGO.md`. O núcleo:
@@ -147,27 +147,27 @@ Playwright 1.56 no WSL (`tools/medicao/wsl.sh`).
       contidos, nessa ordem, no `docs/design/projeto/dc-runtime.js`. Saída: a tabela Markdown (tela · arquivo
       antigo · `.dc.html` · tokens · DOM · CSS · resultado) + o resumo, escrita em `conferencia_projeto.md`; código de
       saída 1 se alguma diferir.
-- [ ] **Rodar:** `PYTHONIOENCODING=utf-8 python3 tools/medicao/conferir_projeto.py` → `35/35 iguais`, runtime `contém os 3`.
+- [x] **Rodar:** `PYTHONIOENCODING=utf-8 python3 tools/medicao/conferir_projeto.py` → `35/35 iguais`, runtime `contém os 3`.
       Mutação manual (fora do git): trocar um texto num `.dc.html` copiado para `tools/medicao/tmp/` e apontar o
       script para ele (`--projeto tools/medicao/tmp/r00/projeto_mutado`) → `34/35`, saída 1.
-- [ ] **Escrever `renderizar_dc.js`** (Node, Playwright do WSL): monta em `tools/medicao/tmp/r00/dc/` uma cópia do
+- [x] **Escrever `renderizar_dc.js`** (Node, Playwright do WSL): monta em `tools/medicao/tmp/r00/dc/` uma cópia do
       `MainLendo.dc.html` com o `<helmet>` do `template.html` antigo (as `@font-face` com os `assets/`), o
       `dc-runtime.js` copiado como `support.js` e os `assets/` antigos ao lado; abre essa cópia e o `original.html`
       antigo com `lancar()`/a rotina do `abrir()` do `comum.js` (rede bloqueada, `document.fonts.ready`), tira o PNG
       do quadro (390 × 844, dsf 1) das duas e compara o `innerText` do quadro.
-- [ ] **Rodar:** `MSYS_NO_PATHCONV=1 wsl bash tools/medicao/wsl.sh 'node tools/medicao/renderizar_dc.js'` e
+- [x] **Rodar:** `MSYS_NO_PATHCONV=1 wsl bash tools/medicao/wsl.sh 'node tools/medicao/renderizar_dc.js'` e
       `python3 tools/compare_images.py <novo.png> <antigo.png>` → texto igual, `raw_mismatch_% = 0`. Anotar na
       conferência.
-- [ ] **ROTEIRO §6b:** trocar a última frase por: "O `support.js` que os `.dc.html` chamam é o próprio `dc-runtime.js`
+- [x] **ROTEIRO §6b:** trocar a última frase por: "O `support.js` que os `.dc.html` chamam é o próprio `dc-runtime.js`
       (a R00 conferiu: ele é a concatenação exata do React, do ReactDOM e do runtime das pranchas antigas, e a 01b
       renderiza igual com ele no lugar)."
-- [ ] Commit `feat(medicao): a conferência das pranchas do projeto contra as medidas — 35/35 iguais (R00.2)`.
+- [x] Commit `feat(medicao): a conferência das pranchas do projeto contra as medidas — 35/35 iguais (R00.2)`.
 
 ## Tarefa 4 — A cobertura das 128 telas (R00.3, R1, R2)
 
 **Arquivos:** `docs/design/projeto/COBERTURA.md`, `test/design/cobertura_test.dart`.
 
-- [ ] **Teste primeiro** (`cobertura_test.dart`, `dart:io` + `flutter_test`), lendo os 3 arquivos da raiz do repo:
+- [x] **Teste primeiro** (`cobertura_test.dart`, `dart:io` + `flutter_test`), lendo os 3 arquivos da raiz do repo:
   - `catalogo()` → as linhas da tabela do `CATALOGO.md` (nº, título, arquivo), sem a 00;
   - `cobertura()` → as linhas da tabela principal da `COBERTURA.md` (nº, título, arquivo, rota, situação, etapa, obs.);
   - `roteiro()` → por etapa (o ID da coluna 2 da tabela da §3), os números de tela citados na coluna 3
@@ -176,16 +176,16 @@ Playwright 1.56 no WSL (`tools/medicao/wsl.sh`).
   arquivo); (2) nenhuma linha a mais; (3) situação ∈ {✅, 🟠, ⬜}; (4) a etapa da linha cita aquele número no ROTEIRO
   (as 16 ✅ apontam a etapa que as fez: T03, T04 ou 0 · G00–G22/T01); (5) as 16 do app (01, 01b, 60, 19–27b) estão ✅;
   (6) a seção das 9 que faltam tem 9 linhas com "abre de" e uma etapa que existe no ROTEIRO.
-- [ ] Rodar `flutter test test/design/cobertura_test.dart` → falha (o arquivo não existe).
-- [ ] **Escrever a `COBERTURA.md`**: topo (o que é, como manter, a legenda e o resumo ✅/🟠/⬜ por etapa); a tabela das
+- [x] Rodar `flutter test test/design/cobertura_test.dart` → falha (o arquivo não existe).
+- [x] **Escrever a `COBERTURA.md`**: topo (o que é, como manter, a legenda e o resumo ✅/🟠/⬜ por etapa); a tabela das
       128 na ordem do catálogo — rota (do `router.dart`; "—" sem rota), situação pela R1 (🟠 só onde uma rota mostra
       hoje uma versão provisória daquele estado: conferir no código o que o `scanner_screen.dart` desenha — achou, já na
       estante, não achou, sem permissão, digitar —, o que o `sign_in_screen.dart` e o `onboarding_screen.dart`
       cobrem, e escrever na observação "provisório (D-76)", "mínimo (D-21)"); a etapa pela §3; as exceções aprovadas
       nas ✅ (D-55, D-147, D-204, D-59). Depois: "As 9 que faltam no projeto" (abre de, prioridade do design, etapa da
       D-268, o que o app tem hoje) e "Futuro (fora da v1.0)": Livros do ano.
-- [ ] Rodar o teste → passa. Mutação: trocar a etapa de uma linha e apagar outra → cada uma derruba um caso.
-- [ ] Commit `docs(design): a cobertura das 128 telas e o teste que a confere com o catálogo e o roteiro (R00.3)`.
+- [x] Rodar o teste → passa. Mutação: trocar a etapa de uma linha e apagar outra → cada uma derruba um caso.
+- [x] Commit `docs(design): a cobertura das 128 telas e o teste que a confere com o catálogo e o roteiro (R00.3)`.
 
 ## Tarefa 5 — As ligações do Mapa (R00.4, R3)
 
@@ -194,7 +194,7 @@ Playwright 1.56 no WSL (`tools/medicao/wsl.sh`).
 O mapa é estático (cartões em `position: absolute` com `left/top/width/height` em px do quadro de 1700 × 1300; as setas
 num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não precisa de Chromium.
 
-- [ ] **Escrever o script:**
+- [x] **Escrever o script:**
   ```python
   CARTAO = re.compile(r'<div style="position: absolute; left: ([\d.]+)px; top: ([\d.]+)px; width: ([\d.]+)px; '
                       r'height: ([\d.]+)px;[^"]*"><span[^>]*>([^<]+)</span><span[^>]*>([^<]+)</span></div>')
@@ -210,11 +210,11 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
       destino quando o caminho tem `marker-end` (as duas pontas com `marker-start` + `marker-end` = ida e volta).
       Caminho com uma ponta fora de qualquer cartão → `sem_par` (com as coordenadas). Grava o JSON (cartões, ligações,
       `sem_par`, as seções e a frase da barra de baixo) e imprime o resumo.
-- [ ] **Rodar** `PYTHONIOENCODING=utf-8 python3 tools/medicao/mapa_navegacao.py` → 135 cartões (126 + 9), 83 setas (os 3 caminhos restantes são a legenda e o
+- [x] **Rodar** `PYTHONIOENCODING=utf-8 python3 tools/medicao/mapa_navegacao.py` → 135 cartões (126 + 9), 83 setas (os 3 caminhos restantes são a legenda e o
       desenho da ponta, ignorados de propósito),
       `sem_par` vazio (ou cada um explicado no JSON e no relatório). Conferir 5 ligações a olho no PNG do mapa
       (renderizado pelo `renderizar_dc.js` da Tarefa 3 com `MapaNavegacao.dc.html`, 1700 × 1300).
-- [ ] Commit `feat(medicao): as ligações do mapa de navegação lidas da geometria da tela 00 (R00.4)`.
+- [x] Commit `feat(medicao): as ligações do mapa de navegação lidas da geometria da tela 00 (R00.4)`.
 
 ## Tarefa 6 — `docs/NAVEGACAO.md` (R00.5, R4)
 
@@ -370,7 +370,7 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
 **Arquivos:** `integration_test/capturas_r00_test.dart`, `test_driver/integration_test.dart`,
 `tools/celular/capturar_r00.py`, `docs/progresso/R00_celular.md`, `docs/progresso/R00_celular/*.png`.
 
-- [ ] **O roteiro no aparelho** (`capturas_r00_test.dart`): sobe o alvo (1) já semeado (`prepararBancoDemonstracao`
+- [x] **O roteiro no aparelho** (`capturas_r00_test.dart`): sobe o alvo (1) já semeado (`prepararBancoDemonstracao`
       com `recomecar: true` + `runBookNest(overrides: overridesDemonstracao)`), e para cada tela leva o app ao estado da
       prancha com gestos de verdade e imprime `R00CAP <nn>` e espera 6 s parado (o gesto da 24 fica segurado no meio
       do arrasto durante a espera):
@@ -379,24 +379,39 @@ num único `<svg viewBox="0 0 1700 1300">` com `marker-end`): a leitura não pre
       · 23 a caneta · 23b o marca-texto · 24 arrastar entre parágrafos, segurado · 24b a nota à mão do mundo · 25 o
       botão Grifos · 26 "Fonte" · 26b o Tema Noite com os controles · 27 "Sumário" · 27b a aba Marcadas.
       `test_driver/integration_test.dart` = o `integrationDriver()` padrão.
-- [ ] **O script do computador** (`capturar_r00.py`): roda
+- [x] **O script do computador** (`capturar_r00.py`): roda
       `flutter drive --profile --keep-app-running --driver=test_driver/integration_test.dart --target=integration_test/capturas_r00_test.dart -d RXCT200CA6F`
       (sem `--keep-app-running` o `flutter drive` **desinstala** o app no fim — e com ele os dados do Cesar),
       lê a saída linha a linha e, em cada `R00CAP nn`, roda `adb exec-out screencap -p` para
       `docs/progresso/R00_celular/<nn>_celular.png`; no fim monta `<nn>_lado_a_lado.png` (a captura e o PNG da prancha
       — `docs/design/medicao/inicio2/png/` para 01/01b/60 e o da G01 para o leitor — na mesma altura, com o título
       embaixo) com o Pillow. Falha se faltar alguma das 16.
-- [ ] **Rodar** `PYTHONIOENCODING=utf-8 python3 tools/celular/capturar_r00.py` → 16 capturas + 16 lado a lado. Com o
+- [x] **Rodar** `PYTHONIOENCODING=utf-8 python3 tools/celular/capturar_r00.py` → 16 capturas + 16 lado a lado. Com o
       alvo (2), as 3 da Início também (`<nn>_prancha_celular.png`), para mostrar a Início igual à prancha.
-- [ ] **`R00_celular.md`:** o aparelho (modelo, Android, 384 × 832 lógicos), o build (comando, perfil), a tabela das 16
+- [x] **`R00_celular.md`:** o aparelho (modelo, Android, 384 × 832 lógicos), o build (comando, perfil), a tabela das 16
       (captura, lado a lado, o que difere e a decisão que explica — a largura de 384, D-247, D-79, D-60), o "como
       chegar" e os comandos.
-- [ ] **Devolver o celular:** o app normal (`lib/main.dart`) por `flutter build apk --profile` + `adb install -r`
+- [x] **Devolver o celular:** o app normal (`lib/main.dart`) por `flutter build apk --profile` + `adb install -r`
       (**nunca** `flutter install`, que desinstala antes) e conferir que os dados do Cesar continuam (o `booknest.db`
       não foi aberto pelo demo). Antes de cada instalação: o assinante do APK instalado = a chave de debug deste PC
       (SHA-256 14faa78b…, conferido com o `apksigner`) — senão o `adb install -r` falha e o `flutter` desinstala para
       tentar de novo.
-- [ ] Commit `docs(progresso): R00 — as 16 telas prontas no Galaxy S22+, lado a lado com as pranchas (R00.8)`.
+- [x] Commit `docs(progresso): R00 — as 16 telas prontas no Galaxy S22+, lado a lado com as pranchas (R00.8)`.
+
+> **Como ficou (feito em 11/10/2026):**
+> - O roteiro monta o alvo (1) com os overrides do demo sobre uma pasta temporária (o banco recém-semeado), sem um
+>   `prepararBancoDemonstracao` à parte, e com a barra do sistema de verdade (`montarDemonstracao(sistemaDeVerdade:
+>   true)`: os dublês só gravavam as chamadas, e a barra de status ficava no leitor limpo). A 19, a 20 e a 26b saem de uma
+>   sessão só (cada entrada no leitor soma o tempo da sessão: "18 min hoje" como a prancha); a 60 rola até o pé do "Seu
+>   dia" em 289,7 (medido no PNG @3x); a 24 apaga a nota do mundo na sessão (a fresta de "Vá, de ressaca." já tem nota —
+>   uma nota por âncora, G18), abre as 3 linhas e desfaz os dois passos antes de concluir.
+> - O script confere o assinante do APK instalado antes de cada rodada, usa o `--keep-app-running` e ajusta o tamanho
+>   da legenda à largura do lado a lado.
+> - Dois achados viraram perguntas e foram respondidos: o "Para você" do alvo (1) — o catálogo só do demo (`f424aef`);
+>   o título curto do Brás Cubas — campo na T14.
+> - A devolução reinstalou por cima (`adb install -r`) o **mesmo APK** que estava no aparelho antes da R00 (guardado
+>   antes da primeira instalação), em vez de um build novo do `lib/main.dart`: é o app que o Cesar tinha, com a
+>   configuração dele; a R00 não mudou nada em `lib/`. O roteiro passou a apagar a pasta temporária do demo no fim.
 
 ## Tarefa 10 — Documentos, verificação e relatório (R00.9)
 
