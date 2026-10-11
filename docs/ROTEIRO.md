@@ -14,7 +14,7 @@
 1. Ler `CLAUDE.md`, `docs/STATUS.md` e este arquivo.
 2. Fazer **só a etapa que o STATUS marca como próxima** (▶). Nunca pular, juntar ou inventar etapa.
 3. Antes de escrever código: spec e plano em `docs/progresso/<ID>.md` e `<ID>_plano.md` (como na T03/T04), com as
-   perguntas (§2b). A próxima decisão livre é a **D-267**.
+   perguntas (§2b). A próxima decisão livre é a **D-269**.
 4. **Subfases:** cada etapa é dividida em subfases numeradas (`T14.1`, `T14.2`…), uma por tela ou por seção grande de
    tela, cada uma com teste, commit próprio e o checklist dela. Antes de começar cada tela, perguntar o que for dessa
    tela (§2b).

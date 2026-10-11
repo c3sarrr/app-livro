@@ -9,7 +9,9 @@
 > de papel que a prancha 01b mostra e não define, respondidas em 10/10/2026 no começo da T04 (as 8 propostas
 > recomendadas); detalhe em `docs/progresso/T04.md`. As D-264…D-266 vieram da revisão independente do fim da T04
 > (a sessão ao sair da conta, a que perde na adoção e o aviso de falha na folha), respondidas em 10/10/2026 (as 3
-> recomendadas).
+> recomendadas). As D-267 e D-268 vieram da R00 (o modo demonstração e as 9 telas que o Mapa marca como faltando),
+> respondidas em 11/10/2026 (as recomendadas); detalhe em `docs/progresso/R00.md`. Desde 10/10/2026 a ordem das
+> etapas é a do `docs/ROTEIRO.md`; esta tabela continua sendo o registro das decisões.
 > Formato do roteiro: `handoff_v2/00_PROMPT_MESTRE_V2.md` §6 (trilha T: G01-bis → uma fase por tela → integração),
 > §7 (verificação), §8 (roteiro de cada fase), §9 (relatório). O prompt mestre e o mapa (§11) **não foram editados**:
 > a inserção é a decisão D-239, para você aprovar.
@@ -77,6 +79,8 @@ A última decisão usada é a D-238 (G22).
 | **D-264** | **Sair da conta pausa a sessão do papel:** a do dono que sai pausa no instante da troca; quando ele volta, ela está em pausa com o tempo até ali. | Grava ao sair · continua contando |
 | **D-265** | **Na adoção, a sessão que perde é gravada:** fica aberta a que começou por último e a outra é gravada sem página até a troca (menos de 10 s não grava). | A que perde some · fica a mais longa |
 | **D-266** | **Falha na folha da sessão avisa:** "Não deu para encerrar a sessão. Tente de novo." (descartar, pausar, retomar) no aviso de erro da folha, e os botões voltam; fora da folha, só o relatório. | Folha e aviso passageiro · só o relatório |
+| **D-267** | **Modo demonstração, em dois alvos fora de `lib/`:** (1) `test/fixtures/main_demonstracao.dart` — o app de verdade sobre um banco só do demo (`booknest_demo.db`, pastas `_demo`), com o mundo de referência gravado (Início, leitor com o EPUB, grifos, tinta, marcadores, metas, cronômetro), sem servidor, e o relógio que parte de dom 20/09/2026 20:00 (D-09) e anda; (2) o `main_mundo_referencia.dart`, com a Início igual à prancha e o leitor e os grifos abrindo do banco semeado. Nunca no build de loja: alvo separado, recusa em release e teste de que `lib/` não importa `test/`. | Só (1) · só (2) · não fazer agora; relógio real com o mundo deslocado · relógio parado |
+| **D-268** | **As 9 telas que o Mapa (00) marca como faltando entram na etapa da tela que as abre**, pela §5 do ROTEIRO (perguntar, referências, prancha em HTML no estilo do projeto, "sim", Flutter): Revisão · escrever nota → T05; Coleções · ver todas e Trocar a capa → T14; Busca dentro do livro → T15; Exportar meus dados, Importar CSV, Aparência e acessibilidade e Carteirinha aberta → T17; Enquete · deu empate → T11. "Livros do ano" (o design marca como futuro) fica fora da v1.0 (§9 do ROTEIRO). | Uma etapa nova só para as 9, antes da R01 · fora da v1.0 |
 
 ## 4. As fases
 
