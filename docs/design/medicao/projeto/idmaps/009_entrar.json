@@ -1,0 +1,53 @@
+{
+ "prancha": "009_entrar",
+ "prefixo": "e09",
+ "secoes": [
+  "e09.waves",
+  "e09.back",
+  "e09.badge",
+  "e09.sparkleLarge",
+  "e09.sparkleSmall",
+  "e09.sheet"
+ ],
+ "especiais": [
+  "e09.frame"
+ ],
+ "ids": {
+  "4": "e09.frame",
+  "5": "e09.waves",
+  "90": "e09.back",
+  "91": "e09.back.icon",
+  "94": "e09.badge",
+  "103": "e09.sparkleLarge",
+  "105": "e09.sparkleSmall",
+  "107": "e09.sheet",
+  "108": "e09.sheet.title",
+  "110": "e09.sheet.title.serif",
+  "111": "e09.sheet.lead",
+  "112": "e09.sheet.form",
+  "113": "e09.sheet.form.email.label",
+  "114": "e09.sheet.form.email.field",
+  "115": "e09.sheet.form.email.field.input",
+  "116": "e09.sheet.form.password.header",
+  "117": "e09.sheet.form.password.label",
+  "118": "e09.sheet.form.password.forgot",
+  "119": "e09.sheet.form.password.field",
+  "120": "e09.sheet.form.password.field.value",
+  "121": "e09.sheet.form.password.field.dots",
+  "122": "e09.sheet.form.password.field.caret",
+  "123": "e09.sheet.form.password.field.input",
+  "124": "e09.sheet.form.password.field.reveal",
+  "125": "e09.sheet.form.password.field.reveal.icon",
+  "128": "e09.sheet.form.submit",
+  "129": "e09.sheet.form.submit.label",
+  "130": "e09.sheet.form.submit.icon",
+  "133": "e09.sheet.divider",
+  "134": "e09.sheet.divider.lineLeft",
+  "135": "e09.sheet.divider.label",
+  "136": "e09.sheet.divider.lineRight",
+  "137": "e09.sheet.code",
+  "138": "e09.sheet.code.icon",
+  "141": "e09.sheet.signUp",
+  "142": "e09.sheet.signUp.link"
+ }
+}

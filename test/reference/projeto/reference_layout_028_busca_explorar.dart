@@ -171,5 +171,6 @@ const LeitorRefPrancha kRef28 = LeitorRefPrancha(
   textDependentY: <String>{},
   ellipsized: <String>{},
   knifeEdges: <LeitorKnifeEdge>[
+    LeitorKnifeEdge('bu28.mood.chips', 2, 'De uma sentada | Engraçado', 104.244, 0.397),
   ],
 );

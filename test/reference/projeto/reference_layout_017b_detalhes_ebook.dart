@@ -145,5 +145,6 @@ const LeitorRefPrancha kRef17b = LeitorRefPrancha(
   ellipsized: <String>{},
   knifeEdges: <LeitorKnifeEdge>[
     LeitorKnifeEdge('d17b.highlights.quote.text', 1, '“…olhos de cigana oblíqua e dissimulada.”', 0.252, null),
+    LeitorKnifeEdge('d17b.meta', 1, 'Machado de Assis | d17b.meta.dot | 1899', 170.108, 0.467),
   ],
 );

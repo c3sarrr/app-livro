@@ -32,7 +32,7 @@ const UNICA = !!require('./conjunto').C.facaLinhaUnica;
     const alvos = Object.entries(layout.elements)
       .filter(([, e]) => (e.lines && e.lines.length) || (e.linesAll && e.linesAll.length))
       .map(([k, e]) => ({ k, tpl: e.tpl, lines: (e.linesAll || e.lines).map(l => l.text), composto: !!e.linesAll }));
-    const facas = await page.evaluate(async ({ Z, alvos, LIMIAR, UNICA, frameSel }) => {
+    const facas = await page.evaluate(async ({ Z, alvos, LIMIAR, UNICA, ids, frameSel }) => {
       const frame = document.querySelector(frameSel);
       frame.querySelectorAll('*').forEach(e => { if (e.style && e.style.transform) e.style.transform = 'none'; });
       await new Promise(r => setTimeout(r, 200));
@@ -102,8 +102,55 @@ const UNICA = !!require('./conjunto').C.facaLinhaUnica;
         const impostas = info.filter(x => x.estouroComProxima !== null && x.estouroComProxima < 0).map(x => x.linha);
         if (riscos.length || info.some(x => x.sobra < -0.01)) res[a.k] = { composto: a.composto, quebraPadrao: cs.textWrapStyle || 'auto', riscos, quebrasImpostas: impostas, linhas: info };
       }
+      // D-278 (conjuntos com facaLinhaUnica: o projeto): a fileira de um flex-wrap também é fio de navalha — os chips
+      // de uma fileira cheia por < 1,5 px (sobra) ou o 1º item da fileira seguinte que caberia faltando < 1,5 px
+      // (estouro): uma diferença mínima de largura de texto muda as fileiras e desloca todos os itens seguintes. A
+      // quebra usa o tamanho hipotético de cada item (o flex-basis, antes de crescer ou encolher): crescer e encolher
+      // são desligados enquanto se mede (não mudam as fileiras) e voltam depois. A entrada fica no id do contêiner,
+      // com `fileiras: true`; cada "linha" é uma fileira e o texto, os textos dos itens separados por " | " (o "·" aparece dentro dos textos).
+      if (UNICA) {
+        const px = v => parseFloat(v) || 0;
+        for (const el of [frame, ...frame.querySelectorAll('[data-dc-tpl]')]) {
+          const id = ids[el.getAttribute('data-dc-tpl')];
+          if (!id) continue;
+          const cs = getComputedStyle(el);
+          if (!/flex/.test(cs.display) || !/^wrap/.test(cs.flexWrap)) continue; // wrap ou wrap-reverse (não o nowrap)
+          const itens = [...el.children].filter(c => { const q = getComputedStyle(c);
+            return q.display !== 'none' && q.position !== 'absolute' && q.position !== 'fixed'; });
+          if (!itens.length) continue;
+          const lin = /row/.test(cs.flexDirection);
+          const antes = itens.map(c => [c.style.flexGrow, c.style.flexShrink]);
+          itens.forEach(c => { c.style.flexGrow = '0'; c.style.flexShrink = '0'; });
+          const r = el.getBoundingClientRect();
+          const disp = lin ? r.width / Z - px(cs.paddingLeft) - px(cs.paddingRight) - px(cs.borderLeftWidth) - px(cs.borderRightWidth)
+            : r.height / Z - px(cs.paddingTop) - px(cs.paddingBottom) - px(cs.borderTopWidth) - px(cs.borderBottomWidth);
+          const gap = px(lin ? cs.columnGap : cs.rowGap);
+          // a ordem do flex (order, estável) e o sentido do eixo principal: uma fileira nova começa quando o item volta
+          const ord = itens.map((c, i) => ({ c, i, o: px(getComputedStyle(c).order) })).sort((a, b) => a.o - b.o || a.i - b.i);
+          const sinal = (lin ? (/reverse/.test(cs.flexDirection) !== (cs.direction === 'rtl')) : /reverse/.test(cs.flexDirection)) ? -1 : 1;
+          const med = ord.map(({ c }) => { const q = getComputedStyle(c), b = c.getBoundingClientRect();
+            return { ini: (lin ? b.left : b.top) * sinal,
+              ext: lin ? b.width / Z + px(q.marginLeft) + px(q.marginRight) : b.height / Z + px(q.marginTop) + px(q.marginBottom),
+              texto: (c.innerText || '').replace(/\s+/g, ' ').trim() || ids[c.getAttribute('data-dc-tpl')] || c.tagName.toLowerCase() }; });
+          itens.forEach((c, i) => { c.style.flexGrow = antes[i][0]; c.style.flexShrink = antes[i][1]; });
+          const fileiras = [];
+          med.forEach((m, i) => { const a = med[i - 1];
+            if (!i || m.ini < a.ini || (m.ini === a.ini && a.ext > 0.001)) fileiras.push([]);
+            fileiras[fileiras.length - 1].push(m); });
+          const info = fileiras.map((f, i) => {
+            const usado = f.reduce((s, m) => s + m.ext, 0) + gap * (f.length - 1);
+            const prox = fileiras[i + 1] ? fileiras[i + 1][0].ext : null;
+            return { linha: i + 1, texto: f.map(m => m.texto).join(' | '), largura: +usado.toFixed(3), disponivel: +disp.toFixed(3),
+              sobra: +(disp - usado).toFixed(3), estouroComProxima: prox !== null ? +(usado + gap + prox - disp).toFixed(3) : null };
+          });
+          const riscos = info.filter(x => (x.sobra > 0.001 && x.sobra < LIMIAR) || (x.estouroComProxima !== null && x.estouroComProxima >= 0 && x.estouroComProxima < LIMIAR));
+          if (!riscos.length && !info.some(x => x.sobra < -0.01)) continue;
+          if (res[id]) throw new Error(`${id}: fio de navalha de texto e de fileira no mesmo id`);
+          res[id] = { composto: false, fileiras: true, quebraPadrao: cs.flexWrap, riscos, quebrasImpostas: [], linhas: info };
+        }
+      }
       return res;
-    }, { Z, alvos, LIMIAR, UNICA, frameSel: CFG.frame });
+    }, { Z, alvos, LIMIAR, UNICA, ids, frameSel: CFG.frame });
     await page.close();
     // ── dependência de texto ──
     ({ page } = await abrir(browser, p, { zoom: Z, viewportH: 1000 }));

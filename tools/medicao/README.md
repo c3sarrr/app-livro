@@ -108,3 +108,11 @@ também marca a linha única que pode quebrar (tem espaço; caixa que não é fl
 com sobra entre 0 e 1,5 px, medida pela largura real da linha (um Range sobre os nós de texto). O leitor e a Início
 seguem a regra da G01 (só texto de 2+ linhas). Em todos os conjuntos (D-276), a linha que dá a largura da caixa (sobra
 0: a caixa é do tamanho do texto e cresce junto) não é fio de navalha, nem no texto de 2+ linhas.
+
+Fio de navalha de fileira (D-278): nos mesmos conjuntos (`facaLinhaUnica`), o `perturbar.js` mede também cada fileira
+de um flex-wrap (`flex-wrap: wrap`), pelo tamanho hipotético de cada item — crescer e encolher desligados enquanto mede
+(não mudam as fileiras) e religados depois. A fileira cheia por < 1,5 px (sobra) ou que receberia o 1º item da
+seguinte faltando < 1,5 px (estouro) é marcada: no Flutter (`Wrap`) uma diferença mínima de largura de texto muda as
+fileiras e desloca todos os itens seguintes. A entrada fica no id do contêiner, com `fileiras: true`; cada "linha" é
+uma fileira e o texto são os textos dos itens separados por " | " (um item sem texto entra pelo id). Vai para a
+referência Dart com o mesmo `LeitorKnifeEdge` (id do contêiner, número da fileira) e para as fases L com a frase própria.

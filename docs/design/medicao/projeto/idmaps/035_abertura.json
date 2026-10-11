@@ -1,0 +1,32 @@
+{
+ "prancha": "035_abertura",
+ "prefixo": "e35",
+ "secoes": [
+  "e35.waves",
+  "e35.stamp",
+  "e35.sparkleLarge",
+  "e35.sparkleSmall",
+  "e35.wordmark",
+  "e35.loading"
+ ],
+ "especiais": [
+  "e35.frame"
+ ],
+ "ids": {
+  "4": "e35.frame",
+  "5": "e35.waves",
+  "72": "e35.stamp",
+  "73": "e35.stamp.rays",
+  "82": "e35.stamp.badge",
+  "83": "e35.stamp.badge.art",
+  "94": "e35.sparkleLarge",
+  "96": "e35.sparkleSmall",
+  "98": "e35.wordmark",
+  "99": "e35.wordmark.label",
+  "100": "e35.wordmark.label.book",
+  "101": "e35.wordmark.label.nest",
+  "102": "e35.loading",
+  "103": "e35.loading.fill",
+  "104": "e35.loading.fill.edge"
+ }
+}

@@ -36,6 +36,22 @@ String _sem(String prefixo, String id) => id.substring(prefixo.length + 1);
 const _porEtapa = <String, List<String>>{
   'T14': ['02', '36', '17', '17b'],
   'T15': ['03', '39', '40', '41', '42', '69', '69b', '28', '28b', '28c', '28d'],
+  'T16': [
+    '35',
+    '07',
+    '08',
+    '09',
+    '09b',
+    '10',
+    '11',
+    '12',
+    '13',
+    '13b',
+    '14',
+    '15',
+    '16',
+    '36a',
+  ],
 };
 
 /// Os elementos de uma tela sem o prefixo ('sc03.sheet' → 'sheet').
@@ -131,11 +147,22 @@ void main() {
         d.entries.where((e) => marca(e, 'y', 'h')).map((e) => e.key).toSet(),
         reason: ref.slug,
       );
+      // cada fio de navalha = um risco do JSON, campo a campo e na ordem
       final k = kni[ref.slug] as Map<String, dynamic>;
-      final riscos = k.values
-          .map((v) => ((v as Map<String, dynamic>)['riscos'] as List).length)
-          .fold<int>(0, (a, b) => a + b);
-      expect(ref.knifeEdges.length, riscos, reason: ref.slug);
+      final riscos = [
+        for (final e in k.entries)
+          for (final r in (e.value as Map<String, dynamic>)['riscos'] as List)
+            '${e.key}|${r['linha']}|${r['texto']}|${r['sobra']}|${r['estouroComProxima']}',
+      ];
+      expect(
+        ref.knifeEdges
+            .map(
+              (f) => '${f.id}|${f.line}|${f.text}|${f.slack}|${f.joinOverflow}',
+            )
+            .join('\n'),
+        riscos.join('\n'),
+        reason: ref.slug,
+      );
     }
   });
 
@@ -273,17 +300,23 @@ void main() {
     expect(iguais, 90 - difere.length);
   });
 
-  // D-275: no projeto, a linha única quase cheia numa caixa de largura imposta também é fio de navalha. Na T14 só a
+  // D-275: no projeto, a linha única quase cheia numa caixa de largura imposta também é fio de navalha. Na T14 a
   // citação da 17b (0,25 px de sobra: um fio mais larga, ela quebra e desce 34 ids); as outras linhas únicas cheias
-  // são caixas do tamanho do texto (sobra 0), que crescem com ele.
-  test('fios de navalha da T14: só a citação da 17b, de uma linha', () {
+  // são caixas do tamanho do texto (sobra 0), que crescem com ele. E, pela D-278, a fileira do autor da 17b: o
+  // "E-book · 256 páginas" subiria para a 1ª fileira se fosse 0,47 px mais estreito (na 17 o "Físico" não cabe).
+  test('fios de navalha da T14: a citação e a fileira do autor da 17b', () {
     final facas = [
       for (final t in _porEtapa['T14']!) ...kRefProjeto[t]!.knifeEdges,
     ];
-    expect(facas.map((k) => k.id).toList(), ['d17b.highlights.quote.text']);
-    expect(facas.single.line, 1);
-    expect(facas.single.slack, closeTo(0.252, 1e-9));
-    expect(facas.single.joinOverflow, isNull);
+    expect(facas.map((k) => k.id).toList(), [
+      'd17b.highlights.quote.text',
+      'd17b.meta',
+    ]);
+    expect(facas.first.line, 1);
+    expect(facas.first.slack, closeTo(0.252, 1e-9));
+    expect(facas.first.joinOverflow, isNull);
+    expect(facas.last.line, 1);
+    expect(facas.last.joinOverflow, closeTo(0.467, 1e-9));
     expect(
       kRefProjeto['17b']!.textDependentY,
       contains('d17b.highlights.quote.text'),
@@ -307,8 +340,9 @@ void main() {
     expect(b.elements['b02.bottomFade']!.rect.height, 170);
   });
 
-  // R8 (T13): o texto que o sistema desenha — o teclado numérico da 69/69b — é só informativo: a referência Dart traz
-  // o mapa id → motivo, o mesmo do layout e do índice. As outras reservas (o "≈" da 17b, a "→" da 28c) são do app.
+  // R8 (T13): o texto que o app não desenha — o teclado numérico do sistema da 69/69b, o botão da Apple da 07 e o input
+  // invisível do @ da 15 (D-277) — é só informativo: a referência Dart traz o mapa id → motivo, o mesmo do layout e do
+  // índice. As outras reservas (o "≈" da 17b, a "→" da 28c) são do app.
   test('R8: o texto só informativo = o do índice, com o motivo', () {
     final esperado = <String, Map<String, String>>{};
     for (final p in indice.where((p) => telas.contains(p['tela']))) {
@@ -329,19 +363,21 @@ void main() {
       expect(doLayout, inf, reason: ref.slug);
     }
     expect(kInformativoProjeto, esperado);
-    expect(kInformativoProjeto.keys, ['69', '69b']);
+    expect(kInformativoProjeto.keys, ['69', '69b', '07', '15']);
     // as 10 teclas, os 10 números e as letras de 2 a 9
     expect(kInformativo69.length, 28);
     expect(kInformativo69b.keys, [
       for (final k in kInformativo69.keys) k.replaceFirst('sc69.', 'sc69b.'),
     ]);
+    expect(kInformativo07.keys, ['e07.sheet.buttons.apple']);
+    expect(kInformativo15.keys, ['e15.username.field.input']);
   });
 
   // T13.5: a Busca põe o título e a lista de cada seção direto no <main>, sem contêiner — a caixa da seção é a união
   // das caixas de topo dela (build_layout.py, listadas no meta do layout). Em todas as outras telas a seção é um
   // elemento.
   test('seções sem contêiner = a união das caixas de topo', () {
-    const semContainer = <String, Map<String, List<String>>>{
+    final semContainer = <String, Map<String, List<String>>>{
       '28': {
         'recent': ['recent.header', 'recent.list'],
         'mood': ['mood.header', 'mood.chips'],
@@ -359,6 +395,34 @@ void main() {
       },
       '28c': {
         'actions': ['actions.scan', 'actions.manual'],
+      },
+      // T16: a dica do scanner fica dentro da linha da busca (o foco, o anel, a seta, "é aqui!" e o cartão); o título
+      // das sugestões e a grade, o @ e a frase sobre você, e os confetes, soltos
+      '13b': {
+        'coach': [
+          'coach.spotlight',
+          'coach.ring',
+          'coach.arrow',
+          'coach.tag',
+          'coach.card',
+        ],
+        'suggestions': ['suggestions.header', 'suggestions.grid'],
+      },
+      '14': {
+        'suggestions': ['suggestions.header', 'suggestions.grid'],
+      },
+      '15': {
+        'username': ['username.label', 'username.field', 'username.status'],
+        'bio': ['bio.header', 'bio.field', 'bio.hint'],
+      },
+      '16': {
+        'confetti': [
+          for (var i = 1; i <= 6; i++) 'confetti.sparkle$i',
+          'confetti.dotCoral',
+          'confetti.dotCream',
+          'confetti.dashGreen',
+          'confetti.dashLavender',
+        ],
       },
     };
     for (final tela in telas) {
@@ -610,7 +674,8 @@ void main() {
 
   // Os fios de navalha da T15 (2+ linhas pela regra da G01, a linha única pela D-275; a linha que dá a largura da
   // caixa não conta, D-276): o título da capa do Brás Cubas na folha da 03 ("Póstumas de", 1,20 de sobra), o texto
-  // ao lado do livro em branco da 40 (0,29 e 1,02) e a meta do dia da 42 (0,98 na última linha). O "dígito / final"
+  // ao lado do livro em branco da 40 (0,29 e 1,02), a meta do dia da 42 (0,98 na última linha) e, pela D-278, a 2ª
+  // fileira de humores da 28 (o "Reflexivo" subiria para ela com 0,40 px a menos). O "dígito / final"
   // do X (69, 69b) dá a largura da caixa e saiu (D-276). E o "Quadrinhos" da 28 não cabe na caixa de 92 (max-width) e
   // passa 3,10 — no Flutter uma palavra que não cabe é quebrada no meio: armadilha para a T15.
   test('fios de navalha da T15 e o texto que estoura a caixa', () {
@@ -622,12 +687,14 @@ void main() {
       'sc40.sheet.lead.body:1',
       'sc40.sheet.lead.body:2',
       'sc42.sheet.goal.text:2',
+      'bu28.mood.chips:2',
     ]);
-    const sobras = [1.201, 0.286, 1.023, 0.978];
+    const sobras = [1.201, 0.286, 1.023, 0.978, 104.244];
     for (var i = 0; i < facas.length; i++) {
       expect(facas[i].slack, closeTo(sobras[i], 1e-9), reason: facas[i].id);
     }
-    expect(facas.last.joinOverflow, isNull);
+    expect(facas[3].joinOverflow, isNull);
+    expect(facas.last.joinOverflow, closeTo(0.397, 1e-9));
     for (final t in ['69', '69b']) {
       expect(kRefProjeto[t]!.knifeEdges, isEmpty, reason: t);
     }
@@ -667,5 +734,258 @@ void main() {
     expect(a['searchBar.field.icon']!.rect.width, 20);
     expect(b['searchBar.field.icon']!.rect.width, closeTo(16.78, 1e-9));
     expect(b['searchBar.field.icon']!.rect.height, 20);
+  });
+
+  // D-278: as fileiras de flex-wrap do projeto que quase mudam (o `perturbar.js` mede o tamanho hipotético de cada
+  // item, sem crescer nem encolher). As três do JSON (`fileiras: true`) batem com as caixas medidas: na 17b o selo
+  // "E-book · 256 páginas" subiria para a fileira do autor com 0,47 px a menos (na 17 o "Livro físico", 21 px mais
+  // largo, não sobe); na 28 o "Reflexivo" (1º da 3ª fileira) subiria para a 2ª com 0,40 a menos; na 13 o "Terror"
+  // termina 0,97 antes da borda e desceria com um pouco mais. A entrada fica no contêiner (uma caixa, sem texto) e o
+  // texto são os itens da fileira separados por " | ".
+  test('D-278: as fileiras de flex-wrap que quase mudam', () {
+    final kni = _json('$_layout/knife_edges.json');
+    final fileiras = <String>[
+      for (final t in kni.values)
+        for (final k in (t as Map<String, dynamic>).entries)
+          if ((k.value as Map<String, dynamic>)['fileiras'] == true) k.key,
+    ];
+    expect(fileiras, ['d17b.meta', 'bu28.mood.chips', 'e13.genres']);
+    const telas = {
+      'd17b.meta': '17b',
+      'bu28.mood.chips': '28',
+      'e13.genres': '13',
+    };
+    for (final id in fileiras) {
+      final ref = kRefProjeto[telas[id]]!;
+      final e = ref.elements[id]!;
+      expect(e.kind, LeitorRefKind.box, reason: id);
+      expect(e.lines, isEmpty, reason: id);
+      final f = ref.knifeEdges.singleWhere((k) => k.id == id);
+      expect(f.text.contains(' | '), isTrue, reason: id);
+    }
+    // a geometria: as caixas têm 2 casas, os fios 3
+    LeitorKnifeEdge faca(String tela, String id) =>
+        kRefProjeto[tela]!.knifeEdges.singleWhere((k) => k.id == id);
+
+    final d = _de('17b'), d17 = _de('17');
+    expect(
+      d['meta.year']!.rect.right +
+          10 +
+          d['meta.format']!.rect.width -
+          d['meta']!.rect.right,
+      closeTo(faca('17b', 'd17b.meta').joinOverflow!, 0.01),
+    );
+    expect(
+      d17['meta.year']!.rect.right +
+          10 +
+          d17['meta.format']!.rect.width -
+          d17['meta']!.rect.right,
+      greaterThan(20),
+    );
+    expect(
+      kRefProjeto['17']!.knifeEdges.where((k) => k.id == 'd17.meta'),
+      isEmpty,
+    );
+    final b = _de('28');
+    expect(
+      b['mood.chips.chip6']!.rect.top,
+      greaterThan(b['mood.chips.chip5']!.rect.top),
+    );
+    expect(
+      b['mood.chips.chip5']!.rect.right +
+          8 +
+          b['mood.chips.chip6']!.rect.width -
+          b['mood.chips']!.rect.right,
+      closeTo(faca('28', 'bu28.mood.chips').joinOverflow!, 0.01),
+    );
+    final g = _de('13');
+    expect(g['genres.chip7']!.rect.top, g['genres.chip5']!.rect.top);
+    expect(
+      g['genres']!.rect.right - g['genres.chip7']!.rect.right,
+      closeTo(faca('13', 'e13.genres').slack, 0.01),
+    );
+  });
+
+  // Os fios de navalha da T16: dois de estouro (a próxima palavra caberia faltando < 1 px) — o aviso da senha
+  // incorreta na 09b ("…entre com" + "um": 0,81) e o título do cartão do primeiro livro na 36a ("primeiro livro" +
+  // "na": 0,95) — e, pela D-278, a 3ª fileira de gêneros da 13, cheia por 0,97 px. O "Código de 6 dígitos" da 10 é o
+  // rótulo só para o leitor de tela (caixa de 1 px com clip, não é desenhado): as palavras vão uma por linha e
+  // estouram a caixa, sem risco — no Flutter é Semantics, não texto.
+  test('fios de navalha da T16 e o rótulo escondido do código', () {
+    final facas = [
+      for (final t in _porEtapa['T16']!) ...kRefProjeto[t]!.knifeEdges,
+    ];
+    expect(facas.map((k) => '${k.id}:${k.line}').toList(), [
+      'e09b.sheet.form.alert.text:1',
+      'e13.genres:3',
+      'e36a.firstBook.title:2',
+    ]);
+    expect(facas[1].slack, closeTo(0.966, 1e-9));
+    const estouros = {0: 0.808, 2: 0.951};
+    for (final MapEntry(key: i, value: e) in estouros.entries) {
+      expect(facas[i].joinOverflow, closeTo(e, 1e-9), reason: facas[i].id);
+      expect(facas[i].slack, greaterThan(20), reason: facas[i].id);
+    }
+
+    final kni = _json('$_layout/knife_edges.json');
+    final rotulo = (kni['010_codigo'] as Map)['e10.sheet.code.label'] as Map;
+    expect(rotulo['riscos'], isEmpty);
+    final linhas = (rotulo['linhas'] as List).cast<Map>();
+    expect(linhas.map((l) => l['texto']).join(' '), 'Código de 6 dígitos');
+    expect(linhas.every((l) => l['disponivel'] == 1), isTrue);
+    expect(kRefProjeto['10']!.knifeEdges, isEmpty);
+  });
+
+  // R4 (telas irmãs) — a Entrada: as mesmas ondas no Login, no Cadastro, no Entrar (e com erro), no Código, na Nova
+  // senha e na Carteirinha pronta; o mesmo voltar em todas as que voltam; a marca da Abertura é a do Login, 238 mais
+  // abaixo.
+  test('Entrada: as ondas, o voltar e a marca', () {
+    final login = _de('07');
+    for (final t in ['08', '09', '09b', '10', '11', '16']) {
+      expect(_de(t)['waves']!.rect, login['waves']!.rect, reason: t);
+    }
+    final volta = _de('08');
+    for (final t in ['09', '09b', '10', '11']) {
+      for (final k in ['back', 'back.icon']) {
+        expect(_de(t)[k]!.rect, volta[k]!.rect, reason: '$t $k');
+      }
+    }
+    final abertura = _de('35');
+    final marca = abertura.keys.where((k) => _em(k, ['wordmark'])).toList();
+    expect(marca.length, 4);
+    for (final k in marca) {
+      final a = abertura[k]!.rect, b = login[k]!.rect;
+      expect(b.left, a.left, reason: k);
+      expect(b.width, closeTo(a.width, 1e-6), reason: k);
+      expect(b.height, closeTo(a.height, 1e-6), reason: k);
+      expect(b.top, closeTo(a.top - 238, 1e-9), reason: k);
+      expect(_texts(login[k]!.lines), _texts(abertura[k]!.lines), reason: k);
+    }
+  });
+
+  // 09b × 09: a senha errada pinta o campo (sem o cursor: os pontos ocupam o campo) e põe o aviso no formulário, que
+  // cresce 47,8 — o resto do formulário e da folha desce junto; o "Criar conta" fica no pé da folha.
+  test('09b × 09: o que muda com a senha incorreta', () {
+    final a = _de('09'), b = _de('09b');
+    expect(a.keys.where((k) => !b.containsKey(k)).toSet(), {
+      'sheet.form.password.field.value',
+      'sheet.form.password.field.caret',
+    });
+    expect(b.keys.where((k) => !a.containsKey(k)).toSet(), {
+      'sheet.form.alert',
+      'sheet.form.alert.badge',
+      'sheet.form.alert.text',
+    });
+    const desce = {
+      'sheet.form.submit',
+      'sheet.form.submit.label',
+      'sheet.form.submit.icon',
+      'sheet.divider',
+      'sheet.divider.lineLeft',
+      'sheet.divider.label',
+      'sheet.divider.lineRight',
+      'sheet.code',
+      'sheet.code.icon',
+    };
+    var iguais = 0;
+    for (final k in a.keys.where(b.containsKey)) {
+      final ra = a[k]!.rect, rb = b[k]!.rect;
+      if (k == 'sheet.form') {
+        expect(rb.height, closeTo(ra.height + 47.8, 1e-9));
+      } else if (k == 'sheet.form.password.field.dots') {
+        expect(_texts(b[k]!.lines), ['••••••••']);
+        expect(rb.width, 260);
+      } else if (desce.contains(k)) {
+        expect(rb.top, closeTo(ra.top + 47.8, 1e-9), reason: k);
+        expect(rb.size, ra.size, reason: k);
+      } else {
+        expect(rb, ra, reason: k);
+        iguais++;
+      }
+    }
+    expect(iguais, 22);
+  });
+
+  // O campo de senha é o mesmo no Cadastro, no Entrar e na Nova senha (com foco: os pontos e o cursor; o olho à
+  // direita): muda só quantos pontos (10, 9 e 11) e, com eles, onde o cursor fica.
+  test('o campo de senha do Cadastro, do Entrar e da Nova senha', () {
+    Rect rel(Map<String, LeitorRefElement> m, String k) =>
+        m[k]!.rect.shift(-m['sheet.form.password.field']!.rect.topLeft);
+    final base = _de('08');
+    const campo = 'sheet.form.password.field';
+    final pontos = <String, int>{};
+    for (final t in ['08', '09', '11']) {
+      final m = _de(t);
+      for (final k in [
+        campo,
+        '$campo.value',
+        '$campo.input',
+        '$campo.reveal',
+        '$campo.reveal.icon',
+      ]) {
+        final a = rel(base, k), b = rel(m, k);
+        expect(b.left, closeTo(a.left, 1e-6), reason: '$t $k');
+        expect(b.top, closeTo(a.top, 1e-6), reason: '$t $k');
+        expect(b.width, closeTo(a.width, 1e-6), reason: '$t $k');
+        expect(b.height, closeTo(a.height, 1e-6), reason: '$t $k');
+      }
+      final dots = m['$campo.dots']!, caret = m['$campo.caret']!;
+      pontos[t] = _texts(dots.lines).single.length;
+      expect(caret.rect.left, closeTo(dots.rect.right + 2, 1e-6), reason: t);
+    }
+    expect(pontos, {'08': 10, '09': 9, '11': 11});
+  });
+
+  // O topo do onboarding: do 2º passo em diante (13, 13b, 14, 15) o mesmo voltar, o mesmo passo e a mesma barra — muda
+  // o texto do passo e quanto a barra enche (50 %, 75 %; no 4º passo a barra é toda da cor, sem o preenchimento); o 1º
+  // passo (12) não tem voltar.
+  test('Onboarding: o topo dos passos', () {
+    final a = _de('13');
+    final topo = a.keys.where((k) => _em(k, ['top'])).toList();
+    expect(topo.length, 8);
+    for (final t in ['13b', '14', '15']) {
+      final m = _de(t);
+      for (final k in topo) {
+        if (k.startsWith('top.progress.fill')) continue;
+        expect(m[k]!.rect, a[k]!.rect, reason: '$t $k');
+      }
+    }
+    expect(_texts(_de('14')['top.step']!.lines), ['3 de 4']);
+    expect(
+      _de('14')['top.progress.fill']!.rect.width,
+      greaterThan(a['top.progress.fill']!.rect.width),
+    );
+    expect(_de('15').containsKey('top.progress.fill'), isFalse);
+    expect(_de('12').containsKey('top.back'), isFalse);
+  });
+
+  // 13b × 14: a dica do scanner só se põe por cima — os 93 ids da 14 ficam idênticos e os 17 da dica são a mais.
+  test('13b × 14: a dica do scanner por cima, sem mexer em nada', () {
+    final a = _de('14'), b = _de('13b');
+    expect(a.keys.every(b.containsKey), isTrue);
+    for (final k in a.keys) {
+      expect(b[k]!.rect, a[k]!.rect, reason: k);
+      expect(_texts(b[k]!.lines), _texts(a[k]!.lines), reason: k);
+    }
+    expect(a.length, 93);
+    final dica = b.keys.where((k) => !a.containsKey(k)).toList();
+    expect(dica.length, 17);
+    expect(dica.every((k) => _em(k, ['coach'])), isTrue);
+  });
+
+  // 36a × 36: a Início do primeiro acesso tem a navegação e o degradê da Biblioteca vazia (o mesmo quadro de 844); só
+  // trocam de largura os rótulos de Início e Biblioteca (a aba marcada vai em negrito).
+  test('36a × 36: a mesma navegação e o mesmo degradê', () {
+    final a = _de('36'), b = _de('36a');
+    final ks = a.keys.where((k) => _em(k, ['nav', 'bottomFade'])).toList();
+    expect(ks.length, 18);
+    for (final k in ks) {
+      if (k == 'nav.home.label' || k == 'nav.library.label') {
+        expect(b[k]!.rect.top, a[k]!.rect.top, reason: k);
+        expect(b[k]!.rect.width == a[k]!.rect.width, isFalse, reason: k);
+        continue;
+      }
+      expect(b[k]!.rect, a[k]!.rect, reason: k);
+    }
   });
 }

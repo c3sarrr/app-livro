@@ -381,6 +381,265 @@
     "footnote"
    ],
    "titulo": "Adicionar à mão — o formulário (título, autor, formato, páginas, ISBN, Salvar como) e o botão"
+  },
+  {
+   "fase": "L35_abertura",
+   "prancha": "035_abertura",
+   "secoes": [
+    "waves",
+    "stamp",
+    "sparkleLarge",
+    "sparkleSmall",
+    "wordmark",
+    "loading"
+   ],
+   "titulo": "Abertura — as ondas, o carimbo que pousa, a marca BookNest e a barra de carregar"
+  },
+  {
+   "fase": "L07_1_fundo_e_marca",
+   "prancha": "007_login",
+   "secoes": [
+    "waves",
+    "cover",
+    "badge",
+    "sparkleLarge",
+    "sparkleSmall",
+    "wordmark"
+   ],
+   "titulo": "Login — as ondas, a capa ilustrada, o selo, os brilhos e a marca"
+  },
+  {
+   "fase": "L07_2_folha",
+   "prancha": "007_login",
+   "secoes": [
+    "sheet"
+   ],
+   "titulo": "Login — a folha: \"Sua história começa aqui.\", Google, Apple, e-mail e os termos"
+  },
+  {
+   "fase": "L08_cadastro",
+   "prancha": "008_cadastro",
+   "secoes": [
+    "back",
+    "sparkleLarge",
+    "card",
+    "sheet"
+   ],
+   "titulo": "Cadastro — a carteirinha que se preenche e o formulário (nome, e-mail, senha com a força)",
+   "reusa": {
+    "base": "007_login",
+    "secoes": [
+     "waves"
+    ]
+   }
+  },
+  {
+   "fase": "L09_entrar",
+   "prancha": "009_entrar",
+   "secoes": [
+    "back",
+    "badge",
+    "sparkleLarge",
+    "sparkleSmall",
+    "sheet"
+   ],
+   "titulo": "Entrar — o selo e a folha (e-mail, senha, \"ou\" e o código por e-mail)",
+   "reusa": {
+    "base": "007_login",
+    "secoes": [
+     "waves"
+    ]
+   }
+  },
+  {
+   "fase": "L09b_senha_incorreta",
+   "prancha": "009b_entrar_senha_incorreta",
+   "secoes": [
+    "sheet"
+   ],
+   "titulo": "Entrar (senha incorreta) — o campo rosado, o aviso e o código em amarelo",
+   "reusa": {
+    "base": "009_entrar",
+    "secoes": [
+     "waves",
+     "back",
+     "badge",
+     "sparkleLarge",
+     "sparkleSmall"
+    ]
+   }
+  },
+  {
+   "fase": "L10_codigo",
+   "prancha": "010_codigo",
+   "secoes": [
+    "back",
+    "envelope",
+    "sparkleLarge",
+    "sparkleSmall",
+    "sheet"
+   ],
+   "titulo": "Código de 6 dígitos — o envelope e a folha (as 6 peças, reenviar e abrir o e-mail)",
+   "reusa": {
+    "base": "007_login",
+    "secoes": [
+     "waves"
+    ]
+   }
+  },
+  {
+   "fase": "L11_nova_senha",
+   "prancha": "011_nova_senha",
+   "secoes": [
+    "back",
+    "padlock",
+    "sparkleLarge",
+    "sparkleSmall",
+    "sheet"
+   ],
+   "titulo": "Nova senha — o cadeado aberto e a folha (a senha, a força, as regras e os outros aparelhos)",
+   "reusa": {
+    "base": "007_login",
+    "secoes": [
+     "waves"
+    ]
+   }
+  },
+  {
+   "fase": "L12_1_topo_e_meta_diaria",
+   "prancha": "012_onboarding_meta",
+   "secoes": [
+    "waves",
+    "top",
+    "heading",
+    "lead",
+    "daily"
+   ],
+   "titulo": "Onboarding 1/4 — o topo com a barra, o título e os minutos por dia"
+  },
+  {
+   "fase": "L12_2_meta_do_ano",
+   "prancha": "012_onboarding_meta",
+   "secoes": [
+    "yearly",
+    "continue"
+   ],
+   "titulo": "Onboarding 1/4 — a meta do ano e o Continuar"
+  },
+  {
+   "fase": "L13_generos",
+   "prancha": "013_onboarding_generos",
+   "secoes": [
+    "heading",
+    "lead",
+    "genres",
+    "continue"
+   ],
+   "titulo": "Onboarding 2/4 — os gêneros (15 e \"Mais gêneros\") e o Continuar com a contagem",
+   "reusa": {
+    "base": "012_onboarding_meta",
+    "secoes": [
+     "waves",
+     "top"
+    ]
+   }
+  },
+  {
+   "fase": "L14_1_busca",
+   "prancha": "014_onboarding_primeiros_livros",
+   "secoes": [
+    "heading",
+    "lead",
+    "search"
+   ],
+   "titulo": "Onboarding 3/4 — o título, a busca e o scanner",
+   "reusa": {
+    "base": "013_onboarding_generos",
+    "secoes": [
+     "waves",
+     "top"
+    ]
+   }
+  },
+  {
+   "fase": "L14_2_sugestoes",
+   "prancha": "014_onboarding_primeiros_livros",
+   "secoes": [
+    "suggestions",
+    "continue"
+   ],
+   "titulo": "Onboarding 3/4 — as 6 sugestões (3 já na estante) e o Continuar"
+  },
+  {
+   "fase": "L13b_dica_scanner",
+   "prancha": "013b_onboarding_dica_scanner",
+   "secoes": [
+    "coach"
+   ],
+   "titulo": "Onboarding 3/4 (dica) — o foco no scanner, a seta, \"é aqui!\" e o cartão",
+   "reusa": {
+    "base": "014_onboarding_primeiros_livros",
+    "secoes": [
+     "waves",
+     "top",
+     "heading",
+     "lead",
+     "search",
+     "suggestions",
+     "continue"
+    ]
+   }
+  },
+  {
+   "fase": "L15_foto_e_arroba",
+   "prancha": "015_onboarding_foto",
+   "secoes": [
+    "heading",
+    "lead",
+    "photo",
+    "username",
+    "bio",
+    "continue"
+   ],
+   "titulo": "Onboarding 4/4 — a foto, o @ e a frase sobre você",
+   "reusa": {
+    "base": "014_onboarding_primeiros_livros",
+    "secoes": [
+     "waves",
+     "top"
+    ]
+   }
+  },
+  {
+   "fase": "L16_carteirinha",
+   "prancha": "016_onboarding_carteirinha",
+   "secoes": [
+    "waves",
+    "confetti",
+    "card",
+    "stamp",
+    "sheet"
+   ],
+   "titulo": "Carteirinha pronta — os confetes, a carteirinha, o carimbo e a folha"
+  },
+  {
+   "fase": "L36a_inicio_primeiro_acesso",
+   "prancha": "036a_inicio_primeiro_acesso",
+   "secoes": [
+    "header",
+    "headline",
+    "firstBook",
+    "today",
+    "club"
+   ],
+   "titulo": "Início no primeiro acesso — o cartão do primeiro livro, a meta de hoje e o convite de clube",
+   "reusa": {
+    "base": "036_biblioteca_vazia",
+    "secoes": [
+     "bottomFade",
+     "nav"
+    ]
+   }
   }
  ]
 }

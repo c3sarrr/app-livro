@@ -1,0 +1,2389 @@
+{
+ "meta": {
+  "source": "telas/OnboardingFinal.dc.html",
+  "prancha": "016_onboarding_carteirinha",
+  "titulo": "16 · Onboarding — Carteirinha pronta",
+  "canvas": [
+   390,
+   844
+  ],
+  "prefixo": "e16",
+  "units": "CSS px = dp lógico",
+  "measuredWith": "Chromium 141 (Playwright 1.56), --font-render-hinting=none, zoom 100 (geometria e estilos), tela isolada do projeto (.dc.html com as fontes do css2 embutidas), rede bloqueada; bordas exatas (1.5/1.2)",
+  "props": {
+   "card": "#FF552E",
+   "avatar": "#FED170"
+  },
+  "note": "abs = retângulo de layout (transforms neutralizados) no canvas; rel = relativo ao canto superior esquerdo da seção; vis = caixa visual com transform (só quando difere); baseline = topo do glifo + ascent medido (fontMetrics).",
+  "secoesSemElemento": {
+   "e16.confetti": [
+    "e16.confetti.sparkle1",
+    "e16.confetti.sparkle2",
+    "e16.confetti.sparkle3",
+    "e16.confetti.sparkle4",
+    "e16.confetti.sparkle5",
+    "e16.confetti.sparkle6",
+    "e16.confetti.dotCoral",
+    "e16.confetti.dotCream",
+    "e16.confetti.dashGreen",
+    "e16.confetti.dashLavender"
+   ]
+  }
+ },
+ "sections": {
+  "e16.waves": [
+   0,
+   0,
+   390,
+   860
+  ],
+  "e16.confetti": [
+   20,
+   58,
+   350,
+   465
+  ],
+  "e16.card": [
+   30,
+   116,
+   330,
+   312.32
+  ],
+  "e16.stamp": [
+   250,
+   336,
+   98,
+   98
+  ],
+  "e16.sheet": [
+   10,
+   536.35,
+   370,
+   297.65
+  ]
+ },
+ "elements": {
+  "e16.frame": {
+   "tpl": 4,
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "style": {
+    "bg": "#F7F0E3",
+    "overflow": "hidden"
+   }
+  },
+  "e16.waves": {
+   "tpl": 5,
+   "section": "e16.waves",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    0,
+    0,
+    390,
+    860
+   ],
+   "rel": [
+    0,
+    0,
+    390,
+    860
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "0px",
+     "right": "0px",
+     "bottom": "-16px",
+     "left": "0px"
+    }
+   },
+   "css": "position: absolute; left: 0; top: 0",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.sparkle1": {
+   "tpl": 90,
+   "section": "e16.confetti",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    26,
+    76,
+    26,
+    26
+   ],
+   "rel": [
+    6,
+    18,
+    26,
+    26
+   ],
+   "vis": [
+    24.32,
+    74.32,
+    29.36,
+    29.36
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "76px",
+     "right": "338px",
+     "bottom": "742px",
+     "left": "26px"
+    },
+    "transformMatrix": "matrix(0.990268, -0.139173, 0.139173, 0.990268, 0, 0)",
+    "transform": "rotate(-8deg)"
+   },
+   "css": "position: absolute; left: 26px; top: 76px; transform: rotate(-8deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.sparkle2": {
+   "tpl": 92,
+   "section": "e16.confetti",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    170,
+    58,
+    18,
+    18
+   ],
+   "rel": [
+    150,
+    0,
+    18,
+    18
+   ],
+   "vis": [
+    168.57,
+    56.57,
+    20.85,
+    20.85
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "58px",
+     "right": "202px",
+     "bottom": "768px",
+     "left": "170px"
+    },
+    "transformMatrix": "matrix(0.984808, 0.173648, -0.173648, 0.984808, 0, 0)",
+    "transform": "rotate(10deg)"
+   },
+   "css": "position: absolute; left: 170px; top: 58px; transform: rotate(10deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.sparkle3": {
+   "tpl": 94,
+   "section": "e16.confetti",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    348,
+    236,
+    22,
+    22
+   ],
+   "rel": [
+    328,
+    178,
+    22,
+    22
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "236px",
+     "right": "20px",
+     "bottom": "586px",
+     "left": "348px"
+    },
+    "transformMatrix": "matrix(1, 0, 0, 1, 0, 0)",
+    "transform": "rotate(0deg)"
+   },
+   "css": "position: absolute; left: 348px; top: 236px; transform: rotate(0deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.sparkle4": {
+   "tpl": 96,
+   "section": "e16.confetti",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    20,
+    420,
+    24,
+    24
+   ],
+   "rel": [
+    0,
+    362,
+    24,
+    24
+   ],
+   "vis": [
+    17.77,
+    417.77,
+    28.46,
+    28.46
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "420px",
+     "right": "346px",
+     "bottom": "400px",
+     "left": "20px"
+    },
+    "transformMatrix": "matrix(0.978148, 0.207912, -0.207912, 0.978148, 0, 0)",
+    "transform": "rotate(12deg)"
+   },
+   "css": "position: absolute; left: 20px; top: 420px; transform: rotate(12deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.sparkle5": {
+   "tpl": 98,
+   "section": "e16.confetti",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    338,
+    452,
+    18,
+    18
+   ],
+   "rel": [
+    318,
+    394,
+    18,
+    18
+   ],
+   "vis": [
+    336.09,
+    450.09,
+    21.82,
+    21.82
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "452px",
+     "right": "34px",
+     "bottom": "374px",
+     "left": "338px"
+    },
+    "transformMatrix": "matrix(0.970296, -0.241922, 0.241922, 0.970296, 0, 0)",
+    "transform": "rotate(-14deg)"
+   },
+   "css": "position: absolute; left: 338px; top: 452px; transform: rotate(-14deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.sparkle6": {
+   "tpl": 100,
+   "section": "e16.confetti",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    92,
+    486,
+    16,
+    16
+   ],
+   "rel": [
+    72,
+    428,
+    16,
+    16
+   ],
+   "vis": [
+    91.21,
+    485.21,
+    17.59,
+    17.59
+   ],
+   "style": {
+    "overflow": "hidden",
+    "position": {
+     "top": "486px",
+     "right": "282px",
+     "bottom": "342px",
+     "left": "92px"
+    },
+    "transformMatrix": "matrix(0.994522, 0.104528, -0.104528, 0.994522, 0, 0)",
+    "transform": "rotate(6deg)"
+   },
+   "css": "position: absolute; left: 92px; top: 486px; transform: rotate(6deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.dotCoral": {
+   "tpl": 102,
+   "section": "e16.confetti",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    300,
+    500,
+    17,
+    17
+   ],
+   "rel": [
+    280,
+    442,
+    17,
+    17
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "500px",
+     "right": "73px",
+     "bottom": "327px",
+     "left": "300px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: absolute; left: 300px; top: 500px; width: 14px; height: 14px; border-radius: 50%; background: #FF552E; border: 1.5px solid #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.dotCream": {
+   "tpl": 103,
+   "section": "e16.confetti",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    60,
+    64,
+    13,
+    13
+   ],
+   "rel": [
+    40,
+    6,
+    13,
+    13
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "position": {
+     "top": "64px",
+     "right": "317px",
+     "bottom": "767px",
+     "left": "60px"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "position: absolute; left: 60px; top: 64px; width: 10px; height: 10px; border-radius: 50%; background: #FFFAF1; border: 1.5px solid #1A1714",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.dashGreen": {
+   "tpl": 104,
+   "section": "e16.confetti",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    230,
+    512,
+    33,
+    11
+   ],
+   "rel": [
+    210,
+    454,
+    33,
+    11
+   ],
+   "vis": [
+    229.19,
+    505.76,
+    34.62,
+    23.47
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "4px",
+    "position": {
+     "top": "512px",
+     "right": "127px",
+     "bottom": "321px",
+     "left": "230px"
+    },
+    "transformMatrix": "matrix(0.913545, -0.406737, 0.406737, 0.913545, 0, 0)",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "transform": "rotate(-24deg)"
+   },
+   "css": "position: absolute; left: 230px; top: 512px; width: 30px; height: 8px; border-radius: 4px; background: #ABCF82; border: 1.5px solid #1A1714; transform: rotate(-24deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.confetti.dashLavender": {
+   "tpl": 105,
+   "section": "e16.confetti",
+   "type": "box",
+   "tag": "span",
+   "abs": [
+    150,
+    470,
+    29,
+    11
+   ],
+   "rel": [
+    130,
+    412,
+    29,
+    11
+   ],
+   "vis": [
+    149.01,
+    465.79,
+    30.98,
+    19.42
+   ],
+   "style": {
+    "bg": "#B6ACE4",
+    "border": "1.5px solid #1A1714",
+    "radius": "4px",
+    "position": {
+     "top": "470px",
+     "right": "211px",
+     "bottom": "363px",
+     "left": "150px"
+    },
+    "transformMatrix": "matrix(0.951057, 0.309017, -0.309017, 0.951057, 0, 0)",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)",
+    "transform": "rotate(18deg)"
+   },
+   "css": "position: absolute; left: 150px; top: 470px; width: 26px; height: 8px; border-radius: 4px; background: #B6ACE4; border: 1.5px solid #1A1714; transform: rotate(18deg)",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.card": {
+   "tpl": 106,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "article",
+   "abs": [
+    30,
+    116,
+    330,
+    312.32
+   ],
+   "rel": [
+    0,
+    0,
+    330,
+    312.32
+   ],
+   "vis": [
+    22.05,
+    107.58,
+    345.89,
+    329.16
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "18px",
+    "shadow": "#1A1714 6px 6px 0px 0px",
+    "overflow": "hidden",
+    "position": {
+     "top": "116px",
+     "right": "30px",
+     "bottom": "415.68px",
+     "left": "30px"
+    },
+    "transformMatrix": "matrix(0.99863, -0.052336, 0.052336, 0.99863, 0, 0)",
+    "transform": "rotate(-3deg)"
+   },
+   "css": "position: absolute; left: 30px; top: 116px; width: 330px; border-radius: 18px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 6px 6px 0 #1A1714; box-sizing: border-box; overflow: hidden; transform: rotate(-3deg)",
+   "aria": "Carteirinha de leitora de Marina Costa"
+  },
+  "e16.card.header": {
+   "tpl": 107,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    31.5,
+    117.5,
+    327,
+    37.5
+   ],
+   "rel": [
+    1.5,
+    1.5,
+    327,
+    37.5
+   ],
+   "vis": [
+    23.63,
+    109.16,
+    328.51,
+    54.56
+   ],
+   "style": {
+    "bg": "#FF552E",
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "1.5px solid #1A1714",
+     "left": "0"
+    },
+    "padding": "0px 14px 0px 14px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "height: 36px; padding: 0 14px; background: {{card}}; border-bottom: 1.5px solid #1A1714; display: flex; align-items: center; justify-content: space-between",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 29
+    }
+   ]
+  },
+  "e16.card.header.label": {
+   "tpl": 108,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    45.5,
+    128.9,
+    171.15,
+    13.2
+   ],
+   "rel": [
+    15.5,
+    12.9,
+    171.15,
+    13.2
+   ],
+   "vis": [
+    38.21,
+    127.96,
+    171.6,
+    22.14
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1.4px",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 800; letter-spacing: 1.4px; white-space: nowrap",
+   "lines": [
+    {
+     "text": "CARTEIRINHA DE LEITORA",
+     "left": 45.5,
+     "right": 216.65,
+     "top": 128.9,
+     "bottom": 142.1,
+     "baseline": 139.35,
+     "baselineRel": 23.35
+    }
+   ],
+   "naturalWidth": 171.149,
+   "minContentWidth": 90.035,
+   "text": "CARTEIRINHA DE LEITORA",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 22
+    }
+   ]
+  },
+  "e16.card.header.number": {
+   "tpl": 109,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    294.48,
+    128.9,
+    50.02,
+    13.2
+   ],
+   "rel": [
+    264.48,
+    12.9,
+    50.02,
+    13.2
+   ],
+   "vis": [
+    286.85,
+    121.27,
+    50.64,
+    15.8
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 11.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1px",
+     "color": "#1A1714",
+     "features": [
+      "tnum"
+     ],
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-size: 11px; font-weight: 800; letter-spacing: 1px; white-space: nowrap; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "Nº 0052",
+     "left": 294.48,
+     "right": 344.5,
+     "top": 128.9,
+     "bottom": 142.1,
+     "baseline": 139.35,
+     "baselineRel": 23.35
+    }
+   ],
+   "naturalWidth": 50.021,
+   "minContentWidth": 31.984,
+   "text": "Nº 0052",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e16.card.body": {
+   "tpl": 110,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    31.5,
+    155,
+    327,
+    271.82
+   ],
+   "rel": [
+    1.5,
+    39,
+    327,
+    271.82
+   ],
+   "vis": [
+    25.59,
+    146.6,
+    340.78,
+    288.56
+   ],
+   "style": {
+    "bgImage": "repeating-linear-gradient(#000000@0 0px, #000000@0 23px, #EFE6D5 23px, #EFE6D5 24px)",
+    "padding": "16px 16px 14px 16px"
+   },
+   "css": "padding: 16px 16px 14px; background: repeating-linear-gradient(180deg, transparent 0 23px, #EFE6D5 23px 24px)"
+  },
+  "e16.card.identity": {
+   "tpl": 111,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    47.5,
+    171,
+    295,
+    70
+   ],
+   "rel": [
+    17.5,
+    55,
+    295,
+    70
+   ],
+   "vis": [
+    42.41,
+    163.42,
+    298.26,
+    85.34
+   ],
+   "style": {},
+   "css": "display: flex; align-items: center; gap: 14px"
+  },
+  "e16.card.avatar": {
+   "tpl": 112,
+   "section": "e16.card",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    47.5,
+    171,
+    70,
+    70
+   ],
+   "rel": [
+    17.5,
+    55,
+    70,
+    70
+   ],
+   "vis": [
+    39.66,
+    172.45,
+    79.06,
+    79.06
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "50%",
+    "shadow": "#1A1714 2px 2px 0px 0px",
+    "padding": "0px 0px 4px 0px",
+    "transformMatrix": "matrix(0.996195, -0.0871557, 0.0871557, 0.996195, 0, 0)",
+    "transform": "rotate(-5deg)",
+    "font": {
+     "family": "Instrument Serif",
+     "size": 42.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "42px",
+     "letterSpacing": "normal",
+     "color": "#1A1714"
+    }
+   },
+   "css": "width: 70px; height: 70px; flex-shrink: 0; border-radius: 50%; background: {{avatar}}; border: 1.5px solid #1A1714; box-shadow: 2px 2px 0 #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; transform: rotate(-5deg); font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 42px; line-height: 1; padding-bottom: 4px",
+   "lines": [
+    {
+     "text": "M",
+     "left": 68.53,
+     "right": 96.47,
+     "top": 176.7,
+     "bottom": 231.3,
+     "baseline": 218.28,
+     "baselineRel": 102.28
+    }
+   ],
+   "naturalWidth": 30.93,
+   "minContentWidth": 30.93,
+   "aria": "Avatar com a inicial M",
+   "role": "img",
+   "text": "M",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 1
+    }
+   ]
+  },
+  "e16.card.nameBlock": {
+   "tpl": 113,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    131.5,
+    179.6,
+    151.9,
+    52.8
+   ],
+   "rel": [
+    101.5,
+    63.6,
+    151.9,
+    52.8
+   ],
+   "vis": [
+    126.74,
+    175.1,
+    154.46,
+    60.68
+   ],
+   "style": {},
+   "css": "min-width: 0",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e16.card.name": {
+   "tpl": 114,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    131.5,
+    179.6,
+    151.9,
+    32
+   ],
+   "rel": [
+    101.5,
+    63.6,
+    151.9,
+    32
+   ],
+   "vis": [
+    126.74,
+    175.1,
+    153.37,
+    39.91
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 32.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "32px",
+     "letterSpacing": "-0.4px",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 32px; line-height: 1; letter-spacing: -0.4px; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Marina Costa",
+     "left": 131.5,
+     "right": 283.4,
+     "top": 174.8,
+     "bottom": 216.4,
+     "baseline": 206.48,
+     "baselineRel": 90.48
+    }
+   ],
+   "naturalWidth": 151.904,
+   "minContentWidth": 86.88,
+   "text": "Marina Costa",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e16.card.handle": {
+   "tpl": 115,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    131.5,
+    215.6,
+    151.9,
+    16.8
+   ],
+   "rel": [
+    101.5,
+    99.6,
+    151.9,
+    16.8
+   ],
+   "vis": [
+    128.63,
+    211.05,
+    152.57,
+    24.73
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.0,
+     "weightCss": 700,
+     "weightRendered": 700,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin-top: 4px; font-size: 14px; font-weight: 700; color: #5B544B",
+   "lines": [
+    {
+     "text": "@marinacosta",
+     "left": 131.5,
+     "right": 224.71,
+     "top": 215.6,
+     "bottom": 232.4,
+     "baseline": 228.9,
+     "baselineRel": 112.9
+    }
+   ],
+   "naturalWidth": 93.212,
+   "minContentWidth": 93.212,
+   "text": "@marinacosta",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e16.card.goals": {
+   "tpl": 116,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    47.5,
+    255,
+    295,
+    59.41
+   ],
+   "rel": [
+    17.5,
+    139,
+    295,
+    59.41
+   ],
+   "vis": [
+    46.8,
+    247.3,
+    297.7,
+    74.77
+   ],
+   "style": {
+    "border": {
+     "top": "1.5px dashed #CFC3AE",
+     "right": "0",
+     "bottom": "1.5px dashed #CFC3AE",
+     "left": "0"
+    },
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "margin-top: 14px; display: flex; border-top: 1.5px dashed #CFC3AE; border-bottom: 1.5px dashed #CFC3AE"
+  },
+  "e16.card.goals.daily": {
+   "tpl": 117,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    47.5,
+    256.5,
+    140.75,
+    56.41
+   ],
+   "rel": [
+    17.5,
+    140.5,
+    140.75,
+    56.41
+   ],
+   "vis": [
+    46.88,
+    256.88,
+    143.51,
+    63.7
+   ],
+   "style": {
+    "padding": "10px 0px 10px 2px"
+   },
+   "css": "flex: 1 1 0; padding: 10px 0 10px 2px",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "e16.card.goals.daily.label": {
+   "tpl": 118,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    49.5,
+    266.5,
+    138.75,
+    11.41
+   ],
+   "rel": [
+    19.5,
+    150.5,
+    138.75,
+    11.41
+   ],
+   "vis": [
+    49.4,
+    266.86,
+    139.16,
+    18.66
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 9.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1.1px",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 9.5px; font-weight: 800; letter-spacing: 1.1px; color: #6F665B",
+   "lines": [
+    {
+     "text": "META DIÁRIA",
+     "left": 49.5,
+     "right": 122.11,
+     "top": 266.5,
+     "bottom": 277.91,
+     "baseline": 275.53,
+     "baselineRel": 159.53
+    }
+   ],
+   "naturalWidth": 72.615,
+   "minContentWidth": 39.061,
+   "text": "META DIÁRIA",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 11
+    }
+   ]
+  },
+  "e16.card.goals.daily.value": {
+   "tpl": 119,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    49.5,
+    280.91,
+    138.75,
+    22
+   ],
+   "rel": [
+    19.5,
+    164.91,
+    138.75,
+    22
+   ],
+   "vis": [
+    50.16,
+    281.25,
+    139.71,
+    29.23
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "22px",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "margin-top: 3px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "30 min",
+     "left": 49.5,
+     "right": 120.39,
+     "top": 278.71,
+     "bottom": 305.11,
+     "baseline": 299.17,
+     "baselineRel": 183.17
+    }
+   ],
+   "naturalWidth": 70.886,
+   "minContentWidth": 39.596,
+   "text": "30 min",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 6
+    }
+   ]
+  },
+  "e16.card.goals.yearly": {
+   "tpl": 120,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    188.25,
+    256.5,
+    154.25,
+    56.41
+   ],
+   "rel": [
+    158.25,
+    140.5,
+    154.25,
+    56.41
+   ],
+   "vis": [
+    187.44,
+    248.8,
+    156.99,
+    64.41
+   ],
+   "style": {
+    "border": {
+     "top": "0",
+     "right": "0",
+     "bottom": "0",
+     "left": "1.5px dashed #CFC3AE"
+    },
+    "padding": "10px 0px 10px 14px",
+    "boxSizing": "content-box (tamanho externo = conteúdo + padding + bordas)"
+   },
+   "css": "flex: 1 1 0; padding: 10px 0 10px 14px; border-left: 1.5px dashed #CFC3AE",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e16.card.goals.yearly.label": {
+   "tpl": 121,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    203.75,
+    266.5,
+    138.75,
+    11.41
+   ],
+   "rel": [
+    173.75,
+    150.5,
+    138.75,
+    11.41
+   ],
+   "vis": [
+    203.44,
+    258.79,
+    139.16,
+    18.66
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 9.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1.1px",
+     "color": "#6F665B"
+    }
+   },
+   "css": "font-size: 9.5px; font-weight: 800; letter-spacing: 1.1px; color: #6F665B",
+   "lines": [
+    {
+     "text": "META EM 2026",
+     "left": 203.75,
+     "right": 283.94,
+     "top": 266.5,
+     "bottom": 277.91,
+     "baseline": 275.53,
+     "baselineRel": 159.53
+    }
+   ],
+   "naturalWidth": 80.185,
+   "minContentWidth": 30.23,
+   "text": "META EM 2026",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e16.card.goals.yearly.value": {
+   "tpl": 122,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    203.75,
+    280.91,
+    138.75,
+    22
+   ],
+   "rel": [
+    173.75,
+    164.91,
+    138.75,
+    22
+   ],
+   "vis": [
+    204.2,
+    273.18,
+    139.71,
+    29.23
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 22.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "22px",
+     "letterSpacing": "-0.5px",
+     "color": "#1A1714",
+     "opsz": 22.0
+    }
+   },
+   "css": "margin-top: 3px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px; line-height: 1; letter-spacing: -0.5px",
+   "lines": [
+    {
+     "text": "24 livros",
+     "left": 203.75,
+     "right": 291.65,
+     "top": 278.71,
+     "bottom": 305.11,
+     "baseline": 299.17,
+     "baselineRel": 183.17
+    }
+   ],
+   "naturalWidth": 87.897,
+   "minContentWidth": 57.211,
+   "text": "24 livros",
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e16.card.genres": {
+   "tpl": 123,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    47.5,
+    326.41,
+    295,
+    24
+   ],
+   "rel": [
+    17.5,
+    210.41,
+    295,
+    24
+   ],
+   "vis": [
+    50.54,
+    318.62,
+    295.85,
+    39.41
+   ],
+   "style": {},
+   "css": "margin-top: 12px; display: flex; flex-wrap: wrap; gap: 5px"
+  },
+  "e16.card.genres.genre1": {
+   "tpl": 124,
+   "section": "e16.card",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    47.5,
+    326.41,
+    69.18,
+    24
+   ],
+   "rel": [
+    17.5,
+    210.41,
+    69.18,
+    24
+   ],
+   "vis": [
+    50.54,
+    330.44,
+    70.34,
+    27.59
+   ],
+   "style": {
+    "bg": "#FFC1C6",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 8px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 24px; padding: 0 8px; border-radius: 999px; background: #FFC1C6; border: 1.5px solid #1A1714; box-sizing: border-box; display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Clássicos",
+     "left": 57,
+     "right": 107.18,
+     "top": 331.5,
+     "bottom": 345.31,
+     "baseline": 342.44,
+     "baselineRel": 226.44
+    }
+   ],
+   "naturalWidth": 69.179,
+   "minContentWidth": 69.179,
+   "text": "Clássicos",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 9
+    }
+   ]
+  },
+  "e16.card.genres.genre2": {
+   "tpl": 125,
+   "section": "e16.card",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    121.68,
+    326.41,
+    68.89,
+    24
+   ],
+   "rel": [
+    91.68,
+    210.41,
+    68.89,
+    24
+   ],
+   "vis": [
+    124.62,
+    326.57,
+    70.05,
+    27.57
+   ],
+   "style": {
+    "bg": "#FED170",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 8px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 24px; padding: 0 8px; border-radius: 999px; background: #FED170; border: 1.5px solid #1A1714; box-sizing: border-box; display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Romance",
+     "left": 131.18,
+     "right": 181.07,
+     "top": 331.5,
+     "bottom": 345.31,
+     "baseline": 342.44,
+     "baselineRel": 226.44
+    }
+   ],
+   "naturalWidth": 68.887,
+   "minContentWidth": 68.887,
+   "text": "Romance",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 7
+    }
+   ]
+  },
+  "e16.card.genres.genre3": {
+   "tpl": 126,
+   "section": "e16.card",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    195.57,
+    326.41,
+    63.12,
+    24
+   ],
+   "rel": [
+    165.57,
+    210.41,
+    63.12,
+    24
+   ],
+   "vis": [
+    198.41,
+    323.0,
+    64.3,
+    27.27
+   ],
+   "style": {
+    "bg": "#ABCF82",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 8px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 24px; padding: 0 8px; border-radius: 999px; background: #ABCF82; border: 1.5px solid #1A1714; box-sizing: border-box; display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "Mistério",
+     "left": 205.07,
+     "right": 249.19,
+     "top": 331.5,
+     "bottom": 345.31,
+     "baseline": 342.44,
+     "baselineRel": 226.44
+    }
+   ],
+   "naturalWidth": 63.125,
+   "minContentWidth": 63.125,
+   "text": "Mistério",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 8
+    }
+   ]
+  },
+  "e16.card.genres.more": {
+   "tpl": 127,
+   "section": "e16.card",
+   "type": "box+text",
+   "tag": "span",
+   "abs": [
+    263.69,
+    326.41,
+    31.21,
+    24
+   ],
+   "rel": [
+    233.69,
+    210.41,
+    31.21,
+    24
+   ],
+   "vis": [
+    266.44,
+    321.11,
+    32.43,
+    25.6
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "0px 8px 0px 8px",
+    "font": {
+     "family": "Figtree",
+     "size": 11.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "whiteSpace": "nowrap"
+    }
+   },
+   "css": "height: 24px; padding: 0 8px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 800; white-space: nowrap",
+   "lines": [
+    {
+     "text": "+1",
+     "left": 273.19,
+     "right": 285.4,
+     "top": 331.5,
+     "bottom": 345.31,
+     "baseline": 342.44,
+     "baselineRel": 226.44
+    }
+   ],
+   "naturalWidth": 31.213,
+   "minContentWidth": 31.213,
+   "text": "+1",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 2
+    }
+   ]
+  },
+  "e16.card.footer": {
+   "tpl": 128,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    47.5,
+    364.41,
+    295,
+    48.41
+   ],
+   "rel": [
+    17.5,
+    248.41,
+    295,
+    48.41
+   ],
+   "vis": [
+    52.53,
+    356.56,
+    297.13,
+    63.78
+   ],
+   "style": {},
+   "css": "margin-top: 14px; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px"
+  },
+  "e16.card.footer.code": {
+   "tpl": 129,
+   "section": "e16.card",
+   "type": "box",
+   "tag": "div",
+   "abs": [
+    47.5,
+    364.41,
+    150,
+    48.41
+   ],
+   "rel": [
+    17.5,
+    248.41,
+    150,
+    48.41
+   ],
+   "vis": [
+    52.53,
+    364.15,
+    152.33,
+    56.19
+   ],
+   "style": {},
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e16.card.footer.code.bars": {
+   "tpl": 130,
+   "section": "e16.card",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    47.5,
+    364.41,
+    150,
+    30
+   ],
+   "rel": [
+    17.5,
+    248.41,
+    150,
+    30
+   ],
+   "vis": [
+    52.53,
+    364.15,
+    151.37,
+    37.81
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.card.footer.code.text": {
+   "tpl": 172,
+   "section": "e16.card",
+   "type": "text",
+   "tag": "div",
+   "abs": [
+    47.5,
+    401.41,
+    150,
+    11.41
+   ],
+   "rel": [
+    17.5,
+    285.41,
+    150,
+    11.41
+   ],
+   "vis": [
+    54.47,
+    401.1,
+    150.39,
+    19.25
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 9.5,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "1.6px",
+     "color": "#1A1714",
+     "features": [
+      "tnum"
+     ]
+    }
+   },
+   "css": "margin-top: 3px; font-size: 9.5px; font-weight: 800; letter-spacing: 1.6px; font-variant-numeric: tabular-nums",
+   "lines": [
+    {
+     "text": "0052 · 2026 · BN",
+     "left": 47.5,
+     "right": 148.49,
+     "top": 401.41,
+     "bottom": 412.82,
+     "baseline": 410.44,
+     "baselineRel": 294.44
+    }
+   ],
+   "naturalWidth": 100.992,
+   "minContentWidth": 30.568,
+   "text": "0052 · 2026 · BN",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 16
+    }
+   ]
+  },
+  "e16.stamp": {
+   "tpl": 173,
+   "section": "e16.stamp",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    250,
+    336,
+    98,
+    98
+   ],
+   "rel": [
+    0,
+    0,
+    98,
+    98
+   ],
+   "vis": [
+    240.88,
+    326.88,
+    116.23,
+    116.23
+   ],
+   "style": {
+    "position": {
+     "top": "336px",
+     "right": "42px",
+     "bottom": "410px",
+     "left": "250px"
+    },
+    "transformMatrix": "matrix(0.978148, -0.207912, 0.207912, 0.978148, 0, 0)",
+    "transform": "rotate(-12deg)"
+   },
+   "css": "position: absolute; left: 250px; top: 336px; transform: rotate(-12deg); overflow: visible",
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   },
+   "platformFonts": [
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 4
+    }
+   ]
+  },
+  "e16.sheet": {
+   "tpl": 184,
+   "section": "e16.sheet",
+   "type": "box",
+   "tag": "section",
+   "abs": [
+    10,
+    536.35,
+    370,
+    297.65
+   ],
+   "rel": [
+    0,
+    0.0,
+    370,
+    297.65
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": [
+     "32px",
+     "32px",
+     "44px",
+     "44px"
+    ],
+    "shadow": "#1A1714 0px 4px 0px 0px",
+    "padding": "24px 20px 20px 20px",
+    "position": {
+     "top": "536.35px",
+     "right": "10px",
+     "bottom": "10px",
+     "left": "10px"
+    }
+   },
+   "css": "position: absolute; left: 10px; right: 10px; bottom: 10px; box-sizing: border-box; padding: 24px 20px 20px; border-radius: 32px 32px 44px 44px; background: #FFFAF1; border: 1.5px solid #1A1714; box-shadow: 0 4px 0 #1A1714; display: flex; flex-direction: column",
+   "aria": "Tudo pronto",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 60
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e16.sheet.title": {
+   "tpl": 185,
+   "section": "e16.sheet",
+   "type": "text",
+   "tag": "h1",
+   "abs": [
+    31.5,
+    561.85,
+    327,
+    68.6
+   ],
+   "rel": [
+    21.5,
+    25.5,
+    327,
+    68.6
+   ],
+   "style": {
+    "font": {
+     "family": "Bricolage Grotesque",
+     "size": 30.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "29.4px",
+     "letterSpacing": "-1px",
+     "color": "#1A1714",
+     "opsz": 30.0
+    }
+   },
+   "css": "margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 30px; line-height: 0.98; letter-spacing: -1px",
+   "lines": [
+    {
+     "text": "Sua carteirinha",
+     "left": 31.5,
+     "right": 240.57,
+     "top": 558.55,
+     "bottom": 594.55,
+     "baseline": 586.45,
+     "baselineRel": 50.1
+    }
+   ],
+   "linesAll": [
+    {
+     "text": "Sua carteirinha",
+     "left": 31.5,
+     "right": 240.57,
+     "top": 558.55,
+     "bottom": 594.55,
+     "baseline": 586.45,
+     "baselineRel": 50.1
+    },
+    {
+     "text": "está pronta!",
+     "left": 31.5,
+     "right": 199.58,
+     "top": 584.85,
+     "bottom": 636.85,
+     "baseline": 624.45,
+     "baselineRel": 88.1
+    }
+   ],
+   "naturalWidth": 209.072,
+   "minContentWidth": 151.062,
+   "text": "Sua carteirinha",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 12
+    },
+    {
+     "family": "Bricolage Grotesque 96pt ExtraBold",
+     "postScript": "BricolageGrotesque96ptExtraBold-Regular",
+     "custom": true,
+     "glyphs": 15
+    }
+   ]
+  },
+  "e16.sheet.title.serif": {
+   "tpl": 187,
+   "section": "e16.sheet",
+   "type": "inline",
+   "tag": "span",
+   "abs": [
+    31.5,
+    584.85,
+    168.08,
+    52
+   ],
+   "rel": [
+    21.5,
+    48.5,
+    168.08,
+    52
+   ],
+   "style": {
+    "font": {
+     "family": "Instrument Serif",
+     "size": 40.0,
+     "weightCss": 400,
+     "weightRendered": 400,
+     "style": "italic",
+     "lineHeight": "39.2px",
+     "letterSpacing": "-0.4px",
+     "color": "#1A1714"
+    }
+   },
+   "css": "font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 40px; letter-spacing: -0.4px",
+   "lines": [
+    {
+     "text": "está pronta!",
+     "left": 31.5,
+     "right": 199.58,
+     "top": 584.85,
+     "bottom": 636.85,
+     "baseline": 624.45,
+     "baselineRel": 88.1
+    }
+   ],
+   "naturalWidth": 168.08,
+   "minContentWidth": 107.44,
+   "text": "está pronta!",
+   "platformFonts": [
+    {
+     "family": "Instrument Serif",
+     "postScript": "InstrumentSerif-Italic",
+     "custom": true,
+     "glyphs": 12
+    }
+   ]
+  },
+  "e16.sheet.lead": {
+   "tpl": 188,
+   "section": "e16.sheet",
+   "type": "text",
+   "tag": "p",
+   "abs": [
+    31.5,
+    638.45,
+    327,
+    42.05
+   ],
+   "rel": [
+    21.5,
+    102.1,
+    327,
+    42.05
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 14.5,
+     "weightCss": 500,
+     "weightRendered": 500,
+     "style": "normal",
+     "lineHeight": "21.025px",
+     "letterSpacing": "normal",
+     "color": "#5B544B"
+    }
+   },
+   "css": "margin: 8px 0 0; font-size: 14.5px; font-weight: 500; line-height: 1.45; color: #5B544B",
+   "lines": [
+    {
+     "text": "Boas-vindas ao BookNest, Marina. Sua estante já",
+     "left": 31.5,
+     "right": 348.36,
+     "top": 640.25,
+     "bottom": 657.66,
+     "baseline": 654.03,
+     "baselineRel": 117.68
+    },
+    {
+     "text": "tem 3 livros.",
+     "left": 31.5,
+     "right": 110.25,
+     "top": 661.27,
+     "bottom": 678.68,
+     "baseline": 675.05,
+     "baselineRel": 138.7
+    }
+   ],
+   "naturalWidth": 399.142,
+   "minContentWidth": 67.831,
+   "text": "Boas-vindas ao BookNest, Marina. Sua estante já tem 3 livros.",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 60
+    }
+   ]
+  },
+  "e16.sheet.start": {
+   "tpl": 189,
+   "section": "e16.sheet",
+   "type": "box",
+   "tag": "button",
+   "abs": [
+    31.5,
+    698.5,
+    327,
+    54
+   ],
+   "rel": [
+    21.5,
+    162.15,
+    327,
+    54
+   ],
+   "style": {
+    "bg": "#1A1714",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "1px 6px 1px 6px"
+   },
+   "css": "margin-top: 18px; width: 100%; height: 54px; border-radius: 999px; background: #1A1714; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 16px; font-weight: 800; color: #F7F0E3",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "e16.sheet.start.icon": {
+   "tpl": 190,
+   "section": "e16.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    128.32,
+    715.5,
+    20,
+    20
+   ],
+   "rel": [
+    118.32,
+    179.15,
+    20,
+    20
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  },
+  "e16.sheet.start.label": {
+   "tpl": 193,
+   "section": "e16.sheet",
+   "type": "text",
+   "tag": "span",
+   "abs": [
+    158.32,
+    715.9,
+    103.36,
+    19.2
+   ],
+   "rel": [
+    148.32,
+    179.55,
+    103.36,
+    19.2
+   ],
+   "style": {
+    "font": {
+     "family": "Figtree",
+     "size": 16.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#F7F0E3",
+     "textAlign": "center"
+    }
+   },
+   "css": "color: #F7F0E3",
+   "lines": [
+    {
+     "text": "Começar a ler",
+     "left": 158.32,
+     "right": 261.68,
+     "top": 715.9,
+     "bottom": 735.1,
+     "baseline": 731.1,
+     "baselineRel": 194.75
+    }
+   ],
+   "naturalWidth": 103.36,
+   "minContentWidth": 67.776,
+   "text": "Começar a ler",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 13
+    }
+   ]
+  },
+  "e16.sheet.share": {
+   "tpl": 194,
+   "section": "e16.sheet",
+   "type": "box+text",
+   "tag": "button",
+   "abs": [
+    31.5,
+    762.5,
+    327,
+    50
+   ],
+   "rel": [
+    21.5,
+    226.15,
+    327,
+    50
+   ],
+   "style": {
+    "bg": "#FFFAF1",
+    "border": "1.5px solid #1A1714",
+    "radius": "999px",
+    "padding": "1px 6px 1px 6px",
+    "font": {
+     "family": "Figtree",
+     "size": 15.0,
+     "weightCss": 800,
+     "weightRendered": 800,
+     "style": "normal",
+     "lineHeight": "normal",
+     "letterSpacing": "normal",
+     "color": "#1A1714",
+     "textAlign": "center"
+    }
+   },
+   "css": "margin-top: 10px; width: 100%; height: 50px; border-radius: 999px; background: #FFFAF1; border: 1.5px solid #1A1714; box-sizing: border-box; display: flex; align-items: center; justify-content: center; gap: 9px; font-size: 15px; font-weight: 800; color: #1A1714",
+   "lines": [
+    {
+     "text": "Compartilhar carteirinha",
+     "left": 122.64,
+     "right": 295.36,
+     "top": 778.5,
+     "bottom": 796.5,
+     "baseline": 792.75,
+     "baselineRel": 256.4
+    }
+   ],
+   "naturalWidth": 215.71,
+   "minContentWidth": 135.91,
+   "text": "Compartilhar carteirinha",
+   "platformFonts": [
+    {
+     "family": "Figtree Light",
+     "postScript": "Figtree-Light",
+     "custom": true,
+     "glyphs": 24
+    }
+   ]
+  },
+  "e16.sheet.share.icon": {
+   "tpl": 195,
+   "section": "e16.sheet",
+   "type": "icon",
+   "tag": "svg",
+   "abs": [
+    94.64,
+    778,
+    19,
+    19
+   ],
+   "rel": [
+    84.64,
+    241.65,
+    19,
+    19
+   ],
+   "style": {
+    "overflow": "hidden"
+   },
+   "ariaAttrs": {
+    "aria-hidden": "true"
+   }
+  }
+ },
+ "fontMetrics": {
+  "Figtree|800|normal|11px": {
+   "ascent": 10.45,
+   "descent": 2.75
+  },
+  "Instrument Serif|400|italic|42px": {
+   "ascent": 41.58,
+   "descent": 13.02
+  },
+  "Instrument Serif|400|italic|32px": {
+   "ascent": 31.68,
+   "descent": 9.92
+  },
+  "Figtree|700|normal|14px": {
+   "ascent": 13.3,
+   "descent": 3.5
+  },
+  "Figtree|800|normal|9.5px": {
+   "ascent": 9.03,
+   "descent": 2.38
+  },
+  "Bricolage Grotesque|800|normal|22px": {
+   "ascent": 20.46,
+   "descent": 5.94
+  },
+  "Figtree|800|normal|11.5px": {
+   "ascent": 10.93,
+   "descent": 2.88
+  },
+  "Bricolage Grotesque|800|normal|30px": {
+   "ascent": 27.9,
+   "descent": 8.1
+  },
+  "Instrument Serif|400|italic|40px": {
+   "ascent": 39.6,
+   "descent": 12.4
+  },
+  "Figtree|500|normal|14.5px": {
+   "ascent": 13.78,
+   "descent": 3.63
+  },
+  "Figtree|800|normal|16px": {
+   "ascent": 15.2,
+   "descent": 4
+  },
+  "Figtree|800|normal|15px": {
+   "ascent": 14.25,
+   "descent": 3.75
+  }
+ },
+ "fontFaces": [
+  {
+   "family": "Bricolage Grotesque",
+   "weight": [
+    500,
+    800
+   ],
+   "style": "normal",
+   "asset": "BricolageGrotesque-latin-var-opsz-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    500,
+    500
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    600,
+    600
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    700,
+    700
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Figtree",
+   "weight": [
+    800,
+    800
+   ],
+   "style": "normal",
+   "asset": "Figtree-latin-var-wght"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "italic",
+   "asset": "InstrumentSerif-Italic-latin"
+  },
+  {
+   "family": "Instrument Serif",
+   "weight": [
+    400,
+    400
+   ],
+   "style": "normal",
+   "asset": "InstrumentSerif-normal-400-latin"
+  }
+ ]
+}

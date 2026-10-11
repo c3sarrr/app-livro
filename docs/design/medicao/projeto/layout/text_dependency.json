@@ -7678,5 +7678,4533 @@
    "w": true,
    "h": false
   }
+ },
+ "035_abertura": {
+  "e35.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.loading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.loading.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.loading.fill.edge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.stamp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.stamp.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.stamp.badge.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.stamp.rays": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.wordmark": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e35.wordmark.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e35.wordmark.label.book": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e35.wordmark.label.nest": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "007_login": {
+  "e07.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons.apple": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons.apple.logo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons.email": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons.email.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons.email.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.sheet.buttons.google": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.buttons.google.logo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.legal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.legal.privacy": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.sheet.legal.terms": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.sheet.signIn": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.signIn.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.wordmark": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e07.wordmark.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.wordmark.label.book": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e07.wordmark.label.nest": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  }
+ },
+ "008_cadastro": {
+  "e08.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card.header.icon": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.card.header.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.card.name": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card.number": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card.stamp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.card.stamp.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.email.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.email.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.email.field.valid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.email.field.valid.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.email.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.name.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.name.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.name.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.name.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.newsletter": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.newsletter.box": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.newsletter.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.field.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.field.dots": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sheet.form.password.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.field.reveal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.field.reveal.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.field.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.password.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.rules": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.rules.rule1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sheet.form.rules.rule1.check": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.rules.rule1.check.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.rules.rule2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sheet.form.rules.rule2.check": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.rules.rule2.check.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.strength": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.strength.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.strength.bar.fill": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.strength.bar.fill.edge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.strength.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.submit": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.submit.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.form.submit.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.legal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.legal.privacy": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sheet.legal.terms": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e08.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e08.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "009_entrar": {
+  "e09.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.code": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.divider": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.divider.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.divider.lineLeft": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.divider.lineRight": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.form": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.email.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.email.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.email.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.field.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.field.dots": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.form.password.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.field.reveal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.field.reveal.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.field.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.forgot": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.form.password.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.password.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.form.submit": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.submit.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.form.submit.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.signUp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.signUp.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "009b_entrar_senha_incorreta": {
+  "e09b.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.code": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.code.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.divider": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.divider.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.divider.lineLeft": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.divider.lineRight": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.form": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.alert": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.alert.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.alert.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.email.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.email.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.email.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.field.dots": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.field.reveal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.field.reveal.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.forgot": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.form.password.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.password.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.form.submit": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.submit.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.form.submit.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.signUp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.signUp.link": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e09b.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e09b.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "010_codigo": {
+  "e10.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.envelope": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.dash": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.dash.bar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit5.caret": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.digit6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.group1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.group2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.code.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.help": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.help.openMail": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.help.openMail.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.help.openMail.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e10.sheet.help.spam": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e10.sheet.help.spam.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.lead.email": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e10.sheet.resend": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.resend.text": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e10.sheet.resend.text.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e10.sheet.resend.timer": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e10.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e10.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "011_nova_senha": {
+  "e11.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.padlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices.switch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices.switch.thumb": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices.switch.thumb.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.devices.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.field.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.field.dots": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.password.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.field.reveal": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.field.reveal.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.field.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.password.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule1.check": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule1.check.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule2.check": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule2.check.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule3": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule3.check": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.rules.rule3.check.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.strength": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.strength.bar": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.strength.bar.fill": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.strength.bar.fill.edge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.strength.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.submit": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.submit.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.form.submit.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.form.username": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.lead.email": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sheet.notice": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.notice.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e11.sparkleLarge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.sparkleSmall": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e11.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "012_onboarding_meta": {
+  "e12.continue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.continue.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.continue.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e12.daily": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option1.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option1.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option1.minutes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option1.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option1.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option2.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option2.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option2.minutes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option2.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option2.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3.minutes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3.radio.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option3.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option4.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option4.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option4.minutes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option4.radio": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.daily.option4.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.heading.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.heading.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e12.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.top.progress": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e12.top.progress.fill": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e12.top.progress.fill.edge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.top.skip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e12.top.step": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e12.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.stepper": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.stepper.minus": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.stepper.minus.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.stepper.plus": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.stepper.plus.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.stepper.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e12.yearly.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "013_onboarding_generos": {
+  "e13.continue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.continue.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.continue.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.continue.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip1.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip1.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip10": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip10.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip10.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip11": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip11.badge": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip11.badge.icon": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip12": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip12.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip12.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip13": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip13.badge": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip13.badge.icon": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip14": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip14.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip14.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip15": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip15.badge": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip15.badge.icon": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip2.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip2.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip3": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip3.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip3.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip4": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip4.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip4.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip5": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip5.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip5.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip6": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip6.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip6.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip7": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip7.badge": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip7.badge.icon": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip8": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip8.badge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip8.badge.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip9": {
+   "x": true,
+   "y": true,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.chip9.badge": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.chip9.badge.icon": {
+   "x": true,
+   "y": true,
+   "w": false,
+   "h": false
+  },
+  "e13.genres.more": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.genres.more.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.heading.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.heading.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.top.progress": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.top.progress.fill": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.top.progress.fill.edge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13.top.skip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.top.step": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "013b_onboarding_dica_scanner": {
+  "e13b.coach.arrow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.actions.dismiss": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.actions.try": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.actions.try.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.actions.try.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.coach.card.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.row": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.tape": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.card.title.serif": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.coach.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.spotlight": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.coach.tag": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.continue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.continue.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.continue.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.continue.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.heading.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.heading.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.search.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.search.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.search.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.search.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.search.scan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover.sun": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book1.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.cover.glow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book2.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.lines": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.lines.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.lines.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.lines.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book3.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.cover.star": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book4.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.cover.stripes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book5.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover.door": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.book6.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.suggestions.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.suggestions.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.top.progress": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.top.progress.fill": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.top.progress.fill.edge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e13b.top.skip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.top.step": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e13b.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "014_onboarding_primeiros_livros": {
+  "e14.continue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.continue.count": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.continue.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.continue.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.heading.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.heading.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.search.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.search.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.search.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.search.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.search.scan.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover.sun": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book1.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.cover.glow": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book2.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.lines": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.lines.line1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.lines.line2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.lines.line3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book3.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.cover.star": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book4.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.cover.stripes": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book5.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover.arch": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover.author": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover.door": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover.spine": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.cover.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.toggle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.toggle.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.book6.wrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.grid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.suggestions.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.suggestions.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.top.progress": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.top.progress.fill": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.top.progress.fill.edge": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e14.top.skip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.top.step": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e14.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "015_onboarding_foto": {
+  "e15.bio.counter": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.bio.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.bio.field.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.bio.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.bio.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.bio.header.labelRow": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.bio.hint": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.bio.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.bio.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.continue": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.continue.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.continue.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.heading": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.heading.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.heading.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.heading.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo.add": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo.add.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo.avatarWrap": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo.info": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.photo.info.gallery": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.photo.info.gallery.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.photo.info.hint": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.photo.info.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.photo.info.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.photo.info.titleRow": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.top.back": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.top.back.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.top.progress": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.top.skip": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.top.step": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.username.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.field.at": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.username.field.caret": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.field.text": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.username.field.valid": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.field.valid.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.field.value": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.username.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.status": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e15.username.status.chip": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.username.status.rule": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e15.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "016_onboarding_carteirinha": {
+  "e16.card": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.footer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.footer.code": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.footer.code.bars": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.footer.code.text": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.genres": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.genres.genre1": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.genres.genre2": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.genres.genre3": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.genres.more": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.goals": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.goals.daily": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.goals.daily.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.goals.daily.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.goals.yearly": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.goals.yearly.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.goals.yearly.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.handle": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.header.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.header.number": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.identity": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.card.name": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.card.nameBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.confetti.dashGreen": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.dashLavender": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.dotCoral": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.dotCream": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.sparkle1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.sparkle2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.sparkle3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.sparkle4": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.sparkle5": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.confetti.sparkle6": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.lead": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.share": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.share.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.start": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.start.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.start.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e16.stamp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e16.waves": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "036a_inicio_primeiro_acesso": {
+  "e36a.bottomFade": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club.badge": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club.badge.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club.chevron": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.club.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.cta": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.cta.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.cta.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.firstBook.illustration": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.illustration.plank": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.illustration.slot1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.illustration.slot2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.illustration.slot3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.illustration.sparkle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.kicker": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts.ebook": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts.ebook.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts.scan": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts.scan.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.shortcuts.search.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.firstBook.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header.actions": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header.avatar": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header.bell": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header.bell.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header.greeting": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.header.greetingColumn": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.header.identity": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.header.name": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.header.search": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.header.search.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.headline": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.headline.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.clubs": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.clubs.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.clubs.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.nav.home": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.home.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.home.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.nav.library": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.library.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.library.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.nav.profile": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.profile.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.profile.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.nav.scanner": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.scanner.fab": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.scanner.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.nav.scanner.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "e36a.today": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.today.body": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.today.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.today.textBlock": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "e36a.today.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  }
  }
 }

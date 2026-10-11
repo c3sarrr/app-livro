@@ -1,0 +1,78 @@
+// dart format off
+// GERADO AUTOMATICAMENTE por tools/medicao/gen_reference_dart.py — NÃO EDITE À MÃO.
+// Prancha 11 · Nova senha — canvas 390×844, dp lógico = px CSS.
+// Medido no Chromium 141 com zoom 100 (bordas exatas de 1,5/1,3/1,2 px, métricas sem arredondamento).
+// ignore_for_file: lines_longer_than_80_chars
+import 'dart:ui';
+
+import '../leitor/ref_tipos.dart';
+
+const LeitorRefPrancha kRef11 = LeitorRefPrancha(
+  tela: '11',
+  slug: '011_nova_senha',
+  prefix: 'e11',
+  canvas: Size(390.0, 844.0),
+  sections: <String, Rect>{
+    'e11.waves': Rect.fromLTWH(0.0, 0.0, 390.0, 860.0),
+    'e11.back': Rect.fromLTWH(16.0, 58.0, 48.0, 48.0),
+    'e11.padlock': Rect.fromLTWH(184.0, 72.0, 140.0, 158.0),
+    'e11.sparkleLarge': Rect.fromLTWH(112.0, 172.0, 30.0, 30.0),
+    'e11.sparkleSmall': Rect.fromLTWH(346.0, 180.0, 18.0, 18.0),
+    'e11.sheet': Rect.fromLTWH(10.0, 278.0, 370.0, 556.0),
+  },
+  elements: <String, LeitorRefElement>{
+    'e11.waves': LeitorRefElement('e11.waves', Rect.fromLTWH(0.0, 0.0, 390.0, 860.0), LeitorRefKind.icon),
+    'e11.back': LeitorRefElement('e11.back', Rect.fromLTWH(16.0, 58.0, 48.0, 48.0), LeitorRefKind.box),
+    'e11.back.icon': LeitorRefElement('e11.back', Rect.fromLTWH(30.0, 72.0, 20.0, 20.0), LeitorRefKind.icon),
+    'e11.padlock': LeitorRefElement('e11.padlock', Rect.fromLTWH(184.0, 72.0, 140.0, 158.0), LeitorRefKind.icon, visual: Rect.fromLTWH(173.69, 63.03, 160.63, 175.95)),
+    'e11.sparkleLarge': LeitorRefElement('e11.sparkleLarge', Rect.fromLTWH(112.0, 172.0, 30.0, 30.0), LeitorRefKind.icon),
+    'e11.sparkleSmall': LeitorRefElement('e11.sparkleSmall', Rect.fromLTWH(346.0, 180.0, 18.0, 18.0), LeitorRefKind.icon),
+    'e11.sheet': LeitorRefElement('e11.sheet', Rect.fromLTWH(10.0, 278.0, 370.0, 556.0), LeitorRefKind.box),
+    'e11.sheet.title': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 305.5, 327.0, 72.52), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Crie uma', 31.5, 161.6, 331.74)], linesAll: <LeitorRefLine>[LeitorRefLine('Crie uma', 31.5, 161.6, 331.74), LeitorRefLine('senha nova.', 31.5, 209.0, 371.72)]),
+    'e11.sheet.title.serif': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 330.14, 177.5, 54.6), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('senha nova.', 31.5, 209.0, 371.72)]),
+    'e11.sheet.lead': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 386.02, 327.0, 21.02), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Para a conta', 31.5, 111.83, 401.6)], linesAll: <LeitorRefLine>[LeitorRefLine('Para a conta marina.costa@email.com', 31.5, 286.64, 401.6)]),
+    'e11.sheet.lead.email': LeitorRefElement('e11.sheet', Rect.fromLTWH(115.36, 387.82, 171.27, 17.41), LeitorRefKind.inline, lines: <LeitorRefLine>[LeitorRefLine('marina.costa@email.com', 115.36, 286.64, 401.6)]),
+    'e11.sheet.form': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 425.05, 327.0, 316.48), LeitorRefKind.box),
+    'e11.sheet.form.username': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 425.05, 9.0, 7.0), LeitorRefKind.box),
+    'e11.sheet.form.password.label': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 425.05, 327.0, 18.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Nova senha', 31.5, 104.2, 438.76)]),
+    'e11.sheet.form.password.field': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 449.05, 327.0, 52.0), LeitorRefKind.box),
+    'e11.sheet.form.password.field.value': LeitorRefElement('e11.sheet', Rect.fromLTWH(49.0, 464.05, 260.0, 22.0), LeitorRefKind.box),
+    'e11.sheet.form.password.field.dots': LeitorRefElement('e11.sheet', Rect.fromLTWH(49.0, 466.05, 118.38, 18.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('•••••••••••', 49.0, 167.38, 481.35)]),
+    'e11.sheet.form.password.field.caret': LeitorRefElement('e11.sheet', Rect.fromLTWH(169.38, 464.05, 2.0, 22.0), LeitorRefKind.box),
+    'e11.sheet.form.password.field.input': LeitorRefElement('e11.sheet', Rect.fromLTWH(49.0, 471.55, 9.0, 7.0), LeitorRefKind.box),
+    'e11.sheet.form.password.field.reveal': LeitorRefElement('e11.sheet', Rect.fromLTWH(309.0, 453.05, 44.0, 44.0), LeitorRefKind.box),
+    'e11.sheet.form.password.field.reveal.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(320.0, 464.05, 22.0, 22.0), LeitorRefKind.icon),
+    'e11.sheet.form.strength': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 513.04, 327.0, 15.6), LeitorRefKind.box),
+    'e11.sheet.form.strength.bar': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 513.85, 248.62, 14.0), LeitorRefKind.box),
+    'e11.sheet.form.strength.bar.fill': LeitorRefElement('e11.sheet', Rect.fromLTWH(33.0, 515.35, 216.15, 11.0), LeitorRefKind.box),
+    'e11.sheet.form.strength.bar.fill.edge': LeitorRefElement('e11.sheet', Rect.fromLTWH(244.15, 515.35, 10.0, 11.0), LeitorRefKind.icon),
+    'e11.sheet.form.strength.label': LeitorRefElement('e11.sheet', Rect.fromLTWH(290.12, 513.04, 68.38, 15.6), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Muito forte', 290.12, 358.5, 525.39)]),
+    'e11.sheet.form.rules': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 538.64, 327.0, 38.0), LeitorRefKind.box),
+    'e11.sheet.form.rules.rule1': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 538.64, 139.52, 16.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('8 ou mais caracteres', 53.5, 171.02, 551.02)]),
+    'e11.sheet.form.rules.rule1.check': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 538.64, 16.0, 16.0), LeitorRefKind.box),
+    'e11.sheet.form.rules.rule1.check.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(35.0, 542.14, 9.0, 9.0), LeitorRefKind.icon),
+    'e11.sheet.form.rules.rule2': LeitorRefElement('e11.sheet', Rect.fromLTWH(185.02, 538.64, 153.18, 16.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Um número ou símbolo', 207.02, 338.19, 551.02)]),
+    'e11.sheet.form.rules.rule2.check': LeitorRefElement('e11.sheet', Rect.fromLTWH(185.02, 538.64, 16.0, 16.0), LeitorRefKind.box),
+    'e11.sheet.form.rules.rule2.check.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(188.52, 542.14, 9.0, 9.0), LeitorRefKind.icon),
+    'e11.sheet.form.rules.rule3': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 560.64, 167.57, 16.0), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Diferente da senha antiga', 53.5, 199.07, 573.02)]),
+    'e11.sheet.form.rules.rule3.check': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 560.64, 16.0, 16.0), LeitorRefKind.box),
+    'e11.sheet.form.rules.rule3.check.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(35.0, 564.14, 9.0, 9.0), LeitorRefKind.icon),
+    'e11.sheet.form.devices': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 590.64, 327.0, 80.88), LeitorRefKind.box),
+    'e11.sheet.form.devices.textBlock': LeitorRefElement('e11.sheet', Rect.fromLTWH(49.0, 604.14, 230.0, 53.88), LeitorRefKind.box),
+    'e11.sheet.form.devices.title': LeitorRefElement('e11.sheet', Rect.fromLTWH(49.0, 604.14, 230.0, 18.12), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Sair dos outros aparelhos', 49.0, 219.3, 618.27)]),
+    'e11.sheet.form.devices.body': LeitorRefElement('e11.sheet', Rect.fromLTWH(49.0, 624.27, 230.0, 33.75), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Fecha a conta no celular e no', 49.0, 212.32, 637.08), LeitorRefLine('computador onde ela estiver aberta.', 49.0, 252.24, 653.96)]),
+    'e11.sheet.form.devices.switch': LeitorRefElement('e11.sheet', Rect.fromLTWH(291.0, 615.08, 54.0, 32.0), LeitorRefKind.box),
+    'e11.sheet.form.devices.switch.thumb': LeitorRefElement('e11.sheet', Rect.fromLTWH(317.0, 619.08, 24.0, 24.0), LeitorRefKind.box),
+    'e11.sheet.form.devices.switch.thumb.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(323.5, 625.58, 11.0, 11.0), LeitorRefKind.icon),
+    'e11.sheet.form.submit': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 687.52, 327.0, 54.0), LeitorRefKind.box),
+    'e11.sheet.form.submit.label': LeitorRefElement('e11.sheet', Rect.fromLTWH(125.56, 704.92, 108.88, 19.2), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Salvar e entrar', 125.56, 234.44, 720.12)]),
+    'e11.sheet.form.submit.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(244.44, 704.52, 20.0, 20.0), LeitorRefKind.icon),
+    'e11.sheet.notice': LeitorRefElement('e11.sheet', Rect.fromLTWH(31.5, 753.52, 327.0, 15.01), LeitorRefKind.text, lines: <LeitorRefLine>[LeitorRefLine('Você vai receber um aviso por e-mail.', 99.75, 312.25, 765.4)]),
+    'e11.sheet.notice.icon': LeitorRefElement('e11.sheet', Rect.fromLTWH(77.75, 753.52, 15.0, 15.0), LeitorRefKind.icon),
+  },
+  textDependentX: <String>{'e11.sheet.form.password.field.caret', 'e11.sheet.form.password.field.dots', 'e11.sheet.form.rules.rule1', 'e11.sheet.form.rules.rule2', 'e11.sheet.form.rules.rule2.check', 'e11.sheet.form.rules.rule2.check.icon', 'e11.sheet.form.rules.rule3', 'e11.sheet.form.strength.bar', 'e11.sheet.form.strength.bar.fill', 'e11.sheet.form.strength.bar.fill.edge', 'e11.sheet.form.strength.label', 'e11.sheet.form.submit.icon', 'e11.sheet.form.submit.label', 'e11.sheet.lead.email', 'e11.sheet.notice.icon', 'e11.sheet.title.serif'},
+  textDependentY: <String>{},
+  ellipsized: <String>{},
+  knifeEdges: <LeitorKnifeEdge>[
+  ],
+);

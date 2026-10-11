@@ -1,0 +1,47 @@
+{
+ "prancha": "007_login",
+ "prefixo": "e07",
+ "secoes": [
+  "e07.waves",
+  "e07.cover",
+  "e07.badge",
+  "e07.sparkleLarge",
+  "e07.sparkleSmall",
+  "e07.wordmark",
+  "e07.sheet"
+ ],
+ "especiais": [
+  "e07.frame"
+ ],
+ "ids": {
+  "4": "e07.frame",
+  "5": "e07.waves",
+  "90": "e07.cover",
+  "91": "e07.cover.art",
+  "129": "e07.cover.spine",
+  "130": "e07.badge",
+  "141": "e07.sparkleLarge",
+  "143": "e07.sparkleSmall",
+  "145": "e07.wordmark",
+  "146": "e07.wordmark.label",
+  "147": "e07.wordmark.label.book",
+  "148": "e07.wordmark.label.nest",
+  "149": "e07.sheet",
+  "150": "e07.sheet.title",
+  "152": "e07.sheet.title.serif",
+  "153": "e07.sheet.lead",
+  "154": "e07.sheet.buttons",
+  "155": "e07.sheet.buttons.google",
+  "156": "e07.sheet.buttons.google.logo",
+  "157": "e07.sheet.buttons.apple",
+  "158": "e07.sheet.buttons.apple.logo",
+  "159": "e07.sheet.buttons.email",
+  "160": "e07.sheet.buttons.email.icon",
+  "163": "e07.sheet.buttons.email.label",
+  "164": "e07.sheet.signIn",
+  "165": "e07.sheet.signIn.link",
+  "166": "e07.sheet.legal",
+  "167": "e07.sheet.legal.terms",
+  "168": "e07.sheet.legal.privacy"
+ }
+}

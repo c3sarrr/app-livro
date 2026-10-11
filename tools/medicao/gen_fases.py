@@ -201,7 +201,11 @@ def main():
         for k, info in KNI.get(slug, {}).items():
             if any(k == s or k.startswith(s + '.') for s in secoes):
                 for r in info['riscos']:
-                    arm.append(f"Fio de navalha em `{k}` linha {r['linha']} «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com a próxima palavra {fmt(r['estouroComProxima']) if r['estouroComProxima'] is not None else '—'} px.")
+                    est = fmt(r['estouroComProxima']) if r['estouroComProxima'] is not None else '—'
+                    if info.get('fileiras'):  # D-278: a fileira de um flex-wrap (projeto)
+                        arm.append(f"Fio de navalha na fileira {r['linha']} de `{k}` (flex-wrap) «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com o 1º item da fileira seguinte {est} px — no Flutter (`Wrap`), as fileiras mudam com uma diferença mínima de largura.")
+                    else:
+                        arm.append(f"Fio de navalha em `{k}` linha {r['linha']} «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com a próxima palavra {est} px.")
         for k in ids_fase:
             e = L['elements'][k]
             if e.get('fallback'):

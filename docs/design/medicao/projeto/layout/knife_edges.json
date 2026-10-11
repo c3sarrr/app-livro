@@ -28,6 +28,40 @@
      "estouroComProxima": null
     }
    ]
+  },
+  "d17b.meta": {
+   "composto": false,
+   "fileiras": true,
+   "quebraPadrao": "wrap",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Machado de Assis | d17b.meta.dot | 1899",
+     "largura": 179.892,
+     "disponivel": 350,
+     "sobra": 170.108,
+     "estouroComProxima": 0.467
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Machado de Assis | d17b.meta.dot | 1899",
+     "largura": 179.892,
+     "disponivel": 350,
+     "sobra": 170.108,
+     "estouroComProxima": 0.467
+    },
+    {
+     "linha": 2,
+     "texto": "E-book · 256 páginas",
+     "largura": 160.575,
+     "disponivel": 350,
+     "sobra": 189.425,
+     "estouroComProxima": null
+    }
+   ]
   }
  },
  "003_scanner_encontrado": {
@@ -179,9 +213,265 @@
      "estouroComProxima": null
     }
    ]
+  },
+  "bu28.mood.chips": {
+   "composto": false,
+   "fileiras": true,
+   "quebraPadrao": "wrap",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "De uma sentada | Engraçado",
+     "largura": 253.756,
+     "disponivel": 358,
+     "sobra": 104.244,
+     "estouroComProxima": 0.397
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Leve | Tenso | Para chorar",
+     "largura": 264.002,
+     "disponivel": 358,
+     "sobra": 93.998,
+     "estouroComProxima": 54.606
+    },
+    {
+     "linha": 2,
+     "texto": "De uma sentada | Engraçado",
+     "largura": 253.756,
+     "disponivel": 358,
+     "sobra": 104.244,
+     "estouroComProxima": 0.397
+    },
+    {
+     "linha": 3,
+     "texto": "Reflexivo | Misterioso | Esperançoso",
+     "largura": 335.675,
+     "disponivel": 358,
+     "sobra": 22.325,
+     "estouroComProxima": null
+    }
+   ]
   }
  },
  "028b_busca_resultados": {},
  "028c_busca_nada_encontrado": {},
- "028d_adicionar_a_mao": {}
+ "028d_adicionar_a_mao": {},
+ "035_abertura": {},
+ "007_login": {},
+ "008_cadastro": {},
+ "009_entrar": {},
+ "009b_entrar_senha_incorreta": {
+  "e09b.sheet.form.alert.text": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 1,
+     "texto": "Senha incorreta. Tente de novo ou entre com",
+     "largura": 277.155,
+     "disponivel": 299,
+     "sobra": 21.845,
+     "estouroComProxima": 0.808
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Senha incorreta. Tente de novo ou entre com",
+     "largura": 277.155,
+     "disponivel": 299,
+     "sobra": 21.845,
+     "estouroComProxima": 0.808
+    },
+    {
+     "linha": 2,
+     "texto": "um código.",
+     "largura": 68.742,
+     "disponivel": 299,
+     "sobra": 230.258,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "010_codigo": {
+  "e10.sheet.code.label": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Código",
+     "largura": 52.576,
+     "disponivel": 1,
+     "sobra": -51.576,
+     "estouroComProxima": 73.64
+    },
+    {
+     "linha": 2,
+     "texto": "de",
+     "largura": 18.112,
+     "disponivel": 1,
+     "sobra": -17.112,
+     "estouroComProxima": 30.12
+    },
+    {
+     "linha": 3,
+     "texto": "6",
+     "largura": 9.056,
+     "disponivel": 1,
+     "sobra": -8.056,
+     "estouroComProxima": 60.944
+    },
+    {
+     "linha": 4,
+     "texto": "dígitos",
+     "largura": 48.936,
+     "disponivel": 1,
+     "sobra": -47.936,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "011_nova_senha": {},
+ "012_onboarding_meta": {},
+ "013_onboarding_generos": {
+  "e13.genres": {
+   "composto": false,
+   "fileiras": true,
+   "quebraPadrao": "wrap",
+   "riscos": [
+    {
+     "linha": 3,
+     "texto": "Mistério | Suspense | Terror",
+     "largura": 349.034,
+     "disponivel": 350,
+     "sobra": 0.966,
+     "estouroComProxima": 192.866
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Clássicos | Romance",
+     "largura": 248.173,
+     "disponivel": 350,
+     "sobra": 101.827,
+     "estouroComProxima": 19.849
+    },
+    {
+     "linha": 2,
+     "texto": "Fantasia | Ficção científica",
+     "largura": 287.838,
+     "disponivel": 350,
+     "sobra": 62.162,
+     "estouroComProxima": 58.436
+    },
+    {
+     "linha": 3,
+     "texto": "Mistério | Suspense | Terror",
+     "largura": 349.034,
+     "disponivel": 350,
+     "sobra": 0.966,
+     "estouroComProxima": 192.866
+    },
+    {
+     "linha": 4,
+     "texto": "Literatura brasileira | Poesia",
+     "largura": 295.678,
+     "disponivel": 350,
+     "sobra": 54.322,
+     "estouroComProxima": 78.386
+    },
+    {
+     "linha": 5,
+     "texto": "Biografias | História",
+     "largura": 243.472,
+     "disponivel": 350,
+     "sobra": 106.528,
+     "estouroComProxima": 31.136
+    },
+    {
+     "linha": 6,
+     "texto": "Não ficção | Quadrinhos",
+     "largura": 272.018,
+     "disponivel": 350,
+     "sobra": 77.982,
+     "estouroComProxima": 77.252
+    },
+    {
+     "linha": 7,
+     "texto": "Jovem adulto | Humor",
+     "largura": 259.334,
+     "disponivel": 350,
+     "sobra": 90.666,
+     "estouroComProxima": 57.202
+    },
+    {
+     "linha": 8,
+     "texto": "Mais gêneros",
+     "largura": 139.868,
+     "disponivel": 350,
+     "sobra": 210.132,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ },
+ "013b_onboarding_dica_scanner": {},
+ "014_onboarding_primeiros_livros": {},
+ "015_onboarding_foto": {},
+ "016_onboarding_carteirinha": {},
+ "036a_inicio_primeiro_acesso": {
+  "e36a.firstBook.title": {
+   "composto": false,
+   "quebraPadrao": "auto",
+   "riscos": [
+    {
+     "linha": 2,
+     "texto": "primeiro livro",
+     "largura": 156.747,
+     "disponivel": 190,
+     "sobra": 33.253,
+     "estouroComProxima": 0.951
+    }
+   ],
+   "quebrasImpostas": [],
+   "linhas": [
+    {
+     "linha": 1,
+     "texto": "Coloque seu",
+     "largura": 143.069,
+     "disponivel": 190,
+     "sobra": 46.931,
+     "estouroComProxima": 58.413
+    },
+    {
+     "linha": 2,
+     "texto": "primeiro livro",
+     "largura": 156.747,
+     "disponivel": 190,
+     "sobra": 33.253,
+     "estouroComProxima": 0.951
+    },
+    {
+     "linha": 3,
+     "texto": "na estante",
+     "largura": 123.123,
+     "disponivel": 190,
+     "sobra": 66.877,
+     "estouroComProxima": null
+    }
+   ]
+  }
+ }
 }

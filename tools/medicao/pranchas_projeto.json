@@ -487,7 +487,13 @@
         390,
         844
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "sheet.buttons.apple": {
+          "motivo": "o texto do botão \"Continuar com a Apple\": a prancha pede a fonte da Apple (`-apple-system, 'SF Pro Text'`), que só existe no iPhone, e o Chromium do WSL desenha com a Inter Medium do sistema; no app o botão é o oficial (SignInWithAppleButton), desenhado pelo sistema, não pelo app",
+          "informativo": true
+        }
+      }
     },
     {
       "tela": "08",
@@ -617,7 +623,13 @@
         390,
         844
       ],
-      "previa": ""
+      "previa": "",
+      "reserva": {
+        "username.field.input": {
+          "motivo": "o input de verdade do @, invisível (opacity 0, 1×1) atrás do texto desenhado \"marinacosta\": a folha da 15 não diz `input{font-family:inherit}`, e o Chromium mede o valor na fonte padrão do campo (a Liberation Sans do WSL); não aparece — no app é o TextField escondido (D-277)",
+          "informativo": true
+        }
+      }
     },
     {
       "tela": "16",

@@ -1,0 +1,53 @@
+{
+ "prancha": "010_codigo",
+ "prefixo": "e10",
+ "secoes": [
+  "e10.waves",
+  "e10.back",
+  "e10.envelope",
+  "e10.sparkleLarge",
+  "e10.sparkleSmall",
+  "e10.sheet"
+ ],
+ "especiais": [
+  "e10.frame"
+ ],
+ "ids": {
+  "4": "e10.frame",
+  "5": "e10.waves",
+  "90": "e10.back",
+  "91": "e10.back.icon",
+  "94": "e10.envelope",
+  "105": "e10.sparkleLarge",
+  "107": "e10.sparkleSmall",
+  "109": "e10.sheet",
+  "110": "e10.sheet.title",
+  "112": "e10.sheet.title.serif",
+  "113": "e10.sheet.lead",
+  "114": "e10.sheet.lead.email",
+  "115": "e10.sheet.code.label",
+  "116": "e10.sheet.code.input",
+  "117": "e10.sheet.code",
+  "118": "e10.sheet.code.group1",
+  "119": "e10.sheet.code.digit1",
+  "120": "e10.sheet.code.digit2",
+  "121": "e10.sheet.code.digit3",
+  "122": "e10.sheet.code.dash",
+  "123": "e10.sheet.code.dash.bar",
+  "124": "e10.sheet.code.group2",
+  "125": "e10.sheet.code.digit4",
+  "126": "e10.sheet.code.digit5",
+  "127": "e10.sheet.code.digit5.caret",
+  "128": "e10.sheet.code.digit6",
+  "129": "e10.sheet.resend",
+  "130": "e10.sheet.resend.timer",
+  "133": "e10.sheet.resend.text",
+  "134": "e10.sheet.resend.text.time",
+  "135": "e10.sheet.help",
+  "136": "e10.sheet.help.spam",
+  "137": "e10.sheet.help.spam.icon",
+  "141": "e10.sheet.help.openMail",
+  "142": "e10.sheet.help.openMail.icon",
+  "145": "e10.sheet.help.openMail.label"
+ }
+}
