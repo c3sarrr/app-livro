@@ -84,8 +84,16 @@ final class RecordingPaperSessionWriter implements PaperSessionWriter {
   /// O que o próximo `end` lança (e esquece).
   Object? falha;
 
+  /// Segura o próximo `end` até ser completado (a gravação demorada).
+  Completer<void>? portao;
+
   @override
   Future<void> end(PaperSessionEnd end) async {
+    final p = portao;
+    if (p != null) {
+      portao = null;
+      await p.future;
+    }
     final f = falha;
     if (f != null) {
       falha = null;

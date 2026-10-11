@@ -376,35 +376,67 @@ void main() {
     expect(_k('session.sheet'), findsNothing);
   });
 
-  testWidgets(
-    'com outra rota por cima, a folha que fecha tira só ela (a de cima fica)',
-    (tester) async {
-      await abrir(tester);
-      final nav = Navigator.of(
-        tester.element(_k('session.sheet')),
-        rootNavigator: true,
-      );
-      unawaited(
-        nav.push<void>(
-          PageRouteBuilder<void>(
-            pageBuilder: (_, _, _) => const SizedBox(key: ValueKey('por.cima')),
-          ),
+  testWidgets('a sessão que acaba enquanto outra rota cobre a folha: a folha (pausada, coberta) sai quando a de cima '
+      'sai — a de cima não é tirada', (tester) async {
+    await abrir(tester);
+    final nav = Navigator.of(
+      tester.element(_k('session.sheet')),
+      rootNavigator: true,
+    );
+    unawaited(
+      nav.push<void>(
+        PageRouteBuilder<void>(
+          pageBuilder: (_, _, _) => const SizedBox(key: ValueKey('por.cima')),
         ),
-      );
-      await tester.pumpAndSettle();
-      final c = ProviderScope.containerOf(
-        tester.element(find.byType(MainShell, skipOffstage: false)),
-      );
-      await c.read(paperTimerProvider.notifier).discard();
-      await tester.pumpAndSettle();
-      expect(find.byKey(const ValueKey('por.cima')), findsOneWidget);
-      expect(_k('session.sheet'), findsNothing);
-      nav.pop();
-      await tester.pumpAndSettle();
-      expect(find.byKey(const ValueKey('por.cima')), findsNothing);
-      expect(find.byType(MainShell), findsOneWidget);
-    },
-  );
+      ),
+    );
+    await tester.pumpAndSettle();
+    final c = ProviderScope.containerOf(
+      tester.element(find.byType(MainShell, skipOffstage: false)),
+    );
+    await c.read(paperTimerProvider.notifier).discard();
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('por.cima')), findsOneWidget);
+    nav.pop();
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('por.cima')), findsNothing);
+    expect(_k('session.sheet'), findsNothing);
+    expect(find.byType(MainShell), findsOneWidget);
+  });
+
+  testWidgets('o encerramento que termina com outra rota por cima (um link aberto durante a gravação): a folha tira só '
+      'ela, sem fechar a de cima', (tester) async {
+    await abrir(tester);
+    final nav = Navigator.of(
+      tester.element(_k('session.sheet')),
+      rootNavigator: true,
+    );
+    final portao = Completer<void>();
+    writer.portao = portao;
+    await tester.tap(_k('session.sheet.end'));
+    await tester.pump();
+    unawaited(
+      nav.push<void>(
+        PageRouteBuilder<void>(
+          pageBuilder: (_, _, _) => const SizedBox(key: ValueKey('por.cima')),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    portao.complete();
+    await tester.pumpAndSettle();
+    expect(writer.fins, hasLength(1));
+    expect(find.byKey(const ValueKey('por.cima')), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('session.sheet'), skipOffstage: false),
+      findsNothing,
+      reason: 'a folha saiu da pilha por baixo da rota de cima',
+    );
+    nav.pop();
+    await tester.pumpAndSettle();
+    expect(find.byType(MainShell), findsOneWidget);
+    expect(_k('session.sheet'), findsNothing);
+  });
 
   group('D-266 as falhas na folha', () {
     testWidgets(
