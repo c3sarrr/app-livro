@@ -1,5 +1,5 @@
 {
-  "_doc": "T13 — as 41 telas do projeto (docs/design/projeto/telas/*.dc.html) das etapas 7–11 (ROTEIRO §3: T14 a T18). slug = pasta de saída; prefixo = prefixo dos ids semânticos (R4); etapa = a etapa que faz a tela; titulo, canvas = os do CATALOGO.md (conferidos na extração com o sha256 e o $preview). O quadro é o das exportações antigas: a extração mantém os 3 filhos do <helmet>. Extrair: python3 tools/medicao/extrair_dc.py tools/medicao/pranchas_projeto.json tools/medicao/pranchas_projeto reserva (R8) = os ids cujo texto o Chromium desenha com fonte de reserva, com o motivo e se é informativo (texto do sistema, não do app); o build_layout.py falha com qualquer outra.",
+  "_doc": "T13 — as 41 telas do projeto (docs/design/projeto/telas/*.dc.html) das etapas 7–11 (ROTEIRO §3: T14 a T18). slug = pasta de saída; prefixo = prefixo dos ids semânticos (R4); etapa = a etapa que faz a tela; titulo, canvas = os do CATALOGO.md (conferidos na extração com o sha256 e o $preview). O quadro é o das exportações antigas: a extração mantém os 3 filhos do <helmet>. Extrair: python3 tools/medicao/extrair_dc.py tools/medicao/pranchas_projeto.json tools/medicao/pranchas_projeto reserva (R8) = os ids cujo texto o Chromium desenha com fonte de reserva, com o motivo e se é informativo (texto do sistema, não do app); o build_layout.py falha com qualquer outra. convergenciaFaixa/_convergencia (T02, R3) = a faixa y em que o zoom 20 tem defeito de raster conhecido, conferida noutro zoom; zoomBase/zoomConvergencia/_zoom (D-279) = o zoom de onde sai a referência e o da conferência, quando não são 10 e 20.",
   "formato": "dc",
   "projeto": "docs/design/projeto",
   "frame": "#dc-root > .sc-host > [data-dc-tpl=\"4\"]",
@@ -824,7 +824,15 @@
         390,
         844
       ],
-      "previa": ""
+      "previa": "",
+      "convergenciaFaixa": {
+        "y": [
+          290,
+          335
+        ],
+        "zoom": 12
+      },
+      "_convergencia": "T02 (R3), como a 63 da Início: a folha ([role=dialog]) tem border-top de 1,5 px com border-radius só em cima, e nos zooms 14, 15, 16, 20 e 40 o Skia desenha um bloco preto retangular no canto de cima à esquerda (css y ~300–320; no 40, em escada) — nos zooms 10, 11, 12 e 13 o canto sai certo e as quatro reduções batem na faixa (blur 0 %). Prova: com border-top-color transparente o bloco some (zooms 15 e 20). O bloco se repete com os mesmos bytes a cada foto. O gate confere a faixa y 290–335 com o zoom 12 × 10 e o resto com o 20 × 10 (fora da faixa, 0 % em todos os zooms medidos: 11 a 16, 20 e 40); nenhum pixel fica sem conferência. A referência é o zoom 10, sem mudança."
     }
   ]
 }

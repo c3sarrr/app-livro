@@ -48,8 +48,10 @@ Por conjunto também: o módulo dos ids (`idmaps_spec_inicio2.py`), as notas das
 dos SVGs (`svgs_nomes_inicio2.py`: reuso de asset existente por C14N, ids normalizados, altura em %, tamanho do layout),
 o índice das fases (`fases_inicio2.json`) e, no `pranchas_inicio2.json`, a faixa da 63 que o gate de convergência confere
 noutro zoom (`convergenciaFaixa`: y 60–80 com o zoom 15 × 10, porque nos zooms 13, 14 e 16–20 o Skia desenha errado a
-borda de cima da folha; o resto da prancha com o 20 × 10). `comparar_layouts.py` compara dois conjuntos de
-`layout_*.json` campo a campo.
+borda de cima da folha; o resto da prancha com o 20 × 10). No `pranchas_projeto.json`, a 18b tem a mesma faixa pelo
+mesmo motivo (T13.8: a folha com a borda de cima de 1,5 px e os cantos de cima arredondados; y 290–335 com o zoom
+12 × 10, porque nos zooms 14, 15, 16, 20 e 40 sai um bloco preto no canto). `comparar_layouts.py` compara dois
+conjuntos de `layout_*.json` campo a campo.
 
 ## Passo 1 — extrair as pranchas (G01.1)
 

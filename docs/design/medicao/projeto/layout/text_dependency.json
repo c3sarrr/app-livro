@@ -19720,5 +19720,819 @@
    "w": false,
    "h": false
   }
+ },
+ "018_cronometro": {
+  "cr18.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.book.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.book.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.book.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.book.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.chips": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.chips.goal": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.chips.goal.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.chips.streak": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.chips.streak.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.end": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.end.button": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.end.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.end.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.controls.pause": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.pause.button": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.pause.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.pause.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.controls.photo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.photo.button": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.photo.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.controls.photo.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.lockHint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.lockHint.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.note.button": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.note.button.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.timer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.timer.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.timer.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.timer.status": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.timer.status.dot": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.timer.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.timer.today": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.timer.today.minutes": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.top.minimize": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.top.minimize.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18.top.session": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.top.sound": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18.top.sound.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
+ },
+ "018b_fim_da_sessao": {
+  "cr18b.book": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.book.author": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.book.cover": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.book.cover.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.book.textBlock": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.book.title": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.chips": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.chips.goal": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.chips.goal.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.chips.streak": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.chips.streak.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.confetti.dashLavender": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.confetti.dotCoral": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.confetti.sparkle1": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.confetti.sparkle2": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.confetti.sparkle3": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.end": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.end.button": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.end.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.end.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.controls.pause": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.pause.button": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.pause.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.pause.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.controls.photo": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.photo.button": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.photo.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.controls.photo.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.frame": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.lockHint": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.lockHint.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.main": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.note": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.note.button": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.note.button.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.scrim": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.handle": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page.field": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page.field.input": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page.field.prefix": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.sheet.page.field.value": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.sheet.page.next": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page.next.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page.prev": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.page.prev.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.pageHeader": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.pageHeader.label": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.sheet.pageHeader.optional": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.sheet.progress": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.progress.added": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.sheet.save": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.save.label": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.sheet.skip": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stamp": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.session": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.session.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.session.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.session.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.session.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.streak": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.streak.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.streak.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.streak.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.streak.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.today": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.today.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.today.icon.art": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.today.label": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.stats.today.value": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.title": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.sheet.title.serif": {
+   "x": false,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.timer": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.timer.center": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.timer.ring": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.timer.status": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.timer.status.dot": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.timer.time": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.timer.today": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.timer.today.minutes": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.top": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.top.minimize": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.top.minimize.icon": {
+   "x": false,
+   "y": false,
+   "w": false,
+   "h": false
+  },
+  "cr18b.top.session": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.top.sound": {
+   "x": true,
+   "y": false,
+   "w": true,
+   "h": false
+  },
+  "cr18b.top.sound.icon": {
+   "x": true,
+   "y": false,
+   "w": false,
+   "h": false
+  }
  }
 }

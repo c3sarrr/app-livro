@@ -625,5 +625,7 @@
  },
  "030_notificacoes": {},
  "030b_notificacoes_ajustes": {},
- "030c_notificacoes_vazia": {}
+ "030c_notificacoes_vazia": {},
+ "018_cronometro": {},
+ "018b_fim_da_sessao": {}
 }

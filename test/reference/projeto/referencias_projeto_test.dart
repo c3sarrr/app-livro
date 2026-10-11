@@ -53,6 +53,7 @@ const _porEtapa = <String, List<String>>{
     '36a',
   ],
   'T17': ['05', '64', '65', '06', '58', '59', '56', '30', '30b', '30c'],
+  'T18': ['18', '18b'],
 };
 
 /// Os elementos de uma tela sem o prefixo ('sc03.sheet' → 'sheet').
@@ -436,6 +437,14 @@ void main() {
       },
       '30c': {
         'empty': ['empty.title', 'empty.body', 'empty.cta'],
+      },
+      // T18: os confetes da 18b, soltos no quadro (como os da 16)
+      '18b': {
+        'confetti': [
+          for (var i = 1; i <= 3; i++) 'confetti.sparkle$i',
+          'confetti.dashLavender',
+          'confetti.dotCoral',
+        ],
       },
     };
     for (final tela in telas) {
@@ -1331,5 +1340,258 @@ void main() {
       m['year.shelf.plank']!.rect.top,
       closeTo(fileira.bottom - 1.2, 1e-6),
     );
+  });
+
+  // 18: o cronômetro é uma coluna centrada em x = 195 — o relógio de 300 com o anel e o miolo do mesmo tamanho, o
+  // estado, o tempo, o "Hoje", as etiquetas, o anotar e o aviso; o "SESSÃO 7" fica no meio do vão entre os dois
+  // botões do topo. De cima para baixo, 18 entre o topo, o livro, o relógio e as etiquetas; os controles descem para
+  // perto do fundo, com 14 até o anotar e até o aviso, que termina 34 acima do fundo. Os três controles se alinham
+  // pelo topo, com 40 entre eles: o grupo tem 86 de largura, o botão é de 58 (o do meio, de 86), o ícone fica no centro
+  // do botão e o rótulo 8 abaixo.
+  test('18: o relógio, as etiquetas e os três controles', () {
+    final m = _de('18');
+    expect(m['timer']!.rect, const Rect.fromLTWH(45, 211, 300, 300));
+    expect(m['timer.ring']!.rect, m['timer']!.rect);
+    expect(m['timer.center']!.rect, m['timer']!.rect);
+    for (final k in [
+      'timer.status',
+      'timer.time',
+      'timer.today',
+      'chips',
+      'note',
+      'lockHint',
+    ]) {
+      expect(m[k]!.rect.center.dx, closeTo(195, 0.01), reason: k);
+    }
+    expect(
+      m['top.session']!.rect.center.dx,
+      closeTo(
+        (m['top.minimize']!.rect.right + m['top.sound']!.rect.left) / 2,
+        0.01,
+      ),
+    );
+    final ordem = ['top', 'book', 'timer', 'chips'];
+    for (var i = 1; i < ordem.length; i++) {
+      expect(
+        m[ordem[i]]!.rect.top - m[ordem[i - 1]]!.rect.bottom,
+        closeTo(18, 1e-6),
+        reason: ordem[i],
+      );
+    }
+    final fundo = ['controls', 'note', 'lockHint'];
+    for (var i = 1; i < fundo.length; i++) {
+      expect(
+        m[fundo[i]]!.rect.top - m[fundo[i - 1]]!.rect.bottom,
+        closeTo(14, 0.011),
+        reason: fundo[i],
+      );
+    }
+    expect(m['lockHint']!.rect.bottom, closeTo(844 - 34, 1e-6));
+
+    const botoes = {'photo': 58.0, 'pause': 86.0, 'end': 58.0};
+    final nomes = botoes.keys.toList();
+    final linha = m['controls']!.rect;
+    for (var i = 0; i < nomes.length; i++) {
+      final n = nomes[i];
+      final g = m['controls.$n']!.rect, b = m['controls.$n.button']!.rect;
+      final ic = m['controls.$n.icon']!.rect, l = m['controls.$n.label']!.rect;
+      expect(g.width, 86, reason: n);
+      expect(g.top, linha.top, reason: n);
+      if (i > 0) {
+        expect(
+          g.left - m['controls.${nomes[i - 1]}']!.rect.right,
+          closeTo(40, 1e-9),
+          reason: n,
+        );
+      }
+      expect(b.size, Size(botoes[n]!, botoes[n]!), reason: n);
+      expect(b.top, g.top, reason: n);
+      expect(b.center.dx, closeTo(g.center.dx, 1e-9), reason: n);
+      expect(ic.center.dx, closeTo(b.center.dx, 1e-9), reason: n);
+      expect(ic.center.dy, closeTo(b.center.dy, 1e-6), reason: n);
+      expect(l.top, closeTo(b.bottom + 8, 1e-6), reason: n);
+      expect(l.center.dx, closeTo(g.center.dx, 0.01), reason: n);
+      expect(g.bottom, closeTo(l.bottom, 1e-6), reason: n);
+    }
+    // o do meio no centro da tela e o conjunto centrado nos 350: 6 de cada lado
+    expect(m['controls.pause']!.rect.center.dx, 195);
+    expect(m['controls.photo']!.rect.left - linha.left, closeTo(6, 1e-9));
+    expect(linha.right - m['controls.end']!.rect.right, closeTo(6, 1e-9));
+  });
+
+  // 18b × 18: o fim da sessão abre por cima do cronômetro, que fica igual por baixo do escurecido — os mesmos 43 ids,
+  // caixas e textos; só mudam o tempo (08:42 → 12:31) e os minutos de hoje (26 → 30: o "30" é 0,54 mais largo e a
+  // linha "Hoje: 30 de 30 min" cresce o mesmo, continuando centrada). Nada muda de altura com o texto e não há fio de
+  // navalha nas duas.
+  test('18b × 18: o cronômetro igual por baixo da folha', () {
+    final a = _de('18'), b = _de('18b');
+    const secoes = [
+      'top',
+      'book',
+      'timer',
+      'chips',
+      'controls',
+      'note',
+      'lockHint',
+    ];
+    final ks = a.keys.toList();
+    expect(ks.length, 43);
+    expect(b.keys.where((k) => _em(k, secoes)).toList(), ks);
+    final ra = kRefProjeto['18']!, rb = kRefProjeto['18b']!;
+    expect(
+      [for (final s in secoes) rb.sections['${rb.prefix}.$s']],
+      [for (final s in secoes) ra.sections['${ra.prefix}.$s']],
+    );
+    const mudam = {'timer.today', 'timer.today.minutes'};
+    for (final k in ks) {
+      if (!mudam.contains(k)) expect(b[k]!.rect, a[k]!.rect, reason: k);
+      expect(b[k]!.visual, a[k]!.visual, reason: k);
+      if (k != 'timer.time' && k != 'timer.today.minutes') {
+        expect(_texts(b[k]!.lines), _texts(a[k]!.lines), reason: k);
+      }
+    }
+    expect(_texts(a['timer.time']!.lines), ['08:42']);
+    expect(_texts(b['timer.time']!.lines), ['12:31']);
+    expect(_texts(a['timer.today.minutes']!.lines), ['26']);
+    expect(_texts(b['timer.today.minutes']!.lines), ['30']);
+    for (final m in [a, b]) {
+      expect(m['timer.today']!.rect.top, 403.5);
+      expect(m['timer.today']!.rect.center.dx, closeTo(195, 0.01));
+    }
+    final cresce =
+        b['timer.today.minutes']!.rect.width -
+        a['timer.today.minutes']!.rect.width;
+    expect(cresce, closeTo(0.54, 1e-6));
+    expect(
+      b['timer.today']!.rect.width - a['timer.today']!.rect.width,
+      closeTo(cresce, 0.011),
+    );
+    for (final r in [ra, rb]) {
+      expect(r.textDependentY, isEmpty, reason: r.slug);
+      expect(r.knifeEdges, isEmpty, reason: r.slug);
+    }
+    // na 18b dependem do texto os mesmos 24 da 18 e mais 7 da folha
+    Set<String> dep(LeitorRefPrancha r, List<String> onde) => {
+      for (final id in r.textDependentX)
+        if (_em(_sem(r.prefix, id), onde)) _sem(r.prefix, id),
+    };
+    expect(dep(ra, secoes).length, 24);
+    expect(dep(rb, secoes), dep(ra, secoes));
+    expect(dep(rb, ['sheet']), {
+      'sheet.title.serif',
+      'sheet.pageHeader.label',
+      'sheet.pageHeader.optional',
+      'sheet.page.field.prefix',
+      'sheet.page.field.value',
+      'sheet.progress.added',
+      'sheet.save.label',
+    });
+  });
+
+  // 18b: o escurecido cobre o quadro; a folha vai de ponta a ponta até o fundo, com a alça de 44 × 5 centrada 13,5
+  // abaixo da borda e o conteúdo com 20 de margem. O selo da meta (104 × 104, girado em volta do centro) passa da
+  // borda da folha para cima. Os três números têm a mesma largura, com 8 entre eles: o ícone redondo de 30 a 11,5 e
+  // 13,5 da borda (o desenho de 16 no centro), o valor 6 abaixo e o rótulo 6 abaixo do valor. A página fica entre os
+  // dois botões de 52, com 10 de cada lado e os três centrados na altura do campo (64); "pág." e o número centrados
+  // juntos no campo, 8 entre eles. O input escondido é de 1 px, mas o navegador dá a ele a borda e o recuo padrão
+  // (9 × 7) e, absoluto num flex sem posição, o põe no centro do campo — não segue o número. O salvar (54) e o pular
+  // (44) embaixo, 6 entre eles, e o pular termina 34 acima do fundo.
+  test('18b: o escurecido, a folha e os três números', () {
+    final m = _de('18b');
+    expect(m['scrim']!.rect, const Rect.fromLTWH(0, 0, 390, 844));
+    final folha = m['sheet']!.rect;
+    expect(folha.left, 0);
+    expect(folha.right, 390);
+    expect(folha.bottom, closeTo(844, 1e-9));
+    final alca = m['sheet.handle']!.rect;
+    expect(alca.size, const Size(44, 5));
+    expect(alca.center.dx, 195);
+    expect(alca.top - folha.top, closeTo(13.5, 1e-6));
+    final selo = m['sheet.stamp']!;
+    expect(selo.rect.size, const Size(104, 104));
+    expect(selo.rect.top, lessThan(folha.top));
+    expect(selo.visual!.width, greaterThan(104));
+    expect(selo.visual!.center.dx, closeTo(selo.rect.center.dx, 0.011));
+    expect(selo.visual!.center.dy, closeTo(selo.rect.center.dy, 0.011));
+    for (final k in [
+      'sheet.label',
+      'sheet.title',
+      'sheet.stats',
+      'sheet.pageHeader',
+      'sheet.page',
+      'sheet.progress',
+      'sheet.save',
+      'sheet.skip',
+    ]) {
+      expect(m[k]!.rect.left, 20, reason: k);
+      expect(m[k]!.rect.right, 370, reason: k);
+    }
+
+    final stats = m['sheet.stats']!.rect;
+    const largura = (350 - 2 * 8) / 3;
+    const numeros = ['session', 'today', 'streak'];
+    for (var i = 0; i < numeros.length; i++) {
+      final p = 'sheet.stats.${numeros[i]}';
+      final c = m[p]!.rect, ic = m['$p.icon']!.rect;
+      final art = m['$p.icon.art']!.rect;
+      final v = m['$p.value']!.rect, l = m['$p.label']!.rect;
+      expect(c.width, closeTo(largura, 0.0051), reason: p);
+      expect(c.left, closeTo(20 + i * (largura + 8), 0.0051), reason: p);
+      expect(c.top, stats.top, reason: p);
+      expect(c.height, stats.height, reason: p);
+      expect(ic.size, const Size(30, 30), reason: p);
+      expect(ic.left - c.left, closeTo(11.5, 1e-6), reason: p);
+      expect(ic.top - c.top, closeTo(13.5, 1e-6), reason: p);
+      expect(art.size, const Size(16, 16), reason: p);
+      expect(art.center.dx, closeTo(ic.center.dx, 1e-6), reason: p);
+      expect(art.center.dy, closeTo(ic.center.dy, 1e-6), reason: p);
+      for (final t in [v, l]) {
+        expect(t.left, ic.left, reason: p);
+        expect(t.width, closeTo(c.width - 23, 0.0051), reason: p);
+      }
+      expect(v.top, closeTo(ic.bottom + 6, 1e-6), reason: p);
+      expect(l.top, closeTo(v.bottom + 6, 1e-6), reason: p);
+    }
+    expect(
+      [for (final n in numeros) _texts(m['sheet.stats.$n.value']!.lines)],
+      [
+        ['12:31'],
+        ['30/30'],
+        ['12 dias'],
+      ],
+    );
+
+    final ant = m['sheet.page.prev']!.rect, prox = m['sheet.page.next']!.rect;
+    final campo = m['sheet.page.field']!.rect;
+    expect(ant.size, const Size(52, 52));
+    expect(prox.size, const Size(52, 52));
+    expect(campo.height, 64);
+    expect(campo.left - ant.right, closeTo(10, 1e-9));
+    expect(prox.left - campo.right, closeTo(10, 1e-9));
+    for (final r in [ant, prox]) {
+      expect(r.center.dy, closeTo(campo.center.dy, 1e-6));
+    }
+    for (final k in ['prev', 'next']) {
+      final ic = m['sheet.page.$k.icon']!.rect, b = m['sheet.page.$k']!.rect;
+      expect(ic.size, const Size(18, 18), reason: k);
+      expect(ic.center.dx, closeTo(b.center.dx, 1e-6), reason: k);
+      expect(ic.center.dy, closeTo(b.center.dy, 1e-6), reason: k);
+    }
+    final pre = m['sheet.page.field.prefix']!.rect;
+    final numero = m['sheet.page.field.value']!.rect;
+    expect((pre.left + numero.right) / 2, closeTo(campo.center.dx, 0.011));
+    expect(numero.left - pre.right, closeTo(8, 0.011));
+    final input = m['sheet.page.field.input']!.rect;
+    expect(input.size, const Size(9, 7));
+    expect(input.center.dx, closeTo(campo.center.dx, 1e-6));
+    expect(input.center.dy, closeTo(campo.center.dy, 1e-6));
+
+    final salvar = m['sheet.save']!.rect, pular = m['sheet.skip']!.rect;
+    expect(salvar.height, 54);
+    expect(pular.height, 44);
+    expect(pular.top - salvar.bottom, closeTo(6, 1e-9));
+    expect(pular.bottom, closeTo(844 - 34, 1e-9));
+    expect(m['sheet.save.label']!.rect.center.dx, closeTo(195, 0.011));
+    expect(_texts(m['sheet.skip']!.lines), ['Pular a página']);
   });
 }

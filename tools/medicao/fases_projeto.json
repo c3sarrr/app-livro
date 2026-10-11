@@ -887,6 +887,49 @@
      "headline"
     ]
    }
+  },
+  {
+   "fase": "L18_1_topo_e_tempo",
+   "prancha": "018_cronometro",
+   "secoes": [
+    "top",
+    "book",
+    "timer"
+   ],
+   "titulo": "Cronômetro — a barra de cima (minimizar, a sessão e o som ambiente), o livro e o relógio (o anel, o estado, o tempo e o de hoje)"
+  },
+  {
+   "fase": "L18_2_controles",
+   "prancha": "018_cronometro",
+   "secoes": [
+    "chips",
+    "controls",
+    "note",
+    "lockHint"
+   ],
+   "titulo": "Cronômetro — as etiquetas da meta e da sequência, Trecho/Pausar/Encerrar, anotar um pensamento e o aviso de bloquear a tela"
+  },
+  {
+   "fase": "L18b_fim_da_sessao",
+   "prancha": "018b_fim_da_sessao",
+   "secoes": [
+    "scrim",
+    "confetti",
+    "sheet"
+   ],
+   "titulo": "Fim da sessão — o escurecido, os confetes e a folha (o selo, o título, os três números, a página onde parou, salvar e pular)",
+   "reusa": {
+    "base": "018_cronometro",
+    "secoes": [
+     "top",
+     "book",
+     "timer",
+     "chips",
+     "controls",
+     "note",
+     "lockHint"
+    ]
+   }
   }
  ]
 }
