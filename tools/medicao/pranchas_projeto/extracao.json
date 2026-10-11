@@ -1,0 +1,1010 @@
+{
+ "projeto": "docs/design/projeto",
+ "runtime_sha256": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+ "tabela_fontes_sha256": "b2aadf9a62f0a9a30942bc13117b766c74bd3495a3e2616fa98d85fcac32c13d",
+ "pranchas": {
+  "002_biblioteca": {
+   "arquivo": "telas/Biblioteca.dc.html",
+   "sha256": "e970b23ed8469826f809fd5ea15018c78b850c92f1f56f7c0364410e735f85b2",
+   "titulo": "02 · Biblioteca",
+   "canvas": [
+    390,
+    1640
+   ],
+   "props": [
+    "brand",
+    "shelf"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "a0cd94166e7aba0bde507bafb3d662c2ab67e9c39ce6b0cdeb04020f41ce8b97",
+    "props.json": "58a0ada95f90b26e19cc5b6b97f923c2bb535326ca45b520bf8e2da24c824c60",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "730c0497e1a8f884e50498bdb3a8151daa189cf0710e3952a2ac738cf771d2f1"
+   }
+  },
+  "036_biblioteca_vazia": {
+   "arquivo": "telas/EstanteVazia.dc.html",
+   "sha256": "9e54e5059998e473f8b6826796528375d3124026853250c7fdbe850cd4d1abaf",
+   "titulo": "36 · Biblioteca vazia (primeiro livro)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "0e67c79b905b28f15ba347bb946ec7aea473be6195600350e2b6b3bee26fdd48",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "1ba264f5427a63d6fb8433a7663be48f1a16bf0b363ddd4f3a87dd9b067d7426"
+   }
+  },
+  "017_detalhes_fisico": {
+   "arquivo": "telas/DetalhesFisico.dc.html",
+   "sha256": "ce55101ddd25a96d7ef9d80e129e087bc441b10aec529b82d14484b619a028bc",
+   "titulo": "17 · Detalhes do livro — físico (Brás Cubas)",
+   "canvas": [
+    390,
+    1940
+   ],
+   "props": [
+    "brand",
+    "halo",
+    "shelf"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:opsz,wght@7..72,400;7..72,500&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "8510d7582cc723ac628abe61fd09f56354eb2307d4ba7fb310031a3f785db2c9",
+    "props.json": "2870fc621f387e98a4190f89696bf9dc5a4330b6aa0a155f8ebef10c69140396",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "b846906665e1411cf34efceb29bfd4436f146ec08d9da2ad93b148e87703b6d8"
+   }
+  },
+  "017b_detalhes_ebook": {
+   "arquivo": "telas/DetalhesDigital.dc.html",
+   "sha256": "f6ab9815c8bc0781e46e62e4541e4f335ea92118c16e4d6a8d56923ea291ad79",
+   "titulo": "17b · Detalhes do livro — e-book (Dom Casmurro)",
+   "canvas": [
+    390,
+    1790
+   ],
+   "props": [
+    "brand",
+    "halo",
+    "shelf"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:opsz,wght@7..72,400;7..72,500&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "ac42e0f36a5eebf5497ea3e026cf9958947ec8ea43cd127833b507f9f2d780b9",
+    "props.json": "dd2e3a61bfc9f75d9f18ba29df0650f377c13e4932515d8736baadc85cfd3c0d",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "7cceb5535e43efcbcdee57eec2442ab02d459e69733d09873f1e5e7a5be6c8e4"
+   }
+  },
+  "003_scanner_encontrado": {
+   "arquivo": "telas/Scanner.dc.html",
+   "sha256": "3c9f8d645375a077c2d1425970689d3e11cc7b6ca81d2ef435e8d505b13f221a",
+   "titulo": "03 · Scanner — livro encontrado",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "0cb2e7533f3e7a250a476ab4211ccc4cf0ca2b8a7ca729ec7bc84213601de061",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "f88876feee7570aa810684ee115e617b8c1b024483e5c9df56156e88d86b1fdd"
+   }
+  },
+  "039_scanner_mirando": {
+   "arquivo": "telas/ScannerMirando.dc.html",
+   "sha256": "1ae3fdf60918a07f871f3638a16c340f079f99d234774374dbff889f8ed88f85",
+   "titulo": "39 · Scanner — mirando",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "10be81a17f3dd46c702a8924b58bde37045266a441d173bc410c1a682b93f59d",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "4a1fdce75b35f5f580cfe8f105c137a128cc6bae78fc9fa9126145eb38522ac8"
+   }
+  },
+  "040_scanner_nao_encontrado": {
+   "arquivo": "telas/ScannerNaoEncontrado.dc.html",
+   "sha256": "4946268114881a7d961ac8e353f81242584ac8ecc4a313a58de757b164746a48",
+   "titulo": "40 · Scanner — livro não encontrado",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "db3b90b8c431b9bf6315e5c4e0841a2baa73d46e0220eb9a6e77126739420746",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "6f9cf3c6d5e2ddabb92df90d495749a3d4778e875566d83c5e7c98376a6163a3"
+   }
+  },
+  "041_scanner_sem_permissao": {
+   "arquivo": "telas/ScannerSemPermissao.dc.html",
+   "sha256": "b158e1ae8bc20b701132218e1909e5a5f982bca851df0f9d537dc3c0cb19942a",
+   "titulo": "41 · Scanner — sem permissão de câmera",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "41eee1ac05177516cb8f95a2682a95c44ed5ff67b56577e1eef338a4db8bd197",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "a0140906ba9824cbc6a7ffc19d0425fc59f856107db52c3d61641d89eb3bc8a1"
+   }
+  },
+  "042_scanner_na_estante": {
+   "arquivo": "telas/ScannerNaEstante.dc.html",
+   "sha256": "e0c9df489c12f04e8f706fab81a1c9d4767522f7afb8c05f02314f62fea29eae",
+   "titulo": "42 · Scanner — já está na estante",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "6aa2c77e8f95724bca730a75912a24e9c46c6e1e2bb0e9cf31091ad180434e4c",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "cc8d38e6b85d6c3f0b4786186377bf3996a7213a01823a7697ec6c104cebd945"
+   }
+  },
+  "069_scanner_digitar_isbn": {
+   "arquivo": "telas/ScannerDigitar.dc.html",
+   "sha256": "210e363b5ac3e8f75ed79ebe599ca01cd52039d173597e17c5f7061bb8a0a33a",
+   "titulo": "69 · Scanner — digitar o ISBN",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "5df5cb9eb9a0336e47e9b7f597e505ee8b964906bf77b8a3a394d2591c32e18b",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "459aa0872f71c572b012aec79b95f856849ba0a49cdcb5be713046938f9f6076"
+   }
+  },
+  "069b_scanner_isbn_nao_confere": {
+   "arquivo": "telas/ScannerDigitarErro.dc.html",
+   "sha256": "8d5590005fdd84454fdcf2e774ecabea736f9badae291bb645fbfc80bc1df755",
+   "titulo": "69b · Scanner — ISBN não confere",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "reticle"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "603b16333ac9c59dd7fdfad1872c66d0342b7e99a0d7b6cc43f229bc00a9abdc",
+    "props.json": "fa2cbf3b7992678aaaa44a5a0994163d808bfd42d0bcd622978cfd71b2c4810b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "5aaf373851e836eeb55aaea268b035ad277fab3e8e8d25701b30ab07fbecb710"
+   }
+  },
+  "028_busca_explorar": {
+   "arquivo": "telas/BuscaExplorar.dc.html",
+   "sha256": "89089d121bbd399427e1f92f61c1074e36f8ac8d61a973037738086fded36983",
+   "titulo": "28 · Busca — Explorar (antes de digitar)",
+   "canvas": [
+    390,
+    1520
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "af31282d2134f70240e613e9d4abb180f1b5650827604c4a68221fbeeb36f977",
+    "props.json": "85ed6c3ea903b2181e4f4a9049a7da8777100df624e594062271cfd16d6a60e5",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "037ad206ae38b7ef4bbe89d373ce151322be41adc0a08d606f59350e304dc9b0"
+   }
+  },
+  "028b_busca_resultados": {
+   "arquivo": "telas/BuscaResultados.dc.html",
+   "sha256": "784e2c1e24ec2459a0c0b902610801bc53dc2eab617e07f94a431e3e6b6af1f8",
+   "titulo": "28b · Busca — resultados (“capitu”)",
+   "canvas": [
+    390,
+    1040
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "e1f52eec398836c8425957466bd58abae1e219f7dfed0a789910fc03ffd4e131",
+    "props.json": "ae0e27e86e451ea010fa944730acfe494d9f590419521d1d1ca409003bce5969",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "c87571bdc63b9e95ad7e6c036bb3c82ffadbb900ab64980912177d2463c10cba"
+   }
+  },
+  "028c_busca_nada_encontrado": {
+   "arquivo": "telas/BuscaVazia.dc.html",
+   "sha256": "9dc12604f543ad2efcdc9f91c1ddfa2fcb64408a0d65897dcb41200e45e41e14",
+   "titulo": "28c · Busca — nada encontrado",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "0695c6a435c500551b642fb0c4f7d5bdc347c30713cd6bb1e901e6d040274f48",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "035f38088d8363d56e5af6698dd7069b693dd04991ee2e32ff839b95ab3a5c5f"
+   }
+  },
+  "028d_adicionar_a_mao": {
+   "arquivo": "telas/AdicionarMao.dc.html",
+   "sha256": "a3eee7c69d05d271614eb7661e551aed5e83b83148609e25449b4620448db9fd",
+   "titulo": "28d · Adicionar livro à mão",
+   "canvas": [
+    390,
+    1150
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "7dbfec483184011b3d0087026c11f02312bb43b0f921aae2e86ff7a74a6f36f2",
+    "props.json": "c9106c2acfd7c8b5b874173b64a93778a792033ff9547920c8a27bd061163bd8",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "77730aff2d728d344d435d4d0f435c79f78396600f2f86bbd29358d500e67648"
+   }
+  },
+  "035_abertura": {
+   "arquivo": "telas/Splash.dc.html",
+   "sha256": "d1bbf960118b32029b42df230a02589bf91f14499f810c545a170444c4bd6b3b",
+   "titulo": "35 · Abertura (splash)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "a2fa7be2763acc0133c9299a7f99003d345c019377fca78bd88d2349b0e5a250",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "c4770c5be24bed97c0eb1744009259789b93e2419b862c6189ca929c5623b4d5"
+   }
+  },
+  "007_login": {
+   "arquivo": "telas/Login.dc.html",
+   "sha256": "29f0476bdf060a123f1cd67b8b616e5d47a4ef5ad1e2c6745a10e187fb740f9a",
+   "titulo": "07 · Login",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Roboto:wght@500&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Roboto-normal-500-latin.woff2": "5bcc3aa180e7f26f643cd5b2621cd7c2de193d0661d913a94afd3d4881a7a34b",
+    "original.html": "db9fff7b0c209ac4b97df683c955dc9c0acf9521aa2f79361c0a37ceedbe7a0c",
+    "props.json": "c2311d981fbdf88012f6a2b22c336aeed8801f96eec13d5e48ccbfca096ff62a",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "c9f59757fd673957fb914ca6a46b342150feabddc1542ddb13eee65eab503d08"
+   }
+  },
+  "008_cadastro": {
+   "arquivo": "telas/Cadastro.dc.html",
+   "sha256": "410673ae905c7cb0103760d940b07cae573565672294b7f371a6be414d638851",
+   "titulo": "08 · Cadastro por e-mail",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "card"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "a2f07d9f2769a339fe9fe6303cf27f954c4caf805400504afa654a5e8c65d436",
+    "props.json": "44016b7b5a3651ab8330eab0912f8bd5b69d640845af1ea4b251705da0f2ddd2",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "28846f71e5b10693c00d5ebde046765a722dd4ef7d931586d79dca3a88f38257"
+   }
+  },
+  "009_entrar": {
+   "arquivo": "telas/Entrar.dc.html",
+   "sha256": "033ea0528db6d65009c48e673afb2556d5074b6acdd487a4dcb49bad8305419e",
+   "titulo": "09 · Entrar com e-mail",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "badge",
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "abe350cae7466941e59f01c8207a4e237e8ba3801da74f08bb9e9db22ca4749a",
+    "props.json": "14e7aeaf1f1e4832e78ed1a4b9f043cfe7416c3ec40b7774d87e50ac896f19e4",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "7e9968b228a1820b2ed1fd875f3782e330657e2a1a1f2f9df27adf9266f8f08c"
+   }
+  },
+  "009b_entrar_senha_incorreta": {
+   "arquivo": "telas/EntrarErro.dc.html",
+   "sha256": "f37542fd98ebf42e14249a79773d7937c4c587adda0d196ac140a24706be56e1",
+   "titulo": "09b · Entrar — senha incorreta",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "badge",
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "33fe8561c4c5700a66fcaf5eeeb9b173c22caa1f6eb2a13df98e49ae80ee21d7",
+    "props.json": "14e7aeaf1f1e4832e78ed1a4b9f043cfe7416c3ec40b7774d87e50ac896f19e4",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "d0fd8c912b3fddb6df68ac07a75f7f7208048f70d7fb9322be14fccc0d28e850"
+   }
+  },
+  "010_codigo": {
+   "arquivo": "telas/Codigo.dc.html",
+   "sha256": "48f3efbe2a295668378b9f37d2fa614f56be9161888603a1588f8a54994b729c",
+   "titulo": "10 · Código de 6 dígitos",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "env"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "66eedcc4feeb1fe558062b28f87a00788fbfb014be33f957dda76e24dacce924",
+    "props.json": "b0772b0b12ab8f28bb37e0eccac62350706445f1233af9bc399caa2ee3a91007",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "4885e57c76db892d195dc3a14591576bc14af18acfffcccffb1eea449d7b383e"
+   }
+  },
+  "011_nova_senha": {
+   "arquivo": "telas/NovaSenha.dc.html",
+   "sha256": "8dcba8e4bd9db882e1b14cdf3fd48c88a3f1ba51df3dc5ff1f07f8ffa2c01b24",
+   "titulo": "11 · Nova senha",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "lock"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "108b12105bd069e7f6f660eb4196e9e773de4400aad7c80c9ddbcc8878e30781",
+    "props.json": "05f3635cc5ae86856d68f98447c33ea6e24c0b13200a9ec3e1534502bc7d9625",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "fa54338a24a92b120a624a5d769e75f29c7e07480ac6b263a8f8ea0f898f3c53"
+   }
+  },
+  "012_onboarding_meta": {
+   "arquivo": "telas/Onboarding1.dc.html",
+   "sha256": "b5debdf9e82999a508bd0caba15b8b8eb2fa8a7f4a4d0489d95d6709f30b98da",
+   "titulo": "12 · Onboarding 1/4 — Meta de leitura",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "progress"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "159901c38848617dba1de6169096ce5316d3d263d207f2820b3602f8aba41799",
+    "props.json": "8e8b9fabe1c09f28a65c643fe06ec26061fb7fcb009cb608a11c7d5055281e10",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "50bc5abd8b4e31673818ab85022e93653c1df85ff15786c29eacce9b75acb8e5"
+   }
+  },
+  "013_onboarding_generos": {
+   "arquivo": "telas/Onboarding2.dc.html",
+   "sha256": "82b83734923a3dedad63f2b970b1baa1e30ad3e4e4cb76aebe59f3bf2377c4e7",
+   "titulo": "13 · Onboarding 2/4 — Gêneros",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "progress"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "8392a5522926996070a6036dd87bc6522f76e1b270d3f6fd457e675c4dda6b9e",
+    "props.json": "8e8b9fabe1c09f28a65c643fe06ec26061fb7fcb009cb608a11c7d5055281e10",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "d34cba7f4387bffe3191eb50258755010ac891fafabf4d274c0b2382f0508ad5"
+   }
+  },
+  "013b_onboarding_dica_scanner": {
+   "arquivo": "telas/OnboardingDica.dc.html",
+   "sha256": "601b27274589ddcb4344d7c90e4dc38d5548a8186f7bfdc6c251fb3ec09dd2d5",
+   "titulo": "13b · Onboarding — dica do scanner",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "progress"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "1ae9c3e733a5ab7f62269d21e12757735e20b28ad634328e9968f7edbab8f9ec",
+    "props.json": "8e8b9fabe1c09f28a65c643fe06ec26061fb7fcb009cb608a11c7d5055281e10",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "3c720022720aa42d446dd0d2775bd6edda570910da1526478eb83fc8eca8f439"
+   }
+  },
+  "014_onboarding_primeiros_livros": {
+   "arquivo": "telas/Onboarding3.dc.html",
+   "sha256": "682b02b511f0fabd2ffdad1a5a53b9d9d9ff86fd9314bd03c448b1c263bf1eef",
+   "titulo": "14 · Onboarding 3/4 — Primeiros livros",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "progress"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "6d44dddb568b431c64141c8e86c8f158019ab7cbe0012417b70e16df5fc42ee2",
+    "props.json": "8e8b9fabe1c09f28a65c643fe06ec26061fb7fcb009cb608a11c7d5055281e10",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "e08e10dfd574003f77df0cb084b0c0f72b84b0eca98e9481a767fe97201280e5"
+   }
+  },
+  "015_onboarding_foto": {
+   "arquivo": "telas/Onboarding4.dc.html",
+   "sha256": "2499a47137e1f0795ae57d71582dc789acc88067586f5203fb1610ad26bed490",
+   "titulo": "15 · Onboarding 4/4 — Foto e @",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "avatar",
+    "brand",
+    "progress"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "bf23d9e1239a8c00b8e5c98a2f7d1c7836fe4fc8f42b92f8146e2a4aeec4de6f",
+    "props.json": "ae859c127370b9af30f83515141e22592dc83a917df49971b094eab81af2e8d4",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "f936ca56aec41a97208f668ef6b15f4a1d9d65da189661079c240f64333843a7"
+   }
+  },
+  "016_onboarding_carteirinha": {
+   "arquivo": "telas/OnboardingFinal.dc.html",
+   "sha256": "9373e590af06528c515e004020eb622fd05448c2a361164d56a63efac2bd62c4",
+   "titulo": "16 · Onboarding — Carteirinha pronta",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "avatar",
+    "card"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "f980e16393a203ebb9cb1f326a2525529ed06f3714c4663344e6ffb4b40e4d39",
+    "props.json": "f2d2a6f0048031151b3a5ec08b050fe66c3a76961dcc55cadb247879789b06c0",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "7f4713290ca5e279282210857841f541b86a5a1d65acb6ebc845c7f054e940c6"
+   }
+  },
+  "036a_inicio_primeiro_acesso": {
+   "arquivo": "telas/InicioVazia.dc.html",
+   "sha256": "c1bacbf699c5f94908ae0fa13540603187e2d23bbd1e1c95f98d93980f5a301e",
+   "titulo": "36a · Início — primeiro acesso (estante vazia)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "f949de96543a4cccda079d6300a15f07557d5e1e488c31ecbc4dae75c00be550",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "62621c8179823353a519f08af1bb6db110d55ebecd7e177bf9d5c871a96be5b0"
+   }
+  },
+  "005_perfil": {
+   "arquivo": "telas/Perfil.dc.html",
+   "sha256": "7c04dbe8194effce2020d8302ddcac089b1f79d217d183290e2c027aa02f774a",
+   "titulo": "05 · Perfil",
+   "canvas": [
+    390,
+    2510
+   ],
+   "props": [
+    "brand",
+    "card",
+    "cover",
+    "shelf"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "fdaf4a0cd25918d9b5fe31edac7b47322e460c5278a78da673f86359a05873bd",
+    "props.json": "aecf874203fdbff1fbe51d0c37b29fe6615d13d9053292b73997e9304d3e20f3",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "f40642fa1706b398c84bdadb75239248883bbc970b1bbf02101810cc97e242c3"
+   }
+  },
+  "064_editar_perfil": {
+   "arquivo": "telas/EditarPerfil.dc.html",
+   "sha256": "4abc0e4cbd4be4fc38cdde69a93fff27bb90f274cb6cbb5711273ead6ee933d1",
+   "titulo": "64 · Editar perfil",
+   "canvas": [
+    390,
+    1400
+   ],
+   "props": [
+    "brand",
+    "cover"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "c43daf37b69d6fa5eee778a4206cf4bf8efb2ad48da24efe970c4b1ce896530f",
+    "props.json": "f2b16070330ca4ae8aad1e91bacf797af54729eb2b516480b9bc3d402007fc9b",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "f7a8450f69045e8a5791b9072159c6bec7e3074e06fffe42f08e03d96865764b"
+   }
+  },
+  "065_editar_perfil_trocar": {
+   "arquivo": "telas/EditarTrocar.dc.html",
+   "sha256": "e7326b2056b28148f45d3daf4f45dd27f200653903fc10de5c9636bee97bc456",
+   "titulo": "65 · Editar perfil — trocar um dos 4",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand",
+    "cover"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "89fcd48f54409729fe317ceff9e40b1bc6a4582715d0c48140807f8aad7184c4",
+    "props.json": "0620ef3446a1043af33c36685ac8717ece845a191024b0b9a1b7a986b66bb657",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "ce06f79b0c373bbaef82b2c9d47064b3a9c4a6ba9a9f85ed582007a0c0cad931"
+   }
+  },
+  "006_ajustes": {
+   "arquivo": "telas/Ajustes.dc.html",
+   "sha256": "076faee392c8f2efb67d807bf8d9deb8921f11f20e561199894e3fe853daa9a3",
+   "titulo": "06 · Ajustes (engrenagem)",
+   "canvas": [
+    390,
+    2400
+   ],
+   "props": [
+    "brand",
+    "cover"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:opsz,wght@7..72,400;7..72,600&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "eb6b22d107a58f65fc1cc2e80188faf9accebee6e329fb8a727e0f663382cecc",
+    "props.json": "e20585273446b84bdac979d9c35697ecd5ee3df0510e816439991691e72fa0cb",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "562ae9a747f7de28fc24530908726a07b9ef404cffdcc0f717e7592624ed806d"
+   }
+  },
+  "058_conta": {
+   "arquivo": "telas/Conta.dc.html",
+   "sha256": "8cf04d9ec6b9a3671a041f87b3f767edb2e3c8a29f45bb0ddd597600be3aaac1",
+   "titulo": "58 · Conta",
+   "canvas": [
+    390,
+    1200
+   ],
+   "props": [
+    "brand",
+    "club",
+    "cover"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "d9004522f48e29b590e9ee276a2a9a90d7af845497d967b692048355386f817e",
+    "props.json": "7136adbb40b66ee33344a13d0b86dd89216c549767aed6c37a2dcdcb0ecdd5e5",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "7e2e9356e3f065d675cda4db6bb750c2d1fc7bdbe582360df1b20c62493c9494"
+   }
+  },
+  "059_excluir_conta": {
+   "arquivo": "telas/ExcluirConta.dc.html",
+   "sha256": "5ae6103c948e7c7e1feba7fbb1fa3020d66ccf7fa16dfa0cbd4ecd4246a9afc6",
+   "titulo": "59 · Excluir conta",
+   "canvas": [
+    390,
+    960
+   ],
+   "props": [
+    "brand",
+    "club"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "a560722dd233e725ab5203480cf140afb32b3c95667eb30ec1aeeb303e620579",
+    "props.json": "b7f004a9bdd8579f187d80b1935162bb696dbdc60e8375bc7cc83040c72cea2c",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "779be4a650c4f9693e272a86b883d02aed6d681ce27f9d32e8bf395aa1a8a5dd"
+   }
+  },
+  "056_privacidade": {
+   "arquivo": "telas/Privacidade.dc.html",
+   "sha256": "eee139ab2e322b9c7ec119bc4594f1b2801f5deb10366f16ab124ca881bf8c37",
+   "titulo": "56 · Privacidade",
+   "canvas": [
+    390,
+    1420
+   ],
+   "props": [
+    "brand",
+    "club"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "1124a945d3dacf4edc5ac6d6343eb8b5b2a3d2c2cf40d20d6ff68e48bf75bc45",
+    "props.json": "63174b953617b578d6d4222d435e042b683ee4b2294a57255a8b96bd3ff1bab5",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "f157a1294a5106b24c600ae207345650c3e3aac2c565cad0e90585c990c2729e"
+   }
+  },
+  "030_notificacoes": {
+   "arquivo": "telas/Notificacoes.dc.html",
+   "sha256": "9cd7bf146507a9498b8c8e2c51d7ef8535515c0e44b2be65666dabbe1daca342",
+   "titulo": "30 · Notificações (sino da Início)",
+   "canvas": [
+    390,
+    1180
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "310a4bbddc9159f111e1fb902446de738f05c4fb1715b2513a0a5967d65223c8",
+    "props.json": "bc0ebae04842395dc0a45e8cb65d1415985b9a5498af5f0ed7d0a29188c6bcbd",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "d2c5eb515755c6b799182fd9df3df3c78b69d4e91d2334ae9bbacea39adc79b7"
+   }
+  },
+  "030b_notificacoes_ajustes": {
+   "arquivo": "telas/NotificacoesAjustes.dc.html",
+   "sha256": "fbbd59830681d053d37e56e33a39b1a09663095da03b03aca7ed6f9a4bc8d82c",
+   "titulo": "30b · Lembretes e avisos (ajustes)",
+   "canvas": [
+    390,
+    1330
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "ea62d0e68fe88f281904666f85d5b59ebaa8a3c9d3e38c2d8be32eeb82ae08e7",
+    "props.json": "daa979ceaa60a3c4d2c5a91fe77b9ea7251cda864c2baa89e1fbc53445fc0448",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "3401c961b2f7e35b2883f5d7cb3ee70a73cbdf0b57747dd132d258e85f1ac0d1"
+   }
+  },
+  "030c_notificacoes_vazia": {
+   "arquivo": "telas/NotificacoesVazia.dc.html",
+   "sha256": "3c72d89676858f2aa35c12060ea11767983feaa09876fa8aed901f3347ea0689",
+   "titulo": "30c · Notificações — tudo em dia",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "brand"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "assets/Literata-italic-400-latin.woff2": "99fa032066927b2d91876d59b8d88873882c4c9c34b61c9ecec49b4472d87cf9",
+    "assets/Literata-latin-var-opsz-wght.woff2": "7478e1920209e51dcc235d151d2056a0a6e3c54b4436f7030d256f231fe09b58",
+    "original.html": "2644bc2eec126fcb6cd70ab8f90d918d64c433b9c96e785bddec1936a56cec95",
+    "props.json": "b9800b51edb4db086cc63017fed9df406d8dbfb2bc4353bd76f147e1c7e0f801",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "f27cfcb5accac6bea10ca39f3943f2764bdf46b44a698f68c60b7d205d4e767d"
+   }
+  },
+  "018_cronometro": {
+   "arquivo": "telas/Cronometro.dc.html",
+   "sha256": "351fed62b0232a42a2a2568d4f082a90583a52a44baddc9f611ab59259c12de7",
+   "titulo": "18 · Cronômetro de leitura (livro físico)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "arc"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "784155ab75325ecb1afaf6b207b16042a00ab47c372fc6515319b92f832ed2bc",
+    "props.json": "47bed9294c5703ddf2355badf736de0aaf58f4fddb9acbe7ddabc92ca6e53d74",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "00dd079dfaccef4a5df89d4060dcb98c115545b55a608357576fb92cce39e16e"
+   }
+  },
+  "018b_fim_da_sessao": {
+   "arquivo": "telas/FimSessao.dc.html",
+   "sha256": "69e1ff2b5b945b445106da384f59213b06fb901eb5123c6fcaecb551109856a7",
+   "titulo": "18b · Fim da sessão (página opcional)",
+   "canvas": [
+    390,
+    844
+   ],
+   "props": [
+    "arc",
+    "brand",
+    "goal"
+   ],
+   "consulta": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&amp;family=Figtree:wght@400;500;600;700;800&amp;family=Instrument+Serif:ital@0;1&amp;display=swap",
+   "arquivos": {
+    "assets/BricolageGrotesque-latin-var-opsz-wght.woff2": "a79fdb52d4a5c76552452f69202add96e287401fff03d3e8c0e38b4dcb5a99cd",
+    "assets/Figtree-latin-var-wght.woff2": "4ba7d3d096695818fe0686be4f1e82c6b05134e18a22260336130335027462dd",
+    "assets/InstrumentSerif-Italic-latin.woff2": "5a51946dfffa82972bc98745359c46761515641fda557c25116459a9f83da4a7",
+    "assets/InstrumentSerif-normal-400-latin.woff2": "5eb09b5ac0e28b67c2f041c8ba6d244604ca0c0980d65912ab2d47fed84ddc31",
+    "original.html": "c521ae8dcf0531da26b435c8d18ebb3d88e0ca7dc1bb3579c77a701514df6172",
+    "props.json": "1f2e9cf5fc378c74181285335e9c8945a472fe4fa6ea15053ded43099ad857fd",
+    "support.js": "3f160299989dc595cf434dac7b7f3e6fd20ed015a2d99e075c3eac09dffe0f10",
+    "template.html": "8ba41f51db1c75c8882df1554cab1c046e7f0518801af7a88151020387347831"
+   }
+  }
+ }
+}
