@@ -143,9 +143,9 @@ Seção `i01.hero` — retângulo absoluto no canvas 390×2650: **x=20, y=248.16
 | 28 | `i01.hero.notesButton.badge` ±1 | box+text | 306.99 | 204.8 | 24.01 | 22 | `position: absolute; top: -4px; right: -4px; min-width: 22px; height: 22px; padding: 0 5px; box-sizing: border-box; border-radius: 999px; background: #FED170; border: 1.5px solid #1A1714; font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center` | Figtree 11/normal peso 800→**800** ls normal #1A1714 |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `i01.hero.cover`: caixa visual com `transform: rotate(-3deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.hero.cover.art`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.hero.cover.spine`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `i01.hero.cover`: caixa visual com `transform: rotate(-3deg)` = x 19.49, y 20.89, w 112.02, h 161.23 (relativa à seção).
+- `i01.hero.cover.art`: caixa visual deslocada pelo transform de um ancestral = x 21.07, y 22.46, w 108.87, h 158.08 (relativa à seção).
+- `i01.hero.cover.spine`: caixa visual deslocada pelo transform de um ancestral = x 21.07, y 27.38, w 15, h 153.16 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 

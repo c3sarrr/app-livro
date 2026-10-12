@@ -166,15 +166,15 @@ Seção `i01b.alsoReading` — retângulo absoluto no canvas 390×844: **x=20, y
 | 33 | `i01b.alsoReading.card2.meta.icon` | icon | 203.7 | 173.2 | 12 | 12 | `—` |  |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `i01b.alsoReading.card1.cover`: caixa visual com `transform: rotate(-4deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card1.cover.spine`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card1.cover.hat`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card1.cover.brim`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card1.cover.title`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card2.cover`: caixa visual com `transform: rotate(3deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card2.cover.spine`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card2.cover.circle`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.alsoReading.card2.cover.title`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `i01b.alsoReading.card1.cover`: caixa visual com `transform: rotate(-4deg)` = x 12.74, y 29.71, w 59.52, h 84.57 (relativa à seção).
+- `i01b.alsoReading.card1.cover.spine`: caixa visual deslocada pelo transform de um ancestral = x 14.34, y 34.53, w 10.43, h 78.16 (relativa à seção).
+- `i01b.alsoReading.card1.cover.hat`: caixa visual deslocada pelo transform de um ancestral = x 33.27, y 46.33, w 19.07, h 17.22 (relativa à seção).
+- `i01b.alsoReading.card1.cover.brim`: caixa visual deslocada pelo transform de um ancestral = x 29.33, y 60.94, w 28.28, h 6.94 (relativa à seção).
+- `i01b.alsoReading.card1.cover.title`: caixa visual deslocada pelo transform de um ancestral = x 26.74, y 80.51, w 40.36, h 23.57 (relativa à seção).
+- `i01b.alsoReading.card2.cover`: caixa visual com `transform: rotate(3deg)` = x 194.42, y 30.14, w 58.16, h 83.72 (relativa à seção).
+- `i01b.alsoReading.card2.cover.spine`: caixa visual deslocada pelo transform de um ancestral = x 195.99, y 31.72, w 9.07, h 78.16 (relativa à seção).
+- `i01b.alsoReading.card2.cover.circle`: caixa visual deslocada pelo transform de um ancestral = x 215.33, y 45.59, w 21.02, h 21.02 (relativa à seção).
+- `i01b.alsoReading.card2.cover.title`: caixa visual deslocada pelo transform de um ancestral = x 205.4, y 85.02, w 40.84, h 19.17 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 
@@ -211,8 +211,8 @@ Seção `i01b.miniBar` — retângulo absoluto no canvas 390×844: **x=16, y=648
 | 45 | `i01b.miniBar.pause.icon` | icon | 315.5 | 24 | 18 | 18 | `—` |  |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `i01b.miniBar.cover`: caixa visual com `transform: rotate(-5deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01b.miniBar.cover.art`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `i01b.miniBar.cover`: caixa visual com `transform: rotate(-5deg)` = x 11.47, y 7.7, w 36.06, h 50.61 (relativa à seção).
+- `i01b.miniBar.cover.art`: caixa visual deslocada pelo transform de um ancestral = x 12.77, y 9, w 33.46, h 48.01 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 

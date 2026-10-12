@@ -170,7 +170,16 @@
   },
   "svgGraficos": "docs/design/medicao/projeto/svg_graficos",
   "svgCatalogo": "docs/design/medicao/projeto/svg_catalogo.json",
-  "svgNomes": "svgs_nomes_projeto"
+  "svgNomes": "svgs_nomes_projeto",
+  "tokens": "docs/design/medicao/projeto/tokens_projeto.json",
+  "mapa": "docs/design/medicao/projeto/mapa_widgets.json",
+  "tokensMd": "docs/design/fases/L00_projeto_tokens_e_widgets.md",
+  "fasesLeiaMe": [
+   "LEIA-ME_projeto.md",
+   "Fases de tela L — Biblioteca, scanner e busca, entrada, perfil e ajustes, cronômetro (as 41 telas das etapas 7–11)",
+   "Geradas na T13 (`CONJUNTO=projeto python3 tools/medicao/gen_fases.py`) a partir das medições do projeto completo do design (`docs/design/projeto/telas/*.dc.html`). Cada fase L é executada dentro da etapa indicada (`docs/ROTEIRO.md`: T14 Biblioteca, T15 Scanner e busca, T16 Entrada e onboarding, T17 Perfil, ajustes, conta, privacidade e notificações, T18 Cronômetro) e segue o formato da v1 (`design_handoff/fases/F05_hero_continuar_lendo.md`). As notas de cada tela no `docs/design/projeto/NOTAS.md` valem junto com a fase.",
+   "L00_projeto_tokens_e_widgets.md"
+  ]
  },
  "projeto_larguras": {
   "_doc": "T13.9 (D-272) — as 41 telas do projeto medidas a 360 e 430 px de largura (o quadro com a largura trocada, CSS fluido, como a T03 fez com a 01). Mesma extração e mesmos idmaps do projeto; as regras do fio de navalha do projeto (D-275, D-278, D-280); saídas próprias (o manifesto do projeto não muda). Índice gerado por indice_larguras.py; fluidez.py compara com o conjuntoBase (a 390) e lista onde a tela deixa de ser fluida (fluidez.json); rodar: CONJUNTO=projeto_larguras tools/medicao/rodar_larguras.sh.",

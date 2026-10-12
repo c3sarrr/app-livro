@@ -141,40 +141,40 @@ Seção `rv62.summary` — retângulo absoluto no canvas 390×844: **x=0, y=140,
 | 77 | `rv62.summary.tomorrow.text.strong` ±1 | inline | 63.3 | 504.4 | 76.1 | 15.6 | `color: #1A1714` | Figtree 13/18.2px peso 900→**800** ls normal #1A1714 |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `rv62.summary.art.card1`: caixa visual com `transform: rotate(-10deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card1.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card1.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card1.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card1.check`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card1.check.icon`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card2`: caixa visual com `transform: rotate(-4deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card2.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card2.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card2.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card2.check`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card2.check.icon`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card3`: caixa visual com `transform: rotate(2deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card3.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card3.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card3.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card3.check`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card3.check.icon`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card4`: caixa visual com `transform: rotate(6deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card4.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card4.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card4.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card4.check`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card4.check.icon`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card5`: caixa visual com `transform: rotate(11deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card5.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card5.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card5.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card5.check`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.art.card5.check.icon`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.newNote.note`: caixa visual com `transform: rotate(-1.2deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.newNote.note.tape`: caixa visual com `transform: rotate(-3deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.newNote.note.label`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv62.summary.newNote.note.text`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `rv62.summary.art.card1`: caixa visual com `transform: rotate(-10deg)` = x 50.65, y 4.16, w 60.7, h 73.68 (relativa à seção).
+- `rv62.summary.art.card1.line0`: caixa visual deslocada pelo transform de um ancestral = x 59.57, y 15.31, w 31.89, h 9.44 (relativa à seção).
+- `rv62.summary.art.card1.line1`: caixa visual deslocada pelo transform de um ancestral = x 60.96, y 24.66, w 23.57, h 7.97 (relativa à seção).
+- `rv62.summary.art.card1.line2`: caixa visual deslocada pelo transform de um ancestral = x 62.35, y 31.68, w 28.43, h 8.83 (relativa à seção).
+- `rv62.summary.art.card1.check`: caixa visual deslocada pelo transform de um ancestral = x 96.99, y 55.97, w 20.85, h 20.85 (relativa à seção).
+- `rv62.summary.art.card1.check.icon`: caixa visual deslocada pelo transform de um ancestral = x 101.62, y 60.61, w 11.59, h 11.59 (relativa à seção).
+- `rv62.summary.art.card2`: caixa visual com `transform: rotate(-4deg)` = x 107.76, y 6.34, w 54.48, h 69.33 (relativa à seção).
+- `rv62.summary.art.card2.line0`: caixa visual deslocada pelo transform de um ancestral = x 115.8, y 16.47, w 31.88, h 6.2 (relativa à seção).
+- `rv62.summary.art.card2.line1`: caixa visual deslocada pelo transform de um ancestral = x 116.36, y 25.04, w 23.45, h 5.61 (relativa à seção).
+- `rv62.summary.art.card2.line2`: caixa visual deslocada pelo transform de um ancestral = x 116.91, y 32.68, w 28.37, h 5.96 (relativa à seção).
+- `rv62.summary.art.card2.check`: caixa visual deslocada pelo transform de um ancestral = x 149.01, y 59.41, w 19.21, h 19.21 (relativa à seção).
+- `rv62.summary.art.card2.check.icon`: caixa visual deslocada pelo transform de um ancestral = x 153.28, y 63.69, w 10.67, h 10.67 (relativa à seção).
+- `rv62.summary.art.card3`: caixa visual com `transform: rotate(2deg)` = x 164.86, y 7.15, w 52.27, h 67.7 (relativa à seção).
+- `rv62.summary.art.card3.line0`: caixa visual deslocada pelo transform de um ancestral = x 174.09, y 16.8, w 31.8, h 5.1 (relativa à seção).
+- `rv62.summary.art.card3.line1`: caixa visual deslocada pelo transform de um ancestral = x 173.82, y 24.79, w 23.36, h 4.81 (relativa à seção).
+- `rv62.summary.art.card3.line2`: caixa visual deslocada pelo transform de um ancestral = x 173.54, y 32.79, w 28.28, h 4.98 (relativa à seção).
+- `rv62.summary.art.card3.check`: caixa visual deslocada pelo transform de um ancestral = x 202.25, y 62.03, w 18.62, h 18.62 (relativa à seção).
+- `rv62.summary.art.card3.check.icon`: caixa visual deslocada pelo transform de um ancestral = x 206.38, y 66.16, w 10.34, h 10.34 (relativa à seção).
+- `rv62.summary.art.card4`: caixa visual com `transform: rotate(6deg)` = x 218.69, y 5.57, w 56.62, h 70.86 (relativa à seção).
+- `rv62.summary.art.card4.line0`: caixa visual deslocada pelo transform de um ancestral = x 231.54, y 15.69, w 31.93, h 7.29 (relativa à seção).
+- `rv62.summary.art.card4.line1`: caixa visual deslocada pelo transform de um ancestral = x 230.71, y 23.65, w 23.52, h 6.41 (relativa à seção).
+- `rv62.summary.art.card4.line2`: caixa visual deslocada pelo transform de um ancestral = x 229.87, y 31.6, w 28.42, h 6.92 (relativa à seção).
+- `rv62.summary.art.card4.check`: caixa visual deslocada pelo transform de um ancestral = x 255.5, y 62.8, w 19.78, h 19.78 (relativa à seção).
+- `rv62.summary.art.card4.check.icon`: caixa visual deslocada pelo transform de um ancestral = x 259.89, y 67.2, w 10.99, h 10.99 (relativa à seção).
+- `rv62.summary.art.card5`: caixa visual com `transform: rotate(11deg)` = x 272.16, y 3.84, w 61.67, h 74.33 (relativa à seção).
+- `rv62.summary.art.card5.line0`: caixa visual deslocada pelo transform de um ancestral = x 289.46, y 14.47, w 31.86, h 9.97 (relativa à seção).
+- `rv62.summary.art.card5.line1`: caixa visual deslocada pelo transform de um ancestral = x 287.94, y 22.33, w 23.57, h 8.36 (relativa à seção).
+- `rv62.summary.art.card5.line2`: caixa visual deslocada pelo transform de um ancestral = x 286.41, y 30.18, w 28.41, h 9.3 (relativa à seção).
+- `rv62.summary.art.card5.check`: caixa visual deslocada pelo transform de um ancestral = x 308, y 63.63, w 21.1, h 21.1 (relativa à seção).
+- `rv62.summary.art.card5.check.icon`: caixa visual deslocada pelo transform de um ancestral = x 312.69, y 68.31, w 11.72, h 11.72 (relativa à seção).
+- `rv62.summary.newNote.note`: caixa visual com `transform: rotate(-1.2deg)` = x 34.79, y 385.87, w 320.42, h 77.77 (relativa à seção).
+- `rv62.summary.newNote.note.tape`: caixa visual com `transform: rotate(-3deg)` = x 174.8, y 381.34, w 38.92, h 16.75 (relativa à seção).
+- `rv62.summary.newNote.note.label`: caixa visual deslocada pelo transform de um ancestral = x 46.53, y 397.61, w 296.19, h 18.2 (relativa à seção).
+- `rv62.summary.newNote.note.text`: caixa visual deslocada pelo transform de um ancestral = x 46.82, y 411.6, w 296.67, h 41.29 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 

@@ -20,6 +20,12 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from conjunto import C, RAIZ, caminho, indice  # noqa: E402
 
+
+def _ler(p):
+    with open(p, encoding='utf-8') as f:
+        return f.read()
+
+
 TOK = sys.argv[1] if len(sys.argv) > 1 else os.path.join(RAIZ, 'lib', 'core', 'design_system', 'tokens')
 TITULOS = {'T14': 'Biblioteca', 'T15': 'Scanner e busca', 'T16': 'Entrada e onboarding',
            'T17': 'Perfil, ajustes, conta, privacidade e notificações', 'T18': 'Cronômetro'}
@@ -50,14 +56,15 @@ def tamanho(t):
     return num(w) if w == h else f'{num(w)}×{num(h)}'
 
 
-def classes_existentes():
-    """Caminho → `Classe.constante` nas classes de antes (as que não são geradas aqui)."""
+def classes_existentes(todas=False):
+    """Caminho → `Classe.constante` nas classes de antes (as que não são geradas aqui); com [todas], também
+    nas geradas (o mapa id → widget da T13.12)."""
     achados = {}
     for f in sorted(glob.glob(os.path.join(TOK, 'app_*.dart'))):
         nome = os.path.basename(f)[4:-5]
-        if nome in GERADOS:
+        if nome in GERADOS and not todas:
             continue
-        s = open(f, encoding='utf-8').read()
+        s = _ler(f)
         for corpo in re.split('abstract final class ', s)[1:]:
             classe = re.match('[A-Za-z0-9_]+', corpo).group(0)
             d = re.search("static const _d = '([^']+)'", corpo)
@@ -91,7 +98,7 @@ def main():
     if not areas:
         print('conjunto sem "areas": nada a gerar')
         return
-    cat = json.load(open(caminho('svgCatalogo'), encoding='utf-8'))
+    cat = json.loads(_ler(caminho('svgCatalogo')))
     pranchas = indice()['pranchas']
     ordem = {p['slug']: i for i, p in enumerate(pranchas)}
     area_de = {p['slug']: areas.get(p.get('etapa')) for p in pranchas}
@@ -152,7 +159,7 @@ def main():
                 out.append('')
                 out.extend(quebra(texto, '  '))
                 out.append(f"  static const {nome} = '$_d/{os.path.basename(a)}';")
-                if '<text' in open(os.path.join(RAIZ, a), encoding='utf-8').read():
+                if '<text' in _ler(os.path.join(RAIZ, a)):
                     com_texto.append(nome)
             out.append('')
             out.append('  static const all = <String>[' + ', '.join(nomes) + (',' if nomes else '') + '];')

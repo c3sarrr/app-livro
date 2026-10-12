@@ -91,32 +91,32 @@ Seção `i60.review` — retângulo absoluto no canvas 390×844: **x=20, y=1259.
 | 26 | `i60.review.cta.label` ±1 | text | 169.5 | 119.25 | 47.22 | 16.8 | `color: #F7F0E3` | Figtree 14/normal peso 800→**800** ls normal #F7F0E3 |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `i60.review`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card1`: caixa visual com `transform: rotate(-12deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card1.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card1.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card1.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card1.line3`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card2`: caixa visual com `transform: rotate(8deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card2.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card2.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card2.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card2.line3`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card3`: caixa visual com `transform: rotate(-2deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card3.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card3.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card3.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.card3.line3`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.art.sparkle`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.textBlock`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.kicker`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.title`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.title.serif`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.subtitle`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.cta`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.cta.icon`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i60.review.cta.label`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `i60.review`: caixa visual deslocada pelo transform de um ancestral = x 0, y -930, w 350, h 165.15 (relativa à seção).
+- `i60.review.art`: caixa visual deslocada pelo transform de um ancestral = x 17.5, y -903.43, w 104, h 112 (relativa à seção).
+- `i60.review.art.card1`: caixa visual com `transform: rotate(-12deg)` = x 11.65, y -890.97, w 77.69, h 93.1 (relativa à seção).
+- `i60.review.art.card1.line0`: caixa visual deslocada pelo transform de um ancestral = x 23.34, y -876.86, w 38.89, h 12.94 (relativa à seção).
+- `i60.review.art.card1.line1`: caixa visual deslocada pelo transform de um ancestral = x 25.42, y -865.29, w 30.48, h 11.15 (relativa à seção).
+- `i60.review.art.card1.line2`: caixa visual deslocada pelo transform de um ancestral = x 27.49, y -856.58, w 35.53, h 12.22 (relativa à seção).
+- `i60.review.art.card1.line3`: caixa visual deslocada pelo transform de um ancestral = x 29.57, y -844.38, w 24.17, h 9.81 (relativa à seção).
+- `i60.review.art.card2`: caixa visual com `transform: rotate(8deg)` = x 48.1, y -893.34, w 72.81, h 89.83 (relativa à seção).
+- `i60.review.art.card2.line0`: caixa visual deslocada pelo transform de um ancestral = x 66.62, y -880.63, w 39.02, h 10.34 (relativa à seção).
+- `i60.review.art.card2.line1`: caixa visual deslocada pelo transform de um ancestral = x 65.23, y -870.73, w 30.5, h 9.14 (relativa à seção).
+- `i60.review.art.card2.line2`: caixa visual deslocada pelo transform de um ancestral = x 63.84, y -860.82, w 35.61, h 9.86 (relativa à seção).
+- `i60.review.art.card2.line3`: caixa visual deslocada pelo transform de um ancestral = x 62.44, y -850.92, w 24.12, h 8.24 (relativa à seção).
+- `i60.review.art.card3`: caixa visual com `transform: rotate(-2deg)` = x 33.95, y -898.55, w 69.1, h 92.25 (relativa à seção).
+- `i60.review.art.card3.line0`: caixa visual deslocada pelo transform de um ancestral = x 43.84, y -886.56, w 42.45, h 6.47 (relativa à seção).
+- `i60.review.art.card3.line1`: caixa visual deslocada pelo transform de um ancestral = x 44.19, y -876.24, w 33.05, h 6.14 (relativa à seção).
+- `i60.review.art.card3.line2`: caixa visual deslocada pelo transform de um ancestral = x 44.54, y -866.44, w 38.69, h 6.34 (relativa à seção).
+- `i60.review.art.card3.line3`: caixa visual deslocada pelo transform de um ancestral = x 44.89, y -856, w 26.01, h 5.9 (relativa à seção).
+- `i60.review.art.sparkle`: caixa visual deslocada pelo transform de um ancestral = x 97.5, y -907.43, w 26, h 26 (relativa à seção).
+- `i60.review.textBlock`: caixa visual deslocada pelo transform de um ancestral = x 135.5, y -912.5, w 197, h 130.15 (relativa à seção).
+- `i60.review.kicker`: caixa visual deslocada pelo transform de um ancestral = x 135.5, y -912.5, w 197, h 13.2 (relativa à seção).
+- `i60.review.title`: caixa visual deslocada pelo transform de um ancestral = x 135.5, y -895.3, w 197, h 25.2 (relativa à seção).
+- `i60.review.title.serif`: caixa visual deslocada pelo transform de um ancestral = x 244.59, y -898.3, w 55.97, h 31.2 (relativa à seção).
+- `i60.review.subtitle`: caixa visual deslocada pelo transform de um ancestral = x 135.5, y -866.1, w 197, h 33.75 (relativa à seção).
+- `i60.review.cta`: caixa visual deslocada pelo transform de um ancestral = x 135.5, y -822.35, w 97.22, h 40 (relativa à seção).
+- `i60.review.cta.icon`: caixa visual deslocada pelo transform de um ancestral = x 147.5, y -809.85, w 15, h 15 (relativa à seção).
+- `i60.review.cta.label`: caixa visual deslocada pelo transform de um ancestral = x 169.5, y -810.75, w 47.22, h 16.8 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 
@@ -182,6 +182,8 @@ Seção `i60.nav` — retângulo absoluto no canvas 390×844: **x=16, y=744, w=3
 ## Diferenças em relação à prancha 01 (seções reutilizadas: header, headline, hero, alsoReading, today, forYou, club, recent)
 
 Estas seções são as mesmas widgets da 01 (fases L01a1_cabecalho, L01a2_heroi, L01a3_tambem_lendo, L01a4_seu_dia, L01a5_revisao, L01a6_para_voce, L01a7_clube, L01a8_recem_chegados, L01a9_barra); abaixo, só o que muda nesta prancha. Ids sem linha aqui = idênticos (geometria, estilo e texto).
+
+Nenhuma diferença: todos os ids das seções reutilizadas são idênticos aos da 01.
 
 ## Semântica (do arquivo)
 

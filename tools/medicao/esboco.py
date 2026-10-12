@@ -81,13 +81,15 @@ class P(HTMLParser):
 
 def fatia(slug, tpl):
     """Marcação literal (do template, com {{props}}) do elemento tpl, incluindo o comentário que o precede."""
-    texto = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
+    with open(caminho('extracao', slug, 'template.html'), encoding='utf-8') as _fh:
+        texto = _fh.read()
     n = next(x for x in esboco(slug) if x['tpl'] == tpl)
     return texto[n['ini']:n['fim']], n.get('comment')
 
 
 def esboco(slug):
-    tpl = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
+    with open(caminho('extracao', slug, 'template.html'), encoding='utf-8') as _fh:
+        tpl = _fh.read()
     p = P(tpl)
     p.feed(tpl)
     for n in p.out:

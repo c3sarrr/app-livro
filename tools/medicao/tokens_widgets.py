@@ -10,6 +10,8 @@ Saída:
 Uso: [CONJUNTO=inicio2] python3 tools/medicao/tokens_widgets.py [pasta_dos_tokens_dart]   (padrão: lib/core/design_system/tokens)
 T02: entradas e saídas pelo conjunto (layout, svgCatalogo, tokens, mapa, tokensMd); os textos do L00 e os nomes
 propostos de cor por conjunto (no leitor, os da G01).
+T13.12 (projeto): o widget de cada SVG com a constante de verdade (`AppSvg(AppIconsScanner.cameraFlip, …)`: as classes
+por área da T13.11 e as de antes, para os reusados), os nomes propostos das cores novas e o texto do L00.
 """
 import collections
 import glob
@@ -20,6 +22,12 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from conjunto import NOME, C, caminho  # noqa: E402
+
+
+def _ler(p):
+    with open(p, encoding='utf-8') as f:
+        return f.read()
+
 
 AQUI = os.path.dirname(__file__)
 RAIZ = os.path.abspath(os.path.join(AQUI, '..', '..'))
@@ -44,6 +52,39 @@ NOMES_COR_INICIO2 = {
 }
 if NOME == 'inicio2':
     NOMES_COR = {**NOMES_COR, **NOMES_COR_INICIO2}
+# T13.12 — as cores novas das 41 telas do projeto (pelo uso; o nome é proposta para a etapa que a usa primeiro)
+NOMES_COR_PROJETO = {
+    '#000000': 'black (botão da Apple, lombadas, máscaras)', '#FFFFFF': 'white (botões do Google e da Apple, campos)',
+    '#3E3832': 'inkBody (regras da senha, sinopse, textos de apoio)', '#EAE1D0': 'rowDivider (fios entre as linhas dos ajustes)',
+    '#898A8D': 'systemKeyShadow (teclado do sistema, informativo)', '#2C2452': 'lavenderInk (texto sobre o lavanda: edição, bio)',
+    '#F1E7D5': 'toggleTrackOff (trilho desligado, chips neutros)', '#2B2621': 'inkWarm (sinopse, botões do cronômetro)',
+    '#1E1A17': 'cameraFrame (o quadro da câmera do scanner)', '#767676': 'inputDots (os pontos da senha do campo)',
+    '#D9CFBD': 'sheetHandle (a alça das folhas)', '#CFC6B8': 'paperMuted (texto sobre o escuro da 69)',
+    '#A79C8B': 'digitPending (os traços dos dígitos que faltam)', '#DCD2C1': 'coverLines (as linhas da capa desenhada)',
+    '#4A413A': 'cameraScene (a cena da câmera — referência)', '#2B2521': 'cameraScene (a cena da câmera — referência)',
+    '#191512': 'cameraScene (a cena da câmera — referência)', '#14110F': 'scannerDim (o véu fora da mira)',
+    '#EFE6D5': 'cardBody (o corpo da carteirinha)', '#FFE9E4': 'errorSoft (campo com erro, chip e aviso)',
+    '#A69C8F': 'emptySlot (as vagas da estante vazia)', '#F6C24A': 'tapeYellow (a fita do adesivo)',
+    '#F8AEB5': 'tapePink (a fita do adesivo)', '#FF6C47': 'cameraBook (o livro na câmera — referência)',
+    '#DB431F': 'cameraBook (o livro na câmera — referência)', '#D9D0C0': 'themePreviewLineLight (prévia do tema claro)',
+    '#CDB78E': 'themePreviewLineSepia (prévia do tema sépia)', '#4A443D': 'themePreviewLineDark (prévia do tema escuro)',
+    '#4A4030': 'inkOnYellow (texto sobre o amarelo)', '#747775': 'googleBorder (kit da marca do Google)',
+    '#2B2420': 'coverDark (capa escura da sugestão)', '#CFC6EE': 'lavenderTrack (o trilho do progresso)',
+    '#3A332C': 'timerPause (o botão de pausar do cronômetro)', '#8F8577': 'lockHint (o aviso de bloqueio do cronômetro)',
+    '#221D19': 'permissionBackdrop (o fundo listrado sem permissão)', '#FFB8A6': 'coralSoft (ícones de aviso suave)',
+    '#D1D4DA': 'systemKeyboard (o teclado do sistema, informativo)', '#3D3524': 'inkOnYellowDeep (rótulo da meta do ano)',
+    '#4A3B12': 'inkOnGold (texto do plano)', '#F1E2C4': 'themePreviewSepia (prévia do tema sépia)',
+    '#4A3620': 'themePreviewSepiaText (prévia do tema sépia)', '#1E1B18': 'themePreviewDark (prévia do tema escuro)',
+    '#EDE4D3': 'themePreviewDarkText (prévia do tema escuro)', '#A3301A': 'dangerDeep (excluir conta)',
+    '#1F1F1F': 'googleText (kit da marca do Google)', '#A99E8C': 'digitPlaceholder (o dígito vazio do código)',
+    '#5B2A33': 'clubKicker (rótulo do clube, rosa escuro)', '#0C0A08': 'sheetScrim (o véu do fim da sessão)',
+    '#2F2A4A': 'lavenderInkDeep (texto do primeiro livro)', '#4A3C17': 'inkOnYellowWarm (texto do hoje)',
+    '#B9DA94': 'cameraBookGreen (o livro na câmera — referência)', '#8DB565': 'cameraBookGreen (o livro na câmera — referência)',
+    '#B83A1C': 'danger (o rótulo de excluir)', '#F7D9A0': 'thumbCoverGold (a capa da opção da 65)',
+    '#FFF3CF': 'digitSlotActive (o dígito do ISBN em edição)',
+}
+if NOME == 'projeto':
+    NOMES_COR = {**NOMES_COR, **NOMES_COR_PROJETO}
 
 
 def dart_colors():
@@ -51,7 +92,7 @@ def dart_colors():
     if not os.path.exists(path):
         return {}
     out = {}
-    for m in re.finditer(r'static const Color (\w+) = Color\(0x([0-9A-Fa-f]{8})\)', open(path, encoding='utf-8').read()):
+    for m in re.finditer(r'static const Color (\w+) = Color\(0x([0-9A-Fa-f]{8})\)', _ler(path)):
         a, rgb = int(m.group(2)[:2], 16), m.group(2)[2:].upper()
         key = f'#{rgb}' if a == 255 else f'#{rgb}@{round(a / 255, 2):g}'
         out.setdefault(key, m.group(1))
@@ -62,7 +103,7 @@ def dart_numbers(arquivo, padrao):
     path = os.path.join(TOK, arquivo)
     if not os.path.exists(path):
         return {}
-    return {float(m.group(2)): m.group(1) for m in re.finditer(padrao, open(path, encoding='utf-8').read())}
+    return {float(m.group(2)): m.group(1) for m in re.finditer(padrao, _ler(path))}
 
 
 def cores_do_estilo(sty):
@@ -86,15 +127,15 @@ def main():
     radii = dart_numbers('app_radii.dart', r'static const double (\w+) = ([0-9.]+)')
     strokes = dart_numbers('app_strokes.dart', r'static const double (\w+) = ([0-9.]+)')
     sombras_dart = {m.group(1): (float(m.group(2)), float(m.group(3))) for m in re.finditer(
-        r'static const Offset (\w+) = Offset\(([0-9.]+), ([0-9.]+)\)', open(os.path.join(TOK, 'app_shadows.dart'), encoding='utf-8').read())} \
+        r'static const Offset (\w+) = Offset\(([0-9.]+), ([0-9.]+)\)', _ler(os.path.join(TOK, 'app_shadows.dart')))} \
         if os.path.exists(os.path.join(TOK, 'app_shadows.dart')) else {}
     tipo_v1 = set()
     tp = os.path.join(TOK, 'app_typography.dart')
     if os.path.exists(tp):
-        for m in re.finditer(r'AppFonts\.(figtree|bricolage|serif)\(\s*([0-9.]+)(?:,\s*FontWeight\.w(\d+))?', open(tp, encoding='utf-8').read()):
+        for m in re.finditer(r'AppFonts\.(figtree|bricolage|serif)\(\s*([0-9.]+)(?:,\s*FontWeight\.w(\d+))?', _ler(tp)):
             fam = {'figtree': 'Figtree', 'bricolage': 'Bricolage Grotesque', 'serif': 'Instrument Serif'}[m.group(1)]
             tipo_v1.add((fam, float(m.group(2)), int(m.group(3) or (800 if fam == 'Bricolage Grotesque' else 400))))
-    cat = json.load(open(caminho('svgCatalogo'), encoding='utf-8'))
+    cat = json.loads(_ler(caminho('svgCatalogo')))
     cores = collections.defaultdict(lambda: {'usos': 0, 'pranchas': set(), 'exemplos': []})
     raios = collections.defaultdict(lambda: {'usos': 0, 'exemplos': []})
     bordas = collections.defaultdict(lambda: {'usos': 0, 'exemplos': []})
@@ -102,7 +143,7 @@ def main():
     textos = collections.defaultdict(lambda: {'usos': 0, 'pranchas': set(), 'exemplos': []})
     mapa = {}
     for f in sorted(glob.glob(caminho('layout', 'layout_*.json'))):
-        L = json.load(open(f, encoding='utf-8'))
+        L = json.loads(_ler(f))
         slug = L['meta']['prancha']
         tela = slug.split('_')[0]
         for k, e in L['elements'].items():
@@ -144,7 +185,7 @@ def main():
             if 'section' in e or e.get('type') == 'box':
                 mapa.setdefault(slug, {})[k] = widget(k, e, cat, slug)
     tokens = {
-        'cores': [{'cor': c, 'existe': existentes.get(c), 'nomeProposto': None if c in existentes else NOMES_COR.get(c.split('@')[0], '—'),
+        'cores': [{'cor': c, 'existe': existentes.get(c), 'nomeProposto': None if c in existentes else nome_proposto(c, existentes),
                    'usos': d['usos'], 'pranchas': sorted(d['pranchas']), 'exemplos': d['exemplos']}
                   for c, d in sorted(cores.items(), key=lambda kv: -kv[1]['usos'])],
         'raios': [{'raio': r, 'existe': radii.get(float(r[:-2])) if re.fullmatch(r'[0-9.]+px', r) else None, **d}
@@ -170,6 +211,34 @@ def main():
           f"ids no mapa: {sum(len(v) for v in mapa.values())}")
 
 
+CONSTANTES = None
+
+
+def constante(arquivo):
+    """T13.12: `Classe.constante` do SVG nas classes de tokens do app (as por área da T13.11 e as de antes)."""
+    global CONSTANTES
+    if CONSTANTES is None:
+        import gen_classes_svg
+        CONSTANTES = gen_classes_svg.classes_existentes(todas=True)
+    if arquivo not in CONSTANTES:
+        raise SystemExit(f'{arquivo}: sem constante nas classes do app')
+    return CONSTANTES[arquivo]
+
+
+def nome_proposto(c, existentes):
+    """O nome proposto de uma cor que não existe no app. No projeto (T13.12), a cor com alfa de um token que já existe
+    é o token (ou o nome proposto da cor cheia) @ alfa, e a de alfa 0 é a parada transparente dos degradês e das
+    máscaras."""
+    base, _, a = c.partition('@')
+    if NOME == 'projeto' and a:
+        if float(a) == 0:
+            return 'transparent (parada dos degradês e das máscaras)'
+        nome = existentes.get(base) or NOMES_COR.get(base, '').split(' (')[0]
+        if nome:
+            return f"{nome} @ {a.replace('.', ',')}"
+    return NOMES_COR.get(base, '—')
+
+
 def classe(arquivo, c):
     """Classe de tokens do app para o SVG, pela pasta (T02: a Início reusa os da v1 e do leitor)."""
     pasta = os.path.dirname(arquivo)
@@ -192,8 +261,9 @@ def widget(k, e, cat, slug):
     if t == 'icon' and uso:
         c = cat['arquivos'][uso['arquivo']]['categoria']
         nome = os.path.basename(uso['arquivo'])[:-4]
-        w = {'ic': f'AppSvg({classe(uso["arquivo"], c)}.{nome}, size: {uso["tamanho"][0]:g})',
-             'il': f'AppSvg({classe(uso["arquivo"], c)}.{nome}, size: {uso["tamanho"][0]:g}×{uso["tamanho"][1]:g})',
+        ref = constante(uso['arquivo']) if NOME == 'projeto' and c in ('ic', 'il') else None
+        w = {'ic': f'AppSvg({ref or classe(uso["arquivo"], c) + "." + nome}, size: {uso["tamanho"][0]:g})',
+             'il': f'AppSvg({ref or classe(uso["arquivo"], c) + "." + nome}, size: {uso["tamanho"][0]:g}×{uso["tamanho"][1]:g})',
              'tinta': f'InkStrokesPainter (traços da fixture: {nome})',
              'graf': f'CustomPainter ({nome})'}[c]
         if uso.get('coresDinamicas'):
@@ -287,14 +357,61 @@ TEXTOS_MD = {'leitor': (
     '(`svg_graficos/`), pintor de grifo por linha (61, 62, 63), degradês inferiores (`DecoratedBox(LinearGradient)`: 150/55 % na '
     '01, 240/48 % na 01b, rodapé da 62) e o `RepaintBoundary` da prévia da 63 (a imagem compartilhada). Recortes de referência '
     'visual (capas em CSS, cartões da revisão, hachuras, degradês) em `docs/design/medicao/inicio2/png/elementos/`.',
-    'docs/design/medicao/inicio2/mapa_widgets.json')}
+    'docs/design/medicao/inicio2/mapa_widgets.json'),
+    'projeto': (
+    ['# L00 — Projeto (etapas 7–11): tokens novos e mapa id → widget (insumo das T14–T18)', '',
+     '> Gerado por `tools/medicao/tokens_widgets.py` (T13.12, `CONJUNTO=projeto`) a partir das medições das 41 telas do projeto '
+     'completo do design e dos tokens atuais do app (`lib/core/design_system/tokens/`). Dados completos: '
+     '`docs/design/medicao/projeto/tokens_projeto.json` e `docs/design/medicao/projeto/mapa_widgets.json`. Cada nome proposto '
+     'é uma proposta para a etapa que usa a cor primeiro (T14 → T18); "já existe" é o token de hoje com a mesma cor.', '',
+     '## O que as T14–T18 precisam no design system (achados da medição)', '',
+     '- Fontes (T13.10, D-246): a Figtree vai até 800 nas 41 (800 **real**, `Figtree-ExtraBold.ttf`; o 900 de 4 telas '
+     'renderiza 800). Já no app: a Bricolage 800 por tamanho (`AppFonts.bricolageOpsz`, 13 tamanhos novos) e a 700 na 15 '
+     '(`bricolageBold`), a Literata estática 14/16/24 em 600, 24 em 400 e 18 em 500 (`literataStatic`) e a Roboto 500 do '
+     'botão do Google da 07 (`AppFonts.roboto`). Com letter-spacing ≠ 0 o app desliga liga e clig, como o Blink (D-282); o '
+     '`tnum` soma às features. O "≈" da 17b e as setas da 28c e da 30b caem na reserva no peso do texto (D-281: '
+     '`BookNestApprox` SemiBold e ExtraBold).',
+     '- Texto que o app não desenha (R8, informativo): o botão "Continuar com a Apple" da 07 (o oficial, do sistema), o '
+     'teclado numérico da 69/69b (do Android/iOS) e o input escondido do @ da 15 (D-277). Ficam no layout e nas '
+     'referências com o motivo, fora da conferência de fontes.',
+     '- SVG (T13.11): 198 desenhos novos nas pastas por área (`AppIconsBiblioteca`, `AppIconsScanner`, `AppIconsEntrada`, '
+     '`AppIconsPerfil`, `AppIconsCronometro` e as `AppIllustrations…` das mesmas áreas — D-284: a área da 1ª etapa que '
+     'usa); 40 reusos pelo desenho (D-283), que o mapa já chama pela classe de antes (`AppIcons.navHome`, '
+     '`AppIconsLeitor.search`, `AppIllustrationsInicio.coverDomCasmurro`…); 15 gráficos em `svg_graficos/` viram '
+     'pintores (anéis de progresso, bordas onduladas, códigos de barras). As armadilhas de cada uso estão no catálogo e '
+     'na coluna de observação do mapa: `<text>` (o `AppSvg` lê sem os textos os `withText` e eles voltam em `AppText`), '
+     '5 desenhos que passam da própria caixa (sem recorte), 3 ícones encolhidos no flex (decidir na etapa) e os 3 '
+     'tracejados do scanner, pintados pelo registro `svgDashes` (D-285, D-286).',
+     '- Capas e cartões em CSS (estante, Detalhes, scanner, busca, sugestões, Perfil, favoritos, cronômetro, '
+     'carteirinhas, selos, medalhas, avatares): widgets compostos (div, borda, raio, círculo, lombada), com os recortes '
+     '@3x de referência em `docs/design/medicao/projeto/png/elementos/` (120). A capa da Início reusada na 07, nos '
+     'Detalhes e no cronômetro tem a escala da caixa de cada uso.',
+     '- Larguras (T13.9, D-272): a 430 nada passa; a 360, as ondas da entrada, as fitas do adesivo da 69/69b, as '
+     'estrelinhas, a dica da 13b e o botão do scanner são de tamanho fixo e passam da borda; os textos das capas e as '
+     'reticências da 02 e as sobreposições (o 9º livro da 02, a 36a, a 05, a coleção da 03) mudam de verdade. Cada fase '
+     'L traz os itens dela (seção "Nas outras larguras").',
+     '- Sombras "anel" (`box-shadow: 0 0 0 Npx`) = `BoxShadow(spreadRadius: N, blurRadius: 0)`; aro duplo = duas '
+     'sombras. Todas as sombras do projeto são duras (sem desfoque).',
+     '- Props (cores dinâmicas) por tela: `brand` (lavanda, 38 telas), `reticle` (a mira do scanner), `shelf`, `cover`, '
+     '`progress`, `card`, `club`, `badge`, `avatar`, `arc`, `env`, `lock`, `halo` (verde na 17, lavanda na 17b) e `goal` — '
+     'sempre a prop, nunca a cor fixa; dentro dos SVGs também (catálogo → `coresDinamicas`).',
+     '- Folhas por cima de outra tela (R9: a 65 sobre a 64, a 18b sobre a 18, os avisos): o fundo esmaecido faz parte '
+     'da medida; o véu é a cor `@alfa` da tabela.', ''],
+    'Pintores sugeridos: `HatchPainter` (as hachuras das barras, trilhos e interruptores, as fitas), os anéis de progresso '
+    'e as bordas onduladas das barras (`svg_graficos/`), o código de barras EAN-13 do ISBN digitado (69, 69b: desenhado '
+    'dos dígitos), a linha e o véu do scanner (a cena da câmera é a câmera ao vivo; o desenho fica só como referência), '
+    'os degradês do fim das telas (`DecoratedBox(LinearGradient)`), as máscaras (`ShaderMask`: gêneros, sugestões, abas '
+    'da busca, cores), a marca amarela do termo buscado (28b, o pintor de grifo por linha) e os tracejados do registro '
+    '`svgDashes`. Recortes de referência visual em `docs/design/medicao/projeto/png/elementos/` e, dos tracejados, em '
+    '`docs/design/medicao/projeto/png/tracejados/`.',
+    'docs/design/medicao/projeto/mapa_widgets.json')}
 
 
 def markdown():
     """L00 do conjunto (tokensMd; no leitor, handoff_v2/fases/L00_tokens_e_widgets.md) — resumo legível dos tokens e
     do mapa id → widget."""
-    T = json.load(open(caminho('tokens'), encoding='utf-8'))
-    M = json.load(open(caminho('mapa'), encoding='utf-8'))
+    T = json.loads(_ler(caminho('tokens')))
+    M = json.loads(_ler(caminho('mapa')))
     cab, pintores, ref_mapa = TEXTOS_MD.get(NOME, TEXTOS_MD['leitor'])
     out = cab + [
            f"## Cores ({len(T['cores'])}; {sum(1 for c in T['cores'] if not c['existe'])} ainda não existem em `AppColors`)", '',

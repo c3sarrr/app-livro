@@ -62,21 +62,21 @@ Seção `i01.review` — retângulo absoluto no canvas 390×2650: **x=20, y=1259
 | 26 | `i01.review.cta.label` ±1 | text | 169.5 | 119.25 | 47.22 | 16.8 | `color: #F7F0E3` | Figtree 14/normal peso 800→**800** ls normal #F7F0E3 |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `i01.review.art.card1`: caixa visual com `transform: rotate(-12deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card1.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card1.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card1.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card1.line3`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card2`: caixa visual com `transform: rotate(8deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card2.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card2.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card2.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card2.line3`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card3`: caixa visual com `transform: rotate(-2deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card3.line0`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card3.line1`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card3.line2`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `i01.review.art.card3.line3`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `i01.review.art.card1`: caixa visual com `transform: rotate(-12deg)` = x 11.65, y 39.03, w 77.69, h 93.1 (relativa à seção).
+- `i01.review.art.card1.line0`: caixa visual deslocada pelo transform de um ancestral = x 23.34, y 53.14, w 38.89, h 12.94 (relativa à seção).
+- `i01.review.art.card1.line1`: caixa visual deslocada pelo transform de um ancestral = x 25.42, y 64.71, w 30.48, h 11.15 (relativa à seção).
+- `i01.review.art.card1.line2`: caixa visual deslocada pelo transform de um ancestral = x 27.49, y 73.42, w 35.53, h 12.22 (relativa à seção).
+- `i01.review.art.card1.line3`: caixa visual deslocada pelo transform de um ancestral = x 29.57, y 85.62, w 24.17, h 9.81 (relativa à seção).
+- `i01.review.art.card2`: caixa visual com `transform: rotate(8deg)` = x 48.1, y 36.66, w 72.81, h 89.83 (relativa à seção).
+- `i01.review.art.card2.line0`: caixa visual deslocada pelo transform de um ancestral = x 66.62, y 49.37, w 39.02, h 10.34 (relativa à seção).
+- `i01.review.art.card2.line1`: caixa visual deslocada pelo transform de um ancestral = x 65.23, y 59.27, w 30.5, h 9.14 (relativa à seção).
+- `i01.review.art.card2.line2`: caixa visual deslocada pelo transform de um ancestral = x 63.84, y 69.18, w 35.61, h 9.86 (relativa à seção).
+- `i01.review.art.card2.line3`: caixa visual deslocada pelo transform de um ancestral = x 62.44, y 79.08, w 24.12, h 8.24 (relativa à seção).
+- `i01.review.art.card3`: caixa visual com `transform: rotate(-2deg)` = x 33.95, y 31.45, w 69.1, h 92.25 (relativa à seção).
+- `i01.review.art.card3.line0`: caixa visual deslocada pelo transform de um ancestral = x 43.84, y 43.44, w 42.45, h 6.47 (relativa à seção).
+- `i01.review.art.card3.line1`: caixa visual deslocada pelo transform de um ancestral = x 44.19, y 53.76, w 33.05, h 6.14 (relativa à seção).
+- `i01.review.art.card3.line2`: caixa visual deslocada pelo transform de um ancestral = x 44.54, y 63.56, w 38.69, h 6.34 (relativa à seção).
+- `i01.review.art.card3.line3`: caixa visual deslocada pelo transform de um ancestral = x 44.89, y 74, w 26.01, h 5.9 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 

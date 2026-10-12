@@ -7,6 +7,9 @@ Parte medida: layout/*.json, text_dependency/knife_edges, png/redline/legenda.js
 svg_catalogo.json. Parte escrita à mão: tools/medicao/fases_notas.py.
 Uso: [CONJUNTO=inicio2] python3 tools/medicao/gen_fases.py
 T02: as pastas, as notas (fasesNotas), a trilha e o índice vêm do conjunto (conjuntos.json).
+T13.12 (projeto): as props de cada tela no CSS literal (a mesma prop tem outro padrão noutra tela: o halo da 17 e da
+17b); a seção "Nas outras larguras" (a fluidez e os fios de navalha a 360 e 430 da T13.9, das saídas do conjunto das
+larguras); o teste das larguras; o nome da fase que gera. Os outros conjuntos saem com os mesmos bytes.
 """
 import importlib
 import json
@@ -16,7 +19,7 @@ import sys
 import textwrap
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from conjunto import C, caminho, indice  # noqa: E402
+from conjunto import NOME, C, caminho, indice  # noqa: E402
 from esboco import esboco  # noqa: E402
 
 NOTAS = importlib.import_module(C['fasesNotas']).NOTAS
@@ -35,6 +38,28 @@ PROPS_PADRAO = {'paper': '#F8F1E4', 'brand': '#B6ACE4', 'ink': '#FF552E', 'weekC
 REF_PNG = 'referencia/png' if not C['png'].startswith('docs/') else C['png']
 REF_LAYOUT = 'referencia/layout' if not C['layout'].startswith('docs/') else C['layout']
 REF_DART = 'test/reference/leitor' if C['dart'].startswith('tools/') else C['dart']
+PROJETO = NOME == 'projeto'
+# T13.12: as fases do leitor (handoff_v2, só leitura, e as conferências dele — os mesmos conjuntos do leitor no
+# rodar_tudo.sh) saem como na G01 (G01 305/305); as três correções da T13.12 valem para a Início e o projeto: a caixa
+# visual dos elementos com transform com os números (saía "{fmt(...)}" literal), o bloco só do elemento quando outro
+# vem antes na mesma linha (html_literal) e a linha "Nenhuma diferença" quando a seção reaproveitada não muda nada
+LEGADO_G01 = NOME in ('leitor', 'leitor_conferencia', 'projeto_conferencia_leitor')
+GERADO_EM = 'T13.12' if PROJETO else 'G01.9'
+MAPA_DE = 'T13.12' if PROJETO else 'G01.10'
+# T13.9: o conjunto das larguras do projeto (a fluidez e os fios de navalha a 360 e 430)
+LARG = None
+if PROJETO:
+    with open(os.path.join(AQUI, 'conjuntos.json'), encoding='utf-8') as _fh:
+        _todos = json.load(_fh)
+    _cl = next(v for v in _todos.values() if isinstance(v, dict) and v.get('conjuntoBase') == NOME)
+    LARG = {'layout': _cl['layout'], 'dart': _cl['dart'],
+            'fluidez': json.load(open(os.path.join(RAIZ, os.path.dirname(_cl['layout']), 'fluidez.json'), encoding='utf-8'))['telas'],
+            'facas': json.load(open(os.path.join(RAIZ, _cl['layout'], 'knife_edges.json'), encoding='utf-8'))}
+
+
+def tags(t):
+    """No projeto (T13.12), as tags (`<rect>`, `<text>`…) do texto entre crases: o Markdown as leria como HTML."""
+    return re.sub('(?<!`)(<[A-Za-z/][^<>`]*>)(?!`)', lambda m: '`' + m.group(1) + '`', t) if PROJETO else t
 
 
 def fmt(v):
@@ -58,15 +83,18 @@ def tipografia(e):
     return f"{fam}{op}{it} {fmt(f['size'])}/{f['lineHeight']} peso {w} ls {f['letterSpacing']} {f['color']}{ex}"
 
 
-def css_lit(css):
-    css = re.sub(r'\{\{(\w+)\}\}', lambda m: f'{{{{{m.group(1)}}}}} (padrão {PROPS_PADRAO.get(m.group(1), "?")})', css)
+def css_lit(css, props=PROPS_PADRAO):
+    css = re.sub(r'\{\{(\w+)\}\}', lambda m: f'{{{{{m.group(1)}}}}} (padrão {props.get(m.group(1), "?")})', css)
     return esc(css) if css else '—'
 
 
-def html_literal(slug, ids_secoes, im):
+def html_literal(slug, ids_secoes, im, sem_elemento=None):
     nodes = {n['tpl']: n for n in esboco(slug)}
     tpl_of = {v: int(k) for k, v in im['ids'].items()}
-    texto = open(caminho('extracao', slug, 'template.html'), encoding='utf-8').read()
+    # T13.5: a seção sem contêiner (a Busca) entra pelos ids de topo dela, na ordem do arquivo
+    ids_secoes = [i for sid in ids_secoes for i in ((sem_elemento or {}).get(sid) or [sid])]
+    with open(caminho('extracao', slug, 'template.html'), encoding='utf-8') as _fh:
+        texto = _fh.read()
     partes, vistos = [], []
     for sid in ids_secoes:
         t = tpl_of[sid]
@@ -76,14 +104,19 @@ def html_literal(slug, ids_secoes, im):
         vistos.append(t)
         n = nodes[t]
         ini = texto.rfind('\n', 0, n['ini']) + 1
-        bloco = texto[ini:n['fim']]
+        recuo = texto[ini:n['ini']]
+        # T13.12: outro elemento antes na mesma linha (os confetes da 16, ids de topo de uma seção sem contêiner): só
+        # este elemento, com o recuo da linha — antes cada bloco levava junto os irmãos anteriores
+        if not LEGADO_G01:
+            recuo = recuo[:len(recuo) - len(recuo.lstrip())]
+        bloco = recuo + texto[n['ini']:n['fim']]
         if n.get('comment'):
-            bloco = ' ' * (n['ini'] - ini) + f"<!-- {n['comment']} -->\n" + bloco
+            bloco = recuo + f"<!-- {n['comment']} -->\n" + bloco
         partes.append(textwrap.dedent(bloco))
     return '\n\n'.join(partes)
 
 
-def tabela_secao(L, sec, leg_idx, ids_com_widget):
+def tabela_secao(L, sec, leg_idx, ids_com_widget, props=PROPS_PADRAO):
     sr = L['sections'][sec]
     W, H = L['meta']['canvas']
     linhas = [f"Seção `{sec}` — retângulo absoluto no canvas {W}×{H}: **x={fmt(sr[0])}, y={fmt(sr[1])}, w={fmt(sr[2])}, h={fmt(sr[3])}**. "
@@ -97,11 +130,15 @@ def tabela_secao(L, sec, leg_idx, ids_com_widget):
             continue
         x, y, w, h = e['rel']
         tol = ' ±1' if k in ids_com_widget else ''
-        linhas.append(f"| {leg_idx.get(k, '—')} | `{k}`{tol} | {e['type']} | {fmt(x)} | {fmt(y)} | {fmt(w)} | {fmt(h)} | `{css_lit(e.get('css', ''))}` | {tipografia(e)} |")
+        linhas.append(f"| {leg_idx.get(k, '—')} | `{k}`{tol} | {e['type']} | {fmt(x)} | {fmt(y)} | {fmt(w)} | {fmt(h)} | `{css_lit(e.get('css', ''), props)}` | {tipografia(e)} |")
         if e.get('vis'):
             v = e['vis']
             tf = e['style'].get('transform')
-            extras.append(f"- `{k}`: caixa visual " + (f"com `transform: {tf}`" if tf else 'deslocada pelo transform de um ancestral') + " = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).")
+            # T13.12: o trecho dos números era string comum desde a G01 (saía "{fmt(...)}" literal, sem os números); o
+            # leitor guarda esse texto (LEGADO_G01, acima)
+            numeros = (f" = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])}" if not LEGADO_G01
+                       else " = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])}")
+            extras.append(f"- `{k}`: caixa visual " + (f"com `transform: {tf}`" if tf else 'deslocada pelo transform de um ancestral') + numeros + " (relativa à seção).")
     if extras:
         linhas += ['', '**Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**'] + extras
     tl = []
@@ -122,8 +159,10 @@ def diferencas(base_slug, slug, secoes, relativo=False):
     """Ids de mesmo nome (sem o prefixo) entre a prancha e a base cuja geometria/estilo/texto mudam.
     relativo (T02, reusa.relativoASecao): a seção que só muda de lugar (ex.: na 01b tudo abaixo do cartão da revisão
     sobe 205,15) vira uma linha só; os ids dela são comparados já descontado esse deslocamento."""
-    A = json.load(open(os.path.join(LAYOUT, f'layout_{base_slug}.json'), encoding='utf-8'))
-    B = json.load(open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8'))
+    with open(os.path.join(LAYOUT, f'layout_{base_slug}.json'), encoding='utf-8') as _fh:
+        A = json.load(_fh)
+    with open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8') as _fh:
+        B = json.load(_fh)
     pa, pb = PR[base_slug]['prefixo'], PR[slug]['prefixo']
     ea = {k[len(pa) + 1:]: v for k, v in A['elements'].items() if 'section' in v}
     eb = {k[len(pb) + 1:]: v for k, v in B['elements'].items() if 'section' in v}
@@ -165,6 +204,47 @@ def diferencas(base_slug, slug, secoes, relativo=False):
     return rows, so_a, so_b
 
 
+def larguras(slug, ids_fase):
+    """T13.9 (D-272): o que muda nesta fase a 360 e 430 — a fluidez (sai do quadro, passa do pai, texto passa,
+    invade o vizinho, reticências) e os fios de navalha de cada largura, só dos ids da fase."""
+    ids = set(ids_fase)
+    linhas, facas = [], []
+    for w in (360, 430):
+        chave = f'{slug}_w{w}'
+        for it in LARG['fluidez'].get(chave, []):
+            if it['id'] not in ids:
+                continue
+            extra = []
+            if it.get('pai'):
+                extra.append(f"pai `{it['pai']}` ({it['corte']}{', largura fixa' if it.get('paiLarguraFixa') else ''})")
+            if it.get('vizinho'):
+                extra.append(f"vizinho `{it['vizinho']}`")
+            linhas.append(f"| {w} | `{it['id']}` | {it['tipo']} ({it['eixo']}) | {fmt(it['px'])} | {fmt(it['px390'])} | "
+                          f"{'**sim**' if it['novo'] else 'não'} | {'sim' if it['larguraFixa'] else 'não'} | {esc('; '.join(extra))} |")
+        for k, info in LARG['facas'].get(chave, {}).items():
+            if k not in ids:
+                continue
+            for r in info['riscos']:
+                est = fmt(r['estouroComProxima']) if r['estouroComProxima'] is not None else '—'
+                sob = f"{fmt(r['sobra'])} px" if r['sobra'] is not None else 'sem limite (não quebra ao crescer)'
+                est_txt = (f'estouro com a próxima palavra {est} px' if r['estouroComProxima'] is not None
+                           else 'sem palavra seguinte (D-275: a linha única quebra se crescer)')
+                facas.append(f"- A {w}: fio de navalha em `{k}` linha {r['linha']} «{r['texto']}»: sobra {sob} · {est_txt}.")
+    out = ['## Nas outras larguras (360 e 430 — T13.9, D-272)', '',
+           f"Referências: `{LARG['layout']}/layout_{slug}_w{{360,430}}.json` · `{LARG['dart']}/reference_layout_{slug}_w{{360,430}}.dart`. "
+           'Informação para a etapa: a tela é fluida (o CSS da prancha); o que não acompanha a largura fica abaixo, com '
+           'quanto passa e quanto já passava a 390.', '']
+    if linhas:
+        out += ['| largura | Key | o que acontece | px | a 390 | novo | largura fixa | pai / vizinho |',
+                '|---|---|---|---|---|---|---|---|'] + linhas + ['']
+    if facas:
+        out += facas + ['']
+    if not linhas and not facas:
+        out += ['- Nada desta fase sai do quadro, passa do pai, invade o vizinho, ganha reticências ou fica num fio de '
+                'navalha a 360 ou a 430.', '']
+    return out
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     indice = []
@@ -172,8 +252,11 @@ def main():
         f, slug = fase['fase'], fase['prancha']
         p = PR[slug]
         n = NOTAS[f]
-        L = json.load(open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8'))
-        im = json.load(open(caminho('idmaps', f'{slug}.json'), encoding='utf-8'))
+        with open(os.path.join(LAYOUT, f'layout_{slug}.json'), encoding='utf-8') as _fh:
+            L = json.load(_fh)
+        props = {**PROPS_PADRAO, **L['meta']['props']} if PROJETO else PROPS_PADRAO
+        with open(caminho('idmaps', f'{slug}.json'), encoding='utf-8') as _fh:
+            im = json.load(_fh)
         secoes = [f"{p['prefixo']}.{s}" for s in fase['secoes']]
         leg_idx = {k: i for i, k, _ in LEG[f]['itens']}
         dep = DEP[slug]
@@ -186,28 +269,36 @@ def main():
                f"> Referências: `{REF_PNG}/secoes/{f}@3x.png` · `{REF_PNG}/redline/{f}_redline@3x.png` (Nº = tabelas abaixo) · "
                f"`{REF_PNG}/{slug}_{W}x{H}@{{1,2,3}}x.png` · `{REF_LAYOUT}/layout_{slug}.json` · `{REF_DART}/reference_layout_{slug}.dart` (`kRef{p['tela']}`).",
                f"> Arquivos sugeridos: " + ', '.join(f'`lib/{a}`' for a in n['arquivos']) + '.',
-               f"> Gerado por `tools/medicao/gen_fases.py` (G01.9). Medidas = Chromium 141, zoom 100. Não edite as tabelas à mão: regenere.", '',
+               f"> Gerado por `tools/medicao/gen_fases.py` ({GERADO_EM}). Medidas = Chromium 141, zoom 100. Não edite as tabelas à mão: regenere.", '',
                n['contexto'], '', '---', '',
                '## HTML literal da seção', '',
-               'Props do componente: ' + ', '.join(f"`{{{{{k}}}}}` = padrão `{v}`" for k, v in L['meta']['props'].items()) + '.', '',
-               '```html', html_literal(slug, secoes, im), '```', '',
+               ('Props do componente: ' + ', '.join(f"`{{{{{k}}}}}` = padrão `{v}`" for k, v in L['meta']['props'].items()) + '.'
+                if L['meta']['props'] or not PROJETO else 'Props do componente: nenhuma (as cores desta tela são fixas).'), '',
+               '```html', html_literal(slug, secoes, im, L['meta'].get('secoesSemElemento')), '```', '',
                '## Especificação pixel a pixel', '']
         for s in secoes:
-            out += [tabela_secao(L, s, leg_idx, tdx), '']
+            out += [tabela_secao(L, s, leg_idx, tdx, props), '']
         out += ['`±1` ao lado da Key = posição/largura horizontal depende da largura medida do texto (tolerância ±1,0 em x/w; demais ±0,5).', '',
                 '## Leitura de designer (detalhes críticos)', ''] + [f'{i + 1}. {t}' for i, t in enumerate(n['leitura'])] + ['']
         # armadilhas automáticas
         arm = list(n.get('armadilhas', []))
+        # T13.12: as seções reaproveitadas da base (só no projeto) também são desta prancha, e o fio de navalha delas
+        # é desta fase (a fileira do autor da 17b não cabia em nenhuma)
+        reusadas = [f"{p['prefixo']}.{s}" for s in fase['reusa']['secoes']] if PROJETO and fase.get('reusa') else []
         for k, info in KNI.get(slug, {}).items():
-            if any(k == s or k.startswith(s + '.') for s in secoes):
+            reusada = any(k == s or k.startswith(s + '.') for s in reusadas)
+            if any(k == s or k.startswith(s + '.') for s in secoes) or reusada:
+                onde = f" (seção reaproveitada da {PR[fase['reusa']['base']]['tela']}; o risco é desta prancha)" if reusada else ''
                 for r in info['riscos']:
                     est = fmt(r['estouroComProxima']) if r['estouroComProxima'] is not None else '—'
+                    est_txt = (f'estouro com a próxima palavra {est} px' if r['estouroComProxima'] is not None or not PROJETO
+                               else 'sem palavra seguinte (D-275: a linha única quebra se crescer)')
                     # D-280: sobra null = a linha não quebra ao crescer
                     sob = f"{fmt(r['sobra'])} px" if r['sobra'] is not None else 'sem limite (não quebra ao crescer)'
                     if info.get('fileiras'):  # D-278: a fileira de um flex-wrap (projeto)
-                        arm.append(f"Fio de navalha na fileira {r['linha']} de `{k}` (flex-wrap) «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com o 1º item da fileira seguinte {est} px — no Flutter (`Wrap`), as fileiras mudam com uma diferença mínima de largura.")
+                        arm.append(f"Fio de navalha na fileira {r['linha']} de `{k}`{onde} (flex-wrap) «{r['texto']}»: sobra {fmt(r['sobra'])} px · estouro com o 1º item da fileira seguinte {est} px — no Flutter (`Wrap`), as fileiras mudam com uma diferença mínima de largura.")
                     else:
-                        arm.append(f"Fio de navalha em `{k}` linha {r['linha']} «{r['texto']}»: sobra {sob} · estouro com a próxima palavra {est} px.")
+                        arm.append(f"Fio de navalha em `{k}`{onde} linha {r['linha']} «{r['texto']}»: sobra {sob} · {est_txt}.")
         for k in ids_fase:
             e = L['elements'][k]
             if e.get('fallback'):
@@ -219,7 +310,9 @@ def main():
         ocultas = [k for k in ids_fase if any(l.get('oculta') for l in (L['elements'][k].get('lines') or []) + (L['elements'][k].get('linesAll') or []))]
         if ocultas:
             arm.append('Linhas recortadas por `overflow` (existem no layout, não aparecem): ' + ', '.join(f'`{k}`' for k in ocultas) + '.')
-        out += ['## Armadilhas', ''] + ([f'- {a}' for a in arm] if arm else ['- Nenhuma além das regras gerais de fidelidade (§4.2 do prompt v2).']) + ['']
+        out += ['## Armadilhas', ''] + ([f'- {tags(a)}' for a in arm] if arm else ['- Nenhuma além das regras gerais de fidelidade (§4.2 do prompt v2).']) + ['']
+        if LARG:
+            out += larguras(slug, ids_fase)
         # diferenças em relação à base
         if fase.get('reusa'):
             base = fase['reusa']['base']
@@ -233,6 +326,9 @@ def main():
                 out += ['Só na base: ' + ', '.join(f'`{k}`' for k in so_a) + '.', '']
             if so_b:
                 out += ['Só nesta prancha: ' + ', '.join(f'`{k}`' for k in so_b) + '.', '']
+            if not LEGADO_G01 and not (rows or so_a or so_b):
+                # T13.12: o título da 30 na 30c — sem esta linha a seção ficava só com o cabeçalho
+                out += [f"Nenhuma diferença: todos os ids das seções reutilizadas são idênticos aos da {PR[base]['tela']}.", '']
         # semântica
         sem = [(k, MAPA[slug][k].get('semantica')) for k in ids_fase if MAPA[slug].get(k, {}).get('semantica')]
         if sem:
@@ -244,10 +340,10 @@ def main():
         # widgets
         wd = [(k, MAPA[slug][k]) for k in ids_fase if not MAPA[slug][k]['widget'].startswith('layout') and MAPA[slug][k]['widget'] != 'AppText']
         if wd:
-            out += ['## Widgets e pintores sugeridos (mapa da G01.10)', '',
+            out += [f'## Widgets e pintores sugeridos (mapa da {MAPA_DE})', '',
                     'Texto = `AppText`/`AppText.rich`; contêineres sem decoração = layout (Row/Column/Stack/Padding). Demais:', '',
                     '| Key | widget / pintor | observação |', '|---|---|---|']
-            out += [f"| `{k}` | {esc(v['widget'])} | {esc(v.get('obs', ''))} |" for k, v in wd] + ['']
+            out += [f"| `{k}` | {esc(v['widget'])} | {esc(tags(v.get('obs', '')))} |" for k, v in wd] + ['']
         out += ['## Interações', ''] + [f'- {t}' for t in n['interacoes']] + ['', '## Dados', ''] + [f'- {t}' for t in n['dados']] + ['',
                 '## Subfases', ''] + [f"- **{f.split('_')[0]}.{i + 1}** {t}" for i, t in enumerate(n['subfases'])] + ['']
         secs_txt = ', '.join(f"'{s}'" for s in secoes)
@@ -257,7 +353,9 @@ def main():
                 '- Estilo: cores, bordas (1,5/1,3/1,2 exatas), raios, sombras duras (blur 0), fontes (família por tamanho, peso real), recursos (tnum).',
                 f"- Visual: golden da prancha contra `{REF_PNG}/{slug}_{W}x{H}@3x.png` no recorte da fase (y {fmt(y0)}–{fmt(y1)}) → `blur_mismatch_% ≤ 0,5` (`tools/compare_images.py`).",
                 '- Semântica: rótulos/roles da tabela acima (exceções da D-51).',
-                '- Dados: o texto exibido sai da fixture da tela (D-34) e dos cálculos (nunca escrito no widget).', '',
+                '- Dados: o texto exibido sai da fixture da tela (D-34) e dos cálculos (nunca escrito no widget).'] + (
+                [f"- Larguras: a mesma tela a 360 e a 430 contra `kRef{p['tela']}w360` e `kRef{p['tela']}w430` (`{LARG['dart']}/`), "
+                 'com as tolerâncias da geometria.'] if LARG else []) + ['',
                 '## Checklist de aceite', ''] + [f"- [ ] {f.split('_')[0]}.{i + 1} {t}" for i, t in enumerate(n['subfases'])] + [
                 f"- [ ] Geometria {len([k for k in ids_fase if L['elements'][k]['type'] != 'inline'])}/{len([k for k in ids_fase if L['elements'][k]['type'] != 'inline'])} · Texto OK · Estilo OK · Visual ≤ 0,5 % · Semântica OK",
                 '- [ ] `dart format` / `flutter analyze` (0) / `flutter test` verdes',

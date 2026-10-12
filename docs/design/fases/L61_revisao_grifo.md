@@ -105,12 +105,12 @@ Seção `rv61.deck` — retângulo absoluto no canvas 390×844: **x=24, y=156, w
 | 34 | `rv61.deck.card.footer.reviewed` ±1 | text | 254.84 | 420.1 | 67.66 | 14.4 | `—` | Figtree 12/normal peso 700 ls normal #8A8073 |
 
 **Transforms (o retângulo da tabela é o de layout; o desenho fica na caixa visual):**
-- `rv61.deck.behind2`: caixa visual com `transform: rotate(5deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv61.deck.behind1`: caixa visual com `transform: rotate(-4deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv61.deck.card.note`: caixa visual com `transform: rotate(-1.2deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv61.deck.card.note.tape`: caixa visual com `transform: rotate(-3deg)` = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv61.deck.card.note.label`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
-- `rv61.deck.card.note.text`: caixa visual deslocada pelo transform de um ancestral = x {fmt(v[0] - sr[0])}, y {fmt(v[1] - sr[1])}, w {fmt(v[2])}, h {fmt(v[3])} (relativa à seção).
+- `rv61.deck.behind2`: caixa visual com `transform: rotate(5deg)` = x -13.05, y -4.04, w 380.09, h 480.09 (relativa à seção).
+- `rv61.deck.behind1`: caixa visual com `transform: rotate(-4deg)` = x -13.35, y -5.38, w 372.7, h 474.76 (relativa à seção).
+- `rv61.deck.card.note`: caixa visual com `transform: rotate(-1.2deg)` = x 18.96, y 214.07, w 176.09, h 57.2 (relativa à seção).
+- `rv61.deck.card.note.tape`: caixa visual com `transform: rotate(-3deg)` = x 86.99, y 208.03, w 38.92, h 16.75 (relativa à seção).
+- `rv61.deck.card.note.label`: caixa visual deslocada pelo transform de um ancestral = x 30.7, y 225.81, w 152.22, h 15.18 (relativa à seção).
+- `rv61.deck.card.note.text`: caixa visual deslocada pelo transform de um ancestral = x 30.99, y 239.81, w 152.34, h 20.73 (relativa à seção).
 
 **Linhas de texto — quebras OBRIGATÓRIAS, baseline e extensão horizontal (relativas à seção; a largura inclui o letter-spacing após o último caractere, como no navegador):**
 

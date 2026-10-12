@@ -135,6 +135,27 @@ cada seção direto no `<main>`). Nesse caso a caixa da seção é a união das 
 dentro de outro id da mesma seção) — a mesma de um contêiner justo —, e o layout lista esses ids em
 `meta.secoesSemElemento`. Fora do projeto toda seção continua sendo um elemento (o `build_layout.py` para).
 
+Tokens, mapa e fases L do projeto (T13.12, R5): `CONJUNTO=projeto python3 tools/medicao/tokens_widgets.py <tokens do
+app>` gera `docs/design/medicao/projeto/tokens_projeto.json` (o que é novo em relação aos tokens do app, com o nome
+proposto), `mapa_widgets.json` (os 3409 ids; o widget de cada SVG é `AppSvg(Classe.constante, …)`, com a constante das
+classes do app — as por área da T13.11 e as de antes, para os reusados) e o `L00_projeto_tokens_e_widgets.md`. Os
+arquivos commitados saíram dos tokens do app do commit `66ec95a` (T13.11): a partir da T14 o app ganha tokens e
+classes, e o "já existe" mudaria — para refazê-los, passe a pasta com os arquivos daquele commit (`TOKENS_DART`, como
+na conferência da G01). `CONJUNTO=projeto python3 tools/medicao/gen_fases.py` gera as 73 fases L e o
+`LEIA-ME_projeto.md` em `docs/design/fases/`: a parte medida sai das medições — as props de cada tela no CSS literal
+(o halo é verde na 17 e lavanda na 17b; a 07 não tem props), a seção "Nas outras larguras" (a fluidez e os fios de
+navalha a 360 e 430 da T13.9, só dos ids da fase) e as seções sem contêiner no HTML literal —; a parte escrita à mão
+está em `fases_notas_projeto_t14.py` … `_t18.py` (juntos em `fases_notas_projeto.py`, que recusa fase repetida; o que
+se repete em `fases_notas_projeto_comum.py`). Os módulos de notas não têm barra invertida (a ferramenta de escrita a
+decodifica). Na T13.12 o gerador ganhou correções que valem para a Início e o projeto: a caixa visual dos elementos
+com transform sai com os números (desde a G01 saía `{fmt(...)}` cru), o HTML literal de um elemento que divide a linha
+do arquivo com outro sai só com ele (os confetes da 16) e a seção "Diferenças" sem nada que mude diz "Nenhuma
+diferença"; no projeto, o fio de navalha de uma seção reaproveitada da base sai na fase que a mostra (a fileira do
+autor da 17b). As fases do leitor saem como na G01 (`LEGADO_G01`: o `handoff_v2` é só leitura, G01 305/305); na
+Início mudaram 7 fases, e o manifesto da T02 acompanha. Testes: `python3 -m unittest
+tools/medicao/test_fases_projeto.py` (os tokens do app entram fixos naquele commit; o teste do leitor roda quando a
+conferência da G01 está em `tools/medicao/tmp/conferencia_g01/`).
+
 Fio de navalha de uma linha (D-275): nos conjuntos com `"facaLinhaUnica": true` (o projeto), o `perturbar.js`
 também marca a linha única que pode quebrar (tem espaço; caixa que não é flex/grid) numa caixa de largura imposta
 com sobra entre 0 e 1,5 px, medida pela largura real da linha (um Range sobre os nós de texto). O leitor e a Início
