@@ -2,16 +2,16 @@
 
 > Atualizado no fim de cada etapa (ROTEIRO §4, item 6). A ordem das etapas está em `docs/ROTEIRO.md`.
 
-**Atualizado em:** 11/10/2026, no fim da etapa 5 · R00 (Arrumação).
+**Atualizado em:** 12/10/2026, no fim da etapa 6 · T13 (medição do projeto).
 
 | | |
 |---|---|
-| **Última etapa concluída** | 5 · R00, Arrumação (branch `feat/r00-arrumacao`, aguardando aprovação para ir à `main`) |
-| **Próxima etapa** | ▶ **6 · T13, medição do projeto** (ROTEIRO §3 e §6b) |
-| **Depois** | 7 · T14, Biblioteca e Detalhes do livro (+ Coleções, Trocar a capa e o título curto da D-270) · 8 · T15, Scanner e Busca |
-| **Telas do design** | 128 no projeto · 16 no app e iguais (Início 01, 01b, 60 e as 13 do leitor 19–27b, provadas no celular) · as outras 112 com etapa (`docs/design/projeto/COBERTURA.md`) · 9 faltando no projeto, cada uma na etapa de quem a abre (D-268) |
-| **Branch atual** | `feat/r00-arrumacao` (com push); a `main` está igual ao `origin/main` (com a T04) |
-| **Próxima decisão livre** | D-271 |
+| **Última etapa concluída** | 6 · T13, medição do projeto (branch `feat/t13-medicao-projeto`, aguardando aprovação) |
+| **Próxima etapa** | ▶ **7 · T14, Biblioteca e Detalhes do livro** (+ Coleções · ver todas, Trocar a capa e o título curto da D-270); as fases L já estão em `docs/design/fases/` (`LEIA-ME_projeto.md`) |
+| **Depois** | 8 · T15, Scanner e Busca · 9 · T16, Entrada e onboarding |
+| **Telas do design** | 128 no projeto · 16 no app e iguais (Início 01, 01b, 60 e as 13 do leitor 19–27b, provadas no celular) · as outras 112 com etapa (`docs/design/projeto/COBERTURA.md`); as 41 das etapas 7–11 medidas na T13 (layouts, PNG, fios de navalha, 360 e 430, fontes, SVGs, tokens, mapa e 73 fases L) · 9 faltando no projeto, cada uma na etapa de quem a abre (D-268) |
+| **Branch atual** | `feat/t13-medicao-projeto` (só local, sem push), a partir da `main` em `debd9ed`; a `main` está igual ao `origin/main` (com a R00) |
+| **Próxima decisão livre** | D-287 |
 
 ## O que o app mostra hoje no celular
 
@@ -64,4 +64,5 @@ conferência do script, o `flutter drive` só com `--keep-app-running` e o `flut
 | 10/10/2026 | 3 · T03 | `6b14a57` | Início nova |
 | 10/10/2026 | 4 · T04 | `7754c53` | cronômetro do livro de papel |
 | 10/10/2026 | — | — | roteiro único criado; projeto completo do design baixado; decisões: abas primeiro, 128 telas na v1.0 |
-| 11/10/2026 | 5 · R00 | branch `feat/r00-arrumacao` | `main` em dia; 35/35 pranchas iguais no projeto; cobertura das 128; mapa e `NAVEGACAO.md`; percurso das 74 ligações; modo demonstração (D-267, D-269); as 16 telas no Galaxy S22+; D-268, D-270 |
+| 11/10/2026 | 5 · R00 | `debd9ed` (na `main`) | `main` em dia; 35/35 pranchas iguais no projeto; cobertura das 128; mapa e `NAVEGACAO.md`; percurso das 74 ligações; modo demonstração (D-267, D-269); as 16 telas no Galaxy S22+; D-268, D-270 |
+| 11–12/10/2026 | 6 · T13 | branch `feat/t13-medicao-projeto` | a ferramenta lê os `.dc.html` (19/19 telas antigas iguais); as 41 telas das etapas 7–11 medidas (ids, layouts, PNG, fios no navegador, 360 e 430); fontes, 198 SVGs com as classes por área, tokens, mapa e 73 fases L; duas rodadas iguais, G01 305/305 e o manifesto da T02 inteiro; D-271…D-286 |

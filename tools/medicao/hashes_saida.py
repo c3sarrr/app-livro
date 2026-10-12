@@ -25,7 +25,10 @@ elif 'hashes' in C:
 else:
     # as fases do conjunto são os arquivos do índice (a pasta docs/design/fases é compartilhada com outros conjuntos)
     fases = [f['fase'] + '.md' for f in json.load(open(os.path.join(RAIZ, C['fasesIndice']), encoding='utf-8'))['fases']]
-    PASTAS = [C[k] for k in ('layout', 'png', 'svgTinta', 'svgGraficos', 'dart', 'icones', 'ilustracoes', 'idmaps')]
+    # T13.13: o projeto não tem SVG de tinta e grava os desenhos numa pasta por área (`areas`)
+    PASTAS = [C[k] for k in ('layout', 'png', 'svgTinta', 'svgGraficos', 'dart', 'idmaps') if k in C]
+    for k in ('icones', 'ilustracoes'):
+        PASTAS += [f"{C[k]}/{a}" for a in C['areas'].values()] if C.get('areas') else [C[k]]
     ARQS = [C[k] for k in ('svgCatalogo', 'tokens', 'mapa', 'tokensMd', 'fontesManifesto', 'validacaoFontes')] + \
         [C['extracao'] + '/extracao.json'] + [f"{C['fases']}/{f}" for f in fases + [C['fasesLeiaMe'][0]]]
 lista = []

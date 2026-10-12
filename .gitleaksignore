@@ -10,3 +10,19 @@ f861fa61b51116e414ea40e6ab8af02a9a302825:docs/progresso/G12_plano.md:generic-api
 docs/progresso/G12_plano.md:generic-api-key:1000
 96f7ee950f11cab521b4467f556c2af89dd0fd4f:docs/progresso/G12.md:generic-api-key:339
 96f7ee950f11cab521b4467f556c2af89dd0fd4f:.gitleaksignore:generic-api-key:5
+# Falso positivo (T13): nas referências medidas da 69 e da 69b (o teclado numérico do sistema), a regra genérica de
+# chave casa o id de uma tecla com o id seguinte da lista de ids que dependem do texto — são nomes de id da prancha,
+# não segredos. As seis primeiras linhas valem para o histórico (os commits da T13.5 e da T13.9); as seis últimas, para
+# o `gitleaks dir` das pastas test/reference/projeto e test/reference/projeto_larguras.
+3909b2432d93e51cceb2c38f54bff1ea4bda2fdf:test/reference/projeto/reference_layout_069_scanner_digitar_isbn.dart:generic-api-key:107
+3909b2432d93e51cceb2c38f54bff1ea4bda2fdf:test/reference/projeto/reference_layout_069b_scanner_isbn_nao_confere.dart:generic-api-key:108
+ee2beabbe606d7456689f400ca73e2ec2cba62b0:test/reference/projeto_larguras/reference_layout_069_scanner_digitar_isbn_w360.dart:generic-api-key:107
+ee2beabbe606d7456689f400ca73e2ec2cba62b0:test/reference/projeto_larguras/reference_layout_069_scanner_digitar_isbn_w430.dart:generic-api-key:107
+ee2beabbe606d7456689f400ca73e2ec2cba62b0:test/reference/projeto_larguras/reference_layout_069b_scanner_isbn_nao_confere_w360.dart:generic-api-key:108
+ee2beabbe606d7456689f400ca73e2ec2cba62b0:test/reference/projeto_larguras/reference_layout_069b_scanner_isbn_nao_confere_w430.dart:generic-api-key:108
+test/reference/projeto/reference_layout_069_scanner_digitar_isbn.dart:generic-api-key:107
+test/reference/projeto/reference_layout_069b_scanner_isbn_nao_confere.dart:generic-api-key:108
+test/reference/projeto_larguras/reference_layout_069_scanner_digitar_isbn_w360.dart:generic-api-key:107
+test/reference/projeto_larguras/reference_layout_069_scanner_digitar_isbn_w430.dart:generic-api-key:107
+test/reference/projeto_larguras/reference_layout_069b_scanner_isbn_nao_confere_w360.dart:generic-api-key:108
+test/reference/projeto_larguras/reference_layout_069b_scanner_isbn_nao_confere_w430.dart:generic-api-key:108

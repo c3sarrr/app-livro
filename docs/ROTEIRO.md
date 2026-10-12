@@ -72,8 +72,8 @@ Se o projeto, um HTML antigo e qualquer outro texto discordarem: **parar e pergu
 | 3 | T03 | Início nova (01, 60) | plano de fidelidade §5 | ✅ |
 | 4 | T04 | Cronômetro do livro de papel na Início (01b): mini-barra e folha mínima | plano de fidelidade §5 | ✅ |
 | 5 | R00 | **Arrumação:** main em dia, cobertura das 128 telas, mapa de navegação, prova no celular, modo demonstração | este arquivo §7 | ✅ |
-| 6 | T13 | **Medição do projeto:** a ferramenta de medição passa a ler os `.dc.html`; mede as telas das etapas 7–11 | modelo da T02 + §6b | ▶ |
-| 7 | T14 | **Biblioteca** (02), Biblioteca vazia (36), **Detalhes do livro** físico e e-book (17, 17b); + as que faltam (D-268): Coleções · ver todas, Trocar a capa; + o "título curto" do livro, editável e preenchido pelo catálogo (D-270) | modelo da T03 | ⏳ |
+| 6 | T13 | **Medição do projeto:** a ferramenta de medição passa a ler os `.dc.html`; mede as telas das etapas 7–11 | modelo da T02 + §6b | ✅ |
+| 7 | T14 | **Biblioteca** (02), Biblioteca vazia (36), **Detalhes do livro** físico e e-book (17, 17b); + as que faltam (D-268): Coleções · ver todas, Trocar a capa; + o "título curto" do livro, editável e preenchido pelo catálogo (D-270) | modelo da T03 | ▶ |
 | 8 | T15 | **Scanner** (03, 39, 40, 41, 42, 69, 69b), **Busca** (28, 28b, 28c), Adicionar à mão (28d); + a que falta (D-268): Busca dentro do livro | modelo da T03 | ⏳ |
 | 9 | T16 | **Entrada:** Abertura (35), Login (07), Cadastro (08), Entrar (09, 09b), Código (10), Nova senha (11), Onboarding (12, 13, 13b, 14, 15, 16), Início primeiro acesso (36a) | modelo da T03 | ⏳ |
 | 10 | T17 | **Perfil** (05), Editar perfil (64, 65), **Ajustes** (06), Conta (58), Excluir conta (59), Privacidade (56), **Notificações** (30, 30b, 30c); + as que faltam (D-268): Exportar meus dados, Importar CSV de outro app, Aparência e acessibilidade, Carteirinha aberta | modelo da T03 | ⏳ |
@@ -171,6 +171,15 @@ das pranchas antigas, e a 01b do projeto renderiza **igual pixel a pixel** à ex
 sem arredondar), e a 1 px de diferença muda quebras no limite — na 01b, o "pág. 159 de 256" tem 108,97 px no zoom 10 e
 107,97 no zoom 1, e o "E-BOOK" só cabe na linha do herói no zoom 1. A T13 renderiza os `.dc.html` com o mesmo método
 da T02 (zoom 10 e redução), nunca com uma foto direta no zoom 1.
+
+**Feito na T13 (12/10/2026):** a extração `tools/medicao/extrair_dc.py` (o `<link>` do `css2` vira as `@font-face` que
+o Google devolve para a consulta — `fontes_css2.py` —, com o `<helmet>` de 3 filhos e a numeração de antes), provada
+nas 19 telas já medidas (`docs/design/medicao/projeto/conferencia_medicao.md`); as 41 telas das etapas 7–11 medidas a
+390, 360 e 430 px (`docs/design/medicao/projeto/` e `projeto_larguras/`, `test/reference/projeto/` e
+`projeto_larguras/`), com as fontes estáticas no app, os SVGs numa pasta por área, os tokens, o mapa id → widget e as
+73 fases L (`docs/design/fases/LEIA-ME_projeto.md`). As etapas 7–11 começam pelas fases L delas. As telas das etapas
+12 em diante e as que faltam (D-268) são medidas na etapa de cada uma com a mesma ferramenta
+(`tools/medicao/README.md`, "Telas do projeto completo").
 
 ## 7. R00 · Arrumação (P/M)
 

@@ -85,6 +85,13 @@ async function passoA(page, ids) {
       if (hasInlineText && (tn.length || !getComputedStyle(e).display.startsWith('inline'))) linesAll[ids[t]] = group(charsOf(inFlowText(e)));
     }
     // ── métricas de fonte medidas: topo do glifo vs. marcador na linha de base ──
+    // T13.13: espera cada face carregar antes de medir — uma chave só de espaço em branco (a 28c) não faz o navegador
+    // baixar a face, e o "H" da sonda saía na fonte de reserva conforme a corrida; família que não existe (as do
+    // sistema, como -apple-system) resolve vazio e continua com a métrica de reserva, como sempre
+    await Promise.all([...keys].map(k => {
+      const [fam, wt, st, sz] = k.split('|');
+      return document.fonts.load(`${st} ${wt} ${sz} '${fam}'`, 'H').catch(() => []);
+    }));
     const metrics = {};
     const host = document.createElement('div'); host.style.cssText = 'position:absolute;left:0;top:0;white-space:nowrap;'; document.body.appendChild(host);
     for (const k of keys) {

@@ -156,6 +156,19 @@ Início mudaram 7 fases, e o manifesto da T02 acompanha. Testes: `python3 -m uni
 tools/medicao/test_fases_projeto.py` (os tokens do app entram fixos naquele commit; o teste do leitor roda quando a
 conferência da G01 está em `tools/medicao/tmp/conferencia_g01/`).
 
+Fechamento (T13.13, R10): as duas rodadas inteiras de cada conjunto (`CONJUNTO=projeto bash rodar_tudo.sh` e
+`CONJUNTO=projeto_larguras bash rodar_larguras.sh`) dão os mesmos sha256 → `docs/progresso/T13_hashes_saida.txt`. O
+`hashes_saida.py` lista as pastas que o conjunto tem (o projeto não tem SVG de tinta) e, com `areas`, a pasta de cada
+área dos ícones e ilustrações. As métricas de fonte do layout (`fontMetrics`: o topo do "H" e a linha de base numa
+sonda) saíam da fonte de reserva quando a face ainda não tinha chegado — na 28c a chave `Figtree|400|normal|16px` é
+só de um texto em branco, que não faz o navegador baixar a face, e a sonda media a serif de reserva conforme a
+corrida. O `medir.js` espera cada face (`document.fonts.load`) antes da sonda; a família que não existe (as do
+sistema, R8) resolve vazia e continua com a métrica de reserva, como antes. A Início conferida contra o manifesto da
+T02 pede os tokens do app do commit em que ela foi gerada (`1d4a7d4`), como a G01 os do `cbfc021`: a T03 e a T04
+criaram no app tokens com os nomes propostos (`reviewLineNeutral`, `tagReadBg`…), e o "já existe" dos tokens e do L00
+mudaria (`TOKENS_DART=<pasta com os arquivos de lib/core/design_system/tokens/ daquele commit> CONJUNTO=inicio2 bash
+rodar_tudo.sh`).
+
 Fio de navalha de uma linha (D-275): nos conjuntos com `"facaLinhaUnica": true` (o projeto), o `perturbar.js`
 também marca a linha única que pode quebrar (tem espaço; caixa que não é flex/grid) numa caixa de largura imposta
 com sobra entre 0 e 1,5 px, medida pela largura real da linha (um Range sobre os nós de texto). O leitor e a Início
