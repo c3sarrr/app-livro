@@ -48,7 +48,8 @@ diz onde fica cada entrada e saída (`conjunto.py` / `conjunto.js` resolvem os c
 | `projeto_larguras` | `pranchas_projeto_larguras.json` (as 41 a 360 e 430, T13.9) | `docs/design/medicao/projeto_larguras/` (com o `fluidez.json`), `test/reference/projeto_larguras/` |
 
 Por conjunto também: o módulo dos ids (`idmaps_spec_inicio2.py`), as notas das fases (`fases_notas_inicio2.py`), os nomes
-dos SVGs (`svgs_nomes_inicio2.py`: reuso de asset existente por C14N, ids normalizados, altura em %, tamanho do layout),
+dos SVGs (`svgs_nomes_inicio2.py`: reuso de asset existente por C14N, ids normalizados, altura em %, tamanho do layout;
+`svgs_nomes_projeto.py` na T13.11, ver abaixo),
 o índice das fases (`fases_inicio2.json`) e, no `pranchas_inicio2.json`, a faixa da 63 que o gate de convergência confere
 noutro zoom (`convergenciaFaixa`: y 60–80 com o zoom 15 × 10, porque nos zooms 13, 14 e 16–20 o Skia desenha errado a
 borda de cima da folha; o resto da prancha com o 20 × 10). No `pranchas_projeto.json`, a 18b tem a mesma faixa pelo
@@ -112,6 +113,22 @@ fonte de fora das `@font-face` (o motivo e se é `informativo`: texto que o sist
 Apple, o teclado). O `build_layout.py` falha com qualquer outra e com a declarada que não aparece; o `informativo` vai
 para o layout e para a referência Dart (`kInformativo<tela>`, id → motivo, e o `kInformativoProjeto` do índice). O CDP
 atribui a fonte do texto também ao pai em alguns casos (como o `progressRow` da 20): os dois entram.
+
+SVGs do projeto (T13.11, R7): `svgs_nomes_projeto.py` dá o nome, a descrição, as cores dinâmicas, as armadilhas e as
+opções do `exportar_svgs.py` — o reuso pelo desenho (D-283: a C14N sem o tamanho da raiz, com os ids renumerados e sem
+o linejoin que não muda nada), a pasta da área da 1ª etapa que usa (`areas` no conjunto, D-284), a armadilha por uso,
+as notas de um uso só (`NOTAS_USO`), os `atributos` do `<svg>` quando o layout é outro e o `id="tracejado"` no
+elemento tracejado de um desenho com outros do mesmo nome com traço (`idTracejado`, D-285); `SECO=1` só mostra o plano. A
+ida e volta tem dois modos: o da T02 (`<img>`, mostra as armadilhas do uso como imagem) e `MODO=inline` (o arquivo em
+linha, com o layout do original: prova o desenho — 0 px nas 41), e aceita a lista de telas
+(`CONJUNTO=projeto MODO=inline node tools/medicao/conferir_svgs.js 017_detalhes_fisico && … conferir_svgs.py`). Os
+recortes @3x (`ITENS_PROJETO`) aceitam a união de ids e uma região. As classes por área saem do catálogo por
+`gen_classes_svg.py` (no Windows, com o `dart format`: `CONJUNTO=projeto python3 tools/medicao/gen_classes_svg.py`).
+Testes: `python3 -m unittest tools/medicao/test_svgs_projeto.py` e `test/design_system/t13_recursos_projeto_test.dart`.
+Os tracejados do registro do app (`svgDashes`, D-285/D-286): `node tools/medicao/tracejados_chromium.js` (no WSL) desenha
+no Chromium cada elemento com `stroke-dasharray` de `assets/` sozinho, a 3× e a 8×, em
+`docs/design/medicao/projeto/png/tracejados/`; o `test/design_system/t01_svg_dash_test.dart` compara o traço que a
+`AppSvg` pinta com esses PNGs.
 
 Seção sem contêiner (T13.5): no projeto há seções sem um elemento que as embrulhe (a Busca põe o título e a lista de
 cada seção direto no `<main>`). Nesse caso a caixa da seção é a união das caixas dos ids de topo dela (os que não estão

@@ -8,8 +8,13 @@ import 'package:vector_graphics/vector_graphics_compat.dart'
 
 import '../painters/svg_dash_painter.dart';
 import '../tokens/app_icons.dart';
+import '../tokens/app_illustrations_biblioteca.dart';
+import '../tokens/app_illustrations_cronometro.dart';
+import '../tokens/app_illustrations_entrada.dart';
 import '../tokens/app_illustrations_inicio.dart';
 import '../tokens/app_illustrations_leitor.dart' show svgDashes;
+import '../tokens/app_illustrations_perfil.dart';
+import '../tokens/app_illustrations_scanner.dart';
 
 /// Pré-carrega (lê, interpreta e compila) os SVGs do arquivo no cache do flutter_svg. Chamado no `main()` antes
 /// do `runApp`: sem isso o primeiro quadro desenha a tela sem ícones e eles "piscam" ao entrar (o
@@ -19,11 +24,12 @@ Future<void> preloadAppIcons([Iterable<String> assets = AppIcons.all]) =>
 
 Future<Object?> _precache(String asset) => preloadAppSvg(asset);
 
-/// Entradas do cache do flutter_svg: os 109 SVGs do pacote com folga para as variantes de cor (G16, D-190, T01). O
-/// padrão do flutter_svg é 100, menos do que o `main()` pré-carregava na T03 (102 com o Laço do Noite; 84 desde que
-/// a Início nova pré-carrega só o que a 01 desenha): o LRU descartava os primeiros (os ícones da Início) e eles
-/// voltavam a "piscar" na primeira abertura; a folga fica para as variantes de cor e as telas novas.
-const int kSvgCacheSize = 256;
+/// Entradas do cache do flutter_svg: os SVGs do pacote com folga para as variantes de cor (G16, D-190, T01) — o
+/// dobro deles: 308 desde a T13.11 (os 198 novos das telas das etapas 7–11), eram 110. O padrão do flutter_svg é 100,
+/// menos do que o `main()` pré-carregava na T03 (102 com o Laço do Noite; 84 desde que a Início nova pré-carrega só o
+/// que a 01 desenha): o LRU descartava os primeiros (os ícones da Início) e eles voltavam a "piscar" na primeira
+/// abertura; a folga fica para as variantes de cor e as telas novas.
+const int kSvgCacheSize = 640;
 
 /// Pré-carrega [asset] com a troca [colors] (a chave de cache do [AppSvg] com essas cores): as variantes de cores
 /// fixas, como o Laço do Noite (D-190). Garante antes o tamanho do cache ([kSvgCacheSize]).
@@ -40,13 +46,26 @@ Future<Object?> preloadAppSvg(String asset, {Map<Color, Color>? colors}) {
 
 /// O carregador que o [AppSvg] usa para [asset] com a troca [colors] (a mesma chave de cache: para pré-carregar). Nos
 /// desenhos tracejados ([svgDashes], T01) o traço do elemento sai escondido: o [AppSvg] o pinta por cima. Nos desenhos
-/// com `<text>` ([AppIllustrationsInicio.withText], T03) os textos saem: o widget da capa os escreve em `AppText`.
+/// com `<text>` ([svgsWithText]: as capas da Início, T03, e as ilustrações das telas das etapas 7–11, T13.11) os textos
+/// saem: o widget da tela os escreve em `AppText`.
 SvgAssetLoader appSvgLoader(String asset, {Map<Color, Color>? colors}) {
   final mapper = _mapperOf(asset, colors);
-  return AppIllustrationsInicio.withText.contains(asset)
+  return svgsWithText.contains(asset)
       ? _SvgWithoutTextLoader(asset, colorMapper: mapper)
       : SvgAssetLoader(asset, colorMapper: mapper);
 }
+
+/// Os desenhos que o [AppSvg] lê sem os `<text>` ([svgWithoutText]): os `withText` das classes de ilustrações. O
+/// único outro SVG com `<text>`, o `ic_underline` do leitor, não passa pelo [AppSvg] (o ícone do Sublinhar é pintado
+/// pelo `UnderlineIconPainter`, G13).
+final Set<String> svgsWithText = Set.unmodifiable({
+  ...AppIllustrationsInicio.withText,
+  ...AppIllustrationsBiblioteca.withText,
+  ...AppIllustrationsScanner.withText,
+  ...AppIllustrationsEntrada.withText,
+  ...AppIllustrationsPerfil.withText,
+  ...AppIllustrationsCronometro.withText,
+});
 
 /// O SVG sem os elementos `<text>` (T03): o flutter_svg os desenharia com a fonte do sistema (a família do arquivo,
 /// "'Instrument Serif', Georgia, serif", não é a registrada no app).
@@ -87,14 +106,17 @@ SvgColorSwap? _mapperOf(String asset, Map<Color, Color>? colors) {
   if (colors == null && dash == null) return null;
   return SvgColorSwap(
     colors ?? const {},
-    strokeless: dash == null ? const {} : {dash.element},
+    strokeless: dash == null
+        ? const {}
+        : {dash.id == null ? dash.element : '#${dash.id}'},
   );
 }
 
 /// Troca cores exatas do SVG (o ARGB inteiro) por outras na leitura do arquivo — o `ColorMapper` do flutter_svg: as
 /// ilustrações com as cores do usuário (G16: `#B6ACE4` → a `brand`, `#FF552E` → a tinta). [strokeless]: os elementos
-/// cujo traço sai escondido (T01: o tracejado que o [AppSvg] pinta). Igual por conteúdo, para a chave do cache valer
-/// entre construções.
+/// cujo traço sai escondido (T01: o tracejado que o [AppSvg] pinta) — pelo nome (`ellipse`) ou, com `#`, pelo `id`
+/// (T13.11, D-285: `#tracejado`, quando outros elementos de mesmo nome têm traço). Igual por conteúdo, para a chave do
+/// cache valer entre construções.
 @immutable
 final class SvgColorSwap extends ColorMapper {
   SvgColorSwap(Map<Color, Color> colors, {Set<String> strokeless = const {}})
@@ -113,7 +135,9 @@ final class SvgColorSwap extends ColorMapper {
     String attributeName,
     Color color,
   ) {
-    if (attributeName == 'stroke' && _strokeless.contains(elementName)) {
+    if (attributeName == 'stroke' &&
+        (_strokeless.contains(elementName) ||
+            (id != null && _strokeless.contains('#$id')))) {
       return const Color(0x00000000);
     }
     final to = _colors[color.toARGB32()];
@@ -192,7 +216,8 @@ class AppSvg extends StatelessWidget {
           ? RenderingStrategy.picture
           : RenderingStrategy.raster,
     );
-    // T01: o traço tracejado que o SVG leu escondido, por cima (é o último elemento dos dois desenhos)
+    // T01: o traço tracejado que o SVG leu escondido, por cima (nada que vem depois dele no arquivo o cruza — o teste
+    // do registro confere), medido na escala da pintura com a densidade do aparelho (D-286)
     final dash = svgDashes[asset];
     return ExcludeSemantics(
       child: SizedBox(
@@ -206,6 +231,10 @@ class AppSvg extends StatelessWidget {
                   color: color ?? colors?[dash.color],
                   // com [color], o desenho não esmaece (o filtro é o `srcIn`); o traço também não
                   opacity: color != null ? 1 : a ?? 1,
+                  devicePixelRatio:
+                      MediaQuery.maybeDevicePixelRatioOf(context) ??
+                      View.maybeOf(context)?.devicePixelRatio ??
+                      1,
                 ),
                 child: picture,
               ),

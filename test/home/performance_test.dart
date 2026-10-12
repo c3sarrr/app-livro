@@ -613,13 +613,14 @@ void main() {
       );
     });
 
-    test('SvgDashPainter (o desenho, a cor, o esmaecimento) — T01', () {
+    test('SvgDashPainter (o desenho, a cor, o esmaecimento; a densidade, D-286) — T01', () {
       final laco = svgDashes[AppIllustrationsLeitor.toolLasso]!;
       _expectRepaintsOnlyOnChange(() => SvgDashPainter(laco), {
         'dash': () =>
             SvgDashPainter(svgDashes[AppIllustrationsLeitor.markerTip]!),
         'color': () => SvgDashPainter(laco, color: AppColors.azure),
         'opacity': () => SvgDashPainter(laco, opacity: 0.5),
+        'dpr': () => SvgDashPainter(laco, devicePixelRatio: 3),
       });
     });
 

@@ -68,7 +68,7 @@ void main() {
         .listSync(recursive: true)
         .where((f) => f.path.endsWith('.svg'))
         .length;
-    expect(n, 110); // T04: + ic_play_tinta.svg (R9)
+    expect(n, 308); // T04: + ic_play_tinta.svg (R9); T13.11: + os 198 das telas das etapas 7–11 (R7)
     expect(kSvgCacheSize, greaterThanOrEqualTo(2 * n));
     svg.cache.maximumSize = 100; // o padrão do flutter_svg
     addTearDown(() => svg.cache.maximumSize = kSvgCacheSize);

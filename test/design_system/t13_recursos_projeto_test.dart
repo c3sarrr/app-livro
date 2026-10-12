@@ -4,12 +4,26 @@
 // de `tools/fonts/fontes_projeto.json`, as que já existiam e a reserva do "≈" e da "→" — D-281); as famílias no
 // FontManifest, o `AppFonts`, as ligaduras que o espaçamento desliga (D-282: `liga` e `clig`, como o Blink) e a lista
 // de licenças, que cobre cada arquivo de `assets/fonts/`.
+// T13.11 (R7), os SVGs: as pastas por área (D-284) iguais ao catálogo e às classes da área, no pubspec, abrindo no
+// flutter_svg e no tamanho de uso; os reusados (D-283) no pubspec; os gráficos fora dos assets.
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:app_leitura/core/design_system/tokens/app_icons_biblioteca.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_cronometro.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_entrada.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_perfil.dart';
+import 'package:app_leitura/core/design_system/tokens/app_icons_scanner.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_biblioteca.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_cronometro.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_entrada.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_perfil.dart';
+import 'package:app_leitura/core/design_system/tokens/app_illustrations_scanner.dart';
 import 'package:app_leitura/core/design_system/tokens/app_typography.dart';
+import 'package:app_leitura/core/design_system/widgets/app_svg.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../support/load_fonts.dart';
@@ -317,5 +331,183 @@ void main() {
       texto,
       contains('Roboto — Copyright 2011 The Roboto Project Authors'),
     );
+  });
+
+  // T13.11 (R7) — os SVGs das 41 telas: os novos na pasta da área da 1ª etapa que os usa (D-284), com a classe da área;
+  // os reusados (desenho igual a um asset que já existia, D-283) apontam para o arquivo antigo; os gráficos de dado ou
+  // de referência (`svg_graficos/`) ficam fora dos assets do app.
+  final catalogo = _json('docs/design/medicao/projeto/svg_catalogo.json');
+  final arquivos = (catalogo['arquivos'] as Map<String, dynamic>)
+      .cast<String, Map<String, dynamic>>();
+  final areas =
+      (_json('tools/medicao/conjuntos.json')['projeto']
+              as Map<String, dynamic>)['areas']
+          as Map<String, dynamic>;
+  final classes = <String, List<String>>{
+    'assets/icons/biblioteca': AppIconsBiblioteca.all,
+    'assets/icons/scanner': AppIconsScanner.all,
+    'assets/icons/entrada': AppIconsEntrada.all,
+    'assets/icons/perfil': AppIconsPerfil.all,
+    'assets/icons/cronometro': AppIconsCronometro.all,
+    'assets/illustrations/biblioteca': AppIllustrationsBiblioteca.all,
+    'assets/illustrations/scanner': AppIllustrationsScanner.all,
+    'assets/illustrations/entrada': AppIllustrationsEntrada.all,
+    'assets/illustrations/perfil': AppIllustrationsPerfil.all,
+    'assets/illustrations/cronometro': AppIllustrationsCronometro.all,
+  };
+  final comTexto = <String, Set<String>>{
+    'assets/illustrations/biblioteca': AppIllustrationsBiblioteca.withText,
+    'assets/illustrations/scanner': AppIllustrationsScanner.withText,
+    'assets/illustrations/entrada': AppIllustrationsEntrada.withText,
+    'assets/illustrations/perfil': AppIllustrationsPerfil.withText,
+    'assets/illustrations/cronometro': AppIllustrationsCronometro.withText,
+  };
+  String pastaDe(String arquivo) =>
+      arquivo.substring(0, arquivo.lastIndexOf('/'));
+  final novos = [
+    for (final e in arquivos.entries)
+      if (e.value['reuso'] != true && e.value['categoria'] != 'graf') e.key,
+  ];
+  final reusados = [
+    for (final e in arquivos.entries)
+      if (e.value['reuso'] == true) e.key,
+  ];
+  final graficos = [
+    for (final e in arquivos.entries)
+      if (e.value['categoria'] == 'graf') e.key,
+  ];
+
+  test('T13.11: cada pasta de área tem os arquivos do catálogo, sem sobra nem falta, e a classe da área lista todos', () {
+    expect(areas.values.toSet(), {
+      'biblioteca',
+      'scanner',
+      'entrada',
+      'perfil',
+      'cronometro',
+    });
+    expect(
+      classes.keys.map((p) => p.split('/').last).toSet(),
+      areas.values.toSet(),
+    );
+    // D-284: o arquivo novo fica na pasta da área que o catálogo diz, e a categoria escolhe ícone ou ilustração
+    for (final a in novos) {
+      final cat = arquivos[a]!['categoria'];
+      final raiz = cat == 'ic' ? 'assets/icons' : 'assets/illustrations';
+      expect(pastaDe(a), '$raiz/${arquivos[a]!['area']}', reason: a);
+    }
+    for (final MapEntry(key: pasta, value: lista) in classes.entries) {
+      final naPasta = Directory(pasta)
+          .listSync()
+          .whereType<File>()
+          .map((f) => f.path.replaceAll(Platform.pathSeparator, '/'))
+          .toSet();
+      expect(
+        lista.toSet(),
+        hasLength(lista.length),
+        reason: '$pasta: constantes repetidas',
+      );
+      expect(
+        naPasta,
+        novos.where((a) => pastaDe(a) == pasta).toSet(),
+        reason: pasta,
+      );
+      expect(lista.toSet(), naPasta, reason: pasta);
+    }
+    expect(classes.values.fold<int>(0, (n, l) => n + l.length), novos.length);
+  });
+
+  test('T13.11: os SVGs novos e os reusados estão no pubspec e abrem no flutter_svg', () async {
+    final declarados = (await AssetManifest.loadFromAssetBundle(rootBundle))
+        .listAssets()
+        .toSet();
+    expect(reusados, isNotEmpty);
+    for (final a in [...novos, ...reusados]) {
+      expect(declarados, contains(a), reason: a);
+      final info = await vg.loadPicture(
+        SvgStringLoader(File(a).readAsStringSync()),
+        null,
+      );
+      expect(info.size.width, greaterThan(0), reason: a);
+      expect(info.size.height, greaterThan(0), reason: a);
+      info.picture.dispose();
+    }
+  });
+
+  test('T13.11: cada SVG novo declara um dos tamanhos do catálogo (de uso ou dos atributos)', () {
+    final tamanhos = <String, Set<String>>{};
+    for (final porPrancha
+        in (catalogo['usos'] as Map<String, dynamic>).values) {
+      for (final uso in (porPrancha as Map<String, dynamic>).values) {
+        final u = uso as Map<String, dynamic>;
+        // o tamanho de uso (layout) e, quando o flex o mudou, o dos atributos do <svg> (o do arquivo)
+        for (final chave in ['tamanho', 'atributos']) {
+          if (u[chave] == null) continue;
+          final t = (u[chave] as List).map((v) => (v as num).toDouble());
+          tamanhos
+              .putIfAbsent(u['arquivo'] as String, () => {})
+              .add(t.join('×'));
+        }
+      }
+    }
+    for (final a in novos) {
+      final m = RegExp(r'<svg[^>]* width="([0-9.]+)" height="([0-9.]+)"')
+          .firstMatch(File(a).readAsStringSync());
+      expect(m, isNotNull, reason: a);
+      expect(
+        tamanhos[a],
+        contains('${double.parse(m!.group(1)!)}×${double.parse(m.group(2)!)}'),
+        reason: a,
+      );
+    }
+  });
+
+  test('T13.11: withText são exatamente as ilustrações com <text> (e nenhum ícone novo tem texto)', () {
+    for (final MapEntry(key: pasta, value: lista) in classes.entries) {
+      final comT = lista
+          .where((a) => File(a).readAsStringSync().contains('<text'))
+          .toSet();
+      if (pasta.startsWith('assets/icons/')) {
+        expect(comT, isEmpty, reason: pasta);
+      } else {
+        expect(comTexto[pasta], comT, reason: pasta);
+      }
+    }
+  });
+
+  test('T13.11: a AppSvg lê sem os <text> todo SVG com texto das telas (o carregador dela, com chave própria), e só '
+      'eles; o único outro, o ic_underline do leitor, é pintado', () {
+    final comTextoNoArquivo = {
+      for (final f in Directory('assets').listSync(recursive: true))
+        if (f is File &&
+            f.path.endsWith('.svg') &&
+            f.readAsStringSync().contains('<text'))
+          f.path.replaceAll(Platform.pathSeparator, '/'),
+    };
+    expect(comTextoNoArquivo.difference(svgsWithText), {
+      'assets/icons/leitor/ic_underline.svg',
+    });
+    expect(svgsWithText.difference(comTextoNoArquivo), isEmpty);
+    for (final a in svgsWithText) {
+      expect(
+        appSvgLoader(a).cacheKey(null),
+        isNot(SvgAssetLoader(a).cacheKey(null)),
+        reason: a,
+      );
+    }
+    for (final lista in comTexto.values) {
+      expect(svgsWithText, containsAll(lista));
+    }
+  });
+
+  test('T13.11: os gráficos de svg_graficos existem e ficam fora dos assets do app', () async {
+    final declarados = (await AssetManifest.loadFromAssetBundle(rootBundle))
+        .listAssets()
+        .toSet();
+    expect(graficos, hasLength(15));
+    for (final g in graficos) {
+      expect(g, startsWith('docs/design/medicao/projeto/svg_graficos/'));
+      expect(File(g).existsSync(), isTrue, reason: g);
+      expect(declarados, isNot(contains(g)), reason: g);
+    }
   });
 }

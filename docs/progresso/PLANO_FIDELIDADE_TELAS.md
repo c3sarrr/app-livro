@@ -51,8 +51,8 @@
 
 ## 3. Decisões novas (D-239 em diante) — aprovadas em 10/10/2026
 
-A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-282 (T13) e a próxima livre é a
-D-283.
+A última decisão usada antes desta tabela era a D-238 (G22); a tabela vai até a D-286 (T13) e a próxima livre é a
+D-287.
 
 | ID | Proposta | Alternativa |
 |---|---|---|
@@ -100,6 +100,10 @@ D-283.
 | **D-280** | **O fio de navalha de texto medido no navegador (projeto e Início):** para cada linha, ±δ no último espaço dela (margem; `word-spacing` no texto com `text-wrap: pretty`) alarga ou estreita só aquela linha e o navegador quebra de novo — a sobra e o estouro são os menores δ que mudam as quebras. A estimativa da G01 errava com trecho em outro peso, texto ao lado de outro item flex, `<br>`, próxima palavra em trecho `nowrap` e `text-wrap: pretty`; no projeto saem 2 fios falsos do Perfil e entra a dica da 28c, na Início a 360 px entram 2. O leitor segue com a estimativa (o `handoff_v2` é só leitura), com os 5 fios falsos das 22–24b anotados. | Só no projeto; corrigir a estimativa; manter e anotar |
 | **D-281** | **A reserva do glifo que a Figtree não tem no peso do texto (projeto):** o "≈" da 17b (600) e a "→" da 28c e da 30b (800) vêm da Inter no peso que o texto pede, como o Chromium (que cai na Inter do sistema): a família `BookNestApprox` ganha a SemiBold e a ExtraBold, com o "≈" e a "→" da Inter 4.0 (a mesma build da Bold da D-54, que não muda). | Uma só Bold para todos os pesos (o "≈" da 17b sai 0,08 px mais largo que no Chromium) |
 | **D-282** | **O `AppFonts` desliga as ligaduras comuns com espaçamento, como o Chromium (todos os conjuntos):** todo estilo com letter-spacing ≠ 0 leva `liga` e `clig` desligadas (as que o Blink desliga; o SkParagraph não desliga nenhuma) — sem isso o "fi" da Instrument Serif itálica espaçada vira um glifo e três linhas das telas do projeto ficam 0,92 a 2,26 px mais curtas. O `validar_fontes.py` desliga o mesmo par (antes também `dlig` e `calt`, sem diferença em nenhuma linha). | Desligar só no estilo de cada tela que tiver o par; ou deixar como o Flutter faz |
+| **D-283** | **O reuso de SVG pelo desenho (projeto):** o desenho que já existe como asset é reusado mesmo noutro tamanho — a comparação é a C14N sem o `width`/`height` da raiz (e com os ids renumerados e sem o linejoin que não muda nada); o tamanho de uso fica no catálogo. 40 reusos nas 41 telas. | O arquivo inteiro, como a T02 (os mesmos desenhos viram cópias com outro `width`/`height`: 21 reusos) |
+| **D-284** | **O desenho novo de várias áreas fica na 1ª etapa que o usa (projeto):** na pasta e na classe da 1ª etapa na ordem do ROTEIRO (T14 → T18); as seguintes usam aquela classe. | Uma pasta comum do projeto (`assets/icons/projeto_comum/`); ou uma cópia em cada área |
+| **D-285** | **Os tracejados do scanner no registro da T01 (projeto):** o livro da 39, o da 40 e a mira da 41 no `svgDashes`; nos livros, o elemento tracejado com `id="tracejado"` no arquivo (só o traço dele sai escondido), o caminho do `<rect>` como o do Chromium (de x + rx no topo, no sentido horário) e "nada depois cruza o tracejado" no lugar de "é o último". | Exportar já tracejado (cada traço vira um elemento do arquivo); ou deixar para a T15 |
+| **D-286** | **O tracejado medido na escala da pintura:** o encaixe × a densidade do aparelho, como o Chromium mede as curvas; nos 5 do registro, o Laço e a dica da T01 também (5 goldens do leitor refeitos, só no Laço e na dica). | Só nos 3 novos (a T01 como estava: 54 pixels fortes a 3× no Laço); ou em nenhum (os novos diferentes do Chromium) |
 
 ## 4. As fases
 

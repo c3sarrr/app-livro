@@ -105,6 +105,17 @@ flutter:
     # T02 (D-242): os ícones e as capas da Início nova e da revisão (telas 01, 01b, 60–63), exportados na T02.
     - assets/icons/inicio2/
     - assets/illustrations/inicio2/
+    # T13.11 (R7, D-284): os SVGs novos das telas das etapas 7–11, na pasta da área da 1ª etapa que os usa.
+    - assets/icons/biblioteca/
+    - assets/icons/scanner/
+    - assets/icons/entrada/
+    - assets/icons/perfil/
+    - assets/icons/cronometro/
+    - assets/illustrations/biblioteca/
+    - assets/illustrations/scanner/
+    - assets/illustrations/entrada/
+    - assets/illustrations/perfil/
+    - assets/illustrations/cronometro/
     - assets/fonts/LICENCAS_FONTES_OFL.txt
 
   # Bloco copiado literalmente de design_handoff/ferramentas/pubspec_fonts.yaml.

@@ -1,0 +1,7645 @@
+{
+ "_doc": "T13.11 — os <svg> das 41 telas das etapas 7–11 (tools/medicao/tmp/projeto/svgs.json), com as cores aplicadas e sem duplicatas; os que já existem como asset apontam para o arquivo existente (reuso pelo desenho, D-283) e os novos ficam na pasta da área da 1ª etapa que os usa (D-284).",
+ "arquivos": {
+  "assets/icons/_extrapolado_ic_nav_home.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "reuso": true,
+   "descricao": "aba Início"
+  },
+  "assets/icons/_extrapolado_ic_nav_library_active.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "aba Estante ativa"
+  },
+  "assets/icons/_extrapolado_ic_nav_profile_active.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "aba Perfil ativa"
+  },
+  "assets/icons/biblioteca/ic_book_closed.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#3E3832"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "livro fechado do formato (meta dos Detalhes)"
+  },
+  "assets/icons/biblioteca/ic_camera.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "câmera (foto do trecho)"
+  },
+  "assets/icons/biblioteca/ic_camera_swap.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "biblioteca",
+   "descricao": "câmera com setas (trocar a capa)"
+  },
+  "assets/icons/biblioteca/ic_camera_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "câmera (foto do trecho)"
+  },
+  "assets/icons/biblioteca/ic_check_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#2E5314"
+   ],
+   "usos": 5,
+   "area": "biblioteca",
+   "descricao": "check de traço 3 (lido)"
+  },
+  "assets/icons/biblioteca/ic_chevron_down.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "chevron para baixo"
+  },
+  "assets/icons/biblioteca/ic_chevron_right_clube.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "biblioteca",
+   "descricao": "chevron para a direita do clube (traço 2,4)"
+  },
+  "assets/icons/biblioteca/ic_file_download.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "biblioteca",
+   "descricao": "arquivo com seta para baixo (importar e-book)"
+  },
+  "assets/icons/biblioteca/ic_filters.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "filtros (dois controles deslizantes)"
+  },
+  "assets/icons/biblioteca/ic_highlighter_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "biblioteca",
+   "descricao": "marca-texto de traço 2 (grifos do livro)"
+  },
+  "assets/icons/biblioteca/ic_pencil_line.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "lápis sobre a linha (atualizar a página)"
+  },
+  "assets/icons/biblioteca/ic_plus_cabecalho.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "\"+\" do cabeçalho (adicionar livro)"
+  },
+  "assets/icons/biblioteca/ic_scan_barcode.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "escanear código de barras (moldura com barras)"
+  },
+  "assets/icons/biblioteca/ic_sort.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "ordenar (setas para cima e para baixo)"
+  },
+  "assets/icons/biblioteca/ic_sparkle_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 5,
+   "area": "biblioteca",
+   "descricao": "brilho com contorno"
+  },
+  "assets/icons/biblioteca/ic_stopwatch_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 2,
+   "area": "biblioteca",
+   "descricao": "cronômetro amarelo (começar a ler)"
+  },
+  "assets/icons/biblioteca/ic_tablet.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "leitor digital (formato e-book, traço 2,2)"
+  },
+  "assets/icons/biblioteca/ic_tablet_meta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#3E3832"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "leitor digital do formato (meta dos Detalhes, traço 2)"
+  },
+  "assets/icons/biblioteca/ic_view_grid.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "ver em grade"
+  },
+  "assets/icons/biblioteca/ic_view_list.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "biblioteca",
+   "descricao": "ver em lista"
+  },
+  "assets/icons/cronometro/ic_camera_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "câmera papel"
+  },
+  "assets/icons/cronometro/ic_chevron_down_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "chevron para baixo papel (minimizar)"
+  },
+  "assets/icons/cronometro/ic_flame_chip.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "cronometro",
+   "descricao": "chama de contorno (chip, traço 2)"
+  },
+  "assets/icons/cronometro/ic_lock_cinza.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#8F8577"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "cadeado cinza (dica da tela bloqueada)"
+  },
+  "assets/icons/cronometro/ic_pencil_note_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "lápis sobre a linha, papel (nota)"
+  },
+  "assets/icons/cronometro/ic_plus_meta_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "cronometro",
+   "descricao": "\"+\" creme da página seguinte"
+  },
+  "assets/icons/cronometro/ic_rain_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "nuvem com chuva (som ambiente)"
+  },
+  "assets/icons/cronometro/ic_sparkle_previa_rosa.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFC1C6"
+   ],
+   "usos": 1,
+   "area": "cronometro",
+   "descricao": "brilho amarelo"
+  },
+  "assets/icons/cronometro/ic_sparkle_previa_verde.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#ABCF82"
+   ],
+   "usos": 1,
+   "area": "cronometro",
+   "descricao": "brilho amarelo"
+  },
+  "assets/icons/cronometro/ic_stop_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "parar (quadrado papel)"
+  },
+  "assets/icons/cronometro/ic_stopwatch_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "cronometro",
+   "descricao": "cronômetro (16)"
+  },
+  "assets/icons/cronometro/ic_target.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "cronometro",
+   "descricao": "alvo (meta)"
+  },
+  "assets/icons/entrada/ic_alert_cinza.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "alerta (!) cinza (olhe o spam)"
+  },
+  "assets/icons/entrada/ic_arrow_forward.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 8,
+   "area": "entrada",
+   "descricao": "seta papel (continuar)"
+  },
+  "assets/icons/entrada/ic_arrow_left_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "area": "entrada",
+   "descricao": "voltar de traço 2,4"
+  },
+  "assets/icons/entrada/ic_camera_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "câmera creme (adicionar foto)"
+  },
+  "assets/icons/entrada/ic_check_mini.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5,
+   "area": "entrada",
+   "descricao": "check mínimo das regras da senha"
+  },
+  "assets/icons/entrada/ic_check_tiny_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 5,
+   "area": "entrada",
+   "descricao": "check pequeno creme do rádio"
+  },
+  "assets/icons/entrada/ic_check_valid.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "check do @ válido (traço 3,8)"
+  },
+  "assets/icons/entrada/ic_eye.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5,
+   "area": "entrada",
+   "descricao": "olho (mostrar a senha)"
+  },
+  "assets/icons/entrada/ic_genero_biografias.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "pessoa (Biografias)"
+  },
+  "assets/icons/entrada/ic_genero_fantasia.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "varinha (Fantasia)"
+  },
+  "assets/icons/entrada/ic_genero_ficcao_cientifica.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "foguete (Ficção científica)"
+  },
+  "assets/icons/entrada/ic_genero_historia.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "ampulheta (História)"
+  },
+  "assets/icons/entrada/ic_genero_humor.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "carinha sorrindo (Humor)"
+  },
+  "assets/icons/entrada/ic_genero_jovem_adulto.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "raio (Jovem adulto)"
+  },
+  "assets/icons/entrada/ic_genero_nao_ficcao.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "lâmpada (Não ficção)"
+  },
+  "assets/icons/entrada/ic_genero_poesia.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "pena (Poesia)"
+  },
+  "assets/icons/entrada/ic_genero_quadrinhos.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "balão de fala (Quadrinhos)"
+  },
+  "assets/icons/entrada/ic_genero_terror.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "fantasma (Terror)"
+  },
+  "assets/icons/entrada/ic_image_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "imagem (17, galeria)"
+  },
+  "assets/icons/entrada/ic_mail.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "entrada",
+   "descricao": "envelope papel (e-mail)"
+  },
+  "assets/icons/entrada/ic_mail_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "area": "entrada",
+   "descricao": "envelope papel (e-mail)"
+  },
+  "assets/icons/entrada/ic_minus_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "entrada",
+   "descricao": "\"−\" de traço 2,6 do contador"
+  },
+  "assets/icons/entrada/ic_pencil_note.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#8A8073"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "lápis sobre a linha (bio)"
+  },
+  "assets/icons/entrada/ic_plus_meta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "\"+\" amarelo do contador da meta"
+  },
+  "assets/icons/entrada/ic_scan_barcode_dica.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "escanear amarelo (traço 2,2) do \"tentar\""
+  },
+  "assets/icons/entrada/ic_scan_barcode_grande.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "entrada",
+   "descricao": "escanear (24, traço 2)"
+  },
+  "assets/icons/entrada/ic_share_up.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "compartilhar (19, traço 2)"
+  },
+  "assets/icons/entrada/ic_shield.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "escudo cinza (aviso de segurança)"
+  },
+  "assets/icons/entrada/ic_sparkle_rosa.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFC1C6"
+   ],
+   "usos": 3,
+   "area": "entrada",
+   "descricao": "brilho com contorno"
+  },
+  "assets/icons/entrada/ic_sparkle_solid_violeta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#552CB7"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "brilho cheio violeta"
+  },
+  "assets/icons/entrada/ic_sparkle_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "brilho com contorno cheio de tinta"
+  },
+  "assets/icons/entrada/ic_sparkle_verde.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#ABCF82"
+   ],
+   "usos": 3,
+   "area": "entrada",
+   "descricao": "brilho com contorno"
+  },
+  "assets/icons/ic_arrow_right.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "seta \"ver todas\""
+  },
+  "assets/icons/ic_bell.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "sino"
+  },
+  "assets/icons/ic_book_open.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "livro aberto"
+  },
+  "assets/icons/ic_highlighter.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "marca-texto"
+  },
+  "assets/icons/ic_nav_clubs.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5,
+   "reuso": true,
+   "descricao": "aba Clubes"
+  },
+  "assets/icons/ic_nav_home_active.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "aba Início ativa"
+  },
+  "assets/icons/ic_nav_library.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "aba Estante"
+  },
+  "assets/icons/ic_nav_profile.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "aba Perfil"
+  },
+  "assets/icons/ic_nav_scanner.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5,
+   "reuso": true,
+   "descricao": "aba Scanner"
+  },
+  "assets/icons/ic_sparkle_outline.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 5,
+   "reuso": true,
+   "descricao": "brilho com contorno"
+  },
+  "assets/icons/ic_sparkle_solid.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 9,
+   "reuso": true,
+   "descricao": "brilho cheio"
+  },
+  "assets/icons/inicio2/ic_book_paper.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "livro de papel"
+  },
+  "assets/icons/inicio2/ic_check_tiny.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 17,
+   "reuso": true,
+   "descricao": "check pequeno"
+  },
+  "assets/icons/inicio2/ic_close_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 9,
+   "reuso": true,
+   "descricao": "fechar"
+  },
+  "assets/icons/inicio2/ic_download.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "baixar"
+  },
+  "assets/icons/inicio2/ic_more_circles.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "mais"
+  },
+  "assets/icons/inicio2/ic_pause_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "pausar"
+  },
+  "assets/icons/inicio2/ic_pencil_edit.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "lápis"
+  },
+  "assets/icons/inicio2/ic_plus_bold.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "\"+\" de traço 2,4 (mais gêneros)"
+  },
+  "assets/icons/inicio2/ic_search_home.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "lupa do cabeçalho"
+  },
+  "assets/icons/inicio2/ic_sparkle_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 4,
+   "reuso": true,
+   "descricao": "brilho com contorno"
+  },
+  "assets/icons/inicio2/ic_sparkle_previa.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "brilho amarelo"
+  },
+  "assets/icons/inicio2/ic_sparkle_solid_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "brilho cheio amarelo"
+  },
+  "assets/icons/inicio2/ic_sparkle_solid_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "brilho cheio creme"
+  },
+  "assets/icons/leitor/ic_arrow_left.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 14,
+   "reuso": true,
+   "descricao": "voltar"
+  },
+  "assets/icons/leitor/ic_check.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "check"
+  },
+  "assets/icons/leitor/ic_check_read.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "check"
+  },
+  "assets/icons/leitor/ic_check_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "reuso": true,
+   "descricao": "check"
+  },
+  "assets/icons/leitor/ic_close.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "fechar"
+  },
+  "assets/icons/leitor/ic_people.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "reuso": true,
+   "descricao": "pessoas"
+  },
+  "assets/icons/leitor/ic_plus.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6,
+   "reuso": true,
+   "descricao": "\"+\""
+  },
+  "assets/icons/leitor/ic_plus_tiny.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "reuso": true,
+   "descricao": "\"+\" mínimo da cor personalizada"
+  },
+  "assets/icons/leitor/ic_search.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6,
+   "reuso": true,
+   "descricao": "lupa do campo de busca"
+  },
+  "assets/icons/leitor/ic_search_cinza.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "lupa cinza"
+  },
+  "assets/icons/leitor/ic_share.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "compartilhar"
+  },
+  "assets/icons/perfil/ic_arrow_forward_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "seta em tinta (mais do ano)"
+  },
+  "assets/icons/perfil/ic_arrow_up_right.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "seta para cima e à direita (à frente da meta)"
+  },
+  "assets/icons/perfil/ic_bar_chart.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "gráfico de barras (estatísticas)"
+  },
+  "assets/icons/perfil/ic_bell_lista.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "sino das listas (traço 2)"
+  },
+  "assets/icons/perfil/ic_block.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "bloqueado (círculo cortado)"
+  },
+  "assets/icons/perfil/ic_book_open_medalha.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "livro aberto (26, medalha)"
+  },
+  "assets/icons/perfil/ic_camera_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "câmera (15, trocar o avatar)"
+  },
+  "assets/icons/perfil/ic_camera_small_grafite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#5B544B"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "câmera (15, trocar o avatar)"
+  },
+  "assets/icons/perfil/ic_chat_bubble.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "balão de conversa (medalha)"
+  },
+  "assets/icons/perfil/ic_check_bold_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "check de traço 3 creme do rádio"
+  },
+  "assets/icons/perfil/ic_check_double.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "check duplo (marcar como lidas)"
+  },
+  "assets/icons/perfil/ic_check_small_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "check creme do rádio"
+  },
+  "assets/icons/perfil/ic_check_verde.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#ABCF82"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "check verde (salvar)"
+  },
+  "assets/icons/perfil/ic_chevron_down_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6,
+   "area": "perfil",
+   "descricao": "chevron para baixo (14)"
+  },
+  "assets/icons/perfil/ic_chevron_left.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "perfil",
+   "descricao": "chevron para a esquerda (voltar)"
+  },
+  "assets/icons/perfil/ic_chevron_right_lista.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 22,
+   "area": "perfil",
+   "descricao": "chevron para a direita das listas (traço 2,2)"
+  },
+  "assets/icons/perfil/ic_contrast.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "contraste (aparência)"
+  },
+  "assets/icons/perfil/ic_document.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "documento (termos)"
+  },
+  "assets/icons/perfil/ic_document_page.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "página (o que estou lendo)"
+  },
+  "assets/icons/perfil/ic_drag_handle.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#8A8073"
+   ],
+   "usos": 4,
+   "area": "perfil",
+   "descricao": "alça de arrastar (6 pontos)"
+  },
+  "assets/icons/perfil/ic_flame_filled.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "chama cheia amarela (sequência)"
+  },
+  "assets/icons/perfil/ic_flame_filled_coral.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "chama cheia coral"
+  },
+  "assets/icons/perfil/ic_flame_outline.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "chama de contorno (sequência)"
+  },
+  "assets/icons/perfil/ic_folder_download.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "pasta com seta (biblioteca)"
+  },
+  "assets/icons/perfil/ic_globe.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "globo (idioma)"
+  },
+  "assets/icons/perfil/ic_globe_perfil.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "globo (perfil aberto, 19)"
+  },
+  "assets/icons/perfil/ic_heart.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "coração"
+  },
+  "assets/icons/perfil/ic_help_lista.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "ajuda (? no círculo, 20)"
+  },
+  "assets/icons/perfil/ic_key.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "chave (senha)"
+  },
+  "assets/icons/perfil/ic_library_lista.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "estante das listas"
+  },
+  "assets/icons/perfil/ic_list.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "lista com marcadores"
+  },
+  "assets/icons/perfil/ic_lock.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "cadeado"
+  },
+  "assets/icons/perfil/ic_lock_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "cadeado (14, só eu)"
+  },
+  "assets/icons/perfil/ic_minus_stepper.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "\"−\" do contador (16)"
+  },
+  "assets/icons/perfil/ic_moon_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "lua creme (não incomodar)"
+  },
+  "assets/icons/perfil/ic_pause_circle.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "pausa no círculo"
+  },
+  "assets/icons/perfil/ic_pencil_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "area": "perfil",
+   "descricao": "lápis (14, trocar o favorito)"
+  },
+  "assets/icons/perfil/ic_people_lista.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "pessoas das listas (contas ligadas)"
+  },
+  "assets/icons/perfil/ic_people_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "area": "perfil",
+   "descricao": "pessoas (14, público)"
+  },
+  "assets/icons/perfil/ic_person.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "pessoa"
+  },
+  "assets/icons/perfil/ic_phone.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "celular (aparelhos)"
+  },
+  "assets/icons/perfil/ic_phone_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "celular (12, conta)"
+  },
+  "assets/icons/perfil/ic_plus_stepper_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "\"+\" creme do contador (16)"
+  },
+  "assets/icons/perfil/ic_scan_barcode_lista.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "escanear das listas (18)"
+  },
+  "assets/icons/perfil/ic_search_grafite.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#5B544B"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "lupa grafite da folha"
+  },
+  "assets/icons/perfil/ic_settings.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 4,
+   "area": "perfil",
+   "descricao": "engrenagem (ajustes)"
+  },
+  "assets/icons/perfil/ic_shuffle_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "trocar (setas cruzadas, amarelo)"
+  },
+  "assets/icons/perfil/ic_sign_out.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "sair (traço 2,2)"
+  },
+  "assets/icons/perfil/ic_sign_out_fino.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "sair (traço 2)"
+  },
+  "assets/icons/perfil/ic_sparkle_notificacao.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFC1C6"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "brilho rosa com contorno (notificações)"
+  },
+  "assets/icons/perfil/ic_sparkle_notificacao_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "brilho rosa com contorno (notificações)"
+  },
+  "assets/icons/perfil/ic_sparkle_solid_cinza.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "brilho cheio cinza (versão)"
+  },
+  "assets/icons/perfil/ic_star.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#F2A815"
+   ],
+   "usos": 4,
+   "area": "perfil",
+   "descricao": "estrela dourada da nota"
+  },
+  "assets/icons/perfil/ic_star_coral.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "estrela coral (plano)"
+  },
+  "assets/icons/perfil/ic_star_creme.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "estrela dourada da nota"
+  },
+  "assets/icons/perfil/ic_star_half_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#F2A815",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "meia estrela pequena"
+  },
+  "assets/icons/perfil/ic_star_outline.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "estrela de contorno (resenhas)"
+  },
+  "assets/icons/perfil/ic_star_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#F2A815"
+   ],
+   "usos": 19,
+   "area": "perfil",
+   "descricao": "estrela dourada pequena (12)"
+  },
+  "assets/icons/perfil/ic_stats_bars.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "perfil",
+   "descricao": "barras (resumo)"
+  },
+  "assets/icons/perfil/ic_stopwatch_fino.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "perfil",
+   "descricao": "cronômetro (traço 1,9)"
+  },
+  "assets/icons/perfil/ic_trash_delete.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#B83A1C"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "lixeira vermelha (excluir a conta)"
+  },
+  "assets/icons/perfil/ic_trash_delete_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "lixeira vermelha (excluir a conta)"
+  },
+  "assets/icons/perfil/ic_upload.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "enviar (importar)"
+  },
+  "assets/icons/scanner/ic_alert.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "alerta (!) no círculo"
+  },
+  "assets/icons/scanner/ic_alert_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "alerta (!) pequeno do chip"
+  },
+  "assets/icons/scanner/ic_arrow_next_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "seta papel (abrir o livro)"
+  },
+  "assets/icons/scanner/ic_backspace.svg": {
+   "categoria": "ic",
+   "cores": [],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "apagar (teclado do sistema, R8)"
+  },
+  "assets/icons/scanner/ic_barcode.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 7,
+   "area": "scanner",
+   "descricao": "código de barras (modo código)"
+  },
+  "assets/icons/scanner/ic_book_simple.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "livro (tipo do adesivo)"
+  },
+  "assets/icons/scanner/ic_camera_capa.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "câmera (tirar foto da capa)"
+  },
+  "assets/icons/scanner/ic_check_bold_tinta.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6,
+   "area": "scanner",
+   "descricao": "check de traço 3 em tinta"
+  },
+  "assets/icons/scanner/ic_check_read_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 3,
+   "area": "scanner",
+   "descricao": "check amarelo do chip de status"
+  },
+  "assets/icons/scanner/ic_chevron_right_fino.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "chevron para a direita (traço 2)"
+  },
+  "assets/icons/scanner/ic_clipboard.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "colar (prancheta)"
+  },
+  "assets/icons/scanner/ic_clock.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#6F665B"
+   ],
+   "usos": 3,
+   "area": "scanner",
+   "descricao": "relógio (buscas recentes)"
+  },
+  "assets/icons/scanner/ic_close_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "limpar a busca (× de traço 2,8)"
+  },
+  "assets/icons/scanner/ic_eraser.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "borracha (apagar tudo)"
+  },
+  "assets/icons/scanner/ic_flash.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 5,
+   "area": "scanner",
+   "descricao": "lanterna (raio)"
+  },
+  "assets/icons/scanner/ic_help.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "ajuda (? no círculo)"
+  },
+  "assets/icons/scanner/ic_image.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "imagem (escolher da galeria)"
+  },
+  "assets/icons/scanner/ic_keyboard.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 8,
+   "area": "scanner",
+   "descricao": "teclado (modo digitar)"
+  },
+  "assets/icons/scanner/ic_keyboard_hide.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "esconder o teclado"
+  },
+  "assets/icons/scanner/ic_people_avatar.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 6,
+   "area": "scanner",
+   "descricao": "pessoas no avatar do clube"
+  },
+  "assets/icons/scanner/ic_plus_add.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "\"+\" de traço 2,6 (adicionar)"
+  },
+  "assets/icons/scanner/ic_plus_add_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "\"+\" de traço 2,6 (adicionar)"
+  },
+  "assets/icons/scanner/ic_plus_papel.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#F7F0E3"
+   ],
+   "usos": 2,
+   "area": "scanner",
+   "descricao": "\"+\" papel do botão principal"
+  },
+  "assets/icons/scanner/ic_refresh.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "area": "scanner",
+   "descricao": "escanear de novo (seta circular)"
+  },
+  "assets/icons/scanner/ic_scan_barcode_amarelo.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "escanear, amarelo, do chip de status"
+  },
+  "assets/icons/scanner/ic_scan_barcode_busca.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 7,
+   "area": "scanner",
+   "descricao": "escanear da barra de busca (traço 1,9)"
+  },
+  "assets/icons/scanner/ic_settings_small.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "engrenagem do caminho dos Ajustes"
+  },
+  "assets/icons/scanner/ic_shelf.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "livros na estante"
+  },
+  "assets/icons/scanner/ic_sparkle_lavanda.svg": {
+   "categoria": "ic",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4"
+   ],
+   "usos": 3,
+   "area": "scanner",
+   "descricao": "brilho com contorno"
+  },
+  "assets/illustrations/biblioteca/il_fita_marcador.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 3,
+   "area": "biblioteca",
+   "descricao": "fita de marcador coral pendurada na capa da estante"
+  },
+  "assets/illustrations/cronometro/carimbo_meta_batida.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "cronometro",
+   "descricao": "carimbo \"META DO DIA · BATIDA\""
+  },
+  "assets/illustrations/entrada/cadeado_aberto.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#E9DFCC",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "cadeado aberto (nova senha)"
+  },
+  "assets/illustrations/entrada/carimbo_carteirinha.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#552CB7",
+    "rgba(85,44,183,0.08)"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "carimbo \"LEITORA Nº … · BOOKNEST\" da carteirinha"
+  },
+  "assets/illustrations/entrada/codigo_barras_carteirinha.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "código de barras da carteirinha"
+  },
+  "assets/illustrations/entrada/despertador_15_min.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "despertador com 15 min"
+  },
+  "assets/illustrations/entrada/despertador_30_min.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "despertador com 30 min (tocando)"
+  },
+  "assets/illustrations/entrada/despertador_5_min.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "despertador com 5 min"
+  },
+  "assets/illustrations/entrada/despertador_60_min.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "despertador com 60 min"
+  },
+  "assets/illustrations/entrada/envelope_codigo.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#5B544B",
+    "#B6ACE4",
+    "#EAE1D0",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "envelope com o código"
+  },
+  "assets/illustrations/entrada/il_livro_codigo_barras_dica.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "livro lavanda com o código (cartão da dica)"
+  },
+  "assets/illustrations/entrada/ondas_abertura.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FF552E",
+    "#FFC1C6"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "ondas verticais da abertura"
+  },
+  "assets/illustrations/entrada/ondas_entrada.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FF552E",
+    "#FFC1C6"
+   ],
+   "usos": 7,
+   "area": "entrada",
+   "descricao": "ondas do topo das telas de entrada"
+  },
+  "assets/illustrations/entrada/ondas_onboarding_meta.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FF552E",
+    "#FFC1C6"
+   ],
+   "usos": 5,
+   "area": "entrada",
+   "descricao": "ondas do topo do onboarding (meta)"
+  },
+  "assets/illustrations/entrada/raios_selo_abertura.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "raios em volta do selo da abertura"
+  },
+  "assets/illustrations/entrada/selo_de_volta_a_leitura.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 2,
+   "area": "entrada",
+   "descricao": "selo \"DE VOLTA À LEITURA · BOOKNEST\""
+  },
+  "assets/illustrations/entrada/selo_leia_grife_converse.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "selo \"LEIA · GRIFE · CONVERSE\" (abertura)"
+  },
+  "assets/illustrations/entrada/selo_leia_grife_converse_login.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "o mesmo selo, com a sombra a 3 (login)"
+  },
+  "assets/illustrations/entrada/seta_curva_dica.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "entrada",
+   "descricao": "seta curva da dica"
+  },
+  "assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg": {
+   "categoria": "il",
+   "cores": [
+    "#058CD7",
+    "#1A1714",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 3,
+   "reuso": true,
+   "descricao": "capa Brás Cubas com asas"
+  },
+  "assets/illustrations/inicio2/il_capa_dom_casmurro.svg": {
+   "categoria": "il",
+   "cores": [
+    "#058CD7",
+    "#1A1714",
+    "#552CB7",
+    "#B6ACE4",
+    "#F7F0E3",
+    "#FED170",
+    "#FFC1C6",
+    "#FFFAF1"
+   ],
+   "usos": 2,
+   "reuso": true,
+   "descricao": "capa Dom Casmurro"
+  },
+  "assets/illustrations/perfil/carimbo_carteirinha_perfil.svg": {
+   "categoria": "il",
+   "cores": [
+    "#552CB7",
+    "rgba(85,44,183,0.08)"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "carimbo violeta com brilho da carteirinha"
+  },
+  "assets/illustrations/perfil/codigo_barras_carteirinha_perfil.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "código de barras da carteirinha do perfil"
+  },
+  "assets/illustrations/perfil/fita_marcador_capa.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 3,
+   "area": "perfil",
+   "descricao": "fita coral na capa da grade (14×26)"
+  },
+  "assets/illustrations/perfil/il_notificacoes_vazia.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4",
+    "#FED170",
+    "#FFC1C6",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "sino dormindo (zzz) sobre o livro"
+  },
+  "assets/illustrations/perfil/medalha_circulo_rosa.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FFC1C6"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "medalha círculo rosa"
+  },
+  "assets/illustrations/perfil/medalha_hexagono_verde.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "medalha hexágono verde"
+  },
+  "assets/illustrations/perfil/medalha_losango_lavanda.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "medalha losango lavanda"
+  },
+  "assets/illustrations/perfil/medalha_ondulada_amarela.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "perfil",
+   "descricao": "medalha ondulada amarela"
+  },
+  "assets/illustrations/scanner/il_busca_nada_encontrado.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4",
+    "#FED170",
+    "#FFC1C6",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "livro com lupa e \"?\" (nada encontrado)"
+  },
+  "assets/illustrations/scanner/il_camera_cadeado.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4",
+    "#FED170",
+    "#FFC1C6",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "câmera com cadeado (sem permissão)"
+  },
+  "assets/illustrations/scanner/il_capa_a_hora_da_estrela.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "capa A Hora da Estrela (brilhos)"
+  },
+  "assets/illustrations/scanner/il_capa_capitu_memorias.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "capa Capitu: memórias póstumas (ondas)"
+  },
+  "assets/illustrations/scanner/il_capa_dom_casmurro_olho.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "capa Dom Casmurro do resultado (olho)"
+  },
+  "assets/illustrations/scanner/il_capa_iracema.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#552CB7",
+    "#B6ACE4",
+    "#FED170"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "capa Iracema (sol sobre as ondas)"
+  },
+  "assets/illustrations/scanner/il_capa_policarpo_quaresma.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "capa Policarpo Quaresma (violão)"
+  },
+  "assets/illustrations/scanner/il_capa_receitas_da_vo_cida.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "capa Receitas da vó Cida (tigela)"
+  },
+  "assets/illustrations/scanner/il_livro_codigo_barras.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#B6ACE4",
+    "#FF552E",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "livro lavanda com o código de barras (como mirar)"
+  },
+  "assets/illustrations/scanner/il_livro_interrogacao.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#ABCF82",
+    "#FED170",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "livro verde com \"?\" (não encontrado)"
+  },
+  "assets/illustrations/scanner/mira_scanner.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FED170"
+   ],
+   "usos": 3,
+   "area": "scanner",
+   "descricao": "cantos da mira do scanner"
+  },
+  "assets/illustrations/scanner/mira_scanner_creme.svg": {
+   "categoria": "il",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "cantos da mira do scanner"
+  },
+  "assets/illustrations/scanner/mira_scanner_tracejada.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "cantos tracejados da mira (sem permissão)"
+  },
+  "assets/illustrations/scanner/tremor_direita.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FFC1C6"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "marcas de tremor à direita do adesivo"
+  },
+  "assets/illustrations/scanner/tremor_esquerda.svg": {
+   "categoria": "il",
+   "cores": [
+    "#FFC1C6"
+   ],
+   "usos": 1,
+   "area": "scanner",
+   "descricao": "marcas de tremor à esquerda do adesivo"
+  },
+  "docs/design/medicao/projeto/svg_graficos/anel_cronometro.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#221E1A",
+    "#3A332C",
+    "#F7F0E3",
+    "#FED170",
+    "rgba(247,240,227,0.85)"
+   ],
+   "usos": 1,
+   "descricao": "anel do cronômetro"
+  },
+  "docs/design/medicao/projeto/svg_graficos/anel_cronometro_fim.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#221E1A",
+    "#3A332C",
+    "#F7F0E3",
+    "#FED170",
+    "rgba(247,240,227,0.85)"
+   ],
+   "usos": 1,
+   "descricao": "anel do cronômetro completo (fim da sessão)"
+  },
+  "docs/design/medicao/projeto/svg_graficos/anel_hoje_primeiro_acesso.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "descricao": "anel \"hoje\" do primeiro acesso"
+  },
+  "docs/design/medicao/projeto/svg_graficos/anel_meta_livro.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#EAD9A6",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "descricao": "anel de progresso do livro na estante"
+  },
+  "docs/design/medicao/projeto/svg_graficos/anel_reenviar_codigo.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#B6ACE4",
+    "#EAE1D0"
+   ],
+   "usos": 1,
+   "descricao": "anel da contagem para reenviar o código"
+  },
+  "docs/design/medicao/projeto/svg_graficos/anel_sessao_livro.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#EAD9A6",
+    "#FFFAF1"
+   ],
+   "usos": 1,
+   "descricao": "anel de progresso da sessão do livro"
+  },
+  "docs/design/medicao/projeto/svg_graficos/borda_onda_conquista.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 1,
+   "descricao": "borda ondulada da barra da conquista"
+  },
+  "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#FFC1C6"
+   ],
+   "usos": 2,
+   "descricao": "borda ondulada da ponta da barra preenchida"
+  },
+  "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_coral.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#FF552E"
+   ],
+   "usos": 5,
+   "descricao": "borda ondulada da ponta da barra preenchida"
+  },
+  "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_tinta.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "descricao": "a mesma borda, em tinta"
+  },
+  "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_verde.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#ABCF82"
+   ],
+   "usos": 2,
+   "descricao": "borda ondulada da ponta da barra preenchida"
+  },
+  "docs/design/medicao/projeto/svg_graficos/codigo_barras_camera.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 3,
+   "descricao": "código de barras do livro sob a câmera (03)"
+  },
+  "docs/design/medicao/projeto/svg_graficos/codigo_barras_camera_nao_encontrado.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714"
+   ],
+   "usos": 1,
+   "descricao": "código sob a câmera (40)"
+  },
+  "docs/design/medicao/projeto/svg_graficos/codigo_barras_isbn_digitado.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#552CB7",
+    "#8B8173",
+    "#E2D7C3",
+    "#F7F0E3"
+   ],
+   "usos": 1,
+   "descricao": "código de barras do ISBN digitado"
+  },
+  "docs/design/medicao/projeto/svg_graficos/codigo_barras_isbn_nao_confere.svg": {
+   "categoria": "graf",
+   "cores": [
+    "#1A1714",
+    "#552CB7",
+    "#C2364A",
+    "#FFC1C6",
+    "#FFE1E4"
+   ],
+   "usos": 1,
+   "descricao": "o ISBN que não confere"
+  }
+ },
+ "usos": {
+  "aj06.account.badge.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_phone_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "aj06.account.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj06.footer.signOut.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_sign_out.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.footer.version.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_sparkle_solid_cinza.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "aj06.goals.daily.stepper.minus.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_minus_stepper.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "aj06.goals.daily.stepper.plus.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_plus_stepper_creme.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "aj06.goals.reminder.switch.thumb.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "aj06.goals.streak.switch.thumb.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "aj06.goals.streak.title.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_flame_filled_coral.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "aj06.goals.yearly.stepper.minus.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_minus_stepper.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "aj06.goals.yearly.stepper.plus.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_plus_stepper_creme.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "aj06.help.list.center.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.help.list.center.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_help_lista.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj06.help.list.contact.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.help.list.contact.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chat_bubble.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj06.help.list.terms.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.help.list.terms.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_document.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj06.more.list.appearance.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.appearance.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_contrast.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.language.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.language.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_globe.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.library.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.library.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_folder_download.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.notifications.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.notifications.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_bell_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.privacy.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.privacy.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_lock.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.scanner.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.more.list.scanner.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_scan_barcode_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.nav.clubs.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "aj06.nav.home.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "aj06.nav.library.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/ic_nav_library.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "aj06.nav.profile.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_profile_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "aj06.nav.scanner.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "aj06.plan.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj06.plan.icon.art": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_star_coral.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "aj06.reading.font.chevron": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj06.reading.screenOn.switch.thumb.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "aj06.reading.theme.sepia.preview.check.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/leitor/ic_check_read.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "aj06.search.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj06.top.back.icon": {
+   "006_ajustes": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj56.blockNote.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_block.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.people.list.blocked.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_block.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.people.list.blocked.trail.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.people.list.findByEmail.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/entrada/ic_mail_tinta.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.people.list.requests.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_people_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.people.list.requests.trail.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.profileType.closed.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_lock.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "aj56.profileType.closed.radio.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_check_small_creme.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "aj56.profileType.open.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_globe_perfil.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "aj56.top.back.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj56.visibility.list.highlights.audience.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_down_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.highlights.audience.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_lock_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.highlights.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/biblioteca/ic_highlighter_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.visibility.list.lists.audience.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_down_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.lists.audience.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_people_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.lists.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_list.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.visibility.list.page.audience.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_down_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.page.audience.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_people_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.page.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_document_page.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.visibility.list.reviews.audience.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_down_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.reviews.audience.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_people_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.reviews.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_star_outline.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.visibility.list.shelf.audience.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_down_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.shelf.audience.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_people_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.shelf.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_library_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj56.visibility.list.stats.audience.chevron": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_chevron_down_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.stats.audience.icon": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_lock_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "aj56.visibility.list.stats.icon.art": {
+   "056_privacidade": {
+    "arquivo": "assets/icons/perfil/ic_bar_chart.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.data.list.export.chevron": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.data.list.export.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/inicio2/ic_download.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.data.list.import.chevron": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.data.list.import.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_upload.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.delete.icon": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_trash_delete.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "aj58.signIn.list.connected.chevron": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.signIn.list.connected.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_people_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.signIn.list.email.chevron": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.signIn.list.email.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/entrada/ic_mail_tinta.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.signIn.list.password.chevron": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.signIn.list.password.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_key.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.signOut.icon": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_sign_out_fino.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.sync.list.devices.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_phone.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.sync.list.devices.trail.chevron": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.sync.list.offline.icon.art": {
+   "058_conta": {
+    "arquivo": "assets/icons/inicio2/ic_download.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj58.top.back.icon": {
+   "058_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "aj59.alternatives.download.chevron": {
+   "059_excluir_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj59.alternatives.download.icon.art": {
+   "059_excluir_conta": {
+    "arquivo": "assets/icons/inicio2/ic_download.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj59.alternatives.pause.chevron": {
+   "059_excluir_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_right_lista.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj59.alternatives.pause.icon.art": {
+   "059_excluir_conta": {
+    "arquivo": "assets/icons/perfil/ic_pause_circle.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "aj59.bottom.delete.icon": {
+   "059_excluir_conta": {
+    "arquivo": "assets/icons/perfil/ic_trash_delete_tinta.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "aj59.top.back.icon": {
+   "059_excluir_conta": {
+    "arquivo": "assets/icons/perfil/ic_chevron_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "b02.collections.seeAll.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "b02.header.add.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_plus_cabecalho.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b02.nav.clubs.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b02.nav.home.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b02.nav.library.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_library_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b02.nav.profile.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/ic_nav_profile.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b02.nav.scanner.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "b02.search.field.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "b02.search.filters.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_filters.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b02.shelf.book1.ribbon": {
+   "002_biblioteca": {
+    "arquivo": "assets/illustrations/biblioteca/il_fita_marcador.svg",
+    "tamanho": [
+     16,
+     30
+    ]
+   }
+  },
+  "b02.shelf.book2.ribbon": {
+   "002_biblioteca": {
+    "arquivo": "assets/illustrations/biblioteca/il_fita_marcador.svg",
+    "tamanho": [
+     16,
+     30
+    ]
+   }
+  },
+  "b02.shelf.book3.ribbon": {
+   "002_biblioteca": {
+    "arquivo": "assets/illustrations/biblioteca/il_fita_marcador.svg",
+    "tamanho": [
+     16,
+     30
+    ]
+   }
+  },
+  "b02.shelf.book5.info.tag.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_check_bold.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "b02.shelf.book7.info.notes.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_highlighter_bold.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "b02.shelf.book8.info.tag.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_check_bold.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "b02.shelf.book9.info.tag.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_check_bold.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "b02.sortView.sort.chevron": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_chevron_down.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "b02.sortView.sort.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_sort.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "b02.sortView.toggle.grid.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_view_grid.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "b02.sortView.toggle.list.icon": {
+   "002_biblioteca": {
+    "arquivo": "assets/icons/biblioteca/ic_view_list.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "b36.actions.ebook.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/biblioteca/ic_file_download.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "b36.actions.scan.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/biblioteca/ic_scan_barcode.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "b36.actions.search.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "b36.illustration.book.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_amarelo.svg",
+    "tamanho": [
+     36,
+     36
+    ]
+   }
+  },
+  "b36.nav.clubs.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b36.nav.home.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b36.nav.library.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_library_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b36.nav.profile.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/ic_nav_profile.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "b36.nav.scanner.icon": {
+   "036_biblioteca_vazia": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "bu28.recent.item1.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/scanner/ic_clock.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "bu28.recent.item2.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/scanner/ic_clock.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "bu28.recent.item3.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/scanner/ic_clock.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "bu28.searchBar.back.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28.searchBar.field.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/leitor/ic_search_cinza.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28.searchBar.scan.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "bu28.sparkle": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/scanner/ic_sparkle_lavanda.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "bu28.trending.book1.clubs.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/leitor/ic_people.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "bu28.trending.book2.clubs.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/leitor/ic_people.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "bu28.trending.book2.cover.art": {
+   "028_busca_explorar": {
+    "arquivo": "assets/illustrations/scanner/il_capa_iracema.svg",
+    "tamanho": [
+     121,
+     70
+    ],
+    "armadilha": "width=\"100%\" (a largura da caixa da capa) e preserveAspectRatio=\"none\": o arquivo sai com a largura medida; no app, a ilustração ocupa a caixa da capa (BoxFit.fill: esticada)."
+   }
+  },
+  "bu28.trending.book3.clubs.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/leitor/ic_people.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "bu28.trending.book3.cover.art": {
+   "028_busca_explorar": {
+    "arquivo": "assets/illustrations/scanner/il_capa_policarpo_quaresma.svg",
+    "tamanho": [
+     121,
+     96
+    ],
+    "armadilha": "width=\"100%\" (a largura da caixa da capa): o arquivo sai com a largura medida; no app, a ilustração ocupa a caixa da capa (BoxFit.contain, centrada)."
+   }
+  },
+  "bu28.trending.book4.clubs.icon": {
+   "028_busca_explorar": {
+    "arquivo": "assets/icons/leitor/ic_people.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "bu28.trending.book4.cover.art": {
+   "028_busca_explorar": {
+    "arquivo": "assets/illustrations/scanner/il_capa_a_hora_da_estrela.svg",
+    "tamanho": [
+     121,
+     90
+    ],
+    "armadilha": "width=\"100%\" (a largura da caixa da capa): o arquivo sai com a largura medida; no app, a ilustração ocupa a caixa da capa (BoxFit.contain, centrada)."
+   }
+  },
+  "bu28b.books.result1.cover.art": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/illustrations/scanner/il_capa_dom_casmurro_olho.svg",
+    "tamanho": [
+     55,
+     40
+    ],
+    "armadilha": "width=\"100%\" (a largura da caixa da capa): o arquivo sai com a largura medida; no app, a ilustração ocupa a caixa da capa (BoxFit.contain, centrada)."
+   }
+  },
+  "bu28b.books.result1.open.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_arrow_next_papel.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "bu28b.books.result2.add.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_plus_add.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "bu28b.books.result2.cover.art": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/illustrations/scanner/il_capa_capitu_memorias.svg",
+    "tamanho": [
+     55,
+     40
+    ],
+    "armadilha": "width=\"100%\" (a largura da caixa da capa): o arquivo sai com a largura medida; no app, a ilustração ocupa a caixa da capa (BoxFit.contain, centrada)."
+   }
+  },
+  "bu28b.clubs.club1.avatar.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_people_avatar.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "bu28b.clubs.club1.member.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_check_bold_tinta.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "bu28b.clubs.club2.avatar.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_people_avatar.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "bu28b.scanCard.badge.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28b.scanCard.chevron": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/biblioteca/ic_chevron_right_clube.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "bu28b.searchBar.back.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28b.searchBar.field.clear.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_close_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "bu28b.searchBar.field.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/leitor/ic_search_cinza.svg",
+    "tamanho": [
+     16.78,
+     20
+    ],
+    "atributos": [
+     20.0,
+     20.0
+    ],
+    "armadilha": "o <svg> de 20×20 (atributos) não tem flex-shrink: 0 e encolhe na linha que não cabe (o campo tem a busca digitada por inteiro): fica 16,78×20 no layout, e o desenho (viewBox 24×24, preserveAspectRatio meet) sai 16,78×16,78, centrado na altura. A prancha mostra o ícone menor — decidir na T15 se o app repete o encolhimento (o tamanho do catálogo) ou usa o dos atributos."
+   }
+  },
+  "bu28b.searchBar.scan.icon": {
+   "028b_busca_resultados": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "bu28c.actions.manual.icon": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_plus_add_papel.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28c.actions.scan.icon": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "bu28c.illustration": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/illustrations/scanner/il_busca_nada_encontrado.svg",
+    "tamanho": [
+     210,
+     170
+    ],
+    "armadilha": "tem <text> (o \"?\" em Instrument Serif 44): o flutter_svg desenharia o texto com a fonte do sistema → no app o AppSvg lê o desenho sem os textos e eles voltam em AppText nas mesmas posições (como as capas da Início, T03.7)."
+   }
+  },
+  "bu28c.searchBar.back.icon": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28c.searchBar.field.clear.icon": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_close_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "bu28c.searchBar.field.icon": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/icons/leitor/ic_search_cinza.svg",
+    "tamanho": [
+     16.78,
+     20
+    ],
+    "atributos": [
+     20.0,
+     20.0
+    ],
+    "armadilha": "o <svg> de 20×20 (atributos) não tem flex-shrink: 0 e encolhe na linha que não cabe (o campo tem a busca digitada por inteiro): fica 16,78×20 no layout, e o desenho (viewBox 24×24, preserveAspectRatio meet) sai 16,78×16,78, centrado na altura. A prancha mostra o ícone menor — decidir na T15 se o app repete o encolhimento (o tamanho do catálogo) ou usa o dos atributos."
+   }
+  },
+  "bu28c.searchBar.scan.icon": {
+   "028c_busca_nada_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "bu28d.cover.options.camera.icon": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/icons/scanner/ic_camera_capa.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "bu28d.cover.options.gallery.icon": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/icons/scanner/ic_image.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "bu28d.cover.preview.book.art": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/illustrations/scanner/il_capa_receitas_da_vo_cida.svg",
+    "tamanho": [
+     122,
+     90
+    ]
+   }
+  },
+  "bu28d.cover.preview.change.icon": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/icons/biblioteca/ic_camera_swap.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "bu28d.form.isbn.field.scan.icon": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "bu28d.header.close.icon": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/icons/leitor/ic_close.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "bu28d.submit.icon": {
+   "028d_adicionar_a_mao": {
+    "arquivo": "assets/icons/scanner/ic_plus_add_papel.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "cr18.book.cover.art": {
+   "018_cronometro": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg",
+    "tamanho": [
+     43,
+     66
+    ],
+    "armadilha": "capa da Início com <text> (\"MEMÓRIAS PÓSTUMAS DE\" Figtree 800 4,6 ls 0,8; \"Brás Cubas\" Instrument Serif 17,5; \"MACHADO DE ASSIS\" Figtree 700 5,2 ls 0,9) e preserveAspectRatio=\"xMidYMid slice\", width/height 100% da caixa 43×66 (escala max(43/96, 66/144) = 0,4583): AppSvg sem os textos em BoxFit.cover e os textos em AppText por cima, nas posições × escala (como o herói da Início)."
+   }
+  },
+  "cr18.chips.goal.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_target.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18.chips.streak.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_flame_chip.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18.controls.end.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_stop_papel.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "cr18.controls.pause.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/inicio2/ic_pause_tinta.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "cr18.controls.photo.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_camera_papel.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "cr18.lockHint.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_lock_cinza.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "cr18.note.button.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_pencil_note_papel.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "cr18.timer.ring": {
+   "018_cronometro": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/anel_cronometro.svg",
+    "tamanho": [
+     300,
+     300
+    ],
+    "coresDinamicas": {
+     "#FED170": "arc"
+    },
+    "armadilha": "stroke-dasharray = progresso (dasharray 626,3 de 703,7 = 2π·112 → 89 %, rotate(-90)): anel desenhado por CustomPainter com o valor real; o SVG é a referência do estado da prancha. A cor do arco é a prop \"arc\"."
+   }
+  },
+  "cr18.top.minimize.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_chevron_down_papel.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "cr18.top.sound.icon": {
+   "018_cronometro": {
+    "arquivo": "assets/icons/cronometro/ic_rain_papel.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "cr18b.book.cover.art": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg",
+    "tamanho": [
+     43,
+     66
+    ],
+    "armadilha": "capa da Início com <text> (\"MEMÓRIAS PÓSTUMAS DE\" Figtree 800 4,6 ls 0,8; \"Brás Cubas\" Instrument Serif 17,5; \"MACHADO DE ASSIS\" Figtree 700 5,2 ls 0,9) e preserveAspectRatio=\"xMidYMid slice\", width/height 100% da caixa 43×66 (escala max(43/96, 66/144) = 0,4583): AppSvg sem os textos em BoxFit.cover e os textos em AppText por cima, nas posições × escala (como o herói da Início)."
+   }
+  },
+  "cr18b.chips.goal.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_target.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18b.chips.streak.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_flame_chip.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18b.confetti.sparkle1": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_previa.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "cr18b.confetti.sparkle2": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_sparkle_previa_verde.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18b.confetti.sparkle3": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_sparkle_previa_rosa.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "cr18b.controls.end.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_stop_papel.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "cr18b.controls.pause.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/inicio2/ic_pause_tinta.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "cr18b.controls.photo.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_camera_papel.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "cr18b.lockHint.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_lock_cinza.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "cr18b.note.button.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_pencil_note_papel.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "cr18b.sheet.page.next.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_plus_meta_creme.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "cr18b.sheet.page.prev.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/entrada/ic_minus_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "cr18b.sheet.stamp": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/illustrations/cronometro/carimbo_meta_batida.svg",
+    "tamanho": [
+     104,
+     104
+    ],
+    "coresDinamicas": {
+     "#ABCF82": "goal"
+    },
+    "armadilha": "o texto \"META DO DIA · BATIDA · META DO DIA ·\" (Figtree 900 10,5 ls 1) corre num <textPath> em volta do círculo (textLength 232, lengthAdjust spacing): o flutter_svg não faz textPath → no app, o desenho sem o texto e as letras distribuídas no arco por um pintor com o AppFonts; a cor do selo é a prop \"goal\"."
+   }
+  },
+  "cr18b.sheet.stats.session.icon.art": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_stopwatch_small.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18b.sheet.stats.streak.icon.art": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_flame_chip.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18b.sheet.stats.today.icon.art": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/scanner/ic_check_bold_tinta.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "cr18b.timer.ring": {
+   "018b_fim_da_sessao": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/anel_cronometro_fim.svg",
+    "tamanho": [
+     300,
+     300
+    ],
+    "coresDinamicas": {
+     "#FED170": "arc"
+    },
+    "armadilha": "stroke-dasharray = progresso (dasharray 703,6 de 703,7: o arco completo (meta batida)): anel desenhado por CustomPainter com o valor real; o SVG é a referência do estado da prancha. A cor do arco é a prop \"arc\"."
+   }
+  },
+  "cr18b.top.minimize.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_chevron_down_papel.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "cr18b.top.sound.icon": {
+   "018b_fim_da_sessao": {
+    "arquivo": "assets/icons/cronometro/ic_rain_papel.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "d17.cover.book.art": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_bras_cubas_asas.svg",
+    "tamanho": [
+     173,
+     261
+    ],
+    "armadilha": "capa da Início com <text> (\"MEMÓRIAS PÓSTUMAS DE\" Figtree 800 4,6 ls 0,8; \"Brás Cubas\" Instrument Serif 17,5; \"MACHADO DE ASSIS\" Figtree 700 5,2 ls 0,9) e preserveAspectRatio=\"xMidYMid slice\", width/height 100% da caixa 173×261 (escala max(173/96, 261/144) = 1,8125): AppSvg sem os textos em BoxFit.cover e os textos em AppText por cima, nas posições × escala (como o herói da Início)."
+   }
+  },
+  "d17.cover.change.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_camera_swap.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17.cover.formatTag.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/inicio2/ic_book_paper.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "d17.cover.sparkleLarge": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_sparkle_creme.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "d17.cover.sparkleSmall": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "d17.header.back.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17.header.more.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/inicio2/ic_more_circles.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17.header.share.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/leitor/ic_share.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17.highlights.club.chevron": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_chevron_right_clube.svg",
+    "tamanho": [
+     16.43,
+     20
+    ],
+    "atributos": [
+     20.0,
+     20.0
+    ],
+    "armadilha": "o <svg> de 20×20 (atributos) não tem flex-shrink: 0 e encolhe na linha que não cabe: fica 16,43×20 no layout, e o desenho (viewBox 24×24, preserveAspectRatio meet) sai 16,43×16,43, centrado na altura. A prancha mostra o ícone menor — decidir na T14 se o app repete o encolhimento (o tamanho do catálogo) ou usa o dos atributos."
+   }
+  },
+  "d17.highlights.photograph.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_camera_tinta.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "d17.highlights.quote.caption.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_camera.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "d17.meta.format.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_book_closed.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "d17.mood.split.fill.edge": {
+   "017_detalhes_fisico": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "d17.session.page.update.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_pencil_line.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "d17.session.ring": {
+   "017_detalhes_fisico": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/anel_sessao_livro.svg",
+    "tamanho": [
+     58,
+     58
+    ],
+    "armadilha": "stroke-dasharray = progresso (dasharray 49 de 81,7 = 2π·13 → 60 %, rotate(-90)): anel desenhado por CustomPainter com o valor real; o SVG é a referência do estado da prancha."
+   }
+  },
+  "d17.session.start.icon": {
+   "017_detalhes_fisico": {
+    "arquivo": "assets/icons/biblioteca/ic_stopwatch_amarelo.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "d17b.cover.book.art": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_dom_casmurro.svg",
+    "tamanho": [
+     173,
+     261
+    ],
+    "armadilha": "capa da Início com <text> (\"Dom\" e \"Casmurro\" Instrument Serif 19; \"MACHADO DE ASSIS\" Figtree 700 5,2 ls 0,9; e uma máscara) e preserveAspectRatio=\"xMidYMid slice\", width/height 100% da caixa 173×261 (escala max(173/96, 261/144) = 1,8125): AppSvg sem os textos em BoxFit.cover e os textos em AppText por cima, nas posições × escala (como o herói da Início)."
+   }
+  },
+  "d17b.cover.change.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/biblioteca/ic_camera_swap.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17b.cover.formatTag.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/biblioteca/ic_tablet.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "d17b.cover.sparkleLarge": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/biblioteca/ic_sparkle_creme.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "d17b.cover.sparkleSmall": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "d17b.header.back.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17b.header.more.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/inicio2/ic_more_circles.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17b.header.share.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/leitor/ic_share.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17b.meta.format.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/biblioteca/ic_tablet_meta.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "d17b.mood.split.fill.edge": {
+   "017b_detalhes_ebook": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "d17b.progress.bar.fill.edge": {
+   "017b_detalhes_ebook": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_tinta.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "d17b.progress.continue.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/ic_book_open.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "d17b.progress.highlights.icon": {
+   "017b_detalhes_ebook": {
+    "arquivo": "assets/icons/ic_highlighter.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e07.badge": {
+   "007_login": {
+    "arquivo": "assets/illustrations/entrada/selo_leia_grife_converse_login.svg",
+    "tamanho": [
+     124,
+     124
+    ],
+    "armadilha": "o texto \"LEIA · GRIFE · CONVERSE ·\" (Figtree 800 11,5) corre num <textPath> em volta do círculo (textLength 252, lengthAdjust spacing): o flutter_svg não faz textPath → no app, o desenho sem o texto e as letras distribuídas no arco por um pintor com o AppFonts."
+   }
+  },
+  "e07.cover.art": {
+   "007_login": {
+    "arquivo": "assets/illustrations/inicio2/il_capa_dom_casmurro.svg",
+    "tamanho": [
+     101,
+     153
+    ],
+    "armadilha": "capa da Início com <text> (\"Dom\" e \"Casmurro\" Instrument Serif 19; \"MACHADO DE ASSIS\" Figtree 700 5,2 ls 0,9; e uma máscara) e preserveAspectRatio=\"xMidYMid slice\", width/height 100% da caixa 101×153 (escala max(101/96, 153/144) = 1,0625): AppSvg sem os textos em BoxFit.cover e os textos em AppText por cima, nas posições × escala (como o herói da Início)."
+   }
+  },
+  "e07.sheet.buttons.email.icon": {
+   "007_login": {
+    "arquivo": "assets/icons/entrada/ic_mail.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e07.sparkleLarge": {
+   "007_login": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     34,
+     34
+    ]
+   }
+  },
+  "e07.sparkleSmall": {
+   "007_login": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e07.waves": {
+   "007_login": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e08.back.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e08.card.header.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     9.97,
+     12
+    ],
+    "atributos": [
+     12.0,
+     12.0
+    ],
+    "armadilha": "o <svg> de 12×12 (atributos) não tem flex-shrink: 0 e encolhe na linha que não cabe: fica com o que sobra do cabeçalho depois do rótulo \"CARTEIRINHA DE LEITORA\" (sem quebra), 149 − 139,03: fica 9,97×12 no layout, e o desenho (viewBox 24×24, preserveAspectRatio meet) sai 9,97×9,97, centrado na altura. A prancha mostra o ícone menor — decidir na T16 se o app repete o encolhimento (o tamanho do catálogo) ou usa o dos atributos."
+   }
+  },
+  "e08.card.stamp.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_solid_violeta.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "e08.sheet.form.email.field.valid.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/leitor/ic_check_small.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "e08.sheet.form.password.field.reveal.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/entrada/ic_eye.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e08.sheet.form.rules.rule1.check.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/entrada/ic_check_mini.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "e08.sheet.form.rules.rule2.check.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/entrada/ic_check_mini.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "e08.sheet.form.strength.bar.fill.edge": {
+   "008_cadastro": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_verde.svg",
+    "tamanho": [
+     10,
+     11
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e08.sheet.form.submit.icon": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e08.sparkleLarge": {
+   "008_cadastro": {
+    "arquivo": "assets/icons/biblioteca/ic_sparkle_creme.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "e08.waves": {
+   "008_cadastro": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e09.back.icon": {
+   "009_entrar": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e09.badge": {
+   "009_entrar": {
+    "arquivo": "assets/illustrations/entrada/selo_de_volta_a_leitura.svg",
+    "tamanho": [
+     132,
+     132
+    ],
+    "coresDinamicas": {
+     "#FED170": "badge"
+    },
+    "armadilha": "o texto \"DE VOLTA À LEITURA · BOOKNEST ·\" (Figtree 800 11,5) corre num <textPath> em volta do círculo (textLength 252, lengthAdjust spacing): o flutter_svg não faz textPath → no app, o desenho sem o texto e as letras distribuídas no arco por um pintor com o AppFonts; a cor do selo é a prop \"badge\"."
+   }
+  },
+  "e09.sheet.code.icon": {
+   "009_entrar": {
+    "arquivo": "assets/icons/entrada/ic_mail_tinta.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e09.sheet.form.password.field.reveal.icon": {
+   "009_entrar": {
+    "arquivo": "assets/icons/entrada/ic_eye.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e09.sheet.form.submit.icon": {
+   "009_entrar": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e09.sparkleLarge": {
+   "009_entrar": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "e09.sparkleSmall": {
+   "009_entrar": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e09.waves": {
+   "009_entrar": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e09b.back.icon": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e09b.badge": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/illustrations/entrada/selo_de_volta_a_leitura.svg",
+    "tamanho": [
+     132,
+     132
+    ],
+    "coresDinamicas": {
+     "#FED170": "badge"
+    },
+    "armadilha": "o texto \"DE VOLTA À LEITURA · BOOKNEST ·\" (Figtree 800 11,5) corre num <textPath> em volta do círculo (textLength 252, lengthAdjust spacing): o flutter_svg não faz textPath → no app, o desenho sem o texto e as letras distribuídas no arco por um pintor com o AppFonts; a cor do selo é a prop \"badge\"."
+   }
+  },
+  "e09b.sheet.code.icon": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/icons/entrada/ic_mail_tinta.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e09b.sheet.form.password.field.reveal.icon": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/icons/entrada/ic_eye.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e09b.sheet.form.submit.icon": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e09b.sparkleLarge": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "e09b.sparkleSmall": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e09b.waves": {
+   "009b_entrar_senha_incorreta": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e10.back.icon": {
+   "010_codigo": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e10.envelope": {
+   "010_codigo": {
+    "arquivo": "assets/illustrations/entrada/envelope_codigo.svg",
+    "tamanho": [
+     238,
+     200
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "env"
+    },
+    "armadilha": "tem <text> (\"SEU CÓDIGO\" Figtree 800 9 ls 1,2 e \"482 7••\" Bricolage 800 27 ls 2): o flutter_svg desenharia o texto com a fonte do sistema → no app o AppSvg lê o desenho sem os textos e eles voltam em AppText nas mesmas posições (como as capas da Início, T03.7) — o código é o enviado de verdade, com os dígitos que faltam em •. desenha fora da própria caixa (o papel em y −12 do viewBox 190×160: sai 16 px acima da caixa 238×200; o <svg> tem overflow: visible): no app, sem recorte (o SvgPicture com clipBehavior: Clip.none, ou o pintor sem clip) — com o recorte padrão, o que passa some."
+   }
+  },
+  "e10.sheet.help.openMail.icon": {
+   "010_codigo": {
+    "arquivo": "assets/icons/entrada/ic_mail.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e10.sheet.help.spam.icon": {
+   "010_codigo": {
+    "arquivo": "assets/icons/entrada/ic_alert_cinza.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "e10.sheet.resend.timer": {
+   "010_codigo": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/anel_reenviar_codigo.svg",
+    "tamanho": [
+     22,
+     22
+    ],
+    "coresDinamicas": {
+     "#B6ACE4": "brand"
+    },
+    "armadilha": "stroke-dasharray = progresso (dasharray 53,4 com dashoffset 16 → 70 % restante da contagem): anel desenhado por CustomPainter com o valor real; o SVG é a referência do estado da prancha."
+   }
+  },
+  "e10.sparkleLarge": {
+   "010_codigo": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "e10.sparkleSmall": {
+   "010_codigo": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e10.waves": {
+   "010_codigo": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e11.back.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e11.padlock": {
+   "011_nova_senha": {
+    "arquivo": "assets/illustrations/entrada/cadeado_aberto.svg",
+    "tamanho": [
+     140,
+     158
+    ],
+    "coresDinamicas": {
+     "#FED170": "lock"
+    }
+   }
+  },
+  "e11.sheet.form.devices.switch.thumb.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "e11.sheet.form.password.field.reveal.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/entrada/ic_eye.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e11.sheet.form.rules.rule1.check.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/entrada/ic_check_mini.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "e11.sheet.form.rules.rule2.check.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/entrada/ic_check_mini.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "e11.sheet.form.rules.rule3.check.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/entrada/ic_check_mini.svg",
+    "tamanho": [
+     9,
+     9
+    ]
+   }
+  },
+  "e11.sheet.form.strength.bar.fill.edge": {
+   "011_nova_senha": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_verde.svg",
+    "tamanho": [
+     10,
+     11
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e11.sheet.form.submit.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e11.sheet.notice.icon": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/entrada/ic_shield.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e11.sparkleLarge": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/ic_sparkle_outline.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "e11.sparkleSmall": {
+   "011_nova_senha": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e11.waves": {
+   "011_nova_senha": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e12.continue.icon": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e12.daily.option1.art": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/illustrations/entrada/despertador_5_min.svg",
+    "tamanho": [
+     54,
+     54
+    ]
+   }
+  },
+  "e12.daily.option2.art": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/illustrations/entrada/despertador_15_min.svg",
+    "tamanho": [
+     54,
+     54
+    ]
+   }
+  },
+  "e12.daily.option3.art": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/illustrations/entrada/despertador_30_min.svg",
+    "tamanho": [
+     54,
+     54
+    ],
+    "armadilha": "desenha fora da própria caixa (os risquinhos de toque em x −1,5 e 57,5 do viewBox 56: saem 2,3 px de cada lado da caixa 54, que ainda gira −5°; o <svg> tem overflow: visible): no app, sem recorte (o SvgPicture com clipBehavior: Clip.none, ou o pintor sem clip) — com o recorte padrão, o que passa some."
+   }
+  },
+  "e12.daily.option3.radio.icon": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/icons/entrada/ic_check_tiny_creme.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "e12.daily.option4.art": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/illustrations/entrada/despertador_60_min.svg",
+    "tamanho": [
+     54,
+     54
+    ]
+   }
+  },
+  "e12.heading.sparkle": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_amarelo.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "e12.top.progress.fill.edge": {
+   "012_onboarding_meta": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_coral.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "coresDinamicas": {
+     "#FF552E": "progress"
+    },
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e12.waves": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/illustrations/entrada/ondas_onboarding_meta.svg",
+    "tamanho": [
+     390,
+     150
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390), com <mask>: a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e12.yearly.stepper.minus.icon": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/icons/entrada/ic_minus_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e12.yearly.stepper.plus.icon": {
+   "012_onboarding_meta": {
+    "arquivo": "assets/icons/entrada/ic_plus_meta.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e13.continue.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e13.genres.chip1.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_check_tiny_creme.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13.genres.chip10.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_biografias.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip11.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_historia.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip12.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_nao_ficcao.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip13.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_quadrinhos.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip14.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_jovem_adulto.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip15.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_humor.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip2.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_check_tiny_creme.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13.genres.chip3.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_fantasia.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip4.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_ficcao_cientifica.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip5.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_check_tiny_creme.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13.genres.chip6.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_eye.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip7.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_terror.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.chip8.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_check_tiny_creme.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13.genres.chip9.badge.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_genero_poesia.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "e13.genres.more.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/inicio2/ic_plus_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e13.heading.sparkle": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_rosa.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e13.top.back.icon": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/icons/entrada/ic_arrow_left_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e13.top.progress.fill.edge": {
+   "013_onboarding_generos": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_coral.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "coresDinamicas": {
+     "#FF552E": "progress"
+    },
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e13.waves": {
+   "013_onboarding_generos": {
+    "arquivo": "assets/illustrations/entrada/ondas_onboarding_meta.svg",
+    "tamanho": [
+     390,
+     150
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390), com <mask>: a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e13b.coach.arrow": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/illustrations/entrada/seta_curva_dica.svg",
+    "tamanho": [
+     350,
+     140
+    ]
+   }
+  },
+  "e13b.coach.card.actions.try.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/entrada/ic_scan_barcode_dica.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e13b.coach.card.art": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/illustrations/entrada/il_livro_codigo_barras_dica.svg",
+    "tamanho": [
+     46,
+     60
+    ]
+   }
+  },
+  "e13b.continue.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e13b.heading.sparkle": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_verde.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e13b.search.field.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e13b.search.scan.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/entrada/ic_scan_barcode_grande.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e13b.suggestions.book1.toggle.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13b.suggestions.book2.toggle.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13b.suggestions.book3.toggle.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13b.suggestions.book4.cover.star": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_creme.svg",
+    "tamanho": [
+     44,
+     44
+    ]
+   }
+  },
+  "e13b.suggestions.book4.toggle.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13b.suggestions.book5.toggle.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13b.suggestions.book6.toggle.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e13b.top.back.icon": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/icons/entrada/ic_arrow_left_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e13b.top.progress.fill.edge": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_coral.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "coresDinamicas": {
+     "#FF552E": "progress"
+    },
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e13b.waves": {
+   "013b_onboarding_dica_scanner": {
+    "arquivo": "assets/illustrations/entrada/ondas_onboarding_meta.svg",
+    "tamanho": [
+     390,
+     150
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390), com <mask>: a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e14.continue.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/entrada/ic_arrow_forward.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e14.heading.sparkle": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_verde.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e14.search.field.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e14.search.scan.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/entrada/ic_scan_barcode_grande.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e14.suggestions.book1.toggle.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e14.suggestions.book2.toggle.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e14.suggestions.book3.toggle.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e14.suggestions.book4.cover.star": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_creme.svg",
+    "tamanho": [
+     44,
+     44
+    ]
+   }
+  },
+  "e14.suggestions.book4.toggle.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e14.suggestions.book5.toggle.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e14.suggestions.book6.toggle.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/leitor/ic_plus.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "e14.top.back.icon": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/icons/entrada/ic_arrow_left_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e14.top.progress.fill.edge": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_coral.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "coresDinamicas": {
+     "#FF552E": "progress"
+    },
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e14.waves": {
+   "014_onboarding_primeiros_livros": {
+    "arquivo": "assets/illustrations/entrada/ondas_onboarding_meta.svg",
+    "tamanho": [
+     390,
+     150
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390), com <mask>: a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e15.bio.field.icon": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/entrada/ic_pencil_note.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e15.continue.icon": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_amarelo.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e15.heading.sparkle": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/scanner/ic_sparkle_lavanda.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e15.photo.add.icon": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/entrada/ic_camera_creme.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e15.photo.info.gallery.icon": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/entrada/ic_image_small.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "e15.top.back.icon": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/entrada/ic_arrow_left_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e15.username.field.valid.icon": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/icons/entrada/ic_check_valid.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "e15.waves": {
+   "015_onboarding_foto": {
+    "arquivo": "assets/illustrations/entrada/ondas_onboarding_meta.svg",
+    "tamanho": [
+     390,
+     150
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390), com <mask>: a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e16.card.footer.code.bars": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/illustrations/entrada/codigo_barras_carteirinha.svg",
+    "tamanho": [
+     150,
+     30
+    ]
+   }
+  },
+  "e16.confetti.sparkle1": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_amarelo.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "e16.confetti.sparkle2": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_verde.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e16.confetti.sparkle3": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_rosa.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e16.confetti.sparkle4": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/scanner/ic_sparkle_lavanda.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "e16.confetti.sparkle5": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_amarelo.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e16.confetti.sparkle6": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_rosa.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "e16.sheet.share.icon": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/entrada/ic_share_up.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "e16.sheet.start.icon": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/icons/ic_book_open.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e16.stamp": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/illustrations/entrada/carimbo_carteirinha.svg",
+    "tamanho": [
+     98,
+     98
+    ],
+    "armadilha": "o texto \"LEITORA Nº 0052 · BOOKNEST ·\" (Figtree 900 10,5 ls 1, violeta) corre num <textPath> em volta do círculo (textLength 226, lengthAdjust spacing): o flutter_svg não faz textPath → no app, o desenho sem o texto e as letras distribuídas no arco por um pintor com o AppFonts; o número é o da leitora e o \"2026\" (Bricolage 800 11, no centro) é o ano: AppText. desenha fora da própria caixa (as três linhas de movimento em x −20 do viewBox 112: saem 18,5 px à esquerda da caixa 98; o <svg> tem overflow: visible): no app, sem recorte (o SvgPicture com clipBehavior: Clip.none, ou o pintor sem clip) — com o recorte padrão, o que passa some."
+   }
+  },
+  "e16.waves": {
+   "016_onboarding_carteirinha": {
+    "arquivo": "assets/illustrations/entrada/ondas_entrada.svg",
+    "tamanho": [
+     390,
+     860
+    ],
+    "armadilha": "faixa de ondas de largura fixa (390): a 360 sai 30 px do quadro e é cortada na borda (fluidez, T13.9) — decidir na T16 se acompanha a largura da tela."
+   }
+  },
+  "e35.loading.fill.edge": {
+   "035_abertura": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_preenchimento_coral.svg",
+    "tamanho": [
+     10,
+     9
+    ],
+    "atributos": [
+     10.0,
+     15.0
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "e35.sparkleLarge": {
+   "035_abertura": {
+    "arquivo": "assets/icons/biblioteca/ic_sparkle_creme.svg",
+    "tamanho": [
+     30,
+     30
+    ]
+   }
+  },
+  "e35.sparkleSmall": {
+   "035_abertura": {
+    "arquivo": "assets/icons/entrada/ic_sparkle_tinta.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "e35.stamp.badge.art": {
+   "035_abertura": {
+    "arquivo": "assets/illustrations/entrada/selo_leia_grife_converse.svg",
+    "tamanho": [
+     210,
+     210
+    ],
+    "armadilha": "o texto \"LEIA · GRIFE · CONVERSE ·\" (Figtree 800 11,5) corre num <textPath> em volta do círculo (textLength 252, lengthAdjust spacing): o flutter_svg não faz textPath → no app, o desenho sem o texto e as letras distribuídas no arco por um pintor com o AppFonts."
+   }
+  },
+  "e35.stamp.rays": {
+   "035_abertura": {
+    "arquivo": "assets/illustrations/entrada/raios_selo_abertura.svg",
+    "tamanho": [
+     260,
+     260
+    ]
+   }
+  },
+  "e35.waves": {
+   "035_abertura": {
+    "arquivo": "assets/illustrations/entrada/ondas_abertura.svg",
+    "tamanho": [
+     390,
+     844
+    ],
+    "armadilha": "as ondas verticais da abertura: viewBox 390×640 esticado em 390×844 (preserveAspectRatio=\"none\") — no app, BoxFit.fill na altura da tela."
+   }
+  },
+  "e36a.club.badge.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/scanner/ic_people_avatar.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.club.chevron": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/biblioteca/ic_chevron_right_clube.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "e36a.firstBook.cta.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/scanner/ic_arrow_next_papel.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "e36a.firstBook.illustration.sparkle": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/biblioteca/ic_sparkle_creme.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "e36a.firstBook.shortcuts.ebook.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/biblioteca/ic_file_download.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "e36a.firstBook.shortcuts.scan.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_busca.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "e36a.firstBook.shortcuts.search.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/leitor/ic_search.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "e36a.header.bell.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/ic_bell.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.header.search.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/inicio2/ic_search_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.nav.clubs.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.nav.home.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/ic_nav_home_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.nav.library.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/ic_nav_library.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.nav.profile.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/ic_nav_profile.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "e36a.nav.scanner.icon": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "e36a.today.ring": {
+   "036a_inicio_primeiro_acesso": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/anel_hoje_primeiro_acesso.svg",
+    "tamanho": [
+     58,
+     58
+    ],
+    "armadilha": "stroke-dasharray = progresso (as marcas, dasharray 1,5 5): anel desenhado por CustomPainter com o valor real; o SVG é a referência do estado da prancha. O \"0\" (minutos de hoje) é <text> Bricolage 800 15: AppText."
+   }
+  },
+  "n30.sparkle": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_sparkle_notificacao.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "n30.today.list.item1.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/scanner/ic_people_avatar.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "n30.today.list.item2.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_stopwatch_fino.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "n30.today.list.item3.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_sparkle_notificacao_creme.svg",
+    "tamanho": [
+     24,
+     24
+    ]
+   }
+  },
+  "n30.today.list.item4.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_heart.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "n30.top.back.icon": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "n30.top.markRead.icon": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_check_double.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "n30.top.settings.icon": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_settings.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "n30.week.list.item1.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_stats_bars.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "n30.week.list.item2.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/perfil/ic_person.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "n30.week.list.item3.icon.art": {
+   "030_notificacoes": {
+    "arquivo": "assets/icons/scanner/ic_people_avatar.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "n30b.quiet.head.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_moon_creme.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "n30b.quiet.head.switch.thumb.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "n30b.reading.head.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_stopwatch_fino.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "n30b.reading.head.switch.thumb.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "n30b.reading.smart.switch.thumb.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "n30b.top.back.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "n30b.topics.achievements.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_sparkle_notificacao_creme.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "n30b.topics.achievements.switch.thumb.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "n30b.topics.club.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/scanner/ic_people_avatar.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "n30b.topics.club.switch.thumb.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "n30b.topics.polls.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_stats_bars.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "n30b.topics.polls.switch.thumb.icon": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     11,
+     11
+    ]
+   }
+  },
+  "n30b.topics.social.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_heart.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "n30b.topics.streak.icon.art": {
+   "030b_notificacoes_ajustes": {
+    "arquivo": "assets/icons/perfil/ic_flame_outline.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "n30c.empty.cta.icon": {
+   "030c_notificacoes_vazia": {
+    "arquivo": "assets/icons/perfil/ic_settings.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "n30c.illustration": {
+   "030c_notificacoes_vazia": {
+    "arquivo": "assets/illustrations/perfil/il_notificacoes_vazia.svg",
+    "tamanho": [
+     230,
+     200
+    ],
+    "armadilha": "tem <text> (os três \"z\" em Bricolage 800 22, 16 e 12): o flutter_svg desenharia o texto com a fonte do sistema → no app o AppSvg lê o desenho sem os textos e eles voltam em AppText nas mesmas posições (como as capas da Início, T03.7)."
+   }
+  },
+  "n30c.reminder.icon.art": {
+   "030c_notificacoes_vazia": {
+    "arquivo": "assets/icons/perfil/ic_stopwatch_fino.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "n30c.top.back.icon": {
+   "030c_notificacoes_vazia": {
+    "arquivo": "assets/icons/leitor/ic_arrow_left.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "n30c.top.markRead.icon": {
+   "030c_notificacoes_vazia": {
+    "arquivo": "assets/icons/perfil/ic_check_double.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "n30c.top.settings.icon": {
+   "030c_notificacoes_vazia": {
+    "arquivo": "assets/icons/perfil/ic_settings.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "p05.achievements.grid.badge1.medal.art": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/medalha_ondulada_amarela.svg",
+    "tamanho": [
+     72,
+     72
+    ]
+   }
+  },
+  "p05.achievements.grid.badge2.medal.art": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/medalha_hexagono_verde.svg",
+    "tamanho": [
+     72,
+     72
+    ]
+   }
+  },
+  "p05.achievements.grid.badge2.medal.center.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_book_open_medalha.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "p05.achievements.grid.badge3.medal.art": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/medalha_circulo_rosa.svg",
+    "tamanho": [
+     72,
+     72
+    ]
+   }
+  },
+  "p05.achievements.grid.badge3.medal.center.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_chat_bubble.svg",
+    "tamanho": [
+     26,
+     26
+    ]
+   }
+  },
+  "p05.achievements.grid.badge4.medal.art": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/medalha_losango_lavanda.svg",
+    "tamanho": [
+     72,
+     72
+    ]
+   }
+  },
+  "p05.achievements.header.all.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.achievements.next.bar.fill.edge": {
+   "005_perfil": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/borda_onda_conquista.svg",
+    "tamanho": [
+     10,
+     13
+    ],
+    "armadilha": "preserveAspectRatio=\"none\" + vector-effect=\"non-scaling-stroke\" (o flutter_svg ignora o vector-effect): a borda ondulada da ponta da barra preenchida, esticada na altura da barra com traço fixo de 1,5 — CustomPainter, como a onda da barra do leitor."
+   }
+  },
+  "p05.actions.edit.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/inicio2/ic_pencil_edit.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.actions.share.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/leitor/ic_share.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.activity.item1.icon.art": {
+   "005_perfil": {
+    "arquivo": "assets/icons/inicio2/ic_pencil_edit.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.activity.item2.icon.art": {
+   "005_perfil": {
+    "arquivo": "assets/icons/biblioteca/ic_highlighter_bold.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.activity.item3.icon.art": {
+   "005_perfil": {
+    "arquivo": "assets/icons/leitor/ic_check.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.activity.item3.rating.star1": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_star.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p05.activity.item3.rating.star2": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_star.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p05.activity.item3.rating.star3": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_star.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p05.activity.item3.rating.star4": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_star.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p05.activity.item3.rating.star5": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_star_creme.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p05.card.code.bars": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/codigo_barras_carteirinha_perfil.svg",
+    "tamanho": [
+     92,
+     24
+    ]
+   }
+  },
+  "p05.card.stamp": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/carimbo_carteirinha_perfil.svg",
+    "tamanho": [
+     46,
+     46
+    ]
+   }
+  },
+  "p05.hero.avatar.streak.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_flame_filled.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p05.hero.stats.arrow.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/inicio2/ic_sparkle_solid_creme.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.nav.clubs.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/ic_nav_clubs.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "p05.nav.home.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_home.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "p05.nav.library.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/ic_nav_library.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "p05.nav.profile.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/_extrapolado_ic_nav_profile_active.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "p05.nav.scanner.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/ic_nav_scanner.svg",
+    "tamanho": [
+     28,
+     28
+    ]
+   }
+  },
+  "p05.reading.grid.book1.cover.bookmark": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/fita_marcador_capa.svg",
+    "tamanho": [
+     14,
+     26
+    ]
+   }
+  },
+  "p05.reading.grid.book2.cover.bookmark": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/fita_marcador_capa.svg",
+    "tamanho": [
+     14,
+     26
+    ]
+   }
+  },
+  "p05.reading.grid.book3.cover.bookmark": {
+   "005_perfil": {
+    "arquivo": "assets/illustrations/perfil/fita_marcador_capa.svg",
+    "tamanho": [
+     14,
+     26
+    ]
+   }
+  },
+  "p05.reading.header.all.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/ic_arrow_right.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p05.top.settings.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_settings.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "p05.year.goal.ahead.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_arrow_up_right.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "p05.year.more.icon": {
+   "005_perfil": {
+    "arquivo": "assets/icons/perfil/ic_arrow_forward_tinta.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p64.avatarType.toggle.photo.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_camera_small_grafite.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.bottom.save.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_check_verde.svg",
+    "tamanho": [
+     19,
+     19
+    ]
+   }
+  },
+  "p64.colors.custom.dot.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/leitor/ic_plus_tiny.svg",
+    "tamanho": [
+     8,
+     8
+    ]
+   }
+  },
+  "p64.favorites.grid.slot1.book.swap.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_pencil_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.favorites.grid.slot1.handle.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_drag_handle.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "p64.favorites.grid.slot2.book.swap.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_pencil_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.favorites.grid.slot2.handle.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_drag_handle.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "p64.favorites.grid.slot3.book.swap.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_pencil_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.favorites.grid.slot3.handle.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_drag_handle.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "p64.favorites.grid.slot4.book.swap.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_pencil_small.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.favorites.grid.slot4.handle.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_drag_handle.svg",
+    "tamanho": [
+     16,
+     16
+    ]
+   }
+  },
+  "p64.fields.handle.field.status.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/biblioteca/ic_check_bold.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "p64.genres.classics.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/scanner/ic_check_bold_tinta.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.genres.romance.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/scanner/ic_check_bold_tinta.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.genres.stories.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/scanner/ic_check_bold_tinta.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.preview.avatar.change.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/perfil/ic_camera_small.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p64.pronouns.she.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/scanner/ic_check_bold_tinta.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "p64.top.close.icon": {
+   "064_editar_perfil": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "p65.preview.avatar.change.icon": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_camera_small.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p65.sheet.confirm.icon": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_shuffle_amarelo.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p65.sheet.options.option1.radio.icon": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_check_bold_creme.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "p65.sheet.options.option1.rating.star1": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option1.rating.star2": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option1.rating.star3": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option1.rating.star4": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option1.rating.star5": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option2.rating.star1": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option2.rating.star2": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option2.rating.star3": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option2.rating.star4": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option2.rating.star5": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option2.thumb.cover.star": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/ic_sparkle_solid.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "p65.sheet.options.option3.rating.star1": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option3.rating.star2": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option3.rating.star3": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option3.rating.star4": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option3.rating.star5": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option4.rating.star1": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option4.rating.star2": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option4.rating.star3": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option4.rating.star4": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_small.svg",
+    "tamanho": [
+     12,
+     12
+    ]
+   }
+  },
+  "p65.sheet.options.option4.rating.star5": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_star_half_small.svg",
+    "tamanho": [
+     12,
+     12
+    ],
+    "armadilha": "a meia estrela é uma estrela com <mask> (metade dourada): conferir no app que o flutter_svg recorta igual (a prova é no Chromium)."
+   }
+  },
+  "p65.sheet.search.icon": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/perfil/ic_search_grafite.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "p65.top.close.icon": {
+   "065_editar_perfil_trocar": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc03.camera.label.barcode": {
+   "003_scanner_encontrado": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/codigo_barras_camera.svg",
+    "tamanho": [
+     180,
+     70
+    ],
+    "armadilha": "é a cena do protótipo sob a câmera (o código de barras do livro, com os dígitos em <text> Figtree 600 11): no app é a imagem da câmera ao vivo — fica só como referência (como a tinta da fixture, D-34)."
+   }
+  },
+  "sc03.controls.close.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc03.controls.mode.code.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc03.controls.mode.type.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc03.controls.torch.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_flash.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc03.corners": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/illustrations/scanner/mira_scanner.svg",
+    "tamanho": [
+     290,
+     170
+    ],
+    "coresDinamicas": {
+     "#FED170": "reticle"
+    }
+   }
+  },
+  "sc03.detected.badge.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/leitor/ic_check_small.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "sc03.sheet.actions.primary.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_plus_papel.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc03.sheet.actions.scanAgain.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_refresh.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "sc03.sheet.book.chevron": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_chevron_right_fino.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc03.sheet.book.collection.check.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/inicio2/ic_check_tiny.svg",
+    "tamanho": [
+     10,
+     10
+    ]
+   }
+  },
+  "sc03.sheet.chip.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/biblioteca/ic_check_bold.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "sc03.status.chip.badge.icon": {
+   "003_scanner_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_check_read_amarelo.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "sc39.camera.label.barcode": {
+   "039_scanner_mirando": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/codigo_barras_camera.svg",
+    "tamanho": [
+     180,
+     70
+    ],
+    "armadilha": "é a cena do protótipo sob a câmera (o código de barras do livro, com os dígitos em <text> Figtree 600 11): no app é a imagem da câmera ao vivo — fica só como referência (como a tinta da fixture, D-34)."
+   }
+  },
+  "sc39.controls.close.icon": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc39.controls.mode.code.icon": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc39.controls.mode.type.icon": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc39.controls.torch.icon": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/icons/scanner/ic_flash.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc39.corners": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/illustrations/scanner/mira_scanner_creme.svg",
+    "tamanho": [
+     290,
+     170
+    ]
+   }
+  },
+  "sc39.sheet.lead.art": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/illustrations/scanner/il_livro_codigo_barras.svg",
+    "tamanho": [
+     86,
+     104
+    ],
+    "armadilha": "tem stroke-dasharray (o <rect> de cantos 6, 5/4, 2,4, coral): o flutter_svg traceja com outra fase → no app, o registro de tracejados (svgDashes, T01 e D-285) lê o arquivo sem esse traço (só o do id=\"tracejado\": os outros <rect> têm traço) e o pinta por cima como o Chromium: o padrão começa em (x + rx, y), no sentido horário, e o comprimento das curvas é medido na escala da pintura (D-286)."
+   }
+  },
+  "sc39.status.chip.badge.icon": {
+   "039_scanner_mirando": {
+    "arquivo": "assets/icons/scanner/ic_scan_barcode_amarelo.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "sc40.camera.label.barcode": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/codigo_barras_camera_nao_encontrado.svg",
+    "tamanho": [
+     180,
+     70
+    ],
+    "armadilha": "é a cena do protótipo sob a câmera (o código de barras do livro, com os dígitos em <text> Figtree 600 11): no app é a imagem da câmera ao vivo — fica só como referência (como a tinta da fixture, D-34)."
+   }
+  },
+  "sc40.controls.close.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc40.controls.mode.code.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc40.controls.mode.type.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc40.controls.torch.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_flash.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc40.corners": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/illustrations/scanner/mira_scanner.svg",
+    "tamanho": [
+     290,
+     170
+    ],
+    "coresDinamicas": {
+     "#FED170": "reticle"
+    }
+   }
+  },
+  "sc40.detected.badge.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/leitor/ic_check_small.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "sc40.sheet.actions.primary.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_plus_papel.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc40.sheet.actions.scanAgain.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_refresh.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "sc40.sheet.chip.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_alert_small.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "sc40.sheet.lead.art": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/illustrations/scanner/il_livro_interrogacao.svg",
+    "tamanho": [
+     84,
+     110
+    ],
+    "armadilha": "tem <text> (o \"?\" em Instrument Serif 26): o flutter_svg desenharia o texto com a fonte do sistema → no app o AppSvg lê o desenho sem os textos e eles voltam em AppText nas mesmas posições (como as capas da Início, T03.7). tem stroke-dasharray (o <rect> de cantos 4, 4/3, 1,3, tinta, sobre o fundo creme dele): o flutter_svg traceja com outra fase → no app, o registro de tracejados (svgDashes, T01 e D-285) lê o arquivo sem esse traço (só o do id=\"tracejado\": os outros <rect> têm traço) e o pinta por cima como o Chromium: o padrão começa em (x + rx, y), no sentido horário, e o comprimento das curvas é medido na escala da pintura (D-286)."
+   }
+  },
+  "sc40.status.chip.badge.icon": {
+   "040_scanner_nao_encontrado": {
+    "arquivo": "assets/icons/scanner/ic_check_read_amarelo.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "sc41.controls.close.icon": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc41.controls.mode.code.icon": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc41.controls.mode.type.icon": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc41.controls.torch.icon": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/icons/scanner/ic_flash.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc41.corners": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/illustrations/scanner/mira_scanner_tracejada.svg",
+    "tamanho": [
+     290,
+     170
+    ],
+    "armadilha": "tem stroke-dasharray (os 4 cantos da mira num <path>, 2/9, 5,5, creme, pontas redondas): o flutter_svg traceja com outra fase → no app, o registro de tracejados (svgDashes, T01 e D-285) lê o arquivo sem esse traço e o pinta por cima como o Chromium: o padrão começa de novo em cada subcaminho (cada M), e o comprimento das curvas é medido na escala da pintura (D-286)."
+   }
+  },
+  "sc41.sheet.art.image": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/illustrations/scanner/il_camera_cadeado.svg",
+    "tamanho": [
+     150,
+     120
+    ]
+   }
+  },
+  "sc41.sheet.path.icon": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/icons/scanner/ic_settings_small.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc41.sheet.typeIsbn.icon": {
+   "041_scanner_sem_permissao": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc42.camera.label.barcode": {
+   "042_scanner_na_estante": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/codigo_barras_camera.svg",
+    "tamanho": [
+     180,
+     70
+    ],
+    "armadilha": "é a cena do protótipo sob a câmera (o código de barras do livro, com os dígitos em <text> Figtree 600 11): no app é a imagem da câmera ao vivo — fica só como referência (como a tinta da fixture, D-34)."
+   }
+  },
+  "sc42.controls.close.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc42.controls.mode.code.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc42.controls.mode.type.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc42.controls.torch.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_flash.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc42.corners": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/illustrations/scanner/mira_scanner.svg",
+    "tamanho": [
+     290,
+     170
+    ],
+    "coresDinamicas": {
+     "#FED170": "reticle"
+    }
+   }
+  },
+  "sc42.detected.badge.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/leitor/ic_check_small.svg",
+    "tamanho": [
+     15,
+     15
+    ]
+   }
+  },
+  "sc42.sheet.actions.primary.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/biblioteca/ic_stopwatch_amarelo.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "sc42.sheet.actions.scanAgain.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_refresh.svg",
+    "tamanho": [
+     22,
+     22
+    ]
+   }
+  },
+  "sc42.sheet.book.chevron": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_chevron_right_fino.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc42.sheet.chip.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_shelf.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "sc42.sheet.goal.ring": {
+   "042_scanner_na_estante": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/anel_meta_livro.svg",
+    "tamanho": [
+     34,
+     34
+    ],
+    "armadilha": "stroke-dasharray = progresso (dasharray 45,2 de 75,4 = 2π·12 → 60 %, rotate(-90)): anel desenhado por CustomPainter com o valor real; o SVG é a referência do estado da prancha."
+   }
+  },
+  "sc42.status.chip.badge.icon": {
+   "042_scanner_na_estante": {
+    "arquivo": "assets/icons/scanner/ic_check_read_amarelo.svg",
+    "tamanho": [
+     13,
+     13
+    ]
+   }
+  },
+  "sc69.controls.close.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc69.controls.help.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_help.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "sc69.controls.mode.code.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc69.controls.mode.type.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc69.keypad.delete.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_backspace.svg",
+    "tamanho": [
+     26,
+     26
+    ],
+    "armadilha": "a tecla de apagar do teclado do sistema (R8, informativo): o app não desenha o teclado; fica como referência."
+   }
+  },
+  "sc69.sticker.card.barcode.bars": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/codigo_barras_isbn_digitado.svg",
+    "tamanho": [
+     267,
+     74
+    ],
+    "armadilha": "o código de barras do ISBN digitado (os 13 dígitos em <text> Figtree 700 12, o \"?\" dos que faltam e as barras tracejadas da parte por digitar): no app, desenhado a partir dos dígitos que a pessoa digita (barras EAN-13 por CustomPainter, dígitos em AppText); o SVG é a referência do estado da prancha. desenha fora da própria caixa (0,55 px acima da caixa; o <svg> tem overflow: visible): no app, sem recorte (o SvgPicture com clipBehavior: Clip.none, ou o pintor sem clip) — com o recorte padrão, o que passa some."
+   }
+  },
+  "sc69.sticker.card.kind.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_book_simple.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "sc69.toolbar.hide.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_keyboard_hide.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "sc69.toolbar.paste.icon": {
+   "069_scanner_digitar_isbn": {
+    "arquivo": "assets/icons/scanner/ic_clipboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc69b.controls.close.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/inicio2/ic_close_bold.svg",
+    "tamanho": [
+     20,
+     20
+    ]
+   }
+  },
+  "sc69b.controls.help.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_help.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  },
+  "sc69b.controls.mode.code.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_barcode.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc69b.controls.mode.type.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_keyboard.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc69b.keypad.delete.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_backspace.svg",
+    "tamanho": [
+     26,
+     26
+    ],
+    "armadilha": "a tecla de apagar do teclado do sistema (R8, informativo): o app não desenha o teclado; fica como referência."
+   }
+  },
+  "sc69b.sticker.card.alert.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_alert.svg",
+    "tamanho": [
+     17,
+     17
+    ]
+   }
+  },
+  "sc69b.sticker.card.barcode.bars": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "docs/design/medicao/projeto/svg_graficos/codigo_barras_isbn_nao_confere.svg",
+    "tamanho": [
+     267,
+     74
+    ],
+    "armadilha": "o código de barras do ISBN digitado (o mesmo adesivo em rosa, com o dígito que não confere): no app, desenhado a partir dos dígitos que a pessoa digita (barras EAN-13 por CustomPainter, dígitos em AppText); o SVG é a referência do estado da prancha. desenha fora da própria caixa (0,6 px acima da caixa; o <svg> tem overflow: visible): no app, sem recorte (o SvgPicture com clipBehavior: Clip.none, ou o pintor sem clip) — com o recorte padrão, o que passa some."
+   }
+  },
+  "sc69b.sticker.card.kind.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_book_simple.svg",
+    "tamanho": [
+     14,
+     14
+    ]
+   }
+  },
+  "sc69b.sticker.shakeLeft": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/illustrations/scanner/tremor_esquerda.svg",
+    "tamanho": [
+     14,
+     60
+    ]
+   }
+  },
+  "sc69b.sticker.shakeRight": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/illustrations/scanner/tremor_direita.svg",
+    "tamanho": [
+     14,
+     60
+    ]
+   }
+  },
+  "sc69b.toolbar.clearAll.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_eraser.svg",
+    "tamanho": [
+     18,
+     18
+    ]
+   }
+  },
+  "sc69b.toolbar.hide.icon": {
+   "069b_scanner_isbn_nao_confere": {
+    "arquivo": "assets/icons/scanner/ic_keyboard_hide.svg",
+    "tamanho": [
+     21,
+     21
+    ]
+   }
+  }
+ }
+}
